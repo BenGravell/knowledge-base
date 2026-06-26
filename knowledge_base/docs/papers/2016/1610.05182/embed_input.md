@@ -26,7 +26,7 @@ Our architecture takes inspiration from the division of labor in neurobiological
 
 <!-- chunk {"id": "body-0007", "role": "body", "section": "Introduction", "weight": 1.5} -->
 
-*Hierarchy*: The controller is subdivided into a low-level controller, which computes direct motor commands (e.g. joint torques), and a high-level controller, which selects among abstract motor behaviors.
+Based on these considerations, we explore hierarchical motor controllers with the following properties: *Hierarchy*: The controller is subdivided into a low-level controller, which computes direct motor commands (e.g. joint torques), and a high-level controller, which selects among abstract motor behaviors.
 
 <!-- chunk {"id": "body-0008", "role": "body", "section": "Introduction", "weight": 1.5} -->
 
@@ -46,7 +46,7 @@ These design decisions are intended to create an abstraction barrier between the
 
 <!-- chunk {"id": "body-0012", "role": "body", "section": "Architecture", "weight": 1.0} -->
 
-We now describe the architecture of the hierarchical controller in greater detail (see Fig. 1). The setup is the standard agent-environment interaction model. At each point in time $t$, an agent executes an action $a_{t}$, and subsequently receives a reward $r_{t}$ and a new observation $o_{t + 1}$. Its goal is to maximize the expected sum of discounted future rewards $R_{t} = {\sum_{t^{\prime} = t}^{\infty}{\gamma^{t^{\prime} - t}r_{t^{\prime}}}}$, known as the *return*.
+We now describe the architecture of the hierarchical controller in greater detail (see Fig. 1). The setup is the standard agent-environment interaction model. At each point in time $t$, an agent executes an action $a_{t}$, and subsequently receives a reward $r_{t}$ and a new observation $o_{t + 1}$. Its goal is to maximize the expected sum of discounted future rewards $R_{t} = {\sum_{t' = t}^{\infty}{\gamma^{t' - t}r_{t'}}}$, known as the *return*.
 
 <!-- chunk {"id": "body-0013", "role": "body", "section": "Architecture", "weight": 1.0} -->
 
@@ -58,7 +58,7 @@ In the experiments below, actions are multi-dimensional, and we parameterize the
 
 <!-- chunk {"id": "body-0015", "role": "body", "section": "Architecture", "weight": 1.0} -->
 
-where $o_{t}^{F}$ is the full observation (including task-specific information), $z_{t}$ is the recurrent state of the high-level controller, $K$ is the control interval, and $\tau{(t)}$ is the most recent update time for the high-level control signal.
+In the experiments presented here, the low-level controller is a non-recurrent neural network that maps the proprioceptive information $o^{P}$ and the control signal received from the high-level controller $c$ onto the parameters of the action-distribution: For the high-level controller, we have used recurrent networks $F_{H} = {(f_{H},g_{H})}$ that integrate observations at every time step and produce a new control signal $c_{t}$ every $K$ time steps: where $o_{t}^{F}$ is the full observation (including task-specific information), $z_{t}$ is the recurrent state of the high-level controller, $K$ is the control interval, and $\tau{(t)}$ is the most recent update time for the high-level control signal.
 
 <!-- chunk {"id": "body-0016", "role": "body", "section": "Learning locomotor controllers with policy gradients", "weight": 1.0} -->
 
@@ -70,11 +70,11 @@ We perform gradient ascent in the expected discounted return $J = {{\mathbb{E}}\
 
 <!-- chunk {"id": "body-0018", "role": "body", "section": "Generalized advantage estimation", "weight": 1.0} -->
 
-We also use estimates of the return $R_{t}^{\lambda^{\prime}}$ as targets for the value function, so that the loss for value function training is
+This gradient is given by where $b_{t}$ is some baseline that does not depend on $a_{t' \geq t}$. In this work we use a learned, parameterized value function $V_{t}{(h_{t};\omega)}$ with parameters $\omega$ to lower the variance of the estimate. We replace $R_{t}$ by the $\lambda$-weighted return $R_{t}^{\lambda} = {\sum_{k = 0}^{\infty}{\lambda^{k}R_{t}^{k}}}$ where $R_{t}^{k} = {{\sum_{j = 0}^{k}{\gamma^{j}r_{t + j}}} + {\gamma^{t + k + 1}V{(h_{t + k + 1})}}}$. The parameter $\lambda$ trades off bias in the value function against variance in the return.
 
 <!-- chunk {"id": "body-0019", "role": "body", "section": "Generalized advantage estimation", "weight": 1.0} -->
 
-Note that we allow for different values of $\lambda$ and $\lambda^{\prime}$ for computing the policy and value function updates, respectively. Additionally, although each $R_{t}^{\lambda^{\prime}}$ nominally includes value function terms dependent on $\omega$ from future time steps, we do not differentiate with respect to them, as is typical for temporal difference learning.
+We also use estimates of the return $R_{t}^{\lambda'}$ as targets for the value function, so that the loss for value function training is Note that we allow for different values of $\lambda$ and $\lambda'$ for computing the policy and value function updates, respectively. Additionally, although each $R_{t}^{\lambda'}$ nominally includes value function terms dependent on $\omega$ from future time steps, we do not differentiate with respect to them, as is typical for temporal difference learning.
 
 <!-- chunk {"id": "body-0020", "role": "body", "section": "Policy gradient with hierarchical noise", "weight": 1.0} -->
 
@@ -82,15 +82,15 @@ The policy gradient framework outlined above performs on-policy learning where t
 
 <!-- chunk {"id": "body-0021", "role": "body", "section": "Policy gradient with hierarchical noise", "weight": 1.0} -->
 
-In contrast, our low-level controllers are feedback controllers that produce pre-trained locomotor behavior. Modulating this behavior appropriately can lead to exploratory behavior that is more consistent in space and time. Thus, we allow stochasticity not only at the output of the low-level controller but also in the high-level controller. More precisely, in transfer training we treat the high-level controller as a stochastic network where
+In contrast, our low-level controllers are feedback controllers that produce pre-trained locomotor behavior. Modulating this behavior appropriately can lead to exploratory behavior that is more consistent in space and time. Thus, we allow stochasticity not only at the output of the low-level controller but also in the high-level controller. More precisely, in transfer training we treat the high-level controller as a stochastic network where The policy distribution composed of the high- and low-level controllers can be seen as a distribution with latent variables: ${\pi{(\left. a_{t} \middle| h_{t} \right.)}} = {\int{\pi{(\left. a_{t} \middle| {h_{t},{\overset{\sim}{c}}_{\tau{(t)}}} \right.)}\pi^{H}{(\left.
 
 <!-- chunk {"id": "body-0022", "role": "body", "section": "Policy gradient with hierarchical noise", "weight": 1.0} -->
 
-This hierarchical model can be optimized in different ways.
+This hierarchical model can be optimized in different ways. The particular approach we take relies on the re-parameterization trick recently applied in the probabilistic modeling literature and in a policy gradient framework: To use the re-parameterization trick, note that an equivalent formulation of equation can be obtained by considering $c_{t} = {{\overset{\sim}{g}}^{H}{(z_{\tau},\epsilon_{\tau})}}$, where ${{\overset{\sim}{g}}^{H}{(z_{\tau},\epsilon_{\tau})}} = {{\mu^{H}{(z_{\tau})}} + {\sigma^{H}{(z_{\tau})}\epsilon_{\tau}}}$ and $\epsilon_{\tau} \sim {\mathcal{N}{(0,\mathbf{I})}}$.
 
 <!-- chunk {"id": "body-0023", "role": "body", "section": "Policy gradient with hierarchical noise", "weight": 1.0} -->
 
-Since we have knowledge of $\epsilon_{\tau}$, we can now evaluate ${{\nabla_{\theta}\log}\pi}{(\left. a_{t} \middle| {z_{\tau},\epsilon_{\tau}} \right.)}$, which would otherwise be difficult for a latent variable model. The policy gradient estimate in equation is simply formed by backpropagating directly into the high-level controller.^22^2 Using a value function for bootstrapping in combination with hierarchical noise requires extra care since $c_{t}$ affects future primitive actions. This could be accounted for by making $V$ dependent on $c_{t}$, or by bootstrapping only after resampling $c_{t}$. In our experiments we ignore this influence on the value and use $V{(h_{t};\omega)}$ as above.
+In this view, ${\overset{\sim}{g}}^{H}$ is a deterministic function that takes as additional input a random variable drawn from a fixed distribution. Since we have knowledge of $\epsilon_{\tau}$, we can now evaluate ${{\nabla_{\theta}\log}\pi}{(\left. a_{t} \middle| {z_{\tau},\epsilon_{\tau}} \right.)}$, which would otherwise be difficult for a latent variable model. The policy gradient estimate in equation is simply formed by backpropagating directly into the high-level controller.^22^2 Using a value function for bootstrapping in combination with hierarchical noise requires extra care since $c_{t}$ affects future primitive actions. This could be accounted for by making $V$ dependent on $c_{t}$, or by bootstrapping only after resampling $c_{t}$. In our experiments we ignore this influence on the value and use $V{(h_{t};\omega)}$ as above.
 
 <!-- chunk {"id": "body-0024", "role": "body", "section": "Policy gradient with hierarchical noise", "weight": 1.0} -->
 
@@ -110,7 +110,7 @@ After pre-training the provisional high-level controller is discarded and the we
 
 <!-- chunk {"id": "body-0028", "role": "body", "section": "Training methodology", "weight": 1.0} -->
 
-We implemented our experiments using the asynchronous actor-critic framework introduced. For each experiment and architecture (pre-training and transfer), we perform a coarse grid search over the following hyper-parameters: learning rate, relative scaling of learning rate for the value function, $\lambda$, $\lambda^{\prime}$, and the length of the backpropagation-through-time truncation window. Unless noted otherwise we report results for the hyper-parameter setting which performed best over an average of 5 repeated experiments.
+We implemented our experiments using the asynchronous actor-critic framework introduced. For each experiment and architecture (pre-training and transfer), we perform a coarse grid search over the following hyper-parameters: learning rate, relative scaling of learning rate for the value function, $\lambda$, $\lambda'$, and the length of the backpropagation-through-time truncation window. Unless noted otherwise we report results for the hyper-parameter setting which performed best over an average of 5 repeated experiments.
 
 <!-- chunk {"id": "body-0029", "role": "body", "section": "Training methodology", "weight": 1.0} -->
 

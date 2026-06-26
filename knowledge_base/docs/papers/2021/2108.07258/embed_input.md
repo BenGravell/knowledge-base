@@ -13,3 +13,207 @@ AI is undergoing a paradigm shift with the rise of models (e.g., BERT, DALL-E, G
 <!-- chunk {"id": "abstract-0003", "role": "abstract", "section": "Abstract", "weight": 2.0} -->
 
 Despite the impending widespread deployment of foundation models, we currently lack a clear understanding of how they work, when they fail, and what they are even capable of due to their emergent properties. To tackle these questions, we believe much of the critical research on foundation models will require deep interdisciplinary collaboration commensurate with their fundamentally sociotechnical nature.
+
+<!-- chunk {"id": "body-0004", "role": "body", "section": "Introduction", "weight": 1.5} -->
+
+This report investigates an emerging paradigm for building artificial intelligence (AI) systems based on a general class of models which we term We chose the term foundation models to capture the unfinished yet important status of these modelssee naming for further discussion of the name. any model that is trained on broad data (generally using self-supervision at scale) that can be adapted (fine-tuned) to a wide range of downstream tasks; current examples include BERT [devlin2019bert], GPT-3 [brown2020gpt3], and CLIP [radford2021learning]. From a technological point of view, foundation models are not newthey are based on deep neural networks and self-supervised learning, both of which have existed for decades. However, the sheer scale and scope of foundation models from the last few years have stretched our imagination of what is possible; for example, GPT-3 has 175 billion parameters and can be adapted via natural language prompts to do a passable job on a wide range of tasks despite not being trained explicitly to do many of those tasks [brown2020gpt3].
+
+<!-- chunk {"id": "body-0005", "role": "body", "section": "Introduction", "weight": 1.5} -->
+
+At the same time, existing foundation models have the potential to accentuate harms, and their characteristics are in general poorly understood. Given their impending widespread deployment, they have become a topic of intense scrutiny [bender2021].
+
+<!-- chunk {"id": "body-0006", "role": "body", "section": "Emergence and homogenization", "weight": 1.0} -->
+
+The significance of foundation models can be summarized by two words: emergence and homogenization. Emergence means that the behavior of a system is implicitly induced rather than explicitly constructed; it is both the source of scientific excitement and anxiety about unanticipated consequences. Homogenization indicates the consolidation of methodologies for building machine learning systems across a wide range of applications; it provides strong leverage towards many tasks but also creates single points of failure. To better appreciate emergence and homogenization, let us reflect on their rise in AI research over the last 30 years.
+
+<!-- chunk {"id": "body-0007", "role": "body", "section": "Emergence and homogenization", "weight": 1.0} -->
+
+The story of AI has been one of increasing emergence and homogenization. With the introduction of machine learning, how a task is performed emerges (is inferred automatically) from examples; with deep learning, the high-level features used for prediction emerge; and with foundation models, even advanced functionalities such as in-context learning emerge. At the same time, machine learning homogenizes learning algorithms (logistic regression), deep learning homogenizes model architectures (Convolutional Neural Networks), and foundation models homogenizes the model itself (GPT-3).
+
+<!-- chunk {"id": "body-0008", "role": "body", "section": "Emergence and homogenization", "weight": 1.0} -->
+
+Most AI systems today are powered by machine learning, where predictive models are trained on historical data and used to make future predictions. The rise of machine learning within AI started in the 1990s, representing a marked shift from the way AI systems were built previously: rather than specifying how to solve a task, a learning algorithm would induce it based on datathe howemerges from the dynamics of learning. Machine learning also represented a step towards homogenization: a wide range of applications could now be powered by a single generic learning algorithm such as logistic regression.
+
+<!-- chunk {"id": "body-0009", "role": "body", "section": "Emergence and homogenization", "weight": 1.0} -->
+
+Despite the ubiquity of machine learning within AI, semantically complex tasks in natural language processing (NLP) and computer vision such as question answering or object recognition, where the inputs are sentences or images, still required domain experts to perform feature engineeringthat is, writing domain-specific logic to convert raw data into higher-level features (SIFT [lowe1999sift]in computer vision) that were more suitable for popular machine learning methods.
+
+<!-- chunk {"id": "body-0010", "role": "body", "section": "Emergence and homogenization", "weight": 1.0} -->
+
+Around 2010, a revival of deep neural networks under the moniker of deep learning [lecun2015deep] started gaining traction in the field of machine learning. Deep learning was fueled by larger datasets, more computation (notably, the availability of GPUs), and greater audacity. Deep neural networks would be trained on the raw inputs (pixels), and higher-level features would emerge through training (a process dubbed representation learning). This led to massive performance gains on standard benchmarks, for example, in the seminal work of AlexNet [krizhevsky2012imagenet] on the ImageNet dataset [deng2009imagenet]. Deep learning also reflected a further shift towards homogenization: rather than having bespoke feature engineering pipelines for each application, the same deep neural network architecture could be used for many applications.
+
+<!-- chunk {"id": "body-0011", "role": "body", "section": "Emergence and homogenization", "weight": 1.0} -->
+
+Foundation models have taken shape most strongly in NLP, so we focus our story there for the moment. That said, much as deep learning was popularized in computer vision but exists beyond it, we understand foundation models as a general paradigm of AI, rather than specific to NLP in any way. By the end of 2018, the field of NLP was about to undergo another seismic change, marking the beginning of the era of foundation models. On a technical level, foundation models are enabled by transfer learning [thrun1998lifelong] and scale. The idea of transfer learning is to take the knowledge learned from one task (object recognition in images) and apply it to another task (activity recognition in videos). Within deep learning, pretraining is the dominant approach to transfer learning: a model is trained on a surrogate task (often just as a means to an end) and then adapted to the downstream task of interest via fine-tuning.
+
+<!-- chunk {"id": "body-0012", "role": "body", "section": "Emergence and homogenization", "weight": 1.0} -->
+
+Transfer learning is what makes foundation models possible, but scale is what makes them powerful. Scale required three ingredients: (i) improvements in computer hardwareGPU throughput and memory have increased 10$\times$ over the last four years (systems); (ii) the development of the Transformer model architecture [vaswani2017attention] that leverages the parallelism of the hardware to train much more expressive models than before (modeling); and (iii) the availability of much more training data.
+
+<!-- chunk {"id": "body-0013", "role": "body", "section": "Emergence and homogenization", "weight": 1.0} -->
+
+The importance of the availability of data and the ability to harness it cannot be underestimated. Transfer learning with annotated datasets has been common practice for at least a decade, for example, pretraining on the ImageNet dataset [deng2009imagenet]for image classification in the computer vision community. However, the non-trivial cost of annotation imposes a practical limit on the benefits of pretraining.
+
+<!-- chunk {"id": "body-0014", "role": "body", "section": "Emergence and homogenization", "weight": 1.0} -->
+
+In self-supervised learning on the other hand, the pretraining task is derived automatically from unannotated data.
+
+<!-- chunk {"id": "body-0015", "role": "body", "section": "Emergence and homogenization", "weight": 1.0} -->
+
+Interestingly, self-supervised learning was dominant in the early days of deep learning but was for a decade largely overtaken by pure supervised learning as labeled datasets became larger.
+
+<!-- chunk {"id": "body-0016", "role": "body", "section": "Emergence and homogenization", "weight": 1.0} -->
+
+For example, the masked language modeling task used to train BERT [devlin2019bert] is to predict a missing word in a sentence given its surrounding context (I like 1cm0.15mm sprouts). Self-supervised tasks are not only more scalable, only depending on unlabeled data, but they are designed to force the model to predict parts of the inputs, making them richer and potentially more useful than models trained on a more limited label space.
+
+<!-- chunk {"id": "body-0017", "role": "body", "section": "Emergence and homogenization", "weight": 1.0} -->
+
+There had been considerable progress in self-supervised learning dating back to word embeddings [turian2010word,mikolov2013efficient,pennington2014glove], which associated each word with a context-independent vector, provided the basis for a wide range of NLP models. Shortly thereafter, self-supervised learning based on autoregressive language modeling (predict the next word given the previous words) [dai2015semi] This produced models that represented words in context, such as GPT [radford2018improving], ELMo [peters2018elmo], and ULMFiT [howard2018universal].
+
+<!-- chunk {"id": "body-0018", "role": "body", "section": "Emergence and homogenization", "weight": 1.0} -->
+
+The prescient work of is related: they trained on a scalable task akin to masked language modeling jointly with downstream tasks, rather than producing a single foundation model that can be adapted after the fact to downstream tasks.
+
+<!-- chunk {"id": "body-0019", "role": "body", "section": "Emergence and homogenization", "weight": 1.0} -->
+
+The next wave of developments in self-supervised learning BERT [devlin2019bert] GPT-2 [radford2019language], RoBERTa [liu2019roberta], BART [lewis2020bart]quickly followed, embracing the Transformer architecture, incorporating more powerful deep bidirectional encoders of sentences, and scaling up to larger models and datasets.
+
+<!-- chunk {"id": "body-0020", "role": "body", "section": "Emergence and homogenization", "weight": 1.0} -->
+
+While one can view this last wave of technical developments purely through the lens of self-supervised learning, there was a sociological inflection point around the introduction of BERT. Before 2019, self-supervised learning with language models was essentially a subarea in NLP, which progressed in parallel to other developments in NLP. After 2019, self-supervised learning with language models became more of a substrateof NLP, as using BERT has become the norm. The acceptance that a single model could be useful for such a wide range of tasks marks the beginning of the era of foundation models.
+
+<!-- chunk {"id": "body-0021", "role": "body", "section": "Emergence and homogenization", "weight": 1.0} -->
+
+Foundation models have led to an unprecedented level of homogenization: Almost all state-of-the-art NLP models are now adapted from one of a few foundation models, such as BERT, RoBERTa, BART, T5, etc. While this homogenization produces extremely high leverage (any improvements in the foundation models can lead to immediate benefits across all of NLP), it is also a liability; all AI systems might inherit the same problematic biases of a few foundation models [bolukbasi2016, caliskan2017, abid2021])see fairnessethicsfor further discussion.
+
+<!-- chunk {"id": "body-0022", "role": "body", "section": "Emergence and homogenization", "weight": 1.0} -->
+
+We are also beginning to see a homogenization across research communities. For example, similar Transformer-based sequence modeling approaches are now applied to text [devlin2019bert, radford2019language, raffel2019exploring], images [visual\_transformer, chen2020imagegpt], speech [Liu2020MockingjayUS], tabular data protein sequences [rives2021], organic molecules [rothchild2021c5t5], and reinforcement learning [Chen2021DecisionTR, Janner2021ReinforcementLA]. These examples point to a possible future where we have a unified set of tools for developing foundation models across a wide range of modalities [Tamkin2021DABS].
+
+<!-- chunk {"id": "body-0023", "role": "body", "section": "Emergence and homogenization", "weight": 1.0} -->
+
+A foundation model can centralize the information from all the data from various modalities. This one model can then be adapted to a wide range of downstream tasks.
+
+<!-- chunk {"id": "body-0024", "role": "body", "section": "Emergence and homogenization", "weight": 1.0} -->
+
+Besides the homogenization of approaches, we also see the homogenization of actual models across research communities in the form of multimodal modelsfoundation models trained on language and vision data [luo2020univl,kim2021vilt,cho2021unifying,ramesh2021zeroshot,radford2021learning]. Data is naturally multimodal in some domainsmedical images, structured data, clinical text in healthcare (healthcare). Thus, multimodal foundation models are a natural way of fusing all the relevant information about a domain, and adapting to tasks that also span multiple modes (framework).
+
+<!-- chunk {"id": "body-0025", "role": "body", "section": "Emergence and homogenization", "weight": 1.0} -->
+
+Foundation models have also led to surprising emergence which results from scale. For example, GPT-3 [brown2020gpt3], with 175 billion parameters compared to GPT-2's 1.5 billion, permits in-context learning, in which the language model can be adapted to a downstream task simply by providing it with a prompt(a natural language description of the task), an emergent property that was neither specifically trained for nor anticipated to arise.
+
+<!-- chunk {"id": "body-0026", "role": "body", "section": "Emergence and homogenization", "weight": 1.0} -->
+
+Homogenization and emergence interact in a potentially unsettling way. Homogenization could potentially provide enormous gains for many domains where task-specific data is quite limitedsee the opportunities presented in several such domains (healthcare, law, education); on the other hand, any flaws in the model are blindly inherited by all adapted models (fairness, ethics). Since the power of foundation models comes from their emergent qualities rather than their explicit construction, existing foundation models are hard to understand (evaluation, theory, interpretability) and they have unexpected failure modes (security, robustness). Since emergence generates substantial uncertainty over the capabilities and flaws of foundation models, aggressive homogenization through these models is risky business. Derisking is the central challenge in the further development of foundation models from an ethical (ethics) and AI safety (ai-safety) perspective.
+
+<!-- chunk {"id": "body-0027", "role": "body", "section": "Naming", "weight": 1.0} -->
+
+We introduce the term foundation models to fill a void in describing the paradigm shift we are witnessing; we briefly recount some of our reasoning for this decision. Existing terms (pretrained model, self-supervised model) partially capture the technical dimension of these models, but fail to capture the significance of the paradigm shift in an accessible manner for those beyond machine learning. In particular, foundation model designates a model class that are distinctive in their sociological impact and how they have conferred a broad shift in AI research and deployment. In contrast, forms of pretraining and self-supervision that technically foreshadowed foundation models fail to clarify the shift in practices we hope to highlight.
+
+<!-- chunk {"id": "body-0028", "role": "body", "section": "Naming", "weight": 1.0} -->
+
+Additionally, while many of the iconic foundation models at the time of writing are language models, the term language model is simply too narrow for our purpose: as we describe, the scope of foundation models goes well beyond language. We also considered terms such as general-purpose model and multi-purpose model that capture the important aspect that these models can serve multiple downstream tasks, but both fail to capture their unfinished character and the need for adaptation. Terms such as task-agnostic modelwould capture the manner of training, but fail to capture the significant implication to downstream applications.
+
+<!-- chunk {"id": "body-0029", "role": "body", "section": "Naming", "weight": 1.0} -->
+
+We chose the new term foundation models to identify the models and the emerging paradigm that are the subject of this report. In particular, the word foundation specifies the role these models play: a foundation model is itself incomplete but serves as the common basis from which many task-specific models are built via adaptation. We also chose the term foundation" to connote the significance of architectural stability, safety, and security: poorly-constructed foundations are a recipe for disaster and well-executed foundations are a reliable bedrock for future applications. At present, we emphasize that we do not fully understand the nature or quality of the foundation that foundation models provide; we cannot characterize whether the foundation is trustworthy or not. Thus, this is a critical problem for researchers, foundation model providers, application developers who rely on foundation models, policymakers, and society at large to address.
+
+<!-- chunk {"id": "body-0030", "role": "body", "section": "Social impact and the foundation models ecosystem", "weight": 1.0} -->
+
+Before reasoning about the social impact of foundation models, it is important to understand that they are part of a broader ecosystem that stretches from data creation to deployment. At both ends, we highlight the role of people as the ultimate source of data into training of a foundation model, but also as the downstream recipients of any benefits and harms. Thoughtful data curation and adaptation should be part of the responsible development of any AI system. Finally, note that the deployment of adapted foundation models is a decision separate from their construction, which could be for research.
+
+<!-- chunk {"id": "body-0031", "role": "body", "section": "Social impact and the foundation models ecosystem", "weight": 1.0} -->
+
+Foundation models are scientifically interesting due to their impressive performance and capabilities, but what makes them critical to study is the fact that they are quickly being integrated into real-world deployments of AI systems with far-reaching consequences on people. For example, Google search, which boasts 4 billion users, now depends on foundation models like BERT [devlin2019bert] as one of its We must thus pause and ask: What is the nature of this social impact? In this report, we address many aspects of this question: the potential exacerbation of social inequities (fairness), the economic impact due to increased capabilities (economics), the environmental impact due to increased computation demands (environment), potential concerns of amplifying disinformation (misuse), legal ramifications due to powerful generative capabilities (legality), ethical issues resulting from homogenization, and the broader political economy in which foundation models are developed and deployed (ethics). Given the protean nature of foundation models and their unmapped capabilities, how can we responsibly anticipate and address the ethical and societal considerations they raise?
+
+<!-- chunk {"id": "body-0032", "role": "body", "section": "Social impact and the foundation models ecosystem", "weight": 1.0} -->
+
+A recurring theme is that it is easier to reason about the social impact of specific systems deployed to specific users than it is to reason about the social impact of foundation models, which could be adapted to any number of unforeseen downstream systems.
+
+<!-- chunk {"id": "body-0033", "role": "body", "section": "Social impact and the foundation models ecosystem", "weight": 1.0} -->
+
+Before attempting to answer these questions, we need to lay some groundwork. First, let us distinguish between research on foundation models and deployment of foundation models. Most of what is publicly known is foundation models researchthrough academic papers, demonstrations, and progress on leaderboards. While the production of knowledge can play a vital role in shaping the future, the direct social impact is through the actual deployment of these models, which is governed by proprietary practices on often private data. Sometimes the deployment is through new productsGitHub's based on OpenAI's Codex model [chen2021evaluating], but often, it is through upgrades to existing products (Google search using BERT). Research models are often not extensively tested and might have unknown failure modes; warning labels should be placed on research models that are not fit to deploy. On the other hand, deployed foundation models that actually affect people's lives should be subject to much more rigorous testing and auditing.
+
+<!-- chunk {"id": "body-0034", "role": "body", "section": "Social impact and the foundation models ecosystem", "weight": 1.0} -->
+
+To further understand the research and deployment of foundation models, we must zoom out and consider the full ecosystem that these foundation models inhabit, from data creation to actual deployment. It is important to note that the foundation model is only one component (though an increasingly important component) of an AI system. Simplifying, we can think about the ecosystem of a foundation model in terms of sequence of stages, extending the training and adaptation stages from before.
+
+<!-- chunk {"id": "body-0035", "role": "body", "section": "Social impact and the foundation models ecosystem", "weight": 1.0} -->
+
+In practice, the end of the pipeline is followed by monitoring, and feedback is used to readjust the previous stages.
+
+<!-- chunk {"id": "body-0036", "role": "body", "section": "Social impact and the foundation models ecosystem", "weight": 1.0} -->
+
+Appropriately, as we're interested in social impact, people occupy both ends of the pipeline. This ecosystem view allows us to see that different questions about foundation models (whether a foundation model is ethical) should actually be answered with respect to different stages.
+
+<!-- chunk {"id": "body-0037", "role": "body", "section": "Social impact and the foundation models ecosystem", "weight": 1.0} -->
+
+Data creation is fundamentally a human-centric process: all data is created by people and most data is at least implicitly about people. Sometimes data is created by people for other people in the form of emails, articles, photos, etc., and sometimes it is a measurement of people (genomic data) or a measurement of the environment people live in (satellite images). It is important to note that all data has an owner and is created with a purpose (where that purpose may or may not include training a foundation model). Data is then curated into datasets. There is no single natural distribution of data; even the most permissive Internet crawl requires some selection and post-filtering. Ensuring data relevance and quality while respecting legal and ethical constraints is critical but challenging. While this is recognized in industry, it is underappreciated in AI research (data). Training foundation models on these curated datasets A foundation model (Codex) can also be trained with another model (GPT-3) as a starting point. - is the celebrated centerpiece in AI research, though it is only one of many stages.
+
+<!-- chunk {"id": "body-0038", "role": "body", "section": "Social impact and the foundation models ecosystem", "weight": 1.0} -->
+
+In the context of machine learning research, adaptation is about creating a new model based on the foundation model that performs some task (document summarization). For deployment, adaptation is about creating a system, which requires potentially many different modules, custom rules (restrictions on the output space) or classifiers (for toxicity and combination with other complementary signals (a question answering model's generated answers would be validated against relevant documents). For example, a problematic model capable of generating toxic content might be tolerable if appropriate precautions are taken downstream. The extra application-specific logic is crucial for mitigating harms. The direct social impact of an AI system occurs when it is deployed to people. Though we would not want to deploy potentially harmful foundation models trained on questionable data, there might still be value in permitting them in research to advance scientific understanding, though one must still exercise caution. More generally, it is standard practice in large-scale deployments to conduct gradual releases, where deployment happens to an increasing fraction of users; this can partially mitigate any potential harms.
+
+<!-- chunk {"id": "body-0039", "role": "body", "section": "Social impact and the foundation models ecosystem", "weight": 1.0} -->
+
+While this report is about foundation models, it is important to note that many of the impacts come from decisions made in other stages in the pipeline, and thoughtful monitoring and intervention is needed at every stage. While large organizations might own the entire pipeline, each stage could be performed by a different organization, a company which specializes in creating custom foundation models for various domains that application-developers can use.
+
+<!-- chunk {"id": "body-0040", "role": "body", "section": "Social impact and the foundation models ecosystem", "weight": 1.0} -->
+
+Think ecosystem, act model. While the social impact depends on the whole ecosystem, it is still important to be able to reason about the social implications of a foundation model, given that many researchers' and practitioners' purview is restricted to the training stage. This is difficult because foundation models are unfinished intermediate objects that can be adapted to many downstream applications, sometimes by an entirely different entity for unforeseen purposes. What we need are two things: (i) surrogate metrics for a representative set of potential downstream evaluation (evaluation), and (ii) a commitment to documenting these metrics [Mitchell\_2019]similar to data sheets for materials such as metals and plastics, which can be adapted to many downstream use cases.
+
+<!-- chunk {"id": "body-0041", "role": "body", "section": "Social impact and the foundation models ecosystem", "weight": 1.0} -->
+
+Characterizing the potential downstream social impact of foundation models is challenging and demands a deep understanding of both the technological ecosystem One cannot fully assess the harms (fairness) of a foundation model without recognizing how it will be deployed, and one cannot just define automatic metrics without considering the rich social and historical context.
+
+<!-- chunk {"id": "body-0042", "role": "body", "section": "The future of foundation models", "weight": 1.0} -->
+
+Foundation models have demonstrated raw potential, but we are still in the early days. Despite their deployment into the real world, these models are very much research prototypes that are poorly understood. Even the professional norms what Robert Merton calls the ethos of science [merton1979normative]around foundation models are underdeveloped. For example, there is lack of agreement on basic questions such as when models are safeto release or how the community should react in response to methodological misconduct. Given that the future of foundation models is thus filled with uncertainty, a big question is: who will determine this future?
+
+<!-- chunk {"id": "body-0043", "role": "body", "section": "The future of foundation models", "weight": 1.0} -->
+
+The technology behind foundation models is based on decades of research in machine learning, optimization, NLP, computer vision, and other fields. These technical contributions have come from both academia and industrial research labs. However, research on building foundation models themselves has occurred almost exclusively in industrybig tech companies such as Google, Facebook, Microsoft, or Huawei, or startups such as OpenAI or Labs, though AI2 is a notable exception [peters2018elmo,zellers2019neuralfakenews].
+
+<!-- chunk {"id": "body-0044", "role": "body", "section": "The future of foundation models", "weight": 1.0} -->
+
+The furious pace of technological progress and the entrenchment due to centralization raise powerful concerns that demand the attention of humanists and social scientists in addition to technologists. We should not rely on post-hoc audits of ethical and social consequences, conducted only after the technical architecture and deployment decisions have been made. We instead need to infuse social considerations and ethical design deeply into the technological development of foundation models and their surrounding ecosystem from the start. Academic institutions are unique in that they host the widest set of disciplines under one roof, thus bringing together computer scientists, social scientists, economists, ethicists, legal scholars, etc. Given the importance of disciplinary diversity in understanding and solving problems that combine technical, ethical, legal, social, and political dimensions [hong2004groups,solomon2006norms,steel2018multiple], we therefore see academia as playing a crucial role in developing foundation models in such a way to promote their social benefit and mitigate their social harms, as well as determining the contexts under which actions in each of the stages of the ecosystem (ecosystem) ranging from data curation to deployment should be strictly prohibited.
+
+<!-- chunk {"id": "body-0045", "role": "body", "section": "The future of foundation models", "weight": 1.0} -->
+
+The political economy in which foundations models are designed, developed, and deployed provides an inevitable incentive structure for decision-making at every stage. How people and institutions respond to incentives is an elementary lesson of economics. Market-driven commercial incentives can align well with social benefit: making foundation models more accurate, reliable, safe, and efficient while searching for a wide variety of potential use cases can produce a great deal of social utility. However, commercial incentives can also lead to market failures and underinvestment in domains where shareholders are unable to capture the value of innovation. Just as the pharmaceutical industry has little incentive to devote significant resources to the research and development of malaria treatments, because poor people cannot afford medications, the tech industry has little incentive to devote significant resources to technologies designed for improving the condition of poor and marginalized people [reich2021system]. What's more, commercial incentives can lead companies to ignore social externalities [acemoglu2021redesigning, reich2021system]such as the technological displacement of labor, the health of an informational ecosystem required for democracy, the environmental cost of computing resources, and the profit-driven sale of technologies to non-democratic regimes.
+
+<!-- chunk {"id": "body-0046", "role": "body", "section": "The future of foundation models", "weight": 1.0} -->
+
+Finally, there is little incentive for any given company to create an open, decentralized ecosystem for developing foundation models that encourages broad participation. the long-standing and deeply-seated research mission of universities is the production and dissemination of knowledge and creation of global public goods [kerr2001university,rhoten2011knowledge,nussbaum2010not]. We believe that academia is distinctively positioned to shape the development of foundation models to ensure that we capture directions with potentially large social benefit that might not otherwise be prioritized by industry.
+
+<!-- chunk {"id": "body-0047", "role": "body", "section": "The future of foundation models", "weight": 1.0} -->
+
+Unfortunately, academia has not been able to participate in the fullest way possible due to the loss in accessibility. One of the often overlooked effects of the deep learning revolution was the increase in reproducibility and open science: it increasingly became the norm to publicly release code and datasets, and packages such as TensorFlow [abadi2016tensorflow] and PyTorch [paszke2019pytorch] made it much easier for people to collaborate and build off of each other’s work. Initiatives like the ML Reproducibility reproducibility checklists adopted by major conferences [pineau2020improving], alongside platforms like CodaLab helped advance community standards for reproducibility. This resulted in a surge in technological innovation and progress.
+
+<!-- chunk {"id": "body-0048", "role": "body", "section": "The future of foundation models", "weight": 1.0} -->
+
+Foundation models start to roll back this positive trend. Some models (GPT-3) are not released at all (only API access to a limited pool of people). Even datasets (for GPT-2) are not released. While trained models may be available (BERT), the actual training of foundation models is unavailable to the vast majority of AI researchers, due to the much higher computational cost and the complex engineering requirements.
+
+<!-- chunk {"id": "body-0049", "role": "body", "section": "The future of foundation models", "weight": 1.0} -->
+
+Some meaningful research can still be done by training smaller models within reach of an academic budget, and indeed the surprisingly regularity predicted by scaling laws [kaplan2020] make this a viable strategy for cases where the differences due to scale are quantitative (accuracy goes up). However, due to the emergent nature of these foundation models, some functionalities like in-context learning have only been demonstrated in models of sufficient size, so scale is needed to even ask the right questions.
+
+<!-- chunk {"id": "body-0050", "role": "body", "section": "The future of foundation models", "weight": 1.0} -->
+
+It is also possible to productively study pre-existing models that have been released; indeed, this has led to a large subcommunity within NLP for probing these models [rogers2020primer, manning2020emergent]. Having access to existing models can be useful for powering downstream applications or identifying defects (bias), but this might not be enough for us to design better architectures or training objectives for foundation models that can fix these defects (mitigate the bias). It is worth reflecting on how much of NLP research today is based on BERT, a particular (and somewhat arbitrary) foundation model. Given the need to infuse social awareness and ethical design into the construction of these models, it is possible that we need to build foundation models that look quite different from what exists today. This will demand intense experimentation at scale.
+
+<!-- chunk {"id": "body-0051", "role": "body", "section": "The future of foundation models", "weight": 1.0} -->
+
+Community efforts such as EleutherAI and Hugging Face's BigScience project are attempting to train large foundation models, but the gap between the private models that industry can train and the ones that are open to the community will likely remain large if not grow. Further, today startups (OpenAI, Anthropic, Labs, etc.) are much more well-resourced than academia and can therefore still afford to train the largest foundation models (OpenAI's GPT-3). However, big tech companies are on a completely different level in terms of resources, especially in terms of the infrastructure, users, and data that come from their market position. The fundamental centralizing nature of foundation models means that the barrier to entry for developing them will continue to rise, so that even startups, despite their agility, will find it difficult to compete, a trend that is reflected in the development of search engines [radinsky2015data].
+
+<!-- chunk {"id": "body-0052", "role": "body", "section": "The future of foundation models", "weight": 1.0} -->
+
+One way to close the resource gap is for the government to invest in public infrastructure. We can look to Big Science projects such as the Hubble Space Telescope and the Large Hadron Collider as inspiration, where substantial investment made possible fundamental scientific discoveries which wouldn't have been possible. One can imagine a similar infrastructure for computing, from which academic research on foundation models would greatly benefit. In the US, the nascent National Research Cloud initiative is a step in this direction.
+
+<!-- chunk {"id": "body-0053", "role": "body", "section": "The future of foundation models", "weight": 1.0} -->
+
+Another complementary approach is to rely on volunteer computing, in which any of the billions of computing devices (nodes) can connect to a central server and contribute computation. The Folding@home project has successfully implemented this approach for simulating protein dynamics [beberg2009folding]. Recently, the Learning@home project is attempting to harness volunteer computing for training foundation models The high latency connections between nodes and the high bandwidth requirements for training foundation models make this an open technical challenge.
+
+<!-- chunk {"id": "body-0054", "role": "body", "section": "The future of foundation models", "weight": 1.0} -->
+
+There are tremendous economic incentives to push the capabilities and scale of foundation models, so we anticipate steady technological progress over the coming years. But the suitability of a technology relying largely on emergent behavior for widespread deployment to people is unclear. What is clear that we need to be cautious, and that now is the time to establish the professional norms that will enable the responsible research and deployment Academia and industry need to collaborate on this: industry ultimately makes concrete decisions about how foundation models will be deployed, but we should also lean on academia, with its disciplinary diversity and non-commercial incentives around knowledge production and social benefit, to provide distinctive guidance on the development and deployment of foundation models that is both technically and ethically grounded.

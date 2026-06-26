@@ -84,163 +84,155 @@ We will briefly discuss the theory behind the variational autoencoder (VAE), and
 
 <!-- chunk {"id": "body-0021", "role": "body", "section": "Learning-Based Sample Distributions", "weight": 1.0} -->
 
-We may then write parameterized forms of these densities as $p_{\theta}{(\left. x \middle| {z,y} \right.)}$ and $p_{\theta}{(\left. z \middle| y \right.)}$ respectively, where $\theta$ is a vector of parameters. Given this formulation, the maximum likelihood approach aims to maximize the likelihood
+We may then write parameterized forms of these densities as $p_{\theta}{(\left. x \middle| {z,y} \right.)}$ and $p_{\theta}{(\left. z \middle| y \right.)}$ respectively, where $\theta$ is a vector of parameters. Given this formulation, the maximum likelihood approach aims to maximize the likelihood with respect to the empirical distribution. In this work, as is standard in the VAE literature, we will let ${p_{\theta}{(\left. x \middle| {z,y} \right.)}} = {\mathcal{N}{(\left. x \middle| {{f{(z,y;\theta)}},{\sigma^{2} \ast I}} \right.)}}$, where $\sigma^{2}$ is a hyperparameter that is set to be a small value, and $f$ is a deterministic function which will be encoded as a neural network (typically referred to as the decoder).
 
 <!-- chunk {"id": "body-0022", "role": "body", "section": "Learning-Based Sample Distributions", "weight": 1.0} -->
 
-with respect to the empirical distribution. In this work, as is standard in the VAE literature, we will let ${p_{\theta}{(\left. x \middle| {z,y} \right.)}} = {\mathcal{N}{(\left. x \middle| {{f{(z,y;\theta)}},{\sigma^{2} \ast I}} \right.)}}$, where $\sigma^{2}$ is a hyperparameter that is set to be a small value, and $f$ is a deterministic function which will be encoded as a neural network (typically referred to as the decoder). Because any distribution over the latent variable may be mapped to an arbitrary distribution by the nonlinear function $f$, we will let ${p_{\theta}{(\left. z \middle| y \right.)}} = {\mathcal{N}{(0,I)}}$. However, computing the integral in is intractable.
+Because any distribution over the latent variable may be mapped to an arbitrary distribution by the nonlinear function $f$, we will let ${p_{\theta}{(\left. z \middle| y \right.)}} = {\mathcal{N}{(0,I)}}$. However, computing the integral in is intractable. To address this problem, the approach taken in variational inference is to approximate the posterior $p{(\left. z \middle| {x,y} \right.)}$ with a function $q_{\phi}{(\left. z \middle| {x,y} \right.)}$, where $\phi$ is a vector of parameters. This is referred to as the encoder. A divergence penalty is then enforced between $p{(\left. z \middle| {x,y} \right.)}$ and $q_{\phi}{(\left. z \middle| {x,y} \right.)}$. With some manipulation, the log likelihood ${\log p_{\theta}}{(\left.
 
 <!-- chunk {"id": "body-0023", "role": "body", "section": "Learning-Based Sample Distributions", "weight": 1.0} -->
 
-To address this problem, the approach taken in variational inference is to approximate the posterior $p{(\left. z \middle| {x,y} \right.)}$ with a function $q_{\phi}{(\left. z \middle| {x,y} \right.)}$, where $\phi$ is a vector of parameters. This is referred to as the encoder. A divergence penalty is then enforced between $p{(\left. z \middle| {x,y} \right.)}$ and $q_{\phi}{(\left. z \middle| {x,y} \right.)}$. With some manipulation, the log likelihood ${\log p_{\theta}}{(\left. x \middle| y \right.)}$ may then be written as
+x \middle| y \right.)}$ may then be written as where $D_{KL}$ denotes the KL divergence. We refer the interested reader to for further details. The right hand side of this equation is referred to as the Evidence Lower Bound (or ELBO), as it is a lower bound on the log likelihood resulting from the non-negativity of the KL divergence. Because the KL divergence term on the right hand side is small (due in part to using high capacity models in the form of neural networks), we can optimize the right hand side as a tractable surrogate for the log likelihood. This is then optimized with respect to the parameters $\theta$ and $\phi$ via backpropagation. Writing ${q_{\phi}{(\left. z \middle| {x,y} \right.)}} = {\mathcal{N}{({\mu{(x,y)}},{\Sigma{(x,y)}})}}$, and noting $p_{\theta}{(\left.
 
 <!-- chunk {"id": "body-0024", "role": "body", "section": "Learning-Based Sample Distributions", "weight": 1.0} -->
 
-where $D_{KL}$ denotes the KL divergence. We refer the interested reader to for further details. The right hand side of this equation is referred to as the Evidence Lower Bound (or ELBO), as it is a lower bound on the log likelihood resulting from the non-negativity of the KL divergence. Because the KL divergence term on the right hand side is small (due in part to using high capacity models in the form of neural networks), we can optimize the right hand side as a tractable surrogate for the log likelihood. This is then optimized with respect to the parameters $\theta$ and $\phi$ via backpropagation. Writing ${q_{\phi}{(\left. z \middle| {x,y} \right.)}} = {\mathcal{N}{({\mu{(x,y)}},{\Sigma{(x,y)}})}}$, and noting $p_{\theta}{(\left.
+z \middle| y \right.)}$ is modelled as an isotropic, unit-variance Gaussian, maximizing the log likelihood lower bound above is equivalent to maximizing with respect to $\theta$ and $\phi$. To make this tractable via backpropagation, the reparameterization trick is used. Roughly, this is equivalent to modeling $q_{\phi}$ as a deterministic function with a stochastic input, such that $z = {{\mu{(x,y)}} + {A\epsilon}}$, where $\epsilon \sim {\mathcal{N}{(0,I)}}$ and ${AA^{T}} = {\Sigma{(x,y)}}$. The outline of the training process is provided in Fig. 2(a). The optimization of Equation 3 is done via standard stochastic gradient methods.
 
 <!-- chunk {"id": "body-0025", "role": "body", "section": "Learning-Based Sample Distributions", "weight": 1.0} -->
 
-z \middle| y \right.)}$ is modelled as an isotropic, unit-variance Gaussian, maximizing the log likelihood lower bound above is equivalent to maximizing
+The standard construction of the conditional VAE (CVAE) consists of neural networks for the encoder $q_{\phi}{(\left. z \middle| {x,y} \right.)}$ and the decoder $p_{\theta}{(\left. x \middle| {z,y} \right.)}$. Once trained, the decoder allows us to approximately generate samples from $p{(\left. x \middle| y \right.)}$ by simply sampling from the normal distribution of the latent variable ${p{(\left. z \middle| y \right.)}} = {\mathcal{N}{(0,I)}}$ (see Fig. 2(b)). While one iteration of this offline phase is often sufficient, with problems that are expensive to solve and thus expensive to acquire data, the entire methodology may be performed iteratively. Thus, a partially trained CVAE may generate samples that result in better planning performance, allowing more, high-quality data and subsequently allowing the CVAE to be further trained.
 
 <!-- chunk {"id": "body-0026", "role": "body", "section": "Learning-Based Sample Distributions", "weight": 1.0} -->
 
-with respect to $\theta$ and $\phi$. To make this tractable via backpropagation, the reparameterization trick is used. Roughly, this is equivalent to modeling $q_{\phi}$ as a deterministic function with a stochastic input, such that $z = {{\mu{(x,y)}} + {A\epsilon}}$, where $\epsilon \sim {\mathcal{N}{(0,I)}}$ and ${AA^{T}} = {\Sigma{(x,y)}}$. The outline of the training process is provided in Fig. 2(a). The optimization of Equation 3 is done via standard stochastic gradient methods.
-
-<!-- chunk {"id": "body-0027", "role": "body", "section": "Learning-Based Sample Distributions", "weight": 1.0} -->
-
-The standard construction of the conditional VAE (CVAE) consists of neural networks for the encoder $q_{\phi}{(\left. z \middle| {x,y} \right.)}$ and the decoder $p_{\theta}{(\left. x \middle| {z,y} \right.)}$. Once trained, the decoder allows us to approximately generate samples from $p{(\left. x \middle| y \right.)}$ by simply sampling from the normal distribution of the latent variable ${p{(\left. z \middle| y \right.)}} = {\mathcal{N}{(0,I)}}$ (see Fig. 2(b)). While one iteration of this offline phase is often sufficient, with problems that are expensive to solve and thus expensive to acquire data, the entire methodology may be performed iteratively. Thus, a partially trained CVAE may generate samples that result in better planning performance, allowing more, high-quality data and subsequently allowing the CVAE to be further trained.
-
-<!-- chunk {"id": "body-0028", "role": "body", "section": "Learning-Based Sample Distributions", "weight": 1.0} -->
-
 In practice, it is common to add a weighting term ($\beta$) to the KL divergence term in the ELBO. This term controls the relative weighting of the autoencoding loss (the reconstruction error) and the strength of the prior over $z$. The value of $\beta$ was chosen on a per-problem basis.
 
-<!-- chunk {"id": "body-0029", "role": "body", "section": "Approach", "weight": 1.0} -->
+<!-- chunk {"id": "body-0027", "role": "body", "section": "Approach", "weight": 1.0} -->
 
 We now examine the methodology in detail, following along with the outline below. It begins with an offline phase which trains the CVAE, to be later sampled. Line 1 initializes this phase with the required demonstration data. This data (states and any additional planning problem information) may be from successful motion plans, previous trajectories in the state space, human demonstration, or other sources that provide insight into how the system operates. In this work we use each of these data sources (Section 5), though, when available, optimal solutions to previous motion planning problems are preferred since these will intuitively provide the most insight into the optimal motion planning problem. In order to generate the required breadth of data (in this work, on the order of one hundred thousand data points), we leverage GPU-accelerated, approximate motion planning algorithms to generate plans quickly. The data is then processed into the state of the robot and the conditioning variables. In particular, these conditioning variables (Line 2) contain information about the problem, such as workspace information (e.g., obstacles) or the initial state and goal region.
 
-<!-- chunk {"id": "body-0030", "role": "body", "section": "Approach", "weight": 1.0} -->
+<!-- chunk {"id": "body-0028", "role": "body", "section": "Approach", "weight": 1.0} -->
 
 The CVAE is then trained in Line 3, with the goal of learning the internal representation of the system conditioned on external properties of the problem (which may inform where in the state space the system will operate, adaptively to a problem).
 
+<!-- chunk {"id": "body-0029", "role": "body", "section": "Approach", "weight": 1.0} -->
+
+1 Input: Data (successful motion plans, robot in action, human demonstration, etc.) 2 Construct conditioning variables y 3 Train CVAE, as in Fig. 2(a) 4 Input: New motion planning problem (𝒳free, xinit, 𝒳goal), learned sample fraction λ 5 Construct conditioning variable y 6 Generate λ N free samples from the CVAE latent space conditioned on y, as in Fig. 2(b) 7 Generate (1 − λ) N free samples from an auxiliary (uniform) sampler 8 Run sampling-based planner (e.g., PRM∗, FMT∗, RRT∗) Learning Sample Distribution Methodology Outline The online phase of the methodology begins with a new planning problem, Line 4, defined by the tuple $(\mathcal{X}_{\text{free}},x_{\text{init}},\mathcal{X}_{\text{goal}})$, which is formed into a conditioning variable $y$ in Line 5. For example, $y$ may be the initial state, the goal region, or workspace obstacles encoded in an occupancy grid.
+
+<!-- chunk {"id": "body-0030", "role": "body", "section": "Approach", "weight": 1.0} -->
+
+With this in hand, we now generate samples by sampling the latent space as $\mathcal{N}{(0,I)}$, conditioning on $y$, and mapping these samples to the state space through the decoder network (Line 6). In order to maintain the ability of SBMP algorithms to represent the true state space with arbitrarily high fidelity, and thus maintain the theoretical guarantees of SBMP algorithms (see Remark 1. ‣ Approach. ‣ 4 Learning-Based Sample Distributions ‣ Learning Sampling Distributions for Robot Motion Planning")), we also sample from an auxiliary sampler, in our case a uniform sampler. We denote the fraction of learned samples as $\lambda$, i.e., we generate $\lambdaN$ samples from the learned sampler and ${({1 - \lambda})}N$ from the auxiliary sampler. We have found through experimentation (Section 6.1 ‣ 6 Numerical Experiments: Extensions, Data Sources, Generalization, and Hyperparameter Selection ‣ Learning Sampling Distributions for Robot Motion Planning")) that $\lambda = 0.5$ represents a satisfactory balance between leveraging the learned sample regions and ensuring full coverage of the state space.
+
 <!-- chunk {"id": "body-0031", "role": "body", "section": "Approach", "weight": 1.0} -->
 
-1 Input: Data (successful motion plans, robot in action, human demonstration, etc.)
-2 Construct conditioning variables y
-3 Train CVAE, as in Fig. 2(a)
-4 Input: New motion planning problem (𝒳free,xinit,𝒳goal), learned sample fraction λ
-5 Construct conditioning variable y
-6 Generate λ N free samples from the CVAE latent space conditioned on y, as in Fig. 2(b)
-7 Generate (1−λ) N free samples from an auxiliary (uniform) sampler
-8 Run sampling-based planner (e.g., PRM∗, FMT∗, RRT∗)
-Learning Sample Distribution Methodology Outline
+In particular, the learned sampler is often able to find solutions quickly, with very few samples. However, if the learned sampler does not fully identify the region containing the optimal solution, the uniform sampler must effectively fill in the gaps, i.e., the learned sampler will continue to miss these regions even with more samples. Finally, in Line 8, we use these samples to seed a SBMP algorithm, such as PRM^∗^, FMT^∗^, or RRT^∗^, and solve the planning problem. This methodology is applied to a variety of problems with varying state space dimensionality, constraints, and training data-generation approaches in the following section.
 
-<!-- chunk {"id": "body-0032", "role": "body", "section": "Approach", "weight": 1.0} -->
-
-The online phase of the methodology begins with a new planning problem, Line 4, defined by the tuple $(\mathcal{X}_{\text{free}},x_{\text{init}},\mathcal{X}_{\text{goal}})$, which is formed into a conditioning variable $y$ in Line 5. For example, $y$ may be the initial state, the goal region, or workspace obstacles encoded in an occupancy grid. With this in hand, we now generate samples by sampling the latent space as $\mathcal{N}{(0,I)}$, conditioning on $y$, and mapping these samples to the state space through the decoder network (Line 6). In order to maintain the ability of SBMP algorithms to represent the true state space with arbitrarily high fidelity, and thus maintain the theoretical guarantees of SBMP algorithms (see Remark 1. ‣ Approach. ‣ 4 Learning-Based Sample Distributions ‣ Learning Sampling Distributions for Robot Motion Planning")), we also sample from an auxiliary sampler, in our case a uniform sampler.
-
-<!-- chunk {"id": "body-0033", "role": "body", "section": "Approach", "weight": 1.0} -->
-
-We denote the fraction of learned samples as $\lambda$, i.e., we generate $\lambdaN$ samples from the learned sampler and ${({1 - \lambda})}N$ from the auxiliary sampler. We have found through experimentation (Section 6.1 ‣ 6 Numerical Experiments: Extensions, Data Sources, Generalization, and Hyperparameter Selection ‣ Learning Sampling Distributions for Robot Motion Planning")) that $\lambda = 0.5$ represents a satisfactory balance between leveraging the learned sample regions and ensuring full coverage of the state space. In particular, the learned sampler is often able to find solutions quickly, with very few samples. However, if the learned sampler does not fully identify the region containing the optimal solution, the uniform sampler must effectively fill in the gaps, i.e., the learned sampler will continue to miss these regions even with more samples. Finally, in Line 8, we use these samples to seed a SBMP algorithm, such as PRM^∗^, FMT^∗^, or RRT^∗^, and solve the planning problem.
-
-<!-- chunk {"id": "body-0034", "role": "body", "section": "Approach", "weight": 1.0} -->
-
-This methodology is applied to a variety of problems with varying state space dimensionality, constraints, and training data-generation approaches in the following section.
-
-<!-- chunk {"id": "body-0035", "role": "body", "section": "Remark 1 (Probabilistic Completeness and Asymptotic Optimality)", "weight": 1.0} -->
+<!-- chunk {"id": "body-0032", "role": "body", "section": "Remark 1 (Probabilistic Completeness and Asymptotic Optimality)", "weight": 1.0} -->
 
 Note that the theoretical guarantees of probabilistic completeness and asymptotic optimality from and hold for this method by adjusting any references to $n$ (the number of samples) to ${({1 - \lambda})}N$ (the number of uniform samples in our methodology). This result is detailed in Appendix D of and Section 5.3 of, which show that adding samples can only improve the solution or lower the dispersion (which the theoretical results are based on), respectively.
 
-<!-- chunk {"id": "body-0036", "role": "body", "section": "Numerical Experiments: Performance and Scalability", "weight": 1.0} -->
+<!-- chunk {"id": "body-0033", "role": "body", "section": "Numerical Experiments: Performance and Scalability", "weight": 1.0} -->
 
 To demonstrate the performance and generality of learning sample distributions, this section shows several numerical experiments with a variety of robotic systems. The results in Section 5.1 were implemented in MATLAB with the Fast Marching Tree (FMT^∗^) and Batch Informed Trees (BIT^∗^) algorithms, while the remainder of the results were implemented in CUDA C with a GPU version of the Probabilistic Roadmap (PRM^∗^) algorithm (for convergence plots) and the Group Marching Tree (GMT^∗^) algorithm (to generate training data). The CVAE was implemented in TensorFlow. The simulations were then run on a Unix system with a 3.4 GHz CPU and an NVIDIA GeForce GTX 1080 Ti GPU. Example code and the network architecture may be found at We begin with a simple geometric planning problem in which we show our method performs as well as or better than state of the art approaches. We also note that these state of the art approaches are less general than the method we present in this paper, and tuned well towards these geometric problems.
 
-<!-- chunk {"id": "body-0037", "role": "body", "section": "Numerical Experiments: Performance and Scalability", "weight": 1.0} -->
+<!-- chunk {"id": "body-0034", "role": "body", "section": "Numerical Experiments: Performance and Scalability", "weight": 1.0} -->
 
 We then demonstrate the benefits of learning distributions for a high-dimensional spacecraft system, a dynamical system conditioned on workspace obstacle information, and a kinematic chain. These results are examined conceptually as well as quantitatively in terms of convergence, finding an order of magnitude improvement in success rate and cost.
 
-<!-- chunk {"id": "body-0038", "role": "body", "section": "Numerical Experiments: Performance and Scalability", "weight": 1.0} -->
+<!-- chunk {"id": "body-0035", "role": "body", "section": "Numerical Experiments: Performance and Scalability", "weight": 1.0} -->
 
 This section aims to show that the method presented in this paper achieves good performance on a wide variety of systems, from simple to complex. Moreover, this section examines a variety of conditioning variables, showing the approach is useful with no conditioning information (and the approach learns to sample based on characteristics of the system dynamics) or with complicated conditioning variables such as workspace representations. Note sample generation time is included in runtime, but generally accounts for only a fraction of the total runtime--generating thousands of samples takes only few milliseconds. The offline portion of training is not included in the runtime and was on the order of several minutes.
 
-<!-- chunk {"id": "body-0039", "role": "body", "section": "Geometric Planning Comparisons", "weight": 1.0} -->
+<!-- chunk {"id": "body-0036", "role": "body", "section": "Geometric Planning Comparisons", "weight": 1.0} -->
+
+(d) Convergence for FMT∗ (e) Convergence for BIT∗ Figure 3: (3(a)-3(c)) Solutions to the geometric planning problem with different sample distributions (colored by cost to come, or green if unexplored) and (3(d)-3(e)) convergence results for sample distributions with FMT∗ and BIT∗ (results averaged over 100 runs, standard deviation shaded, and λ = 0.5). Hybrid refers to the sampling strategy of, and Learned refers to the method we present in this paper.
+
+<!-- chunk {"id": "body-0037", "role": "body", "section": "Geometric Planning Comparisons", "weight": 1.0} -->
 
 While this methodology is very general and can be applied to complex systems, we first show the methodology performs well for a simple, geometric problem. All problems are created with randomly generated initial states, goal regions, and 10 cube obstacles, as shown in Fig. 3. The learned sample distributions were conditioned on all the problem information (initial state, goal region, and obstacles), and trained over successful motion plans.
 
-<!-- chunk {"id": "body-0040", "role": "body", "section": "Geometric Planning Comparisons", "weight": 1.0} -->
+<!-- chunk {"id": "body-0038", "role": "body", "section": "Geometric Planning Comparisons", "weight": 1.0} -->
 
 For this problem, we make comparisons to a non-uniform sampling strategy and combine our methodology with an exploration-guided non-uniform sampling algorithm. Specifically, we consider the hybrid sampling strategy proposed, and Batch Informed Trees (BIT^∗^). The hybrid sampling approach uses uniform samples, Gaussian samples, and bridge samples to create a distribution favoring narrow passageways and regions nearby obstacles. BIT^∗^ uses successive batches of samples to iteratively refine a tree, leveraging solutions from previous batches to selectively sample only states that can improve the solution.
 
-<!-- chunk {"id": "body-0041", "role": "body", "section": "Geometric Planning Comparisons", "weight": 1.0} -->
+<!-- chunk {"id": "body-0039", "role": "body", "section": "Geometric Planning Comparisons", "weight": 1.0} -->
 
 The results of these comparisons are shown in Fig. 3(d). The first comparison shows each strategy with FMT^∗^. We find that each strategy performs nearly equivalently in terms of finding a solution, but the learned strategy finds significantly better solutions in the same amount of time. In fact, the learned sampling strategy finds within 5% of the best solution almost immediately, instead of converging to it as the number of samples increase. The results show less of a performance gap with BIT^∗^, though the learned strategy continues to perform at least as well as the others. The delayed start of the hybrid convergence is only due to the time required to generate samples, which for BIT^∗^ was implemented here by rejection.
 
-<!-- chunk {"id": "body-0042", "role": "body", "section": "Spacecraft Debris Recovery", "weight": 1.0} -->
+<!-- chunk {"id": "body-0040", "role": "body", "section": "Spacecraft Debris Recovery", "weight": 1.0} -->
 
 The second numerical experiment considered is a simplified spacecraft debris recovery problem, whereby a cube shaped spacecraft with 3D double integrator dynamics ($\overset{¨}{x} = u$, no rotations) and a pair of 3 DoF kinematic arms (assumed to be much less massive than the spacecraft body), for a total of 12 dimensions, must maneuver from an initial state, through a cluttered asteroid field, to recover debris between its end effectors. The cost is set as a mixed time/quadratic control effort penalty with an additional term for joint angle movement in the kinematic arms. The initial states and goal regions were randomly generated, as were the asteroids (i.e., obstacles). Fig. 4 shows an example problem and the spacecraft setup. The CVAE was conditioned on the initial state, goal region, and debris location, and trained with successful motion plans.
 
-<!-- chunk {"id": "body-0043", "role": "body", "section": "Spacecraft Debris Recovery", "weight": 1.0} -->
+<!-- chunk {"id": "body-0041", "role": "body", "section": "Spacecraft Debris Recovery", "weight": 1.0} -->
 
 The resulting learned distributions are shown in Fig. 5. Fig. 5(a) shows the learned distribution of the $x$ and $y$ positions for two problems. The distribution resembles an ellipsoid connecting the initial state and goal region, with some spread in the minor axis to account for potential obstacles in the trajectory and a slight skew in the direction of the initial velocity--we note the similarity to the sample distributions found after exploration in BIT^∗^. Fig. 5(b) shows the learned distribution of $x$ and $\overset{˙}{x}$, i.e., a phase portrait of the $x$ dimension. The purple distribution favors velocities such that any sample flows from the initial state to the goal region, first accelerating near the maximum sampled velocity ($\overset{˙}{x} = 1$), and then maintaining the velocity until nearby the goal. The red distribution, whose initial position is much closer to the goal region has a much larger spread, favoring samples with velocities towards the goal in all directions. Finally, the learned distributions for a single arm are shown in Figs. 5(c)-5(d).
 
-<!-- chunk {"id": "body-0044", "role": "body", "section": "Spacecraft Debris Recovery", "weight": 1.0} -->
+<!-- chunk {"id": "body-0042", "role": "body", "section": "Spacecraft Debris Recovery", "weight": 1.0} -->
 
 The angle distributions demonstrate the arm movement should be kept to a minimum, by holding one dimension fixed to a few values only. In the problem setup, the arms have significantly less impact on obstacle avoidance, but can incur a large cost for movement, which is reflected in the distributions.
 
-<!-- chunk {"id": "body-0045", "role": "body", "section": "Spacecraft Debris Recovery", "weight": 1.0} -->
+<!-- chunk {"id": "body-0043", "role": "body", "section": "Spacecraft Debris Recovery", "weight": 1.0} -->
 
 Fig. 6 shows the convergence of the methods in time. The learned sampling distribution outperforms the uniform by approximately an order of magnitude in finding solutions when they exist. The cost convergence curves show that planning with learned samples converges almost immediately to within a few percentage of optimal, while even after 10,000 samples, planning with a uniform distribution is still more than 60% from optimal. This immediate convergence is similar to what was observed in the geometric planning problem and the narrow passage problem (in the following section). We also note the variance is smaller for the learned distributions.
 
+<!-- chunk {"id": "body-0044", "role": "body", "section": "Workspace Learning", "weight": 1.0} -->
+
+The next problem, shown in Figs. 1 and 7, was loosely inspired by the narrow passage problems, and demonstrates the ability of the methodology to learn distributions conditioned on workspace information. The problem features a 3D double integrator (6 dimensional state space) operating in an environment with 3 narrow passages. The initial state, goal region, and gap locations are all randomly generated and used to condition the CVAE for each problem (an occupancy grid was used to represent the obstacles in the conditioning variable). Fig. 7 shows several problems and their learned distribution; clearly, the CVAE has been able to capture both initial state and goal region biasing, some sense of dynamics, and the obstacle set. The velocity distributions too show the samples effectively favoring movement from the initial state to goal region. The convergence results, shown in Fig. 8, demonstrate learned distribution solutions can be found with approximately an order of magnitude fewer samples and converge in cost almost immediately, while the uniform sampling results show the classic convergence curve we may expect.
+
+<!-- chunk {"id": "body-0045", "role": "body", "section": "Workspace Learning", "weight": 1.0} -->
+
+A video of the methodology applied to this problem can be found here, Figure 7: Example learned distributions for the narrow passage problem, conditioned on the initial state (red), goal region (blue), and the obstacles (through an occupancy grid).
+
 <!-- chunk {"id": "body-0046", "role": "body", "section": "Workspace Learning", "weight": 1.0} -->
-
-The next problem, shown in Figs. 1 and 7, was loosely inspired by the narrow passage problems, and demonstrates the ability of the methodology to learn distributions conditioned on workspace information. The problem features a 3D double integrator (6 dimensional state space) operating in an environment with 3 narrow passages. The initial state, goal region, and gap locations are all randomly generated and used to condition the CVAE for each problem (an occupancy grid was used to represent the obstacles in the conditioning variable). Fig. 7 shows several problems and their learned distribution; clearly, the CVAE has been able to capture both initial state and goal region biasing, some sense of dynamics, and the obstacle set. The velocity distributions too show the samples effectively favoring movement from the initial state to goal region. The convergence results, shown in Fig. 8, demonstrate learned distribution solutions can be found with approximately an order of magnitude fewer samples and converge in cost almost immediately, while the uniform sampling results show the classic convergence curve we may expect. A video of the methodology applied to this problem can be found here,
-
-<!-- chunk {"id": "body-0047", "role": "body", "section": "Workspace Learning", "weight": 1.0} -->
 
 This method's ability to learn both dynamics and obstacles demonstrates that learning is capable of almost entirely solving some problems. While this would be quite efficient, we also found the learned distributions susceptible to failure modes (e.g., cutting corners), which result in infeasible solution trajectories. In our methodology, this is easily handled through the uniform sampling and the guarantees of SBMP. This methodology may thus be thought of as attempting to solve the problem through learning, and accounting for possible errors with a theoretically sound algorithm.
 
-<!-- chunk {"id": "body-0048", "role": "body", "section": "Chain", "weight": 1.0} -->
+<!-- chunk {"id": "body-0047", "role": "body", "section": "Chain", "weight": 1.0} -->
 
 We next demonstrate our methodology on a kinematic arm planning problem. The arm, shown in three potential configurations in Fig. 9(a), has eight degrees of freedom. Each degree of freedom is a rotational joint around an alternating axis. The arm must navigate a cluttered environment from an initial state to a goal region as in Fig. 9(b). This scenario demonstrates a planning problem in which the optimal sample placement is unintuitive in the state space. Still, the convergence results show similar performance increases.
 
-<!-- chunk {"id": "body-0049", "role": "body", "section": "Numerical Experiments: Extensions, Data Sources, Generalization, and Hyperparameter Selection", "weight": 1.0} -->
+<!-- chunk {"id": "body-0048", "role": "body", "section": "Numerical Experiments: Extensions, Data Sources, Generalization, and Hyperparameter Selection", "weight": 1.0} -->
 
 In this section, we investigate modifications to the learned sampling distribution methodology that can result in performance improvements. We first investigate the role of algorithmic parameters on the performance of the learned sampling distribution methodology. We investigate learning structured distributions in which samples are coupled together resulting in improved dispersion along the trajectory. We investigate out-of-distribution generalization. Finally, we investigate potential training data sources when solution trajectories are not available.
 
-<!-- chunk {"id": "body-0050", "role": "body", "section": "Fraction of Learned Samples ($\\lambda$)", "weight": 1.0} -->
+<!-- chunk {"id": "body-0049", "role": "body", "section": "Fraction of Learned Samples ($\\lambda$)", "weight": 1.0} -->
 
 In this section we investigate the effect of the fraction of learned samples ($\lambda$) on the cost, time, and success rates. These comparisons are performed on the spacecraft environment (Section 5.2). Percentages between 0% (all uniform) and 100% (all learned) are shown in Fig. 10 ‣ 6 Numerical Experiments: Extensions, Data Sources, Generalization, and Hyperparameter Selection ‣ Learning Sampling Distributions for Robot Motion Planning"). In terms of convergence, all the percentages equal to or greater than 25% performed equally well. In terms of success rate, with small sample counts ($< 5000$), 50% and above each performed similarly, however, as the number of samples increased, the high percentages (75% and above) continued to fail on a few problems in which the learned sample distributions missed important regions of the state space. Lastly, comparing runtime, the runtimes begin increasing very quickly with a learned sample fraction greater than 50%. This is caused by a high density of samples being in small regions, leading to an increased number of nearest neighbors for each sample.
 
-<!-- chunk {"id": "body-0051", "role": "body", "section": "Fraction of Learned Samples ($\\lambda$)", "weight": 1.0} -->
+<!-- chunk {"id": "body-0050", "role": "body", "section": "Fraction of Learned Samples ($\\lambda$)", "weight": 1.0} -->
 
 As the 50% distribution performed well in all three factors, we use this as our default for this paper, and we observed similar results in other planning environments.
 
-<!-- chunk {"id": "body-0052", "role": "body", "section": "Fraction of Learned Samples ($\\lambda$)", "weight": 1.0} -->
+<!-- chunk {"id": "body-0051", "role": "body", "section": "Fraction of Learned Samples ($\\lambda$)", "weight": 1.0} -->
 
 In this work we only consider sampling fractions that are constant over the duration of the planning algorithm. However, the learned sampling distribution typically result in rapid convergence (a few hundred samples) in most cases, with a small fraction of problems taking longer. In these cases, the learned samples fail to produce a trajectory, and gaps are filled via the auxiliary sampler. As a result, performance could likely be improved by first sampling primarily from the learned distribution, and increasingly sampling from the uniform distribution as the problem progresses. This is a relatively minor consideration, but may improve performance, especially when the amount of training data is limited.
 
-<!-- chunk {"id": "body-0053", "role": "body", "section": "Learning Dependent Sample Sets", "weight": 1.0} -->
+<!-- chunk {"id": "body-0052", "role": "body", "section": "Learning Dependent Sample Sets", "weight": 1.0} -->
 
 To showcase the generality of the learned sampling distributions methodology and its ability to capture arbitrary and complex distributions, we use the proposed methodology to learn sets of samples -- meaning we learn a distribution of multiple samples at once, to be drawn in batches. In this case, we learn from solution trajectories with three or more samples. We are thus learning not only a distribution to model the promising regions of the state space, but multiple distributions at once with dependency between them (i.e., the methodology learns to disperse the samples along the trajectory). Fig. 11 shows resulting distributions and the success rate of this method compared to learning only a single sample. As expected, the distributions learn to be well-distributed along the solution trajectory, resulting in higher success rates (e.g., the success rate for a 90% ratio of learned samples to uniform samples increased from 82% to 93% at 100 samples). This result corroborates the findings of Janson et al., which found the primary benefit of low-dispersion sampling is in finding solutions with fewer samples.
 
-<!-- chunk {"id": "body-0054", "role": "body", "section": "Varied Obstacle Density", "weight": 1.0} -->
+<!-- chunk {"id": "body-0053", "role": "body", "section": "Varied Obstacle Density", "weight": 1.0} -->
 
 In the previous section the learned sampling distributions methodology was shown to generalize well to previously unseen problem instances (new initial states, goal regions, and obstacle sets). In these cases, the test and train problem sets are drawn from the same problem generator. This section investigates the performance of this method when the test problems are significantly different from those seen during the training phase. The ability for machine learning systems to generalize (or extrapolate beyond training data) is a current active topic of research. While we anticipate future developments will enable better generalization, in this subsection we aim to characterize the out-of-distribution generalization of our proposed methodology.
 
-<!-- chunk {"id": "body-0055", "role": "body", "section": "Varied Obstacle Density", "weight": 1.0} -->
+<!-- chunk {"id": "body-0054", "role": "body", "section": "Varied Obstacle Density", "weight": 1.0} -->
 
 Our approach is as follows: we generate maze-like environments randomly, from a random maze generator (described below) that takes maze complexity as an argument. We generate training data for three different complexity levels (low, medium, and high), and train sampling distributions on these datasets. Then, we investigate the performance of double integrator systems (conditioned on an occupancy grid of the environment) on planning problems of some complexity, with sampling distributions trained from a dataset of a different complexity. Concretely, we train a sampling distribution on each of the low, medium, and high complexity datasets, and test on each of them as well. We do not test on the train dataset, different test and train datasets are generated for each complexity level. In addition to this, we also compare against a uniform sampling distribution and a CVAE trained on all three complexity levels. Examples of each complexity level are plotted in Fig. 12. Results are plotted in Fig. 13. In our experiments, we found that for all cases the learned sampling distribution substantially outperformed a standard uniform distribution.
 
-<!-- chunk {"id": "body-0056", "role": "body", "section": "Varied Obstacle Density", "weight": 1.0} -->
+<!-- chunk {"id": "body-0055", "role": "body", "section": "Varied Obstacle Density", "weight": 1.0} -->
 
 Of the learned distributions, we found that the worst performance was achieved when distributions were trained on low complexity environments and tested on high complexity environments. This is fairly intuitive, as low complexity environments have few obstacles, and the distribution is heavily biased toward samples in the center of the workspace with velocities toward the goal. The best performance was (roughly) achieved when the train and test complexity were the same.
 
-<!-- chunk {"id": "body-0057", "role": "body", "section": "Maze Generation", "weight": 1.0} -->
+<!-- chunk {"id": "body-0056", "role": "body", "section": "Maze Generation", "weight": 1.0} -->
 
 The maze generation algorithm was implemented on a square grid with an odd number of rows and columns. The complexity of the maze generating function was indexed by two numbers: the number of obstacles generated ($n$) and the number of steps taken ($m$). Referring to these with tuples $(n,m)$, low, medium, and high complexity corresponded to $$, $$, and $$. The maze was generated by sampling points in the grid on odd-indexed cells, sampling a random direction, and attempting to take a step, where each step corresponded to two cells. The cells between the previous point and the new step would then be added to the obstacle. This continued while less than $m$ steps were taken for that obstacle. If the cell was occupied, then the step was not taken. This was repeated for a total of $n$ obstacles. If the initial sampled point of an obstacle was in another obstacle, it was not resampled. This process was applied to an $11 \times 11$ grid, and the outer region layer of one cell was discarded.
 
-<!-- chunk {"id": "body-0058", "role": "body", "section": "Maze Generation", "weight": 1.0} -->
+<!-- chunk {"id": "body-0057", "role": "body", "section": "Maze Generation", "weight": 1.0} -->
 
 This was performed because this maze generation process often left this space without obstacles, so motion planning algorithms could find simple feasible paths by sampling along the edge of the grid.
+
+<!-- chunk {"id": "body-0058", "role": "body", "section": "Maze Generation", "weight": 1.0} -->
+
+(a) Success Rate at 500 Samples (b) Normalized Cost at 4000 Samples Figure 13: Results for generalization across testing environments. For both grids, the columns denote the complexity of the training problems, where All denotes problems drawn with equal probability from each class, and Rand. denotes using a uniform sampling distribution. The rows denote the performance on low, medium, and high complexity planning problems. All training complexities outperformed random sampling on all test complexities, both in terms of success rate and normalized cost. Training on the same complexity level as used in testing always achieves the best (or nearly the best, in the case of cost) performance. Training on low complexity problems and testing on high complexity problems is potentially problematic, as the optimal trajectories are close to the shortest path in free space, and thus the CVAE model does not learn to effectively condition on the obstacles. These results show that it is important in practice to ensure that the training data used is reasonably representative of the test conditions.
 
 <!-- chunk {"id": "body-0059", "role": "body", "section": "Iterative Training of CVAE", "weight": 1.0} -->
 
@@ -252,7 +244,7 @@ A naïve approach to this problem would be to simply generate a very large amoun
 
 <!-- chunk {"id": "body-0061", "role": "body", "section": "Iterative Training of CVAE", "weight": 1.0} -->
 
-(a) Trained on data from uniform sampling
+(a) Trained on data from uniform sampling (b) Trained on data from Fig. 14(a) (c) Trained on data from Fig. 14(b) Figure 14: Learned sampling distributions for a varying number of phases of re-generating training datasets using the learned sampling distribution. The different colors correspond to different robots, and the planning problem is in their joint state space. The straight lines plotted in each figure connect the start state to the goal state for each robot. Note that iteratively regenerating training data allows rapid convergence of the learned sampling distributions.
 
 <!-- chunk {"id": "body-0062", "role": "body", "section": "Human Demonstration", "weight": 1.0} -->
 

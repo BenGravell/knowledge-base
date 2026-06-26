@@ -44,11 +44,11 @@ The controllability Gramian is a fundamental quantity in the theory of linear sy
 
 <!-- chunk {"id": "body-0011", "role": "body", "section": "Results", "weight": 1.0} -->
 
-In this work, we consider both the specific problem of estimating linear dynamical systems, and a more general problem of linear estimation in time series. In both cases we measure the estimation error in the operator norm. In the case of linear dynamical systems we analyze the statistical performance of the $\mathsf{O}\mathsf{L}\mathsf{S}$ estimator for the parameter $A_{\ast}$ from a single observed trajectory $X_{1},\ldots,X_{T + 1}$ satisfying $X_{t + 1} = {{A_{\ast}X_{t}} + \eta_{t}}$, where $X_{0} = 0$ and $\eta_{t}\overset{\ \text{i.i.d.}}{\sim}{\mathcal{N}{(0,{\sigma^{2}I_{d}})}}$:
+In this work, we consider both the specific problem of estimating linear dynamical systems, and a more general problem of linear estimation in time series. In both cases we measure the estimation error in the operator norm.
 
 <!-- chunk {"id": "body-0012", "role": "body", "section": "Results", "weight": 1.0} -->
 
-In Section 2.1 we present upper bounds on ${\parallel{\hat{A} - A_{\ast}}\parallel}_{op}$ which hold for any $A_{\ast}$ with ${\rho{(A_{\ast})}} \leq 1$. In Section 2.2, we show that these upper bounds are nearly optimal in many regimes of interest. Finally, Section 2.3 states a general result, Theorem 2.4, which applies to arbitrary covariate processes with linear responses.
+In Section 2.2, we show that these upper bounds are nearly optimal in many regimes of interest. Finally, Section 2.3 states a general result, Theorem 2.4, which applies to arbitrary covariate processes with linear responses.
 
 <!-- chunk {"id": "body-0013", "role": "body", "section": "Results", "weight": 1.0} -->
 
@@ -56,7 +56,7 @@ Notation: We let $\parallel \cdot \parallel_{op}$ denote the operator norm of a 
 
 <!-- chunk {"id": "body-0014", "role": "body", "section": "Linear Dynamical Systems", "weight": 1.0} -->
 
-Hence, the expected covariance can be expressed in terms of the Gramians via ${{\mathbb{E}}{\lbrack{\sum_{t = 1}^{T}{X_{t}X_{t}^{\top}}}\rbrack}} = {\sigma^{2} \cdot {\sum_{t = 1}^{T}\Gamma_{t}}}$. As is standard in analyses of least-squares, "larger" covariates/covariance matrices correspond to faster rates of learning.
+Indeed, we can write $X_{t}$ explicitly as Hence, the expected covariance can be expressed in terms of the Gramians via ${{\mathbb{E}}{\lbrack{\sum_{t = 1}^{T}{X_{t}X_{t}^{\top}}}\rbrack}} = {\sigma^{2} \cdot {\sum_{t = 1}^{T}\Gamma_{t}}}$. As is standard in analyses of least-squares, "larger" covariates/covariance matrices correspond to faster rates of learning.
 
 <!-- chunk {"id": "body-0015", "role": "body", "section": "Remark 2 (Noise dependence)", "weight": 1.0} -->
 
@@ -64,52 +64,48 @@ The estimation guarantee provided by Theorem 2.1 does not depend on the variance
 
 <!-- chunk {"id": "body-0016", "role": "body", "section": "Remark 3 (Learning with input sequences)", "weight": 1.0} -->
 
-We can also consider the case where the system is driven by a known sequence of inputs $u_{0},u_{1},\ldots$ and where $B_{\ast}$ is known. Defining the control Gramian $\Gamma_{t}^{B_{\ast}}:={\sum_{s = 1}^{t}{A_{\ast}^{t - s}B_{\ast}B_{\ast}^{\top}A_{\ast}^{t - s}}}$, the proof of Theorem 2.1 can be modified to show that, if the inputs are white noise $u_{t}\overset{i.i.d}{\sim}\mathcal{N}{(0,{\sigma_{u}^{2}I})}$, then there exist universal constants ${c,C} > 0$ such that, with probability $1 - \delta$,
-
-<!-- chunk {"id": "body-0017", "role": "body", "section": "Remark 3 (Learning with input sequences)", "weight": 1.0} -->
-
 Non-white noise with covariance not equal to a multiple of the identity can be absorbed into $B_{\ast}$. Moreover, other non-Gaussian control input processes $u_{t}$ could just as easily be accommodated by our Theorem 2.4. When $B_{\ast}$ is unknown, Theorem 2.4 still implies that we can learn $(A_{\ast},B_{\ast})$; however, the guarantees are in terms of the operator norm of the concatenation of the errors, ${\parallel{({\hat{A} - A_{\ast}},{\hat{B} - B_{\ast}})}\parallel}_{op}$; in particular, the bound does not differentiate between the error of $\hat{A}$ and the error of $\hat{B}$. We believe that developing guarantees that delineate between the errors in $\hat{A}$ and in $\hat{B}$ is an exciting direction for future work.
 
-<!-- chunk {"id": "body-0018", "role": "body", "section": "Lower Bounds for Linear System Identification", "weight": 1.0} -->
+<!-- chunk {"id": "body-0017", "role": "body", "section": "Lower Bounds for Linear System Identification", "weight": 1.0} -->
 
 We have seen in Theorem 2.1 and in the subsequent examples that the estimation of linear dynamical systems is easier for systems which are easily excitable. It is natural to ask what is the best possible estimation rate one can hope to achieve. To make explicit the dependence of the lower bounds on the spectrum of $\Gamma_{t}$, we consider the minimax rate of estimation over the set ${\rho \cdot O}{(d)}$, where $\rho \in {\mathbb{R}}$ and $O{(d)}$ denotes the orthogonal group. In this case, we can define an *scalar* Gramian ${\gamma_{t}{(\rho)}}:={\sum_{s = 0}^{t - 1}{|\rho|}^{2s}}$, and so that $\Gamma_{t}:={{\gamma_{t}{(\rho)}} \cdot I}$.
 
-<!-- chunk {"id": "body-0019", "role": "body", "section": "Lower Bounds for Linear System Identification", "weight": 1.0} -->
+<!-- chunk {"id": "body-0018", "role": "body", "section": "Lower Bounds for Linear System Identification", "weight": 1.0} -->
 
 We now show that the estimation rate of the $\mathsf{O}\mathsf{L}\mathsf{S}$ provided in Theorem 2.1
 
-<!-- chunk {"id": "body-0020", "role": "body", "section": "General Time Series with Linear Responses", "weight": 1.0} -->
+<!-- chunk {"id": "body-0019", "role": "body", "section": "General Time Series with Linear Responses", "weight": 1.0} -->
 
 To capture the excitation behavior observed in the case of linear systems we introduce a general martingale small-ball condition which quantifies the growth of the covariates $X_{t}$.
 
-<!-- chunk {"id": "body-0021", "role": "body", "section": "Analysis Techniques", "weight": 1.0} -->
+<!-- chunk {"id": "body-0020", "role": "body", "section": "Analysis Techniques", "weight": 1.0} -->
 
-Herem $\sigma_{d}{({(\mathbf{X})}^{- 1})}$ denotes the $d$-th largest singalue value of $\mathbf{X}$, which is precisely $\sqrt{{1/\lambda_{\min}}{({\mathbf{X}^{\top}\mathbf{X}})}}$. The technical challenge arises from the fact that the singular space $\mathbf{U}^{\top}$ and $\mathbf{E}$ are correlated, and that the rows $X_{t}$ of $\mathbf{X}$ are also dependent. We upper bound ${\parallel{\mathbf{U}^{\top}\mathbf{E}}\parallel}_{op}$ with Lemma 4.14, a martingale-Chernoff bound that gives precise control on the deviations of sub-Gaussian martingale sequences in terms of random variance proxies. We explain this argument in more detail at the end of Section 4.
+We upper bound ${\parallel{\mathbf{U}^{\top}\mathbf{E}}\parallel}_{op}$ with Lemma 4.14, a martingale-Chernoff bound that gives precise control on the deviations of sub-Gaussian martingale sequences in terms of random variance proxies. We explain this argument in more detail at the end of Section 4.
 
-<!-- chunk {"id": "body-0022", "role": "body", "section": "Discussion and future work", "weight": 1.5} -->
+<!-- chunk {"id": "body-0021", "role": "body", "section": "Discussion and future work", "weight": 1.5} -->
 
 In this paper, we analyzed the the performance of the $\mathsf{O}\mathsf{L}\mathsf{S}$ estimator for the estimation of linear dynamics $X_{t + 1} = {{A_{\ast}X_{t}} + \eta_{t}}$ from a single trajectory $X_{0},X_{1},\ldots,X_{T}$, as a special case of linear estimation in time series. We show that, up to logarithmic factors, the $\mathsf{O}\mathsf{L}\mathsf{S}$ estimator attains an information-theoretic lower bound for ${\rho{(A_{\ast})}} < 1$, provided that $T \gtrsim \frac{d}{1 - {\rho{(A_{\ast})}}}$. Moreover, we present an analysis that eschews both mixing and concentration arguments for estimation in time series.
 
+<!-- chunk {"id": "body-0022", "role": "body", "section": "Discussion and future work", "weight": 1.5} -->
+
+We believe that there are several promising directions for future work: Our lower and upper bounds do not perfectly match, even when ${\rho{(A_{\ast})}} < 1$. We believe resolving these indiscrepancies may shed greater insight into learning in dynamical systems.
+
 <!-- chunk {"id": "body-0023", "role": "body", "section": "Discussion and future work", "weight": 1.5} -->
-
-Our lower and upper bounds do not perfectly match, even when ${\rho{(A_{\ast})}} < 1$. We believe resolving these indiscrepancies may shed greater insight into learning in dynamical systems.
-
-<!-- chunk {"id": "body-0024", "role": "body", "section": "Discussion and future work", "weight": 1.5} -->
 
 While our analysis can accomodate an unknown $B_{\ast}$, the rates do not distinguish between the error in the estimation of $A_{\ast}$ and that of $B_{\ast}$. In future, we hope to develop sharp error rates for $A_{\ast}$ and $B_{\ast}$ individually, similar to Dean et al. in the independent covariates setting.
 
-<!-- chunk {"id": "body-0025", "role": "body", "section": "Discussion and future work", "weight": 1.5} -->
+<!-- chunk {"id": "body-0024", "role": "body", "section": "Discussion and future work", "weight": 1.5} -->
 
 While our guarantees are stated in the operator norm, control applications may require more granular notions of error which vary for different modes of $A_{\ast}$. Developing error bounds which capture the error rate at each mode may result in more applicable bounds for control applications downstream.
 
-<!-- chunk {"id": "body-0026", "role": "body", "section": "Discussion and future work", "weight": 1.5} -->
+<!-- chunk {"id": "body-0025", "role": "body", "section": "Discussion and future work", "weight": 1.5} -->
 
 Our convergences rates degrade for systems with ${\rho{(A_{\ast})}} > 1$, whereas we know from Faradonbeh et al. that these systems are still identifiable with $\mathsf{O}\mathsf{L}\mathsf{S}$. Is there a unified analysis for systems with stable and unstable modes?
 
-<!-- chunk {"id": "body-0027", "role": "body", "section": "Discussion and future work", "weight": 1.5} -->
+<!-- chunk {"id": "body-0026", "role": "body", "section": "Discussion and future work", "weight": 1.5} -->
 
 In many systems, we do not observe $X_{t}$ directly, but only view $CX_{t}$ for a short matrix $C \in {\mathbb{R}}^{n_{o} \times n}$, where $n_{0} \leq n$. Hazan et al. provide filtering techniques to minimize regret for diagonalizable matrices; it would be interesting to understand the sample complexity for estimating arbitrary matrices with these limited observations.
 
-<!-- chunk {"id": "body-0028", "role": "body", "section": "Discussion and future work", "weight": 1.5} -->
+<!-- chunk {"id": "body-0027", "role": "body", "section": "Discussion and future work", "weight": 1.5} -->
 
 Ultimately, we would like to understand what sequences of control inputs $u_{t}$ yield the most accurate estimation of the system $(A_{\ast},B_{\ast})$. This would inform adaptive algorithms which adjust the sequence $u_{t}$ in a sequential fashion, and online algorithms which ensure low regret relative to a given cost functional over time.

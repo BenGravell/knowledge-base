@@ -13,3 +13,159 @@ Model-free deep reinforcement learning (RL) methods have been successful in a wi
 <!-- chunk {"id": "abstract-0003", "role": "abstract", "section": "Abstract", "weight": 2.0} -->
 
 We show that conservative Q-Prop provides substantial gains in sample efficiency over trust region policy optimization (TRPO) with generalized advantage estimation (GAE), and improves stability over deep deterministic policy gradient (DDPG), the state-of-the-art on-policy and off-policy methods, on OpenAI Gym's MuJoCo continuous control environments.
+
+<!-- chunk {"id": "body-0004", "role": "body", "section": "INTRODUCTION", "weight": 1.5} -->
+
+Model-free reinforcement learning is a promising approach for solving arbitrary goal-directed sequential decision-making problems with only high-level reward signals and no supervision. It has recently been extended to utilize large neural network policies and value functions, and has been shown to be successful in solving a range of difficult problems. Deep neural network parametrization minimizes the need for manual feature and policy engineering, and allows learning end-to-end policies mapping from high-dimensional inputs, such as images, directly to actions. However, such expressive parametrization also introduces a number of practical problems. Deep reinforcement learning algorithms tend to be sensitive to hyperparameter settings, often requiring extensive hyperparameter sweeps to find good values. Poor hyperparameter settings tend to produce unstable or non-convergent learning. Deep RL algorithms also tend to exhibit high sample complexity, often to the point of being impractical to run on real physical systems. Although a number of recent techniques have sought to alleviate some of these issues, these recent advances still provide only a partial solution to the instability and sample complexity challenges.
+
+<!-- chunk {"id": "body-0005", "role": "body", "section": "INTRODUCTION", "weight": 1.5} -->
+
+Model-free reinforcement learning consists of on- and off-policy methods. Monte Carlo policy gradient methods are popular on-policy methods that directly maximize the cumulative future returns with respect to the policy. While these algorithms can offer unbiased (or nearly unbiased, as discussed in Section 2.1) estimates of the gradient, they rely on Monte Carlo estimation and often suffer from high variance. To cope with high variance gradient estimates and difficult optimization landscapes, a number of techniques have been proposed, including constraining the change in the policy at each gradient step and mixing value-based back-ups to trade off bias and variance in Monte Carlo return estimates. However, these methods all tend to require very large numbers of samples to deal with the high variance when estimating gradients of high-dimensional neural network policies. The crux of the problem with policy gradient methods is that they can only effectively use on-policy samples, which means that they require collecting large amounts of on-policy experiences after each parameter update to the policy. This makes them very sample intensive.
+
+<!-- chunk {"id": "body-0006", "role": "body", "section": "INTRODUCTION", "weight": 1.5} -->
+
+Offpolicy methods, such as Q-learning and off-policy actor-critic methods, can instead use all samples, including off-policy samples, by adopting temporal difference learning with experience replay. Such methods are much more sample-efficient. However, convergence of these algorithms is in general not guaranteed with non-linear function approximators, and practical convergence and instability issues typically mean that extensive hyperparameter tuning is required to attain good results.
+
+<!-- chunk {"id": "body-0007", "role": "body", "section": "INTRODUCTION", "weight": 1.5} -->
+
+In order to make deep reinforcement learning practical as a tool for tackling real-world tasks, we must develop methods that are both data efficient and stable. In this paper, we propose Q-Prop, a step in this direction that combines the advantages of on-policy policy gradient methods with the efficiency of off-policy learning. Unlike prior approaches for off-policy learning, which either introduce bias or increase variance, Q-Prop can reduce the variance of gradient estimator without adding bias; unlike prior approaches for critic-based variance reduction which fit the value function on-policy, Q-Prop learns the action-value function off-policy. The core idea is to use the first-order Taylor expansion of the critic as a control variate, resulting in an analytical gradient term through the critic and a Monte Carlo policy gradient term consisting of the residuals in advantage approximations. The method helps unify policy gradient and actor-critic methods: it can be seen as using the off-policy critic to reduce variance in policy gradient or using on-policy Monte Carlo returns to correct for bias in the critic gradient. We further provide theoretical analysis of the control variate, and derive two additional variants of Q-Prop.
+
+<!-- chunk {"id": "body-0008", "role": "body", "section": "INTRODUCTION", "weight": 1.5} -->
+
+The method can be easily incorporated into any policy gradient algorithm. We show that Q-Prop provides substantial gains in sample efficiency over trust region policy optimization (TRPO) with generalized advantage estimation (GAE), and improved stability over deep deterministic policy gradient (DDPG) across a repertoire of continuous control tasks.
+
+<!-- chunk {"id": "body-0009", "role": "body", "section": "MONTE CARLO POLICY GRADIENT METHODS", "weight": 1.0} -->
+
+Monte Carlo policy gradient methods apply direct gradient-based optimization to the reinforcement learning objective. This involves directly differentiating the J (θ) objective with respect to the policy parameters θ. The standard form, known as the REINFORCE algorithm, is shown below: where b (s t) is known as the baseline. For convenience of later derivations, Eq. 1 can also be written as below, where ρπ (s) = ∑ ∞ t = 0 γ t p (s t = s) is the unnormalized discounted state visitation frequency, Eq. 2 is an unbiased gradient of the RL objective. However, in practice, most policy gradient methods effectively use undiscounted state visitation frequencies, i.e. γ = 1 in the equal for ρπ, and are therefore biased; in fact, making them unbiased often hurts performance. In this paper, we mainly discuss bias due to function approximation, off-policy learning, and value back-ups.
+
+<!-- chunk {"id": "body-0010", "role": "body", "section": "MONTE CARLO POLICY GRADIENT METHODS", "weight": 1.0} -->
+
+The gradient is estimated using Monte Carlo samples in practice and has very high variance. A proper choice of baseline is necessary to reduce the variance sufficiently such that learning becomes feasible. A common choice is to estimate the value function of the state V π (s t) to use as the baseline, which provides an estimate of advantage function A π (s t, a t), which is a centered action-value function Q π (s t, a t), as defined below: Q π (s t, a t) summarizes the performance of each action from a given state, assuming it follows π thereafter, and A π (s t, a t) provides a measure of how each action compares to the average performance at the state s t, which is given by V π (s t). Using A π (s t, a t) centers the learning signal and reduces variance significantly.
+
+<!-- chunk {"id": "body-0011", "role": "body", "section": "MONTE CARLO POLICY GRADIENT METHODS", "weight": 1.0} -->
+
+Besides high variance, another problem with the policy gradient is that it requires on-policy samples. This makes policy gradient optimization very sample intensive. To achieve similar sample efficiency as off-policy methods, we can attempt to include off-policy data. Prior attempts use importance sampling to include off-policy trajectories; however, these are known to be difficult scale to highdimensional action spaces because of rapidly degenerating importance weights.
+
+<!-- chunk {"id": "body-0012", "role": "body", "section": "POLICY GRADIENT WITH FUNCTION APPROXIMATION", "weight": 1.0} -->
+
+Policy gradient methods with function approximation, or actor-critic methods, include a policy evaluation step, which often uses temporal difference (TD) learning to fit a critic Qw for the current policy π ( θ ), and a policy improvement step which greedily optimizes the policy π against the critic estimate Qw. Significant gains in sample efficiency may be achievable using offpolicy TD learning for the critic, as in Q-learning and deterministic policy gradient, typically by means of experience replay for training deep Q networks.
+
+<!-- chunk {"id": "body-0013", "role": "body", "section": "POLICY GRADIENT WITH FUNCTION APPROXIMATION", "weight": 1.0} -->
+
+One particularly relevant example of such a method is the deep deterministic policy gradient (DDPG). The updates for this method are given below, where πθ ( a t | s t ) = δ ( a t = µ θ ( s t )) is a deterministic policy, β is arbitrary exploration distribution, and ρβ corresponds to sampling from a replay buffer. Q ( ·, · ) is the target network that slowly tracks Qw.
+
+<!-- chunk {"id": "body-0014", "role": "body", "section": "POLICY GRADIENT WITH FUNCTION APPROXIMATION", "weight": 1.0} -->
+
+When the critic and policy are parametrized with neural networks, full optimization is expensive, and instead stochastic gradient optimization is used. The gradient in the policy improvement phase is given below, which is generally a biased gradient of J ( θ ).
+
+<!-- chunk {"id": "body-0015", "role": "body", "section": "POLICY GRADIENT WITH FUNCTION APPROXIMATION", "weight": 1.0} -->
+
+The crucial benefits of DDPG are that it does not rely on high variance REINFORCE gradients and is trainable on off-policy data. These properties make DDPG and other analogous off-policy methods significantly more sample-efficient than policy gradient methods. However, the use of a biased policy gradient estimator makes analyzing its convergence and stability properties difficult.
+
+<!-- chunk {"id": "body-0016", "role": "body", "section": "Q-PROP", "weight": 1.0} -->
+
+In this section, we derive the Q-Prop estimator for policy gradient. The key idea from this estimator comes from observing Equations 2 and 5 and noting that the former provides an almost unbiased (see Section 2.1), but high variance gradient, while the latter provides a deterministic, but biased gradient. By using the deterministic biased estimator as a particular form of control variate for the Monte Carlo policy gradient estimator, we can effectively use both types of gradient information to construct a new estimator that in practice exhibits improved sample efficiency through the inclusion of off-policy samples while preserving the stability of on-policy Monte Carlo policy gradient.
+
+<!-- chunk {"id": "body-0017", "role": "body", "section": "Q-PROP ESTIMATOR", "weight": 1.0} -->
+
+To derive the Q-Prop gradient estimator, we start by using the first-order Taylor expansion of an arbitrary function f ( s t, a t ), ¯ f ( s t, a t ) = f ( s t, ¯ a t ) + ∇ a f ( s t, a ) | a = ¯ a t ( a t -¯ a t ) as the control variate for the policy gradient estimator. We use ˆ Q ( s t, a t ) = ∑ ∞ t ′ = t γ t ′ -t r ( s t ′, a t ′ ) to denote Monte Carlo return from state s t and action a t, i.e. E π [ ˆ Q ( s t, a t )] = r ( s t, a t ) + γ E p [ V π ( s t + 1 )], and µ θ ( s t ) = E πθ ( a t | s t ) [ a t ] to denote the expected action of a stochastic policy πθ. Full derivation is in Appendix A.
+
+<!-- chunk {"id": "body-0018", "role": "body", "section": "Q-PROP ESTIMATOR", "weight": 1.0} -->
+
+Eq. 6 is general for arbitrary function f (s t, a t) that is differentiable with respect to a t at an arbitrary value of ¯ a t; however, a sensible choice is to use the critic Qw for f and µ θ (s t) for ¯ a t to get, Finally, since in practice we estimate advantages ˆ A (s t, a t), we write the Q-Prop estimator in terms of advantages to complete the basic derivation, Eq. 8 is composed of an analytic gradient through the critic as in Eq. 5 and a residual REINFORCE gradient in Eq. 2. From the above derivation, Q-Prop is simply a Monte Carlo policy gradient estimator with a special form of control variate.
+
+<!-- chunk {"id": "body-0019", "role": "body", "section": "Q-PROP ESTIMATOR", "weight": 1.0} -->
+
+The important insight comes from the fact that Qw can be trained using off-policy data as in Eq. 4. Under this setting, Q-Prop is no longer just a Monte Carlo policy gradient method, but more closely resembles an actor-critic method, where the critic can be updated off-policy but the actor is always updated on-policy with an additional REINFORCE correction term so that it remains a Monte Carlo policy gradient method regardless of the parametrization, training method, and performance of the critic. Therefore, Q-Prop can be directly combined with a number of prior techniques from both on-policy methods such as natural policy gradient, trust-region policy optimization (TRPO) and generalized advantage estimation (GAE), and off-policy methods such as DDPG and Retrace(λ).
+
+<!-- chunk {"id": "body-0020", "role": "body", "section": "Q-PROP ESTIMATOR", "weight": 1.0} -->
+
+Intuitively, if the critic Qw approximates Q π well, it provides a reliable gradient, reduces the estimator variance, and improves the convergence rate. Interestingly, control variate analysis in the next section shows that this is not the only circumstance where Q-Prop helps reduce variance.
+
+<!-- chunk {"id": "body-0021", "role": "body", "section": "CONTROL VARIATE ANALYSIS AND ADAPTIVE Q-PROP", "weight": 1.0} -->
+
+For Q-Prop to be applied reliably, it is crucial to analyze how the variance of the estimator changes before and after the application of control variate. Following the prior work on control variates, we first introduce η ( s t ) to Eq. 8, a weighing variable that modulates the strength of control variate. This additional variable η ( s t ) does not introduce bias to the estimator.
+
+<!-- chunk {"id": "body-0022", "role": "body", "section": "CONTROL VARIATE ANALYSIS AND ADAPTIVE Q-PROP", "weight": 1.0} -->
+
+The variance of this estimator is given below, where m = 1... M indexes the dimension of θ, If we choose η (s t) such that Var ∗ < Var, where Var = E ρπ [∑ m Var a t (∇ θ m log πθ (a t | s t) ˆ A (s t, a t))] is the original estimator variance measure, then we have managed to reduce the variance. Directly analyzing the above variance measure is nontrivial, for the same reason that computing the optimal baseline is difficult. In addition, it is often impractical to get multiple action samples from the same state, which prohibits using na¨ ıve Monte Carlo to estimate the expectations. Instead, we propose a surrogate variance measure, Var = E ρπ [Var a t (ˆ A (s t, a t))].
+
+<!-- chunk {"id": "body-0023", "role": "body", "section": "CONTROL VARIATE ANALYSIS AND ADAPTIVE Q-PROP", "weight": 1.0} -->
+
+A similar surrogate is also used by prior work on learning state-dependent baseline, and the benefit is that the measure becomes more tractable, Since E π [ˆ A (s t, a t)] = E π [¯ A (s t, a t)] = 0, the terms can be simplified as below, where Σ θ (s t) is the covariance matrix of the stochastic policy πθ. The nice property of Eq. 11 is that Var a t (¯ A) is analytical and Cov a t (ˆ A, ¯ A) can be estimated with single action sample. Using this estimate, we propose adaptive variants of Q-Prop that regulate the variance of the gradient estimate.
+
+<!-- chunk {"id": "body-0024", "role": "body", "section": "CONTROL VARIATE ANALYSIS AND ADAPTIVE Q-PROP", "weight": 1.0} -->
+
+Adaptive Q-Prop. The optimal state-dependent factor η ( s t ) can be computed per state, according to η ∗ ( s t ) = Cov a t ( ˆ A, ¯ A ) / Var a t ( ¯ A ). This provides maximum reduction in variance according to Eq. 11. Substituting η ∗ ( s t ) into Eq. 11, we get Var ∗ = E ρπ [( 1 -ρ corr ( ˆ A, ¯ A ) 2 ) Var a t ( ˆ A )], where ρ corr is the correlation coefficient, which achieves guaranteed variance reduction if at any state ¯ A is correlated with ˆ A. We call this the fully adaptive Q-Prop method. An important conclusion from this analysis is that, in adaptive Q-Prop, the critic Qw does not necessarily need to be approximating Q π well to produce good results. Its Taylor expansion merely needs to be correlated with ˆ A, positively or even negatively. This is in contrast with actor-critic methods, where performance is greatly dependent on the absolute accuracy of the critic's approximation.
+
+<!-- chunk {"id": "body-0025", "role": "body", "section": "CONTROL VARIATE ANALYSIS AND ADAPTIVE Q-PROP", "weight": 1.0} -->
+
+Conservative and Aggressive Q-Prop. In practice, the single-sample estimate of Cov a t ( ˆ A, ¯ A ) has high variance itself, and we propose the following two practical implementations of adaptive Q-Prop: η ( s t ) = 1 if ˆ Cov a t ( ˆ A, ¯ A ) > 0 and η ( s t ) = 0 if otherwise, and η ( s t ) = sign ( ˆ Cov a t ( ˆ A, ¯ A )). The first implementation, which we call conservative Q-Prop, can be thought of as a more conservative version of Q-Prop, which effectively disables the control variate for some samples of the states. This is sensible as if ˆ A and ¯ A are negatively correlated, it is likely that the critic is very poor. The second variant can correspondingly be termed aggressive Q-Prop, since it makes more liberal use of the control variate.
+
+<!-- chunk {"id": "body-0026", "role": "body", "section": "Q-PROP ALGORITHM", "weight": 1.0} -->
+
+Pseudo-code for the adaptive Q-Prop algorithm is provided in Algorithm 1. It is a mixture of policy gradient and actor-critic. At each iteration, it first rolls out the stochastic policy to collect on-policy Algorithm 1 Adaptive Q-Prop 1: Initialize w for critic Qw, θ for stochastic policy πθ, and replay buffer R ← / 0.
+
+<!-- chunk {"id": "body-0027", "role": "body", "section": "Q-PROP ALGORITHM", "weight": 1.0} -->
+
+2: repeat 3: for e = 1,..., E do ▷ Collect E episodes of on-policy experience using πθ 4: s 0, e ∼ p (s 0) 5: for t = 0,..., T -1 do 6: a t, e ∼ πθ (·| s t, e), s t + 1, e ∼ p (·| s t, e, a t, e), rt, e = r (s t, e, a t, e) 7: Add batch data B = { s 0: T, 1: E, a 0: T -1, 1: E, r 0: T -1, 1: E } to replay buffer R 8: Take E · T gradient steps on Qw using R and πθ 9: Fit V φ (s t) using B 10: Compute ˆ At, e using GAE(λ) and ¯ At, e using Eq. 7 11: Set η t, e based on Section 3.2 12: Compute and center the learning signals l t, e = ˆ At, e -η t, e ¯ At, e 13: Compute ∇ θ J (θ) ≈ 1
+
+<!-- chunk {"id": "body-0028", "role": "body", "section": "Q-PROP ALGORITHM", "weight": 1.0} -->
+
+ET ∑ e ∑ t ∇ θ log πθ (a t, e | s t, e) l t, e + η t, e ∇ a Qw (s t, e, a) | a = µ θ (s t, e) ∇ θ µ θ (s t, e) 14: Take a gradient step on πθ using ∇ θ J (θ), optionally with a trust-region constraint using B 15: until πθ converges.
+
+<!-- chunk {"id": "body-0029", "role": "body", "section": "Q-PROP ALGORITHM", "weight": 1.0} -->
+
+samples, adds the batch to a replay buffer, takes a few gradient steps on the critic, computes ˆ A and ¯ A, and finally applies a gradient step on the policy πθ. In our implementation, the critic Qw is fitted with off-policy TD learning using the same techniques as in DDPG: V φ is fitted with the same technique. Generalized advantage estimation (GAE) is used to estimate ˆ A. The policy update can be done by any method that utilizes the first-order gradient and possibly the on-policy batch data, which includes trust region policy optimization (TRPO). Importantly, this is just one possible implementation of Q-Prop, and in Appendix C we show a more general form that can interpolate between pure policy gradient and off-policy actor-critic.
+
+<!-- chunk {"id": "body-0030", "role": "body", "section": "LIMITATIONS", "weight": 1.5} -->
+
+Alimitation with Q-Prop is that if data collection is very fast, e.g. using fast simulators, the compute time per episode is bound by the critic training at each iteration, and similar to that of DDPG and usually much more than that of TRPO. However, in applications where data collection speed is the bottleneck, there is sufficient time between policy updates to fit Qw well, which can be done asynchronously from the data collection, and the compute time of Q-Prop will be about the same as that of TRPO.
+
+<!-- chunk {"id": "body-0031", "role": "body", "section": "LIMITATIONS", "weight": 1.5} -->
+
+Another limitation is the robustness to bad critics. We empirically show that our conservative Q-Prop is more robust than standard Q-Prop and much more robust than pure off-policy actor-critic methods such as DDPG; however, estimating when an off-policy critic is reliable or not is still a fundamental problem that shall be further investigated. We can also alleviate this limitation by adopting more stable off-policy critic learning techniques such as Retrace( λ ).
+
+<!-- chunk {"id": "body-0032", "role": "body", "section": "EXPERIMENTS", "weight": 1.0} -->
+
+We evaluated Q-Prop and its variants on continuous control environments from the OpenAI Gym benchmark using the MuJoCo physics simulator as shown in Figure 1. Algorithms are identified by acronyms, followed by a number indicating batch size, except for DDPG, which is a prior online actor-critic algorithm. 'c-' and 'v-' denote conservative and aggressive Q-Prop variants as described in Section 3.2. 'TR-' denotes trust-region policy optimization, while 'V-' denotes vanilla policy gradient. For example, 'TR-c-Q-Prop-5000' means convervative Q-Prop with the trust-region policy update, and a batch size of 5000. 'VPG' and 'TRPO' are vanilla policy gradient and trust-region policy optimization respectively. Unless otherwise stated, all policy gradient methods are implemented with GAE( λ = 0. 97). Note that TRPOGAE is currently the state-of-the-art method on most of the OpenAI Gym benchmark tasks, though our experiments show that a well-tuned DDPG implementation sometimes achieves better results.
+
+<!-- chunk {"id": "body-0033", "role": "body", "section": "EXPERIMENTS", "weight": 1.0} -->
+
+Our algorithm implementations are built on top of the rllab TRPO and DDPG codes from Duan et al. and available. Policy and value function architectures and other training details including hyperparameter values are provided in Appendix D.
+
+<!-- chunk {"id": "body-0034", "role": "body", "section": "ADAPTIVE Q-PROP", "weight": 1.0} -->
+
+First, it is useful to identify how reliable each variant of Q-Prop is. In this section, we analyze standard Q-Prop and two adaptive variants, c-Q-Prop and a-Q-Prop, and demonstrate the stability of the method across different batch sizes. Figure 2a shows a comparison of Q-Prop variants with trust-region updates on the HalfCheetah-v1 domain, along with the best performing TRPO hyperparameters. The results are consistent with theory: conservative Q-Prop achieves much more stable performance than the standard and aggressive variants, and all Q-Prop variants significantly outperform TRPO in terms of sample efficiency, e.g. conservative Q-Prop reaches average reward of 4000 using about 10 times less samples than TRPO.
+
+<!-- chunk {"id": "body-0035", "role": "body", "section": "ADAPTIVE Q-PROP", "weight": 1.0} -->
+
+- (a) Standard Q-Prop vs adaptive variants. - (b) Conservative Q-Prop vs TRPO across batch sizes.
+
+<!-- chunk {"id": "body-0036", "role": "body", "section": "ADAPTIVE Q-PROP", "weight": 1.0} -->
+
+As we discussed in Section 1, stability is a significant challenge with state-of-the-art deep RL methods, and is very important for being able to reliably use deep RL for real world tasks. In the rest of the experiments, we will use conservative Q-Prop as the main Q-Prop implementation.
+
+<!-- chunk {"id": "body-0037", "role": "body", "section": "EVALUATION ACROSS ALGORITHMS", "weight": 1.0} -->
+
+- (a) Comparing algorithms on HalfCheetah-v1. - (b) Comparing algorithms on Humanoid-v1.
+
+<!-- chunk {"id": "body-0038", "role": "body", "section": "EVALUATION ACROSS ALGORITHMS", "weight": 1.0} -->
+
+In this section, we evaluate two versions of conservative Q-Prop, v-c-Q-Prop using vanilla policy gradient and TR-c-Q-Prop using trust-region updates, against other model-free algorithms on the HalfCheetah-v1 domain. Figure 3a shows that c-Q-Prop methods significantly outperform the best TRPO and VPG methods. Even Q-Prop with vanilla policy gradient is comparable to TRPO, confirming the significant benefits from variance reduction. DDPG on the other hand exhibits inconsistent performances. With proper reward scaling, i.e. 'DDPG-r0.1', it outperforms other methods as well as the DDPG results reported in prior work. This illustrates the sensitivity of DDPG to hyperparameter settings, while Q-Prop exhibits more stable, monotonic learning behaviors when compared to DDPG. In the next section we show this improved stability allows Q-Prop to outperform DDPG in more complex domains.
+
+<!-- chunk {"id": "body-0039", "role": "body", "section": "EVALUATION ACROSS DOMAINS", "weight": 1.0} -->
+
+Lastly, we evaluate Q-Prop against TRPO and DDPG across multiple domains. While the gym environments are biased toward locomotion, we expect we can achieve similar performance on manipulation tasks such as those in Lillicrap et al.. Table 1 summarizes the results, including the best attained average rewards and the steps to convergence. Q-Prop consistently outperform TRPO in terms of sample complexity and sometimes achieves higher rewards than DDPG in more complex domains. A particularly notable case is shown in Figure 3b, where Q-Prop substantially improves sample efficiency over TRPO on Humanoid-v1 domain, while DDPG cannot find a good solution.
+
+<!-- chunk {"id": "body-0040", "role": "body", "section": "EVALUATION ACROSS DOMAINS", "weight": 1.0} -->
+
+The better performance on the more complex domains highlights the importance of stable deep RL algorithms: while costly hyperparameter sweeps may allow even less stable algorithms to perform well on simpler problems, more complex tasks might have such narrow regions of stable hyperparameters that discovering them becomes impractical.
+
+<!-- chunk {"id": "body-0041", "role": "body", "section": "EVALUATION ACROSS DOMAINS", "weight": 1.0} -->
+
+| | | TR-c-Q-Prop | TR-c-Q-Prop | TRPO | TRPO | DDPG | DDPG | Table 1: Q-Prop, TRPO and DDPG results showing the max average rewards attained in the first 30k episodes and the episodes to cross specific reward thresholds. Q-Prop often learns more sample efficiently than TRPO and can solve difficult domains such as Humanoid better than DDPG.
+
+<!-- chunk {"id": "body-0042", "role": "body", "section": "DISCUSSION AND CONCLUSION", "weight": 1.5} -->
+
+We presented Q-Prop, a policy gradient algorithm that combines reliable, consistent, and potentially unbiased on-policy gradient estimation with a sample-efficient off-policy critic that acts as a control variate. The method provides a large improvement in sample efficiency compared to stateof-the-art policy gradient methods such as TRPO, while outperforming state-of-the-art actor-critic methods on more challenging tasks such as humanoid locomotion. We hope that techniques like these, which combine on-policy Monte Carlo gradient estimation with sample-efficient variance reduction through off-policy critics, will eventually lead to deep reinforcement learning algorithms that are more stable and efficient, and therefore better suited for application to complex real-world learning tasks.

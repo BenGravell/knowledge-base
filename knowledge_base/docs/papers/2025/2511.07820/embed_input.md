@@ -36,7 +36,7 @@ We propose Supersizing mOtion tracking for Natural humanoId Control (SONIC), a f
 
 <!-- chunk {"id": "body-0009", "role": "body", "section": "Introduction", "weight": 1.5} -->
 
-We identify motion tracking as a scalable foundational task for humanoid control, demonstrating that it exhibits favorable scaling properties with both compute and data diversity. We scale up humanoid control to 21,000 GPU hours and 100 million frames of motion sequences, achieving universal tracking capabilities across diverse human behaviors.
+Our contributions are: We identify motion tracking as a scalable foundational task for humanoid control, demonstrating that it exhibits favorable scaling properties with both compute and data diversity. We scale up humanoid control to 21,000 GPU hours and 100 million frames of motion sequences, achieving universal tracking capabilities across diverse human behaviors.
 
 <!-- chunk {"id": "body-0010", "role": "body", "section": "Introduction", "weight": 1.5} -->
 
@@ -124,7 +124,7 @@ For text control, the system accepts natural-language prompts and synthesizes ta
 
 <!-- chunk {"id": "body-0031", "role": "body", "section": "VR-Based Teleoperation", "weight": 1.0} -->
 
-We build two VR teleoperation interfaces on top of SONIC. *Whole-body teleoperation* uses a PICO headset, ankle trackers, and handheld controllers to stream full-body SMPL poses, encoded via the human motion encoder ${\mathcal{E}}_{h}$. *3-point teleoperation* uses only the headset and controllers (no ankle trackers), outputting three upper-body SE poses (head, both wrists), finger joints, waist height, and a navigation command; the kinematic planner generates the lower body. Both interfaces use the same universal token space; video-based teleoperation is also supported (Sec.˜2.3). We use the VR teleoperation interfaces to collect teleoperation data for training VLA foundation models. Full interface details are provided in the Supplementary Materials (Sec.˜S8).
+We build two VR teleoperation interfaces on top of SONIC. *Whole-body teleoperation* uses a PICO headset, ankle trackers, and handheld controllers to stream full-body SMPL poses, encoded via the human motion encoder $\bm{\mathcal{E}}_{h}$. *3-point teleoperation* uses only the headset and controllers (no ankle trackers), outputting three upper-body SE poses (head, both wrists), finger joints, waist height, and a navigation command; the kinematic planner generates the lower body. Both interfaces use the same universal token space; video-based teleoperation is also supported (Sec.˜2.3). We use the VR teleoperation interfaces to collect teleoperation data for training VLA foundation models. Full interface details are provided in the Supplementary Materials (Sec.˜S8).
 
 <!-- chunk {"id": "body-0032", "role": "body", "section": "Foundation-Model-Driven Loco-manipulation", "weight": 1.0} -->
 
@@ -154,210 +154,222 @@ Drill and box relocation (whole-body interface): A multi-stage task where the ro
 
 Across all five tasks (10--20 trials each), the VLA achieves 75% average success using the universal token action space. The soda-can and trash-can tasks illustrate autonomous whole-body loco-manipulation with coordinated hand and foot placement, a capability that would be difficult to realize with action spaces that decouple upper-body control from locomotion.
 
-<!-- chunk {"id": "body-0039", "role": "body", "section": "Discussion", "weight": 1.5} -->
+<!-- chunk {"id": "body-0039", "role": "body", "section": "Foundation-Model-Driven Loco-manipulation", "weight": 1.0} -->
 
-We cast motion tracking as a scalable task for learning a single, versatile humanoid controller. By training SONIC on 100 million+ motion frames with up to 128 GPUs, we obtain a single policy that produces natural, robust whole-body behaviors across diverse conditions. Equally important, we build the practical system that makes tracking usable in real deployments: a real-time kinematic motion planner that converts intent into short-horizon reference motions, and a universal token space that unifies heterogeneous interfaces (teleoperation, video, text, and music) within one policy.
+Object pickup (carrot) Object pickup (scrub) Open trash can (foot) Soda can to trash can Drill and box relocation Table 1: VLA task success rates using the universal motion token action space. The GR00T N1.5 model is fine-tuned on teleoperated data and evaluated across five whole-body loco-manipulation tasks (object pickup variants share the same policy and are averaged as one task for the 5-task mean). Success is measured as strict binary outcome (no partial credit).
 
 <!-- chunk {"id": "body-0040", "role": "body", "section": "Discussion", "weight": 1.5} -->
 
+We cast motion tracking as a scalable task for learning a single, versatile humanoid controller. By training SONIC on 100 million+ motion frames with up to 128 GPUs, we obtain a single policy that produces natural, robust whole-body behaviors across diverse conditions. Equally important, we build the practical system that makes tracking usable in real deployments: a real-time kinematic motion planner that converts intent into short-horizon reference motions, and a universal token space that unifies heterogeneous interfaces (teleoperation, video, text, and music) within one policy.
+
+<!-- chunk {"id": "body-0041", "role": "body", "section": "Discussion", "weight": 1.5} -->
+
 We observe consistent improvements as data, model capacity, and compute increase, with generalization to unseen motions in simulation and real-world deployments. These findings support motion tracking as a practical route to acquire broad, transferable whole-body priors without per-task reward engineering.
-
-<!-- chunk {"id": "body-0041", "role": "body", "section": "Why does motion tracking scale", "weight": 1.0} -->
-
-We attribute the favorable scaling properties of motion tracking to its dense, per-frame supervisory signal. Each training frame provides an explicit target pose, so the learning signal remains informative as the dataset grows in size and diversity. This stands in contrast to adversarial imitation methods (AMP, ASE ), where a discriminator must distinguish real from generated motions across the full distribution; as diversity increases, the discriminator's task becomes harder and its feedback less informative, leading to mode collapse. It also contrasts with task-specific reward engineering (e.g., locomotion controllers like OpenHomie ), where each behavior requires a tailored objective that does not generalize. Our comparison with OpenHomie demonstrates this concretely: even on velocity tracking, SONIC's universal tracker achieves 98.5% survival versus OpenHomie's 43.0%, showing that data diversity benefits a universal tracker more than specialization benefits a narrow one. Furthermore, OpenHomie's velocity tracking performance plateaus when scaling beyond 8 GPUs (Fig.˜S4), whereas SONIC continues to improve with additional compute.
 
 <!-- chunk {"id": "body-0042", "role": "body", "section": "Why does motion tracking scale", "weight": 1.0} -->
 
-Since the token space represents the full body, VLAs can control the entire kinematic chain, including the feet. Our VLA experiments demonstrate tasks requiring coordinated hand grasping and precise foot placement within a single action sequence.
+We attribute the favorable scaling properties of motion tracking to its dense, per-frame supervisory signal. Each training frame provides an explicit target pose, so the learning signal remains informative as the dataset grows in size and diversity. This stands in contrast to adversarial imitation methods (AMP, ASE ), where a discriminator must distinguish real from generated motions across the full distribution; as diversity increases, the discriminator's task becomes harder and its feedback less informative, leading to mode collapse. It also contrasts with task-specific reward engineering (e.g., locomotion controllers like OpenHomie ), where each behavior requires a tailored objective that does not generalize. Our comparison with OpenHomie demonstrates this concretely: even on velocity tracking, SONIC's universal tracker achieves 98.5% survival versus OpenHomie's 43.0%, showing that data diversity benefits a universal tracker more than specialization benefits a narrow one. Furthermore, OpenHomie's velocity tracking performance plateaus when scaling beyond 8 GPUs (Fig.˜S4), whereas SONIC continues to improve with additional compute.
 
 <!-- chunk {"id": "body-0043", "role": "body", "section": "Why does motion tracking scale", "weight": 1.0} -->
 
-Limitations include the lack of formal treatment of safety and energy efficiency for extended deployments. The tracker is robust to noisy planner output through domain randomization on motion commands during training and the critically damped spring model that filters unrealistic commands at deployment, but under more extreme conditions or very dynamic motions, the tracker may lose balance.
+Since the token space represents the full body, VLAs can control the entire kinematic chain, including the feet. Our VLA experiments demonstrate tasks requiring coordinated hand grasping and precise foot placement within a single action sequence.
 
 <!-- chunk {"id": "body-0044", "role": "body", "section": "Why does motion tracking scale", "weight": 1.0} -->
 
+Limitations include the lack of formal treatment of safety and energy efficiency for extended deployments. The tracker is robust to noisy planner output through domain randomization on motion commands during training and the critically damped spring model that filters unrealistic commands at deployment, but under more extreme conditions or very dynamic motions, the tracker may lose balance.
+
+<!-- chunk {"id": "body-0045", "role": "body", "section": "Why does motion tracking scale", "weight": 1.0} -->
+
 In summary, scaling motion tracking yields reliable, general whole-body control; pairing it with a planner, a universal token space, and an efficient onboard stack makes it usable as a system. We expect SONIC to serve as a practical foundation upon which higher-level perception and reasoning can be built to advance general-purpose humanoid autonomy.
 
-<!-- chunk {"id": "body-0045", "role": "body", "section": "Study Design", "weight": 1.0} -->
+<!-- chunk {"id": "body-0046", "role": "body", "section": "Study Design", "weight": 1.0} -->
 
 We evaluate whether physics-based motion tracking scales favorably with data, model size, and compute for humanoid whole-body control. We train policies in simulation (Isaac Lab ) and test them in both simulation and the real world. We systematically vary data size, model size, and compute (Sec.˜2.1) and evaluate on three held-out test sets with predefined splits (Tab.˜2): two from our dataset (test-content, test-repetition) and one external benchmark (PHUMA). Scaling curves report mean $\pm$`<!-- -->`{=html}1 standard deviation across 6 evaluation checkpoints per configuration. Real-world evaluation covers 123 motion sequences (one trial per sequence). VLA task success rates (Tab.˜1) are measured over 10--20 trials per task. All training runs use the same hyperparameters (Tab.˜S2) and reward function (Tab.˜S3).
 
-<!-- chunk {"id": "body-0046", "role": "body", "section": "Humanoid Motion Dataset", "weight": 1.0} -->
+<!-- chunk {"id": "body-0047", "role": "body", "section": "Humanoid Motion Dataset", "weight": 1.0} -->
 
 Our motion dataset is built from a large-scale motion-capture collection with a balanced mix of male and female performers. The dataset spans a broad spectrum of everyday human behaviors, including locomotion, daily activities, gesturing, and a diverse set of combat motions with varied stylistic expressions. Clip durations range from 1 to 180 seconds. In total, the collection covers thousands of unique motion behaviors, with most actions performed by multiple subjects across multiple takes, providing rich intra- and inter-subject variation, as can be seen in Fig.˜6. The source dataset contains approximately 700 hours of human motion. After retargeting to the Unitree G1 using GMR and PyRoki, we filter out physically implausible motions (e.g., stair climbing, seated activities) that cannot be executed on the target robot, yielding 611 hours of training data (100+ million frames at 50 Hz).
 
-<!-- chunk {"id": "body-0047", "role": "body", "section": "Dataset Diversity and Splits", "weight": 1.0} -->
+<!-- chunk {"id": "body-0048", "role": "body", "section": "Dataset Diversity and Splits", "weight": 1.0} -->
 
 The dataset spans 33 motion categories (Tab.˜2), including basic and advanced locomotion, dance (hip-hop, Latin, vogue, fila), gestures, combat (sword, martial arts, magic), object manipulation (one-handed and two-handed at varying heights and object sizes), tool use (valves, levers, chainsaws, brooms), injured-gait, stylistic variations (drunk, zombie, stealth), role-play, and more. Each motion is captured from multiple subjects and is mirrored, yielding paired left/right variants. We construct explicit train/test splits to enable rigorous evaluation (Tab.˜2). The training set covers 8,447 unique motion sub-categories (611 hours). The test-content split isolates *novel motion content* (sub-categories entirely absent from training), while test-repetition isolates *novel repetitions* of known content (different takes and actor performances).
 
-<!-- chunk {"id": "body-0048", "role": "body", "section": "Public Data Release", "weight": 1.0} -->
+<!-- chunk {"id": "body-0049", "role": "body", "section": "Public Data Release", "weight": 1.0} -->
 
 A substantial portion of our motion-capture dataset has been publicly released as the BONES-SEED dataset, available on Hugging Face. BONES-SEED contains 142,220 annotated motion sequences (288 hours) from 522 actors in SOMA and Unitree G1 formats, with natural language descriptions, temporal segmentation labels, and actor information.
 
-<!-- chunk {"id": "body-0049", "role": "body", "section": "Public Data Release", "weight": 1.0} -->
+<!-- chunk {"id": "body-0050", "role": "body", "section": "Public Data Release", "weight": 1.0} -->
+
+Sub-cat. overlap w/ train Clip overlap w/ train Main categories (33 total) Locomotion (basic + adv.)
+
+<!-- chunk {"id": "body-0051", "role": "body", "section": "Public Data Release", "weight": 1.0} -->
 
 Combat (sword, martial arts, etc.)
 
-<!-- chunk {"id": "body-0050", "role": "body", "section": "Universal Humanoid Motion Tracking", "weight": 1.0} -->
+<!-- chunk {"id": "body-0052", "role": "body", "section": "Public Data Release", "weight": 1.0} -->
+
+Action / Tool use Others (10+ main cat.)
+
+<!-- chunk {"id": "body-0053", "role": "body", "section": "Universal Humanoid Motion Tracking", "weight": 1.0} -->
 
 Fig.˜7 provides an overview of our approach, SONIC, a universal humanoid motion tracking framework that employs a unified control policy to track diverse motion commands from multiple input formats. A key innovation is its ability to seamlessly handle robot motion, human motion, and hybrid motion (combining upper-body keypoints with lower-body robot motions) through a shared latent representation. We use various motion generators (kinematic motion planner, VR motion generator, human motion generator (GEM)) to generate motion commands, which enable diverse applications including interactive gamepad control, VR 3-point teleoperation, whole-body teleoperation, video-based teleoperation, and multi-modal control from text and music.
 
-<!-- chunk {"id": "body-0051", "role": "body", "section": "Motion Tracking Formulation", "weight": 1.0} -->
-
-We formulate humanoid motion tracking as a Markov Decision Process $\mathcal{M} = {\langle{\mathcal{S}},{\mathcal{A}},{\mathcal{T}},\mathcal{R},\gamma\rangle}$, comprising state space, action space, transition function, reward function, and discount factor $\gamma$. We train the policy using proximal policy optimization (PPO) to maximize the expected cumulative discounted return ${\mathbb{E}}\left\lbrack {\sum_{t = 1}^{T}{\gamma^{t - 1}r_{t}}} \right\rbrack$. Our environment design follows the general motion tracking formulation, and we adapt the well-tuned environmental settings from as the basis for scaling up humanoid motion tracking.
-
-<!-- chunk {"id": "body-0052", "role": "body", "section": "Motion Tracking Formulation", "weight": 1.0} -->
-
-The motion command ${\mathbf{s}}_{t}^{\text{g}}$ has three types: robot motion ${\mathbf{g}}_{r}$, human motion ${\mathbf{g}}_{h}$, or hybrid motion ${\mathbf{g}}_{m}$ (combining upper-body keypoints with lower-body robot motions), where we drop the subscript $t$ for brevity. All state quantities are expressed in the robot's local frame to ensure rotation invariance. We use the 6D rotation representation throughout.
-
-<!-- chunk {"id": "body-0053", "role": "body", "section": "Motion Tracking Formulation", "weight": 1.0} -->
-
-Actions. The policy $\pi$ outputs target joint positions ${\mathbf{a}}_{t}$ as actions, which are tracked by proportional-derivative (PD) controllers at each joint. For PD gain settings, we follow prior art Raibert and Farshidian; Liao et al. that has proven effective in training high-quality tracking policies.
-
 <!-- chunk {"id": "body-0054", "role": "body", "section": "Motion Tracking Formulation", "weight": 1.0} -->
 
-Rewards. We define the reward as $r_{t} = {{\mathcal{R}{({\mathbf{s}}_{t}^{\text{p}},{\mathbf{s}}_{t}^{\text{g}})}} + {\mathcal{P}{({\mathbf{s}}_{t}^{\text{p}},{\mathbf{a}}_{t})}}}$, combining tracking reward and penalty terms. The tracking term $\mathcal{R}$ minimizes errors in root position, root orientation, body link positions (relative to the root), body link orientations (relative to the root), body link linear velocities, and body link angular velocities between the robot state ${\mathbf{s}}_{t}^{\text{p}}$ and the target ${\mathbf{s}}_{t}^{\text{g}}$.
+We formulate humanoid motion tracking as a Markov Decision Process ${\mathcal{M}}=\langle\mathcal{\bm{S}},\mathcal{\bm{A}},\mathcal{\bm{T}},\mathcal{R},\gamma\rangle$, comprising state space, action space, transition function, reward function, and discount factor $\gamma$. We train the policy using proximal policy optimization (PPO) to maximize the expected cumulative discounted return $\mathbb{E}\left[\sum_{t=1}^{T}\gamma^{t-1}r_{t}\right]$. Our environment design follows the general motion tracking formulation, and we adapt the well-tuned environmental settings from as the basis for scaling up humanoid motion tracking.
 
 <!-- chunk {"id": "body-0055", "role": "body", "section": "Motion Tracking Formulation", "weight": 1.0} -->
 
-We additionally include an end-effector position reward that directly optimizes end-effector position errors on key body points (head, both wrists, both ankles). We also include anti-shake (angular velocity on the head and wrists) and foot acceleration penalties to encourage smooth foot contacts. Detailed reward design is presented in Table S3.
+Actions. The policy $\pi$ outputs target joint positions ${\bm{a}_{t}}$ as actions, which are tracked by proportional-derivative (PD) controllers at each joint. For PD gain settings, we follow prior art Raibert and Farshidian; Liao et al. that has proven effective in training high-quality tracking policies.
 
 <!-- chunk {"id": "body-0056", "role": "body", "section": "Motion Tracking Formulation", "weight": 1.0} -->
 
-Domain Randomization. To enhance robustness and generalization across diverse scenarios, we apply systematic domain randomization during training. We randomize physical parameters, which include friction coefficients ($\mu_{s}$, $\mu_{d}$), the restitution coefficient ($e$), first-frame joint positions (${\mathbf{q}}_{0}$), and the base center-of-mass position. We also periodically apply random perturbations to the robot's root linear and angular velocities to simulate external pushes. Additionally, we apply motion perturbation to the target motion commands ${\mathbf{s}}_{t}^{\text{g}}$ during training to improve robustness. All domain randomization parameters are detailed in Table S4.
+Rewards. We define the reward as $r_{t}=\mathcal{R}({\bm{s}^{\text{p}}_{t}},{\bm{s}^{\text{g}}_{t}})+\mathcal{P}({\bm{s}^{\text{p}}_{t}},\bm{a}_{t})$, combining tracking reward and penalty terms. The tracking term $\mathcal{R}$ minimizes errors in root position, root orientation, body link positions (relative to the root), body link orientations (relative to the root), body link linear velocities, and body link angular velocities between the robot state ${\bm{s}^{\text{p}}_{t}}$ and the target ${\bm{s}^{\text{g}}_{t}}$.
 
-<!-- chunk {"id": "body-0057", "role": "body", "section": "Universal Control Policy", "weight": 1.0} -->
+<!-- chunk {"id": "body-0057", "role": "body", "section": "Motion Tracking Formulation", "weight": 1.0} -->
 
-A distinguishing characteristic of our tracking framework is its ability to accommodate multiple motion command types from different embodiments through a unified encoder-decoder architecture. We accomplish this via specialized encoders that process heterogeneous inputs from both human and robot motion formats into a shared latent representation. This representation undergoes quantization to yield a universal token, which subsequently drives a common robot control decoder to generate motor commands. This design enables the policy to leverage motion data from diverse sources---both robot demonstrations and human motion---allowing the robot to imitate human movements despite morphological differences. An auxiliary robot motion decoder is also used to facilitate feature learning and serve as an implicit retargeting module from human to robot embodiment.
+We additionally include an end-effector position reward that directly optimizes end-effector position errors on key body points (head, both wrists, both ankles). We also include anti-shake (angular velocity on the head and wrists) and foot acceleration penalties to encourage smooth foot contacts. Detailed reward design is presented in Table S3.
 
-<!-- chunk {"id": "body-0058", "role": "body", "section": "Universal Control Policy", "weight": 1.0} -->
+<!-- chunk {"id": "body-0058", "role": "body", "section": "Motion Tracking Formulation", "weight": 1.0} -->
 
-Encoders. Three specialized encoders process distinct motion command types: robot motion encoder ${\mathcal{E}}_{r}$ encodes robot joint positions and velocities over $F_{r}$ future frames with a frame interval $\Deltat_{r}$, human motion encoder ${\mathcal{E}}_{h}$ encodes 3D human joint positions over $F_{h}$ future frames with a frame interval $\Deltat_{h}$, and hybrid motion encoder ${\mathcal{E}}_{m}$ encodes sparse upper-body keypoints (head and hands) of the current frame (for real-time upper-body tracking), combined with lower-body robot motion over $F_{m}$ future frames with a frame interval $\Deltat_{m}$. Multi-frame inputs enable anticipatory behavior and improve the robustness of the policy.
+Domain Randomization. To enhance robustness and generalization across diverse scenarios, we apply systematic domain randomization during training. We randomize physical parameters, which include friction coefficients ($\mu_{s}$, $\mu_{d}$), the restitution coefficient ($e$), first-frame joint positions ($\bm{q}_{0}$), and the base center-of-mass position. We also periodically apply random perturbations to the robot's root linear and angular velocities to simulate external pushes. Additionally, we apply motion perturbation to the target motion commands ${\bm{s}^{\text{g}}_{t}}$ during training to improve robustness. All domain randomization parameters are detailed in Table S4.
 
 <!-- chunk {"id": "body-0059", "role": "body", "section": "Universal Control Policy", "weight": 1.0} -->
 
-All encoders are implemented as multi-layer perceptrons (MLPs; architecture details in Table S1) that map commands ${\mathbf{g}}_{r},{\mathbf{g}}_{h},{\mathbf{g}}_{m}$ into a shared latent space, enabling aligned representations across input modalities.
+A distinguishing characteristic of our tracking framework is its ability to accommodate multiple motion command types from different embodiments through a unified encoder-decoder architecture. We accomplish this via specialized encoders that process heterogeneous inputs from both human and robot motion formats into a shared latent representation. This representation undergoes quantization to yield a universal token, which subsequently drives a common robot control decoder to generate motor commands. This design enables the policy to leverage motion data from diverse sources---both robot demonstrations and human motion---allowing the robot to imitate human movements despite morphological differences. An auxiliary robot motion decoder is also used to facilitate feature learning and serve as an implicit retargeting module from human to robot embodiment.
 
 <!-- chunk {"id": "body-0060", "role": "body", "section": "Universal Control Policy", "weight": 1.0} -->
 
-Quantizer. The encoded latent representation is quantized into a universal token $\mathbf{z}$ using a vector quantizer. Specifically, we use Finite Scalar Quantization (FSQ) as our vector quantizer. We use two tokens, each a $D_{z}$-dimensional vector with $L_{z}$ quantization levels per dimension. We choose FSQ over VQ-VAE because FSQ avoids codebook collapse (a failure mode where large portions of the codebook go unused), requires no auxiliary commitment loss or codebook EMA updates, and provides clean straight-through gradient estimation that is compatible with joint PPO optimization. We validate these design choices in Sec.˜3.6, including FSQ vs. VQ-VAE, quantizer configuration (levels and dimensions), and multi-encoder alignment.
+Encoders. Three specialized encoders process distinct motion command types: robot motion encoder $\bm{\mathcal{E}}_{r}$ encodes robot joint positions and velocities over $F_{r}$ future frames with a frame interval $\Delta t_{r}$, human motion encoder $\bm{\mathcal{E}}_{h}$ encodes 3D human joint positions over $F_{h}$ future frames with a frame interval $\Delta t_{h}$, and hybrid motion encoder $\bm{\mathcal{E}}_{m}$ encodes sparse upper-body keypoints (head and hands) of the current frame (for real-time upper-body tracking), combined with lower-body robot motion over $F_{m}$ future frames with a frame interval $\Delta t_{m}$. Multi-frame inputs enable anticipatory behavior and improve the robustness of the policy.
 
 <!-- chunk {"id": "body-0061", "role": "body", "section": "Universal Control Policy", "weight": 1.0} -->
 
-Decoders. The universal token $\mathbf{z}$ is decoded through two separate decoders. First, a robot control decoder ${\mathcal{D}}_{c}$ transforms the universal token into motor commands that control the robot's joints. ${\mathcal{D}}_{c}$ takes as input the concatenation of the universal token $\mathbf{z}$ and the proprioceptive state ${\mathbf{s}}_{t}^{\text{p}}$, i.e., ${\mathbf{a}}_{t} = {{\mathcal{D}}_{c}{({\mathbf{z}},{\mathbf{s}}_{t}^{\text{p}})}}$, where all quantities are expressed in the local frame as defined above. The same input representation is used identically during training in simulation and real-world deployment.
+All encoders are implemented as multi-layer perceptrons (MLPs; architecture details in Table S1) that map commands $\bm{g}_{r},\bm{g}_{h},\bm{g}_{m}$ into a shared latent space, enabling aligned representations across input modalities.
 
 <!-- chunk {"id": "body-0062", "role": "body", "section": "Universal Control Policy", "weight": 1.0} -->
 
-Second, a robot motion decoder ${\mathcal{D}}_{r}$ reconstructs the robot motion command, providing auxiliary supervision to improve the latent space and enhance feature learning. ${\mathcal{D}}_{r}$ takes only the universal token as input, i.e., ${\hat{\mathbf{g}}}_{r} = {{\mathcal{D}}_{r}{({\mathbf{z}})}}$. Both decoders are implemented as MLPs (Table S1).
+Quantizer. The encoded latent representation is quantized into a universal token $\bm{z}$ using a vector quantizer. Specifically, we use Finite Scalar Quantization (FSQ) as our vector quantizer. We use two tokens, each a $D_{z}$-dimensional vector with $L_{z}$ quantization levels per dimension. We choose FSQ over VQ-VAE because FSQ avoids codebook collapse (a failure mode where large portions of the codebook go unused), requires no auxiliary commitment loss or codebook EMA updates, and provides clean straight-through gradient estimation that is compatible with joint PPO optimization. We validate these design choices in Sec.˜3.6, including FSQ vs. VQ-VAE, quantizer configuration (levels and dimensions), and multi-encoder alignment.
 
-<!-- chunk {"id": "body-0063", "role": "body", "section": "Training", "weight": 1.0} -->
+<!-- chunk {"id": "body-0063", "role": "body", "section": "Universal Control Policy", "weight": 1.0} -->
 
-We prepare synchronized motion data across all three command types. Each command type ${\mathbf{g}}_{r},{\mathbf{g}}_{h},{\mathbf{g}}_{m}$ is encoded via its respective encoder and quantized to produce universal tokens ${\mathbf{z}}_{r},{\mathbf{z}}_{h},{\mathbf{z}}_{m}$. For each token, the control decoder ${\mathcal{D}}_{c}$ generates motor commands, while the motion decoder ${\mathcal{D}}_{r}$ reconstructs the robot motion command.
+Decoders. The universal token $\bm{z}$ is decoded through two separate decoders. First, a robot control decoder $\bm{\mathcal{D}}_{c}$ transforms the universal token into motor commands that control the robot's joints. $\bm{\mathcal{D}}_{c}$ takes as input the concatenation of the universal token $\bm{z}$ and the proprioceptive state ${\bm{s}^{\text{p}}_{t}}$, i.e., $\bm{a}_{t}=\bm{\mathcal{D}}_{c}(\bm{z},{\bm{s}^{\text{p}}_{t}})$, where all quantities are expressed in the local frame as defined above. The same input representation is used identically during training in simulation and real-world deployment.
 
-<!-- chunk {"id": "body-0064", "role": "body", "section": "Training", "weight": 1.0} -->
+<!-- chunk {"id": "body-0064", "role": "body", "section": "Universal Control Policy", "weight": 1.0} -->
 
-where $\mathcal{L}_{\text{ppo}}$ denotes the standard PPO loss. $\mathcal{L}_{\text{recon}}$ represents the reconstruction loss for the robot motion command across different input modalities. Notably, when the input command is human motion ${\mathbf{g}}_{h}$, the encoder-decoder acts as a retargeting pipeline from human to robot motion, and $\mathcal{L}_{\text{recon}}$ serves as a retargeting loss that enables learning from human motion data. $\mathcal{L}_{\text{token}}$ enforces pairwise alignment between all three encoder outputs, ensuring that the same motion produces similar tokens for robot motion, human SMPL poses, or hybrid teleop commands when the source motion is the same.
+Second, a robot motion decoder $\bm{\mathcal{D}}_{r}$ reconstructs the robot motion command, providing auxiliary supervision to improve the latent space and enhance feature learning. $\bm{\mathcal{D}}_{r}$ takes only the universal token as input, i.e., $\hat{\bm{g}}_{r}=\bm{\mathcal{D}}_{r}(\bm{z})$. Both decoders are implemented as MLPs (Table S1).
 
 <!-- chunk {"id": "body-0065", "role": "body", "section": "Training", "weight": 1.0} -->
 
-$\mathcal{L}_{\text{cycle}}$ is a cycle consistency loss between the original robot token ${\mathbf{z}}_{r}$ and the token produced by re-encoding the reconstructed robot motion from the human token, i.e., ${\mathcal{E}}_{r}{({{\mathcal{D}}_{r}{({\mathbf{z}}_{h})}})}$. This loss further reinforces latent space coherence, ensuring that the translation from human to robot motion and back preserves the essential motion characteristics.
+We prepare synchronized motion data across all three command types. Each command type $\bm{g}_{r},\bm{g}_{h},\bm{g}_{m}$ is encoded via its respective encoder and quantized to produce universal tokens $\bm{z}_{r},\bm{z}_{h},\bm{z}_{m}$. For each token, the control decoder $\bm{\mathcal{D}}_{c}$ generates motor commands, while the motion decoder $\bm{\mathcal{D}}_{r}$ reconstructs the robot motion command. The total loss comprises: where $\mathcal{L}_{\text{ppo}}$ denotes the standard PPO loss. $\mathcal{L}_{\text{recon}}$ represents the reconstruction loss for the robot motion command across different input modalities.
 
 <!-- chunk {"id": "body-0066", "role": "body", "section": "Training", "weight": 1.0} -->
 
-All four losses are optimized jointly in a single end-to-end training loop. We use asymmetric actor-critic training: the critic observes privileged simulation state (base linear velocity, full body link positions and orientations, and noise-free observations) during training, while the actor operates solely on deployment-available observations (noisy proprioceptive sensing and motion commands). The PPO loss updates the encoders, quantizer, and control decoder ${\mathcal{D}}_{c}$ (as well as the critic network); the reconstruction, token alignment, and cycle consistency losses update the encoders, quantizer, and motion decoder ${\mathcal{D}}_{r}$. Gradients propagate through the FSQ quantizer via straight-through estimation, allowing PPO to shape the encoder representations. In practice, the auxiliary losses regularize the latent space by enforcing multi-encoder alignment and reconstruction fidelity, which stabilizes PPO optimization rather than destabilizing it. We did not observe training instabilities from the coupling of quantization with RL in any of our experiments across model scales.
+Notably, when the input command is human motion $\bm{g}_{h}$, the encoder-decoder acts as a retargeting pipeline from human to robot motion, and $\mathcal{L}_{\text{recon}}$ serves as a retargeting loss that enables learning from human motion data. $\mathcal{L}_{\text{token}}$ enforces pairwise alignment between all three encoder outputs, ensuring that the same motion produces similar tokens for robot motion, human SMPL poses, or hybrid teleop commands when the source motion is the same. $\mathcal{L}_{\text{cycle}}$ is a cycle consistency loss between the original robot token $\bm{z}_{r}$ and the token produced by re-encoding the reconstructed robot motion from the human token, i.e., $\bm{\mathcal{E}}_{r}(\bm{\mathcal{D}}_{r}(\bm{z}_{h}))$.
 
 <!-- chunk {"id": "body-0067", "role": "body", "section": "Training", "weight": 1.0} -->
 
+This loss further reinforces latent space coherence, ensuring that the translation from human to robot motion and back preserves the essential motion characteristics.
+
+<!-- chunk {"id": "body-0068", "role": "body", "section": "Training", "weight": 1.0} -->
+
+All four losses are optimized jointly in a single end-to-end training loop. We use asymmetric actor-critic training: the critic observes privileged simulation state (base linear velocity, full body link positions and orientations, and noise-free observations) during training, while the actor operates solely on deployment-available observations (noisy proprioceptive sensing and motion commands). The PPO loss updates the encoders, quantizer, and control decoder $\bm{\mathcal{D}}_{c}$ (as well as the critic network); the reconstruction, token alignment, and cycle consistency losses update the encoders, quantizer, and motion decoder $\bm{\mathcal{D}}_{r}$. Gradients propagate through the FSQ quantizer via straight-through estimation, allowing PPO to shape the encoder representations. In practice, the auxiliary losses regularize the latent space by enforcing multi-encoder alignment and reconstruction fidelity, which stabilizes PPO optimization rather than destabilizing it.
+
+<!-- chunk {"id": "body-0069", "role": "body", "section": "Training", "weight": 1.0} -->
+
+We did not observe training instabilities from the coupling of quantization with RL in any of our experiments across model scales.
+
+<!-- chunk {"id": "body-0070", "role": "body", "section": "Training", "weight": 1.0} -->
+
 We employ bin-based adaptive motion sampling that partitions the dataset into fixed-duration bins and weights sampling by capped failure rates, balancing targeted practice on challenging motions with uniform coverage. We train using distributed training powered by Gugger et al. and von Werra et al. across multiple compute nodes in Isaac Lab. Training hyperparameters are provided in Table S2.
 
-<!-- chunk {"id": "body-0068", "role": "body", "section": "Tasks and Applications", "weight": 1.0} -->
+<!-- chunk {"id": "body-0071", "role": "body", "section": "Tasks and Applications", "weight": 1.0} -->
 
-The multi-encoder design enables diverse applications through the same policy: interactive gamepad control via the kinematic planner and ${\mathcal{E}}_{r}$; VR whole-body and 3-point teleoperation via ${\mathcal{E}}_{h}$ and ${\mathcal{E}}_{m}$ respectively; VLA-driven autonomous control by predicting universal tokens (Sec.˜2.5); and multi-modal control (video, text, music) via GEM and ${\mathcal{E}}_{h}$ (Sec.˜3.4).
+The multi-encoder design enables diverse applications through the same policy: interactive gamepad control via the kinematic planner and $\bm{\mathcal{E}}_{r}$; VR whole-body and 3-point teleoperation via $\bm{\mathcal{E}}_{h}$ and $\bm{\mathcal{E}}_{m}$ respectively; VLA-driven autonomous control by predicting universal tokens (Sec.˜2.5); and multi-modal control (video, text, music) via GEM and $\bm{\mathcal{E}}_{h}$ (Sec.˜3.4).
 
-<!-- chunk {"id": "body-0069", "role": "body", "section": "Generative Kinematic Motion Planner", "weight": 1.0} -->
+<!-- chunk {"id": "body-0072", "role": "body", "section": "Generative Kinematic Motion Planner", "weight": 1.0} -->
 
 Our generative kinematic motion planner is a large-scale latent generative model, trained on the same natural whole-body motion data as the motion tracking policy. At a high level, the planning process is formulated as an autoregressive motion in-betweening generation task. The context keyframes capture historical robot states, such as joint positions and root positions, while target keyframes are either navigation guidance keyframes generated from user commands such as velocity, direction, and style, or skill-specific targets for actions such as squatting, crawling, boxing, etc.
 
-<!-- chunk {"id": "body-0070", "role": "body", "section": "Motion Representation", "weight": 1.0} -->
+<!-- chunk {"id": "body-0073", "role": "body", "section": "Motion Representation", "weight": 1.0} -->
 
 During training, we sample motion segments of length between 0.8s and 2.4s, extracting the keyframes at both endpoints to serve as the context and target keyframes. Our motion representation is mathematically equivalent to the humanoid pose configuration $q_{t}$ as introduced in Sec.˜3.2. Specifically, we represent kinematic motion using the pelvis-relative joint positions and global joint rotations. During training, we randomly rotate the training samples to enable planning in all initial orientations. Incorporating global rotation instead of local, canonicalized rotation is essential for generating motions such as squatting and crawling, where the notion of heading is ill-defined and affects the quality of motion planning. We refer readers to Meng et al. and Meng et al. for similar insights and additional discussion.
 
-<!-- chunk {"id": "body-0071", "role": "body", "section": "Generative Neural Backbone in Latent Space", "weight": 1.0} -->
-
-where $p_{t}$ and $r_{t}$ denote the pose configuration and root position at frame $t$, respectively. In practice, the encoder operates with a downsampling rate of 4. The latent token sequence is encoded by models such as Transformers or Conv1D networks to capture temporal consistency.
-
-<!-- chunk {"id": "body-0072", "role": "body", "section": "Generative Neural Backbone in Latent Space", "weight": 1.0} -->
-
-The inbetweening process in the token space is guided by two constraints: the starting and target keyframes, denoted as $\left\{ p_{t},r_{t} \right\}_{t = 1}^{4}$ and $\left\{ p_{t},r_{t} \right\}_{t = {T - 4}}^{T}$ respectively. Rather than training the network to predict the entire sequence of tokens from these sparse constraints in a single pass, we adopt a masked token prediction approach.
-
-<!-- chunk {"id": "body-0073", "role": "body", "section": "Generative Neural Backbone in Latent Space", "weight": 1.0} -->
-
-This process is iterative, in which $\mathcal{F}{( \cdot )}$ denotes the neural backbone, and $h$ represents the logits for each token position. Token probabilities are computed by applying a softmax function $\sigma{( \cdot )}$ to the logits. At the first iteration, all latent tokens are unknown, and we initialize the latent embedding with a learnable mask embedding, $z_{\text{masked}}$. During training, the proportion of masked tokens is uniformly sampled from the range $\lbrack{100\%},{0\%}\rbrack$. During inference, a cosine schedule determines the proportion of tokens to finalize at each iteration, specifically $1.0 - {\cos\left( {\frac{\pi}{2} \cdot \frac{L}{L_{\max}}} \right)}$, where $L$ is the current iteration and $L_{\max}$ is the maximum number of iterations.
-
 <!-- chunk {"id": "body-0074", "role": "body", "section": "Generative Neural Backbone in Latent Space", "weight": 1.0} -->
 
-After finalization of all tokens, the predicted tokens are used to reconstruct the kinematic motions and generate the robot control signals.
+Planning is conducted in the latent space, where continuous motions are first encoded as a sequence of latent tokens as follows: where $p_{t}$ and $r_{t}$ denote the pose configuration and root position at frame $t$, respectively. In practice, the encoder operates with a downsampling rate of 4. The latent token sequence is encoded by models such as Transformers or Conv1D networks to capture temporal consistency.
 
-<!-- chunk {"id": "body-0075", "role": "body", "section": "Root trajectory spring model", "weight": 1.0} -->
+<!-- chunk {"id": "body-0075", "role": "body", "section": "Generative Neural Backbone in Latent Space", "weight": 1.0} -->
 
-where $x_{T}$ denotes the target value, $x_{0}$ the initial value, $v_{0}$ the initial velocity, and $c$ the damping coefficient. We apply this critically damped spring model to three quantities: 1) the pelvis position along the x-axis, 2) the pelvis position along the y-axis, and 3) the projected heading angle of the pelvis. Damping coefficients of $5{\ln{}}$ and $20{\ln{}}$ are used for position and heading respectively. The target values may be obtained directly from the controllers. Alternatively, if the controller only specifies a desired velocity, we can compute the expected target positions after 1.0s using the desired velocity. The target keyframes are then placed at the position and heading with $x{(1.0)}$, as computed by the spring model in Eq.˜8. In practice, we find that our generative kinematic motion planner is robust to the choice of damping coefficients.
+The inbetweening process in the token space is guided by two constraints: the starting and target keyframes, denoted as $\left\{p_{t},r_{t}\right\}_{t=1}^{4}$ and $\left\{p_{t},r_{t}\right\}_{t=T-4}^{T}$ respectively. Rather than training the network to predict the entire sequence of tokens from these sparse constraints in a single pass, we adopt a masked token prediction approach. In this framework, the neural backbone iteratively predicts and finalizes the subset of tokens for which it has the highest confidence, progressively refining the prediction: This process is iterative, in which $\mathcal{F}(\cdot)$ denotes the neural backbone, and $h$ represents the logits for each token position. Token probabilities are computed by applying a softmax function $\sigma(\cdot)$ to the logits.
 
-<!-- chunk {"id": "body-0076", "role": "body", "section": "Root trajectory spring model", "weight": 1.0} -->
+<!-- chunk {"id": "body-0076", "role": "body", "section": "Generative Neural Backbone in Latent Space", "weight": 1.0} -->
+
+At the first iteration, all latent tokens are unknown, and we initialize the latent embedding with a learnable mask embedding, $z_{\text{masked}}$. During training, the proportion of masked tokens is uniformly sampled from the range $[100\%,0\%]$. During inference, a cosine schedule determines the proportion of tokens to finalize at each iteration, specifically $1.0-\cos\left(\frac{\pi}{2}\cdot\frac{L}{L_{\max}}\right)$, where $L$ is the current iteration and $L_{\max}$ is the maximum number of iterations. After finalization of all tokens, the predicted tokens are used to reconstruct the kinematic motions and generate the robot control signals.
+
+<!-- chunk {"id": "body-0077", "role": "body", "section": "Root trajectory spring model", "weight": 1.0} -->
+
+We propose to use an intuitive critically damped spring model to generate the root position and heading of the keyframes from user commands as follows: where $x_{T}$ denotes the target value, $x_{0}$ the initial value, $v_{0}$ the initial velocity, and $c$ the damping coefficient. We apply this critically damped spring model to three quantities: 1) the pelvis position along the x-axis, 2) the pelvis position along the y-axis, and 3) the projected heading angle of the pelvis. Damping coefficients of $5\ln$ and $20\ln$ are used for position and heading respectively. The target values may be obtained directly from the controllers. Alternatively, if the controller only specifies a desired velocity, we can compute the expected target positions after 1.0s using the desired velocity. The target keyframes are then placed at the position and heading with $x(1.0)$, as computed by the spring model in Eq.˜8. In practice, we find that our generative kinematic motion planner is robust to the choice of damping coefficients.
+
+<!-- chunk {"id": "body-0078", "role": "body", "section": "Root trajectory spring model", "weight": 1.0} -->
 
 In fact, the spring model could often be omitted entirely, as the planner's ability to generate motions of variable length (ranging from 0.8s to 2.4s) and its strong inbetweening capability make it adaptable to a wide range of root trajectory commands. Nevertheless, incorporating the spring model improves behavioral predictability and helps safeguard against unrealistic commands, such as abruptly reversing direction from 6.0 m/s to $-$`<!-- -->`{=html}6.0 m/s.
 
-<!-- chunk {"id": "body-0077", "role": "body", "section": "Keyframe Module and Application Integration", "weight": 1.0} -->
+<!-- chunk {"id": "body-0079", "role": "body", "section": "Keyframe Module and Application Integration", "weight": 1.0} -->
 
 Traditional motion planning methods often rely on complex target keyframe generation, such as detailed footstep planning. In contrast, our system provides keyframes in a more intuitive manner, requiring limited manual effort for keyframe specification.
 
-<!-- chunk {"id": "body-0078", "role": "body", "section": "Keyframe Module and Application Integration", "weight": 1.0} -->
+<!-- chunk {"id": "body-0080", "role": "body", "section": "Keyframe Module and Application Integration", "weight": 1.0} -->
 
 For navigation control, target keyframes are generated by placing a randomly selected segment from the navigation clips of the desired style at the target root trajectory. Despite this simplicity, our model consistently produces natural and smooth motions that align well with the specified style. We attribute this to the model's flexible, variable-length motion generation and its robust inbetweening capabilities. Additionally, the autoregressive replanning ensures that the generated motion is continually refreshed before reaching the end of any given clip, thus minimizing dependence on the specific spatial details of the chosen target keyframes. This approach generalizes to other motion styles such as walking, running, and crawling.
 
-<!-- chunk {"id": "body-0079", "role": "body", "section": "Keyframe Module and Application Integration", "weight": 1.0} -->
+<!-- chunk {"id": "body-0081", "role": "body", "section": "Keyframe Module and Application Integration", "weight": 1.0} -->
 
 For entertainment tasks such as boxing, target keyframes are determined by selecting the most expressive segment (e.g., the frames with maximal arm extension for a punch) from motion clips that match the desired style. We also support motion layering, where the upper body is specified and the lower body is generated accordingly by the planner, enabling predefined behaviors.
 
-<!-- chunk {"id": "body-0080", "role": "body", "section": "Keyframe Module and Application Integration", "weight": 1.0} -->
+<!-- chunk {"id": "body-0082", "role": "body", "section": "Keyframe Module and Application Integration", "weight": 1.0} -->
 
 For interactive modes needed in manipulation tasks, such as squatting or kneeling, keyframes are retrieved online from the motion clip library according to the desired height. Unlike traditional approaches that require an extensive motion library, our system needs only a single clip to generate the full distribution of transitional motions for a given skill.
 
-<!-- chunk {"id": "body-0081", "role": "body", "section": "Multi-modal Motion Generation", "weight": 1.0} -->
+<!-- chunk {"id": "body-0083", "role": "body", "section": "Multi-modal Motion Generation", "weight": 1.0} -->
 
-For multi-modal control (video, text, music), we adopt GEM, a unified generalist model that handles both motion estimation and generation by treating estimation as constrained generation. GEM accepts mixed, time-varying conditions (text, audio, video) and produces human motion sequences via a diffusion-based prior. We integrate GEM with our system using sliding windows with overlap and inpainting-based transitions for low-latency generation. The generated human motions are fed into SONIC via the human motion encoder ${\mathcal{E}}_{h}$.
+For multi-modal control (video, text, music), we adopt GEM, a unified generalist model that handles both motion estimation and generation by treating estimation as constrained generation. GEM accepts mixed, time-varying conditions (text, audio, video) and produces human motion sequences via a diffusion-based prior. We integrate GEM with our system using sliding windows with overlap and inpainting-based transitions for low-latency generation. The generated human motions are fed into SONIC via the human motion encoder $\bm{\mathcal{E}}_{h}$.
 
-<!-- chunk {"id": "body-0082", "role": "body", "section": "Deployment", "weight": 1.0} -->
+<!-- chunk {"id": "body-0084", "role": "body", "section": "Deployment", "weight": 1.0} -->
 
-Experiments are conducted on a Unitree G1 platform (29 actuated joints). All inference runs *onboard* a Jetson Orin GPU using TensorRT with CUDA Graph acceleration, yielding 1--2 ms per policy forward pass and $\sim$`<!-- -->`{=html}12 ms for motion generation. The system uses a multi-rate architecture with four concurrent loops: policy inference at 50 Hz, command streaming at 500 Hz, operator input at 100 Hz, and kinematic planning at 10 Hz. The encoder-decoder design allows seamless switching between input interfaces (keyboard, gamepad, VR, network streams) by changing the active encoder, with no retraining required. All real-world experiments deploy the largest model (42M parameters). Full deployment details, including the multi-rate architecture, observation gathering pipeline, safety mechanisms, and usage modes, are provided in the Supplementary Materials (Sec.˜S7, Fig.˜S5). Code is available at
+Experiments are conducted on a Unitree G1 platform (29 actuated joints). All inference runs *onboard* a Jetson Orin GPU using TensorRT with CUDA Graph acceleration, yielding 1--2 ms per policy forward pass and ${\sim}$`<!-- -->`{=html}12 ms for motion generation. The system uses a multi-rate architecture with four concurrent loops: policy inference at 50 Hz, command streaming at 500 Hz, operator input at 100 Hz, and kinematic planning at 10 Hz. The encoder-decoder design allows seamless switching between input interfaces (keyboard, gamepad, VR, network streams) by changing the active encoder, with no retraining required. All real-world experiments deploy the largest model (42M parameters). Full deployment details, including the multi-rate architecture, observation gathering pipeline, safety mechanisms, and usage modes, are provided in the Supplementary Materials (Sec.˜S7, Fig.˜S5). Code is available at
 
-<!-- chunk {"id": "body-0083", "role": "body", "section": "Validation of Key Design Choices", "weight": 1.0} -->
+<!-- chunk {"id": "body-0085", "role": "body", "section": "Validation of Key Design Choices", "weight": 1.0} -->
 
 In this section, we validate key design choices through ablations on the test-content (out-of-distribution) and test-repetition splits (Tab.˜4), a VLA action space comparison (Tab.˜3), latent space alignment analysis (Fig.˜8), and kinematic planner validation.
 
-<!-- chunk {"id": "body-0084", "role": "body", "section": "FSQ Tokens vs. Explicit Poses for VLA", "weight": 1.0} -->
+<!-- chunk {"id": "body-0086", "role": "body", "section": "Validation of Key Design Choices", "weight": 1.0} -->
+
+Open trash can (foot) Soda can to trash can Table 3: VLA action space ablation: task completion success rate using universal motion tokens vs. explicit SMPL poses. The FSQ token interface provides a compact, structured action space that is substantially easier for the VLA to learn. The gap widens on more complex tasks—on soda-can-to-trash-can (a long-horizon multi-step task), the SMPL action space achieves 0% while FSQ tokens achieve 60%.
+
+<!-- chunk {"id": "body-0087", "role": "body", "section": "FSQ Tokens vs. Explicit Poses for VLA", "weight": 1.0} -->
 
 A key motivation for quantization is downstream VLA learning. We compare two action spaces (Tab.˜3): the VLA predicts FSQ tokens (78-dim: 64-dim token + 14-dim hands), decoded by the universal control policy, vs. the VLA directly predicts SMPL whole-body poses and hand joints (81-dim total). FSQ tokens outperform SMPL by +42 percentage points on average (68% vs. 27%), with the gap widening on complex tasks (60% vs. 0% on soda-can-to-trash-can). We attribute this to the compactness of the quantized latent space: FSQ tokens provide a low-dimensional, discrete action space that is easier for the VLA to learn from teleoperated demonstrations, whereas the high-dimensional continuous SMPL pose space amplifies small prediction errors into large tracking failures.
 
-<!-- chunk {"id": "body-0085", "role": "body", "section": "Quantizer Design and Configuration", "weight": 1.0} -->
+<!-- chunk {"id": "body-0088", "role": "body", "section": "Quantizer Design and Configuration", "weight": 1.0} -->
 
 We choose Finite Scalar Quantization (FSQ) over VQ-VAE because FSQ avoids codebook collapse, a failure mode where large portions of a learned codebook are unused. Under our diverse motion distribution (33 categories, 8,447 sub-categories), this is a significant concern. For a fair comparison, we use a multi-head VQ-VAE with comparable capacity (4 heads, codebook size 512, 2 tokens). As shown in Tab.˜4(a), FSQ outperforms VQ-VAE by 8.7 mm MPJPE-L on test-content. We also study the effect of quantizer capacity (Tab.˜4(b)) by varying per-token levels and dimensions (all configurations use two tokens). Due to compute constraints, this sweep is run on 32 GPUs rather than 128. For example, FSQ-16-16 denotes 16 quantization levels and 16 dimensions per token. Increasing capacity consistently improves performance, with token dimension having a larger effect than quantization levels, suggesting that representational capacity matters more than quantization granularity for diverse motion tracking.
 
-<!-- chunk {"id": "body-0086", "role": "body", "section": "Quantizer Design and Configuration", "weight": 1.0} -->
+<!-- chunk {"id": "body-0089", "role": "body", "section": "Quantizer Design and Configuration", "weight": 1.0} -->
 
 We use FSQ-32-32 as our default configuration throughout the paper.
 
-<!-- chunk {"id": "body-0087", "role": "body", "section": "Quantizer Design and Configuration", "weight": 1.0} -->
+<!-- chunk {"id": "body-0090", "role": "body", "section": "Quantizer Design and Configuration", "weight": 1.0} -->
 
-(b) FSQ configurations (32 GPUs, 2 tokens each)
+(a) Quantizer design (128 GPUs) (b) FSQ configurations (32 GPUs, 2 tokens each) (c) Encoder comparison (128 GPUs) Table 4: Ablation results. (a) FSQ outperforms VQ-VAE by 8.7 mm MPJPE-L on test-content. (b) Higher quantizer capacity improves performance; token dimension matters more than levels. (c) All encoders maintain >99.2% success; the human encoder shows only +0.6 mm gap from the robot encoder.
 
-<!-- chunk {"id": "body-0088", "role": "body", "section": "Multi-Encoder Performance and Consistency Losses", "weight": 1.0} -->
+<!-- chunk {"id": "body-0091", "role": "body", "section": "Multi-Encoder Performance and Consistency Losses", "weight": 1.0} -->
 
-Our multi-encoder design maps three heterogeneous input types (robot motion, human SMPL poses, and hybrid teleop commands) into a shared token space, aligned by the consistency losses $\mathcal{L}_{\text{token}}$ and $\mathcal{L}_{\text{cycle}}$. As shown in Tab.˜4(c), all three encoders maintain $>$`<!-- -->`{=html}99.2% success, with the human encoder showing only a +0.6 mm MPJPE-L gap from the robot encoder despite operating on a different input format. The hybrid encoder shows a larger MPJPE-L (26.5 mm, +2.7 mm from the robot encoder) due to partial observability (only sparse upper-body keypoints). Removing the consistency losses causes an $8 \times$ increase in cross-encoder divergence (Fig.˜8), confirming they are necessary for cross-encoder alignment.
+Our multi-encoder design maps three heterogeneous input types (robot motion, human SMPL poses, and hybrid teleop commands) into a shared token space, aligned by the consistency losses $\mathcal{L}_{\text{token}}$ and $\mathcal{L}_{\text{cycle}}$. As shown in Tab.˜4(c), all three encoders maintain $>$`<!-- -->`{=html}99.2% success, with the human encoder showing only a +0.6 mm MPJPE-L gap from the robot encoder despite operating on a different input format. The hybrid encoder shows a larger MPJPE-L (26.5 mm, +2.7 mm from the robot encoder) due to partial observability (only sparse upper-body keypoints). Removing the consistency losses causes an $8\times$ increase in cross-encoder divergence (Fig.˜8), confirming they are necessary for cross-encoder alignment.
 
-<!-- chunk {"id": "body-0089", "role": "body", "section": "Multi-Encoder Performance and Consistency Losses", "weight": 1.0} -->
+<!-- chunk {"id": "body-0092", "role": "body", "section": "Multi-Encoder Performance and Consistency Losses", "weight": 1.0} -->
 
 This alignment is critical for downstream VLA learning: since the VLA directly predicts tokens, teleoperation data collected via different encoders (human, hybrid, or robot) should occupy the same latent space to provide the VLA with a consistent training distribution.
 
-<!-- chunk {"id": "body-0090", "role": "body", "section": "Role of the Kinematic Motion Planner", "weight": 1.0} -->
+<!-- chunk {"id": "body-0093", "role": "body", "section": "Role of the Kinematic Motion Planner", "weight": 1.0} -->
 
 The kinematic planner (Sec.˜3.3) is an application layer that converts high-level user intent into short-horizon kinematic references. While the tracker is source-agnostic and compatible with alternative planners, ours unifies 25+ distinct skills and styles with a single real-time generative model, each requiring only one representative motion clip and no retraining. The tracker is independently validated on pre-recorded reference motions (Sec.˜2.1), and its robustness extends to planner-generated references through domain randomization on motion commands during training and the spring model that filters unrealistic commands at deployment.

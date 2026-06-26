@@ -16,7 +16,7 @@ In this paper, we set up a scalable reinforcement learning framework and combine
 
 <!-- chunk {"id": "body-0004", "role": "body", "section": "Introduction", "weight": 1.5} -->
 
-We demonstrate how to use prerecorded real-world driving data in a hardware-accelerated simulator as part of distributed reinforcement learning to achieve improving policy performance with increasing experiment size.
+The main contributions of our work are: We demonstrate how to use prerecorded real-world driving data in a hardware-accelerated simulator as part of distributed reinforcement learning to achieve improving policy performance with increasing experiment size.
 
 <!-- chunk {"id": "body-0005", "role": "body", "section": "Introduction", "weight": 1.5} -->
 
@@ -96,24 +96,32 @@ Combining the real-world driving simulator, the scalable reinforcement learning 
 
 <!-- chunk {"id": "body-0024", "role": "body", "section": "Experiments", "weight": 1.0} -->
 
-We mined three different training datasets of 600 h, 2000 h and 6000 h from human-expert driving in San Francisco. We also created three different model sizes of 0.75M, 2.5M and 25M parameters by increasing the attention dimensions of the network. Each model is trained first by behavior cloning for 20 epochs on the given dataset. The pre-trained policy is then refined by reinforcement learning on 2.5B agent steps. We evaluate the policy during reinforcement learning every 20M agent steps and after training select the checkpoint with the lowest failure rate on the evaluation dataset.
+(a) Minimum failure rate Figure 1: Results for experiments with different model sizes (rows) and dataset sizes (columns). Colors represent the numerical results on color scales. (a) The performance of the policy improves with increasing model and dataset size. (b) The model size is the major driver of the required GPU time and therefore cost of training. Dataset size has no effect on the training time, but it can affect one time costs during data preprocessing which is not considered here.
 
 <!-- chunk {"id": "body-0025", "role": "body", "section": "Experiments", "weight": 1.0} -->
 
-We conduct experiments on all combinations of model size and dataset size, with the exception of the small 600 h dataset in combination with the large 25M parameter model. 1(a) ‣ Figure 1 ‣ 5 Experiments ‣ Scaling Is All You Need: Autonomous Driving with JAX-Accelerated Reinforcement Learning") shows that increasing the dataset size improves the performance of the trained policy in terms of failure rate. Increasing the model size in general also improves the policy performance. The 2.5M model is strictly better than the 0.75M model and the best policy is trained on the 25M model. However, we observe that increasing the model size only helps when sufficient real-world driving data is available. On the 2000 h dataset the 25M performs worse than the 2.5M model and only on the 6000 h dataset it performs better. The largest experiment achieves a failure rate of $0.88\ \%$.
+Stop Line Violations [%] Traffic Light Violations [%] Table 2: Comparison of our policies with the current SOTA.
 
 <!-- chunk {"id": "body-0026", "role": "body", "section": "Experiments", "weight": 1.0} -->
 
-In Table 2 we compare the policy performance of our largest setting after behavioral cloning and after reinforcement learning training with the current SOTA. Our behavioral cloning policy performs quite poorly, achieving a failure rate of 19.85 %. This is much higher than the pure BC failure rate of 3.64 % reported in the current SOTA.
+We mined three different training datasets of 600 h, 2000 h and 6000 h from human-expert driving in San Francisco. We also created three different model sizes of 0.75M, 2.5M and 25M parameters by increasing the attention dimensions of the network. Each model is trained first by behavior cloning for 20 epochs on the given dataset. The pre-trained policy is then refined by reinforcement learning on 2.5B agent steps. We evaluate the policy during reinforcement learning every 20M agent steps and after training select the checkpoint with the lowest failure rate on the evaluation dataset.
 
 <!-- chunk {"id": "body-0027", "role": "body", "section": "Experiments", "weight": 1.0} -->
 
+We conduct experiments on all combinations of model size and dataset size, with the exception of the small 600 h dataset in combination with the large 25M parameter model. 1(a) ‣ Figure 1 ‣ 5 Experiments ‣ Scaling Is All You Need: Autonomous Driving with JAX-Accelerated Reinforcement Learning") shows that increasing the dataset size improves the performance of the trained policy in terms of failure rate. Increasing the model size in general also improves the policy performance. The 2.5M model is strictly better than the 0.75M model and the best policy is trained on the 25M model. However, we observe that increasing the model size only helps when sufficient real-world driving data is available. On the 2000 h dataset the 25M performs worse than the 2.5M model and only on the 6000 h dataset it performs better. The largest experiment achieves a failure rate of $0.88\ \%$.
+
+<!-- chunk {"id": "body-0028", "role": "body", "section": "Experiments", "weight": 1.0} -->
+
+In Table 2 we compare the policy performance of our largest setting after behavioral cloning and after reinforcement learning training with the current SOTA. Our behavioral cloning policy performs quite poorly, achieving a failure rate of 19.85 %. This is much higher than the pure BC failure rate of 3.64 % reported in the current SOTA.
+
+<!-- chunk {"id": "body-0029", "role": "body", "section": "Experiments", "weight": 1.0} -->
+
 The reinforcement learning training improves the policy and achieves a failure rate of 0.88 % and a progress ratio of 120.8 %. Compared to the best policy of the current SOTA on a similar dataset, the failure rate is reduced by 64% and the progress ratio improved by 25%.
 
-<!-- chunk {"id": "body-0028", "role": "body", "section": "Conclusions", "weight": 1.0} -->
+<!-- chunk {"id": "body-0030", "role": "body", "section": "Conclusions", "weight": 1.0} -->
 
 In this paper we combined an efficient and realistic autonomous driving simulator with a scalable reinforcement learning framework. This allowed us to run large scale reinforcement learning experiments training on billions of agents steps with increasing model size on different dataset sizes of real-world driving.
 
-<!-- chunk {"id": "body-0029", "role": "body", "section": "Conclusions", "weight": 1.0} -->
+<!-- chunk {"id": "body-0031", "role": "body", "section": "Conclusions", "weight": 1.0} -->
 
 Our data shows that we can obtain similar scaling behavior as in other reinforcement learning settings when using increasingly large datasets of real-world driving. In particular, we were able to obtain better policies with larger models when using sufficiently large datasets. Our best policy reduces the failure rate compared to the current SOTA by 64% while improving progress by 25%. These results are very encouraging, and motivate further experiments with increasing size. However, to ultimately answer whether the presented approach can be scaled beyond human performance a validation framework that can reliably compare the safety of the policy to human drivers is also required.

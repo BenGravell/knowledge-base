@@ -32,124 +32,72 @@ The contributions of this paper are three-fold. First, we justify the well-posed
 
 <!-- chunk {"id": "body-0008", "role": "body", "section": "Problem Formulation and Well-Posedness", "weight": 1.0} -->
 
-The "forward" optimal LQ problem reads
+The "forward" optimal LQ problem reads where $S,Q$ are $n$-dimensional positive semidefinite matrices, $R$ is $m$-dimensional positive definite matrix, $x_{t} \in {\mathbb{R}}^{n}$ and $u_{t} \in {\mathbb{R}}^{m}$. The inverse optimal control problem aims to find $(S,Q,R)$ given $(A,B)$, the initial value $x_{1} = \overline{x}$ and (possibly noisy) observations of the optimal trajectory $x_{2:N}^{\ast}$ or control input $u_{1:{N - 1}}^{\ast}$. For simplicity, in this paper, we consider the case of $R = I$ and $S = 0$. In addition, it is assumed that $(A,B)$ is controllable and $B$ has full column rank. Moreover, we assume that $A$ is invertible.
 
 <!-- chunk {"id": "body-0009", "role": "body", "section": "Problem Formulation and Well-Posedness", "weight": 1.0} -->
 
-where $S,Q$ are $n$-dimensional positive semidefinite matrices, $R$ is $m$-dimensional positive definite matrix, $x_{t} \in {\mathbb{R}}^{n}$ and $u_{t} \in {\mathbb{R}}^{m}$. The inverse optimal control problem aims to find $(S,Q,R)$ given $(A,B)$, the initial value $x_{1} = \overline{x}$ and (possibly noisy) observations of the optimal trajectory $x_{2:N}^{\ast}$ or control input $u_{1:{N - 1}}^{\ast}$. For simplicity, in this paper, we consider the case of $R = I$ and $S = 0$. In addition, it is assumed that $(A,B)$ is controllable and $B$ has full column rank. Moreover, we assume that $A$ is invertible.
+To see that the assumption is reasonable, consider a discrete-time system sampled from a continuous linear system $\overset{˙}{x} = {{\hat{A}x} + {\hat{B}u}}$, where the sample period $\Deltat$ is small. Hence for the discretized linear system, we have $A = e^{\hat{A}\Deltat}$, $B = {\int_{0}^{\Deltat}{e^{\hat{A}\tau}\hat{B}{d\tau}}}$. It is clear that $A = e^{\hat{A}\Deltat}$ is invertible.
 
 <!-- chunk {"id": "body-0010", "role": "body", "section": "Problem Formulation and Well-Posedness", "weight": 1.0} -->
 
-To see that the assumption is reasonable, consider a discrete-time system sampled from a continuous linear system $\overset{˙}{x} = {{\hat{A}x} + {\hat{B}u}}$, where the sample period $\Deltat$ is small. Hence for the discretized linear system, we have $A = e^{\hat{A}\Deltat}$, $B = {\int_{0}^{\Deltat}{e^{\hat{A}\tau}\hat{B}{d\tau}}}$. It is clear that $A = e^{\hat{A}\Deltat}$ is invertible.
-
-<!-- chunk {"id": "body-0011", "role": "body", "section": "Problem Formulation and Well-Posedness", "weight": 1.0} -->
-
 Before moving on considering how to solve the inverse optimal control problem, we would like to justify the well-posedness of it. The fundamental question for well-posedness that remains to be anwered is that: does there exist two different $Q$'s such that they can generate the same closed-loop LQR system? If there exists two different $Q$'s that can generate the same closed-loop system matrix, then the problem is obviously ill-posed. Now we are ready to justify the well-posedness of the inverse LQR optimal control problem.
 
-<!-- chunk {"id": "body-0012", "role": "body", "section": "Inverse Optimal Control in the Noiseless Case", "weight": 1.0} -->
+<!-- chunk {"id": "body-0011", "role": "body", "section": "Inverse Optimal Control in the Noiseless Case", "weight": 1.0} -->
 
 After justifying the well-posedness of the inverse optimal control problem, in this section, we consider inverse optimal control for the LQR problem in the noiseless case. It is assumed that we have knowledge of $M$ sets of optimal trajectories ${\{ x_{1:N}^{{(i)} \ast},u_{1:{N - 1}}^{{(i)} \ast}\}}_{i = 1}^{M}$, i.e., $u_{t}^{{(i)} \ast} = {K_{t}x_{t}^{{(i)} \ast}}$, where $K_{t}$ is the optimal feedback gain. We omit the superscript "star" in the remainder of this section to shorten the notation.
 
+<!-- chunk {"id": "body-0012", "role": "body", "section": "Inverse Optimal Control in the Noiseless Case", "weight": 1.0} -->
+
+By PMP, if $u_{1:{N - 1}}$ and $x_{1:N}$ are the optimal control and corresponding trajectory, then there exists adjoint variables $\lambda_{2:N}$ such that Note that in general, PMP only provides necessary optimality conditions for optimal control problems, nevertheless, since the optimal solution to the LQ optimal control problem is unique, PMP becomes also sufficient conditions for optimality.
+
 <!-- chunk {"id": "body-0013", "role": "body", "section": "Inverse Optimal Control in the Noiseless Case", "weight": 1.0} -->
 
-By PMP, if $u_{1:{N - 1}}$ and $x_{1:N}$ are the optimal control and corresponding trajectory, then there exists adjoint variables $\lambda_{2:N}$ such that
+Based, it is straight forward to solve the inverse optimal control problem, i.e., get the matrix $Q$ by solving the following feasibility SDP problem with a slightly abuse of notation that "subject to " actually means with a superscript $(i)$ on every $x_{t}$, $\lambda_{t}$ and $u_{t}$'s. The objective function of the above problem can be any constant, without losing generality, here we let it be 0.
 
 <!-- chunk {"id": "body-0014", "role": "body", "section": "Inverse Optimal Control in the Noiseless Case", "weight": 1.0} -->
 
-Note that in general, PMP only provides necessary optimality conditions for optimal control problems, nevertheless, since the optimal solution to the LQ optimal control problem is unique, PMP becomes also sufficient conditions for optimality.
-
-<!-- chunk {"id": "body-0015", "role": "body", "section": "Inverse Optimal Control in the Noiseless Case", "weight": 1.0} -->
-
-Based, it is straight forward to solve the inverse optimal control problem, i.e., get the matrix $Q$ by solving the following feasibility SDP problem
-
-<!-- chunk {"id": "body-0016", "role": "body", "section": "Inverse Optimal Control in the Noiseless Case", "weight": 1.0} -->
-
-with a slightly abuse of notation that "subject to " actually means with a superscript $(i)$ on every $x_{t}$, $\lambda_{t}$ and $u_{t}$'s. The objective function of the above problem can be any constant, without losing generality, here we let it be 0.
-
-<!-- chunk {"id": "body-0017", "role": "body", "section": "Inverse Optimal Control in the Noiseless Case", "weight": 1.0} -->
-
 Though the problem is easy in the noiseless case, however, we would like to have a closer look at the identifiability of $Q$. Namely, given a set of noiseless optimal trajectories $x_{1:N}^{({1:M})}$, is there a unique positive semidefinite matrix that corresponds to the given optimal trajectories? Now we give two sufficient conditions on the given trajectories $x_{1:N}^{({1:M})}$ that can be used to determine the uniqueness of $Q$.
 
-<!-- chunk {"id": "body-0018", "role": "body", "section": "Example 3.1", "weight": 1.0} -->
+<!-- chunk {"id": "body-0015", "role": "body", "section": "Example 3.1", "weight": 1.0} -->
 
-Here is an example that illustrates Proposition 3.2. Suppose $M = 1$, $N = 15$, the system matrices, the initial value and the "real" $Q$ matrix (we denote it as $\overline{Q}$) are as follows
+Here is an example that illustrates Proposition 3.2. Suppose $M = 1$, $N = 15$, the system matrices, the initial value and the "real" $Q$ matrix (we denote it as $\overline{Q}$) are as follows In this case, ${dim{({\ker{({\mathcal{A}{(x)}\mathcal{D}})}})}} = 1$ and ${rank{(\Phi^{\ast})}} = 2$. If we solve the following problem we will find that the only feasible solution is $\beta = W = 0$. And if one solves the inverse optimal control problem, she will get an unique solution $Q^{\ast} = \overline{Q}$.∎ Note that $\mathcal{A}{(x)}\mathcal{D}$ depends on the data.
 
-<!-- chunk {"id": "body-0019", "role": "body", "section": "Example 3.1", "weight": 1.0} -->
+<!-- chunk {"id": "body-0016", "role": "body", "section": "Example 3.1", "weight": 1.0} -->
 
-${rank{(\Phi^{\ast})}} = 2$. If we solve the following problem
+Though it has been stated in Proposition 3.1 that we would have a unique $Q$ that corresponds to the given optimal trajectories $x_{1:N}^{({1:M})}$ if $\mathcal{A}{(x)}\mathcal{D}$ has full column rank, we would like to say a bit more about the data set $x_{1:N}^{({1:M})}$, more precisely, under what conditions of the data set $x_{1:N}^{({1:M})}$ will let $\mathcal{A}{(x)}\mathcal{D}$ have full column rank. Since $\mathcal{D}$ has full column rank, $\mathcal{A}{(x)}\mathcal{D}$ would have full column rank if $\mathcal{A}{(x)}$ has full column rank.
 
-<!-- chunk {"id": "body-0020", "role": "body", "section": "Example 3.1", "weight": 1.0} -->
-
-we will find that the only feasible solution is $\beta = W = 0$. And if one solves the inverse optimal control problem, she will get an unique solution $Q^{\ast} = \overline{Q}$.∎
-
-<!-- chunk {"id": "body-0021", "role": "body", "section": "Example 3.1", "weight": 1.0} -->
-
-Note that $\mathcal{A}{(x)}\mathcal{D}$ depends on the data. Though it has been stated in Proposition 3.1 that we would have a unique $Q$ that corresponds to the given optimal trajectories $x_{1:N}^{({1:M})}$ if $\mathcal{A}{(x)}\mathcal{D}$ has full column rank, we would like to say a bit more about the data set $x_{1:N}^{({1:M})}$, more precisely, under what conditions of the data set $x_{1:N}^{({1:M})}$ will let $\mathcal{A}{(x)}\mathcal{D}$ have full column rank. Since $\mathcal{D}$ has full column rank, $\mathcal{A}{(x)}\mathcal{D}$ would have full column rank if $\mathcal{A}{(x)}$ has full column rank.
-
-<!-- chunk {"id": "body-0022", "role": "body", "section": "Example 3.1", "weight": 1.0} -->
+<!-- chunk {"id": "body-0017", "role": "body", "section": "Example 3.1", "weight": 1.0} -->
 
 In the following we will focus on discussing what kind of data set $x_{1:N}^{({1:M})}$ would let $\mathcal{A}{(x)}$ have full column rank.
 
-<!-- chunk {"id": "body-0023", "role": "body", "section": "Remark 2", "weight": 1.0} -->
+<!-- chunk {"id": "body-0018", "role": "body", "section": "Remark 2", "weight": 1.0} -->
 
 Theorem 3.3 indicates that if among $M$ trajectories, there exists $n$ trajectories such that the second last states of each, i.e., $x_{N - 1}^{},\cdots,x_{N - 1}^{(n)}$ are linearly independent, then $Q$ is identifiable. The theorem provides a convenient way of checking the identifiability of $Q$.∎
 
-<!-- chunk {"id": "body-0024", "role": "body", "section": "Inverse Optimal Control in the Noisy Case", "weight": 1.0} -->
+<!-- chunk {"id": "body-0019", "role": "body", "section": "Inverse Optimal Control in the Noisy Case", "weight": 1.0} -->
 
 Now we turn our attention to the noisy case. Inspired, we first pose the inverse optimal control problem in the noisy case. Suppose the probability space $(\Omega,\mathcal{F},{\mathbb{P}})$ carries independent random vectors $\overline{x} \in {\mathbb{R}}^{n}$, ${\{{v_{t} \in {\mathbb{R}}^{n}}\}}_{t = 2}^{N}$ and ${\{{w_{t} \in {\mathbb{R}}^{n}}\}}_{t = 1}^{N - 1}$ distributed according to some unknown distributions.
 
-<!-- chunk {"id": "body-0025", "role": "body", "section": "Assumption 2", "weight": 1.0} -->
+<!-- chunk {"id": "body-0020", "role": "body", "section": "Assumption 2", "weight": 1.0} -->
 
-Equipped with the stochastic set-up above and given that the initial value $x_{1}$ is actually a realization of the random vector $\overline{x}$, i.e., $x_{1} = {\overline{x}{(\omega)}}$, the LQR problem can actually be seen as
+Equipped with the stochastic set-up above and given that the initial value $x_{1}$ is actually a realization of the random vector $\overline{x}$, i.e., $x_{1} = {\overline{x}{(\omega)}}$, the LQR problem can actually be seen as Note that the optimal control input and trajectory ${\{ u_{t}^{\ast}\}},{\{ x_{t}^{\ast}\}}$ are now random vectors implicitly determined by the random variable $\overline{x}$ and the parameter $Q$. With the formulation of the "forward problem", we now can pose the formulation of the inverse optimal control problem.
 
-<!-- chunk {"id": "body-0026", "role": "body", "section": "Assumption 2", "weight": 1.0} -->
+<!-- chunk {"id": "body-0021", "role": "body", "section": "Numerical Examples", "weight": 1.0} -->
 
-Note that the optimal control input and trajectory ${\{ u_{t}^{\ast}\}},{\{ x_{t}^{\ast}\}}$ are now random vectors implicitly determined by the random variable $\overline{x}$ and the parameter $Q$. With the formulation of the "forward problem", we now can pose the formulation of the inverse optimal control problem.
+To illustrate the performance of the estimation statistically, we consider a series of discrete-time systems sampled from continuous systems $\overset{˙}{x} = {{\hat{A}x} + {\hat{B}u}}$ with the sampling period ${\Deltat} = 0.1$, where and $a_{1},a_{2}$ are sampled from uniform distributions on $\lbrack{- 3},3\rbrack$. The aim for us to generate systems like this is to unsure the controllability of the systems. We take the time horizon $N = 50$. The "real " $\overline{Q}$ is generated by letting $\overline{Q} = {Q_{1}Q_{1}^{T}}$ where each elements of $Q_{1}$ are sampled from the uniform distribution on $\lbrack{- 1},1\rbrack$.
 
-<!-- chunk {"id": "body-0027", "role": "body", "section": "Assumption 2", "weight": 1.0} -->
+<!-- chunk {"id": "body-0022", "role": "body", "section": "Numerical Examples", "weight": 1.0} -->
 
-and $x_{2:N}^{\ast}{(Q;\overline{x})}$ and $u_{1:{N - 1}}^{\ast}{(Q;\overline{x})}$ are the optimal solution to. In order to solve the inverse optimal control problem, we would like to minimize the risk functions, namely,
+We set the feasible compact set for $Q$ as ${\mathbb{S}}_{+}^{n}{}$ (we discard those randomly generated $\overline{Q}$ that does not belong to ${\mathbb{S}}_{+}^{n}{}$). Each element of the initial conditions ${\overline{x}}^{({1:M})}$ are generated by sampling from a uniform distribution supported on $\lbrack{- 5},5\rbrack$. We generate 200 different sets of $(\hat{A},\hat{B},\overline{Q})$ and for each fixed $(\hat{A},\hat{B},\overline{Q})$, 200 trajectories are generated, i.e., $M = 200$.
 
-<!-- chunk {"id": "body-0028", "role": "body", "section": "Assumption 2", "weight": 1.0} -->
+<!-- chunk {"id": "body-0023", "role": "body", "section": "Numerical Examples", "weight": 1.0} -->
 
-depending on which observations are available. Nevertheless, since the distributions of $\overline{x}$, $v_{t}$ and $w_{t}$ are unknown, the distributions of $\xi_{x}$ and $\xi_{u}$ are also unknown. We can not solve and directly. and in principle, however, can be approximated by
+15dB and 20dB of white Gaussian noises are added to $x_{2:N}^{({1:M})}$ and $u_{1:{N - 1}}^{({1:M})}$ respectively to get $y_{2:N}^{({1:M})}$ and $\mu_{1:{N - 1}}^{({1:M})}$. MATLAB function fmincon is used to solve the risk-minimizing problem. When solving the optimization problem, we use $Q = I$ as the initial iteration values for all cases.
 
-<!-- chunk {"id": "body-0029", "role": "body", "section": "Assumption 2", "weight": 1.0} -->
-
-where $\xi_{x}^{(i)}$ and $\xi_{u}^{(i)}$ are i.i.d. random samples. We will show the statistical consistency for the approximation later.
-
-<!-- chunk {"id": "body-0030", "role": "body", "section": "Assumption 2", "weight": 1.0} -->
-
-Recall that for discrete-time LQR's in finite-time horizon, PMP provides sufficient and necessary conditions for optimality, hence we can express $u_{1:{N - 1}}^{\ast}$, $x_{2:N}^{\ast}$ using and the approximated risk-minimizing problem reads
-
-<!-- chunk {"id": "body-0031", "role": "body", "section": "Assumption 2", "weight": 1.0} -->
-
-We omit the "star" in the notation to avoid the confusion with the optimizer of. The risk-minimization problem for $\mathcal{R}_{M}^{u}{(Q)}$ is omitted here for the sake of brevity. The optimizer $\left( {Q_{M}^{\ast}{(\omega)}},{x_{2:N}^{{(i)} \ast}{(\omega)}},{\lambda_{2:N}^{{(i)} \ast}{(\omega)}} \right)$ is defined in the sense that it optimizes (or ) for every $\omega \in \Omega$.
-
-<!-- chunk {"id": "body-0032", "role": "body", "section": "Numerical Examples", "weight": 1.0} -->
-
-To illustrate the performance of the estimation statistically, we consider a series of discrete-time systems sampled from continuous systems $\overset{˙}{x} = {{\hat{A}x} + {\hat{B}u}}$ with the sampling period ${\Deltat} = 0.1$, where
-
-<!-- chunk {"id": "body-0033", "role": "body", "section": "Numerical Examples", "weight": 1.0} -->
-
-and $a_{1},a_{2}$ are sampled from uniform distributions on $\lbrack{- 3},3\rbrack$. The aim for us to generate systems like this is to unsure the controllability of the systems. We take the time horizon $N = 50$. The "real " $\overline{Q}$ is generated by letting $\overline{Q} = {Q_{1}Q_{1}^{T}}$ where each elements of $Q_{1}$ are sampled from the uniform distribution on $\lbrack{- 1},1\rbrack$. We set the feasible compact set for $Q$ as ${\mathbb{S}}_{+}^{n}{}$ (we discard those randomly generated $\overline{Q}$ that does not belong to ${\mathbb{S}}_{+}^{n}{}$).
-
-<!-- chunk {"id": "body-0034", "role": "body", "section": "Numerical Examples", "weight": 1.0} -->
-
-Each element of the initial conditions ${\overline{x}}^{({1:M})}$ are generated by sampling from a uniform distribution supported on $\lbrack{- 5},5\rbrack$. We generate 200 different sets of $(\hat{A},\hat{B},\overline{Q})$ and for each fixed $(\hat{A},\hat{B},\overline{Q})$, 200 trajectories are generated, i.e., $M = 200$. 15dB and 20dB of white Gaussian noises are added to $x_{2:N}^{({1:M})}$ and $u_{1:{N - 1}}^{({1:M})}$ respectively to get $y_{2:N}^{({1:M})}$ and $\mu_{1:{N - 1}}^{({1:M})}$. MATLAB function fmincon is used to solve the risk-minimizing problem.
-
-<!-- chunk {"id": "body-0035", "role": "body", "section": "Numerical Examples", "weight": 1.0} -->
-
-When solving the optimization problem, we use $Q = I$ as the initial iteration values for all cases.
-
-<!-- chunk {"id": "body-0036", "role": "body", "section": "Numerical Examples", "weight": 1.0} -->
+<!-- chunk {"id": "body-0024", "role": "body", "section": "Numerical Examples", "weight": 1.0} -->
 
 The result is also compared with the "residual minimization" method proposed. In, it is assumed that the observations of the solutions to the "forward" problems are completely available, namely in this scenario, both $y_{1:N}^{({1:M})}$ and $\mu_{1:{N - 1}}^{({1:M})}$ are available. In order to make the comparison fair, in this numerical example, observations on both of the optimal trajectories and control input are used. This will not change the statistical consistency of the method. The result is shown in Fig. 3.
 
-<!-- chunk {"id": "body-0037", "role": "body", "section": "Numerical Examples", "weight": 1.0} -->
-
-We denote the estimation of $Q$ by our method as $Q_{est}$ and the estimation by "residual minimization" as $Q_{RM}$. In Fig. 3, the blue line illustrates ${\|{Q_{est} - \overline{Q}}\|}_{F} = {\|{Q_{RM} - \overline{Q}}\|}_{F}$. As we can see from Fig. 3, our method out-performs the residual-minimization method statistically.
-
-<!-- chunk {"id": "body-0038", "role": "body", "section": "Conclusion", "weight": 1.5} -->
+<!-- chunk {"id": "body-0025", "role": "body", "section": "Conclusion", "weight": 1.5} -->
 
 In this paper, we analyse the inverse optimal control problem for discrete-time LQR in finite-time horizons. We consider both the noiseless case (in which observations of the optimal trajectories are exact) and the noisy case (in which such observations are corrupted by additive noise). The well-posedness of the problem is first justified. In the noiseless case, we discuss identifiability of the problem, and provide sufficient conditions on the uniqueness of the solution. In the noisy case, we formulate the search for $Q$ as an optimization problem, and prove that such formulation is statistically consistent. Numerical examples shows our method has a better performance than that proposed.

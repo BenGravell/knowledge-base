@@ -304,8 +304,7 @@ We had five different humans look at each of 3669 images in the test split of th
 
 <!-- chunk {"id": "body-0076", "role": "body", "section": "Comparison to Human Performance", "weight": 1.0} -->
 
-Majority Vote on Full Dataset
-Majority Vote Accuracy on Guesses
+Majority Vote on Full Dataset Majority Vote Accuracy on Guesses Table 2: Comparison of human performance on Oxford IIT Pets. As in Parkhi et al., the metric is average per-class classification accuracy. Most of the gain in performance when going from the human zero shot case to the human one shot case is on images that participants were highly uncertain. “Guesses” refers to restricting the dataset to where participants selected an answer other than “I don’t know”, the “majority vote” is taking the most frequent (exclusive of ties) answer per image.
 
 <!-- chunk {"id": "body-0077", "role": "body", "section": "Comparison to Human Performance", "weight": 1.0} -->
 
@@ -329,91 +328,91 @@ A concern with pre-training on a very large internet dataset is unintentional ov
 
 <!-- chunk {"id": "body-0082", "role": "body", "section": "Data Overlap Analysis", "weight": 1.0} -->
 
-Instead, we document how much overlap occurs and how performance changes due to these overlaps.
+Instead, we document how much overlap occurs and how performance changes due to these overlaps. To do this, we use the following procedure: 1\) For each evaluation dataset, we run a duplicate detector (see Appendix C) on its examples. We then manually inspect the found nearest neighbors and set a per dataset threshold to keep high precision while maximizing recall. Using this threshold, we then create two new subsets, Overlap, which contains all examples which have a similarity to a training example above the threshold, and Clean, which contains all examples that are below this threshold. We denote the unaltered full dataset All for reference. From this we first record the degree of data contamination as the ratio of the number of examples in Overlap to the size of All.
 
 <!-- chunk {"id": "body-0083", "role": "body", "section": "Data Overlap Analysis", "weight": 1.0} -->
 
-1\) For each evaluation dataset, we run a duplicate detector (see Appendix C) on its examples. We then manually inspect the found nearest neighbors and set a per dataset threshold to keep high precision while maximizing recall. Using this threshold, we then create two new subsets, Overlap, which contains all examples which have a similarity to a training example above the threshold, and Clean, which contains all examples that are below this threshold. We denote the unaltered full dataset All for reference. From this we first record the degree of data contamination as the ratio of the number of examples in Overlap to the size of All.
+2\) We then compute the zero-shot accuracy of CLIP RN50x64 on the three splits and report All - Clean as our main metric. This is the difference in accuracy due to contamination. When positive it is our estimate of how much the overall reported accuracy on the dataset was inflated by over-fitting to overlapping data.
 
 <!-- chunk {"id": "body-0084", "role": "body", "section": "Data Overlap Analysis", "weight": 1.0} -->
 
-2\) We then compute the zero-shot accuracy of CLIP RN50x64 on the three splits and report All - Clean as our main metric. This is the difference in accuracy due to contamination. When positive it is our estimate of how much the overall reported accuracy on the dataset was inflated by over-fitting to overlapping data.
+3\) The amount of overlap is often small so we also run a binomial significance test where we use the accuracy on Clean as the null hypothesis and compute the one-tailed (greater) p-value for the Overlap subset. We also calculate 99.5% Clopper-Pearson confidence intervals on Dirty as another check.
 
 <!-- chunk {"id": "body-0085", "role": "body", "section": "Data Overlap Analysis", "weight": 1.0} -->
 
-3\) The amount of overlap is often small so we also run a binomial significance test where we use the accuracy on Clean as the null hypothesis and compute the one-tailed (greater) p-value for the Overlap subset. We also calculate 99.5% Clopper-Pearson confidence intervals on Dirty as another check.
+A summary of this analysis is presented in Figure 17. Out of 35 datasets studied, 9 datasets have no detected overlap at all. Most of these datasets are synthetic or specialized making them unlikely to be posted as normal images on the internet (for instance MNIST, CLEVR, and GTSRB) or are guaranteed to have no overlap due to containing novel data from after the date our dataset was created (ObjectNet and Hateful Memes). This demonstrates our detector has a low-false positive rate which is important as false positives would under-estimate the effect of contamination in our analysis. There is a median overlap of 2.2% and an average overlap of 3.2%. Due to this small amount of overlap, overall accuracy is rarely shifted by more than 0.1% with only 7 datasets above this threshold. Of these, only 2 are statistically significant after Bonferroni correction. The max detected improvement is only 0.6% on Birdsnap which has the second largest overlap at 12.1%. The largest overlap is for Country211 at 21.5%.
 
 <!-- chunk {"id": "body-0086", "role": "body", "section": "Data Overlap Analysis", "weight": 1.0} -->
 
-A summary of this analysis is presented in Figure 17. Out of 35 datasets studied, 9 datasets have no detected overlap at all. Most of these datasets are synthetic or specialized making them unlikely to be posted as normal images on the internet (for instance MNIST, CLEVR, and GTSRB) or are guaranteed to have no overlap due to containing novel data from after the date our dataset was created (ObjectNet and Hateful Memes). This demonstrates our detector has a low-false positive rate which is important as false positives would under-estimate the effect of contamination in our analysis. There is a median overlap of 2.2% and an average overlap of 3.2%. Due to this small amount of overlap, overall accuracy is rarely shifted by more than 0.1% with only 7 datasets above this threshold. Of these, only 2 are statistically significant after Bonferroni correction. The max detected improvement is only 0.6% on Birdsnap which has the second largest overlap at 12.1%. The largest overlap is for Country211 at 21.5%.
+This is due to it being constructed out of YFCC100M, which our pre-training dataset contains a filtered subset of. Despite this large overlap there is only a 0.2% increase in accuracy on Country211. This may be because the training text accompanying an example is often not related to the specific task a downstream eval measures. Country211 measures geo-localization ability, but inspecting the training text for these duplicates showed they often do not mention the location of the image.
 
 <!-- chunk {"id": "body-0087", "role": "body", "section": "Data Overlap Analysis", "weight": 1.0} -->
 
-This is due to it being constructed out of YFCC100M, which our pre-training dataset contains a filtered subset of. Despite this large overlap there is only a 0.2% increase in accuracy on Country211. This may be because the training text accompanying an example is often not related to the specific task a downstream eval measures. Country211 measures geo-localization ability, but inspecting the training text for these duplicates showed they often do not mention the location of the image.
+We are aware of two potential concerns with our analysis. First our detector is not perfect. While it achieves near 100% accuracy on its proxy training task and manual inspection + threshold tuning results in very high precision with good recall among the found nearest-neighbors, we can not tractably check its recall across 400 million examples. Another potential confounder of our analysis is that the underlying data distribution may shift between the Overlap and Clean subsets. For example, on Kinetics-700 many "overlaps" are in fact all black transition frames. This explains why Kinetics-700 has an apparent 20% accuracy drop on Overlap. We suspect more subtle distribution shifts likely exist. One possibility we noticed on CIFAR-100 is that, due to the very low resolution of its images, many duplicates were false positives of small objects such as birds or planes. Changes in accuracy could instead be due to changes in the class distribution or difficulty of the duplicates. Unfortunately, these distribution and difficulty shifts could also mask the effects of over-fitting.
 
 <!-- chunk {"id": "body-0088", "role": "body", "section": "Data Overlap Analysis", "weight": 1.0} -->
 
-We are aware of two potential concerns with our analysis. First our detector is not perfect. While it achieves near 100% accuracy on its proxy training task and manual inspection + threshold tuning results in very high precision with good recall among the found nearest-neighbors, we can not tractably check its recall across 400 million examples. Another potential confounder of our analysis is that the underlying data distribution may shift between the Overlap and Clean subsets. For example, on Kinetics-700 many "overlaps" are in fact all black transition frames. This explains why Kinetics-700 has an apparent 20% accuracy drop on Overlap. We suspect more subtle distribution shifts likely exist. One possibility we noticed on CIFAR-100 is that, due to the very low resolution of its images, many duplicates were false positives of small objects such as birds or planes. Changes in accuracy could instead be due to changes in the class distribution or difficulty of the duplicates. Unfortunately, these distribution and difficulty shifts could also mask the effects of over-fitting.
-
-<!-- chunk {"id": "body-0089", "role": "body", "section": "Data Overlap Analysis", "weight": 1.0} -->
-
 However, these results closely follow the findings of similar duplicate analysis in previous work on large scale pre-training. Mahajan et al. and Kolesnikov et al. detected similar overlap rates and found minimal changes in overall performance. Importantly, Kolesnikov et al. also compared the alternative de-duplication strategy discussed in the introduction to this section with the approach we settled on and observed little difference between the two approaches.
 
-<!-- chunk {"id": "body-0090", "role": "body", "section": "Limitations", "weight": 1.5} -->
+<!-- chunk {"id": "body-0089", "role": "body", "section": "Limitations", "weight": 1.5} -->
 
 There are still many limitations to CLIP. While several of these are discussed as part of analysis in various sections, we summarize and collect them here.
 
-<!-- chunk {"id": "body-0091", "role": "body", "section": "Limitations", "weight": 1.5} -->
+<!-- chunk {"id": "body-0090", "role": "body", "section": "Limitations", "weight": 1.5} -->
 
 On datasets with training splits, the performance of zero-shot CLIP is on average competitive with the simple supervised baseline of a linear classifier on top of ResNet-50 features. On most of these datasets, the performance of this baseline is now well below the overall state of the art. Significant work is still needed to improve the task learning and transfer capabilities of CLIP. While scaling has so far steadily improved performance and suggests a route for continued improvement, we estimate around a 1000x increase in compute is required for zero-shot CLIP to reach overall state-of-the-art performance. This is infeasible to train with current hardware. Further research into improving upon the computational and data efficiency of CLIP will be necessary.
 
-<!-- chunk {"id": "body-0092", "role": "body", "section": "Limitations", "weight": 1.5} -->
+<!-- chunk {"id": "body-0091", "role": "body", "section": "Limitations", "weight": 1.5} -->
 
 Analysis in Section 3.1 found that CLIP's zero-shot performance is still quite weak on several kinds of tasks. When compared to task-specific models, the performance of CLIP is poor on several types of fine-grained classification such as differentiating models of cars, species of flowers, and variants of aircraft. CLIP also struggles with more abstract and systematic tasks such as counting the number of objects in an image. Finally for novel tasks which are unlikely to be included in CLIP's pre-training dataset, such as classifying the distance to the nearest car in a photo, CLIP's performance can be near random. We are confident that there are still many, many, tasks where CLIP's zero-shot performance is near chance level.
 
-<!-- chunk {"id": "body-0093", "role": "body", "section": "Limitations", "weight": 1.5} -->
+<!-- chunk {"id": "body-0092", "role": "body", "section": "Limitations", "weight": 1.5} -->
 
 While zero-shot CLIP generalizes well to many natural image distributions as investigated in Section 3.3, we've observed that zero-shot CLIP still generalizes poorly to data that is truly out-of-distribution for it. An illustrative example occurs for the task of OCR as reported in Appendix E. CLIP learns a high quality semantic OCR representation that performs well on digitally rendered text, which is common in its pre-training dataset, as evidenced by performance on Rendered SST2. However, CLIP only achieves 88% accuracy on the handwritten digits of MNIST. An embarrassingly simple baseline of logistic regression on raw pixels outperforms zero-shot CLIP. Both semantic and near-duplicate nearest-neighbor retrieval verify that there are almost no images that resemble MNIST digits in our pre-training dataset. This suggests CLIP does little to address the underlying problem of brittle generalization of deep learning models. Instead CLIP tries to circumvent the problem and hopes that by training on such a large and varied dataset that all data will be effectively in-distribution. This is a naive assumption that, as MNIST demonstrates, is easy to violate.
 
-<!-- chunk {"id": "body-0094", "role": "body", "section": "Limitations", "weight": 1.5} -->
+<!-- chunk {"id": "body-0093", "role": "body", "section": "Limitations", "weight": 1.5} -->
 
 Although CLIP can flexibly generate zero-shot classifiers for a wide variety of tasks and datasets, CLIP is still limited to choosing from only those concepts in a given zero-shot classifier. This is a significant restriction compared to a truly flexible approach like image captioning which could generate novel outputs. Unfortunately, as described in Section 2.3 we found the computational efficiency of the image caption baseline we tried to be much lower than CLIP. A simple idea worth trying is joint training of a contrastive and generative objective with the hope of combining the efficiency of CLIP with the flexibility of a caption model. As another alternative, search could be performed at inference time over many natural language explanations of a given image, similar to approach proposed in Learning with Latent Language Andreas et al..
 
-<!-- chunk {"id": "body-0095", "role": "body", "section": "Limitations", "weight": 1.5} -->
+<!-- chunk {"id": "body-0094", "role": "body", "section": "Limitations", "weight": 1.5} -->
 
 CLIP also does not address the poor data efficiency of deep learning. Instead CLIP compensates by using a source of supervision that can be scaled to hundreds of millions of training examples. If every image seen during training of a CLIP model was presented at a rate of one per second, it would take 405 years to iterate through the 12.8 billion images seen over 32 training epochs. Combining CLIP with self-supervision and self-training methods is a promising direction given their demonstrated ability to improve data efficiency over standard supervised learning.
 
-<!-- chunk {"id": "body-0096", "role": "body", "section": "Limitations", "weight": 1.5} -->
+<!-- chunk {"id": "body-0095", "role": "body", "section": "Limitations", "weight": 1.5} -->
 
 Our methodology has several significant limitations. Despite our focus on zero-shot transfer, we repeatedly queried performance on full validation sets to guide the development of CLIP. These validation sets often have thousands of examples, which is unrealistic for true zero-shot scenarios. Similar concerns have been raised in the field of semi-supervised learning. Another potential issue is our selection of evaluation datasets. While we have reported results on Kornblith et al. 's 12 dataset evaluation suite as a standardized collection, our main results use a somewhat haphazardly assembled collection of 27 datasets that is undeniably co-adapted with the development and capabilities of CLIP. Creating a new benchmark of tasks designed explicitly to evaluate broad zero-shot transfer capabilities, rather than re-using existing supervised datasets, would help address these issues.
 
-<!-- chunk {"id": "body-0097", "role": "body", "section": "Limitations", "weight": 1.5} -->
+<!-- chunk {"id": "body-0096", "role": "body", "section": "Limitations", "weight": 1.5} -->
 
 CLIP is trained on text paired with images on the internet. These image-text pairs are unfiltered and uncurated and result in CLIP models learning many social biases. This has been previously demonstrated for image caption models. We refer readers to Section 7 for detailed analysis and quantification of these behaviors for CLIP as well as discussion of potential mitigation strategies.
 
-<!-- chunk {"id": "body-0098", "role": "body", "section": "Limitations", "weight": 1.5} -->
+<!-- chunk {"id": "body-0097", "role": "body", "section": "Limitations", "weight": 1.5} -->
 
 While we have emphasized throughout this work that specifying image classifiers through natural language is a flexible and general interface, it has its own limitations. Many complex tasks and visual concepts can be difficult to specify just through text. Actual training examples are undeniably useful but CLIP does not optimize for few-shot performance directly. In our work, we fall back to fitting linear classifiers on top of CLIP's features. This results in a counter-intuitive drop in performance when transitioning from a zero-shot to a few-shot setting. As discussed in Section 4, this is notably different from human performance which shows a large increase from a zero to a one shot setting. Future work is needed to develop methods that combine CLIP's strong zero-shot performance with efficient few-shot learning.
 
-<!-- chunk {"id": "body-0099", "role": "body", "section": "Broader Impacts", "weight": 1.0} -->
+<!-- chunk {"id": "body-0098", "role": "body", "section": "Broader Impacts", "weight": 1.0} -->
 
 CLIP has a wide range of capabilities due to its ability to carry out arbitrary image classification tasks. One can give it images of cats and dogs and ask it to classify cats, or give it images taken in a department store and ask it to classify shoplifters--a task with significant social implications and for which AI may be unfit. Like any image classification system, CLIP's performance and fitness for purpose need to be evaluated, and its broader impacts analyzed in context. CLIP also introduces a capability that will magnify and alter such issues: CLIP makes it possible to easily create your own classes for categorization (to 'roll your own classifier') without a need for re-training. This capability introduces challenges similar to those found in characterizing other, large-scale generative models like GPT-3; models that exhibit non-trivial zero-shot (or few-shot) generalization can have a vast range of capabilities, many of which are made clear only after testing for them.
 
-<!-- chunk {"id": "body-0100", "role": "body", "section": "Broader Impacts", "weight": 1.0} -->
+<!-- chunk {"id": "body-0099", "role": "body", "section": "Broader Impacts", "weight": 1.0} -->
 
 Our studies of CLIP in a zero-shot setting show that the model displays significant promise for widely-applicable tasks like image retrieval or search. For example, it can find relevant images in a database given text, or relevant text given an image. Further, the relative ease of steering CLIP toward bespoke applications with little or no additional data or training could unlock a variety of novel applications that are hard for us to envision today, as has occurred with large language models over the past few years.
 
-<!-- chunk {"id": "body-0101", "role": "body", "section": "Broader Impacts", "weight": 1.0} -->
+<!-- chunk {"id": "body-0100", "role": "body", "section": "Broader Impacts", "weight": 1.0} -->
 
 In addition to the more than 30 datasets studied in earlier sections of this paper, we evaluate CLIP's performance on the FairFace benchmark and undertake exploratory bias probes. We then characterize the model's performance in a downstream task, surveillance, and discuss its usefulness as compared with other available systems. Many of CLIP's capabilities are omni-use in nature (e.g. OCR can be used to make scanned documents searchable, to power screen reading technologies, or to read license plates). Several of the capabilities measured, from action recognition, object classification, and geo-localization, to facial emotion recognition, can be used in surveillance. Given its social implications, we address this domain of use specifically in the Surveillance section.
 
-<!-- chunk {"id": "body-0102", "role": "body", "section": "Broader Impacts", "weight": 1.0} -->
+<!-- chunk {"id": "body-0101", "role": "body", "section": "Broader Impacts", "weight": 1.0} -->
 
 We have also sought to characterize the social biases inherent to the model. Our bias tests represent our initial efforts to probe aspects of how the model responds in different scenarios, and are by nature limited in scope. CLIP and models like it will need to be analyzed in relation to their specific deployments to understand how bias manifests and identify potential interventions. Further community exploration will be required to develop broader, more contextual, and more robust testing schemes so that AI developers can better characterize biases in general purpose computer vision models.
 
+<!-- chunk {"id": "body-0102", "role": "body", "section": "Broader Impacts", "weight": 1.0} -->
+
+Linear Probe CLIP Linear Probe Instagram Table 3: Percent accuracy on Race, Gender, and Age classification of images in FairFace category ‘White’ Linear Probe CLIP Linear Probe Instagram Table 4: Percent accuracy on Race, Gender, and Age classification of images in FairFace categories ‘Black,’ ‘Indian,’ ‘East Asian,’ ‘Southeast Asian,’ ‘Middle Eastern,’ and ‘Latino’ (grouped together as FairFace category ‘Non-White’) Linear Probe CLIP Linear Probe Instagram Table 5: Percent accuracy on gender classification of images by FairFace race category Table 6: Percent of images classified into crime-related and non-human categories by FairFace Race category. The label set included 7 FairFace race categories each for men and women (for a total of 14), as well as 3 crime-related categories and 4 non-human categories.
+
 <!-- chunk {"id": "body-0103", "role": "body", "section": "Broader Impacts", "weight": 1.0} -->
 
-Default Label Set + ‘child’ category
+Category Label Set Default Label Set Default Label Set + ‘child’ category Table 7: Percent of images classified into crime-related and non-human categories by FairFace Age category, showing comparison between results obtained using a default label set and a label set to which the label ’child’ has been added. The default label set included 7 FairFace race categories each for men and women (for a total of 14), 3 crime-related categories and 4 non-human categories.
 
 <!-- chunk {"id": "body-0104", "role": "body", "section": "Bias", "weight": 1.0} -->
 
@@ -537,32 +536,28 @@ This preliminary analysis is intended to illustrate some of the challenges that 
 
 <!-- chunk {"id": "body-0134", "role": "body", "section": "Future Work", "weight": 1.5} -->
 
-We believe one good step forward is community exploration to further characterize the capabilities of models like CLIP and - crucially - identify application areas where they have promising performance and areas where they may have reduced performance^99^9A model could be unfit for use due to inadequate performance or due to the inappropriateness of AI use in the application area itself..
+We believe one good step forward is community exploration to further characterize the capabilities of models like CLIP and - crucially - identify application areas where they have promising performance and areas where they may have reduced performance^99^9A model could be unfit for use due to inadequate performance or due to the inappropriateness of AI use in the application area itself.. This process of characterization can help researchers increase the likelihood models are used beneficially: Identifying potentially beneficial downstream uses of models early in the research process, enabling other researchers to think about applications.
 
 <!-- chunk {"id": "body-0135", "role": "body", "section": "Future Work", "weight": 1.5} -->
 
-Identifying potentially beneficial downstream uses of models early in the research process, enabling other researchers to think about applications.
+Surfacing tasks with significant sensitivity and a large set of societal stakeholders, which may call for intervention by policymakers.
 
 <!-- chunk {"id": "body-0136", "role": "body", "section": "Future Work", "weight": 1.5} -->
 
-Surfacing tasks with significant sensitivity and a large set of societal stakeholders, which may call for intervention by policymakers.
+Better characterizing biases in models, alerting other researchers to areas of concern and areas for interventions.
 
 <!-- chunk {"id": "body-0137", "role": "body", "section": "Future Work", "weight": 1.5} -->
 
-Better characterizing biases in models, alerting other researchers to areas of concern and areas for interventions.
+Creating suites of tests to evaluate systems like CLIP, so we can better characterize model capabilities earlier in the development cycle.
 
 <!-- chunk {"id": "body-0138", "role": "body", "section": "Future Work", "weight": 1.5} -->
 
-Creating suites of tests to evaluate systems like CLIP, so we can better characterize model capabilities earlier in the development cycle.
+Identifying potential failure modes and areas for further work.
 
 <!-- chunk {"id": "body-0139", "role": "body", "section": "Future Work", "weight": 1.5} -->
 
-Identifying potential failure modes and areas for further work.
-
-<!-- chunk {"id": "body-0140", "role": "body", "section": "Future Work", "weight": 1.5} -->
-
 We plan to contribute to this work, and hope this analysis provides some motivating examples for subsequent research.
 
-<!-- chunk {"id": "body-0141", "role": "body", "section": "Conclusion", "weight": 1.5} -->
+<!-- chunk {"id": "body-0140", "role": "body", "section": "Conclusion", "weight": 1.5} -->
 
 We have investigated whether it is possible to transfer the success of task-agnostic web-scale pre-training in NLP to another domain. We find that adopting this formula results in similar behaviors emerging in the field of computer vision and discuss the social implications of this line of research. In order to optimize their training objective, CLIP models learn to perform a wide variety of tasks during pre-training. This task learning can then be leveraged via natural language prompting to enable zero-shot transfer to many existing datasets. At sufficient scale, the performance of this approach can be competitive with task-specific supervised models although there is still room for much improvement.

@@ -44,7 +44,7 @@ The second setting we consider are finite MDPs with linear side information (con
 
 <!-- chunk {"id": "body-0011", "role": "body", "section": "Introduction", "weight": 1.5} -->
 
-We introduce policy certificates and the IPOC framework for evaluating RL algorithms with certificates. Similar to existing frameworks like PAC, it provides formal requirements to be satisfied by the algorithm, here requiring the algorithm to be an efficient learner and to quantify its performance online through policy certificates.
+To summarize, We make the following main contributions: We introduce policy certificates and the IPOC framework for evaluating RL algorithms with certificates. Similar to existing frameworks like PAC, it provides formal requirements to be satisfied by the algorithm, here requiring the algorithm to be an efficient learner and to quantify its performance online through policy certificates.
 
 <!-- chunk {"id": "body-0012", "role": "body", "section": "Introduction", "weight": 1.5} -->
 
@@ -84,64 +84,40 @@ For example, in automated customer services, one might reduce the service price 
 
 <!-- chunk {"id": "body-0021", "role": "body", "section": "Relation to Existing Frameworks", "weight": 1.0} -->
 
-Unlike IPOC, existing frameworks for RL only guarantee sample-efficiency of the algorithm over multiple episodes and do not provide performance bounds for single episodes during learning.
+Unlike IPOC, existing frameworks for RL only guarantee sample-efficiency of the algorithm over multiple episodes and do not provide performance bounds for single episodes during learning. The common existing frameworks are: *Mistake-style PAC bounds* bound the number of $\epsilon$-mistakes, that is, the size of the set $\{{k \in {\mathbb{N}}}:{\Delta_{k} > \epsilon}\}$ with high probability, but do not tell us when mistakes happen. The same is true for the stronger Uniform-PAC bounds which hold for all $\epsilon$ jointly.
 
 <!-- chunk {"id": "body-0022", "role": "body", "section": "Relation to Existing Frameworks", "weight": 1.0} -->
 
-*Mistake-style PAC bounds* bound the number of $\epsilon$-mistakes, that is, the size of the set $\{{k \in {\mathbb{N}}}:{\Delta_{k} > \epsilon}\}$ with high probability, but do not tell us when mistakes happen. The same is true for the stronger Uniform-PAC bounds which hold for all $\epsilon$ jointly.
+*Supervised-learning style PAC bounds* ensure that the algorithm outputs an $\epsilon$-optimal policy for a given $\epsilon$, i.e., they ensure $\Delta_{k} \leq \epsilon$ for $k$ greater than the bound. Yet, they need to know $\epsilon$ ahead of time and tell us nothing about $\Delta_{k}$ during learning (for $k$ smaller than the bound).
 
 <!-- chunk {"id": "body-0023", "role": "body", "section": "Relation to Existing Frameworks", "weight": 1.0} -->
 
-*Supervised-learning style PAC bounds* ensure that the algorithm outputs an $\epsilon$-optimal policy for a given $\epsilon$, i.e., they ensure $\Delta_{k} \leq \epsilon$ for $k$ greater than the bound. Yet, they need to know $\epsilon$ ahead of time and tell us nothing about $\Delta_{k}$ during learning (for $k$ smaller than the bound).
+*Regret bounds* control the cumulative sum of optimality gaps $\sum_{k = 1}^{T}\Delta_{k}$ (regret) which does not yield any nontrivial guarantee for individual $\Delta_{k}$ because it does not reveal which optimality gaps are small.
 
 <!-- chunk {"id": "body-0024", "role": "body", "section": "Relation to Existing Frameworks", "weight": 1.0} -->
 
-*Regret bounds* control the cumulative sum of optimality gaps $\sum_{k = 1}^{T}\Delta_{k}$ (regret) which does not yield any nontrivial guarantee for individual $\Delta_{k}$ because it does not reveal which optimality gaps are small.
-
-<!-- chunk {"id": "body-0025", "role": "body", "section": "Relation to Existing Frameworks", "weight": 1.0} -->
-
 We show that mistake IPOC bounds are stronger than any of the above guarantees, i.e., they imply Uniform PAC, PAC, and regret bounds. Cumulative IPOC bounds are slightly weaker but still imply regret bounds. Both versions of IPOC also ensure that the algorithm is anytime interruptable, i.e., it can be used to find better and better policies that have small $\Delta_{k}$ with high probability $1 - \delta$. That means IPOC bounds imply supervised-learning style PAC bounds for all $\epsilon$ jointly.
 
-<!-- chunk {"id": "body-0026", "role": "body", "section": "Algorithms with Policy Certificates", "weight": 1.0} -->
+<!-- chunk {"id": "body-0025", "role": "body", "section": "Algorithms with Policy Certificates", "weight": 1.0} -->
 
 A natural path to obtain RL algorithms with IPOC bounds is to combine existing provably efficient online RL algorithms with an off-policy policy evaluation method to compute a confidence interval on the online RL algorithm's policy for the current episode. This yields policy return certificates, but not necessarily policy optimality certificates -- bounds on the difference of the optimal and current policy's return. Estimating the optimal return using off-policy evaluation algorithms in order to compute optimality certificates would require a significant computational burden, e.g. evaluating all (exponentially many) policies.
 
-<!-- chunk {"id": "body-0027", "role": "body", "section": "Algorithms with Policy Certificates", "weight": 1.0} -->
+<!-- chunk {"id": "body-0026", "role": "body", "section": "Algorithms with Policy Certificates", "weight": 1.0} -->
 
 However optimism in the face of uncertainty (OFU) algorithms can be modified to provide both policy return certificates and optimality certificates without the need for a separate off-policy policy optimization step. Specifically, we here consider OFU algorithms that maintain an upper confidence bound (for a potentially changing confidence level) on the optimal value function $Q_{k,h}^{\star}$ and therefore optimal return $\rho_{k}^{\star}$. This bound is also an upper bound on the return of the current policy which is chosen to maximize this bound. Many OFU methods explicitly maintain a confidence set of the MDP model to compute the upper confidence bound on $Q_{k,h}^{\star}$. These same confidence sets of the model can be used to compute a lower bound on the value function of the current policy. In doing so, OFU algorithms can be modified with little computational overhead to provide policy return and optimality certificates.
 
-<!-- chunk {"id": "body-0028", "role": "body", "section": "Algorithms with Policy Certificates", "weight": 1.0} -->
+<!-- chunk {"id": "body-0027", "role": "body", "section": "Algorithms with Policy Certificates", "weight": 1.0} -->
 
 For these reasons, we focus on OFU methods, introducing two new algorithms with policy certificates, one for tabular MDPs and and one for the more general MDPs with linear side information setting. Both approaches have a similar structure, but leverage different confidence sets and model estimators. In the first case, we show that maintaining lower bounds on the current policy's value has significant benefits beyond enabling policy certificates: lower bounds help us to derive a tighter bound on our uncertainty over the range of future values. Thus we are able to provide the strongest, to our knowledge, PAC and regret bounds for tabular MDPs. It remains an intriguing but non-trivial question if we can create confidence sets that leverage explicit upper and lower bounds for the linear side information setting.
 
-<!-- chunk {"id": "body-0029", "role": "body", "section": "Tabular MDPs", "weight": 1.0} -->
-
-We present the ORLC (optimistic RL with certificates) Algorithm shown in Algorithm 1 (see the appendix for a version with empirically tighter confidence bounds but same theoretical guarantees). It shares similar structure with recent OFU algorithms like UBEV and UCBVI-BF but has some significant differences highlighted in red. Before each episode $k$, Algorithm 1 computes an optimistic estimate ${\overset{\sim}{Q}}_{k,h}$ of $Q_{h}^{\star}$ in Line 1 by dynamic programming on the empirical model $({\hat{P}}_{k},{\hat{r}}_{k})$ with confidence intervals $\psi_{k,h}$.
-
-<!-- chunk {"id": "body-0030", "role": "body", "section": "Tabular MDPs", "weight": 1.0} -->
-
-Importantly, it also computes ${\underset{\sim}{Q}}_{k,h}$, a pessimistic estimate of $Q_{h}^{\pi_{k}}$ in similar fashion in Line 1. The optimistic and pessimistic estimates ${\underset{\sim}{Q}}_{k,h},{\overset{\sim}{Q}}_{k,h}$ (resp. ${\underset{\sim}{V}}_{k,h},{\overset{\sim}{V}}_{k,h}$) allow us to compute the certificates $\epsilon_{k}$ and $\mathcal{I}_{k}$ and enables more sample-efficient learning. Specifically, Algorithm 1 uses a novel form of confidence intervals $\psi$ that explicitly depends on this difference.
-
-<!-- chunk {"id": "body-0031", "role": "body", "section": "MDPs With Linear Side Information", "weight": 1.0} -->
-
-We now present an algorithm for the more general setting with side information, which, for example, allows us to take background information about a customer into account and generalize across different customers. Algorithm 2 gives an extension, called ORLC-SI, of the OFU algorithm by Abbasi-Yadkori & Neu. Its overall structure is the same as the tabular Algorithm 1 but here the empirical model are least-squares estimates of the model parameters evaluated at the current contexts. Specifically, the empirical transition probability ${\hat{P}}_{k}{(\left. s^{\prime} \middle| {s,a} \right.)}$ is ${(x_{k}^{(p)})}^{\top}{\hat{\theta}}_{s^{\prime},s,a}$ where ${\hat{\theta}}_{s^{\prime},s,a}$ is the least squares estimate of model parameter $\theta_{s^{\prime},s,a}$.
-
-<!-- chunk {"id": "body-0032", "role": "body", "section": "MDPs With Linear Side Information", "weight": 1.0} -->
-
-Since transition probabilities are normalized, this estimate is then clipped to $\lbrack 0,1\rbrack$. This model is estimated separately for each $(s^{\prime},s,a)$-triple, but generalizes across different contexts. The confidence widths $\psi_{k,h}$ are derived using ellipsoid confidence sets on model parameters.
-
-<!-- chunk {"id": "body-0033", "role": "body", "section": "Simulation Experiment", "weight": 1.0} -->
-
-One important use case for certificates is to detect sudden performance drops when the distribution of contexts changes. For example, in a call center dialogue system, there can be a sudden increase of customers calling due to a certain regional outage. We demonstrate that certificates can identify such performance drops caused by context shifts. We consider a simulated MDP with $10$ states, $40$ actions and horizon $5$ where rewards depend on a $10$-dimensional context and let the distribution of contexts change after $2$M episodes. As seen in Figure 1, this causes a spike in optimality gap as well as in the optimality certificates. While our certificates need to upper bound the optimality gap / contain the return in each episode up to a small failure probability, even for the worst case, our algorithm reliably can detect this sudden decrease of performance. In fact, the optimality certificates have a very high correlation of $0.94$ with the unobserved optimality gaps.
-
-<!-- chunk {"id": "body-0034", "role": "body", "section": "Simulation Experiment", "weight": 1.0} -->
+<!-- chunk {"id": "body-0028", "role": "body", "section": "Simulation Experiment", "weight": 1.0} -->
 
 One also may wonder if our algorithms leads to improvements over prior approaches in practice or only in the theoretical bounds. To help answer this, we present results in Appendix E at both on analyzing the policy certificates provided, and examining ORLC's performance in tabular MDPs versus other recent papers with similar regret or PAC bounds. Encouragingly in the small simulation MDPs considered, we find that our algorithms lead to faster learning and better performance. Therefore while our primary contribution is theoretical results, these simulations suggest the potential benefits of the ideas underlying our proposed framework and algorithms.
 
-<!-- chunk {"id": "body-0035", "role": "body", "section": "Conclusion and Future Work", "weight": 1.5} -->
+<!-- chunk {"id": "body-0029", "role": "body", "section": "Conclusion and Future Work", "weight": 1.5} -->
 
 We introduced policy certificates to improve accountability in RL by enabling users to intervene if the guaranteed performance is deemed inadequate. Bounds in our new theoretical framework IPOC ensure that certificates indeed bound the return and suboptimality in each episode and prescribe the rate at which certificates and policy improve. By combining optimism-based exploration with model-based policy evaluation, we have created two algorithms for RL with policy certificates, including for tabular MDPs with side information. For tabular MDPs, we demonstrated that policy certificates help optimism-based policy learning and vice versa. As a result, our new algorithm is the first to achieve minimax-optimal PAC bounds up to lower-order terms for tabular episodic MDPs, and, also the first to have both, minimax PAC and regret bounds, for this setting.
 
-<!-- chunk {"id": "body-0036", "role": "body", "section": "Conclusion and Future Work", "weight": 1.5} -->
+<!-- chunk {"id": "body-0030", "role": "body", "section": "Conclusion and Future Work", "weight": 1.5} -->
 
 Future areas of interest include scaling up these ideas to continuous state spaces, extending them to model-free RL, and to provide per-episode risk-sensitive guarantees on the reward obtained.

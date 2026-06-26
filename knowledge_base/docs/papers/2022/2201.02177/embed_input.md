@@ -20,7 +20,7 @@ The datasets we consider are binary operation tables of the form ${a \circ b} = 
 
 <!-- chunk {"id": "body-0005", "role": "body", "section": "Introduction", "weight": 1.5} -->
 
-We show that neural networks are capable of generalizing to the empty slots in a variety of binary op tables.
+Our contributions are as follows: We show that neural networks are capable of generalizing to the empty slots in a variety of binary op tables.
 
 <!-- chunk {"id": "body-0006", "role": "body", "section": "Introduction", "weight": 1.5} -->
 

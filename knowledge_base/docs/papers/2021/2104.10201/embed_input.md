@@ -68,32 +68,172 @@ The "dataset" for this competition was a collection of optimization problems. Th
 
 <!-- chunk {"id": "body-0017", "role": "body", "section": "The Optimization Problems", "weight": 1.0} -->
 
-We obtain novel optimization problems via the Cartesian product of datasets, ML models, and evaluation metrics. For example, the following are all examples of optimization problems,
+We obtain novel optimization problems via the Cartesian product of datasets, ML models, and evaluation metrics. For example, the following are all examples of optimization problems, Tune a GBDT on MNIST evaluated on accuracy on the validation set.
 
 <!-- chunk {"id": "body-0018", "role": "body", "section": "The Optimization Problems", "weight": 1.0} -->
 
-Tune a GBDT on MNIST evaluated on accuracy on the validation set.
+Tune logistic regression on MNIST evaluated on log loss on the validation set.
 
 <!-- chunk {"id": "body-0019", "role": "body", "section": "The Optimization Problems", "weight": 1.0} -->
 
-Tune logistic regression on MNIST evaluated on log loss on the validation set.
+Tune an MLP on Boston housing evaluated on RMSE on the validation set.
 
 <!-- chunk {"id": "body-0020", "role": "body", "section": "The Optimization Problems", "weight": 1.0} -->
 
-Tune an MLP on Boston housing evaluated on RMSE on the validation set.
+The Cartesian product is violated slightly as different loss functions are used for classification and regression problems. Keeping many of these datasets completely hidden allows us to have test (optimization) problems unknown to the participants for both the feedback and final leaderboards. The search space varied by ML model and was provided to the algorithm by the benchmark. We summarize this space of problems across phases in Table 1.
 
 <!-- chunk {"id": "body-0021", "role": "body", "section": "The Optimization Problems", "weight": 1.0} -->
 
-The Cartesian product is violated slightly as different loss functions are used for classification and regression problems. Keeping many of these datasets completely hidden allows us to have test (optimization) problems unknown to the participants for both the feedback and final leaderboards. The search space varied by ML model and was provided to the algorithm by the benchmark. We summarize this space of problems across phases in Table 1.
-
-<!-- chunk {"id": "body-0022", "role": "body", "section": "The Optimization Problems", "weight": 1.0} -->
-
 This structure was chosen because in industrial settings we are often more concerned with *wall clock time* than raw CPU time. To keep this wall clock time reasonable, each submission was allowed a budget of 30 minutes per optimization run. Therefore, algorithms that perform well when making parallel suggestions are highly desirable. Much of the BO literature is focused on limiting the number function evaluations rather than iterations. The limitation of 16 rounds of guesses (iterations) is very small in the broader world of optimization.
 
-<!-- chunk {"id": "body-0023", "role": "body", "section": "Evaluation Metrics", "weight": 1.0} -->
+<!-- chunk {"id": "body-0022", "role": "body", "section": "Evaluation Metrics", "weight": 1.0} -->
 
 In this challenge we use the open-source package Bayesmark to execute all the experiments inside the docker and for scoring. The Bayesmark package has routines designed to deal with the subtleties of scoring black-box optimization algorithms. Scoring an optimization algorithm on a single problem is easy; simply take the minimum found by the optimizer after $n$ function evaluations. Averaging over repeated trials can be done in noisy settings. Each repeated trial of a particular problem is known as a *study*.
 
-<!-- chunk {"id": "body-0024", "role": "body", "section": "Evaluation Metrics", "weight": 1.0} -->
+<!-- chunk {"id": "body-0023", "role": "body", "section": "Evaluation Metrics", "weight": 1.0} -->
 
 However, averaging over many different problems becomes more subtle. We cannot simply average scores because they are all on different scales (units); such an approach builds in an arbitrary implicit weighting across problems. The Bayesmark package has a scoring system designed to deal with this problem. First, we normalize the performance on each problem so that a single RS suggestion has an average score of 1, and the global optimum has a score of 0. Then, we can average the performance across multiple problems because the units are all the same.
+
+<!-- chunk {"id": "body-0024", "role": "body", "section": "Evaluation Metrics", "weight": 1.0} -->
+
+Appendix B contains the equations for scoring taken directly from the Bayesmark documentation. The (feedback and final) leaderboard score is from Equation 7: $100 \times {({1 - \text{norm-mean-perf}})}$. Accordingly, the scoring is normalized such that scores vary from 0 (The optimizer on average is about the same as a single random search guess) to 100 (The optimizer finds the best known optimum every single time). This places the scoring on a normalized, unitless, and intuitive scale.
+
+<!-- chunk {"id": "body-0025", "role": "body", "section": "Evaluation Environment", "weight": 1.0} -->
+
+The scoring and execution of runs in this challenge was handled using the open source Bayesmark package. Bayesmark is designed around optimizers that use a *suggest-observe* framework; and it provides a Python abstract class with the API. This suggest-observe framework is known as an *open-loop* optimizer. The participant's algorithm suggests $k = 8$ guesses to be evaluated in parallel via the suggest function. The benchmark then evaluates the $k$ different guesses and returns them to the algorithm via the observe function. The user just needs to provide a Python file with the Bayesmark AbstractOptimizer class implemented. This open-loop setup is desirable as it gives the user more flexibility on how (and if) to evaluate a suggestion. Furthermore, if the black box being optimized is a real experiment (not a function in code) an open-loop setup is required.
+
+<!-- chunk {"id": "body-0026", "role": "body", "section": "Evaluation Environment", "weight": 1.0} -->
+
+In the context of a black-box optimization competition, each "data point" in the "training" or "test" set is an independent black-box optimization problem. This is similar to the AutoML competition where each "data point" is a dataset. For each optimization problem, the algorithm had access only to a search space specification and a black-box that evaluates the objective function.
+
+<!-- chunk {"id": "body-0027", "role": "body", "section": "Evaluation Environment", "weight": 1.0} -->
+
+For the local practice optimization problems, the evaluation of the objective functions was done on the participants' hardware. However, for the test problems (the feedback and final leaderboards), the objective function had to be hidden, and therefore the participants' submissions were run inside a Docker container in a cloud environment. The optimizers had a total of 640 seconds compute time for making suggestions on each problem (16 iterations with batch size of 8); or 40 seconds per iteration. Optimizers exceeding the time limits were cut off from making further suggestions and the best optima found before being killed was used. The participants were limited to five submissions per day. However, few teams made more than one submission per day.
+
+<!-- chunk {"id": "body-0028", "role": "body", "section": "Evaluation Environment", "weight": 1.0} -->
+
+In this challenge, we used the average score (see Equation 7) over $M = 60$ problems on the feedback leaderboard. A separate set of $M = 60$ problems were used for the final leaderboard. The two sets of problems were split randomly. The feedback leaderboard was run with $N = 10$ repeated trials. The final problems were run with $N = 30$ repeated trials. To ensure the final score was not due to chance, we re-ran the top-20 with $N = 100$ for the final leaderboard ranking.
+
+<!-- chunk {"id": "body-0029", "role": "body", "section": "Evaluation Environment", "weight": 1.0} -->
+
+The submissions were executed in a docker hosted on the Valohai platform.^66^6 Valohai provided a robust backend where resources could automatically scale alongside the master scoring queue load. More than 300 worker machines were executing submissions during peak hours, and at quieter moments, not a single one. To prevent data exfiltration about the feedback leaderboard problems, the docker images had no network/internet access and the participants were not allowed to see the logs. However, the Valohai platform provided intuitive access for the organizers to inspect the scoring tasks. The organizers could still easily comment on issues through manual channels as they had access to the logs.
+
+<!-- chunk {"id": "body-0030", "role": "body", "section": "Evaluation Environment", "weight": 1.0} -->
+
+Post-challenge the evaluation environment has been adapted to CodaLab for use as a "ever-lasting benchmark" in hyper-parameter optimization courses.^77^7
+
+<!-- chunk {"id": "body-0031", "role": "body", "section": "Learnings and Key Results", "weight": 1.0} -->
+
+By the end of the challenge, there were 65 teams after filtering accounts which could not be verified through GitHub or LinkedIn. When testing on the final leaderboard problems, which were not previously available to competitors, most teams saw their gains persist. This implies that the submissions did not simply overfit to the local practice problems or the feedback leaderboard problems: There were actual insights which worked on previously unseen ML problems. Out of the 65 total teams whose results appeared in the final leaderboard in Table 2, 61 beat the baseline random search and 23 beat TuRBO which was the strongest baseline provided in the starter kit. The final competition results are shown in Table 2 and in Figure 1.
+
+<!-- chunk {"id": "body-0032", "role": "body", "section": "Error Analysis", "weight": 1.0} -->
+
+Just getting a sensible scale for scoring is not enough to gain scientific rigor from this challenge; we need to do an error analysis. Also, for fairness, we wanted to be confident that we did not give prizes to a team due to chance. Our error analysis gave us confidence we did enough repeated trials such that the ranking of the final leaderboard was not due to a "lucky" random seed.
+
+<!-- chunk {"id": "body-0033", "role": "body", "section": "Error Analysis", "weight": 1.0} -->
+
+We ran the top-20 participants for $N = 100$ repeated trials to provide statistical confidence in the final results followed by a bootstrap-based analysis to get a "confidence set". Based on this analysis, we are 90% certain in the final top-5 as is shown in Table 3 and our resulting conclusions and learnings. Note that this bootstrap procedure is entirely a post-hoc error analysis and did not determine the final ranking on the leaderboard.
+
+<!-- chunk {"id": "body-0034", "role": "body", "section": "Error Analysis", "weight": 1.0} -->
+
+More precisely, we wanted to get error-bars on what the scores would be with an infinite number of repeated trials on these same problems. Note that the final normalized score is a grand-mean across all problems, which means we cannot use a simple $t$-test. Furthermore, we also wanted to translate that to a "confidence set" on the rankings. So, we opted to use a bootstrap-based analysis of the scores from each study.
+
+<!-- chunk {"id": "body-0035", "role": "body", "section": "Error Analysis", "weight": 1.0} -->
+
+To get the bootstrap re-sampled score, we re-sampled with replacement $N$ scores for each problem separately and then took the average of those to get a bootstrap score. We repeated this process $B = 10^{4}$ times (more than enough for scalar estimation) to get the bootstrap distribution on scores. More formally, where Cat is a categorical distribution that is uniform over the elements provided as its argument. In other words, the score on problem $p$ in the $n$th study of the $i$th bootstrap replication is re-sampled from the actual scores on problem $p$. We then ranked the teams within each bootstrap replication. We got separate parallel rankings for each bootstrap replication. This gives a bootstrap distribution of ranks.
+
+<!-- chunk {"id": "body-0036", "role": "body", "section": "Error Analysis", "weight": 1.0} -->
+
+Huawei Noah’s Ark Lab Better call Bayes Tiny, Shiny & Don Table 2: The final rankings on the final leaderboard for the top-20. We show the final rank, team name, and (mean) score. For completeness, we also show the score using the median instead of the mean to aggregate scores across runs. We provide an analysis comparing this algorithm to the equivalent number of random search iterations (“RS Iters.”) needed to obtain the same (mean) score. This is in comparison to the actual number of function evaluations in the challenge: 16 × 8 = 128; the ratio yields the “RS Efficiency” factor. The AutoML.org submission would have gotten 92.551 (3rd place) after correcting a minor bug in their submission that prevented their code from executing; so, we present them with rank “*” in this table.
+
+<!-- chunk {"id": "body-0037", "role": "body", "section": "Error Analysis", "weight": 1.0} -->
+
+Most likely ranking 2nd most likely ranking 3rd most likely ranking Huawei Noah’s Ark Lab Huawei Noah’s Ark Lab Huawei Noah’s Ark Lab Table 3: Variation in final rankings (of all teams) across bootstrap replications. Each ranking’s frequency in the bootstrap replications is shown in the bottom row. Teams outside these top-5 only appeared in the top-5 in < 0.1% of bootstrap replications. This analysis gives us near certainty these top-5 (and the prize amounts) are not due to chance. Duxiaoman DI was the only source of variation. Their solution appears to have a higher variance than the others in the top-5.
+
+<!-- chunk {"id": "body-0038", "role": "body", "section": "Performance of the Baselines", "weight": 1.0} -->
+
+In this section we report the score for the baselines provided in the starter kit with the addition of Ax, GPyOpt, and pycma. The score for the different baselines with the default options can be found in Table 4.
+
+<!-- chunk {"id": "body-0039", "role": "body", "section": "Performance of the Baselines", "weight": 1.0} -->
+
+We see that TuRBO^88^8 performs the best with a score of 88.921 followed by pySOT which uses the stochastic RBF (SRBF) method. Both TuRBO and pySOT use trust-region inspired methods, showing that a more local approach is advantageous for ML hyperparameter tuning. Scikit-Optimize, Ax, and GpyOpt, all use Bayesian optimization with a GP model. Scikit-Optimize uses a hedging strategy that uses multiple acquisition functions. Ax uses batch noisy EI (qNEI) while GPyOpt uses EI with local penalization, which is the only option in GPyOpt that supports batch evaluations. The hyperopt package uses a tree-structured Parzen estimator (TPE) with EI, so these results indicate that using a GP model leads to better performance than using a TPE. Oopentuner and pycma use EAs and are clearly not competitive with the BO packages.
+
+<!-- chunk {"id": "body-0040", "role": "body", "section": "Performance of the Baselines", "weight": 1.0} -->
+
+Note that this comparison does not necessarily show that one package is better than another; it rather compares the performance of their default methods. Table 4 shows that the trust-region inspired method TuRBO and SRBF (pySOT) perform best out-of-the box, followed by packages with traditional BO methods as defaults. Both groups of methods perform better than the three packages that rely on EAs.
+
+<!-- chunk {"id": "body-0041", "role": "body", "section": "Bayesian Optimization was Consistently Effective", "weight": 1.0} -->
+
+The submissions immediately bring one significant realization to the forefront: surrogate-assisted optimization is very effective. We discussed the performance of the baselines relative to random search in Section 4.2, but the performance of the participants was even more compelling (see Table 2). *All* of the top-20 participants used some form of surrogate-assisted optimization. This is strongly indicative of the value of using a "surrogate model" and that intelligent modeling/decision making can significantly improve the optimization performance. Most top teams used a GP model and at least one of the commonly used acquisition functions, but as we will describe in the next section discovered the need for ensembling.
+
+<!-- chunk {"id": "body-0042", "role": "body", "section": "Bayesian Optimization was Consistently Effective", "weight": 1.0} -->
+
+Note also that the baseline random search samples uniformly in the *warped space* from the search configuration. Thus, this baseline already outperforms a more naive random search that does not use the warping information, e.g., log scale vs linear scale. Nonetheless, the participants gained orders of magnitude greater search efficiency than random search as seen in Table 2.
+
+<!-- chunk {"id": "body-0043", "role": "body", "section": "Ensemble Methods", "weight": 1.0} -->
+
+Many published papers on BO propose using only one surrogate model and one acquisition function, despite some prior research having discussed the benefits of ensembling BO methods. Still, teams discovered that the large set of somewhat disparate problems were best treated through a mixture of methods. In fact, all of the methods in the top-10 had some sort of ensembling strategy.
+
+<!-- chunk {"id": "body-0044", "role": "body", "section": "Ensemble Methods", "weight": 1.0} -->
+
+For the purposes of this article we use the term ensemble in a broad sense. Ensembles could be built from multiple surrogates, acquisition functions, or potentially entire optimization algorithms, each of which could independently be used to fully power the optimization. The level at which these ensembling decisions were made varied across each of the teams. The first-placed team Huawei Noah's Ark Lab used an elaborate compilation of acquisition functions and incorporated them into a multi-objective optimization strategy to select the next suggestions from the Pareto frontier. Other popular approaches were to alternate the kernel in the GP model or to use multiple surrogate models such as a GP and an XGBoost model.
+
+<!-- chunk {"id": "body-0045", "role": "body", "section": "Ensemble Methods", "weight": 1.0} -->
+
+Evolutionary methods also found their way into some ensembles --- 2 of the the top-10 submissions incorporated differential evolution into their optimization process. Of particular note, the AutoML team allocated the final 5 of their 16 batches to differential evolution in order to improve convergence close to the best point found in the first 11 batches. Similarly, Better call Bayes used pySOT and switched to DE for the final batches. This is a great example of how BO methods, while powerful, can be supplemented by other tools to help balance out their weaknesses.
+
+<!-- chunk {"id": "body-0046", "role": "body", "section": "Ensemble Methods", "weight": 1.0} -->
+
+Second-placed NVIDIA RAPIDS.AI and fourth-placed Duxiaoman DI lived on the other extreme of simple ensemble methods; they employed straightforward ensembles of TuRBO $+$ Scikit-Optimize and TuRBO $+$ pySOT, respectively. NVIDIA's ensemble, selecting 50% of suggestions from each method, got a score of 92.928, beating both TuRBO (88.921) and Scikit-Optimize (88.085) when used individually by a large margin. Figure 2 shows an analysis comparing the NVIDIA RAPIDS.AI ensemble with its components. This analysis hints that ensembling may be useful in avoiding failed models where an individual BO algorithm makes little progress. The success of ensembles further justifies the use of open-loop optimizers. The implementation of the NVIDIA RAPIDS.AI solution was trivial due to the open-loop nature of the optimizers they were ensembling.
+
+<!-- chunk {"id": "body-0047", "role": "body", "section": "Ensemble Methods", "weight": 1.0} -->
+
+The results of this challenge show that a strong ensemble can be created by combining open-source tools without prior knowledge of the underlying components. However, further analysis and ablation studies would be useful for fully understanding the mechanism of why ensembling works so well for BO.
+
+<!-- chunk {"id": "body-0048", "role": "body", "section": "Building with (and from) Open Source Tools", "weight": 1.0} -->
+
+On the topic of Scikit-Optimize, TuRBO, and open source packages, all of the top-20 submissions had some open source elements present (including NumPy/SciPy). Realistically, nobody worked on a solution entirely independent of existing code: NVIDIA RAPIDS.AI stitched together a solution built entirely from unaltered open-source projects; Huawei built on tools like GPy (which are common in the BO and GP community) and built their own strategy using them; AutoML started from open-source tools that their research group previously built. This is a testament to the maturity of the open-source computational Python community, and in particular, the ML/GP niche of that community.
+
+<!-- chunk {"id": "body-0049", "role": "body", "section": "Building with (and from) Open Source Tools", "weight": 1.0} -->
+
+Six out of the top-10 teams incorporated TuRBO into their solution, showing that trust region-based optimization works well even for the lower dimensional problems represented by these ML hyperparameter tuning tasks. In particular, JetBrains Research combined TuRBO with $k$-means to learn a partitioning of the search space similar to Wang et al.. This prevalence of TuRBO may indicate that the function landscape is often non-smooth and that it can be beneficial to fit a local model rather than a global model. Or, it may indicate that TuRBO was the highest performing baseline provided to participants, and it was a logical starting place.
+
+<!-- chunk {"id": "body-0050", "role": "body", "section": "Discrete and Categorical Parameters", "weight": 1.0} -->
+
+While surrogate-assisted optimization is very powerful most literature on the topic deals with only continuous parameters. The Bayesmark tool allowed users to ignore the presence of integer and categorical parameters and computationally treat all parameters as continuous by encoding discrete and categorical parameters in a continuous space. Furthermore, tree based methods such as TPEs are generally considered to more naturally manage categorical parameters, but none of the participants used it in their solutions.
+
+<!-- chunk {"id": "body-0051", "role": "body", "section": "Discrete and Categorical Parameters", "weight": 1.0} -->
+
+Still, a few participants chose to more actively recognize and manage integer and categorical parameters. The Optuna Developers built on top of TuRBO, but changed the size of the dimensions in the trust region to make sure that at least one value for each discrete parameters was always viable (that the trust region never moved/shrunk so much that none of the points in the trust region represent actionable parameters). KAIST OSI took that approach and added in a multi-armed bandit strategy for recovering categorical parameters from their continuous embeddings. The other participants may have identified other avenues for improving performance that they felt were more beneficial investments of their energy.
+
+<!-- chunk {"id": "body-0052", "role": "body", "section": "Meta-Learning and Warm Starting", "weight": 1.0} -->
+
+The competition was divided into a feedback session (which the participants could monitor thorough a practice leaderboard) and a final testing session (the results of which produced the final leaderboard, as seen in Table 2). The goal of the feedback period was to allow participants to measure their performance on problems which they could not observe and improve through that feedback. Many of the successful participants used this as an opportunity to set tunable elements of their submissions to high performing values; this, in effect, was meta black box optimization.
+
+<!-- chunk {"id": "body-0053", "role": "body", "section": "Meta-Learning and Warm Starting", "weight": 1.0} -->
+
+Some participants used this as an opportunity for meta-learning. While this was not the goal of the black-box optimization setting, the participants realized that this meta-learning can further improve the performance by transferring information from hyperparameter configurations applied to similar ML problems. To preserve the black-box nature of the challenge, the final testing was conducted with all anonymized parameter names (e.g., P1, P2). This negated the benefit of most meta-learning strategies.
+
+<!-- chunk {"id": "body-0054", "role": "body", "section": "Meta-Learning and Warm Starting", "weight": 1.0} -->
+
+But we were so excited by the effort put in to meta-learning by these teams that we reran all submissions with full visibility into parameter names. This allowed teams to employ strategies such as making initial guesses using the found optima from problems with the same variable names under the premise that the objective functions are likely similar. Such *warm starting* of the optimization process led to major improvements for AutoML.org, DeepWisdom, dangnguyen, and Tiny, Shiny & Don; participants who ignored this data saw no significant change in performance from this extra information. These results were compiled into an alternate "warm start friendly" leaderboard in Table 5 where AutoML emerged victorious. More details can be found in Appendix A.
+
+<!-- chunk {"id": "body-0055", "role": "body", "section": "Discussion", "weight": 1.5} -->
+
+This competition is only one of many addressing the automation of machine learning model development. We hope that future organizers will take the progress made here and continue to develop new competitions which address aspects of automated machine learning which were ignored in this competition.
+
+<!-- chunk {"id": "body-0056", "role": "body", "section": "Discussion", "weight": 1.5} -->
+
+One point of focus in this competition was the black-box nature of each optimization problem. In other competitions, more knowledge about the machine learning circumstances were made available to the participants, but here we wanted to see how well optimization could be conducted on such problems without any knowledge of the problems. In future competitions, it might be interesting to find a middle ground -- perhaps one where the type of model were known (e.g., XGBoost, which would give a benefit similar to what was seen on the warm start leaderboard) or the modeling circumstances were known (e.g., maximizing the $F_{1}$ score for a classification problem on imbalanced data). Even without access to the training data, there may still be significant opportunities for improved performance.
+
+<!-- chunk {"id": "body-0057", "role": "body", "section": "Discussion", "weight": 1.5} -->
+
+Multi-fidelity (or multi-information source) computations were not available in this competition, but they may be common in practical circumstances. Research has observed potential benefits from studying cheaply available (but lower fidelity) information such as through evaluating only a fraction of the training data or a small number of epochs. Of particular interest is early stopping setups in ML models. Often algorithms can guess a hyperparameter setting will perform poorly based on the start of the learning curve without completing the training algorithm. Such a mechanism could be made available in a black-box setting, which would give competitors the opportunity to more intelligently use their computational budget.
+
+<!-- chunk {"id": "body-0058", "role": "body", "section": "Discussion", "weight": 1.5} -->
+
+This competition required batches of 8 suggestions be created, to emphasize the need for parallelism which is required for practical circumstances. Some of those circumstances would prefer asynchronous parallelism, where one suggestion is created given the other outstanding 7 suggestions currently being evaluated. Additionally, while we only focused on unconstrained single-objective optimization performance, many relevant problems have additional black-box constraints that need to be satisfied or are more naturally phrased as multi-objective optimization problems.
+
+<!-- chunk {"id": "body-0059", "role": "body", "section": "Conclusions", "weight": 1.0} -->
+
+The novelty and importance of the black-box optimization challenge gathered large interest with 65 teams and hundreds of participants; it is also hosted an ongoing benchmark on CodaLab. It was the first optimization challenge evaluating derivative-free optimizers on ML-related problems. As such, it demonstrated decisively the benefits of Bayesian optimization over random search. The top submissions showed over 100$\times$ sample efficiency gains compared to random search. First, all of the top teams used some form of BO ensemble; sometimes with very simple and easy to productionize strategies such as alternating the surrogate, acquisition function, or potentially entire optimization algorithms.. Second, the warm start leaderboard demonstrated how warm starting from even loosely related problems often yields large performance gains. Finally, this challenge offers many opportunities for extensions to test and push the boundaries on other aspects of black-box optimization.

@@ -20,11 +20,11 @@ Moreover, it achieves competitive results compared to fully supervised methods o
 
 <!-- chunk {"id": "body-0005", "role": "body", "section": "Introduction", "weight": 1.5} -->
 
-Segment Anything Model (SAM) has demonstrated impressive performance in segmentation tasks. Recently, SAM 2 incorporates a streaming memory architecture, which enables it to process video frames sequentially while maintaining context over long sequences. While SAM 2 has shown remarkable capabilities in Video Object Segmentation tasks, generating precise pixel-level masks for objects throughout a video sequence, it still faces challenges in Visual Object Tracking scenarios.
+Segment Anything Model (SAM) has demonstrated impressive performance in segmentation tasks. Recently, SAM 2 incorporates a streaming memory architecture, which enables it to process video frames sequentially while maintaining context over long sequences. While SAM 2 has shown remarkable capabilities in Video Object Segmentation (VOS ) tasks, generating precise pixel-level masks for objects throughout a video sequence, it still faces challenges in Visual Object Tracking (VOT ) scenarios.
 
 <!-- chunk {"id": "body-0006", "role": "body", "section": "Introduction", "weight": 1.5} -->
 
-The primary concern in VOT is maintaining consistent object identity and location despite occlusions, appearance changes, and the presence of similar objects. However, SAM 2 often neglects motion cues when predicting masks for subsequent frames, leading to inaccuracies in scenarios with rapid object movement or complex interactions. This limitation is particularly evident in crowded scenes, where SAM 2 tends to prioritize appearance similarity over spatial and temporal consistency, resulting in tracking errors. As illustrated in Figure, there are two common failure patterns: confusion in crowded scenes and ineffective memory utilization during occlusions.
+The primary concern in VOT is maintaining consistent object identity and location despite occlusions, appearance changes, and the presence of similar objects. However, SAM 2 often neglects motion cues when predicting masks for subsequent frames, leading to inaccuracies in scenarios with rapid object movement or complex interactions. This limitation is particularly evident in crowded scenes, where SAM 2 tends to prioritize appearance similarity over spatial and temporal consistency, resulting in tracking errors. As illustrated in Figure 1, there are two common failure patterns: confusion in crowded scenes and ineffective memory utilization during occlusions.
 
 <!-- chunk {"id": "body-0007", "role": "body", "section": "Introduction", "weight": 1.5} -->
 
@@ -36,7 +36,7 @@ To this end, we propose SAMURAI, a SAM-based Unified and Robust zero-shot visual
 
 <!-- chunk {"id": "body-0009", "role": "body", "section": "Introduction", "weight": 1.5} -->
 
-We enhance the visual tracking accuruacy of SAM 2 by incorporating motion information through motion modeling, to effectively handle the fast-moving and occluded objects.
+In conclusion, this paper makes the following contributions: We enhance the visual tracking accuruacy of SAM 2 by incorporating motion information through motion modeling, to effectively handle the fast-moving and occluded objects.
 
 <!-- chunk {"id": "body-0010", "role": "body", "section": "Introduction", "weight": 1.5} -->
 
@@ -88,120 +88,112 @@ The Memory attention block first performs self-attention with the frame embeddin
 
 <!-- chunk {"id": "body-0022", "role": "body", "section": "Memory Encoder and Memory Bank", "weight": 1.0} -->
 
-After the mask decoder generates output masks, the output mask is passed through a memory encoder to obtain a memory embedding. A new memory is created after each frame is processed. These memory embeddings are appended to a Memory Bank, which is a first-in-first-out (FIFO) queue of the latest memories generated during video decoding.
+After the mask decoder generates output masks, the output mask is passed through a memory encoder to obtain a memory embedding. A new memory is created after each frame is processed. These memory embeddings are appended to a Memory Bank, which is a first-in-first-out (FIFO) queue of the latest memories generated during video decoding. At any given time $t$ in the sequence, we can form the memory bank $B_{t}$ as: which takes the past $N_{mem}$ frames' output $m$ as the components of the memory bank.
 
 <!-- chunk {"id": "body-0023", "role": "body", "section": "Memory Encoder and Memory Bank", "weight": 1.0} -->
 
-which takes the past $N_{mem}$ frames' output $m$ as the components of the memory bank.
-
-<!-- chunk {"id": "body-0024", "role": "body", "section": "Memory Encoder and Memory Bank", "weight": 1.0} -->
-
 This straightforward fixed-window memory implementation may suffer from encoding the incorrect or low-confidence object, which will cause the error to propagate considerably when in the context of a long sequence visual tracking task. Our proposed motion-aware memory selection will replace the original memory bank composition to ensure that better memory features can be kept and conditioned onto the image feature.
 
-<!-- chunk {"id": "body-0025", "role": "body", "section": "Method", "weight": 1.0} -->
+<!-- chunk {"id": "body-0024", "role": "body", "section": "Method", "weight": 1.0} -->
 
 SAM 2 has demonstrated strong performance in basic Visual Object Tracking (VOT) and Video Object Segmentation (VOS) tasks. However, the original model can mistakenly encode incorrect or low-confidence objects, leading to substantial error propagation in long-sequence VOT.
 
-<!-- chunk {"id": "body-0026", "role": "body", "section": "Method", "weight": 1.0} -->
+<!-- chunk {"id": "body-0025", "role": "body", "section": "Method", "weight": 1.0} -->
 
 To address the above issues, we propose a Kalman Filter (KF)-based motion modeling on top of the multi-masks selection (in 4.1) and an enhanced memory selection based on a hybrid scoring system that combines affinity and motion scores (in 4.2). These enhancements are designed to strengthen the model's ability to track objects accurately in complex video scenarios. Importantly, this approach does not require fine-tuning, nor does it require additional training, and it can be integrated directly into the existing SAM 2 model. By improving the selection of predicted masks without additional computational overhead, this method provides a reliable, real-time solution for online VOT.
 
-<!-- chunk {"id": "body-0027", "role": "body", "section": "Motion Modeling", "weight": 1.0} -->
+<!-- chunk {"id": "body-0026", "role": "body", "section": "Motion Modeling", "weight": 1.0} -->
 
 Motion modeling has long been an effective approach to Visual Object Tracking (VOT) and Multiple Object Tracking (MOT) in resolving association ambiguities. We employ the linear-based Kalman filter as our baseline to demonstrate the incorporation of motion modeling in improving tracking accuracy.
 
+<!-- chunk {"id": "body-0027", "role": "body", "section": "Motion Modeling", "weight": 1.0} -->
+
+In our visual object tracking framework, we integrate the Kalman filter to enhance bounding box position and dimension predictions, which in turn helps select the most confident mask out of $N$ candidates from $\mathcal{M}$. We define the state vector $\mathbf{x}$ as: where $x$, $y$ represents the center coordinate of the bounding box, $w$ and $h$ denote its width and height, respectively, and their corresponding velocities are represented by the dot notation. For each mask $\mathcal{M}_{i}$, the corresponding bounding box ${\mathbf{d}}_{i}$ is derived by computing the minimum and maximum $x$ and $y$ coordinates of the mask's non-zero pixels.
+
 <!-- chunk {"id": "body-0028", "role": "body", "section": "Motion Modeling", "weight": 1.0} -->
 
-In our visual object tracking framework, we integrate the Kalman filter to enhance bounding box position and dimension predictions, which in turn helps select the most confident mask out of $N$ candidates from $\mathcal{M}$.
+The Kalman filter operates in a predict-correct cycle, where the state prediction ${\hat{\mathbf{x}}}_{t + {1|t}}$ is given: the KF-IoU score $s_{kf}$ is then computed by calculating the Intersection over Union (IoU) between the predicted masks $\mathcal{M}$ and the bounding box derived from the Kalman filter's predicted state. We then select the mask that maximizes a weighted sum of the KF-IoU score and the original affinity score: Finally, the update is performed using: where ${\mathbf{z}}_{t}$ is the measurement, the bounding box derived from the mask we selected, used to update. $\mathbf{F}$ is the linear state transition matrix, ${\mathbf{K}}_{n}$ is the Kalman gain, and $\mathbf{H}$ is the observation matrix.
 
 <!-- chunk {"id": "body-0029", "role": "body", "section": "Motion Modeling", "weight": 1.0} -->
 
-where $x$, $y$ represents the center coordinate of the bounding box, $w$ and $h$ denote its width and height, respectively, and their corresponding velocities are represented by the dot notation. For each mask $\mathcal{M}_{i}$, the corresponding bounding box ${\mathbf{d}}_{i}$ is derived by computing the minimum and maximum $x$ and $y$ coordinates of the mask's non-zero pixels.
+Furthermore, to ensure the robustness of the motion modeling after the targeted object reappears or the poor mask qualities for a certain period of time, we also maintain a stable motion state where we take consideration of the motion module if and only if the tracked object is being successfully update in the past $\tau_{kf}$ frames.
 
-<!-- chunk {"id": "body-0030", "role": "body", "section": "Motion Modeling", "weight": 1.0} -->
-
-the KF-IoU score $s_{kf}$ is then computed by calculating the Intersection over Union (IoU) between the predicted masks $\mathcal{M}$ and the bounding box derived from the Kalman filter's predicted state.
-
-<!-- chunk {"id": "body-0031", "role": "body", "section": "Motion Modeling", "weight": 1.0} -->
-
-where ${\mathbf{z}}_{t}$ is the measurement, the bounding box derived from the mask we selected, used to update. $\mathbf{F}$ is the linear state transition matrix, ${\mathbf{K}}_{n}$ is the Kalman gain, and $\mathbf{H}$ is the observation matrix. Furthermore, to ensure the robustness of the motion modeling after the targeted object reappears or the poor mask qualities for a certain period of time, we also maintain a stable motion state where we take consideration of the motion module if and only if the tracked object is being successfully update in the past $\tau_{kf}$ frames.
-
-<!-- chunk {"id": "body-0032", "role": "body", "section": "Motion-Aware Memory Selection", "weight": 1.0} -->
+<!-- chunk {"id": "body-0030", "role": "body", "section": "Motion-Aware Memory Selection", "weight": 1.0} -->
 
 The original SAM 2 prepares the conditioned visual feature of the current frame based on selecting $N_{mem}$ from the previous frames. In, the implementation simply selects the $N_{mem}$ most recent frames based on the qualities of the target. However, this approach has the weakness of not being able to handle longer occlusion or deformation, which is common in visual object tracking tasks.
 
-<!-- chunk {"id": "body-0033", "role": "body", "section": "Motion-Aware Memory Selection", "weight": 1.0} -->
+<!-- chunk {"id": "body-0031", "role": "body", "section": "Motion-Aware Memory Selection", "weight": 1.0} -->
 
-To construct an effective memory bank of object cues considering motion, we employ a selective approach for choosing frames from previous time steps based on three scoring: the mask affinity score, object occurrence score, and motion score. We select the frame as an ideal candidate for memory if and only if all three scores meet their corresponding thresholds (e.g., $\tau_{mask}$, $\tau_{obj}$, $\tau_{kf}$). We iterate back in time from the current frame and repeat the verification.
+To construct an effective memory bank of object cues considering motion, we employ a selective approach for choosing frames from previous time steps based on three scoring: the mask affinity score, object occurrence score, and motion score. We select the frame as an ideal candidate for memory if and only if all three scores meet their corresponding thresholds (e.g., $\tau_{mask}$, $\tau_{obj}$, $\tau_{kf}$). We iterate back in time from the current frame and repeat the verification. We select $N_{mem}$ memories based on the above scoring function and obtain a motion-aware memory bank $B_{t}$: where $N_{max}$ is the maximum number of frames to look back. The motion-aware memory bank $B_{t}$ is subsequently passed through the memory attention layer and then directed to mask decoder $D_{mask}$ to perform mask decoding at current timestamp. Note that we follow the $N_{mem} = 7$ as the SAM 2 is trained under these specific memory bank settings.
 
-<!-- chunk {"id": "body-0034", "role": "body", "section": "Motion-Aware Memory Selection", "weight": 1.0} -->
-
-where $N_{max}$ is the maximum number of frames to look back. The motion-aware memory bank $B_{t}$ is subsequently passed through the memory attention layer and then directed to mask decoder $D_{mask}$ to perform mask decoding at current timestamp. Note that we follow the $N_{mem} = 7$ as the SAM 2 is trained under these specific memory bank settings.
-
-<!-- chunk {"id": "body-0035", "role": "body", "section": "Motion-Aware Memory Selection", "weight": 1.0} -->
+<!-- chunk {"id": "body-0032", "role": "body", "section": "Motion-Aware Memory Selection", "weight": 1.0} -->
 
 The proposed motion modeling and memory selection module can significantly enhance visual object tracking without the need for retraining and does not add any computational overhead to the existing pipeline. It is also model-agnostic and potentially applicable to other tracking frameworks beyond SAM 2. By combining motion modeling with intelligent memory selection, we can enhance tracking performance in challenging real-world applications without sacrificing efficiency.
 
-<!-- chunk {"id": "body-0036", "role": "body", "section": "LaSOT", "weight": 1.0} -->
+<!-- chunk {"id": "body-0033", "role": "body", "section": "LaSOT", "weight": 1.0} -->
 
 is a visual object tracking dataset comprising 1,400 videos across 70 diverse object categories with an average sequence length of 2,500 frames. It is divided into training and testing sets, consisting of 1,120 and 280 sequences, respectively, with 16 training and 4 testing sequences for each category.
 
-<!-- chunk {"id": "body-0037", "role": "body", "section": "LaSOT$_{\\text{ext}}$", "weight": 1.0} -->
+<!-- chunk {"id": "body-0034", "role": "body", "section": "LaSOT$_{\\text{ext}}$", "weight": 1.0} -->
 
 is an extension to the original LaSOT dataset, introducing an additional 150 video sequences across 15 new object categories. These new sequences are specifically designed to focus on occlusions and variations in small objects, which is more challenging, and the standard protocol is to evaluate the models trained on LaSOT directly on the LaSOT$_{\text{ext}}$.
 
-<!-- chunk {"id": "body-0038", "role": "body", "section": "GOT-10k", "weight": 1.0} -->
+<!-- chunk {"id": "body-0035", "role": "body", "section": "GOT-10k", "weight": 1.0} -->
 
 comprises over 10,000 video segments of real-world moving objects, spanning more than 560 object classes and 80+ motion patterns. A key aspect of GOT-10k is its one-shot evaluation protocol, which requires trackers to be trained exclusively on the designated training split, with 170 videos reserved for testing.
 
-<!-- chunk {"id": "body-0039", "role": "body", "section": "TrackingNet", "weight": 1.0} -->
+<!-- chunk {"id": "body-0036", "role": "body", "section": "TrackingNet", "weight": 1.0} -->
 
 is a large-scale tracking dataset that covers a wide selection of object classes in broad and diverse contexts in the wild. It has a total of 30,643 videos split into 30,132 training videos and 511 testing videos.
 
-<!-- chunk {"id": "body-0040", "role": "body", "section": "NFS", "weight": 1.0} -->
+<!-- chunk {"id": "body-0037", "role": "body", "section": "NFS", "weight": 1.0} -->
 
 consists of 100 videos with a total of 380k frames captured with higher frame rate (240 FPS) cameras from real-world scenarios. We use the 30 FPS version of the data with artificial motion blur following other VOT works.
 
-<!-- chunk {"id": "body-0041", "role": "body", "section": "OTB100", "weight": 1.0} -->
+<!-- chunk {"id": "body-0038", "role": "body", "section": "OTB100", "weight": 1.0} -->
 
 is one of the earliest visual tracking benchmarks that annotated sequences with attribute tags. It contains 100 sequences with an average length of 590 frames.
 
-<!-- chunk {"id": "body-0042", "role": "body", "section": "Results on LaSOT and LaSOT$_{\\text{ext}}$", "weight": 1.0} -->
+<!-- chunk {"id": "body-0039", "role": "body", "section": "Results on LaSOT and LaSOT$_{\\text{ext}}$", "weight": 1.0} -->
 
-Table presents the visual object tracking results on the LaSOT and LaSOT$_{\text{ext}}$ datasets. Our method, SAMURAI, demonstrates significant improvements over both the zero-shot and supervised methods on all three metrics. Although the supervised VOT method such as show quite impressive results, the zero-shot SAMURAI in contrast show its great generalization ability with comparalbe zero-shot performance. Furthermore, all SAMURAI models surpass the state-of-the-art on all metrics on LaSOT$_{\text{ext}}$.
+Table 1 presents the visual object tracking results on the LaSOT and LaSOT$_{\text{ext}}$ datasets. Our method, SAMURAI, demonstrates significant improvements over both the zero-shot and supervised methods on all three metrics (shown in Figure 3). Although the supervised VOT method such as show quite impressive results, the zero-shot SAMURAI in contrast show its great generalization ability with comparalbe zero-shot performance. Furthermore, all SAMURAI models surpass the state-of-the-art on all metrics on LaSOT$_{\text{ext}}$.
 
-<!-- chunk {"id": "body-0043", "role": "body", "section": "Results on GOT-10k", "weight": 1.0} -->
+<!-- chunk {"id": "body-0040", "role": "body", "section": "Results on GOT-10k", "weight": 1.0} -->
 
-Table also presents the visual object tracking results on the GOT-10k dataset. Note that the GOT-10k protocol only allows trackers to be trained using its corresponding train split, as some papers may refer to them as a one-shot method. SAMURAI-B shows a 2.1% improvement on AO and 2.9% on OP~0.5~ over SAM2.1-B while SAMURAI-L shows a 0.6% improvement on AO and 0.7% on OP~0.5~. All SAMURAI models surpass the state-of-the-art on all metrics on GOT-10k.
+Table 1 also presents the visual object tracking results on the GOT-10k dataset. Note that the GOT-10k protocol only allows trackers to be trained using its corresponding train split, as some papers may refer to them as a one-shot method. SAMURAI-B shows a 2.1% improvement on AO and 2.9% on OP~0.5~ over SAM2.1-B while SAMURAI-L shows a 0.6% improvement on AO and 0.7% on OP~0.5~. All SAMURAI models surpass the state-of-the-art on all metrics on GOT-10k.
 
-<!-- chunk {"id": "body-0044", "role": "body", "section": "Results on TrackingNet, NFS, and OTB100", "weight": 1.0} -->
+<!-- chunk {"id": "body-0041", "role": "body", "section": "Results on TrackingNet, NFS, and OTB100", "weight": 1.0} -->
 
-Table presents the visual object tracking results on four widely compared benchmarks. Our zero-shot SAMURAI-L model is comparable to or can surpass the state-of-the-art supervised method on AUC, showcasing the capability of our model on various datasets and generalization ability.
+Table 2 presents the visual object tracking results on four widely compared benchmarks. Our zero-shot SAMURAI-L model is comparable to or can surpass the state-of-the-art supervised method on AUC, showcasing the capability of our model on various datasets and generalization ability.
 
-<!-- chunk {"id": "body-0045", "role": "body", "section": "Effect of the Individual Modules", "weight": 1.0} -->
+<!-- chunk {"id": "body-0042", "role": "body", "section": "Effect of the Individual Modules", "weight": 1.0} -->
 
-We demonstrate the effect of the with or without memory selection on various settings in Table. Both of the proposed modules had a positive impact on the SAM 2 model, while combining both can achieve the best AUC on the LaSOT dataset with an AUC of 74.23% and P$_{\text{norm}}$ of 82.60%.
+We demonstrate the effect of the with or without memory selection on various settings in Table 3. Both of the proposed modules had a positive impact on the SAM 2 model, while combining both can achieve the best AUC on the LaSOT dataset with an AUC of 74.23% and P$_{\text{norm}}$ of 82.60%.
 
-<!-- chunk {"id": "body-0046", "role": "body", "section": "Effect of the Motion Weights", "weight": 1.0} -->
+<!-- chunk {"id": "body-0043", "role": "body", "section": "Effect of the Motion Weights", "weight": 1.0} -->
 
-We showcase the effect of the weighting of the score of deciding which mask to trust in Table. The trade-off between motion score and mask affinity score demonstrates a significant impact on tracking performance. Our experiments reveal that setting the motion weight $\alpha_{motion} = 0.2$ yields the best AUC and P$_{\text{norm}}$ score on the LaSOT dataset, indicating an optimal balance enhances both accuracy and robustness in mask selection.
+We showcase the effect of the weighting of the score of deciding which mask to trust in Table 4. The trade-off between motion score and mask affinity score demonstrates a significant impact on tracking performance. Our experiments reveal that setting the motion weight $\alpha_{motion} = 0.2$ yields the best AUC and P$_{\text{norm}}$ score on the LaSOT dataset, indicating an optimal balance enhances both accuracy and robustness in mask selection.
 
-<!-- chunk {"id": "body-0047", "role": "body", "section": "Baseline Comparison", "weight": 1.0} -->
+<!-- chunk {"id": "body-0044", "role": "body", "section": "Effect of the Motion Weights", "weight": 1.0} -->
 
-To demonstrate the effectiveness of the proposed motion modeling and motion-aware memory selection mechanism in SAMURAI, we conduct a detailed apple-to-apple comparison of the SAM 2 at all of the backbone variations on LaSOT and LaSOT$_{\text{ext}}$. The baseline SAM 2 employs the original memory selection and directly predicts the mask with the highest IoU score. Table shows that the proposed method consistently improves upon the baseline with a significant margin on all three metrics, which underscores the robustness and generalization of our approach across different model configurations.
+HIPTrack LoRAT SAMURAI (Ours) GT SAM2.1 (Baseline) SAMURAI (Ours) GT Figure 4: Visualization of tracking results comparing SAMURAIwith existing methods. (Top) Conventional VOT methods often struggle in crowded scenarios where the target object is surrounded by objects with similar appearances. (Bottom) The baseline SAM-based method suffers from fixed-window memory composition, leading to error propagation and reduced overall tracking accuracy due to ID switches.
 
-<!-- chunk {"id": "body-0048", "role": "body", "section": "Attribute-Wise Performance Analysis", "weight": 1.0} -->
+<!-- chunk {"id": "body-0045", "role": "body", "section": "Baseline Comparison", "weight": 1.0} -->
 
-We analysis the LaSOT and LaSOT$_{\text{ext}}$ based on the 14 attributes defined. In Table, SAMURAI shows consistent success in improving upon the original baseline across all attributes in both datasets but the label IV (Illumination Variation) label on LaSOT$_{\text{ext}}$. By considering motion scoring, the performance gains on attributes like CM (Camera Motion) and FM (Fast Motion) are the largest among the rest, the SAMURAI has a $16.5\%$ and $9.9\%$ gain on CM and FM respectively from LaSOT$_{\text{ext}}$ dataset which is considered one of the most challenging datasets in VOT. Furthermore, the occlusion-related attributes like FOC (Full Occlusion) and POC (Partial Occlusion) also greatly benefited from the proposed motion-aware instance-level memory selection, which showed steady improvement across all model variants and datasets. These findings suggest that the SAMURAI incorporates simple motion estimation to better account for global camera or rapid object movements for better tracking.
+To demonstrate the effectiveness of the proposed motion modeling and motion-aware memory selection mechanism in SAMURAI, we conduct a detailed apple-to-apple comparison of the SAM 2 at all of the backbone variations on LaSOT and LaSOT$_{\text{ext}}$. The baseline SAM 2 employs the original memory selection and directly predicts the mask with the highest IoU score. Table 5 shows that the proposed method consistently improves upon the baseline with a significant margin on all three metrics, which underscores the robustness and generalization of our approach across different model configurations.
 
-<!-- chunk {"id": "body-0049", "role": "body", "section": "Runtime Analysis", "weight": 1.0} -->
+<!-- chunk {"id": "body-0046", "role": "body", "section": "Attribute-Wise Performance Analysis", "weight": 1.0} -->
+
+We analysis the LaSOT and LaSOT$_{\text{ext}}$ based on the 14 attributes defined. In Table 6, SAMURAI shows consistent success in improving upon the original baseline across all attributes in both datasets but the label IV (Illumination Variation) label on LaSOT$_{\text{ext}}$. By considering motion scoring, the performance gains on attributes like CM (Camera Motion) and FM (Fast Motion) are the largest among the rest, the SAMURAI has a $16.5\%$ and $9.9\%$ gain on CM and FM respectively from LaSOT$_{\text{ext}}$ dataset which is considered one of the most challenging datasets in VOT. Furthermore, the occlusion-related attributes like FOC (Full Occlusion) and POC (Partial Occlusion) also greatly benefited from the proposed motion-aware instance-level memory selection, which showed steady improvement across all model variants and datasets. These findings suggest that the SAMURAI incorporates simple motion estimation to better account for global camera or rapid object movements for better tracking.
+
+<!-- chunk {"id": "body-0047", "role": "body", "section": "Runtime Analysis", "weight": 1.0} -->
 
 The incorporation of the motion modeling and an enhanced memory selection method into our tracking framework introduces minimal computational overhead, and the runtime measurements conducted on one NVIDIA RTX 4090 GPU remain consistent with the baseline model.
 
-<!-- chunk {"id": "body-0050", "role": "body", "section": "Qualitative Results", "weight": 1.0} -->
+<!-- chunk {"id": "body-0048", "role": "body", "section": "Qualitative Results", "weight": 1.0} -->
 
-Qualitative comparison between SAMURAI and other methods are shown in Figure. SAMURAI demonstrates superior visual object tracking results in scenes where multiple objects with similar appearances are present in the video. The short-term occlusions in these examples make it challenging for existing VOT methods to predict or localize the same object consistently over time. Furthermore, the comparison between SAMURAI and the original baseline with visualized masks showcases the improvement gained by adding the motion modeling and memory selection modules, the predicted masks are not always a reliable source to serve as memory therefore having a systematic way of deciding which to trust is valuable. These enhancements benefit the existing framework by providing better guidance for visual tracking without the need to retrain the model or fine-tune it.
+Qualitative comparison between SAMURAI and other methods are shown in Figure 4. SAMURAI demonstrates superior visual object tracking results in scenes where multiple objects with similar appearances are present in the video. The short-term occlusions in these examples make it challenging for existing VOT methods to predict or localize the same object consistently over time. Furthermore, the comparison between SAMURAI and the original baseline with visualized masks showcases the improvement gained by adding the motion modeling and memory selection modules, the predicted masks are not always a reliable source to serve as memory therefore having a systematic way of deciding which to trust is valuable. These enhancements benefit the existing framework by providing better guidance for visual tracking without the need to retrain the model or fine-tune it.
 
-<!-- chunk {"id": "body-0051", "role": "body", "section": "Conclusion", "weight": 1.5} -->
+<!-- chunk {"id": "body-0049", "role": "body", "section": "Conclusion", "weight": 1.5} -->
 
 We present SAMURAI, a visual object tracking framework built on top of the segment-anything model by introducing the motion-based score for better mask prediction and memory selection to deal with self-occlusion and abrupt motion in crowded scenes. The proposed modules show consistent improvement on all variations of the SAM models across multiple VOT benchmarks on all metrics. This method does not require re-training nor fine-tuning while demonstrating robust performance on multiple VOT benchmarks with the capability of real-time online inferences.

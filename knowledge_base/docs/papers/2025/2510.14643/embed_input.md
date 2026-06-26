@@ -48,23 +48,23 @@ A complementary line of research seeks to reduce the myopia of finite-horizon MP
 
 <!-- chunk {"id": "body-0012", "role": "body", "section": "III-A Problem Formulation", "weight": 1.0} -->
 
-In this paper we consider optimal control problems in continuous action spaces.
+In this paper we consider optimal control problems in continuous action spaces. Given an initial state $\bm{x}_{0}=\bm{x}_{init}$, the objective is to determine a sequence of open-loop control actions $U_{\tau}=[\bm{u}_{\tau},\bm{u}_{\tau+1},\dots,\bm{u}_{\tau+T}]$ that minimizes a given cost function $\ell(\bm{x},\bm{u})$ over a finite time horizon $T$: where $\bm{x}_{\tau}\in\mathbb{R}^{n}$ and $\bm{u}_{\tau}\in\mathbb{R}^{m}$ are the state vector and the control input at time step $\tau$, respectively.
 
 <!-- chunk {"id": "body-0013", "role": "body", "section": "III-A Problem Formulation", "weight": 1.0} -->
 
-Rather than deriving a single, globally optimal policy, MPC re-optimizes a local policy at each time step by simulating the system dynamics over a shorter receding horizon $H < T$.
+The functions $\ell:\mathbb{R}^{n}\times\mathbb{R}^{m}\to\mathbb{R}$ and $L_{f}:\mathbb{R}^{n}\to\mathbb{R}$ represent the stage and terminal cost, respectively. We assume access to a simulator (e.g. MuJoCo) or a learned model to approximate the system dynamics $f:\mathbb{R}^{n}\times\mathbb{R}^{m}\to\mathbb{R}^{n}$. For a more compact notation, we define a cost function $J:\mathbb{R}^{m\times T}\times\mathbb{R}^{n}\to\mathbb{R}$ that encapsulates both, costs and system dynamics, allowing us to write the problem as Rather than deriving a single, globally optimal policy, MPC re-optimizes a local policy at each time step by simulating the system dynamics over a shorter receding horizon $H<T$.
 
 <!-- chunk {"id": "body-0014", "role": "body", "section": "III-B Sampling-based MPC (SPC)", "weight": 1.0} -->
 
-Contact-rich robot control tasks pose significant challenges due to non-convex cost functions and the nonlinear, often discontinuous nature of system dynamics. Sampling-based MPC addresses these issues by optimizing over a parameterized distribution $\pi_{\phi}{(U)}$ rather than directly computing the optimal control sequence. We consider a generic SPC procedure in which, at each control step $\tau$, the controller samples $N$ control sequences ${\{ U^{(i)}\}}_{i = 1}^{N}$ from the current distribution $\pi_{\phi}$, simulates their outcomes from the current state estimate ${\hat{\mathbf{x}}}_{\tau}$, and evaluates them using the cost function $J{(U^{(i)};{\hat{\mathbf{x}}}_{\tau})}$. Based on these evaluations, the distribution parameters $\phi$ are updated according to the chosen SPC algorithm.
+Contact-rich robot control tasks pose significant challenges due to non-convex cost functions and the nonlinear, often discontinuous nature of system dynamics. Sampling-based MPC addresses these issues by optimizing over a parameterized distribution $\pi_{\phi}(U)$ rather than directly computing the optimal control sequence. We consider a generic SPC procedure in which, at each control step $\tau$, the controller samples $N$ control sequences $\{U^{(i)}\}_{i=1}^{N}$ from the current distribution $\pi_{\phi}$, simulates their outcomes from the current state estimate $\hat{\bm{x}}_{\tau}$, and evaluates them using the cost function $J(U^{(i)};\hat{\bm{x}}_{\tau})$. Based on these evaluations, the distribution parameters $\phi$ are updated according to the chosen SPC algorithm.
 
 <!-- chunk {"id": "body-0015", "role": "body", "section": "III-B Sampling-based MPC (SPC)", "weight": 1.0} -->
 
-The executed control ${\mathbf{u}}_{\tau}$ is typically the first element of the sampled control sequence $U_{\tau}$ or derived via spline interpolation across the optimized sequence. We focus on diagonal Gaussian distributions of the form ${\pi_{\phi}{(U)}} = {\mathcal{N}{(\overline{U},\Sigma)}}$, as used in the Cross-Entropy Method (CEM) and other SPC algorithms. Here, $\phi = {(\overline{U},\Sigma)}$, and $\Sigma = {{diag}{({\mathbf{s}})}}$, with $\mathbf{s}$ denoting a vector of variances.
+The executed control $\bm{u}_{\tau}$ is typically the first element of the sampled control sequence ${U}_{\tau}$ or derived via spline interpolation across the optimized sequence. We focus on diagonal Gaussian distributions of the form $\pi_{\phi}(U)=\mathcal{N}(\bar{U},\Sigma)$, as used in the Cross-Entropy Method (CEM) and other SPC algorithms. Here, $\phi=(\bar{U},\Sigma)$, and $\Sigma=\mathrm{diag}(\bm{s})$, with $\bm{s}$ denoting a vector of variances.
 
 <!-- chunk {"id": "body-0016", "role": "body", "section": "III-C Generative Modeling: Flow-Matching", "weight": 1.0} -->
 
-While the above focuses on shaping a sampling distribution for SPC, generative modeling focuses on a different problem: produce a sample $x$ from a target distribution $p{(x)}$, which is typically unknown in closed form, but can be approximated by a dataset of samples $\mathcal{D}$. Among recent approaches to generative modeling, two closely related approaches have gained significant traction due to their ability to capture complex, multi-modal distributions: flow matching and diffusion models. The underlying concept is to learn a distribution over trajectories or transformations that maps a simple prior distribution to complex target data. In this work, we focus on flow-matching models and their conditional variant, as they offer superior inference speed compared to diffusion models. Flow matching aims to learn a time-dependent vector field $v_{\theta}{(\mathbf{x},t)}$ that transports samples from an easy-to-sample prior distribution $p_{0}{(\mathbf{x})}$ (e.g., a standard Gaussian) to a target data distribution $p_{1}{(\mathbf{x})}$.
+While the above focuses on shaping a sampling distribution for SPC, generative modeling focuses on a different problem: produce a sample $x$ from a target distribution $p(x)$, which is typically unknown in closed form, but can be approximated by a dataset of samples $\mathcal{D}$. Among recent approaches to generative modeling, two closely related approaches have gained significant traction due to their ability to capture complex, multi-modal distributions: flow matching and diffusion models. The underlying concept is to learn a distribution over trajectories or transformations that maps a simple prior distribution to complex target data. In this work, we focus on flow-matching models and their conditional variant, as they offer superior inference speed compared to diffusion models. Flow matching aims to learn a time-dependent vector field $v_{\theta}(\mathbf{x},t)$ that transports samples from an easy-to-sample prior distribution $p_{0}(\mathbf{x})$ (e.g., a standard Gaussian) to a target data distribution $p_{1}(\mathbf{x})$.
 
 <!-- chunk {"id": "body-0017", "role": "body", "section": "Bootstrapping Sampling-based MPC with Generative Flow-Matching Models", "weight": 1.0} -->
 
@@ -76,154 +76,120 @@ The offline data collection phase is central to our approach. It should provide 
 
 <!-- chunk {"id": "body-0019", "role": "body", "section": "IV-A Data collection", "weight": 1.0} -->
 
-Given a task and associated cost function, we run CEM across multiple episodes, each with random state initializations and capped at a maximum number of MPC iterations. During each episode, we record $({\mathbf{x}}_{\tau},{\mathbf{h}}_{\tau},U_{\tau}^{\ast})$, where ${\mathbf{x}}_{\tau}$ is the current state, ${\mathbf{h}}_{\tau}$ encodes a fixed-window history of states, and $U_{\tau}^{\ast}$ denotes the mean control sequence of the CEM distribution at time $\tau$. An experiment is considered successful if the task is completed within the allowed time steps. We define $\mathcal{I}_{\text{success}}$ as the index set of all successful experiment episodes and construct our training dataset as
+Given a task and associated cost function, we run CEM across multiple episodes, each with random state initializations and capped at a maximum number of MPC iterations. During each episode, we record $(\bm{x}_{\tau},\bm{h}_{\tau},U^{*}_{\tau})$, where $\bm{x}_{\tau}$ is the current state, $\bm{h}_{\tau}$ encodes a fixed-window history of states, and $U^{*}_{\tau}$ denotes the mean control sequence of the CEM distribution at time $\tau$. An experiment is considered successful if the task is completed within the allowed time steps. We define $\mathcal{I}_{\text{success}}$ as the index set of all successful experiment episodes and construct our training dataset as where $T_{i}$ is the final time step of episode $i$. This ensures that only control sequences from successful rollouts are used to train the generative model.
 
 <!-- chunk {"id": "body-0020", "role": "body", "section": "IV-A Data collection", "weight": 1.0} -->
 
-where $T_{i}$ is the final time step of episode $i$. This ensures that only control sequences from successful rollouts are used to train the generative model.
+To reduce the complexity of the generative model while improving runtime efficiency and smoothness, each control sequence $U_{\tau}$ is represented using $K<H$ spline interpolation points over a planning horizon of $H$ time steps, i.e. $U=[\bm{u}_{0},\bm{u}_{1},\dots,\bm{u}_{K}]$. We also employ i) a progress-based heuristic to reset the variances during CEM to avoid early mode collapse, and ii) action-level annealing that increases exploration, i.e., variances, for control points further into the horizon.
 
-<!-- chunk {"id": "body-0021", "role": "body", "section": "IV-A Data collection", "weight": 1.0} -->
+<!-- chunk {"id": "body-0021", "role": "body", "section": "IV-B Learning Control Sequence Proposal Distributions", "weight": 1.0} -->
 
-To reduce the complexity of the generative model while improving runtime efficiency and smoothness, each control sequence $U_{\tau}$ is represented using $K < H$ spline interpolation points over a planning horizon of $H$ time steps, i.e. $U = {\lbrack{\mathbf{u}}_{0},{\mathbf{u}}_{1},\ldots,{\mathbf{u}}_{K}\rbrack}$. We also employ i) a progress-based heuristic to reset the variances during CEM to avoid early mode collapse, and ii) action-level annealing that increases exploration, i.e., variances, for control points further into the horizon.
+Once we have collected a task dataset of open-loop trajectories, we can train a flow-matching generative model to learn a time-varying state-conditional vector field $v_{\theta}(U,\bm{x}_{\tau},\bm{h}_{\tau},t)$ that pushes samples from the noise distribution $U_{t=0}\sim\mathcal{N}(0,I)$ to the target distribution $U_{t=1}\sim p_{\theta}(U\mid\bm{x}_{\tau},\bm{h}_{\tau})$, i.e. the distribution of control sequences that are likely to lead to successful task completion given the current state $\bm{x}_{\tau}$ and state history $\bm{h}_{\tau}$.
 
 <!-- chunk {"id": "body-0022", "role": "body", "section": "IV-B Learning Control Sequence Proposal Distributions", "weight": 1.0} -->
 
-Once we have collected a task dataset of open-loop trajectories, we can train a flow-matching generative model to learn a time-varying state-conditional vector field $v_{\theta}{(U,{\mathbf{x}}_{\tau},{\mathbf{h}}_{\tau},t)}$ that pushes samples from the noise distribution $U_{t = 0} \sim {\mathcal{N}{(0,I)}}$ to the target distribution $U_{t = 1} \sim {p_{\theta}{({U \mid {{\mathbf{x}}_{\tau},{\mathbf{h}}_{\tau}}})}}$, i.e. the distribution of control sequences that are likely to lead to successful task completion given the current state ${\mathbf{x}}_{\tau}$ and state history ${\mathbf{h}}_{\tau}$.
+For simplicity, we describe sampling from the generative model as sampling from the distribution $p_{\theta}(U\mid\bm{x}_{\tau},\bm{h}_{\tau})$. We refer to our method as generative predictive control (GPC), which leverages a learned distribution over control sequences conditioned on the task context. This distribution can be used in two distinct ways: i) to sample control sequences from using a random shooting approach and evaluate the best based on value functions, or ii) to update the sampling distribution of the SPC algorithm (e.g., $\pi_{\phi}(U)$ in CEM) with samples from $p_{\theta}(U\mid\bm{x}_{\tau},\bm{h}_{\tau})$. We call the first approach GPC-Shoot and the second approach GPC-CEM.
 
-<!-- chunk {"id": "body-0023", "role": "body", "section": "IV-B Learning Control Sequence Proposal Distributions", "weight": 1.0} -->
+<!-- chunk {"id": "body-0023", "role": "body", "section": "IV-C GPC-CEM: Bootstrapping SPC with Flow-Matching", "weight": 1.0} -->
 
-For simplicity, we describe sampling from the generative model as sampling from the distribution $p_{\theta}{({U \mid {{\mathbf{x}}_{\tau},{\mathbf{h}}_{\tau}}})}$. We refer to our method as generative predictive control (GPC), which leverages a learned distribution over control sequences conditioned on the task context. This distribution can be used in two distinct ways: i) to sample control sequences from using a random shooting approach and evaluate the best based on value functions, or ii) to update the sampling distribution of the SPC algorithm (e.g., $\pi_{\phi}{(U)}$ in CEM) with samples from $p_{\theta}{({U \mid {{\mathbf{x}}_{\tau},{\mathbf{h}}_{\tau}}})}$. We call the first approach GPC-Shoot and the second approach GPC-CEM.
+Input: Current state xτ, history hτ Number of rollouts N = NCEM + NFlow Number of elites Nelite State estimator $\hat{\bm{x}}(\tau)$ $\bm{x}_{0}\leftarrow\hat{\bm{x}}(\tau)$ // Get current state estimate Sample NCEM trajectories from CEM: Sample NFlow trajectories from flow model: Select top Nelite elite trajectories with lowest cost: {U(k)}k = 1Nelite← elite set Update πϕ(U) using elite statistics: // shift mean forward Σ ← diag(Var({U(k)}k = 1Nelite)) Execute control uτ ← get_action(U*, τ) Update state history hτ + 1 ← roll(hτ, xτ) Trained on a finite set of open-loop control sequences, the generative proposal distribution $p_{\theta}(U\mid\bm{x}_{\tau},\bm{h}_{\tau})$ inherits the generalization limitations
 
 <!-- chunk {"id": "body-0024", "role": "body", "section": "IV-C GPC-CEM: Bootstrapping SPC with Flow-Matching", "weight": 1.0} -->
 
-Input: Current state xτ, history hτ
-Sampling distribution ${\pi_{\phi}(U)} = {\mathcal{N}\left( \overline{U},\Sigma \right)}$
-Number of rollouts N = NCEM + NFlow
-Number of elites Nelite
-State estimator $\hat{\mathbf{x}}(\tau)$
-${\mathbf{x}}_{0}\leftarrow{\hat{\mathbf{x}}{(\tau)}}$
-// Get current state estimate
+This sensitivity to distributional shifts is something we also observe in our experiments with GPC-Shoot, where it manifests as degraded sample quality within regions underrepresented in the training data. In contrast, SPC adapts its sampling distribution online and becomes more robust in unseen situations, but remains myopic and computationally expensive. To balance these limitations, we bootstrap SPC with a flow-matching generative model that learns the dataset control distribution while preserving the adaptability of online sampling. We summarize our approach in Algorithm 1. At each control step, the algorithm begins by estimating the current state and shifting the current mean of the CEM sampling distribution forward in time. The key idea in GPC-CEM is to augment Gaussian CEM sampling with proposals from the generative model $p_{\theta}$ trained offline on control sequences that led to task success. The $N_{elite}$ proposals with the lowest-cost rollouts are used to update the CEM distribution's $\pi_{\phi}(U)$ mean (the time-shifted lowest-cost proposal) and variance.
 
 <!-- chunk {"id": "body-0025", "role": "body", "section": "IV-C GPC-CEM: Bootstrapping SPC with Flow-Matching", "weight": 1.0} -->
 
-Select top Nelite elite trajectories with lowest cost:
-{U(k)}k = 1Nelite← elite set
+Unlike standard CEM, the executed control is the best-performing candidate instead of the mean of the $N_{elite}$ proposals. This allows GPC-CEM to better exploit multimodal proposals from the generative model rather than collapsing them to a single modality, efficiently guiding exploration while maintaining the adaptability of online optimization.
 
-<!-- chunk {"id": "body-0026", "role": "body", "section": "IV-C GPC-CEM: Bootstrapping SPC with Flow-Matching", "weight": 1.0} -->
-
-Update πϕ (U) using elite statistics:
-$\overline{U}\leftarrow{\text{shift}{(U^{\ast},\tau)}}$
-// shift mean forward
-Σ ← diag (Var ({U(k)}k = 1Nelite))
-
-<!-- chunk {"id": "body-0027", "role": "body", "section": "IV-C GPC-CEM: Bootstrapping SPC with Flow-Matching", "weight": 1.0} -->
-
-Trained on a finite set of open-loop control sequences, the generative proposal distribution $p_{\theta}{({U \mid {{\mathbf{x}}_{\tau},{\mathbf{h}}_{\tau}}})}$ inherits the generalization limitations of behavior cloning and model-based RL. This sensitivity to distributional shifts is something we also observe in our experiments with GPC-Shoot, where it manifests as degraded sample quality within regions underrepresented in the training data. In contrast, SPC adapts its sampling distribution online and becomes more robust in unseen situations, but remains myopic and computationally expensive. To balance these limitations, we bootstrap SPC with a flow-matching generative model that learns the dataset control distribution while preserving the adaptability of online sampling. We summarize our approach in Algorithm 1. At each control step, the algorithm begins by estimating the current state and shifting the current mean of the CEM sampling distribution forward in time.
-
-<!-- chunk {"id": "body-0028", "role": "body", "section": "IV-C GPC-CEM: Bootstrapping SPC with Flow-Matching", "weight": 1.0} -->
-
-The key idea in GPC-CEM is to augment Gaussian CEM sampling with proposals from the generative model $p_{\theta}$ trained offline on control sequences that led to task success. The $N_{elite}$ proposals with the lowest-cost rollouts are used to update the CEM distribution's $\pi_{\phi}{(U)}$ mean (the time-shifted lowest-cost proposal) and variance. Unlike standard CEM, the executed control is the best-performing candidate instead of the mean of the $N_{elite}$ proposals. This allows GPC-CEM to better exploit multimodal proposals from the generative model rather than collapsing them to a single modality, efficiently guiding exploration while maintaining the adaptability of online optimization.
-
-<!-- chunk {"id": "body-0029", "role": "body", "section": "IV-D Application to Loco-Manipulation", "weight": 1.0} -->
+<!-- chunk {"id": "body-0026", "role": "body", "section": "IV-D Application to Loco-Manipulation", "weight": 1.0} -->
 
 We apply our bootstrapped SPC framework to non-prehensile object pushing with a Spot quadruped robot to demonstrate versatile loco-manipulation skills. With 19 positional degrees of freedom (DoF), planning for this robot is computationally expensive and typically demands large sample sizes. To simplify our sampling process, we disentangle low-level locomotion control based on the work of and sample only in the high-level task action space. The high-level action space includes 9 DoF (3 for the torso, 6 for the arm)^11^1We exclude the gripper DoF from the high-level action space for non-prehensile manipulation, but this and additional DoFs (e.g., torso height, pitch, roll) could be included without retraining the low-level policy. and is mapped to the low-level commands by a pre-trained locomotion policy that ensures balance and stability while tracking high-level inputs. The low-level locomotion policy is fixed throughout task planning and execution. In addition to a lower-dimensional action space, this hierarchical control structure naturally provides more robustness to the low-level control.
 
-<!-- chunk {"id": "body-0030", "role": "body", "section": "IV-D Application to Loco-Manipulation", "weight": 1.0} -->
+<!-- chunk {"id": "body-0027", "role": "body", "section": "IV-D Application to Loco-Manipulation", "weight": 1.0} -->
 
 As a result, we do not need to explicitly enforce strong smoothness or temporal consistency constraints in the high-level action space used for flow matching.
 
-<!-- chunk {"id": "body-0031", "role": "body", "section": "Experimental Results", "weight": 1.0} -->
+<!-- chunk {"id": "body-0028", "role": "body", "section": "Experimental Results", "weight": 1.0} -->
 
 We evaluate our proposed GPC framework across simulated and real-world continuous control tasks involving contact-rich, non-prehensile manipulation. Specifically, we benchmark performance on i) the well-known Push-T task with a 2-DoF circular robot, and ii) the loco-manipulation task introduced above. To guide our evaluation, we aim to answer the following key questions: i) How well does the learned generative model approximate the action proposal distribution captured by open-loop sampling-based MPC? ii) Does bootstrapping online MPC with a learned proposal distribution improve task performance and generalization to task variations under constrained computational budgets?
 
-<!-- chunk {"id": "body-0032", "role": "body", "section": "Experimental Results", "weight": 1.0} -->
+<!-- chunk {"id": "body-0029", "role": "body", "section": "Experimental Results", "weight": 1.0} -->
 
 We use conditional flow matching to train a generative model over SPC control sequences with a Multi-Layer Perceptron (MLP) as the underlying architecture. We also baseline the flow model against a CVAE trained on the same data. We consider both direct sampling from the learned model (*GPC-Shoot*) and the bootstrapped version that combines it with CEM-based online planning (*GPC-CEM*). We compare our approach to standard CEM, model predictive path integral control (MPPI) and DialMPC, a more recent SPC approach building on MPPI. We only compare against DialMPC and GPC-Shoot with a CVAE on Push-T; the former's inner optimization loop makes it unsuitable for our real-time loco-manipulation examples, while the latter proved inferior to flow matching. All methods are implemented in Python using judo as a unified interface for defining custom tasks and controllers. For each task, we evaluate all methods with the same number of rollouts per iteration, control frequency, and respective cost function. In addition, we report results for the GPC-methods across three different model seeds to account for the stochasticity during training.
 
-<!-- chunk {"id": "body-0033", "role": "body", "section": "Experimental Results", "weight": 1.0} -->
+<!-- chunk {"id": "body-0030", "role": "body", "section": "Experimental Results", "weight": 1.0} -->
 
-We set the CEM-sample ratio in GPC-CEM, i.e. $N_{CEM}/N$, to 0.5 for both tasks.
+We set the CEM-sample ratio in GPC-CEM, i.e. $N_{\mathrm{CEM}}/N$, to 0.5 for both tasks.
 
-<!-- chunk {"id": "body-0034", "role": "body", "section": "Experimental Results", "weight": 1.0} -->
+<!-- chunk {"id": "body-0031", "role": "body", "section": "Experimental Results", "weight": 1.0} -->
 
-Control frequency: 10 Hz Time step (Δ t): 0.01 s Rollouts: 32
+Control frequency: 10 Hz Time step (Δt): 0.01 s Rollouts: 32 Base Task: Push-T Horizon Ablation: using 1 secs. instead of 3 secs. at inference time Task Variation: Push-K TABLE I: Simulation Results for the Push-T task, including a horizon ablation and a task variation with a K- instead of a T-block.
 
-<!-- chunk {"id": "body-0035", "role": "body", "section": "Experimental Results", "weight": 1.0} -->
-
-Horizon Ablation: using 1 secs. instead of 3 secs. at inference time
-
-<!-- chunk {"id": "body-0036", "role": "body", "section": "V-A Push-T Task", "weight": 1.0} -->
+<!-- chunk {"id": "body-0032", "role": "body", "section": "V-A Push-T Task", "weight": 1.0} -->
 
 This task requires a 2-DoF circular robot to push a T-shaped block to a specified goal pose. Due to its sparse rewards and multi-modality, it serves as a popular benchmark for evaluating generative control policies. We also evaluate the adaptability of GPC to unseen task variations by running it on a variant using a K-shaped block (Push-K) with different object dynamics. In this setting, we reuse the generative model trained on Push-T to bootstrap SPC for Push-K without retraining, showcasing GPC's ability to generalize across task variations. Table I summarizes the simulation results. We report success rates with Wilson 95% confidence intervals and average completion times (for successful runs) with respective standard deviations based on 1000 trials per method. Success is defined as achieving at least 90% coverage of the targetxx pose within 2500 time steps (0.01 s each). For GPC-CEM, we additionally report the average CEM sample ratio and standard deviation, indicating how often samples were selected from the CEM distribution over the learned proposal distribution.
 
-<!-- chunk {"id": "body-0037", "role": "body", "section": "V-A Push-T Task", "weight": 1.0} -->
+<!-- chunk {"id": "body-0033", "role": "body", "section": "V-A Push-T Task", "weight": 1.0} -->
 
 Both CEM and DIAL-MPC achieve high success rates ($\geq 85$%), demonstrating the strength of sampling-based methods. DIAL-MPC's gains over CEM are marginal and come at higher computational cost, so we use CEM for data collection. MPPI achieves 62% success, though better tuning may close this gap. Flow-based GPC-Shoot improves with more denoising steps (indicated in parentheses): 99% success with 10 steps vs. 71% with 2, while CVAE-based GPC-Shoot achieves 97% success. Similarly, GPC-CEM with 10 steps not only achieves 99.8% success but also reduces completion time by nearly 50% compared to 2 steps. Notably, GPC-CEM remains robust under reduced horizons (1s vs. 3s), maintaining 96% success versus 78% for CEM. This suggests that our method enables non-myopic planning under tighter computational constraints. In the Push-K generalization task, GPC-CEM again outperforms all baselines, achieving 96% success compared to 55% for CEM, indicating strong transferability of the learned proposal distribution.
 
-<!-- chunk {"id": "body-0038", "role": "body", "section": "V-A Push-T Task", "weight": 1.0} -->
+<!-- chunk {"id": "body-0034", "role": "body", "section": "V-A Push-T Task", "weight": 1.0} -->
 
 This is a notable insight, as both CVAE-based GPC-Shoot and CEM performance drops significantly without any changes to the cost function, highlighting that the flow-based learned distribution captures structural priors useful across tasks.
 
-<!-- chunk {"id": "body-0039", "role": "body", "section": "Comparison to Iterative Training Procedure", "weight": 1.0} -->
+<!-- chunk {"id": "body-0035", "role": "body", "section": "Comparison to Iterative Training Procedure", "weight": 1.0} -->
 
 We acknowledge the conceptual similarity between our approach and that of Kurtz et al., who also combine generative modeling with SPC. However, their method adopts an iterative training procedure that alternates between data collection and model updates, similar to expert iteration in reinforcement learning. This setup is motivated by the assumption that SPC data is too noisy to directly train a generative model; hence, each data collection iteration bootstraps SPC with a partially trained flow-matching model to improve the subsequent training distribution. In our experiments on the Push-T task, however, this iterative procedure did not improve performance (see Fig. 3). In fact, success rates decline over training iterations. In a qualitative analysis, we find that the resulting policies tend to collapse to small, random movements that fail to complete the task. We interpret this as the iterative training procedure gradually diminishing the multi-modality of the learned proposal distribution. Consistent with this interpretation, we also observe a decreasing CEM sample ratio over training iterations, suggesting that the learned proposal distribution converges to mimic the CEM sampling distribution and reduces their complementarity.
 
-<!-- chunk {"id": "body-0040", "role": "body", "section": "Comparison to Iterative Training Procedure", "weight": 1.0} -->
+<!-- chunk {"id": "body-0036", "role": "body", "section": "Comparison to Iterative Training Procedure", "weight": 1.0} -->
 
 In contrast, our method trains a generative model directly on open-loop control sequences from SPC, without requiring iterative retraining. Despite the noisy data, our model achieves up to 99.2% success (GPC-Shoot with 10 denoising steps) and already reaches 96% when bootstrapped with CEM after a single training round.
 
-<!-- chunk {"id": "body-0041", "role": "body", "section": "Ablations", "weight": 1.0} -->
+<!-- chunk {"id": "body-0037", "role": "body", "section": "Ablations", "weight": 1.0} -->
 
-We conduct three ablation studies to further analyze the performance of GPC-CEM and GPC-Shoot on the simulated Push-T task. Ablation 1 measures the effect of the sample split between samples drawn from the CEM distribution and the learned proposal distribution. We vary the sample split $N_{CEM}/N$ from 0.1 to 1.0 (only CEM). As shown in Fig. 3, we find that increasing the number of CEM samples improves or maintains the success rate until exclusively using CEM samples, where performance drops significantly. This highlights that the learned proposal distribution contributes valuable samples that both complement and strengthen the CEM distribution. We further observe that the empirical CEM sample ratio grows sublinearly with respect to the specified split, indicating that even a relatively small fraction of learned proposal samples disproportionately contribute to the overall sampling process. Ablation 2 analyzes the impact of the dataset size used to train the flow-matching model.
+We conduct three ablation studies to further analyze the performance of GPC-CEM and GPC-Shoot on the simulated Push-T task. Ablation 1 measures the effect of the sample split between samples drawn from the CEM distribution and the learned proposal distribution. We vary the sample split $N_{\mathrm{CEM}}/N$ from 0.1 to 1.0 (only CEM). As shown in Fig. 3, we find that increasing the number of CEM samples improves or maintains the success rate until exclusively using CEM samples, where performance drops significantly. This highlights that the learned proposal distribution contributes valuable samples that both complement and strengthen the CEM distribution. We further observe that the empirical CEM sample ratio grows sublinearly with respect to the specified split, indicating that even a relatively small fraction of learned proposal samples disproportionately contribute to the overall sampling process. Ablation 2 analyzes the impact of the dataset size used to train the flow-matching model.
 
-<!-- chunk {"id": "body-0042", "role": "body", "section": "Ablations", "weight": 1.0} -->
+<!-- chunk {"id": "body-0038", "role": "body", "section": "Ablations", "weight": 1.0} -->
 
-To assess how many demonstrations are needed to train an effective proposal model, we vary the dataset size from 100 to 1000 MPC rollouts^22^2Each rollout corresponds to a single trajectory of ${H/\Delta}t$ steps.. Performance improves rapidly with data and surpasses 90% success with only 200 rollouts, after which performance gains steadily saturate. This shows that the proposal model can be trained in a sample efficient manner requiring just a few hundred trajectories, whereas reinforcement learning methods typically need orders of magnitude more interaction to achieve comparable performance. Ablation 3 assesses model architecture by comparing flow model performance against a conditional variational auto-encoder (CVAE) using GPC-Shoot. Table I shows the ten-step flow model outperformed the CVAE for each task and variation with a similar number of steps. Along with its degraded performance on the Push-K task, the CVAE's struggle to adjust to a different horizon length was characteristic of its documented difficulties with multi-modal generalization and domain adaptation. Due to its higher performance and robust generalization, we selected flow matching as our generative model.
+To assess how many demonstrations are needed to train an effective proposal model, we vary the dataset size from 100 to 1000 MPC rollouts^22^2Each rollout corresponds to a single trajectory of $H/\Delta t$ steps.. Performance improves rapidly with data and surpasses 90% success with only 200 rollouts, after which performance gains steadily saturate. This shows that the proposal model can be trained in a sample efficient manner requiring just a few hundred trajectories, whereas reinforcement learning methods typically need orders of magnitude more interaction to achieve comparable performance. Ablation 3 assesses model architecture by comparing flow model performance against a conditional variational auto-encoder (CVAE) using GPC-Shoot. Table I shows the ten-step flow model outperformed the CVAE for each task and variation with a similar number of steps. Along with its degraded performance on the Push-K task, the CVAE's struggle to adjust to a different horizon length was characteristic of its documented difficulties with multi-modal generalization and domain adaptation. Due to its higher performance and robust generalization, we selected flow matching as our generative model.
 
-<!-- chunk {"id": "body-0043", "role": "body", "section": "V-B Spot Loco-Manipulation", "weight": 1.0} -->
+<!-- chunk {"id": "body-0039", "role": "body", "section": "V-B Spot Loco-Manipulation", "weight": 1.0} -->
 
 In this task, Spot must push a chair to a goal pose located behind a C-shaped obstacle (Fig. 4). The robot and chair are always initialized randomly on the opposite side of the obstacle, creating a local minimum that requires navigating around it to succeed. The task is further complicated by the high-dimensional action space and contact dynamics. Solving this with SPC requires long horizons and large sample sizes, both of which increase computational cost. A trial is considered successful if the chair's position error is below 0.15 m and its yaw is within 50 degrees of the target.
 
-<!-- chunk {"id": "body-0044", "role": "body", "section": "V-B Spot Loco-Manipulation", "weight": 1.0} -->
+<!-- chunk {"id": "body-0040", "role": "body", "section": "V-B Spot Loco-Manipulation", "weight": 1.0} -->
 
-Control frequency: 5 Hz Time step (Δ t): 0.02 s Rollouts: 32
+Control frequency: 5 Hz Time step (Δt): 0.02 s Rollouts: 32 Base Task: Spot Loco-Manipulation Horizon Ablation: using 3 secs. instead of 4 secs. at inference time Task Variation: Spot Loco-Manipulation with Obstacle Avoidance TABLE II: Simulation Results for the Spot loco-manipulation task, including horizon ablation and task variation with additional obstacle avoidance cost at runtime.
 
-<!-- chunk {"id": "body-0045", "role": "body", "section": "V-B Spot Loco-Manipulation", "weight": 1.0} -->
-
-Horizon Ablation: using 3 secs. instead of 4 secs. at inference time
-
-<!-- chunk {"id": "body-0046", "role": "body", "section": "V-B Spot Loco-Manipulation", "weight": 1.0} -->
-
-Task Variation: Spot Loco-Manipulation with Obstacle Avoidance
-
-<!-- chunk {"id": "body-0047", "role": "body", "section": "Simulation", "weight": 1.0} -->
+<!-- chunk {"id": "body-0041", "role": "body", "section": "Simulation", "weight": 1.0} -->
 
 We first evaluate the task in simulation to enable larger-scale testing. Results are summarized in Table II. Each baseline is run for 100 trials, and GPC methods are evaluated with 3 model seeds (100 trials each). We omit DIAL-MPC due to its inner-loop optimization being too slow for real-time use in this task. As in Push-T, we report success rate, average completion steps (for successful runs), and CEM sample ratio. GPC-CEM outperforms all baselines, achieving up to 83% success with fewer executed steps. In contrast, CEM alone reaches only 33%, often failing due to limited horizon and sample budget. MPPI performs slightly better but remains unreliable under real-time constraints. GPC-CEM remains robust under reduced planning horizons (3 vs. 4 seconds), maintaining 60% success while baseline performance degrades. This reinforces that learned proposals can enhance planning in resource-limited settings. Interestingly, fewer denoising steps (2 vs. 10) yield better performance in this task for both GPC-Shoot and GPC-CEM.
 
-<!-- chunk {"id": "body-0048", "role": "body", "section": "Simulation", "weight": 1.0} -->
+<!-- chunk {"id": "body-0042", "role": "body", "section": "Simulation", "weight": 1.0} -->
 
 We attribute this to reduced sample diversity at higher step counts, which impairs exploration in tasks with deceptive local minima. We also observe higher CEM sample ratios in this task compared to Push-T, indicating that the learned model alone (GPC-Shoot) is less accurate. Instead, it is most effective when used to augment CEM, highlighting the value of integrating learned proposals into online optimization rather than relying on them directly. Finally, we evaluate a task variant with an added obstacle avoidance cost to prevent collisions with the C-shaped obstacle. This is omitted from the base task to avoid biasing the MPC methods, but is essential for real-world deployment. In this setting, GPC-CEM still leads with a 56% success rate, outperforming MPPI (30%) and CEM (27%).
 
-<!-- chunk {"id": "body-0049", "role": "body", "section": "Real-World", "weight": 1.0} -->
+<!-- chunk {"id": "body-0043", "role": "body", "section": "Real-World", "weight": 1.0} -->
 
 We evaluate GPC-CEM and CEM on hardware including the obstacle avoidance cost in both cases. We rely on a Motion Capture system to track the object state. GPC-CEM is run with 2 denoising steps for 20 trials, while CEM is limited to 10 trials due to frequent damaging failures to the robot (e.g. repeated collisions with the obstacle as it fails to navigate around). GPC-CEM achieves a 60% success rate (12/20), while CEM succeeds in only 10% of trials (1/10). Qualitative examples for GPC-CEM are shown in Fig. 4; all other runs are included in the supplementary video^33^3 CEM failures consistently result in the local minimum caused by the C-shaped obstacle, as it lacks the guidance from the generative model to sample motions that navigate around it. GPC-CEM only encounters this failure in 4 of 20 trials.
 
-<!-- chunk {"id": "body-0050", "role": "body", "section": "Real-World", "weight": 1.0} -->
+<!-- chunk {"id": "body-0044", "role": "body", "section": "Real-World", "weight": 1.0} -->
 
 The remaining failures stem from two causes: pushing the chair beyond the workspace due to the lack of workspace constraints in the cost, and discrepancies between simulated and real chair behavior, especially assumptions about friction and contact such as when the chair's wheels can roll.
 
-<!-- chunk {"id": "body-0051", "role": "body", "section": "Computation Time", "weight": 1.0} -->
+<!-- chunk {"id": "body-0045", "role": "body", "section": "Computation Time", "weight": 1.0} -->
 
 We find that the policy rollout accounts for over 90% of the total compute time and becomes the primary computation bottleneck, limiting the overall control frequency to 5 Hz. This overhead is primarily due to collision handling and contact dynamics in the physics engine.
 
-<!-- chunk {"id": "body-0052", "role": "body", "section": "Limitations and Future Work", "weight": 1.5} -->
+<!-- chunk {"id": "body-0046", "role": "body", "section": "Limitations and Future Work", "weight": 1.5} -->
 
 Our framework does not explicitly address sim-to-real transfer, leaving it vulnerable to discrepancies between simulated and real-world dynamics. However, since it relies on offline data collection, it can be trained on domain-randomized data to improve robustness to variations in dynamics, actuator behavior, and sensor noise. In addition, learning proposal distributions from a combination of simulated and real-world data could further enhance transferability and performance during hardware deployment. In this work, all experiments consider fixed goals in a world frame. We plan to extend our work to variable goals by transforming our data into goal-centric representations. The current system also does not use GPU acceleration for simulation or proposal inference, but this could be addressed in future work to enable faster online planning and data collection (particularly with larger sample sizes). Finally, the proposed approach is limited to state-based policies but can be distilled to vision-based policies by learning from observations collected while executing the state-based policy in the real world or simulation. Future work can explore how to integrate vision-based action proposal distributions with fast vision-based dynamics models for online predictive control.
 
-<!-- chunk {"id": "body-0053", "role": "body", "section": "Limitations and Future Work", "weight": 1.5} -->
+<!-- chunk {"id": "body-0047", "role": "body", "section": "Limitations and Future Work", "weight": 1.5} -->
 
 Although our offline data collection already captures long-horizon structure by using extended SPC horizons, future work could also incorporate learned infinite-horizon value functions. Such value estimates would provide an additional source of global, task-level guidance, while our generative priors would continue to shape and improve the search over control sequences during online optimization.
 
-<!-- chunk {"id": "body-0054", "role": "body", "section": "Conclusion", "weight": 1.5} -->
+<!-- chunk {"id": "body-0048", "role": "body", "section": "Conclusion", "weight": 1.5} -->
 
 We presented GPC-CEM, a generative predictive control (GPC) framework that bootstraps sampling-based MPC (SPC) with conditional flow-matching trained on open-loop SPC control sequences. Our approach demonstrates that meaningful proposal distributions can be learned directly from noisy SPC data, without expert supervision or iterative refinement. We evaluated our method in two challenging settings; a simulated pushing benchmark and a real-world quadruped loco-manipulation task; and showed that it significantly improves sample efficiency and robustness. GPC-CEM achieves high success rates, remains effective under reduced planning horizons, and generalizes to task variations which introduce out-of-distribution conditions. These results highlight the effectiveness of integrating learned generative models into online optimization loops for efficient and adaptable real-time robot control.

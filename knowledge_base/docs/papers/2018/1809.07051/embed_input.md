@@ -72,58 +72,44 @@ We describe in Algorithm 1 the (geometric) RRT algorithm, GEOM-RRT, based. The i
 
 <!-- chunk {"id": "body-0018", "role": "body", "section": "III-A Preliminaries", "weight": 1.0} -->
 
-3: xrand← RANDOM_STATE
-4: xnear ← NEAREST_NEIGHBOR (xrand,𝒯)
-5: xnew← NEW_STATE(xrand, xnear, η)
-6: if COLLISION_FREE(xnear, xnew) then
-7: 𝒯.add_vertex(xnew)
-8: 𝒯.add_edge(xnear, xnew)
-Algorithm 1 GEOM-RRT(xinit, 𝒳goal, k, η)
+3: xrand← RANDOM_STATE 4: xnear ← NEAREST_NEIGHBOR (xrand, 𝒯) 5: xnew← NEW_STATE(xrand, xnear, η) 6: if COLLISION_FREE(xnear, xnew) then 7: 𝒯.add_vertex(xnew) 8: 𝒯.add_edge(xnear, xnew) Algorithm 1 GEOM-RRT(xinit, 𝒳goal, k, η) To retrieve a trajectory for the robot, the single path in $\mathcal{T}$ from the root state $x_{\text{init}}$ to the goal is found. It can then be translated to a feasible, collision-free trajectory for the robot by tracing the configurations along this path.
 
-<!-- chunk {"id": "body-0019", "role": "body", "section": "III-A Preliminaries", "weight": 1.0} -->
-
-To retrieve a trajectory for the robot, the single path in $\mathcal{T}$ from the root state $x_{\text{init}}$ to the goal is found. It can then be translated to a feasible, collision-free trajectory for the robot by tracing the configurations along this path.
-
-<!-- chunk {"id": "body-0020", "role": "body", "section": "III-B Probabilistic completeness proof", "weight": 1.0} -->
+<!-- chunk {"id": "body-0019", "role": "body", "section": "III-B Probabilistic completeness proof", "weight": 1.0} -->
 
 Next we devise a PC proof for GEOM-RRT. Throughout this section we will assume that there exists a valid trajectory $\pi:{{\lbrack 0,t_{\pi}\rbrack}\rightarrow\mathcal{F}}$ with clearance $\delta_{\text{clear}} > 0$. Without loss of generality, assume that ${\pi{(t_{\pi})}} = x_{\text{goal}}$, i.e., the trajectory terminates at the center of the goal region. Denote by $L$ the (Euclidean) length of $\pi$. Also, let $\delta:={\min{\{\delta_{\text{clear}},\delta_{\text{goal}}\}}}$.
 
-<!-- chunk {"id": "body-0021", "role": "body", "section": "III-B Probabilistic completeness proof", "weight": 1.0} -->
+<!-- chunk {"id": "body-0020", "role": "body", "section": "III-B Probabilistic completeness proof", "weight": 1.0} -->
 
 Let $m = \frac{5L}{\nu}$, where $\nu = {\min{(\delta,\eta)}}$, and $\eta$ is the steering parameter of GEOM-RRT. Then, define a sequence of $m + 1$ points ${x_{0} = {x_{\text{init}},\ldots}},{x_{m} = x_{\text{goal}}}$ along $\pi$, such that the length of the sub-path between every two consecutive points is $\nu/5$. Therefore, ${\|{x_{i} - x_{i + 1}}\|} \leqslant {\nu/5}$ for every $0 \leqslant i < m$. Next, we define a set of $m + 1$ balls of radius $\nu/5$, centered at these points, and prove that with high probability GEOM-RRT will generate a path that goes through these balls.
 
-<!-- chunk {"id": "body-0022", "role": "body", "section": "III-B Probabilistic completeness proof", "weight": 1.0} -->
+<!-- chunk {"id": "body-0021", "role": "body", "section": "III-B Probabilistic completeness proof", "weight": 1.0} -->
 
 We start by proving Lemma 1, which will be used in the proof of Theorem 1 and specifies a condition for successfully extending the tree to the goal.
 
-<!-- chunk {"id": "body-0023", "role": "body", "section": "Probabilistic completeness of RRT under differential constraints", "weight": 1.0} -->
+<!-- chunk {"id": "body-0022", "role": "body", "section": "Probabilistic completeness of RRT under differential constraints", "weight": 1.0} -->
 
 We begin by formulating the kinodynamic problem. Our assumptions on the robotic system and the environment as well as the definitions appear in Subsection IV-A and are adapted from Li et al.. Next, we describe the modifications to RRT required for solving the kinodynamic problem. Finally, in Subsection IV-B, we devise a novel PC proof for the kinodynamic RRT.
 
-<!-- chunk {"id": "body-0024", "role": "body", "section": "IV-A Preliminaries", "weight": 1.0} -->
+<!-- chunk {"id": "body-0023", "role": "body", "section": "IV-A Preliminaries", "weight": 1.0} -->
 
 We adapt the problem attributes introduced in the previous section to accommodate the more involved structure of the kinodynamic case. The state space $\mathcal{X} \subseteq {\mathbb{R}}^{d}$ is a smooth $d$-dimensional manifold. Let $\mathcal{F} \subset \mathcal{X}$ denote the free state space. As before, we assume that there exist ${x_{\text{goal}} \in \mathcal{X}},{\delta_{\text{goal}} > 0}$, such that $\mathcal{X}_{\text{goal}} = {\mathcal{B}_{\delta_{\text{goal}}}{(x_{\text{goal}})}}$.
 
-<!-- chunk {"id": "body-0025", "role": "body", "section": "IV-A Preliminaries", "weight": 1.0} -->
+<!-- chunk {"id": "body-0024", "role": "body", "section": "IV-A Preliminaries", "weight": 1.0} -->
 
-Let ${\mathbb{U}} \subseteq {\mathbb{R}}^{D}$ denote the space of control vectors.
+Let ${\mathbb{U}} \subseteq {\mathbb{R}}^{D}$ denote the space of control vectors. The given system has differential constraints of the following form: Trajectories under differential constraints are defined as follows.
 
-<!-- chunk {"id": "body-0026", "role": "body", "section": "IV-A Preliminaries", "weight": 1.0} -->
-
-Trajectories under differential constraints are defined as follows.
-
-<!-- chunk {"id": "body-0027", "role": "body", "section": "IV-B Probabilistic completeness proof", "weight": 1.0} -->
+<!-- chunk {"id": "body-0025", "role": "body", "section": "IV-B Probabilistic completeness proof", "weight": 1.0} -->
 
 We prove that RRT for a system with dynamics satisfying the aforementioned characteristics is PC. To do so, we start by proving three lemmas. The following lemma, which is an extension of Theorem 15, bounds the distance between the endpoints of two trajectories with similar control inputs and initial positions, for the same duration.
 
-<!-- chunk {"id": "body-0028", "role": "body", "section": "Discussion", "weight": 1.5} -->
+<!-- chunk {"id": "body-0026", "role": "body", "section": "Discussion", "weight": 1.5} -->
 
 Although our proofs assume uniform samples, they can be easily extended to samples generated using a Poisson point process, which is preferable in certain settings. An immediate extension of this work is to verify whether our proofs hold when other sampling distributions are considered, e.g., Halton sequences (see ).
 
-<!-- chunk {"id": "body-0029", "role": "body", "section": "Discussion", "weight": 1.5} -->
+<!-- chunk {"id": "body-0027", "role": "body", "section": "Discussion", "weight": 1.5} -->
 
 Another possible direction is to further relax some of the assumptions made for kinodynamic systems, such as Lipschitz continuity. Additionally, the work raises the following challenging research question: Is it possible to extend these proofs that have a reduced set of assumptions to other sampling-based planners, or informed variants of RRT.
 
-<!-- chunk {"id": "body-0030", "role": "body", "section": "Discussion", "weight": 1.5} -->
+<!-- chunk {"id": "body-0028", "role": "body", "section": "Discussion", "weight": 1.5} -->
 
 Finally, we mention that the following variants of RRT are not addressed in the current paper, or in the work of Kunz and Stilman: (i) random time + best-control input; (ii) fixed time + random control; (iii) random time larger than a fixed threshold + random or best control. Whether these variants are indeed probabilistically complete remains as a question for future research.

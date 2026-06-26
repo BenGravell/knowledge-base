@@ -66,120 +66,92 @@ However, this vanilla graph convolution is inefficient in our case due to the fo
 
 <!-- chunk {"id": "body-0017", "role": "body", "section": "Node Feature", "weight": 1.0} -->
 
-We first define the input feature of the lane nodes. Each lane node corresponds to a straight line segment of a centerline. To encode all the lane node information, we need to take into account both the shape (size and orientation) and the location (the coordinates of the center) of the corresponding line segment. We parameterize the node feature as follows,
+We first define the input feature of the lane nodes. Each lane node corresponds to a straight line segment of a centerline. To encode all the lane node information, we need to take into account both the shape (size and orientation) and the location (the coordinates of the center) of the corresponding line segment. We parameterize the node feature as follows, where MLP indicates a multi-layer perceptron and the two subscripts refer to shape and location, respectively. $\text{v}_{i}$ is the location of the $i$-th lane node, *i.e*., the center between two end points, $\mathbf{v}_{i}^{\text{start}}$ and $\mathbf{v}_{i}^{\text{end}}$ are the BEV coordinates of the node $i$'s starting and ending points, and $\mathbf{x}_{i}$ is the $i$-th row of the node feature matrix $X$, denoting the input feature of the $i$-th lane node.
 
-<!-- chunk {"id": "body-0018", "role": "body", "section": "Node Feature", "weight": 1.0} -->
+<!-- chunk {"id": "body-0018", "role": "body", "section": "LaneConv", "weight": 1.0} -->
 
-where MLP indicates a multi-layer perceptron and the two subscripts refer to shape and location, respectively. $\text{v}_{i}$ is the location of the $i$-th lane node, *i.e*., the center between two end points, $\mathbf{v}_{i}^{\text{start}}$ and $\mathbf{v}_{i}^{\text{end}}$ are the BEV coordinates of the node $i$'s starting and ending points, and $\mathbf{x}_{i}$ is the $i$-th row of the node feature matrix $X$, denoting the input feature of the $i$-th lane node.
+The node feature above only captures the local information of a line segment. To aggregate the topology information of the lane graph at a larger scale, we design the following LaneConv operator where $A_{i}$ and $W_{i}$ are the adjacency and the weight matrices corresponding to the $i$-th connection type respectively. Since we order the lane nodes from the start to the end of the lane, $A_{\text{suc}}$ and $A_{\text{pre}}$ are matrices obtained by shifting the identity matrix one step towards upper right (non-zero superdiagonal) and lower left (non-zero subdiagonal). $A_{\text{suc}}$ and $A_{\text{pre}}$ can propagate information from the forward and backward neighbours whereas $A_{\text{left}}$ and $A_{\text{right}}$ allow information to flow from the cross-lane neighbours.
 
 <!-- chunk {"id": "body-0019", "role": "body", "section": "LaneConv", "weight": 1.0} -->
 
-The node feature above only captures the local information of a line segment. To aggregate the topology information of the lane graph at a larger scale, we design the following LaneConv operator
+It is not hard to see that our LaneConv builds on top of the general graph convolution and encodes more geometric (*e.g*., connection type/direction) information. As shown in our experiments this improves over the vanilla graph convolution.
 
-<!-- chunk {"id": "body-0020", "role": "body", "section": "LaneConv", "weight": 1.0} -->
-
-where $A_{i}$ and $W_{i}$ are the adjacency and the weight matrices corresponding to the $i$-th connection type respectively. Since we order the lane nodes from the start to the end of the lane, $A_{\text{suc}}$ and $A_{\text{pre}}$ are matrices obtained by shifting the identity matrix one step towards upper right (non-zero superdiagonal) and lower left (non-zero subdiagonal). $A_{\text{suc}}$ and $A_{\text{pre}}$ can propagate information from the forward and backward neighbours whereas $A_{\text{left}}$ and $A_{\text{right}}$ allow information to flow from the cross-lane neighbours. It is not hard to see that our LaneConv builds on top of the general graph convolution and encodes more geometric (*e.g*., connection type/direction) information. As shown in our experiments this improves over the vanilla graph convolution.
-
-<!-- chunk {"id": "body-0021", "role": "body", "section": "Dilated LaneConv", "weight": 1.0} -->
+<!-- chunk {"id": "body-0020", "role": "body", "section": "Dilated LaneConv", "weight": 1.0} -->
 
 Since motion forecasting models usually predict the future trajectories of actors with a time horizon of several seconds, actors with high speed could have moved a long distance. Therefore, the model needs to capture the long range dependency along the lane direction for accurate prediction. In regular grid graphs, a dilated convolution operator can effectively capture the long range dependency by enlarging the receptive field. Inspired by this operator, we propose the dilated LaneConv operator to achieve a similar goal for irregular graphs.
 
-<!-- chunk {"id": "body-0022", "role": "body", "section": "Dilated LaneConv", "weight": 1.0} -->
+<!-- chunk {"id": "body-0021", "role": "body", "section": "Dilated LaneConv", "weight": 1.0} -->
 
-In particular, the $k$-dilation LaneConv operator is defined as follows,
+In particular, the $k$-dilation LaneConv operator is defined as follows, where $A_{\text{pre}}^{k}$ is the $k$-th matrix power of $A_{\text{pre}}$. This allows us to directly propagate information along the lane for $k$ steps, with $k$ a hyperparameter. Since $A_{\text{pre}}^{k}$ is highly sparse, one can efficiently compute it using sparse matrix multiplication. Note that the dilated LaneConv is only used for predecessor and successor, as the long range dependency is mostly along the lane direction.
 
-<!-- chunk {"id": "body-0023", "role": "body", "section": "Dilated LaneConv", "weight": 1.0} -->
+<!-- chunk {"id": "body-0022", "role": "body", "section": "LaneGCN", "weight": 1.0} -->
 
-where $A_{\text{pre}}^{k}$ is the $k$-th matrix power of $A_{\text{pre}}$. This allows us to directly propagate information along the lane for $k$ steps, with $k$ a hyperparameter. Since $A_{\text{pre}}^{k}$ is highly sparse, one can efficiently compute it using sparse matrix multiplication. Note that the dilated LaneConv is only used for predecessor and successor, as the long range dependency is mostly along the lane direction.
+Based on the dilated LaneConv, we further propose a multi-scale LaneConv operator and use it to build our LaneGCN. Combining Eq. and with multiple dilations, we get a multi-scale LaneConv operator with $C$ dilation sizes as follows where $k_{c}$ is the $c$-th dilation size. We denote $\text{LaneConv}{(k_{1},\cdots,k_{C})}$ this multi-scale layer. The architecture of LaneGCN is shown in Fig. 4. The network is composed of $4$ LaneConv residual blocks, which are the stack of a LaneConv and a linear layer, as well as a shortcut. All layers have 128 feature channels. Layer normalization and ReLU are used after each LaneConv and linear layer.
 
-<!-- chunk {"id": "body-0024", "role": "body", "section": "LaneGCN", "weight": 1.0} -->
-
-Based on the dilated LaneConv, we further propose a multi-scale LaneConv operator and use it to build our LaneGCN. Combining Eq. and with multiple dilations, we get a multi-scale LaneConv operator with $C$ dilation sizes as follows
-
-<!-- chunk {"id": "body-0025", "role": "body", "section": "LaneGCN", "weight": 1.0} -->
-
-where $k_{c}$ is the $c$-th dilation size. We denote $\text{LaneConv}{(k_{1},\cdots,k_{C})}$ this multi-scale layer. The architecture of LaneGCN is shown in Fig. 4. The network is composed of $4$ LaneConv residual blocks, which are the stack of a LaneConv and a linear layer, as well as a shortcut. All layers have 128 feature channels. Layer normalization and ReLU are used after each LaneConv and linear layer.
-
-<!-- chunk {"id": "body-0026", "role": "body", "section": "FusionNet", "weight": 1.0} -->
+<!-- chunk {"id": "body-0023", "role": "body", "section": "FusionNet", "weight": 1.0} -->
 
 In this section we propose a network to fuse the information of the actor and lane nodes given by ActorNet and MapNet, respectively. The behaviour of an actor strongly depends on its context, *i.e*., other actors and the map. Although the interactions between actors has been explored by previous work, the interactions between the actors and the map, and map conditioned interactions between actors have received much less attention. In our model, we use spatial attention and LaneGCN to capture a complete set of actor-map interactions (see Fig. 2).
 
-<!-- chunk {"id": "body-0027", "role": "body", "section": "FusionNet", "weight": 1.0} -->
+<!-- chunk {"id": "body-0024", "role": "body", "section": "FusionNet", "weight": 1.0} -->
 
 We build a stack of four fusion modules to capture all information flows between actors and lane nodes, *i.e*., actors to lanes (A2L), lanes to lanes (L2L), lanes to actors (L2A) and actors to actors (A2A). Intuitively, A2L introduces real-time traffic information to lane nodes, such as blockage or usage of the lanes. L2L updates lane node features by propagating the traffic information over the lane graph. L2A fuses updated map features with real-time traffic information back to the actors. A2A handles the interactions between actors and produces the output actor features, which are then used by the prediction header for motion forecasting.
 
-<!-- chunk {"id": "body-0028", "role": "body", "section": "FusionNet", "weight": 1.0} -->
+<!-- chunk {"id": "body-0025", "role": "body", "section": "FusionNet", "weight": 1.0} -->
 
-We implement L2L using another LaneGCN, which has the same architecture as the one used in our MapNet (see Section 3.2.4). In the following we describe the other three modules in detail. We exploit a spatial attention layer for A2L, L2A and A2A. The attention layer applies to each of the three modules in the same way. Taking A2L as an example, given an actor node $i$, we aggregate the features from its context lane nodes $j$ as follows
+We implement L2L using another LaneGCN, which has the same architecture as the one used in our MapNet (see Section 3.2.4). In the following we describe the other three modules in detail. We exploit a spatial attention layer for A2L, L2A and A2A. The attention layer applies to each of the three modules in the same way. Taking A2L as an example, given an actor node $i$, we aggregate the features from its context lane nodes $j$ as follows with $\mathbf{x}_{i}$ the feature of the $i$-th node, $W$ a weight matrix, $\phi$ the composition of layer normalization and ReLU, and $\Delta_{ij} = {\text{MLP}{({\mathbf{v}_{j} - \mathbf{v}_{i}})}}$, where $\mathbf{v}$ denotes the node location. The context nodes are defined to be the lane nodes whose $\ell_{2}$ distance from the actor node $i$ is smaller than a threshold.
 
-<!-- chunk {"id": "body-0029", "role": "body", "section": "FusionNet", "weight": 1.0} -->
+<!-- chunk {"id": "body-0026", "role": "body", "section": "FusionNet", "weight": 1.0} -->
 
-with $\mathbf{x}_{i}$ the feature of the $i$-th node, $W$ a weight matrix, $\phi$ the composition of layer normalization and ReLU, and $\Delta_{ij} = {\text{MLP}{({\mathbf{v}_{j} - \mathbf{v}_{i}})}}$, where $\mathbf{v}$ denotes the node location. The context nodes are defined to be the lane nodes whose $\ell_{2}$ distance from the actor node $i$ is smaller than a threshold. The thresholds for A2L, L2A and A2A are set to 7, 6, and 100 meters respectively. Each of A2L, L2A and A2A has two residual blocks, which consist of a stack of the proposed attention layer and a linear layer, as well as a residual connection. All layers have 128 output feature channels.
+The thresholds for A2L, L2A and A2A are set to 7, 6, and 100 meters respectively. Each of A2L, L2A and A2A has two residual blocks, which consist of a stack of the proposed attention layer and a linear layer, as well as a residual connection. All layers have 128 output feature channels.
 
-<!-- chunk {"id": "body-0030", "role": "body", "section": "Prediction Header", "weight": 1.0} -->
+<!-- chunk {"id": "body-0027", "role": "body", "section": "Prediction Header", "weight": 1.0} -->
 
-Taking the after-fusion actor features as input, a multi-modal prediction header outputs the final motion forecasting. For each actor, it predicts $K$ possible future trajectories and their confidence scores. The header has two branches, a regression branch to predict the trajectory of each mode and a classification branch to predict the confidence score of each mode.
+Taking the after-fusion actor features as input, a multi-modal prediction header outputs the final motion forecasting. For each actor, it predicts $K$ possible future trajectories and their confidence scores. The header has two branches, a regression branch to predict the trajectory of each mode and a classification branch to predict the confidence score of each mode. For the $m$-th actor, we apply a residual block and a linear layer in the regression branch to regress the $K$ sequences of BEV coordinates: where $\mathbf{p}_{m,i}^{k}$ is the predicted $m$-th actor's BEV coordinates of the $k$-th mode at the $i$-th time step. For the classification branch, we apply an MLP to $\mathbf{p}_{m,T}^{k} - \mathbf{p}_{m,0}$ to get $K$ distance embeddings.
 
-<!-- chunk {"id": "body-0031", "role": "body", "section": "Prediction Header", "weight": 1.0} -->
+<!-- chunk {"id": "body-0028", "role": "body", "section": "Prediction Header", "weight": 1.0} -->
 
-where $\mathbf{p}_{m,i}^{k}$ is the predicted $m$-th actor's BEV coordinates of the $k$-th mode at the $i$-th time step. For the classification branch, we apply an MLP to $\mathbf{p}_{m,T}^{k} - \mathbf{p}_{m,0}$ to get $K$ distance embeddings. We then concatenate each distance embedding with the actor feature, apply a residual block and a linear layer to output $K$ confidence scores, $O_{m,\text{cls}} = {(c_{m,0},c_{m,1},\ldots,c_{m,{K - 1}})}$.
+We then concatenate each distance embedding with the actor feature, apply a residual block and a linear layer to output $K$ confidence scores, $O_{m,\text{cls}} = {(c_{m,0},c_{m,1},\ldots,c_{m,{K - 1}})}$.
 
-<!-- chunk {"id": "body-0032", "role": "body", "section": "Learning", "weight": 1.0} -->
+<!-- chunk {"id": "body-0029", "role": "body", "section": "Learning", "weight": 1.0} -->
 
-As all the modules are differentiable, we can train the model in an end-to-end way. We use the sum of classification and regression losses to train the model
+As all the modules are differentiable, we can train the model in an end-to-end way. We use the sum of classification and regression losses to train the model where $\alpha = 1.0$. Given $K$ predicted trajectories of an actor, we find a positive trajectory $\hat{k}$ that has the minimum final displacement error, *i.e*., the Euclidean distance between the predicted and ground truth locations at the final time step.
 
-<!-- chunk {"id": "body-0033", "role": "body", "section": "Learning", "weight": 1.0} -->
+<!-- chunk {"id": "body-0030", "role": "body", "section": "Learning", "weight": 1.0} -->
 
-where $\alpha = 1.0$. Given $K$ predicted trajectories of an actor, we find a positive trajectory $\hat{k}$ that has the minimum final displacement error, *i.e*., the Euclidean distance between the predicted and ground truth locations at the final time step.
+For classification, we use the max-margin loss: where $\epsilon$ is the margin and $M$ is the total number of actors. For regression, we apply the smooth $\ell1$ loss on all predicted time steps: where $\mathbf{p}_{t}^{\ast}$ is the ground truth BEV coordinates at time step $t$, ${\text{reg}{(\mathbf{x})}} = {\sum_{i}{d{(x_{i})}}}$, $x_{i}$ is the $i$-th element of $\mathbf{x}$, and $d{(x_{i})}$ is the smooth $\ell1$ loss defined as where $\parallel x_{i}\parallel$ denotes the $\ell_{1}$ norm of $x_{i}$.
 
-<!-- chunk {"id": "body-0034", "role": "body", "section": "Learning", "weight": 1.0} -->
-
-where $\epsilon$ is the margin and $M$ is the total number of actors.
-
-<!-- chunk {"id": "body-0035", "role": "body", "section": "Experimental Evaluation", "weight": 1.0} -->
+<!-- chunk {"id": "body-0031", "role": "body", "section": "Experimental Evaluation", "weight": 1.0} -->
 
 We evaluate our model on the large scale Argoverse motion forecasting benchmark, which is publicly available and provides vectorized map data. We first compare our model with the state-of-the-art and show significant improvements in all metrics. We then conduct ablation studies on the architecture and LaneConv operators, and show the advantage of our model design choices. Finally, we show qualitative results and discuss future directions.
 
-<!-- chunk {"id": "body-0036", "role": "body", "section": "Dataset", "weight": 1.0} -->
+<!-- chunk {"id": "body-0032", "role": "body", "section": "Dataset", "weight": 1.0} -->
 
 Argoverse is a motion forecasting benchmark with over 30K scenarios collected in Pittsburgh and Miami. Each scenario is a sequence of frames sampled at 10 HZ. Each sequence has an interesting object called "agent", and the task is to predict the future locations of agents in a 3 seconds future horizon. The sequences are split into training, validation and test sets, which have 205942, 39472 and 78143 sequences respectively. These splits have no geographical overlap. For the training and validation sets, each sequence lasts for 5 seconds. The first two seconds are used as input data and the other 3 seconds are used as ground truth for models to predict. For the test set, only the first 2 seconds are provided. Each frame is given as the centroid coordinates of all objects in the scene. The actor data is a trajectory of 20 time steps. The map data is a set of lane centerlines and their connectivity. We use both actor and map data in the way described in Sections 3.1 and 3.2.2, without any other preprocessing step. We did not use the other map data such as the rasterized drivable area map and ground height map provided with the benchmark.
 
-<!-- chunk {"id": "body-0037", "role": "body", "section": "Metrics", "weight": 1.0} -->
+<!-- chunk {"id": "body-0033", "role": "body", "section": "Metrics", "weight": 1.0} -->
 
 We employ two extensively used motion forecasting metrics, Average Displacement Error (ADE) is defined as the $\ell_{2}$ distance between the predicted and ground truth locations, averaged over all steps. Final Displacement Error (FDE) is defined as the $\ell_{2}$ distance between the predicted and ground truth locations at the last step in the predicted horizon. As motion forecasting is by nature multi-modal, Argoverse uses the minimum ADE (minADE) and minimum FDE (minFDE) of the top K predictions as the metrics. When K=1, minADE and minFDE are equal to the deterministic ADE and FDE. Argoverse benchmark allows up to 6 predictions, and the online server ranks the entries with minFDE with K=6. We use minADE and minFDE for K=1 and K=6 as the main metrics. When comparing our model with top entries on the leaderboard, we also show Miss Rate (MR), which is the ratio of predictions (the best mode) whose final location is more than 2.0 meters away from the ground truth.
 
-<!-- chunk {"id": "body-0038", "role": "body", "section": "Implementation Details", "weight": 1.0} -->
+<!-- chunk {"id": "body-0034", "role": "body", "section": "Implementation Details", "weight": 1.0} -->
 
 We use all actors and lanes whose distance from the agent is smaller than 100 meters as the input. The coordinate system in our model is the BEV centered at the agent location at $t = 0$. We use the orientation from the agent location at $t = {- 1}$ to the agent location at $t = 0$ as the positive x axis. We train the model on 4 TITAN-X GPUs using a batch size of 128 with the Adam optimizer with an initial learning rate of $1 \times 10^{- 3}$, which is decayed to $1 \times 10^{- 4}$ at 32 epochs. The training process finishes at 36 epochs and takes about 11.5 hours. All our results are based on the same model, whose architecture and hyper-parameters are described in Section 3.
 
-<!-- chunk {"id": "body-0039", "role": "body", "section": "Comparison with the state-of-the-art", "weight": 1.0} -->
-
-We compare our model with four top entries and two official baselines on the Argoverse motion forecasting leaderboard. We submit our result at the time of ECCV submission. The metrics are minADE, minFDE and MR for K=1 and K=6, and the leaderboard is ranked by minFDE for K=6. As shown in Table 1, our model significantly outperforms all other models in all metrics. Among the compared methods, uulm-mrm encodes the input data using a rasterization approach. They represent actor states, lanes and the drivable area with a synthesized image, which is then processed by a 2D CNN. In this approach, map topology and actor-map interactions are both implicitly learned by 2D convolution. In contrast, our model explicitly learns structured map features and performs actor-map fusion. Jean and cxx encode actors and lanes with 1D CNN and/or LSTM, and use attention to fuse the features. In their models, lanes are encoded independently so the global map topology is not captured. Moreover, there is no actor to lane and lane to lane fusion.
-
-<!-- chunk {"id": "body-0040", "role": "body", "section": "Comparison with the state-of-the-art", "weight": 1.0} -->
-
-In contrast, our model learns the lane features using the LaneConv, which captures the multi-scale topology of the lane graph.
-
-<!-- chunk {"id": "body-0041", "role": "body", "section": "Importance of each module", "weight": 1.0} -->
-
-In Table 2, we show the results of using ActorNet as the baseline and progressively adding more modules. Three observations can be drawn from the results. First, all modules improve the performance of the model, demonstrating the effectiveness of both LaneGCN and our overall architecture. Second, the information flow from actors to maps brings useful traffic information which benefits the motion forecasting performance, as the incorporation of A2L and L2L significantly outperforms L2A only. Third, A2L, L2L and L2A also facilitates the interaction between actors, which can be seen from the smaller gain of adding A2A to this combination (from 4th row to 5th row) compared to adding A2A to ActorNet alone (from 1st row to 2nd row). Intuitively, the information of different actors is propagated over the lane graph and leads to effective map conditioned interactions.
-
-<!-- chunk {"id": "body-0042", "role": "body", "section": "Lane Graph Operators", "weight": 1.0} -->
+<!-- chunk {"id": "body-0035", "role": "body", "section": "Lane Graph Operators", "weight": 1.0} -->
 
 In Table 3, we show the results of the ablation study on lane graph operators. The baseline model uses the combination of A2L, L2L and L2A. We start from the vanilla graph convolution (GraphConv), and evaluate the effect of adding each component of the LaneConv block (see Figure 4), including the residual block, multi-type connections and dilation. The last row is the LaneConv used in our model (fourth row of Table 2). All these components significantly improve the performance. The residual block only adds about $7\%$ parameters, but effectively facilitates the training. Both multi-type connections and dilation significantly boost the performance, demonstrating the clear advantage of LaneConv over vanilla graph convolution.
 
-<!-- chunk {"id": "body-0043", "role": "body", "section": "Qualitative Results", "weight": 1.0} -->
+<!-- chunk {"id": "body-0036", "role": "body", "section": "Qualitative Results", "weight": 1.0} -->
 
 In Fig. 5, we compare qualitatively our model to other methods on 4 hard cases. The results of other models are adapted from the slides of Argoverse motion forecasting competition. As the examples are from the test set and we have no access to the labels, in our results we did not show the ground truth trajectory. The first row shows a case where the baselines miss the mode. While the other methods fail to capture the right turn prediction, our model produces a mode which nicely follows the right turn centerline. The second row shows a case where the agent is waiting to perform an unprotected left turn for the first 2 seconds. Due to the lack of actor motion history, maps are important for the model to produce reasonable trajectories. The other models produce divergent trajectories, some of which are non-traffic-rule compliant. In contrast, our model produces reasonable trajectories following the lane topology. The third row shows a case of a car decelerating and coming to a stop at the intersection. Our model produces a mode with more deceleration then the baselines and all the modes reasonably follow the lane. The fourth row shows a case of extreme acceleration.
 
-<!-- chunk {"id": "body-0044", "role": "body", "section": "Qualitative Results", "weight": 1.0} -->
+<!-- chunk {"id": "body-0037", "role": "body", "section": "Qualitative Results", "weight": 1.0} -->
 
 None of the models captures this case well, possibly because there is not enough information to make this prediction.
 
-<!-- chunk {"id": "body-0045", "role": "body", "section": "Qualitative Results", "weight": 1.0} -->
+<!-- chunk {"id": "body-0038", "role": "body", "section": "Qualitative Results", "weight": 1.0} -->
 
 Overall, these results suggest that LaneGCN effectively learns structured map representations, which are used by the model to predict realistic trajectories. One potential way to improve our model is to incorporate more map information into the lane graph. Currently our model uses the centerlines and their connectivity. Other map information, such as traffic lights and traffic signs, provides useful information for motion forecasting, which is well illustrated by the second and third cases in Fig. 5. To account for new map data, our model can be easily extended by introducing new nodes and connections. We will explore this direction in future work.
 
-<!-- chunk {"id": "body-0046", "role": "body", "section": "Conclusion", "weight": 1.5} -->
+<!-- chunk {"id": "body-0039", "role": "body", "section": "Conclusion", "weight": 1.5} -->
 
 In this paper, we propose a novel motion forecasting model to learn lane graph representations and perform a complete set of actor-map interactions. Instead of using a rasterized map as input, we construct a lane graph from vectorized map data and propose the LaneGCN to extract map topology features. We use spatial attention and the LaneGCN to fuse the information of both actors and lanes. We conduct experiments on the large scale Argoverse motion forecasting benchmark. Our model significantly outperforms the state-of-the-art. In the future we plan to explore the incorporation of other map data.

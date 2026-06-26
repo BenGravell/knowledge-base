@@ -74,15 +74,15 @@ We represent the melody with two random variables per time step: which key is pr
 
 <!-- chunk {"id": "body-0019", "role": "body", "section": "Two-layer RNN for Melody Generation", "weight": 1.0} -->
 
-In this paper we take advantage of LSTMs, which in their most basic form (single layer) compute the hidden state $h^{t}$ given the input $\mathbf{x}^{\mathbf{t}}$ by
+In this paper we take advantage of LSTMs, which in their most basic form (single layer) compute the hidden state $h^{t}$ given the input $\mathbf{x}^{\mathbf{t}}$ by with $W_{f},W_{i},W_{o},W_{C}$ learnable parameters. Here $f$, $i$, $o$, $C$, $\overset{\sim}{C}$, and $h$ denote the forget gate, input gate, output gate, cell state, input cell state and hidden state.
 
 <!-- chunk {"id": "body-0020", "role": "body", "section": "Two-layer RNN for Melody Generation", "weight": 1.0} -->
 
-with $W_{f},W_{i},W_{o},W_{C}$ learnable parameters. Here $f$, $i$, $o$, $C$, $\overset{\sim}{C}$, and $h$ denote the forget gate, input gate, output gate, cell state, input cell state and hidden state.
+In particular, we model the key layer with a two-layer LSTM with 512-dimensional hidden state, which outputs a note (key) at each time step. Note that we condition on scale $s$, thus we have different parameters per scale. We only allow notes between $C3$ to $C6$ as notes outside this range are usually too low or too high to sound good. We remind the reader that given a scale, seven (or six for blues) out of the twelve notes (per octave) are statistically more plausible, however we allow the model to choose from all 12. This results in a 37-dimensional output, as there are 36 possible notes corresponding to 3 octaves with 12 notes per octave, plus silence. Let $h_{key}^{t}$ be the hidden state of the second key decoder layer at time $t$.
 
 <!-- chunk {"id": "body-0021", "role": "body", "section": "Two-layer RNN for Melody Generation", "weight": 1.0} -->
 
-In particular, we model the key layer with a two-layer LSTM with 512-dimensional hidden state, which outputs a note (key) at each time step. Note that we condition on scale $s$, thus we have different parameters per scale. We only allow notes between $C3$ to $C6$ as notes outside this range are usually too low or too high to sound good. We remind the reader that given a scale, seven (or six for blues) out of the twelve notes (per octave) are statistically more plausible, however we allow the model to choose from all 12. This results in a 37-dimensional output, as there are 36 possible notes corresponding to 3 octaves with 12 notes per octave, plus silence. Let $h_{key}^{t}$ be the hidden state of the second key decoder layer at time $t$.
+We compute the probability of each key using the softmax: where $\mathbf{v}_{\mathbf{y}_{key}^{t}}$ is the row of $\mathbf{V}$ (the output embedding matrix of notes), corresponding to note $\mathbf{y}_{key}^{t}$.
 
 <!-- chunk {"id": "body-0022", "role": "body", "section": "Two-layer RNN for Melody Generation", "weight": 1.0} -->
 

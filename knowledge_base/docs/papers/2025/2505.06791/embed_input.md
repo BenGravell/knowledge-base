@@ -44,38 +44,23 @@ The following section describes two main differences from pRRTC. Parallel projec
 
 <!-- chunk {"id": "body-0011", "role": "body", "section": "III-A Parallel Motion Projection", "weight": 1.0} -->
 
-Compared to sequentially projecting each configuration onto the constraint manifold, the parallel motion projection operation projects all configurations of the motion segment simultaneously, allowing for more effective utilization of GPU resources. However, since each thread block can only handle a fixed number of waypoints, optimization methods like CHOMP, which operate over trajectories of non-predefined size, are not directly applicable. Given an initial straight-line motion segment in the form
+Compared to sequentially projecting each configuration onto the constraint manifold, the parallel motion projection operation projects all configurations of the motion segment simultaneously, allowing for more effective utilization of GPU resources. However, since each thread block can only handle a fixed number of waypoints, optimization methods like CHOMP, which operate over trajectories of non-predefined size, are not directly applicable. Given an initial straight-line motion segment in the form the parallel project function produces a constraint-satisfying motion segment: Here, $q_{0}$ remains fixed as the starting point, while the other configurations are iteratively projected in parallel. Note that the end configuration is not fixed. To ensure trajectory smoothness, the distance between consecutive configurations in the final motion must remain below a predefined threshold.
 
 <!-- chunk {"id": "body-0012", "role": "body", "section": "III-A Parallel Motion Projection", "weight": 1.0} -->
 
-Here, $q_{0}$ remains fixed as the starting point, while the other configurations are iteratively projected in parallel. Note that the end configuration is not fixed. To ensure trajectory smoothness, the distance between consecutive configurations in the final motion must remain below a predefined threshold.
+A naive approach would be to project all configurations in parallel independently. However, this can lead to discontinuities in the resulting projected motion segment. To address this, we incorporate an additional smoothing term into the project operation as shown in Alg. III-A.
 
 <!-- chunk {"id": "body-0013", "role": "body", "section": "III-A Parallel Motion Projection", "weight": 1.0} -->
 
-A naive approach would be to project all configurations in parallel independently. However, this can lead to discontinuities in the resulting projected motion segment. To address this, we incorporate an additional smoothing term into the project operation as shown in Alg. III-A.
+1:function ParallelProject(ξinit, tid, τtask, τsm) 2: shared memory ξ = ξinit 3: shared memory valid 4: shared memory prog = 1 5: shared memory isProj = False 6: for i = 1 to max_iters do 7: if tid > prog&tid < len(ξ) then 8: Etask = GetTaskError(ξ[tid]) 9: Jtask = GetTaskJacobian(ξ[tid]) 10: ∇task = Jtask†Etask 11: Esm = abs(ξ[tid] − ξ[tid − 1]) − τ 12: Jsm = ξ[tid] − ξ[tid − 1] 14: ξnew[tid] = ξ[tid] − α(∇task + ∇sm) 15: valid[tid] = Esm < τsm&Etask < τtask 19: for j = prog + 1 to len(ξ) do 24: if prog = len(ξ) − 1 then The PARALLELPROJECT function leverages thread-level parallelism
 
 <!-- chunk {"id": "body-0014", "role": "body", "section": "III-A Parallel Motion Projection", "weight": 1.0} -->
 
-1:function ParallelProject(ξinit, tid, τtask, τsm)
-2: shared memory ξ = ξinit
-3: shared memory valid
-4: shared memory prog = 1
-5: shared memory isProj = False
-6: for i = 1 to max_iters do
-7: if tid &gt; prog&amp;tid &lt; len(ξ) then
-8: Etask = GetTaskError(ξ[tid])
-9: Jtask = GetTaskJacobian(ξ[tid])
-10: ∇task = Jtask†Etask
-11: Esm = abs(ξ[tid]−ξ[tid − 1]) − τ
-12: Jsm = ξ[tid] − ξ[tid − 1]
-14: ξnew[tid] = ξ[tid] − α(∇task+∇sm)
-15: valid[tid] = Esm &lt; τsm&amp;Etask &lt; τtask
-19: for j = prog + 1 to len(ξ) do
-24: if prog = len(ξ) − 1 then
+to process the intermediate configurations of a motion segment $\xi_{init}$ in two main stages.
 
 <!-- chunk {"id": "body-0015", "role": "body", "section": "III-A Parallel Motion Projection", "weight": 1.0} -->
 
-The PARALLELPROJECT function leverages thread-level parallelism to process the intermediate configurations of a motion segment $\xi_{init}$ in two main stages. In the first stage (lines 7--15), each thread computes the gradient for its assigned configuration, including both the task error $E_{task}$ and Jacobian $J_{task}$, as well as the smoothness error $E_{sm}$ and Jacobian $J_{sm}$ used to enforce trajectory continuity. At this stage, the intermediate waypoints for the updated motion $\xi_{new}$ are computed, but the original segment $\xi$ is not yet modified. At line 15, each thread checks whether its configuration $\xi{\lbrack{tid}\rbrack}$ satisfies the constraints and remains sufficiently close to its previous waypoint; the result is stored in the shared memory variable valid$\lbrack{tid}\rbrack$.
+In the first stage (lines 7--15), each thread computes the gradient for its assigned configuration, including both the task error $E_{task}$ and Jacobian $J_{task}$, as well as the smoothness error $E_{sm}$ and Jacobian $J_{sm}$ used to enforce trajectory continuity. At this stage, the intermediate waypoints for the updated motion $\xi_{new}$ are computed, but the original segment $\xi$ is not yet modified. At line 15, each thread checks whether its configuration $\xi{\lbrack{tid}\rbrack}$ satisfies the constraints and remains sufficiently close to its previous waypoint; the result is stored in the shared memory variable valid$\lbrack{tid}\rbrack$.
 
 <!-- chunk {"id": "body-0016", "role": "body", "section": "III-A Parallel Motion Projection", "weight": 1.0} -->
 
@@ -95,11 +80,11 @@ This evaluation begin by evaluating the scalability of cpRRTC in environments wi
 
 <!-- chunk {"id": "body-0020", "role": "body", "section": "V-A Planning without Constraints", "weight": 1.0} -->
 
-We compare cpRRTC with pRRTC on MotionBenchMaker. All planners were compiled using CUDA 12.8 and executed on a single workstation equipped with an NVIDIA RTX 5090 GPU. The planners sampled configurations from the Halton sequence and were reseeded only at the beginning of each trial. Our evaluation focuses on the Fetch and Franka robots, as they are commonly used platforms in prior work on cuRobo and pRRTC. To ensure a fair comparison, we follow the evaluation methodology used in pRRTC. To isolate the effect of obstacle count, we retain each scene's overall geometry but subdivide every mesh into smaller axis-aligned boxes. Three obstacle densities are tested: 1) the original scene, 2) every primitive split into 10x, and 3) every primitive split into 100x.
+We compare cpRRTC with pRRTC on MotionBenchMaker. All planners were compiled using CUDA 12.8 and executed on a single workstation equipped with an NVIDIA RTX 5090 GPU. The planners sampled configurations from the Halton sequence and were reseeded only at the beginning of each trial. Our evaluation focuses on the Fetch and Franka robots, as they are commonly used platforms in prior work on cuRobo and pRRTC. To ensure a fair comparison, we follow the evaluation methodology used in pRRTC. To isolate the effect of obstacle count, we retain each scene's overall geometry but subdivide every mesh into smaller axis-aligned boxes (Fig. 2). Three obstacle densities are tested: 1) the original scene, 2) every primitive split into 10x, and 3) every primitive split into 100x.
 
 <!-- chunk {"id": "body-0021", "role": "body", "section": "V-A Planning without Constraints", "weight": 1.0} -->
 
-Across the four tasks depicted in the original scenes, the cpRRTC algorithm outperforms pRRTC with a speed-up of 2.8x. As the environmental complexity increases, this advantage expands significantly, achieving a speed-up of 3.4x at 10x complexity and approximately 6.6x at 100x complexity. These results demonstrate that our system scales significantly better than the prior approach.
+Across the four tasks depicted in the original scenes (Fig.3), the cpRRTC algorithm outperforms pRRTC with a speed-up of 2.8x. As the environmental complexity increases, this advantage expands significantly, achieving a speed-up of 3.4x at 10x complexity and approximately 6.6x at 100x complexity. These results demonstrate that our system scales significantly better than the prior approach.
 
 <!-- chunk {"id": "body-0022", "role": "body", "section": "V-B Planning with Constraints", "weight": 1.0} -->
 
@@ -107,7 +92,7 @@ We evaluate cpRRTC-Parallel against cpRRTC-Naive, the algorithm with the sequent
 
 <!-- chunk {"id": "body-0023", "role": "body", "section": "V-B Planning with Constraints", "weight": 1.0} -->
 
-CuRobo only enables constrained motion generation by allowing users to lock specific linear and angular axes, thereby solving motion along the remaining degrees of freedom. To fairly compare cpRRTC and cuRobo, we follow cuRobo's constrained motion planning tutorial setup, adding randomly placed cuboid obstacles to increase complexity. We consider two constraint variants: a planar constraint where the end-effector is restricted to motion within a plane (i.e., one axis is constrained), and a linear constraint where the end-effector is restricted to motion along a line (i.e., two axes are constrained). Representative examples are illustrated in Fig.. All evaluations use 100 randomly sampled start-goal joint-state pairs.
+CuRobo only enables constrained motion generation by allowing users to lock specific linear and angular axes, thereby solving motion along the remaining degrees of freedom. To fairly compare cpRRTC and cuRobo, we follow cuRobo's constrained motion planning tutorial setup, adding randomly placed cuboid obstacles to increase complexity. We consider two constraint variants: a planar constraint where the end-effector is restricted to motion within a plane (i.e., one axis is constrained), and a linear constraint where the end-effector is restricted to motion along a line (i.e., two axes are constrained). Representative examples are illustrated in Fig. 4. All evaluations use 100 randomly sampled start-goal joint-state pairs.
 
 <!-- chunk {"id": "body-0024", "role": "body", "section": "V-B Planning with Constraints", "weight": 1.0} -->
 
@@ -115,12 +100,12 @@ In general, across all benchmark settings, cpRRTC-Parallel solves the problems 1
 
 <!-- chunk {"id": "body-0025", "role": "body", "section": "V-B Planning with Constraints", "weight": 1.0} -->
 
-For results with Fetch, cpRRTC-Parallel achieved an average speedup of approximately 53× compared to cuRobo, while simultaneously increasing the mean success rate from 61% to 90%. Similar performance advantages were observed consistently across both constraint tasks.
+For results with Fetch (Fig 5), cpRRTC-Parallel achieved an average speedup of approximately 53× compared to cuRobo, while simultaneously increasing the mean success rate from 61% to 90%. Similar performance advantages were observed consistently across both constraint tasks.
 
 <!-- chunk {"id": "body-0026", "role": "body", "section": "V-B Planning with Constraints", "weight": 1.0} -->
 
-As the obstacle density increased, success rates for all planners dropped. Nonetheless, cpRRTC-Parallel consistently outperformed cuRobo under these challenging conditions, providing an average speedup of 52× and improving the success rate by approximately 22%. For further evaluation, we impose fixed orientation constraints on the Fetch to increase task difficulty as shown in Fig.. In this case, cpRRTC-Parallel maintained comparable success rates to cuRobo while achieving approximately 120× faster planning times.
+As the obstacle density increased, success rates for all planners dropped. Nonetheless, cpRRTC-Parallel consistently outperformed cuRobo under these challenging conditions, providing an average speedup of 52× and improving the success rate by approximately 22%. For further evaluation, we impose fixed orientation constraints on the Fetch to increase task difficulty as shown in Fig. 6. In this case, cpRRTC-Parallel maintained comparable success rates to cuRobo while achieving approximately 120× faster planning times.
 
 <!-- chunk {"id": "body-0027", "role": "body", "section": "V-B Planning with Constraints", "weight": 1.0} -->
 
-For experiments with the Franka, cpRRTC demonstrated a similar performance advantage over cuRobo as observed with the Fetch. Notably, in the line-following task, as the number of obstacles increased, cpRRTC-Parallel maintained a consistently high success rate of approximately 99%, whereas cuRobo's success rate declined sharply to 32%. Moreover, cpRRTC-Parallel achieved a 3.4x speed-up in planning time. We attribute this performance enhancement to the structure of the Franka (i.e it's slender arm and larger self-collision-free space) which simplified the planning problem and enable cpRRTC-Parallel to complete the planning task with fewer projection retries.
+For experiments with the Franka (Fig. 7), cpRRTC demonstrated a similar performance advantage over cuRobo as observed with the Fetch. Notably, in the line-following task, as the number of obstacles increased, cpRRTC-Parallel maintained a consistently high success rate of approximately 99%, whereas cuRobo's success rate declined sharply to 32%. Moreover, cpRRTC-Parallel achieved a 3.4x speed-up in planning time. We attribute this performance enhancement to the structure of the Franka (i.e it's slender arm and larger self-collision-free space) which simplified the planning problem and enable cpRRTC-Parallel to complete the planning task with fewer projection retries.

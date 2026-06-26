@@ -52,142 +52,150 @@ Additionally, it contains the magnitude of the actions applied to the different 
 
 The GN architectures introduced here generalize interaction networks (IN) in several ways. They include global representations and outputs for the state of a system, as well as per-edge outputs. They are defined as "graph2graph" modules (i.e., they map input graphs to output graphs with different edge, node, and global features), which can be composed in deep and recurrent neural network (RNN) configurations. A core GN block (Figure 2b) contains three sub-functions---edge-wise, $f_{e}$, node-wise, $f_{n}$, and global, $f_{g}$---which can be implemented using standard neural networks. Here we use multi-layer perceptrons (MLP). A single feedforward GN pass can be viewed as one step of message-passing on a graph, where $f_{e}$ is first applied to update all edges, $f_{n}$ is then applied to update all nodes, and $f_{g}$ is finally applied to update the global feature. See Algorithm 1 for details.
 
-<!-- chunk {"id": "body-0014", "role": "body", "section": "Forward models", "weight": 1.0} -->
+<!-- chunk {"id": "body-0014", "role": "body", "section": "Graph networks", "weight": 1.0} -->
 
-For prediction, we introduce a GN-based forward model for learning to predict future states from current ones. It operates on one time-step, and contains two GNs composed sequentially in a "deep" arrangement (unshared parameters; see Figure 2c). The first GN takes an input graph, $G$, and produces a latent graph, $G^{\prime}$. This $G^{\prime}$ is concatenated^55^5We define the term "graph-concatenation" as combining two graphs by concatenating their respective edge, node, and global features. We define "graph-splitting" as splitting the edge, node, and global features of one graph to form two new graphs with the same structure. with $G$ (e.g., a graph skip connection), and provided as input to the second GN, which returns an output graph, $G^{\ast}$.
+global features, $\text{g}^{\ast} = {f_{g}{(\text{g},\hat{\text{n}},\hat{\text{e}})}}$ Algorithm 1 Graph network, GN Figure 3: Evaluation rollout in a Swimmer6.
 
-<!-- chunk {"id": "body-0015", "role": "body", "section": "Forward models", "weight": 1.0} -->
+<!-- chunk {"id": "body-0015", "role": "body", "section": "Graph networks", "weight": 1.0} -->
 
-Our forward model training optimizes the GN so that $G^{\ast}$'s $\{\mathbf{n}_{i}\}$ features reflect predictions about the states of each body across a time-step. The reason we used two GNs was to allow all nodes and edges to communicate with each other through the $\mathbf{g}^{\prime}$ output from the first GN. Preliminary tests suggested this provided large performance advantages over a single IN/GN (see ablation study in SM Figure H.2).
+Trajectory videos are here: link-P.F.S6. (a) Frames of ground truth and predicted states over a 100 step trajectory. (b-e) State sequence predictions for link #3 of the Swimmer. The subplots are (b) x, y, z-position, (c) q 0, q 1, q 2, q 3-quaternion orientation, (d) x, y, z-linear velocity, and (e) x, y, z-angular velocity. [au] indicates arbitrary units.
 
 <!-- chunk {"id": "body-0016", "role": "body", "section": "Forward models", "weight": 1.0} -->
 
-We also introduce a second, recurrent GN-based forward model, which contains three RNN sub-modules (GRUs, ) applied across all edges, nodes, and global features, respectively, before being composed with a GN block (see Figure 2d).
+For prediction, we introduce a GN-based forward model for learning to predict future states from current ones. It operates on one time-step, and contains two GNs composed sequentially in a "deep" arrangement (unshared parameters; see Figure 2c). The first GN takes an input graph, $G$, and produces a latent graph, $G'$. This $G'$ is concatenated^55^5We define the term "graph-concatenation" as combining two graphs by concatenating their respective edge, node, and global features. We define "graph-splitting" as splitting the edge, node, and global features of one graph to form two new graphs with the same structure. with $G$ (e.g., a graph skip connection), and provided as input to the second GN, which returns an output graph, $G^{\ast}$. Our forward model training optimizes the GN so that $G^{\ast}$'s $\{\mathbf{n}_{i}\}$ features reflect predictions about the states of each body across a time-step.
 
 <!-- chunk {"id": "body-0017", "role": "body", "section": "Forward models", "weight": 1.0} -->
 
+The reason we used two GNs was to allow all nodes and edges to communicate with each other through the $\mathbf{g}'$ output from the first GN. Preliminary tests suggested this provided large performance advantages over a single IN/GN (see ablation study in SM Figure H.2).
+
+<!-- chunk {"id": "body-0018", "role": "body", "section": "Forward models", "weight": 1.0} -->
+
+We also introduce a second, recurrent GN-based forward model, which contains three RNN sub-modules (GRUs, ) applied across all edges, nodes, and global features, respectively, before being composed with a GN block (see Figure 2d).
+
+<!-- chunk {"id": "body-0019", "role": "body", "section": "Forward models", "weight": 1.0} -->
+
 Our forward models were all trained to predict state differences, so to compute absolute state predictions we updated the input state with the predicted state difference. To generate a long-range *rollout* trajectory, we repeatedly fed absolute state predictions and externally specified control inputs back into the model as input, iteratively. As data pre- and post-processing steps, we normalized the inputs and outputs to the GN model.
-
-<!-- chunk {"id": "body-0018", "role": "body", "section": "Inference models", "weight": 1.0} -->
-
-System identification refers to inferences about unobserved properties of a dynamic system based on its observed behavior. It is important for controlling systems whose unobserved properties influence the control dynamics. Here we consider "implicit" system identification, in which inferences about unobserved properties are not estimated explicitly, but are expressed in latent representations which are made available to other mechanisms.
-
-<!-- chunk {"id": "body-0019", "role": "body", "section": "Inference models", "weight": 1.0} -->
-
-We introduce a recurrent GN-based inference model, which observes only the dynamic states of a trajectory and constructs a latent representation of the unobserved, static properties (i.e., performs implicit system identification). It takes as input a sequence of dynamic state graphs, $G_{d}$, under some control inputs, and returns an output, $G^{\ast}{(T)}$, after $T$ time steps. This $G^{\ast}{(T)}$ is then passed to a one-step forward model by graph-concatenating it with an input dynamic graph, $G_{d}$. The recurrent core takes as input, $G_{d}$, and hidden graph, $G_{h}$, which are graph-concatenated^5^ and passed to a GN block (see Figure 2e). The graph returned by the GN block is graph-split^5^ to form an output, $G^{\ast}$, and updated hidden graph, $G_{h}^{\ast}$.
 
 <!-- chunk {"id": "body-0020", "role": "body", "section": "Inference models", "weight": 1.0} -->
 
+System identification refers to inferences about unobserved properties of a dynamic system based on its observed behavior. It is important for controlling systems whose unobserved properties influence the control dynamics. Here we consider "implicit" system identification, in which inferences about unobserved properties are not estimated explicitly, but are expressed in latent representations which are made available to other mechanisms.
+
+<!-- chunk {"id": "body-0021", "role": "body", "section": "Inference models", "weight": 1.0} -->
+
+We introduce a recurrent GN-based inference model, which observes only the dynamic states of a trajectory and constructs a latent representation of the unobserved, static properties (i.e., performs implicit system identification). It takes as input a sequence of dynamic state graphs, $G_{d}$, under some control inputs, and returns an output, $G^{\ast}{(T)}$, after $T$ time steps. This $G^{\ast}{(T)}$ is then passed to a one-step forward model by graph-concatenating it with an input dynamic graph, $G_{d}$. The recurrent core takes as input, $G_{d}$, and hidden graph, $G_{h}$, which are graph-concatenated^5^ and passed to a GN block (see Figure 2e). The graph returned by the GN block is graph-split^5^ to form an output, $G^{\ast}$, and updated hidden graph, $G_{h}^{\ast}$.
+
+<!-- chunk {"id": "body-0022", "role": "body", "section": "Inference models", "weight": 1.0} -->
+
 The full architecture can be trained jointly, and learns to infer unobserved properties of the system from how the system's observed features behave, and use them to make more accurate predictions.
 
-<!-- chunk {"id": "body-0021", "role": "body", "section": "Control algorithms", "weight": 1.0} -->
+<!-- chunk {"id": "body-0023", "role": "body", "section": "Control algorithms", "weight": 1.0} -->
 
 For control, we exploit the fact that the GN is differentiable to use our learned forward and inference models for model-based planning within a classic, gradient-based trajectory optimization regime, also known as model-predictive control (MPC). We also develop an agent which simultaneously learns a GN-based model and policy function via Stochastic Value Gradients (SVG). ^66^6MPC and SVG are deeply connected: in MPC the control inputs are optimized given the initial conditions in a single episode, while in SVG a policy function that maps states to controls is optimized over states experienced during training.
 
-<!-- chunk {"id": "body-0022", "role": "body", "section": "Environments", "weight": 1.0} -->
+<!-- chunk {"id": "body-0024", "role": "body", "section": "Environments", "weight": 1.0} -->
 
 Our experiments involved seven actuated Mujoco simulation environments (Figure 1). Six were from the "DeepMind Control Suite" ---Pendulum, Cartpole, Acrobot, Swimmer, Cheetah, Walker2d---and one was a model of a JACO commercial robotic arm. We generated training data for our forward models by applying simulated random controls to the systems, and recording the state transitions. We also trained models from recorded trajectories of a real JACO robotic under human control during a stacking task.
 
-<!-- chunk {"id": "body-0023", "role": "body", "section": "Environments", "weight": 1.0} -->
+<!-- chunk {"id": "body-0025", "role": "body", "section": "Environments", "weight": 1.0} -->
 
 In experiments that examined generalization and system identification, we created a dataset of versions of several of our systems---Pendulum, Cartpole, Swimmer, Cheetah and JACO--- with procedurally varied parameters and structure. We varied continuous properties such as link lengths, body masses, and motor gears. In addition, we also varied the number of links in the Swimmer's structure, from 3-15 (we refer to a swimmer with $N$ links as Swimmer$N$).
 
-<!-- chunk {"id": "body-0024", "role": "body", "section": "MPC planning", "weight": 1.0} -->
+<!-- chunk {"id": "body-0026", "role": "body", "section": "MPC planning", "weight": 1.0} -->
 
 We used our GN-based forward model to implement MPC planning by maximizing a dynamic-state-dependent reward along a trajectory from a given initial state. We used our GN forward model to predict the $N$-step trajectories ($N$ is the planning *horizon*) induced by proposed action sequences, as well as the total reward associated with the trajectory. We optimized these action sequences by backpropagating gradients of the total reward with respect to the actions, and minimizing the negative reward by gradient descent, iteratively.
 
-<!-- chunk {"id": "body-0025", "role": "body", "section": "Model-based reinforcement learning", "weight": 1.0} -->
+<!-- chunk {"id": "body-0027", "role": "body", "section": "Model-based reinforcement learning", "weight": 1.0} -->
 
 To investigate whether our GN-based model can benefit reinforcement learning (RL) algorithms, we used our model within an SVG regime. The GN forward model was used as a differentiable environment simulator to obtain a gradient of the expected return (predicted based on the next state generated by a GN) with respect to a parameterized, stochastic policy, which was trained jointly with the GN. For our experiments we used a single step prediction (SVG) and compared to sample-efficient model-free RL baselines using either stochastic policies (SVG) or deterministic policies via the Deep Deterministic Policy Gradients (DDPG) algorithm (which is also used as a baseline in the MPC experiments).
 
-<!-- chunk {"id": "body-0026", "role": "body", "section": "Baseline comparisons", "weight": 1.0} -->
+<!-- chunk {"id": "body-0028", "role": "body", "section": "Baseline comparisons", "weight": 1.0} -->
 
 As a simple baseline, we compared our forward models' predictions to a *constant prediction baseline*, which copied the input state as the output state. We also compared our GN-based forward model with a learned, MLP baseline, which we trained to make forward predictions using the same data as the GN model. We replaced the core GN with an MLP, and flattened and concatenated the graph-structured GN input and target data into a vector suitable for input to the MLP. We swept over 20 unique hyperparameter combinations for the MLP architecture, with up to 9 hidden layers and 512 hidden nodes per layer.
 
-<!-- chunk {"id": "body-0027", "role": "body", "section": "Baseline comparisons", "weight": 1.0} -->
+<!-- chunk {"id": "body-0029", "role": "body", "section": "Baseline comparisons", "weight": 1.0} -->
 
 As an MPC baseline, with a pre-specified physical model, we used a Differential Dynamic Programming algorithm that had access to the ground-truth Mujoco model. We also used the two model-free RL agents mentioned above, SVG and DDPG, as baselines in some tests. Some of the trajectories from a DDPG agent in Swimmer6 were also used to evaluate generalization of the forward models.
 
-<!-- chunk {"id": "body-0028", "role": "body", "section": "Prediction performance evaluation", "weight": 1.0} -->
+<!-- chunk {"id": "body-0030", "role": "body", "section": "Prediction performance evaluation", "weight": 1.0} -->
 
 Unless otherwise specified, we evaluated our models on squared one-step dynamic state differences (*one-step error*) and squared trajectory differences (*rollout error*) between the prediction and the ground truth. We calculated independent errors for position, orientation, linear velocity angular velocity, and normalized them individually to the constant prediction baseline. After normalization, the errors were averaged together. All errors reported are calculated for 1000 100-step sequences from the test set.
 
-<!-- chunk {"id": "body-0029", "role": "body", "section": "Learning a forward model for a single system", "weight": 1.0} -->
+<!-- chunk {"id": "body-0031", "role": "body", "section": "Learning a forward model for a single system", "weight": 1.0} -->
 
 Our results show that the GN-based model can be trained to make very accurate forward predictions under random control. For example, the ground truth and model-predicted trajectories for Swimmer6 were both visually and quantitatively indistinguishable (see Figure 3). Figure 4's black bars show that the predictions across most other systems were far better than the constant prediction baseline. As a stronger baseline comparison, Figures 5a-b show that our GN model had lower error than the MLP-based model in 6 of the 7 simulated control systems we tested. This was especially pronounced for systems with much repeated structure, such as the Swimmer, while for systems with little repeated structure, such as Pendulum, there was negligible difference between the GN and MLP baseline. These results suggest that a GN-based forward model is very effective at learning predictive dynamics in a diverse range of complex physical systems.
 
-<!-- chunk {"id": "body-0030", "role": "body", "section": "Learning a forward model for a single system", "weight": 1.0} -->
+<!-- chunk {"id": "body-0032", "role": "body", "section": "Learning a forward model for a single system", "weight": 1.0} -->
 
 We also found that the GN generalized better than the MLP baseline from training to test data, as well as across different action distributions. Figures 5c-d show that for Swimmer6, the relative increase in error from training to test data, and to data recorded from a learned DDPG agent, was smaller for the GN model than for the MLP baseline. We speculate that the GN's superior generalization is a result of implicit regularization due to its inductive bias for sharing parameters across all bodies and joints; the MLP, in principle, could devote disjoint subsets of its computations to each body and joint, which might impair generalization.
 
-<!-- chunk {"id": "body-0031", "role": "body", "section": "Learning a forward model for multiple systems", "weight": 1.0} -->
+<!-- chunk {"id": "body-0033", "role": "body", "section": "Learning a forward model for multiple systems", "weight": 1.0} -->
 
 Another important feature of our GN model is that it is very flexible, able to handle wide variation across a system's properties, and across systems with different structure. We tested how it learned forward dynamics of systems with continuously varying static parameters, using a new dataset where the underlying systems' bodies and joints had different masses, body lengths, joint angles, etc. These static state features were provided to the model via the input graphs' node and edge attributes. Figure 4 shows that the GN model's forward predictions were again accurate, which suggests it can learn well even when the underlying system properties vary.
 
-<!-- chunk {"id": "body-0032", "role": "body", "section": "Learning a forward model for multiple systems", "weight": 1.0} -->
+<!-- chunk {"id": "body-0034", "role": "body", "section": "Learning a forward model for multiple systems", "weight": 1.0} -->
 
 We next explored the GN's inductive bias for body- and joint-centric learning by testing whether a single model can make predictions across multiple systems that vary in their number of bodies and the joint structure. Figure 6 shows that when trained on a mixed dataset of Swimmers with 3-6, 8-9 links, the GN model again learned to make accurate forward predictions. We pushed this even further by training a single GN model on multiple systems, with completely different structures, and found similarly positive results (see Figure 4, red and yellow bars). This highlights a key difference, in terms of general applicability, between GN and MLP models: the GN can naturally operate on variably structured inputs, while the MLP requires fixed-size inputs.
 
-<!-- chunk {"id": "body-0033", "role": "body", "section": "Learning a forward model for multiple systems", "weight": 1.0} -->
+<!-- chunk {"id": "body-0035", "role": "body", "section": "Learning a forward model for multiple systems", "weight": 1.0} -->
 
 The GN model can even generalize, zero-shot, to systems whose structure was held out during training, as long as they are composed of bodies and joints similar to those seen during training. For the GN model trained on Swimmers with 3-6, 8-9 links, we tested on held-out Swimmers with 7 and 10-15 links. Figure 6 shows that zero-shot generalization performance is very accurate for 7 and 10 link Swimmers, and degrades gradually from 11-15 links. Still, their trajectories are visually very close to the ground truth (video: link-P.F.SN(Z)).
 
-<!-- chunk {"id": "body-0034", "role": "body", "section": "Real robot data", "weight": 1.0} -->
+<!-- chunk {"id": "body-0036", "role": "body", "section": "Real robot data", "weight": 1.0} -->
 
 To evaluate our approach's applicability to the real world, we trained GN-based forward models on real JACO proprioceptive data; under manual control by a human performing a stacking task. We found the feed-forward GN performance was not as accurate as the recurrent GN forward model^77^7This might result from lag or hysteresis which induces long-range temporal dependencies that the feed-forward model cannot capture.: Figure 7 shows a representative predicted trajectory from the test set, as well as overall performance. These results suggest that our GN-based forward model is a promising approach for learning models in real systems.
 
-<!-- chunk {"id": "body-0035", "role": "body", "section": "Inference", "weight": 1.0} -->
+<!-- chunk {"id": "body-0037", "role": "body", "section": "Inference", "weight": 1.0} -->
 
 In many real-world settings the system's state is partially observable. Robot arms often use joint angle and velocity sensors, but other properties such as mass, joint stiffness, etc. are often not directly measurable. We applied our system identification inference model (see Model Section 3) to a setting where only the dynamic state variables (i.e., position, orientation, and linear and angular velocities) were observed, and found it could support accurate forward predictions (during its "prediction phase") after observing randomly controlled system dynamics during an initial 20-step "ID phase" (see Figure 8).
 
-<!-- chunk {"id": "body-0036", "role": "body", "section": "Inference", "weight": 1.0} -->
+<!-- chunk {"id": "body-0038", "role": "body", "section": "Inference", "weight": 1.0} -->
 
 To further explore the role of our GN-based system identification, we contrasted the model's predictions after an ID phase, which contained useful control inputs, against an ID phase that did not apply control inputs, across three different Pendulum systems with variable, unobserved lengths. Figure 9 shows that the GN forward model with an identifiable ID phase makes very accurate predictions, but with an unidentifiable ID phase its predictions are very poor.
 
-<!-- chunk {"id": "body-0037", "role": "body", "section": "Inference", "weight": 1.0} -->
+<!-- chunk {"id": "body-0039", "role": "body", "section": "Inference", "weight": 1.0} -->
 
 A key advantage of our system ID approach is that once the ID phase has been performed for some system, the inferred representation can be stored and reused to make trajectory predictions from different initial states of the system. This contrasts with an approach that would use an RNN to both infer the system properties and use them throughout the trajectory, which thus would require identifying the same system from data each time a new trajectory needs to be predicted given different initial conditions.
 
-<!-- chunk {"id": "body-0038", "role": "body", "section": "Control", "weight": 1.0} -->
+<!-- chunk {"id": "body-0040", "role": "body", "section": "Control", "weight": 1.0} -->
 
 Differentiable models can be valuable for model-based sequential decision-making, and here we explored two approaches for exploiting our GN model in continuous control.
 
-<!-- chunk {"id": "body-0039", "role": "body", "section": "Model-predictive control for single systems", "weight": 1.0} -->
+<!-- chunk {"id": "body-0041", "role": "body", "section": "Model-predictive control for single systems", "weight": 1.0} -->
 
 We trained a GN forward model and used it for MPC by optimizing the control inputs via gradient descent to maximize predicted reward under a known reward function. We found our GN-based MPC could support planning in all of our control systems, across a range of reward functions. For example, Figure 10 shows frames of simulated JACO trajectories matching a target pose and target palm location, respectively, under MPC with a 20-step planning horizon.
 
-<!-- chunk {"id": "body-0040", "role": "body", "section": "Model-predictive control for single systems", "weight": 1.0} -->
+<!-- chunk {"id": "body-0042", "role": "body", "section": "Model-predictive control for single systems", "weight": 1.0} -->
 
 In the Swimmer6 system with a reward function that maximized the head's movement toward a randomly chosen target, GN-based MPC with a 100-step planning horizon selected control inputs that resulted in coordinated, swimming-like movements. Despite the fact that the Swimmer6 GN model used for MPC was trained to make one-step predictions under random actions, its swimming performance was close to both that of a more sophisticated planning algorithm which used the true Mujoco physics as its model, as well as that of a learned DDPG agent trained on the system (see Figure 11a). And when we trained the GN model using a mixture of both random actions and DDPG agent trajectories, there was effectively no difference in performance between our approach, versus the Mujoco planner and learned DDPG agent baselines (see video: link-C.F.S6).
 
-<!-- chunk {"id": "body-0041", "role": "body", "section": "Model-predictive control for single systems", "weight": 1.0} -->
+<!-- chunk {"id": "body-0043", "role": "body", "section": "Model-predictive control for single systems", "weight": 1.0} -->
 
 For Cheetah with reward functions for maximizing forward movement, maximizing height, maximizing squared vertical speed, and maximizing squared angular speed of the torso, MPC with a 20-step horizon using a GN model resulted in running, jumping, and other reasonable patterns of movements (see video: link-C.F.Ch(k)).
 
-<!-- chunk {"id": "body-0042", "role": "body", "section": "Model-predictive control for multiple systems", "weight": 1.0} -->
+<!-- chunk {"id": "body-0044", "role": "body", "section": "Model-predictive control for multiple systems", "weight": 1.0} -->
 
 Similar to how our forward models learned accurate predictions across multiple systems, we also found they could support MPC across multiple systems (in this video, a single model is used for MPC in Pendulum, Cartpole, Acrobot, Swimmer6 and Cheetah: link-C.F.MS). We also found GN-based MPC could support zero-shot generalization in the control setting, for a single GN model trained on Swimmers with 3-6, 8-9 links, and tested on MPC on Swimmers with 7, 10-15 links. Figure 11b shows that it performed almost as well as the Mujoco baseline for many of the Swimmers.
 
-<!-- chunk {"id": "body-0043", "role": "body", "section": "Model-predictive control with partial observations", "weight": 1.0} -->
+<!-- chunk {"id": "body-0045", "role": "body", "section": "Model-predictive control with partial observations", "weight": 1.0} -->
 
 Because real-world control settings are often partially observable, we used the system identification GN model (see Sections 3 and 5) for MPC under partial observations in Pendulum, Cartpole, SwimmerN, Cheetah, and JACO. The model was trained as in the forward prediction experiments, with an ID phase that applied 20 random control inputs to implicitly infer the hidden properties. Our results show that our GN-based forward model with a system identification module is able to control these systems (Cheetah video: link-C.I.Ch. All videos are in SM Table A.2).
 
-<!-- chunk {"id": "body-0044", "role": "body", "section": "Model-based reinforcement learning", "weight": 1.0} -->
+<!-- chunk {"id": "body-0046", "role": "body", "section": "Model-based reinforcement learning", "weight": 1.0} -->
 
 In our second approach to model-based control, we jointly trained a GN model and a policy function using SVG, where the model was used to backpropagate error gradients to the policy in order to optimize its parameters. Crucially, our SVG agent does not use a pre-trained model, but rather the model and policy were trained simultaneously.^88^8In preliminary experiments, we found little benefit of pre-training the model, though further exploration is warranted. Compared to a model-free agent (SVG), our GN-based SVG agent (SVG) achieved a higher level performance after fewer episodes (Figure 12). For GN-based agents with more than one forward step (SVG(2-4)), however, the performance was not significantly better, and in some cases was worse (SVG(5+)).
 
-<!-- chunk {"id": "body-0045", "role": "body", "section": "Discussion", "weight": 1.5} -->
+<!-- chunk {"id": "body-0047", "role": "body", "section": "Discussion", "weight": 1.5} -->
 
 This work introduced a new class of learnable forward and inference models, based on "graph networks" (GN), which implement an object- and relation-centric inductive bias. Across a range of experiments we found that these models are surprisingly accurate, robust, and generalizable when used for prediction, system identification, and planning in challenging, physical systems.
 
-<!-- chunk {"id": "body-0046", "role": "body", "section": "Discussion", "weight": 1.5} -->
+<!-- chunk {"id": "body-0048", "role": "body", "section": "Discussion", "weight": 1.5} -->
 
 While our GN-based models were most effective in systems with common structure among bodies and joints (e.g., Swimmers), they were less successful when there was not much opportunity for sharing (e.g., Cheetah). Our approach also does not address a common problem for model-based planners that errors compound over long trajectory predictions.
 
-<!-- chunk {"id": "body-0047", "role": "body", "section": "Discussion", "weight": 1.5} -->
+<!-- chunk {"id": "body-0049", "role": "body", "section": "Discussion", "weight": 1.5} -->
 
 Some key future directions include using our approach for control in real-world settings, supporting simulation-to-real transfer via pre-training models in simulation, extending our models to handle stochastic environments, and performing system identification over the structure of the system as well as the parameters. Our approach may also be useful within imagination-based planning frameworks, as well as integrated architectures with GN-like policies.
 
-<!-- chunk {"id": "body-0048", "role": "body", "section": "Discussion", "weight": 1.5} -->
+<!-- chunk {"id": "body-0050", "role": "body", "section": "Discussion", "weight": 1.5} -->
 
 This work takes a key step towards realizing the promise of model-based methods by exploiting compositional representations within a powerful statistical learning framework, and opens new paths for robust, efficient, and general-purpose patterns of reasoning and decision-making.

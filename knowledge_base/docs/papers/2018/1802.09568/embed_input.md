@@ -38,8 +38,7 @@ We implemented Shampoo (in its general tensor form) in Python as a new optimizer
 
 <!-- chunk {"id": "body-0010", "role": "body", "section": "Introduction", "weight": 1.5} -->
 
-Initialize W1 = 0m × n; L0 = ϵ Im; R0 = ϵ In for t = 1, …, T do Receive loss function ft: ℝm × n ↦ ℝ Compute gradient Gt = ∇ft (Wt) {Gt ∈ ℝm × n} Update preconditioners: Lt = Lt − 1 + Gt GtT Rt = Rt − 1 + GtT Gt Update parameters: Wt + 1 = Wt − η Lt−1/4 Gt Rt−1/4
-Algorithm 1: Shampoo, matrix case.
+Initialize W1 = 0m × n; L0 = ϵ Im; R0 = ϵ In for t = 1, …, T do Receive loss function ft: ℝm × n ↦ ℝ Compute gradient Gt = ∇ft (Wt) {Gt ∈ ℝm × n} Update preconditioners: Lt = Lt − 1 + Gt GtT Rt = Rt − 1 + GtT Gt Update parameters: Wt + 1 = Wt − η Lt−1/4 Gt Rt−1/4 Algorithm 1: Shampoo, matrix case.
 
 <!-- chunk {"id": "body-0011", "role": "body", "section": "Shampoo for matrices", "weight": 1.0} -->
 
@@ -63,136 +62,124 @@ Thus, the algorithm can be thought of as maintaining a "structured" matrix which
 
 <!-- chunk {"id": "body-0016", "role": "body", "section": "Online convex optimization", "weight": 1.0} -->
 
-We use Online Convex Optimization (OCO) as our analysis framework. OCO can be seen as a generalization of stochastic (convex) optimization. In OCO a learner makes predictions in the form of a vector belonging to a convex domain $\mathcal{W} \subseteq {\mathbb{R}}^{d}$ for $T$ rounds. After predicting $w_{t} \in \mathcal{W}$ on round $t$, a convex function $f_{t}:{\mathcal{W}\mapsto{\mathbb{R}}}$ is chosen, potentially in an adversarial or adaptive way based on the learner's past predictions. The learner then suffers a loss $f_{t}{(w_{t})}$ and observes the function $f_{t}$ as feedback. The goal of the learner is to achieve low cumulative loss compared to any fixed vector in the $\mathcal{W}$. Formally, the learner attempts to minimize its *regret*, defined as the quantity
+We use Online Convex Optimization (OCO) as our analysis framework. OCO can be seen as a generalization of stochastic (convex) optimization. In OCO a learner makes predictions in the form of a vector belonging to a convex domain $\mathcal{W} \subseteq {\mathbb{R}}^{d}$ for $T$ rounds. After predicting $w_{t} \in \mathcal{W}$ on round $t$, a convex function $f_{t}:{\mathcal{W}\mapsto{\mathbb{R}}}$ is chosen, potentially in an adversarial or adaptive way based on the learner's past predictions. The learner then suffers a loss $f_{t}{(w_{t})}$ and observes the function $f_{t}$ as feedback. The goal of the learner is to achieve low cumulative loss compared to any fixed vector in the $\mathcal{W}$. Formally, the learner attempts to minimize its *regret*, defined as the quantity Online convex optimization includes stochastic convex optimization as a special case.
 
 <!-- chunk {"id": "body-0017", "role": "body", "section": "Online convex optimization", "weight": 1.0} -->
 
-Online convex optimization includes stochastic convex optimization as a special case. Any regret minimizing algorithm can be converted to a stochastic optimization algorithm with convergence rate $O{({\mathcal{R}_{T}/T})}$ using an online-to-batch conversion technique.
+Any regret minimizing algorithm can be converted to a stochastic optimization algorithm with convergence rate $O{({\mathcal{R}_{T}/T})}$ using an online-to-batch conversion technique.
 
 <!-- chunk {"id": "body-0018", "role": "body", "section": "Adaptive regularization in online optimization", "weight": 1.0} -->
 
-We next introduce tools from online optimization that our algorithms rely upon. First, we describe an adaptive version of Online Mirror Descent (OMD) in the OCO setting which employs time-dependent regularization. The algorithm proceeds as follows: on each round $t = {1,2,\ldots,T}$, it receives the loss function $f_{t}$ and computes the gradient $g_{t} = {{\nabla f_{t}}{(w_{t})}}$. Then, given a positive definite matrix $H_{t} \succ 0$ it performs an update according to
+We next introduce tools from online optimization that our algorithms rely upon. First, we describe an adaptive version of Online Mirror Descent (OMD) in the OCO setting which employs time-dependent regularization. The algorithm proceeds as follows: on each round $t = {1,2,\ldots,T}$, it receives the loss function $f_{t}$ and computes the gradient $g_{t} = {{\nabla f_{t}}{(w_{t})}}$.
 
 <!-- chunk {"id": "body-0019", "role": "body", "section": "Adaptive regularization in online optimization", "weight": 1.0} -->
 
-When $\mathcal{W} = {\mathbb{R}}^{d}$, Eq. 1 is equivalent to a preconditioned gradient step, ${w_{t + 1} = {w_{t} - {\etaH_{t}^{- 1}g_{t}}}}.$ More generally, the update rule can be rewritten as a projected gradient step,
+Then, given a positive definite matrix $H_{t} \succ 0$ it performs an update according to When $\mathcal{W} = {\mathbb{R}}^{d}$, Eq. 1 is equivalent to a preconditioned gradient step, ${w_{t + 1} = {w_{t} - {\etaH_{t}^{- 1}g_{t}}}}.$ More generally, the update rule can be rewritten as a projected gradient step, where ${\Pi_{\mathcal{W}}{\lbrack z;H\rbrack}} = {{\arg\min}_{w \in \mathcal{W}}{\|{w - z}\|}_{H}}$ is the projection onto the convex set $\mathcal{W}$ with respect to the norm $\parallel \cdot \parallel_{H}$. The following lemma provides a regret bound for Online Mirror Descent, see for instance.
 
-<!-- chunk {"id": "body-0020", "role": "body", "section": "Adaptive regularization in online optimization", "weight": 1.0} -->
+<!-- chunk {"id": "body-0020", "role": "body", "section": "Kronecker products", "weight": 1.0} -->
 
-where ${\Pi_{\mathcal{W}}{\lbrack z;H\rbrack}} = {{\arg\min}_{w \in \mathcal{W}}{\|{w - z}\|}_{H}}$ is the projection onto the convex set $\mathcal{W}$ with respect to the norm $\parallel \cdot \parallel_{H}$. The following lemma provides a regret bound for Online Mirror Descent, see for instance.
+We recall the definition of the Kronecker product, the vectorization operation and their calculus. Let $A$ be an $m \times n$ matrix and $B$ be an $m' \times n'$ matrix. The Kronecker product, denoted $A \otimes B$, is an ${{mm'} \times n}n'$ block matrix defined as, For an $m \times n$ matrix $A$ with rows $a_{1},\ldots,a_{m}$, the *vectorization* (or flattening) of $A$ is the ${mn} \times 1$ column vector^22^2This definition is slightly non-standard and differs from the more typical column-major operator ${vec}{}$; the notation $\overline{vec}{}$ is used to distinguish it from the latter.
 
 <!-- chunk {"id": "body-0021", "role": "body", "section": "Kronecker products", "weight": 1.0} -->
 
-We recall the definition of the Kronecker product, the vectorization operation and their calculus. Let $A$ be an $m \times n$ matrix and $B$ be an $m^{\prime} \times n^{\prime}$ matrix. The Kronecker product, denoted $A \otimes B$, is an ${{mm^{\prime}} \times n}n^{\prime}$ block matrix defined as,
-
-<!-- chunk {"id": "body-0022", "role": "body", "section": "Kronecker products", "weight": 1.0} -->
-
-For an $m \times n$ matrix $A$ with rows $a_{1},\ldots,a_{m}$, the *vectorization* (or flattening) of $A$ is the ${mn} \times 1$ column vector^22^2This definition is slightly non-standard and differs from the more typical column-major operator ${vec}{}$; the notation $\overline{vec}{}$ is used to distinguish it from the latter.
-
-<!-- chunk {"id": "body-0023", "role": "body", "section": "Kronecker products", "weight": 1.0} -->
-
 The next lemma collects several properties of the Kronecker product and the $\overline{vec}{( \cdot )}$ operator, that will be used throughout the paper. For proofs and further details, we refer to.
 
-<!-- chunk {"id": "body-0024", "role": "body", "section": "Matrix inequalities", "weight": 1.0} -->
+<!-- chunk {"id": "body-0022", "role": "body", "section": "Matrix inequalities", "weight": 1.0} -->
 
 Our analysis requires the following result concerning the geometric means of matrices. Recall that by writing $X \succeq 0$ we mean, in particular, that $X$ is a symmetric matrix.
 
-<!-- chunk {"id": "body-0025", "role": "body", "section": "Analysis of Shampoo for matrices", "weight": 1.0} -->
+<!-- chunk {"id": "body-0023", "role": "body", "section": "Analysis of Shampoo for matrices", "weight": 1.0} -->
 
 In this section we analyze Shampoo in the matrix case. The analysis conveys the core ideas while avoiding numerous the technical details imposed by the general tensor case. The main result of this section is stated in the following theorem.
 
-<!-- chunk {"id": "body-0026", "role": "body", "section": "Shampoo for tensors", "weight": 1.0} -->
+<!-- chunk {"id": "body-0024", "role": "body", "section": "Shampoo for tensors", "weight": 1.0} -->
 
 In this section we introduce the Shampoo algorithm in its general form, which is applicable to tensors of arbitrary dimension. Before we can present the algorithm, we review further definitions and operations involving tensors.
 
-<!-- chunk {"id": "body-0027", "role": "body", "section": "Tensors: notation and definitions", "weight": 1.0} -->
+<!-- chunk {"id": "body-0025", "role": "body", "section": "Tensors: notation and definitions", "weight": 1.0} -->
 
-A tensor is a multidimensional array. The *order* of a tensor is the number of dimensions (also called modes). For an order-$k$ tensor $A$ of dimension $n_{1} \times \cdots \times n_{k}$, we use the notation $A_{j_{1},\ldots,j_{k}}$ to refer to the single element at position $j_{i}$ on the $i$'th dimension for all $i$ where $1 \leq j_{i} \leq n_{i}$. We also denote
+A tensor is a multidimensional array. The *order* of a tensor is the number of dimensions (also called modes). For an order-$k$ tensor $A$ of dimension $n_{1} \times \cdots \times n_{k}$, we use the notation $A_{j_{1},\ldots,j_{k}}$ to refer to the single element at position $j_{i}$ on the $i$'th dimension for all $i$ where $1 \leq j_{i} \leq n_{i}$. We also denote The following definitions are used throughout the section.
 
-<!-- chunk {"id": "body-0028", "role": "body", "section": "Tensors: notation and definitions", "weight": 1.0} -->
-
-The following definitions are used throughout the section.
-
-<!-- chunk {"id": "body-0029", "role": "body", "section": "Tensors: notation and definitions", "weight": 1.0} -->
+<!-- chunk {"id": "body-0026", "role": "body", "section": "Tensors: notation and definitions", "weight": 1.0} -->
 
 A *slice* of an order-$k$ tensor along its $i$'th dimension is a tensor of order $k - 1$ which consists of entries with the same index on the $i$'th dimension. A slice generalizes the notion of rows and columns of a matrix.
 
+<!-- chunk {"id": "body-0027", "role": "body", "section": "Tensors: notation and definitions", "weight": 1.0} -->
+
+An $n_{1} \times \cdots \times n_{k}$ tensor $A$ is of *rank one* if it can be written as an outer product of $k$ vectors of appropriate dimensions. Formally, let $\circ$ denote the vector outer product and and set $A = {u^{1} \circ u^{2} \circ \cdots \circ u^{k}}$ where $u^{i} \in {\mathbb{R}}^{n_{i}}$ for all $i$. Then $A$ is an order-$k$ tensor defined through The *vectorization* operator flattens a tensor to a column vector in ${\mathbb{R}}^{n}$, generalizing the matrix $\overline{vec}$ operator.
+
+<!-- chunk {"id": "body-0028", "role": "body", "section": "Tensors: notation and definitions", "weight": 1.0} -->
+
+For an $n_{1} \times \cdots \times n_{k}$ tensor $A$ with slices $A_{1}^{1},\ldots,A_{n_{1}}^{1}$ along its first dimension, this operation can be defined recursively as follows: where for the base case ($k = 1$), we define ${\overline{vec}{(u)}} = u$ for any column vector $u$.
+
+<!-- chunk {"id": "body-0029", "role": "body", "section": "Tensors: notation and definitions", "weight": 1.0} -->
+
+The *matricization* operator ${mat}_{i}{(A)}$ reshapes a tensor $A$ to a matrix by vectorizing the slices of $A$ along the $i$'th dimension and stacking them as rows of a matrix.
+
 <!-- chunk {"id": "body-0030", "role": "body", "section": "Tensors: notation and definitions", "weight": 1.0} -->
 
-An $n_{1} \times \cdots \times n_{k}$ tensor $A$ is of *rank one* if it can be written as an outer product of $k$ vectors of appropriate dimensions. Formally, let $\circ$ denote the vector outer product and and set $A = {u^{1} \circ u^{2} \circ \cdots \circ u^{k}}$ where $u^{i} \in {\mathbb{R}}^{n_{i}}$ for all $i$. Then $A$ is an order-$k$ tensor defined through
+Explicitly, we define $A \times_{i}M$ element-wise as A useful fact, that follows directly from this definition, is that the tensor-matrix product is commutative, in the sense that ${{A \times_{i}M} \times_{i'}M'} = {{A \times_{i'}M'} \times_{i}M}$ for any $i \neq i'$ and matrices $M \in {\mathbb{R}}^{n_{i} \times n_{i}}$, $M' \in {\mathbb{R}}^{n_{i'} \times n_{i'}}$.
 
 <!-- chunk {"id": "body-0031", "role": "body", "section": "Tensors: notation and definitions", "weight": 1.0} -->
 
-The *vectorization* operator flattens a tensor to a column vector in ${\mathbb{R}}^{n}$, generalizing the matrix $\overline{vec}$ operator.
+The *contraction* of an $n_{1} \times \cdots \times n_{k}$ tensor $A$ with itself along all but the $i$'th dimension is an $n_{i} \times n_{i}$ matrix defined as $A^{(i)} = {{mat}_{i}{(A)}{mat}_{i}{(A)}^{\mathsf{T}}}$, or more explicitly as where the sum ranges over all possible indexings $\alpha_{- i}$ of all dimensions $\neq i$.
 
-<!-- chunk {"id": "body-0032", "role": "body", "section": "Tensors: notation and definitions", "weight": 1.0} -->
-
-where for the base case ($k = 1$), we define ${\overline{vec}{(u)}} = u$ for any column vector $u$.
-
-<!-- chunk {"id": "body-0033", "role": "body", "section": "Tensors: notation and definitions", "weight": 1.0} -->
-
-The *matricization* operator ${mat}_{i}{(A)}$ reshapes a tensor $A$ to a matrix by vectorizing the slices of $A$ along the $i$'th dimension and stacking them as rows of a matrix. More formally, for an $n_{1} \times \cdots \times n_{k}$ tensor $A$ with slices $A_{1}^{i},\ldots,A_{n_{i}}^{i}$ along the $i$'th dimension, matricization is defined as the $n_{i} \times n_{- i}$ matrix,
-
-<!-- chunk {"id": "body-0034", "role": "body", "section": "Tensors: notation and definitions", "weight": 1.0} -->
-
-where the sum ranges over all possible indexings $\alpha_{- i}$ of all dimensions $\neq i$.
-
-<!-- chunk {"id": "body-0035", "role": "body", "section": "The algorithm", "weight": 1.0} -->
+<!-- chunk {"id": "body-0032", "role": "body", "section": "The algorithm", "weight": 1.0} -->
 
 We can now describe the Shampoo algorithm in the general, order-$k$ tensor case, using the definitions established above. Here we assume that the optimization domain is $\mathcal{W} = {\mathbb{R}}^{n_{1} \times \cdots \times n_{k}}$, that is, the vector space of order-$k$ tensors, and the functions $f_{1},\ldots,f_{T}$ are convex over this domain. In particular, the gradient $\nabla f_{t}$ is also an $n_{1} \times \cdots \times n_{k}$ tensor.
 
-<!-- chunk {"id": "body-0036", "role": "body", "section": "The algorithm", "weight": 1.0} -->
+<!-- chunk {"id": "body-0033", "role": "body", "section": "The algorithm", "weight": 1.0} -->
 
 The Shampoo algorithm in its general form, presented in Algorithm 2, is analogous to Algorithm 1. It maintains a separate preconditioning matrix $H_{t}^{i}$ (of size $n_{i} \times n_{i}$) corresponding to for each dimension $i \in {\lbrack k\rbrack}$ of the gradient. On step $t$, the $i$'th mode of the gradient $G_{t}$ is then multiplied by the matrix ${(H_{t}^{i})}^{- {1/{2k}}}$ through the tensor-matrix product operator $\times_{i}$. (Recall that the order in which the multiplications are carried out does not affect the end result and can be arbitrary.) After all dimensions have been processed and the preconditioned gradient ${\overset{\sim}{G}}_{t}$ has been obtained, a gradient step is taken.
 
-<!-- chunk {"id": "body-0037", "role": "body", "section": "The algorithm", "weight": 1.0} -->
+<!-- chunk {"id": "body-0034", "role": "body", "section": "The algorithm", "weight": 1.0} -->
 
 The tensor operations $A^{(i)}$ and $M \times_{i}A$ can be implemented using tensor contraction, which is a standard library function in scientific computing libraries such as Python's NumPy, and is fully supported by modern machine learning frameworks such as TensorFlow. See Section 5 for further details on our implementation of the algorithm in the TensorFlow environment.
 
-<!-- chunk {"id": "body-0038", "role": "body", "section": "The algorithm", "weight": 1.0} -->
+<!-- chunk {"id": "body-0035", "role": "body", "section": "The algorithm", "weight": 1.0} -->
 
 We now state the main result of this section.
 
-<!-- chunk {"id": "body-0039", "role": "body", "section": "Analysis", "weight": 1.0} -->
+<!-- chunk {"id": "body-0036", "role": "body", "section": "Analysis", "weight": 1.0} -->
 
 We turn to proving Theorem 10. For the proof, we require the following generalizations of Lemmas 8 and 4 to tensors of arbitrary order.
 
-<!-- chunk {"id": "body-0040", "role": "body", "section": "Implementation details", "weight": 1.0} -->
+<!-- chunk {"id": "body-0037", "role": "body", "section": "Implementation details", "weight": 1.0} -->
 
 We implemented Shampoo in its general tensor form in Python as a new TensorFlow optimizer. Our implementation follows almost verbatim the pseudocode shown in Algorithm 2. We used the built-in tensordot operation to implement tensor contractions and tensor-matrix products. Matrix powers were computed simply by constructing a singular value decomposition (SVD) and then taking the powers of the singular values. These operations are fully supported in TensorFlow. We plan to implement Shampoo in PyTorch in the near future.
 
-<!-- chunk {"id": "body-0041", "role": "body", "section": "Implementation details", "weight": 1.0} -->
+<!-- chunk {"id": "body-0038", "role": "body", "section": "Implementation details", "weight": 1.0} -->
 
 Our optimizer treats each tensor in the input model as a separate optimization variable and applies the Shampoo update to each of these tensors independently. This has the advantage of making the optimizer entirely oblivious to the specifics of the architecture, and it only has to be aware of the tensors involved and their dimensions. In terms of preconditioning, this approach amounts to employing a block-diagonal preconditioner, with blocks corresponding to the different tensors in the model. In particular, only intra-tensor correlations are captured and correlations between parameters in different tensors are ignored entirely.
 
-<!-- chunk {"id": "body-0042", "role": "body", "section": "Implementation details", "weight": 1.0} -->
+<!-- chunk {"id": "body-0039", "role": "body", "section": "Implementation details", "weight": 1.0} -->
 
 Our optimizer also implements a diagonal variant of Shampoo which is automatically activated for a dimension of a tensor whenever it is considered too large for the associated preconditioner to be stored in memory or to compute its SVD. Other dimensions of the same tensor are not affected and can still use non-diagonal preconditioning (unless they are too large themselves). See Appendix A for a detailed description of this variant and its analysis. In our experiments, we used a threshold of around 1200 for each dimension to trigger the diagonal version with no apparent sacrifice in performance. This option gives the benefit of working with full preconditioners whenever possible, while still being able to train models where some of the tensors are prohibitively large, and without having to modify either the architecture or the code used for training.
 
-<!-- chunk {"id": "body-0043", "role": "body", "section": "Experimental results", "weight": 1.0} -->
+<!-- chunk {"id": "body-0040", "role": "body", "section": "Experimental results", "weight": 1.0} -->
 
 We performed experiments with Shampoo on several datasets, using standard deep neural-network models. We focused on two domains: image classification on CIFAR-10/100, and statistical language modeling on LM1B. In each experiment, we relied on existing code for training the models, and merely replaced the TensorFlow optimizer without making any other changes to the code.
 
-<!-- chunk {"id": "body-0044", "role": "body", "section": "Experimental results", "weight": 1.0} -->
+<!-- chunk {"id": "body-0041", "role": "body", "section": "Experimental results", "weight": 1.0} -->
 
 In all of our experiments, we worked with a mini-batch of size 128. In Shampoo, this simply means that the gradient $G_{t}$ used in each iteration of the algorithm is the average of the gradient over 128 examples, but otherwise has no effect on the algorithm. Notice that, in particular, the preconditioners are also updated once per batch using the averaged gradient rather than with gradients over individual examples.
 
-<!-- chunk {"id": "body-0045", "role": "body", "section": "Experimental results", "weight": 1.0} -->
+<!-- chunk {"id": "body-0042", "role": "body", "section": "Experimental results", "weight": 1.0} -->
 
 We made two minor heuristic adjustments to Shampoo to improve performance. First, we employed a delayed update for the preconditioners, and recomputed the roots of the matrices $H_{t}^{i}$ once in every 20--100 steps. This had almost no impact on accuracy, but helped to improve the amortized runtime per step. Second, we incorporated momentum into the gradient step, essentially computing the running average of the gradients ${\overline{G}}_{t} = {{\alpha{\overline{G}}_{t - 1}} + {{({1 - \alpha})}G_{t}}}$ with a fixed setting of $\alpha = 0.9$. This slightly improved the convergence of the algorithm, as is the case with many other first-order stochastic methods.
 
-<!-- chunk {"id": "body-0046", "role": "body", "section": "Experimental results", "weight": 1.0} -->
+<!-- chunk {"id": "body-0043", "role": "body", "section": "Experimental results", "weight": 1.0} -->
 
 Quite surprisingly, while the Shampoo algorithm performs significantly more computation per step than algorithms like SGD, AdaGrad, and Adam, its actual runtime in practice is not much worse. Table 1 shows the average number of steps (i.e., batches of size 128) per second on a Tesla K40 GPU, for each of the algorithms we tested. As can be seen from the results, each step of Shampoo is typically slower than that of the other algorithms by a small margin, and in some cases (ResNet-55) it is actually faster.
 
-<!-- chunk {"id": "body-0047", "role": "body", "section": "Image Classification", "weight": 1.0} -->
+<!-- chunk {"id": "body-0044", "role": "body", "section": "Image Classification", "weight": 1.0} -->
 
 We ran the CIFAR-10 benchmark with several different architectures. For each optimization algorithm, we explored 10 different learning rates between 0.01 and 10.0 (scaling the entire range for Adam), and chose the one with the best loss and error. We show in Fig. 2 the training loss for a 32-layer residual network with 2.4M parameters. This network is capable of reaching an error rate of 5% on the test set. We also ran on the 20-layer small inception network described in Zhang et al., with 1.65M trainable parameters, capable of reaching an error rate of 7.5% on test data.
 
-<!-- chunk {"id": "body-0048", "role": "body", "section": "Image Classification", "weight": 1.0} -->
+<!-- chunk {"id": "body-0045", "role": "body", "section": "Image Classification", "weight": 1.0} -->
 
 For CIFAR-100 (Fig. 3), we used a 55-layer residual network with 13.5M trainable parameters. In this model, the trainable variables are all tensors of order $4$ (all layers are convolutional), where the largest layer is of dimension $$. This architecture does not employ batch-norm, dropout, etc., and was able to reach an error rate of 24% on the test set.
 
-<!-- chunk {"id": "body-0049", "role": "body", "section": "Language Models", "weight": 1.0} -->
+<!-- chunk {"id": "body-0046", "role": "body", "section": "Language Models", "weight": 1.0} -->
 
 Our next experiment was on the LM1B benchmark for statistical language modeling. We used an Attention model with 9.8M trainable parameters. This model has a succession of fully connected-layers, with corresponding tensors of order at most $2$, the largest of which is of dimension $$. In this experiment, we simply used the default learning rate of $\eta = 1.0$ for Shampoo. For the other algorithms we explored various different settings of the learning rate. The graph for the test perplexity is shown in Fig. 4.

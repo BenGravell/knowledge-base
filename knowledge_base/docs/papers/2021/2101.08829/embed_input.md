@@ -40,453 +40,352 @@ The remainder of the paper is organized as follows. First a variation of the tra
 
 <!-- chunk {"id": "body-0010", "role": "body", "section": "Trajectory Planning Problem", "weight": 1.0} -->
 
-The trajectory planning problem requires finding $n$ instances of $3$-dimensional trajectories which guide $n$ agents from start to goal locations. The trajectories are given agent-wise by
+The trajectory planning problem requires finding $n$ instances of $3$-dimensional trajectories which guide $n$ agents from start to goal locations. The trajectories are given agent-wise by and must satisfy the initial and terminal conditions Agents are considered to be quadrotors, whose center position dynamics linearized about the hover configuration are modeled as a quadruple integrator in horizontal directions (due to the rolling action which must precede lateral acceleration) and a double integrator in the vertical direction: where $u_{\text{horz,i}}$ and $u_{\text{vert,i}}$ are control inputs. The dynamics are not used explicitly in terms of designing control inputs, but rather are used to motivate the choice of trajectory form, namely piecewise polynomials of a particular order.
 
 <!-- chunk {"id": "body-0011", "role": "body", "section": "Trajectory Planning Problem", "weight": 1.0} -->
 
-and must satisfy the initial and terminal conditions
+By choosing a whole number $q$ sufficiently high and imposing constraints on the norm of $q - 1$ time derivatives, actuator constraints are honored. The particular choice for $q$ in the case of quadrotors is established in Section 3.1.1. These constraints are encoded in a vector $\delta \in {\mathbb{R}}^{q - 1}$ with $\delta_{k} > 0$ and applied as Define the global start and end times for which motion may occur over all agents: Ensure collision avoidance by requiring the collision volumes of all agent pairs to be disjoint during the period of possible motion: Like the previous work, the proposed method aims to minimize the total, or equivalently average, time-in-flight of all agents. This is a useful cost metric for many applications e.g. product delivery and emergency response.
 
 <!-- chunk {"id": "body-0012", "role": "body", "section": "Trajectory Planning Problem", "weight": 1.0} -->
 
-where $u_{\text{horz,i}}$ and $u_{\text{vert,i}}$ are control inputs. The dynamics are not used explicitly in terms of designing control inputs, but rather are used to motivate the choice of trajectory form, namely piecewise polynomials of a particular order.
+The collision volume of each agent is the set of points contained in cylinder $\mathcal{C}_{i}$.
 
 <!-- chunk {"id": "body-0013", "role": "body", "section": "Trajectory Planning Problem", "weight": 1.0} -->
 
-By choosing a whole number $q$ sufficiently high and imposing constraints on the norm of $q - 1$ time derivatives, actuator constraints are honored. The particular choice for $q$ in the case of quadrotors is established in Section 3.1.1. These constraints are encoded in a vector $\delta \in {\mathbb{R}}^{q - 1}$ with $\delta_{k} > 0$ and applied as
+The effect of any dynamics model mis-specification, imperfect state knowledge, actuation error, and external disturbance are small enough such that the true physical extent of each agent is always fully contained inside the collision volume $\mathcal{C}_{i}$.
 
 <!-- chunk {"id": "body-0014", "role": "body", "section": "Trajectory Planning Problem", "weight": 1.0} -->
 
-Like the previous work, the proposed method aims to minimize the total, or equivalently average, time-in-flight of all agents. This is a useful cost metric for many applications e.g. product delivery and emergency response.
+Continuity and satisfaction of upper bound constraints on $q - 1$ time derivatives of position is sufficient to ensure actuator constraints are honored.
 
 <!-- chunk {"id": "body-0015", "role": "body", "section": "Trajectory Planning Problem", "weight": 1.0} -->
 
-Any assignment of agents to goals is permissible.
+The region $\mathcal{K}$ in is devoid of any obstacles other than the agents themselves.
 
 <!-- chunk {"id": "body-0016", "role": "body", "section": "Trajectory Planning Problem", "weight": 1.0} -->
 
-The collision volume of each agent is the set of points contained in cylinder $\mathcal{C}_{i}$.
+The region $\mathcal{K}$ in has infinite positive vertical extent.
 
 <!-- chunk {"id": "body-0017", "role": "body", "section": "Trajectory Planning Problem", "weight": 1.0} -->
 
-The effect of any dynamics model mis-specification, imperfect state knowledge, actuation error, and external disturbance are small enough such that the true physical extent of each agent is always fully contained inside the collision volume $\mathcal{C}_{i}$.
+All start and goal locations are fixed on a common ground plane and are spaced at least $2R$ apart: The modeling assumption of no uncontrolled obstacles in the operating space is not altogether unreasonable when considering the nearly empty airspace encountered at altitudes above tree tops, buildings, etc. in typical real-world flight scenarios. The use of cylindrical collision volumes renders orientation of each quadrotor irrelevant for the purpose of trajectory planning.
 
 <!-- chunk {"id": "body-0018", "role": "body", "section": "Trajectory Planning Problem", "weight": 1.0} -->
 
-Continuity and satisfaction of upper bound constraints on $q - 1$ time derivatives of position is sufficient to ensure actuator constraints are honored.
+The solution to the global problem in is ultimately not obtained exactly, but rather a suboptimal solution is found using to guide generation of trajectories and goal assignment by the approach proposed in the following subsections. The strategy for finding an approximate solution to this problem proceeds by temporarily ignoring the clearance requirements which effectively reduces the domain of trajectories under consideration to the ground plane, choosing a function form for trajectories (piecewise polynomials) to reduce the problem to goal assignment, generating horizontal trajectories, then constructing vertical trajectories using refinement techniques which detect and resolve collisions. As a result, these trajectories will be shown to be feasible (e.g. collision-free) and computable after a finite number of operations by construction.
 
 <!-- chunk {"id": "body-0019", "role": "body", "section": "Trajectory Planning Problem", "weight": 1.0} -->
 
-The region $\mathcal{K}$ in is devoid of any obstacles other than the agents themselves.
-
-<!-- chunk {"id": "body-0020", "role": "body", "section": "Trajectory Planning Problem", "weight": 1.0} -->
-
-The region $\mathcal{K}$ in has infinite positive vertical extent.
-
-<!-- chunk {"id": "body-0021", "role": "body", "section": "Trajectory Planning Problem", "weight": 1.0} -->
-
-The modeling assumption of no uncontrolled obstacles in the operating space is not altogether unreasonable when considering the nearly empty airspace encountered at altitudes above tree tops, buildings, etc. in typical real-world flight scenarios. The use of cylindrical collision volumes renders orientation of each quadrotor irrelevant for the purpose of trajectory planning.
-
-<!-- chunk {"id": "body-0022", "role": "body", "section": "Trajectory Planning Problem", "weight": 1.0} -->
-
-The solution to the global problem in is ultimately not obtained exactly, but rather a suboptimal solution is found using to guide generation of trajectories and goal assignment by the approach proposed in the following subsections. The strategy for finding an approximate solution to this problem proceeds by temporarily ignoring the clearance requirements which effectively reduces the domain of trajectories under consideration to the ground plane, choosing a function form for trajectories (piecewise polynomials) to reduce the problem to goal assignment, generating horizontal trajectories, then constructing vertical trajectories using refinement techniques which detect and resolve collisions. As a result, these trajectories will be shown to be feasible (e.g. collision-free) and computable after a finite number of operations by construction.
-
-<!-- chunk {"id": "body-0023", "role": "body", "section": "Trajectory Planning Problem", "weight": 1.0} -->
-
 As the trajectory generation procedure based on piecewise polynomial functions is used throughout the goal assignment and collision resolution phases, the trajectory generation scheme is described next.
 
-<!-- chunk {"id": "body-0024", "role": "body", "section": "Trajectory Generation", "weight": 1.0} -->
+<!-- chunk {"id": "body-0020", "role": "body", "section": "Trajectory Generation", "weight": 1.0} -->
 
 The trajectory design is motivated by the observation that minimum-time trajectories along a long straight line with maximum speed constraints will naturally partition into three segments; acceleration, constant (max) speed, and deceleration. A similar idea has previously been suggested for point-to-point robot trajectory planning under the name "Linear Segments with Parabolic Blends\". This idea is generalized to higher-order acceleration (blend) segments. During the acceleration segments, one or more time derivatives of order 2 and higher will be pushed to a constraint maximum, and during the constant max speed segment the higher order time derivatives will be zero. Although physical models involving friction (i.e. higher fidelity models than that assumed in ) theoretically allow only asymptotic approach of the maximum speed under actuation constraints e.g. the exponential approach of the speed of a particle in gravitational free-fall to a terminal speed, in practice it was found that the polynomial trajectories were sufficient for reference tracking.
 
-<!-- chunk {"id": "body-0025", "role": "body", "section": "Trajectory Generation", "weight": 1.0} -->
+<!-- chunk {"id": "body-0021", "role": "body", "section": "Trajectory Generation", "weight": 1.0} -->
 
 This work does not attempt to optimize control effort during the acceleration segments since the control effort expended during the constant speed segment dominates e.g. due to air friction and by virtue of the relative duration of this segment over long horizontal paths. If deemed necessary, techniques such as minimum-snap trajectory design via quadratic programming could be utilized to further decrease the control effort, possibly at the expense of trajectory duration and computational burden. Any techniques which return polynomial-in-time trajectory segments are fully compatible with the the remainder of the proposed method.
 
-<!-- chunk {"id": "body-0026", "role": "body", "section": "Trajectory Generation", "weight": 1.0} -->
+<!-- chunk {"id": "body-0022", "role": "body", "section": "Trajectory Generation", "weight": 1.0} -->
 
 This work also restricts trajectories to strictly piecewise vertical and horizontal straight-line paths, which permits simplified trajectory planning and collision resolution by treating trajectories as single-dimensional polynomials of time multiplied by a constant unit heading vector. A pair of tuples $\delta_{\text{horz},k}$ and $\delta_{\text{vert},k}$ are used and is used with $\delta_{k}$ set to either $\delta_{\text{horz},k}$ or $\delta_{\text{vert},k}$ depending on whether ${\overset{(k)}{\gamma}}_{i}(t)$ is horizontal or vertical at $t$.
 
-<!-- chunk {"id": "body-0027", "role": "body", "section": "Trajectory Generation", "weight": 1.0} -->
+<!-- chunk {"id": "body-0023", "role": "body", "section": "Trajectory Generation", "weight": 1.0} -->
 
 The acceleration segments are individualized polynomials scaled from a base polynomial. The base polynomial is calculated only once at the beginning of the overall routine. Particular whole trajectories are generated by joining acceleration and constant speed segments. Generation of the base polynomial and individualized polynomials are described in the subsequent two subsections.
 
-<!-- chunk {"id": "body-0028", "role": "body", "section": "Base polynomial", "weight": 1.0} -->
+<!-- chunk {"id": "body-0024", "role": "body", "section": "Base polynomial", "weight": 1.0} -->
 
 Recalling the definition of a polynomial of degree $d$ in and the whole number $q$ which represents the number of time derivatives on which constraints will be enforced, let ${2q} = {d + 1}$. It is evident that a given ${2q} -$tuple of initial and terminal time derivative conditions ($2q$ total point constraints) uniquely specifies a polynomial of degree $d$ so long as the problem is well-posed i.e. if a certain coefficient matrix $A$ is invertible. To ensure continuity of position and $q - 1$ time derivatives at the endpoints, specify $q$ constraints at $t = 0$ and $q$ constraints at $t = T$. Due to the assumption on the dynamics, by choosing reference trajectories which are piecewise polynomial with degree at least 4 and 2 respectively, open-loop control with sufficient control effort and the absence of disturbances would give perfect tracking. It is also desirable to make the segment transitions smooth to avoid discontinuous control signals. Choosing degree 9 would allow the specification of 5 endpoint time derivative constraints: position, speed, acceleration, jerk, and snap.
 
-<!-- chunk {"id": "body-0029", "role": "body", "section": "Base polynomial", "weight": 1.0} -->
+<!-- chunk {"id": "body-0025", "role": "body", "section": "Base polynomial", "weight": 1.0} -->
 
-However, to reduce the computational storage requirement for the trajectories during implementation on actual hardware and reduce computational effort during centralized trajectory planning, a degree of 7 is used. It was found that the difference between the degree 7 and 9 polynomials was extremely slight and in practice the reference tracking error was dominated by other noise sources. For comparison, degree 1 polynomials represent constant speed trajectories; this was effectively the approach taken in the authors' previous work.
+However, to reduce the computational storage requirement for the trajectories during implementation on actual hardware and reduce computational effort during centralized trajectory planning, a degree of 7 is used. It was found that the difference between the degree 7 and 9 polynomials was extremely slight and in practice the reference tracking error was dominated by other noise sources. For comparison, degree 1 polynomials represent constant speed trajectories; this was effectively the approach taken in the authors' previous work. The procedure for calculating the base polynomial is as follows: Form the vector of endpoint conditions Form the matrix of coefficients $A \in {\mathbb{R}}^{{{2q} \times 2}q}$ as where $k = {{({j - 1})} + {({i - q - 1})}}$. This follows from simple differentiation of polynomials and matching coefficients according to the endpoint constraints. As an example, for $d = 7$ and $T = 1$ one has Solve the system of linear equations ${A\alpha} = b$ to obtain the vector of polynomial coefficients $\alpha$.
 
-<!-- chunk {"id": "body-0030", "role": "body", "section": "Base polynomial", "weight": 1.0} -->
-
-Form the vector of endpoint conditions
-
-<!-- chunk {"id": "body-0031", "role": "body", "section": "Base polynomial", "weight": 1.0} -->
-
-where $k = {{({j - 1})} + {({i - q - 1})}}$. This follows from simple differentiation of polynomials and matching coefficients according to the endpoint constraints. As an example, for $d = 7$ and $T = 1$ one has
-
-<!-- chunk {"id": "body-0032", "role": "body", "section": "Base polynomial", "weight": 1.0} -->
-
-Solve the system of linear equations ${A\alpha} = b$ to obtain the vector of polynomial coefficients $\alpha$.
-
-<!-- chunk {"id": "body-0033", "role": "body", "section": "Base polynomial", "weight": 1.0} -->
+<!-- chunk {"id": "body-0026", "role": "body", "section": "Base polynomial", "weight": 1.0} -->
 
 In this framework, other polynomial bases such as the orthogonal polynomials of Chebyshev or Legendre could be used to improve the conditioning of the $A$ matrix i.e. to encourage the singular values of the $A$ matrix to remain clustered around unity and ensure numerical stability of the solution to ${A\alpha} = b$; for ever-higher degree polynomials the conditioning of the matrix in the monomial basis degrades. However, for simplicity, monomials are used since the error was found to be manageable on the problem instances encountered, i.e. for degree $7$ polynomials. If position and the first $q - 1$ time derivatives are $0$ at $t = 0$, the first $q$ coefficients $\alpha_{0},\ldots,\alpha_{q}$ are also zero, which is evident from the partial diagonal structure of $A$.
 
-<!-- chunk {"id": "body-0034", "role": "body", "section": "Base polynomial", "weight": 1.0} -->
+<!-- chunk {"id": "body-0027", "role": "body", "section": "Base polynomial", "weight": 1.0} -->
 
 Indeed, it is desirable to create an acceleration polynomial which has ${p{}} = 0$, ${\overset{˙}{p}{}} = 0$, ${p{(T)}} > 0$, ${\overset{˙}{p}{(T)}} > 0$ and some higher-order time derivatives zero at both endpoints i.e.
 
-<!-- chunk {"id": "body-0035", "role": "body", "section": "Base polynomial", "weight": 1.0} -->
+<!-- chunk {"id": "body-0028", "role": "body", "section": "Base polynomial", "weight": 1.0} -->
 
-Although this procedure will always generate a polynomial which satisfies the endpoint constraints, the behavior between the endpoints is governed by the duration $T$. In particular, there is a unique setting of $T$ which ensures that both the position and velocity monotonically increase from the initial to terminal points, thus ensuring that the endpoints are where the minimum and maximum position and speed occur over the segment. This setting is
+Although this procedure will always generate a polynomial which satisfies the endpoint constraints, the behavior between the endpoints is governed by the duration $T$. In particular, there is a unique setting of $T$ which ensures that both the position and velocity monotonically increase from the initial to terminal points, thus ensuring that the endpoints are where the minimum and maximum position and speed occur over the segment. This setting is With this choice, as an additional benefit, the polynomial degree is reduced by 1 i.e. $\alpha_{d}$ = 0. Although proving these facts for arbitrary degree polynomials is difficult, it is now shown that at least for $d = 7$, which is the case of interest in this work, that the given setting of $T$ in gives the desired behavior. Assuming, without loss of generality, that ${p{}} = 0$, ${\overset{˙}{p}{}} = 0$, ${p{(T)}} = 0.5$, ${\overset{˙}{p}{(T)}} = 1$, and by set $T = 1$.
 
-<!-- chunk {"id": "body-0036", "role": "body", "section": "Base polynomial", "weight": 1.0} -->
+<!-- chunk {"id": "body-0029", "role": "body", "section": "Base polynomial", "weight": 1.0} -->
 
-With this choice, as an additional benefit, the polynomial degree is reduced by 1 i.e. $\alpha_{d}$ = 0. Although proving these facts for arbitrary degree polynomials is difficult, it is now shown that at least for $d = 7$, which is the case of interest in this work, that the given setting of $T$ in gives the desired behavior. Assuming, without loss of generality, that ${p{}} = 0$, ${\overset{˙}{p}{}} = 0$, ${p{(T)}} = 0.5$, ${\overset{˙}{p}{(T)}} = 1$, and by set $T = 1$. Solving for the coefficients of the position polynomial obtain
+Solving for the coefficients of the position polynomial obtain and differentiating, the acceleration is which is nonnegative for all $t$ and thus on the interval $\lbrack 0,T\rbrack$. Thus the velocity monotonically increases from 0 and so does the position, as desired. Attempting to show this for any other setting of $T$ will fail; a proof of this fact is left to future work, noting that a product-of-squares argument (as here) is insufficient to prove a setting of $T$ gives an acceleration which is somewhere negative.
 
-<!-- chunk {"id": "body-0037", "role": "body", "section": "Base polynomial", "weight": 1.0} -->
-
-which is nonnegative for all $t$ and thus on the interval $\lbrack 0,T\rbrack$. Thus the velocity monotonically increases from 0 and so does the position, as desired. Attempting to show this for any other setting of $T$ will fail; a proof of this fact is left to future work, noting that a product-of-squares argument (as here) is insufficient to prove a setting of $T$ gives an acceleration which is somewhere negative.
-
-<!-- chunk {"id": "body-0038", "role": "body", "section": "Base polynomial", "weight": 1.0} -->
+<!-- chunk {"id": "body-0030", "role": "body", "section": "Base polynomial", "weight": 1.0} -->
 
 It is emphasized that the base polynomial only needs to be calculated once at the beginning of the overall routine and can be scaled and translated (in time) as necessary for each particular trajectory. The base polynomials for vertical and horizontal trajectories are calculated separately to account for differing actuation constraints in each direction. In each case, a unit path length and terminal speed equal to the max speed (${p{}} = 0$, ${\overset{˙}{p}{}} = 0$, ${p{(T)}} = 1$, ${{\overset{˙}{p}{(T)}} = \delta_{1}},{T = 2}$) are used. This results in the polynomials $p_{\text{base,horz}}$ and $p_{\text{base,vert}}$.
 
-<!-- chunk {"id": "body-0039", "role": "body", "section": "Individualized polynomials", "weight": 1.0} -->
+<!-- chunk {"id": "body-0031", "role": "body", "section": "Individualized polynomials", "weight": 1.0} -->
 
-Once the base polynomials for an acceleration segment have been found, a piecewise polynomial (sub)trajectory may be generated which connects any two points $x_{0}$, $x_{f}$ with a straight line path, subject to the time derivative constraints. Let the distance between $x_{0}$, $x_{f}$ be $\ell_{\Delta} = {\|{x_{f} - x_{0}}\|}$. The whole piecewise polynomial trajectory for agent $i$ with $n_{i}$ pieces has the form
+Once the base polynomials for an acceleration segment have been found, a piecewise polynomial (sub)trajectory may be generated which connects any two points $x_{0}$, $x_{f}$ with a straight line path, subject to the time derivative constraints. Let the distance between $x_{0}$, $x_{f}$ be $\ell_{\Delta} = {\|{x_{f} - x_{0}}\|}$. The whole piecewise polynomial trajectory for agent $i$ with $n_{i}$ pieces has the form where ${\hat{h}}_{ik} \in {\mathbb{R}}^{3}$ is a unit heading vector.
 
-<!-- chunk {"id": "body-0040", "role": "body", "section": "Individualized polynomials", "weight": 1.0} -->
+<!-- chunk {"id": "body-0032", "role": "body", "section": "Individualized polynomials", "weight": 1.0} -->
 
-where ${\hat{h}}_{ik} \in {\mathbb{R}}^{3}$ is a unit heading vector. In this work, this heading will either be horizontal ${\hat{h}}_{ik} = {\lbrack a,b,0\rbrack}^{\intercal}$ or vertical ${\hat{h}}_{ik} = {\lbrack 0,0,1\rbrack}^{\intercal}$ where $a,b$ are dummy constants satisfying ${a^{2} + b^{2}} = 1$. Also, in this work these trajectories are comprised of 2- or 3-segment subtrajectories and 1-segment stationary wait segments. For notational compactness, let
+In this work, this heading will either be horizontal ${\hat{h}}_{ik} = {\lbrack a,b,0\rbrack}^{\intercal}$ or vertical ${\hat{h}}_{ik} = {\lbrack 0,0,1\rbrack}^{\intercal}$ where $a,b$ are dummy constants satisfying ${a^{2} + b^{2}} = 1$. Also, in this work these trajectories are comprised of 2- or 3-segment subtrajectories and 1-segment stationary wait segments. For notational compactness, let represent a polynomial trajectory segment which encodes a polynomial, a heading, and a time interval.
 
-<!-- chunk {"id": "body-0041", "role": "body", "section": "Individualized polynomials", "weight": 1.0} -->
+<!-- chunk {"id": "body-0033", "role": "body", "section": "Individualized polynomials", "weight": 1.0} -->
 
-represent a polynomial trajectory segment which encodes a polynomial, a heading, and a time interval.
+Accordingly, the norm of the time derivatives has the simplified form It will be useful to keep in mind the spatial and temporal scaling formulas for polynomials: from which it follows that the derivatives satisfy: First, temporal scaling is applied to the acceleration segment in order to ensure the terminal speed is the agent max speed so that with equality ensured exactly at $t = T$. The (absolute) maximum time derivative $\max_{t}{({|{\overset{˙}{p}{(t)}}|})}$ of the base polynomial is computed via Algorithm 5 with the interval $\lbrack 0,T\rbrack$. The scale factor is found as $c = \frac{\max_{t}{({|{\overset{˙}{p}{(t)}}|})}}{\delta_{1}}$ then temporal scaling is applied as which achieves the proper scaling of speed per and preserves the path length traversed.
 
-<!-- chunk {"id": "body-0042", "role": "body", "section": "Individualized polynomials", "weight": 1.0} -->
+<!-- chunk {"id": "body-0034", "role": "body", "section": "Individualized polynomials", "weight": 1.0} -->
 
-Accordingly, the norm of the time derivatives has the simplified form
+Next, scaling is applied to the acceleration segment in order to satisfy constraints on the higher time derivatives which are denoted by $\delta \in {\mathbb{R}}^{q - 1}$ so that with equality ensured in at least one derivative at one time. This minimizes the time taken to traverse the path by taking full advantage of the available time derivatives. The (absolute) maximum time derivatives $\max_{t}\left. (\left. |{\overset{(k)}{p}(t)} \right| \right)$ of the base polynomial are computed via repeated applications of Algorithm 5 with the interval $\lbrack 0,T\rbrack$. Once the (absolute) maximum time derivatives have been identified, scale factors $\psi_{k}$ associated with satisfying each time derivative constraint are found by The maximum of these scale factors is the only one that is needed to ensure all constraints are satisfied, so take $\psi_{\ast} = {\max_{k}{(\psi_{k})}}$.
 
-<!-- chunk {"id": "body-0043", "role": "body", "section": "Individualized polynomials", "weight": 1.0} -->
+<!-- chunk {"id": "body-0035", "role": "body", "section": "Individualized polynomials", "weight": 1.0} -->
 
-First, temporal scaling is applied to the acceleration segment in order to ensure the terminal speed is the agent max speed so that
+The scaling is then applied by which compresses the trajectory temporally and stretches it spatially in equal proportions such that the terminal speed remains the same, per, while honoring all higher order time derivative constraints, per.
 
-<!-- chunk {"id": "body-0044", "role": "body", "section": "Individualized polynomials", "weight": 1.0} -->
-
-with equality ensured exactly at $t = T$. The (absolute) maximum time derivative $\max_{t}{({|{\overset{˙}{p}{(t)}}|})}$ of the base polynomial is computed via Algorithm 5 with the interval $\lbrack 0,T\rbrack$. The scale factor is found as $c = \frac{\max_{t}{({|{\overset{˙}{p}{(t)}}|})}}{\delta_{1}}$ then temporal scaling is applied as
-
-<!-- chunk {"id": "body-0045", "role": "body", "section": "Individualized polynomials", "weight": 1.0} -->
-
-which achieves the proper scaling of speed per and preserves the path length traversed. Next, scaling is applied to the acceleration segment in order to satisfy constraints on the higher time derivatives which are denoted by $\delta \in {\mathbb{R}}^{q - 1}$ so that
-
-<!-- chunk {"id": "body-0046", "role": "body", "section": "Individualized polynomials", "weight": 1.0} -->
-
-with equality ensured in at least one derivative at one time. This minimizes the time taken to traverse the path by taking full advantage of the available time derivatives. The (absolute) maximum time derivatives $\max_{t}\left. (\left. |{\overset{(k)}{p}(t)} \right| \right)$ of the base polynomial are computed via repeated applications of Algorithm 5 with the interval $\lbrack 0,T\rbrack$. Once the (absolute) maximum time derivatives have been identified, scale factors $\psi_{k}$ associated with satisfying each time derivative constraint are found by
-
-<!-- chunk {"id": "body-0047", "role": "body", "section": "Individualized polynomials", "weight": 1.0} -->
-
-The maximum of these scale factors is the only one that is needed to ensure all constraints are satisfied, so take $\psi_{\ast} = {\max_{k}{(\psi_{k})}}$. The scaling is then applied by
-
-<!-- chunk {"id": "body-0048", "role": "body", "section": "Individualized polynomials", "weight": 1.0} -->
-
-which compresses the trajectory temporally and stretches it spatially in equal proportions such that the terminal speed remains the same, per, while honoring all higher order time derivative constraints, per.
-
-<!-- chunk {"id": "body-0049", "role": "body", "section": "Individualized polynomials", "weight": 1.0} -->
+<!-- chunk {"id": "body-0036", "role": "body", "section": "Individualized polynomials", "weight": 1.0} -->
 
 Next, a determination of whether a middle constant speed segment is needed is made. This is accomplished by comparing the path length needed by the acceleration segment to reach max speed and (half) the actual path length between the physical endpoints i.e. if ${2p{(T)}} < \ell_{\Delta}$ then a constant speed segment is needed. This segment is trivial to calculate; it is simply a constant maximum speed segment whose duration is simply $T_{\text{cs}} = \frac{\ell_{\Delta} - {2p{(T)}}}{\delta_{1}}$. On the other hand, if ${2p{(T)}} \geq \ell_{\Delta}$ then no constant speed segment is needed and the acceleration segments must be scaled again to reduce their path length, in which case the maximum speed will not be attained.
 
-<!-- chunk {"id": "body-0050", "role": "body", "section": "Individualized polynomials", "weight": 1.0} -->
+<!-- chunk {"id": "body-0037", "role": "body", "section": "Individualized polynomials", "weight": 1.0} -->
 
-This has the effect of strictly decreasing the time derivatives per since the scale factor is less than 1. Then new scale factors are calculated similarly to and a temporal stretch is applied to further optimize the trajectory by making full use of the available "capacity" of higher order time derivatives.:
+The process continues with a spatial stretch in order to fit the path length exactly: This has the effect of strictly decreasing the time derivatives per since the scale factor is less than 1. Then new scale factors are calculated similarly to and a temporal stretch is applied to further optimize the trajectory by making full use of the available "capacity" of higher order time derivatives.: The end result of this entire procedure is a piecewise polynomial (sub)trajectory with 2 or 3 pieces with the first $q$ time derivatives continuous and satisfies all initial, terminal, and range constraints. See Fig. 1 for an illustrative example.
 
-<!-- chunk {"id": "body-0051", "role": "body", "section": "Individualized polynomials", "weight": 1.0} -->
-
-The end result of this entire procedure is a piecewise polynomial (sub)trajectory with 2 or 3 pieces with the first $q$ time derivatives continuous and satisfies all initial, terminal, and range constraints. See Fig. 1 for an illustrative example.
-
-<!-- chunk {"id": "body-0052", "role": "body", "section": "Goal Assignment", "weight": 1.0} -->
+<!-- chunk {"id": "body-0038", "role": "body", "section": "Goal Assignment", "weight": 1.0} -->
 
 Having described the piecewise polynomial trajectory generation procedure, it is now possible to reduce the problem in to one of a linear assignment (combinatorial) goal assignment problem by fixing the functional form of the trajectories. As, if the collision avoidance constraint is ignored, an argument from the calculus of variations shows that trajectories which minimize the integral of $dt$, which is the time-in-motion, follow straight line paths and achieve the highest average speed possible while satisfying the boundary conditions and position derivative constraints. Thus the problem reduces to simply connecting each start to each goal with minimum-time trajectories on straight line paths, computing the time-in-motion incurred by each trajectory, and finding the goal assignment which minimizes total time-in-motion. If these minimum-time trajectories are replaced with constant velocities, as, the problem amounts to minimizing the total *non-squared* distance.
 
-<!-- chunk {"id": "body-0053", "role": "body", "section": "Goal Assignment", "weight": 1.0} -->
+<!-- chunk {"id": "body-0039", "role": "body", "section": "Goal Assignment", "weight": 1.0} -->
 
 Unlike, motivated by Section 3.1, we now replace these minimum-time trajectories with piecewise polynomial trajectories, where the expression of the cost in terms of distance is more complicated and is driven by the size of the constraints on the time derivatives (which determine the base polynomial) relative to the distances.
 
-<!-- chunk {"id": "body-0054", "role": "body", "section": "Goal Assignment", "weight": 1.0} -->
+<!-- chunk {"id": "body-0040", "role": "body", "section": "Goal Assignment", "weight": 1.0} -->
 
-Therefore, the optimal assignment is given by
+Therefore, the optimal assignment is given by where the cost matrix $C$ encodes the cost of assigning agent $i$ to goal $j$. In accordance, $C$ contains the values of the time-in-motion taken by agent $i$ to travel to goal $j$ along a straight line. These times $T_{ij}$ are found by calculating polynomial segment trajectories for agent $i$ moving from start $s_{i}$ to goal $g_{j}$ by the procedure described earlier: Due to the exceptionally simple form of the piecewise polynomial trajectories, calculating the ${n{({n - 1})}}/2$ trajectories for each start-goal pair remains computationally tractable compared with the simplified case of constant velocity trajectories. This problem may be efficiently solved to optimality with a finite number of iterations using the well-known Hungarian algorithm, which runs in $\mathcal{O}{(n^{3})}$ time. Alternate algorithms such as the auction algorithm could also be used with the same time complexity, but with the benefit of parallelization.
 
-<!-- chunk {"id": "body-0055", "role": "body", "section": "Goal Assignment", "weight": 1.0} -->
+<!-- chunk {"id": "body-0041", "role": "body", "section": "Goal Assignment", "weight": 1.0} -->
 
-where the cost matrix $C$ encodes the cost of assigning agent $i$ to goal $j$. In accordance, $C$ contains the values of the time-in-motion taken by agent $i$ to travel to goal $j$ along a straight line.
+After solving the optimal assignment, the presumptive horizontal trajectories for each agent are simply chosen as those from the cost matrix generation which are selected by the optimal assignment.
 
-<!-- chunk {"id": "body-0056", "role": "body", "section": "Goal Assignment", "weight": 1.0} -->
-
-Due to the exceptionally simple form of the piecewise polynomial trajectories, calculating the ${n{({n - 1})}}/2$ trajectories for each start-goal pair remains computationally tractable compared with the simplified case of constant velocity trajectories. This problem may be efficiently solved to optimality with a finite number of iterations using the well-known Hungarian algorithm, which runs in $\mathcal{O}{(n^{3})}$ time. Alternate algorithms such as the auction algorithm could also be used with the same time complexity, but with the benefit of parallelization. After solving the optimal assignment, the presumptive horizontal trajectories for each agent are simply chosen as those from the cost matrix generation which are selected by the optimal assignment.
-
-<!-- chunk {"id": "body-0057", "role": "body", "section": "Goal Assignment", "weight": 1.0} -->
+<!-- chunk {"id": "body-0042", "role": "body", "section": "Goal Assignment", "weight": 1.0} -->
 
 A comparison with the C-CAPT algorithm of, which uses a cost function of the distance traveled squared, is given. The main disadvantages of the C-CAPT algorithm are that the speed of agents is limited due to the requirement of agents to start and arrive at goals at the same time, as well as a minimum separation spacing between starts and between goals of $2\sqrt{2}R$. The advantage of allowing asynchronous goal arrival is highly dependent on the distribution of the start and goal locations; when some trajectory lengths are much larger than others, the ability to arrive earlier than other agents significantly improves utilization of the available actuation resources, e.g. speed. For many practical applications the service area includes goal locations which are both near and far from the start locations, which necessitates some agents to travel much longer than others, regardless of the goal assignment, so the advantage is substantial. The results of Section 6 demonstrate this advantage quantitatively, despite the minor degradation in flight times due to collision detection and resolution, which are discussed next.
 
-<!-- chunk {"id": "body-0058", "role": "body", "section": "Collision detection", "weight": 1.0} -->
+<!-- chunk {"id": "body-0043", "role": "body", "section": "Collision detection", "weight": 1.0} -->
 
-Here the advantage of piecewise polynomial trajectories on straight line paths becomes apparent as the global minimum distance between any pair of agents across their entire trajectories becomes extremely easy and fast to compute. Additionally, the cylindrical collision volume representation synergizes with the restriction that paths are only vertical or horizontal and makes collision checking especially convenient and computationally efficient. Collisions at an instant of time are detected exactly by simply checking if both the radial separation is less than the sum of the radii and the vertical separation is less than the sum of the half-heights.
+Here the advantage of piecewise polynomial trajectories on straight line paths becomes apparent as the global minimum distance between any pair of agents across their entire trajectories becomes extremely easy and fast to compute. Additionally, the cylindrical collision volume representation synergizes with the restriction that paths are only vertical or horizontal and makes collision checking especially convenient and computationally efficient. Collisions at an instant of time are detected exactly by simply checking if both the radial separation is less than the sum of the radii and the vertical separation is less than the sum of the half-heights. Mathematically, the following equivalent conditions of collision between agents $i$ and $j$ hold: For a pair of points moving on straight-line paths whose positions are polynomials in time, the procedure in Alg. 1 is used to find the minimum separation distance.
 
-<!-- chunk {"id": "body-0059", "role": "body", "section": "Collision detection", "weight": 1.0} -->
+<!-- chunk {"id": "body-0044", "role": "body", "section": "Collision detection", "weight": 1.0} -->
 
-For a pair of points moving on straight-line paths whose positions are polynomials in time, the procedure in Alg. 1 is used to find the minimum separation distance.
+Input: Heading unit vectors ĥi and ĥj, polynomial trajectories xi (t) = pi (t) ĥi and xj (t) = pj (t) ĥj of degree d over a common time interval 𝒯i j = [t0, tf]. Calculate relative position polynomial xi j (t) = pj (t) ĥj − pi (t) ĥi. Calculate squared separation distance polynomial of degree 2 d + 1 as pi j (t) = xi j (t)⊺ xi j (t) whose coefficients are computed from multiplication and addition of the appropriate coefficients of xi j (t). Minimize the squared separation distance using Algorithm 5 with inputs pi j (t) and [t0, tf]. Output: Minimum separation distance $d^{\ast} = \sqrt{\min\limits_{t\in{\lbrack t_{0},t_{f}\rbrack}}x_{ij}{(t)}^{\intercal}x_{ij}{(t)}}$. Algorithm 1 Separation minimization Consequently, Alg.
 
-<!-- chunk {"id": "body-0060", "role": "body", "section": "Collision detection", "weight": 1.0} -->
+<!-- chunk {"id": "body-0045", "role": "body", "section": "Collision detection", "weight": 1.0} -->
 
-Input: Heading unit vectors ĥi and ĥj, polynomial trajectories xi (t) = pi (t) ĥi and xj (t) = pj (t) ĥj of degree d over a common time interval 𝒯i j = [t0, tf].
-Calculate relative position polynomial xi j (t) = pj (t) ĥj − pi (t) ĥi.
-Calculate squared separation distance polynomial of degree 2 d + 1 as pi j (t) = xi j (t)⊺ xi j (t) whose coefficients are computed from multiplication and addition of the appropriate coefficients of xi j (t).
-Minimize the squared separation distance using Algorithm 5 with inputs pi j (t) and [t0, tf].
-Output: Minimum separation distance $d^{\ast} = \sqrt{\min\limits_{t\in{\lbrack t_{0},t_{f}\rbrack}}x_{ij}{(t)}^{\intercal}x_{ij}{(t)}}$.
-Algorithm 1 Separation minimization
+8 is used to check for a collision between a pair of agents for a single pair of polynomial segment trajectories. The algorithm uses a default return of "false" and terminates immediately whenever "true" is returned; this "short-circuiting" dramatically improves computational speed. First, it is checked whether the intersection of the time intervals for the segments is nonempty; otherwise the segments are never active at the same time and no collision could occur. Then it is determined whether both agents are moving vertically, both horizontally, or one of each. Based on this, it is checked if or are satisfied, and if so Alg. 1 is used to obtain the relevant minimum separation distance and that distance is used in or to determine the presence of a collision.
 
-<!-- chunk {"id": "body-0061", "role": "body", "section": "Collision detection", "weight": 1.0} -->
-
-Consequently, Alg. 8 is used to check for a collision between a pair of agents for a single pair of polynomial segment trajectories. The algorithm uses a default return of "false" and terminates immediately whenever "true" is returned; this "short-circuiting" dramatically improves computational speed. First, it is checked whether the intersection of the time intervals for the segments is nonempty; otherwise the segments are never active at the same time and no collision could occur. Then it is determined whether both agents are moving vertically, both horizontally, or one of each. Based on this, it is checked if or are satisfied, and if so Alg. 1 is used to obtain the relevant minimum separation distance and that distance is used in or to determine the presence of a collision.
-
-<!-- chunk {"id": "body-0062", "role": "body", "section": "Collision detection", "weight": 1.0} -->
+<!-- chunk {"id": "body-0046", "role": "body", "section": "Collision detection", "weight": 1.0} -->
 
 Now segment pair collision detection is used to detect collisions between all pairs of full composite trajectories of the polynomial segment type described earlier using Alg. 2. The paths start and end at the start and goal locations on the ground and reside entirely within the planar region with infinite vertical extent passing through the line segment joining the start and goal i.e. ${p_{i}{(t)}} \in {\left. \{ x \middle| {x_{12} \in \ell_{i}}\} \right.{\forall t}}$. A "short-circuit\" of the full polynomial segment collision check is then accomplished by first doing a computationally cheap check which helps quickly guarantee safety of many trajectory segment pairs. If the minimum distance between the two line segments of the trajectory pair is greater than the sum of agent radii, then a collision is impossible since there is no configuration of the agent centers within the assumed planar regions which gives an intersection since is impossible to satisfy. If the minimum distance between the two line segments of the trajectory pair is not greater than the sum of agent radii, then collision detection using Alg. 8 is run.
 
-<!-- chunk {"id": "body-0063", "role": "body", "section": "Collision detection", "weight": 1.0} -->
+<!-- chunk {"id": "body-0047", "role": "body", "section": "Collision detection", "weight": 1.0} -->
 
 Using this fast preliminary check is critical to obtaining usable performance since, in all but the most highly congested scenarios, this check catches a large portion of segment pairs which are far apart spatially. The segment collision check is repeated for all polynomial trajectory segment pairs (for a single pair of agents). As soon as a collision is detected on a single pair of trajectory segments, the pair of agents is flagged as having a collision and the check progresses to the next pair of agents without finishing checking all remaining segments of the current pair of agents (another "short-circuit"). This process is repeated for each pair of agents, resulting in a symmetric boolean matrix of collision flags which can be represented by an upper triangular matrix or flattened vector to reduce the storage space by half. With exact collision results for the entire group of agents and trajectories in hand, the proposed methodology advances on to resolving the detected collisions.
 
-<!-- chunk {"id": "body-0064", "role": "body", "section": "Collision detection", "weight": 1.0} -->
+<!-- chunk {"id": "body-0048", "role": "body", "section": "Collision detection", "weight": 1.0} -->
 
-Input: Collection of n trajectories γk (t) for k = 1, …, n.
-foreach Pair of agents i, j do
-Calculate the minimum distance δi j* between the two line segments joining the starts and goals e.g. via.
-foreach Pair of segments γi m in γi (t) and γj n in γj (t) do
-Bi j← result of Alg. 8 with inputs γi m and γj n.
-Output: Boolean matrix F ∈ 𝕊n × n of collision flags.
-Algorithm 2 All agents collision check
+Input: Collection of n trajectories γk (t) for k = 1, …, n. foreach Pair of agents i, j do Calculate the minimum distance δi j* between the two line segments joining the starts and goals e.g. via. foreach Pair of segments γi m in γi (t) and γj n in γj (t) do Bi j← result of Alg. 8 with inputs γi m and γj n. Output: Boolean matrix F ∈ 𝕊n × n of collision flags. Algorithm 2 All agents collision check
 
-<!-- chunk {"id": "body-0065", "role": "body", "section": "Collision resolution", "weight": 1.0} -->
+<!-- chunk {"id": "body-0049", "role": "body", "section": "Collision resolution", "weight": 1.0} -->
 
 The overall trajectory generation proceeds by using the general collision detection scheme described in the previous section to determine which agents collide assuming they are all in the same altitude. After single-altitude collisions are detected, they are resolved by inserting vertical trajectories and time delays and/or additional altitudes.
 
-<!-- chunk {"id": "body-0066", "role": "body", "section": "Collision resolution via time delay", "weight": 1.0} -->
+<!-- chunk {"id": "body-0050", "role": "body", "section": "Collision resolution via time delay", "weight": 1.0} -->
 
 One way to resolve collisions is to send all agents first to a high holding altitude $\mathcal{A}_{\text{hold}}$, then after some delay times have agents descend vertically down, then move horizontally in a single traversal altitude $\mathcal{A}_{\text{trav}}$, then finally descend to the ground altitude $\mathcal{A}_{\text{gnd}}$ at the goal location. In this scheme, a maximum of three altitudes are needed with a total height of $2.5H$ above the ground plane. By construction, given sufficient delay time on each agent that eventually all agents can complete their trajectories without colliding, since in the worst case an agent can simply wait in the holding altitude until all other agents have completed their trajectories and landed. See Fig. 2 for an illustration of this idea in the case when two identical agents must exchange positions. Although such a troublesome goal assignment would never be chosen by the goal assignment procedure in Sec. 3.2 since the reversal of the assignment gives a lower cost, it is conceptually useful simply to illustrate the ability of time delay to resolve collisions.
 
-<!-- chunk {"id": "body-0067", "role": "body", "section": "Collision resolution via time delay", "weight": 1.0} -->
+<!-- chunk {"id": "body-0051", "role": "body", "section": "Collision resolution via time delay", "weight": 1.0} -->
 
 The image shows a side-view with dashed lines representing paths and the table shows a sequence of positions that the agents pass through at generalized times $t$ along the linear paths.
 
-<!-- chunk {"id": "body-0068", "role": "body", "section": "Collision resolution via time delay", "weight": 1.0} -->
+<!-- chunk {"id": "body-0052", "role": "body", "section": "Collision resolution via time delay", "weight": 1.0} -->
 
-The reason to have agents wait in a high holding altitude rather than on the ground is simply that the start and goal locations of two agents may be within a colliding distance of eachother. If the somewhat weak restriction is imposed that
+The reason to have agents wait in a high holding altitude rather than on the ground is simply that the start and goal locations of two agents may be within a colliding distance of eachother. If the somewhat weak restriction is imposed that then the possibility of landing on top of another agent waiting on the ground is avoided and the holding altitude is unnecessary and agents can wait on the ground i.e. set $\eta_{\text{hold}} = 0$ so that the holding and ground altitudes coincide. In either case, the proposed method works the same way.
 
-<!-- chunk {"id": "body-0069", "role": "body", "section": "Collision resolution via time delay", "weight": 1.0} -->
+<!-- chunk {"id": "body-0053", "role": "body", "section": "Collision resolution via time delay", "weight": 1.0} -->
 
-then the possibility of landing on top of another agent waiting on the ground is avoided and the holding altitude is unnecessary and agents can wait on the ground i.e. set $\eta_{\text{hold}} = 0$ so that the holding and ground altitudes coincide. In either case, the proposed method works the same way.
+Each full trajectory is made up of 4 or 5 subtrajectories which are generated according to the procedure in Sec. 3.1 which have 2 or 3 polynomial segments each: Vertical ascent from $\mathcal{A}_{\text{gnd}}\rightarrow\mathcal{A}_{\text{hold}}$: Stationary wait in $\mathcal{A}_{\text{hold}}$ for time $\tau_{i}$: Vertical descent from $\mathcal{A}_{\text{hold}}\rightarrow\mathcal{A}_{\text{trav}}$: Horizontal movement within $\mathcal{A}_{\text{trav}}$: Vertical descent from $\mathcal{A}_{\text{trav}}\rightarrow\mathcal{A}_{\text{gnd}}$: In the case that agents wait on the ground, the subtrajectory in step 1 can be skipped and the agents ascend rather than descend in step 3.
 
-<!-- chunk {"id": "body-0070", "role": "body", "section": "Collision resolution via time delay", "weight": 1.0} -->
+<!-- chunk {"id": "body-0054", "role": "body", "section": "Collision resolution via time delay", "weight": 1.0} -->
 
-Each full trajectory is made up of 4 or 5 subtrajectories which are generated according to the procedure in Sec. 3.1
+The trajectory generation problem is now reduced to finding the set of time delays $\tau_{i}$ whose sum is minimum and also resolve all collisions while adhering to the trajectory generation framework described earlier: where is the boolean collision avoidance constraint whose value is determined by the collision detection scheme in Sec. 4. This problem is nonconvex due to the collision avoidance constraint and has continuous decision variables, so a discretization scheme is used as an effective heuristic. The heuristic begins by ordering the agents randomly, then for each agent the associated delay time is increased by an increment $\tau_{\Delta}$ until collisions with all agents whose time delays have been fixed are resolved. This is repeated until each agent's delay time has been established. This procedure is expressed in Alg. 3.
 
-<!-- chunk {"id": "body-0071", "role": "body", "section": "Collision resolution via time delay", "weight": 1.0} -->
+<!-- chunk {"id": "body-0055", "role": "body", "section": "Collision resolution via time delay", "weight": 1.0} -->
 
-In the case that agents wait on the ground, the subtrajectory in step 1 can be skipped and the agents ascend rather than descend in step 3.
+Input: Collection of n trajectories γk (t) for k = 1, …, n. while Any F← Alg. 2 (γk (t) for k = 1, …, i) do Apply time delay τi to trajectory γi (t) Output: Collection of n collision-free trajectories γk (t) with included time delays τk for k = 1, …, n Algorithm 3 Collision resolution via time delays Although this heuristic is not assured to find the global minimum of the problem, the solutions found are empirically good and importantly are guaranteed to be found after a finite number of computations. To see this, consider the case depicted in Fig. 2 where each agent proceeds one-by-one; the first agent descends from the holding altitude and completes its full trajectory while all remaining agents remain in the holding altitude, then the second agent does the same and so forth until all agents have landed.
 
-<!-- chunk {"id": "body-0072", "role": "body", "section": "Collision resolution via time delay", "weight": 1.0} -->
+<!-- chunk {"id": "body-0056", "role": "body", "section": "Collision resolution via time delay", "weight": 1.0} -->
 
-where is the boolean collision avoidance constraint whose value is determined by the collision detection scheme in Sec. 4. This problem is nonconvex due to the collision avoidance constraint and has continuous decision variables, so a discretization scheme is used as an effective heuristic. The heuristic begins by ordering the agents randomly, then for each agent the associated delay time is increased by an increment $\tau_{\Delta}$ until collisions with all agents whose time delays have been fixed are resolved. This is repeated until each agent's delay time has been established. This procedure is expressed in Alg. 3.
+Let $T_{j}$ for $j = {1,\ldots,n}$ be the times taken by each agent to execute trajectory segments 3, 4, 5 in with $T_{j}$ ordered from greatest to least. Then an upper bound on the number of increments of time delay increase for any other agent is $n_{\text{inc},\max} \leq n_{\text{inc},\max} = {\text{ceil}{({T_{1}/\tau_{\Delta}})}}$ since for any greater time delay a collision is not possible, as explained earlier in the discussion of Fig. 2. Applying this argument iteratively shows that an upper bound on the number of increments for $\tau_{i}$ is $n_{\text{inc},i} \leq {i \times n_{\text{inc},\max}}$, and thus an upper bound on the total number of increments is which is clearly $\mathcal{O}{(n^{2})}$.
 
-<!-- chunk {"id": "body-0073", "role": "body", "section": "Collision resolution via time delay", "weight": 1.0} -->
+<!-- chunk {"id": "body-0057", "role": "body", "section": "Collision resolution via time delay", "weight": 1.0} -->
 
-Input: Collection of n trajectories γk (t) for k = 1, …, n.
-while Any F← Alg. 2 (γk (t) for k = 1, …, i) do
-Apply time delay τi to trajectory γi (t)
-Output: Collection of n collision-free trajectories γk (t) with included time delays τk for k = 1, …, n
-Algorithm 3 Collision resolution via time delays
+In practice, many fewer increments are required than this conservative upper bound. The ordering of agents could likely be further improved i.e. according to some metric such as shortest time in horizontal flight, but it was found that random ordering gave good results.
 
-<!-- chunk {"id": "body-0074", "role": "body", "section": "Collision resolution via time delay", "weight": 1.0} -->
-
-Although this heuristic is not assured to find the global minimum of the problem, the solutions found are empirically good and importantly are guaranteed to be found after a finite number of computations. To see this, consider the case depicted in Fig. 2 where each agent proceeds one-by-one; the first agent descends from the holding altitude and completes its full trajectory while all remaining agents remain in the holding altitude, then the second agent does the same and so forth until all agents have landed.
-
-<!-- chunk {"id": "body-0075", "role": "body", "section": "Collision resolution via time delay", "weight": 1.0} -->
-
-Let $T_{j}$ for $j = {1,\ldots,n}$ be the times taken by each agent to execute trajectory segments 3, 4, 5 in with $T_{j}$ ordered from greatest to least. Then an upper bound on the number of increments of time delay increase for any other agent is $n_{\text{inc},\max} \leq n_{\text{inc},\max} = {\text{ceil}{({T_{1}/\tau_{\Delta}})}}$ since for any greater time delay a collision is not possible, as explained earlier in the discussion of Fig. 2. Applying this argument iteratively shows that an upper bound on the number of increments for $\tau_{i}$ is $n_{\text{inc},i} \leq {i \times n_{\text{inc},\max}}$, and thus an upper bound on the total number of increments is
-
-<!-- chunk {"id": "body-0076", "role": "body", "section": "Collision resolution via time delay", "weight": 1.0} -->
-
-which is clearly $\mathcal{O}{(n^{2})}$. In practice, many fewer increments are required than this conservative upper bound. The ordering of agents could likely be further improved i.e. according to some metric such as shortest time in horizontal flight, but it was found that random ordering gave good results.
-
-<!-- chunk {"id": "body-0077", "role": "body", "section": "Collision resolution via altitude assignment", "weight": 1.0} -->
+<!-- chunk {"id": "body-0058", "role": "body", "section": "Collision resolution via altitude assignment", "weight": 1.0} -->
 
 Another way to resolve collisions is by finding an assignment to a set of altitudes and sending agents on trajectories that move horizontally only in these altitudes. The altitudes are given sufficient vertical separation to ensure clearance between agents in different altitudes regardless of horizontal position. Additional wait time and holding altitudes are introduced to resolve potential secondary collisions induced by the primary collision resolution.
 
-<!-- chunk {"id": "body-0078", "role": "body", "section": "Collision resolution via altitude assignment", "weight": 1.0} -->
+<!-- chunk {"id": "body-0059", "role": "body", "section": "Collision resolution via altitude assignment", "weight": 1.0} -->
 
 There are $m$ traversal altitudes $\mathcal{A}_{\text{trav,i}}$ for $i \in \mathcal{I}_{m}$ and $h$ holding altitudes $\mathcal{A}_{\text{hold,i}}$ which are inserted between traversal altitudes and indexed to match the traversal altitudes, although in general $h \leq {m - 1}$. In this scheme, a maximum of $n$ traversal altitudes and $n$ holding altitudes are needed in addition to the ground altitude.
 
-<!-- chunk {"id": "body-0079", "role": "body", "section": "Collision resolution via altitude assignment", "weight": 1.0} -->
+<!-- chunk {"id": "body-0060", "role": "body", "section": "Collision resolution via altitude assignment", "weight": 1.0} -->
 
-Define the $n \times m$ boolean altitude assignment matrix $B$, which assigns agents to altitudes, as
+Define the $n \times m$ boolean altitude assignment matrix $B$, which assigns agents to altitudes, as Therefore in row $i$ of $B$, denoted as $B_{i}$, the index where $B_{ij} = 1$ gives the altitude assigned to agent $i$. Alternatively, in column $j$ of $B$ the indices where $B_{ij} = 1$ give the agents assigned to altitude $j$. All agents are assigned to altitudes in a one-to-many mapping, so where $D_{m}$ is an $m \times m$ diagonal matrix whose entry $D_{ii}$ is the integer number of agents assigned to altitude $i$.
 
-<!-- chunk {"id": "body-0080", "role": "body", "section": "Collision resolution via altitude assignment", "weight": 1.0} -->
+<!-- chunk {"id": "body-0061", "role": "body", "section": "Collision resolution via altitude assignment", "weight": 1.0} -->
 
-Therefore in row $i$ of $B$, denoted as $B_{i}$, the index where $B_{ij} = 1$ gives the altitude assigned to agent $i$. Alternatively, in column $j$ of $B$ the indices where $B_{ij} = 1$ give the agents assigned to altitude $j$. All agents are assigned to altitudes in a one-to-many mapping, so
+Each full trajectory is made up of 4 or 6 subtrajectories which are generated according to the procedure in Sec. 3.1 which have 2 or 3 polynomial segments each: Vertical ascent from $\mathcal{A}_{\text{gnd}}\rightarrow\mathcal{A}_{\text{trav,i}}$: Stationary wait in $\mathcal{A}_{\text{trav,i}}$ until global time $t_{1}$: Horizontal movement within $\mathcal{A}_{\text{trav,i}}$: Vertical descent from $\mathcal{A}_{\text{trav},i}\rightarrow\mathcal{A}_{\text{hold},i}$: Stationary wait in $\mathcal{A}_{\text{hold,i}}$ for time $\tau_{i}$: Vertical descent from $\mathcal{A}_{\text{hold},i}\rightarrow\mathcal{A}_{\text{gnd}}$: where the final 3
 
-<!-- chunk {"id": "body-0081", "role": "body", "section": "Collision resolution via altitude assignment", "weight": 1.0} -->
+<!-- chunk {"id": "body-0062", "role": "body", "section": "Collision resolution via altitude assignment", "weight": 1.0} -->
 
-where $D_{m}$ is an $m \times m$ diagonal matrix whose entry $D_{ii}$ is the integer number of agents assigned to altitude $i$.
+subtrajectories may be collapsed to a single vertical descent from $\mathcal{A}_{\text{trav},i}\rightarrow\mathcal{A}_{\text{gnd}}$.
 
-<!-- chunk {"id": "body-0082", "role": "body", "section": "Collision resolution via altitude assignment", "weight": 1.0} -->
-
-Each full trajectory is made up of 4 or 6 subtrajectories which are generated according to the procedure in Sec. 3.1
-
-<!-- chunk {"id": "body-0083", "role": "body", "section": "Collision resolution via altitude assignment", "weight": 1.0} -->
-
-where the final 3 subtrajectories may be collapsed to a single vertical descent from $\mathcal{A}_{\text{trav},i}\rightarrow\mathcal{A}_{\text{gnd}}$.
-
-<!-- chunk {"id": "body-0084", "role": "body", "section": "Primary collisions", "weight": 1.0} -->
+<!-- chunk {"id": "body-0063", "role": "body", "section": "Primary collisions", "weight": 1.0} -->
 
 Primary collisions are those resulting from two agents moving horizontally in a shared altitude. These are resolved by altitude assignment. As a heuristic for minimizing the sum of flight times, one might seek to minimize the number of altitudes required so that time spent in vertical motion is minimized. However even finding the optimal altitude assignment which minimizes the number of altitudes is a hard nonconvex combinatorial problem, so a similar procedure as in collision resolution via time delays is used to find the altitude assignment $B$. Agents are prioritized randomly, then each agent is assigned the lowest altitude possible that resolves primary collisions with all previously assigned agents. If no such altitude exists, a new one is created at a height above the previous highest altitude by a vertical spacing of $H$. This is repeated for all agents. By construction, such an assignment guarantees that there will be no collisions during the horizontal movements. Alg. 4 documents this procedure using mathematical notation.
 
-<!-- chunk {"id": "body-0085", "role": "body", "section": "Primary collisions", "weight": 1.0} -->
+<!-- chunk {"id": "body-0064", "role": "body", "section": "Primary collisions", "weight": 1.0} -->
 
-Input: Boolean collision flag matrix F ∈ 𝕊n × n.
-if not any Fi, k for k|Bk, j = = True then
+Input: Boolean collision flag matrix F ∈ 𝕊n × n. if not any Fi, k for k|Bk, j = = True then Output: Boolean altitude assignment matrix B ∈ ℝn × m that resolves primary collisions. Algorithm 4 Altitude assignment
 
-<!-- chunk {"id": "body-0086", "role": "body", "section": "Primary collisions", "weight": 1.0} -->
-
-Output: Boolean altitude assignment matrix B ∈ ℝn × m that resolves primary collisions.
-Algorithm 4 Altitude assignment
-
-<!-- chunk {"id": "body-0087", "role": "body", "section": "Secondary collisions", "weight": 1.0} -->
+<!-- chunk {"id": "body-0065", "role": "body", "section": "Secondary collisions", "weight": 1.0} -->
 
 Although altitude assignment resolves primary collisions, the possibility remains of secondary collisions during the vertical descent movements down towards the goals on the ground. These are easily detected by the same collision detection scheme in Sec. 4. Secondary collisions are exhaustively partitioned into two types of collision: exit and entrance collisions. In practice, it was found that these secondary collisions were exceedingly rare, but nevertheless must be prevented.
 
-<!-- chunk {"id": "body-0088", "role": "body", "section": "Exit collisions", "weight": 1.0} -->
+<!-- chunk {"id": "body-0066", "role": "body", "section": "Exit collisions", "weight": 1.0} -->
 
 In an exit collision, a descending agent is struck by another agent moving horizontally in the same traversal altitude. To resolve this, a simple enlargement of the collision radius is used. The longest time $T_{\text{exit}}$ that any agent could take to exit its altitude is calculated; this is easily accomplished by generating a trajectory which descends vertically downwards by $H$ (the spacing between two altitudes). This captures the effect of all position derivative constraints imposed on the agents. This is also conservative since some agents may not have to come to a full stop at the altitude below; some agents will continue descending and accelerating which would reduce the time taken to exit the altitude, but this is ignored for simplicity. Next, the greatest distance $L_{\text{exit}}$ that the fastest agent would traverse horizontally moving at maximum speed over the time $T_{\text{exit}}$ is calculated. Then the collision radii of all agents are increased by $L_{\text{exit}}/2$.
 
-<!-- chunk {"id": "body-0089", "role": "body", "section": "Exit collisions", "weight": 1.0} -->
+<!-- chunk {"id": "body-0067", "role": "body", "section": "Exit collisions", "weight": 1.0} -->
 
 Thus by using the same collision detection scheme in Sec. 4 it is ensured that agents maintain an additional horizontal clearance of $L_{\text{exit}}$ at all times, which by construction ensures that exit collisions are impossible.
 
-<!-- chunk {"id": "body-0090", "role": "body", "section": "Exit collisions", "weight": 1.0} -->
+<!-- chunk {"id": "body-0068", "role": "body", "section": "Exit collisions", "weight": 1.0} -->
 
 Unfortunately this procedure requires the collision radii to be increased by an amount proportional to the maximum speed of the agents, but for agents with high maximum acceleration relative to the maximum speed, such as quadrotors, the detriment is not too severe. The enlargement of the collision radii is performed as the first step of the overall collision resolution, prior to finding the altitude assignment to resolve primary collisions.
 
-<!-- chunk {"id": "body-0091", "role": "body", "section": "Entrance collisions", "weight": 1.0} -->
+<!-- chunk {"id": "body-0069", "role": "body", "section": "Entrance collisions", "weight": 1.0} -->
 
 In an entrance collision, a descending agent enters a lower traversal altitude at the same time as another agent is moving horizontally underneath. To resolve an entrance collision, a holding altitude is placed between the descending agent's traversal altitude and the next lowest traversal altitude (if one does not already exist). This gives the descending agent a place to wait while the other agent moves out of the way. Once the holding altitude has been inserted, new trajectories are generated and the entire check must begin again from the point where the altitude assignment was made. In particular, the offending descending agent is made to come to a full stop and wait in its (newly inserted) holding altitude. If an entrance collision still exists with this agent, delay time is added according to the same scheme as in Section 5.1. Again, by construction, given sufficient delay time all the possible collisions with agents at lower heights will be resolved since those agents can all land. Agents in the lowest traversal altitude will clearly not encounter this type of secondary collision, and so can complete their trajectories without collision.
 
-<!-- chunk {"id": "body-0092", "role": "body", "section": "Entrance collisions", "weight": 1.0} -->
+<!-- chunk {"id": "body-0070", "role": "body", "section": "Entrance collisions", "weight": 1.0} -->
 
 Arguing inductively, since the lowest agents have collision-free trajectories, and entrance collisions can be resolved for agents in each successively higher altitude, all entrance collisions can be resolved. Since there are a finite number of altitudes, it also follows that the time delays required are also finite. The roles of each agent in an entrance collision are distinguished by the collision detection algorithm simply by noting the heading vector of each agent. As a final remark, in the worst case $n$ traversal altitudes and $n$ holding altitudes are needed, and thus by construction the computations terminate in finite time.
 
-<!-- chunk {"id": "body-0093", "role": "body", "section": "Entrance collisions", "weight": 1.0} -->
+<!-- chunk {"id": "body-0071", "role": "body", "section": "Entrance collisions", "weight": 1.0} -->
 
 To conclude the algorithmic development, Figure 3 gives a broad description of all the steps involved in the method and their relationships. Evaluation of the proposed schemes is presented next, both in computer simulations and in deployment on a physical testbed.
 
-<!-- chunk {"id": "body-0094", "role": "body", "section": "Simulation results", "weight": 1.0} -->
+<!-- chunk {"id": "body-0072", "role": "body", "section": "Simulation results", "weight": 1.0} -->
 
 Both the computer simulations and physical experiments were based on the Crazyswarm, a hardware and software platform that serves as a research testbed for quadrotor autonomy, which is described in more detail in Section 7. Throughout the simulations, the vehicle parameters used for trajectory planning were chosen to match the actual Crazyswarm platform used in the physical experiments. The Crazyflie quadrotor vehicles had a nominal outer diameter of 14 cm and height of 4 cm, while the diameter and height of the cylinders used for trajectory planning were enlarged to 30cm and 40cm respectively; see Section 7 for the rationale of this enlargement. The kinematic constraints imposed during trajectory generation for all simulations are listed in Table 1. These correspond to conservative values computed by scaling down the most aggressive values the physical Crazyswarm platform could experience without significant tracking error.
 
-<!-- chunk {"id": "body-0095", "role": "body", "section": "Simulation results", "weight": 1.0} -->
+<!-- chunk {"id": "body-0073", "role": "body", "section": "Simulation results", "weight": 1.0} -->
 
-For the time delay increase rule, used by both algorithms discussed in Sections 5.1 and 5.2, an addition rule with an increment of $\tau_{\Delta} = {0.1s}$ was used, which was found empirically to strike a nice balance between computation time and quality of solutions.
+In order to analyze the performance of the proposed algorithms, Monte Carlo trials were performed with start and goal locations generated randomly with uniform probability over a square of side length $S$. In all trials all agents were identical so that collision volume dimensions were $R_{i} = R$, $H_{i} = H$ and position derivatives were $\delta_{i} = \delta$ for all $i \in \mathcal{I}_{n}$. The number of agents $n$ and the area density $\eta$ were varied, where $\eta$ is defined as the ratio of the summed area of all agents' projection onto the ground to the area on the ground that any projection could occupy: To ensure initial and terminal configurations were noncolliding, a minimum start-start and goal-goal separation distance of $2R$ was imposed.
 
-<!-- chunk {"id": "body-0096", "role": "body", "section": "Simulation results", "weight": 1.0} -->
+<!-- chunk {"id": "body-0074", "role": "body", "section": "Simulation results", "weight": 1.0} -->
 
-In order to analyze the performance of the proposed algorithms, Monte Carlo trials were performed with start and goal locations generated randomly with uniform probability over a square of side length $S$. In all trials all agents were identical so that collision volume dimensions were $R_{i} = R$, $H_{i} = H$ and position derivatives were $\delta_{i} = \delta$ for all $i \in \mathcal{I}_{n}$.
+This led to an upper bound on the density, which occurs when the start locations are hexagonally close packed; proofs of this fact date back to Lagrange in 1773 with the first universally accepted proof delivered by Toth in 1942. For a separation of $2R$ the upper limit of density is $\frac{\pi}{2\sqrt{3}} \approx 0.9068$ and for a separation of $2\sqrt{2}R$ as in the limit is $\frac{\pi}{4\sqrt{3}} \approx 0.4534$. For reference, a typical area density encountered in commercial aircraft traffic management is on the order of $10^{- 5}$. For applications involving many unmanned aerial robots the traffic is considerably more dense, so simulations were performed over a wide range of densities.
 
-<!-- chunk {"id": "body-0097", "role": "body", "section": "Simulation results", "weight": 1.0} -->
-
-To ensure initial and terminal configurations were noncolliding, a minimum start-start and goal-goal separation distance of $2R$ was imposed. This led to an upper bound on the density, which occurs when the start locations are hexagonally close packed; proofs of this fact date back to Lagrange in 1773 with the first universally accepted proof delivered by Toth in 1942. For a separation of $2R$ the upper limit of density is $\frac{\pi}{2\sqrt{3}} \approx 0.9068$ and for a separation of $2\sqrt{2}R$ as in the limit is $\frac{\pi}{4\sqrt{3}} \approx 0.4534$. For reference, a typical area density encountered in commercial aircraft traffic management is on the order of $10^{- 5}$. For applications involving many unmanned aerial robots the traffic is considerably more dense, so simulations were performed over a wide range of densities.
-
-<!-- chunk {"id": "body-0098", "role": "body", "section": "Time delay distribution", "weight": 1.0} -->
+<!-- chunk {"id": "body-0075", "role": "body", "section": "Time delay distribution", "weight": 1.0} -->
 
 Fig. 4 shows a histogram of time delays using the proposed time delay collision resolution method for $n = 1000$ agents and a high density of $\eta = 10^{- {1/2}} \approx 0.31$ for a single random Monte Carlo problem instance described in Section 6. This shows that, even when start and goal locations are very dense, most agents have zero or low-valued time delays.
 
-<!-- chunk {"id": "body-0099", "role": "body", "section": "Number of altitudes required", "weight": 1.0} -->
+<!-- chunk {"id": "body-0076", "role": "body", "section": "Number of altitudes required", "weight": 1.0} -->
 
 Using altitude assignment, the number of altitudes required to resolve collisions was studied. Fig. 5 shows the number of flight altitudes (altitudes other than the ground) as a function of area density. As expected, the number of altitudes required grew as the density increased as a result of more potential collisions, but only a few altitudes were required even for highly dense scenarios.
 
-<!-- chunk {"id": "body-0100", "role": "body", "section": "Normalized flight times", "weight": 1.0} -->
+<!-- chunk {"id": "body-0077", "role": "body", "section": "Normalized flight times", "weight": 1.0} -->
 
 To analyze the relative degradation in flight times due to avoiding collisions (altitude changes and time delays), the flight time data are normalized by dividing by the average time spent in horizontal motion for each trial. The time spent in horizontal motion can be viewed as unavoidable, since this is the minimum time which must be spent to reach the goals even if collisions were ignored.
 
-<!-- chunk {"id": "body-0101", "role": "body", "section": "Effect of collision resolution", "weight": 1.0} -->
+<!-- chunk {"id": "body-0078", "role": "body", "section": "Effect of collision resolution", "weight": 1.0} -->
 
 From Fig. 6, for this class of random scenarios, it is evident that as the density increases, the total time taken increases as a larger portion of the time is spent moving vertically and waiting. From the zoomed portion, it is evident that the average induced degradation is manageable, being virtually negligible at low agent densities and peaking at around $60\%$ worse than the lower bound at an agent density of $\eta = 10^{- {1/2}} \approx 0.316$ which represents a highly congested scenario as can be seen in Figure 8.
 
-<!-- chunk {"id": "body-0102", "role": "body", "section": "Effect of collision resolution", "weight": 1.0} -->
+<!-- chunk {"id": "body-0079", "role": "body", "section": "Effect of collision resolution", "weight": 1.0} -->
 
 From Fig. 7 similar trends are observed as in Fig. 6 using the time delay collision resolution method, but with less time spent waiting, more time spent in vertical motion, and less time spent in total with the average induced degradation again virtually negligible at low agent densities and peaking at around $20\%$ worse than the lower bound at a density of $\eta = 10^{- {1/2}} \approx 0.316$.
 
-<!-- chunk {"id": "body-0103", "role": "body", "section": "Effect of collision resolution", "weight": 1.0} -->
+<!-- chunk {"id": "body-0080", "role": "body", "section": "Effect of collision resolution", "weight": 1.0} -->
+
+(a) Horizontal motion time (b) Vertical motion time (e) Total time, zoomed Figure 6: Time spent in (a) horizontal motion only, (b) vertical motion only, (c) waiting only, and (d) total, using collision resolution via time delay. A y-axis zoomed view of (d) is given in (e). The number of agents was held constant at n = 100 and 100 trials were run at each density. Individual data for each agent in each trial are plotted as points. The mean, interquartile range (25th to 75th percentile), and full range (0th to 100th percentile) are plotted as a bold black line, dark shaded region, and light shaded region. The vertical axis is linear scaled and the horizontal axis is log scaled with base 10.
+
+<!-- chunk {"id": "body-0081", "role": "body", "section": "Effect of collision resolution", "weight": 1.0} -->
+
+(a) Horizontal motion time (b) Vertical motion time (e) Total time, zoomed Figure 7: Time spent in (a) horizontal motion only, (b) vertical motion only, (c) waiting only, and (d) total, using collision resolution via altitude assignment. A y-axis zoomed view of (d) is given in (e). The number of agents was held constant at n = 100 and 100 trials were run at each density. Individual data for each agent in each trial are plotted as points. The mean, interquartile range (25th to 75th percentile), and full range (0th to 100th percentile) are plotted as a bold black line, dark shaded region, and light shaded region. The vertical axis is linear scaled and the horizontal axis is log scaled with base 10.
+
+<!-- chunk {"id": "body-0082", "role": "body", "section": "Effect of collision resolution", "weight": 1.0} -->
 
 In Figures 8 and 9 example trajectories generated by the proposed algorithm are shown. Figure 8 gives a visualization of the scale of the area density, while Figure 9 demonstrates the ability of the proposed algorithm to plan trajectories for a large number of vehicles navigating between arbitrary locations.
 
-<!-- chunk {"id": "body-0104", "role": "body", "section": "Performance relative to alternate methods", "weight": 1.0} -->
+<!-- chunk {"id": "body-0083", "role": "body", "section": "Performance relative to alternate methods", "weight": 1.0} -->
 
-For the purpose of comparing the proposed method to alternate methods e.g. that of, define the characteristic time $t_{c}$ which is the time an agent would take to traverse the longest horizontal straight-line path within the space, which for a square space has length $\sqrt{2}S$. For a given trajectory plan, denote the time spent by agent $i$ in horizontal motion and in waiting respectively as $t_{h,i}$ and $t_{w,i}$. Also define the characteristic normalized time in horizontal motion and in waiting $t_{p}$ as
+For the purpose of comparing the proposed method to alternate methods e.g. that of, define the characteristic time $t_{c}$ which is the time an agent would take to traverse the longest horizontal straight-line path within the space, which for a square space has length $\sqrt{2}S$. For a given trajectory plan, denote the time spent by agent $i$ in horizontal motion and in waiting respectively as $t_{h,i}$ and $t_{w,i}$. Also define the characteristic normalized time in horizontal motion and in waiting $t_{p}$ as For simplicity, collisions were allowed for simulations using the approach of to avoid imposing the $2\sqrt{2}R$ separation condition required for that approach to possess collision-free guarantees; this was conservative in the sense that the relative performance of the proposed methods relative to was only degraded by this assumption. Also, for simplicity simple 1-degree (constant speed) polynomials were used for trajectory generation.
 
-<!-- chunk {"id": "body-0105", "role": "body", "section": "Performance relative to alternate methods", "weight": 1.0} -->
+<!-- chunk {"id": "body-0084", "role": "body", "section": "Performance relative to alternate methods", "weight": 1.0} -->
 
 With respect to the $t_{p}$ metric, plotted in Fig. 10, the proposed altitudes approach gave the best results for all densities. At low densities, the proposed time delay approach gave nearly the same performance as the altitudes approach as a consequence of small time delays which vanish as the density goes to zero. At higher agent densities, the time delay approach result began to increase as the physical extent of the agents became more influential. Both proposed approaches performed better at all densities than the approach of.
 
-<!-- chunk {"id": "body-0106", "role": "body", "section": "Computation Time", "weight": 1.0} -->
+<!-- chunk {"id": "body-0085", "role": "body", "section": "Computation Time", "weight": 1.0} -->
 
 Achieving low computation time is an important practical consideration for successful deployment of large robot teams. The simulations were implemented in MATLAB running on a desktop with an AMD Ryzen 7 2700X eight-core processor running at 3.7GHz. The results are given in Figures 11 and 12, where reasonable computation times for large teams are observed. Explicitly optimizing the code for performance or parallelization could decrease the computation times even further. The overall computation is split into three major segments: the generation of initial trajectories which occurs when finding the cost matrix for input into the goal assignment, the Hungarian algorithm which actually does the goal assignment, and the combined collision detection and resolution steps. This encompasses nearly all of the computations, with the exception of the base polynomial generation and some post-processing steps which together take negligible time to execute.
 
-<!-- chunk {"id": "body-0107", "role": "body", "section": "Computation Time", "weight": 1.0} -->
+<!-- chunk {"id": "body-0086", "role": "body", "section": "Computation Time", "weight": 1.0} -->
 
 The goal assignment computation time grew as $\mathcal{O}{(n^{3})}$ as expected from a standard computational complexity analysis. The trajectory generation and collision resolution steps grew only as $\mathcal{O}{(n^{2})}$ since the average number of pairwise trajectories and collisions grew with the number of pairs of agents. At ever higher agent numbers it is inevitable that the goal assignment will began to dominate.
 
-<!-- chunk {"id": "body-0108", "role": "body", "section": "Experimental results", "weight": 1.0} -->
+<!-- chunk {"id": "body-0087", "role": "body", "section": "Experimental results", "weight": 1.0} -->
 
 A series of experiments on physical hardware was performed to validate the performance and safety of the proposed approach.
 
-<!-- chunk {"id": "body-0109", "role": "body", "section": "System description", "weight": 1.0} -->
+<!-- chunk {"id": "body-0088", "role": "body", "section": "System description", "weight": 1.0} -->
 
 A proprietary branch of the Crazyswarm system was used, which encompasses both hardware and software. State estimation was accomplished by taking position measurements of infrared (IR) markers on each quadrotor with an external Vicon camera system. The point cloud of these individual position measurements were then resolved into body coordinate frame (state) estimates using the object tracker portion of the Crazyswarm software. These state estimates were then used by the Crazyswarm software to generate feedback control signals, which were then broadcast over wireless radios to the flying vehicles and electrically converted to motor voltages, completing the feedback loop. The controller used was the standard "Mellinger" controller implemented by the Crazyswarm package, which is a modified version of the nonlinear reference-tracking controller proposed by which takes advantage of differential flatness of the quadrotor. See the documentation at for further details of the software and hardware setup.
 
-<!-- chunk {"id": "body-0110", "role": "body", "section": "Trajectory tracking errors", "weight": 1.0} -->
+<!-- chunk {"id": "body-0089", "role": "body", "section": "Trajectory tracking errors", "weight": 1.0} -->
 
 One immediate practical issue was reference trajectory tracking in the presence of noise; although the planned trajectories could be followed perfectly in the absence of disturbances, the presence of disturbances precludes this possibility. Natural sources of disturbances included ambient air currents from air conditioner vents, downwash from other agents, ground aerodynamic effects, other unmodeled dynamics, and sensor (camera) noise. By simple enlargement of the collision volumes and ensuring bounds on the position error of all agents, collision avoidance remained guaranteed. Feedback control within the Crazyswarm package ensured the position deviation of each agent from the desired position remained small at all times. In particular, it was found from the experiments that during all trajectory traversals that the radial position error was bounded by 8 cm and the vertical position error was bounded by 7cm; the plot in 17 demonstrates satisfaction of these bounds. Additionally, it was found that the effects of downwash were accounted for by extending the bottom of the collision cylinder by an additional 20cm.
 
-<!-- chunk {"id": "body-0111", "role": "body", "section": "Trajectory tracking errors", "weight": 1.0} -->
+<!-- chunk {"id": "body-0090", "role": "body", "section": "Trajectory tracking errors", "weight": 1.0} -->
 
 Thus, by choosing a collision cylinder with dimensions enlarged by these amounts relative to the physical dimensions of the quadrotor i.e. diameter of ${14 + {2 \times 8}} = 30$ cm and height of ${4 + {2 \times 7} + 20} = 40$ cm, the vehicle was guaranteed to always be strictly contained within the collision volume, maintaining collision avoidance guarantees. This can be observed from from Figure 16; the trajectory generation tightly respected the collision constraints, as the minimum clearance approached zero without becoming negative. Likewise, during the physical experiment the agents did not experience any collisions, as evidenced by the strictly positive clearance. This was true for all experiments.
 
-<!-- chunk {"id": "body-0112", "role": "body", "section": "Experiment description and findings", "weight": 1.0} -->
+<!-- chunk {"id": "body-0091", "role": "body", "section": "Experiment description and findings", "weight": 1.0} -->
 
 One experiment ("X20") is now presented with $n = 20$ agents moving in a 2m by 3m room from start locations randomly selected from a grid with 0.5m spacing to goals arranged in an "X" configuration roughly 2.8m across the widest section; see Figures 14 and 15. In this experiment the time delay collision resolution method was used. This was for the practical reason that the height of the room limited the number of usable altitudes; in outdoor environments the height of the flyable space would be much greater. The kinematic constraints imposed during trajectory generation were the same as for the simulation results i.e. those listed in Table 1.
 
-<!-- chunk {"id": "body-0113", "role": "body", "section": "Experiment description and findings", "weight": 1.0} -->
+<!-- chunk {"id": "body-0092", "role": "body", "section": "Experiment description and findings", "weight": 1.0} -->
 
 The results in Figures 14, 15, 16, 17 demonstrate that the proposed method reliably generated trajectories that could be successfully tracked by a physical quadrotor team and executed in a reasonable time frame with guaranteed absence of collisions.
 
-<!-- chunk {"id": "body-0114", "role": "body", "section": "Experiment description and findings", "weight": 1.0} -->
+<!-- chunk {"id": "body-0093", "role": "body", "section": "Experiment description and findings", "weight": 1.0} -->
 
-Videos demonstrating the experiment described in this paper as well as several others are available at The code which implements the algorithms described in this work and which supports both the virtual simulations and physical experiments can be found in
+Videos demonstrating the experiment described in this paper as well as several others are available at The code which implements the algorithms described in this work and which supports both the virtual simulations and physical experiments can be found in Figure 14: Photographs of experimental setup at the (a) start configuration, top view, (b) end configuration, top view, and (c) mid-flight, side view.
 
-<!-- chunk {"id": "body-0115", "role": "body", "section": "Conclusion", "weight": 1.5} -->
+<!-- chunk {"id": "body-0094", "role": "body", "section": "Conclusion", "weight": 1.5} -->
 
 This work demonstrated tractable centralized methods for solving the goal assignment and inter-agent-collision-free trajectory planning problem for multiple robots. The assignment of agents to goals achieved a low total time-in-motion, and the resulting polynomial-in-time trajectories took full advantage of (possibly heterogeneous) speed capabilities. The results of numerical simulations revealed promising decreases in the total time with only mild increases in the computation time over existing approaches, allowing faster task completion in practical terms. The proposed algorithm also allowed us to eliminate restrictions present in other methods such as enforcement of synchronized start and end times and minimum separation of start and goal locations.
 
-<!-- chunk {"id": "body-0116", "role": "body", "section": "Conclusion", "weight": 1.5} -->
+<!-- chunk {"id": "body-0095", "role": "body", "section": "Conclusion", "weight": 1.5} -->
 
 Future work is envisioned where the proposed framework would be used as a high-level centralized planner, combined with other decentralized techniques for dealing with lower-level local obstacles and disturbances. The ability to use different altitudes i.e. all three spatial dimensions is crucial to the proper working of the proposed approach; operating spaces limited to a single 2D plane are not supported. Future work will investigate using curved (polynomial) paths to alleviate this issue while retaining tractability.
 
-<!-- chunk {"id": "body-0117", "role": "body", "section": "Conclusion", "weight": 1.5} -->
+<!-- chunk {"id": "body-0096", "role": "body", "section": "Conclusion", "weight": 1.5} -->
 
 Future work also includes extension to agents with more complex dynamics and/or motion constraints, dealing with uncontrolled obstacles, combining time delays with altitudes, reassigning goals dynamically to further reduce would-be collisions, and a parallel implementation to decrease solve times. Investigation of the setting when there are more goals than agents and the setting of multiple stages is also warranted, both requiring dynamic goal assignment and replanning.
 
-<!-- chunk {"id": "body-0118", "role": "body", "section": "Conclusion", "weight": 1.5} -->
+<!-- chunk {"id": "body-0097", "role": "body", "section": "Conclusion", "weight": 1.5} -->
 
 Regarding the hardware implementation, refinements to the localization and state estimation furnished by the camera system as well as using more sophisticated controllers which account for downwash and ground effects could further reduce the magnitude of the actual position errors and allow shrinkage of the collision volumes.

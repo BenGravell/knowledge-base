@@ -10,11 +10,11 @@ In a recent paper, Bubeck, Lee, and Singh introduced a new first order method fo
 
 <!-- chunk {"id": "body-0003", "role": "body", "section": "Introduction", "weight": 1.5} -->
 
-Consider a function $f:{{\mathbb{R}}^{n}\rightarrow{\mathbb{R}}}$ that is $\beta$-smooth and $\alpha$-strongly convex. Thus each point $x$ yields a quadratic upper estimator and a quadratic lower estimator of the function. Namely, inequalities ${q{(y;x)}} \leq {f{(y)}} \leq {Q{(y;x)}}$ hold for all ${x,y} \in {\mathbb{R}}^{n}$, where we set
+Consider a function $f:{{\mathbb{R}}^{n}\rightarrow{\mathbb{R}}}$ that is $\beta$-smooth and $\alpha$-strongly convex. Thus each point $x$ yields a quadratic upper estimator and a quadratic lower estimator of the function. Namely, inequalities ${q{(y;x)}} \leq {f{(y)}} \leq {Q{(y;x)}}$ hold for all ${x,y} \in {\mathbb{R}}^{n}$, where we set Classically, one step of the steepest descent algorithm decreases the squared distance of the iterate to the minimizer of $f$ by the fraction $1 - {\alpha/\beta}$. This linear convergence rate is suboptimal from a computational complexity viewpoint.
 
 <!-- chunk {"id": "body-0004", "role": "body", "section": "Introduction", "weight": 1.5} -->
 
-Classically, one step of the steepest descent algorithm decreases the squared distance of the iterate to the minimizer of $f$ by the fraction $1 - {\alpha/\beta}$. This linear convergence rate is suboptimal from a computational complexity viewpoint. Optimal first-order methods, originating in Nesterov's work achieve the superior (and the best possible) linear rate $1 - \sqrt{\alpha/\beta}$; see also the discussion in \[10, Section 2.2\]. Such accelerated schemes, on the other hand, are notoriously difficult to analyze. Numerous recent papers (e.g. ) have aimed to shed new light on optimal algorithms.
+Optimal first-order methods, originating in Nesterov's work achieve the superior (and the best possible) linear rate $1 - \sqrt{\alpha/\beta}$; see also the discussion in \[10, Section 2.2\]. Such accelerated schemes, on the other hand, are notoriously difficult to analyze. Numerous recent papers (e.g.) have aimed to shed new light on optimal algorithms.
 
 <!-- chunk {"id": "body-0005", "role": "body", "section": "Introduction", "weight": 1.5} -->
 
@@ -26,144 +26,100 @@ The outline of the paper is as follows. In Section 2, we describe the optimal qu
 
 <!-- chunk {"id": "body-0007", "role": "body", "section": "Optimal quadratic averaging", "weight": 1.0} -->
 
-The starting point for our development is the elementary observation that every point $\overline{x}$ provides a quadratic under-estimator of the objective function, having a canonical form. Indeed, completing the square in the strong convexity inequality ${f{(x)}} \geq {q{(x;\overline{x})}}$ yields
+The starting point for our development is the elementary observation that every point $\overline{x}$ provides a quadratic under-estimator of the objective function, having a canonical form. Indeed, completing the square in the strong convexity inequality ${f{(x)}} \geq {q{(x;\overline{x})}}$ yields Suppose we have now available two quadratic lower-estimators: Clearly, the minimal values of $Q_{A}$ and of $Q_{B}$ lower-bound the minimal value of $f$. For any $\lambda \in {\lbrack 0,1\rbrack}$, the average $Q_{\lambda}:={{\lambdaQ_{A}} + {{({1 - \lambda})}Q_{B}}}$ is again a quadratic lower-estimator of $f$. Thus we are led to the question: What choice of $\lambda$ yields the tightest lower-bound on the minimal value of $f$?
 
 <!-- chunk {"id": "body-0008", "role": "body", "section": "Optimal quadratic averaging", "weight": 1.0} -->
 
-Clearly, the minimal values of $Q_{A}$ and of $Q_{B}$ lower-bound the minimal value of $f$. For any $\lambda \in {\lbrack 0,1\rbrack}$, the average $Q_{\lambda}:={{\lambdaQ_{A}} + {{({1 - \lambda})}Q_{B}}}$ is again a quadratic lower-estimator of $f$.
+To answer this question, observe the equality In particular, the average $Q_{\lambda}$ has the same canonical form as $Q_{A}$ and $Q_{B}$. A quick computation now shows that $v_{\lambda}$ (the minimum of $Q_{\lambda}$) is maximized by setting With this choice of $\lambda$, we call the quadratic function $\overline{Q} = \overline{v} + \frac{\alpha}{2} \parallel \cdot - \overline{c} \parallel^{2}$ the optimal averaging of $Q_{A}$ and $Q_{B}$. See Figure 1 for an illustration.
 
 <!-- chunk {"id": "body-0009", "role": "body", "section": "Optimal quadratic averaging", "weight": 1.0} -->
 
-What choice of $\lambda$ yields the tightest lower-bound on the minimal value of $f$?
+An algorithmic idea emerges. Given a current iterate $x_{k}$, form the quadratic lower-model $Q{( \cdot )}$ in with $\overline{x} = x_{k}$. Then let $Q_{k}$ be the optimal averaging of $Q$ and the quadratic lower model $Q_{k - 1}$ from the previous step. Finally define $x_{k + 1}$ to be the minimizer of $Q_{k}$, and repeat. Though attractive, the scheme does not converge at an optimal rate. Indeed, this algorithm is closely related to the suboptimal method; see Section 4.1 for a discussion. The main idea behind acceleration, natural in retrospect, is a separation of roles: one must maintain two sequences of points $x_{k}$ and $c_{k}$. The points $x_{k}$ will generate quadratic lower models as above, while $c_{k}$ will be the minimizers of the quadratics.
 
 <!-- chunk {"id": "body-0010", "role": "body", "section": "Optimal quadratic averaging", "weight": 1.0} -->
 
-To answer this question, observe the equality
-
-<!-- chunk {"id": "body-0011", "role": "body", "section": "Optimal quadratic averaging", "weight": 1.0} -->
-
-In particular, the average $Q_{\lambda}$ has the same canonical form as $Q_{A}$ and $Q_{B}$. A quick computation now shows that $v_{\lambda}$ (the minimum of $Q_{\lambda}$) is maximized by setting
-
-<!-- chunk {"id": "body-0012", "role": "body", "section": "Optimal quadratic averaging", "weight": 1.0} -->
-
-With this choice of $\lambda$, we call the quadratic function $\overline{Q} = \overline{v} + \frac{\alpha}{2} \parallel \cdot - \overline{c} \parallel^{2}$ the optimal averaging of $Q_{A}$ and $Q_{B}$. See Figure 1 for an illustration.
-
-<!-- chunk {"id": "body-0013", "role": "body", "section": "Optimal quadratic averaging", "weight": 1.0} -->
-
-An algorithmic idea emerges. Given a current iterate $x_{k}$, form the quadratic lower-model $Q{( \cdot )}$ in with $\overline{x} = x_{k}$. Then let $Q_{k}$ be the optimal averaging of $Q$ and the quadratic lower model $Q_{k - 1}$ from the previous step. Finally define $x_{k + 1}$ to be the minimizer of $Q_{k}$, and repeat. Though attractive, the scheme does not converge at an optimal rate. Indeed, this algorithm is closely related to the suboptimal method; see Section 4.1 for a discussion. The main idea behind acceleration, natural in retrospect, is a separation of roles: one must maintain two sequences of points $x_{k}$ and $c_{k}$. The points $x_{k}$ will generate quadratic lower models as above, while $c_{k}$ will be the minimizers of the quadratics.
-
-<!-- chunk {"id": "body-0014", "role": "body", "section": "Optimal quadratic averaging", "weight": 1.0} -->
-
 We summarize the proposed method in Algorithm 1. The rule for determining the iterate $x_{k}$ by a line search is entirely motivated by the geometric descent method.
 
-<!-- chunk {"id": "body-0015", "role": "body", "section": "Remark 2.1", "weight": 1.0} -->
+<!-- chunk {"id": "body-0011", "role": "body", "section": "Remark 2.1", "weight": 1.0} -->
 
-When implementing Algorithm 1, we set $x_{k}^{+} = {\text{line\_search}\left( x_{k},{x_{k} - {{\nabla f}{(x_{k})}}} \right)}$. This does not impact the analysis as $x_{k}^{+}$ still satisfies the key inequality. With this modification, the algorithm does not require $\beta$ as part of the input, and we have observed that the algorithm performs better numerically.
+When implementing Algorithm 1, we set $x_{k}^{+} = {\text{line_search}\left( x_{k},{x_{k} - {{\nabla f}{(x_{k})}}} \right)}$. This does not impact the analysis as $x_{k}^{+}$ still satisfies the key inequality. With this modification, the algorithm does not require $\beta$ as part of the input, and we have observed that the algorithm performs better numerically.
 
-<!-- chunk {"id": "body-0016", "role": "body", "section": "Remark 2.1", "weight": 1.0} -->
+<!-- chunk {"id": "body-0012", "role": "body", "section": "Remark 2.1", "weight": 1.0} -->
 
 To aid in the analysis of the scheme, we record the following easy observation.
 
-<!-- chunk {"id": "body-0017", "role": "body", "section": "Optimal quadratic averaging with memory", "weight": 1.0} -->
+<!-- chunk {"id": "body-0013", "role": "body", "section": "Optimal quadratic averaging with memory", "weight": 1.0} -->
 
 Each iteration of Algorithm 1 forms an optimal average of the current lower quadratic model with the one from the previous iteration; that is, as stated the scheme has a memory size of one. We next show how the scheme easily adapts to maintaining limited memory, i.e. by averaging multiple quadratics in each iteration. We mention in passing that the authors of left open the question of efficiently speeding up their geometric descent algorithm in practice. One approach of this flavor has recently appeared in \[4, Section 4\]. The optimal averaging viewpoint, developed here, provides a direct and satisfying alternative. Indeed, computing the optimal average of several quadratics is easy, and amounts to solving a small dimensional quadratic optimization problem.
 
-<!-- chunk {"id": "body-0018", "role": "body", "section": "Optimal quadratic averaging with memory", "weight": 1.0} -->
-
-maintains the same canonical form as each $Q_{i}$.
-
-<!-- chunk {"id": "body-0019", "role": "body", "section": "Equivalence to geometric descent", "weight": 1.0} -->
+<!-- chunk {"id": "body-0014", "role": "body", "section": "Equivalence to geometric descent", "weight": 1.0} -->
 
 Algorithm 1 is largely motivated by the geometric descent method introduced by Bubeck, Lee, and Singh. In this section, we show the two methods (Algorithm 1 and Algorithm 4) indeed generate an identical iterate sequence.
 
-<!-- chunk {"id": "body-0020", "role": "body", "section": "Suboptimal geometric descent method", "weight": 1.0} -->
+<!-- chunk {"id": "body-0015", "role": "body", "section": "Suboptimal geometric descent method", "weight": 1.0} -->
 
-In turn, taking into account yields the guarantee
+The basic idea of geometric descent is that for each point $x \in {\mathbb{R}}^{n}$, the strong convexity lower bound $f^{\ast} \geq {q{(x^{\ast};x)}}$ defines a ball containing $x^{\ast}$: In turn, taking into account yields the guarantee A crude upper estimate of the radius above is obtained simply by ignoring the nonnegative term $\frac{2}{\alpha}\left({{f{(x^{+})}} - f^{\ast}} \right)$. The suboptimal geometric descent method proceeds as follows. Suppose we have available some ball $B\left(c_{0},R_{0}^{2} \right)$ containing $x^{\ast}$.
 
-<!-- chunk {"id": "body-0021", "role": "body", "section": "Suboptimal geometric descent method", "weight": 1.0} -->
+<!-- chunk {"id": "body-0016", "role": "body", "section": "Suboptimal geometric descent method", "weight": 1.0} -->
 
-A crude upper estimate of the radius above is obtained simply by ignoring the nonnegative term $\frac{2}{\alpha}\left( {{f{(x^{+})}} - f^{\ast}} \right)$. The suboptimal geometric descent method proceeds as follows. Suppose we have available some ball $B\left( c_{0},R_{0}^{2} \right)$ containing $x^{\ast}$.
+As discussed, the quadratic lower bound at the center $c_{0}$, namely $f^{\ast} \geq {q{(x^{\ast},c_{0})}}$, yields another ball $B\left(c_{0}^{+ +},{\left({1 - \frac{1}{\kappa}} \right)\frac{\left\| {{\nabla f}{(c_{0})}} \right\|^{2}}{\alpha^{2}}} \right)$ containing $x^{\ast}$. Geometrically it is clear that the intersection of these two balls must be significantly smaller than either of the individual balls. The following lemma from makes this observation precise; see Figure 2 for an illustration.
 
-<!-- chunk {"id": "body-0022", "role": "body", "section": "Suboptimal geometric descent method", "weight": 1.0} -->
+<!-- chunk {"id": "body-0017", "role": "body", "section": "Optimal geometric descent method", "weight": 1.0} -->
 
-As discussed, the quadratic lower bound at the center $c_{0}$, namely $f^{\ast} \geq {q{(x^{\ast},c_{0})}}$, yields another ball $B\left( c_{0}^{+ +},{\left( {1 - \frac{1}{\kappa}} \right)\frac{\left\| {{\nabla f}{(c_{0})}} \right\|^{2}}{\alpha^{2}}} \right)$ containing $x^{\ast}$. Geometrically it is clear that the intersection of these two balls must be significantly smaller than either of the individual balls. The following lemma from makes this observation precise; see Figure 2 for an illustration.
+To obtain an optimal method, the authors of observe that the term $\frac{2}{\alpha}\left({{f{(x^{+})}} - f^{\ast}} \right)$ in the inclusion cannot be ignored. Exploiting this term will require maintaining two sequences $c_{k}$ (the centers of the balls) and $x_{k}$ (points for generating new balls). Suppose in iteration $k$, we know that $x^{\ast}$ lies in the ball Consider now an arbitrary point, denoted suggestively by $x_{k + 1}$.
 
-<!-- chunk {"id": "body-0023", "role": "body", "section": "Optimal geometric descent method", "weight": 1.0} -->
+<!-- chunk {"id": "body-0018", "role": "body", "section": "Optimal geometric descent method", "weight": 1.0} -->
 
-To obtain an optimal method, the authors of observe that the term $\frac{2}{\alpha}\left( {{f{(x^{+})}} - f^{\ast}} \right)$ in the inclusion cannot be ignored. Exploiting this term will require maintaining two sequences $c_{k}$ (the centers of the balls) and $x_{k}$ (points for generating new balls). Suppose in iteration $k$, we know that $x^{\ast}$ lies in the ball
+Then implies the inclusion If we choose $x_{k + 1}$ to satisfy ${f{(x_{k + 1})}} \leq {f{(x_{k}^{+})}}$ and apply inequality with $x = x_{k + 1}$, we can get a new upper estimate of the initial ball, It seems clear that if the centers $c_{k}$ and $x_{k + 1}^{+ +}$ of the two balls in and are "sufficiently far apart", then their intersection is contained in an even smaller ball. This is the content of following lemma.
 
-<!-- chunk {"id": "body-0024", "role": "body", "section": "Optimal geometric descent method", "weight": 1.0} -->
+<!-- chunk {"id": "body-0019", "role": "body", "section": "Remark 4.4", "weight": 1.0} -->
 
-Consider now an arbitrary point, denoted suggestively by $x_{k + 1}$. Then implies the inclusion
+When applying an iterative method to compute $x_{k + 1} = {\text{line_search}\left(c_{k},x_{k}^{+} \right)}$, one can use the following termination criterion. Check if $c_{k}$ satisfies ${f{(c_{k})}} \leq {f{(x_{k}^{+})}}$, then stop and set $x_{k + 1}:=c_{k}$. Notice holds trivially with this choice of $x_{k + 1}$.
 
-<!-- chunk {"id": "body-0025", "role": "body", "section": "Optimal geometric descent method", "weight": 1.0} -->
+<!-- chunk {"id": "body-0020", "role": "body", "section": "Remark 4.4", "weight": 1.0} -->
 
-If we choose $x_{k + 1}$ to satisfy ${f{(x_{k + 1})}} \leq {f{(x_{k}^{+})}}$ and apply inequality with $x = x_{k + 1}$, we can get a new upper estimate of the initial ball,
+Else stop with a trial point $z$ on the line joining $c_{k}$ and $x_{k}^{+}$ satisfying ${f{(z)}} \leq {f{(x_{k}^{+})}}$ and We claim that the line search will terminate in finite time, unless $\text{line_search}\left(c_{k},x_{k}^{+} \right)$ is the true minimizer of $f$. Indeed, since $c_{k} \neq {\text{line_search}\left(c_{k},x_{k}^{+} \right)}$ (otherwise we would have terminated in the if clause), one can easily check that $z = {\text{line_search}\left(c_{k},x_{k}^{+} \right)}$ satisfies the above inequality strictly.
 
-<!-- chunk {"id": "body-0026", "role": "body", "section": "Optimal geometric descent method", "weight": 1.0} -->
+<!-- chunk {"id": "body-0021", "role": "body", "section": "Remark 4.4", "weight": 1.0} -->
 
-It seems clear that if the centers $c_{k}$ and $x_{k + 1}^{+ +}$ of the two balls in and are "sufficiently far apart", then their intersection is contained in an even smaller ball. This is the content of following lemma.
+Input: Starting point x0, strong convexity constant α > 0. Set xk = line_search (xk − 1+, ck − 1); Set xA = xk − α−1 ∇f (xk) and $R_{A}^{2} = {\frac{\left\| {{\nabla f}{(x_{k})}} \right\|^{2}}{\alpha^{2}} - {\frac{2}{\alpha}\left({{f{(x_{k})}} - {f{(x_{k}^{+})}}} \right)}}$; Let B (ck, Rk2) be the smallest enclosing ball of B (xA, RA2) ∩ B (xB, RB2); Algorithm 4 Geometric Descent Method [Bubeck, Lee, Singh] The following theorem shows that Algorithm 1 and Algorithm 4 indeed produce the same iterate sequence.
 
-<!-- chunk {"id": "body-0027", "role": "body", "section": "Remark 4.4", "weight": 1.0} -->
+<!-- chunk {"id": "body-0022", "role": "body", "section": "Numerical examples", "weight": 1.0} -->
 
-We claim that the line search will terminate in finite time, unless $\text{line\_search}\left( c_{k},x_{k}^{+} \right)$ is the true minimizer of $f$. Indeed, since $c_{k} \neq {\text{line\_search}\left( c_{k},x_{k}^{+} \right)}$ (otherwise we would have terminated in the if clause), one can easily check that $z = {\text{line\_search}\left( c_{k},x_{k}^{+} \right)}$ satisfies the above inequality strictly.
+In this section, we numerically illustrate optimality gap convergence in Algorithm 1, and explore how Algorithm 3, the variant of Algorithm 1 with memory, aids performance. To this end, we focus on minimizing two functions: the regularized logistic loss function where $x_{i} \in {\mathbb{R}}^{n}$ and $y_{i} \in {\{{\pm 1}\}}$ are labeled training data, and the "world's worst" function for first-order methods: (see \[10, Section 2.1.2 and Section 2.1.4\]). For the logistic regression examples, we use the LIBSVM data sets a1a ($N = 1605$, $n = 123$) and colon-cancer.
 
-<!-- chunk {"id": "body-0028", "role": "body", "section": "Remark 4.4", "weight": 1.0} -->
+<!-- chunk {"id": "body-0023", "role": "body", "section": "Optimality gap convergence", "weight": 1.0} -->
 
-Input: Starting point x0, strong convexity constant α &gt; 0.
-Set xk = line_search (xk − 1+,ck − 1);
-Set xA = xk − α−1 ∇f (xk) and $R_{A}^{2} = {\frac{\left\| {{\nabla f}{(x_{k})}} \right\|^{2}}{\alpha^{2}} - {\frac{2}{\alpha}\left( {{f{(x_{k})}} - {f{(x_{k}^{+})}}} \right)}}$;
-Let B (ck,Rk2) be the smallest enclosing ball of B (xA,RA2) ∩ B (xB,RB2);
-Algorithm 4 Geometric Descent Method [Bubeck, Lee, Singh]
+From inequality, we get the well-known optimality gap estimate for strongly convex functions How does this estimate compare with the gaps $g_{k}:={{f{(x_{k}^{+})}} - v_{k}}$ generated by Algorithm 1? Obviously the answer depends on the point where we evaluate the gap estimate. Nonetheless, we can say that the gaps $g_{k}$ are tighter than the gaps $G_{k}:=\frac{\left\| {{\nabla f}{(x_{k})}} \right\|^{2}}{2\alpha}$.
 
-<!-- chunk {"id": "body-0029", "role": "body", "section": "Remark 4.4", "weight": 1.0} -->
+<!-- chunk {"id": "body-0024", "role": "body", "section": "Optimality gap convergence", "weight": 1.0} -->
 
-The following theorem shows that Algorithm 1 and Algorithm 4 indeed produce the same iterate sequence.
+Indeed, by the definition of $v_{k}$, we trivially have $v_{k} \geq {{f{(x_{k})}} - G_{k}}$ and thus On a relative scale, the difference between $g_{k}$ and $G_{k}$ is striking; see Figure 3. Notice that $G_{k}$ is an optimality gap estimate before averaging, and $g_{k}$ is an optimality gap estimate after averaging; the plots in Figure 3 show that optimal quadratic averaging makes great relative progress per iteration.
 
-<!-- chunk {"id": "body-0030", "role": "body", "section": "Numerical examples", "weight": 1.0} -->
-
-In this section, we numerically illustrate optimality gap convergence in Algorithm 1, and explore how Algorithm 3, the variant of Algorithm 1 with memory, aids performance. To this end, we focus on minimizing two functions: the regularized logistic loss function
-
-<!-- chunk {"id": "body-0031", "role": "body", "section": "Numerical examples", "weight": 1.0} -->
-
-(see \[10, Section 2.1.2 and Section 2.1.4\]). For the logistic regression examples, we use the LIBSVM data sets a1a ($N = 1605$, $n = 123$) and colon-cancer.
-
-<!-- chunk {"id": "body-0032", "role": "body", "section": "Optimality gap convergence", "weight": 1.0} -->
-
-From inequality, we get the well-known optimality gap estimate for strongly convex functions
-
-<!-- chunk {"id": "body-0033", "role": "body", "section": "Optimality gap convergence", "weight": 1.0} -->
-
-How does this estimate compare with the gaps $g_{k}:={{f{(x_{k}^{+})}} - v_{k}}$ generated by Algorithm 1? Obviously the answer depends on the point where we evaluate the gap estimate. Nonetheless, we can say that the gaps $g_{k}$ are tighter than the gaps $G_{k}:=\frac{\left\| {{\nabla f}{(x_{k})}} \right\|^{2}}{2\alpha}$. Indeed, by the definition of $v_{k}$, we trivially have $v_{k} \geq {{f{(x_{k})}} - G_{k}}$ and thus
-
-<!-- chunk {"id": "body-0034", "role": "body", "section": "Optimality gap convergence", "weight": 1.0} -->
-
-On a relative scale, the difference between $g_{k}$ and $G_{k}$ is striking; see Figure 3. Notice that $G_{k}$ is an optimality gap estimate before averaging, and $g_{k}$ is an optimality gap estimate after averaging; the plots in Figure 3 show that optimal quadratic averaging makes great relative progress per iteration.
-
-<!-- chunk {"id": "body-0035", "role": "body", "section": "Optimality gap convergence", "weight": 1.0} -->
+<!-- chunk {"id": "body-0025", "role": "body", "section": "Optimality gap convergence", "weight": 1.0} -->
 
 In Figure 4, we plot $g_{k}$, the true gaps ${f{(x_{k}^{+})}} - f^{\ast}$, and the gap estimate in at $x_{k}$, $x_{k}^{+}$, and $c_{k}$ for the "world's worst" function and the logistic loss function. The true gaps are the tightest, albeit unknown at runtime. Surprisingly, the gaps $\frac{\left\| {{\nabla f}{(c_{k})}} \right\|^{2}}{2\alpha}$ are quite bad: several orders of magnitude larger than $g_{k}$. So even though the centers $c_{k}$ may appear to be the focal points of the algorithm, the points $x_{k}^{+}$ are the ones to monitor in practice.
 
-<!-- chunk {"id": "body-0036", "role": "body", "section": "Optimal quadratic averaging with memory", "weight": 1.0} -->
+<!-- chunk {"id": "body-0026", "role": "body", "section": "Optimal quadratic averaging with memory", "weight": 1.0} -->
 
 To demonstrate the effectiveness of optimal quadratic averaging with memory, we use it to minimize the logistic loss (see Figure 5). The speedup over the memoryless method is significant, even when taking into account the extra work per iteration needed to solve the small dimensional quadratic subproblems. In Figure 6, we compare Algorithm 3 with L-BFGS. The two schemes are on par with each other, and neither is better than the other in all cases.
 
-<!-- chunk {"id": "body-0037", "role": "body", "section": "Optimal quadratic averaging with memory", "weight": 1.0} -->
+<!-- chunk {"id": "body-0027", "role": "body", "section": "Optimal quadratic averaging with memory", "weight": 1.0} -->
 
 It is perhaps fairer to compare L-BFGS with memory size $m$ to Algorithm 3 with memory size $t = {2m}$ (see Figure 7). Indeed, L-BFGS with memory size $m$ actually stores $m$ *pairs* of vectors, whereas Algorithm 3 with memory size $t$ only stores $t$ vectors. Moreover, the most expensive operation per iteration in L-BFGS requires $4mn$ multiplications (see \[12, Algorithm 7.4\]); in contrast, computing a new center in Algorithm 3 requires $2n{({t + 1})}$ multiplications plus the cost of solving a small quadratic program.
 
-<!-- chunk {"id": "body-0038", "role": "body", "section": "Optimal quadratic averaging with memory", "weight": 1.0} -->
+<!-- chunk {"id": "body-0028", "role": "body", "section": "Optimal quadratic averaging with memory", "weight": 1.0} -->
 
 (Updating the matrix $C^{T}C$ takes $t + 1$ inner products in ${\mathbb{R}}^{n}$, finding $\lambda$ amounts to solving a small quadratic program, and computing $C\lambda$ takes $n$ inner products in ${\mathbb{R}}^{t + 1}$.) In Figure 8, we again compare L-BFGS and Algorithm 3 on logisitic regression, but with less regularization.
 
-<!-- chunk {"id": "body-0039", "role": "body", "section": "Optimal quadratic averaging with memory", "weight": 1.0} -->
+<!-- chunk {"id": "body-0029", "role": "body", "section": "Optimal quadratic averaging with memory", "weight": 1.0} -->
 
 We noticed that the small dimensional quadratic program in Algorithm 3 must be solved to high accuracy, especially on poorly conditioned problems; an active-set method works well. Accuracy in the line search is less important. Minimizing the one-dimensional function $r\mapsto{f{({x + {rd}})}}$, with $\left\| d \right\| = 1$, to within $10^{- 4}$ accuracy in $r$ works well in general. In Figure 9, we show how line search accuracy affects Algorithm 1.
 
-<!-- chunk {"id": "body-0040", "role": "body", "section": "Comments on proximal extensions", "weight": 1.0} -->
+<!-- chunk {"id": "body-0030", "role": "body", "section": "Comments on proximal extensions", "weight": 1.0} -->
 
-It is natural to try to extend geometric descent and optimal quadratic averaging to a proximal setting. For the sake of concreteness, let us focus on geometric descent. We can easily extend the suboptimal version of the algorithm to the proximal setting, but some difficulties arise when accelerating the method. Suppose we are interested in solving the problem
+It is natural to try to extend geometric descent and optimal quadratic averaging to a proximal setting. For the sake of concreteness, let us focus on geometric descent. We can easily extend the suboptimal version of the algorithm to the proximal setting, but some difficulties arise when accelerating the method. Suppose we are interested in solving the problem where $g:{{\mathbb{R}}^{n}\rightarrow{\mathbb{R}}}$ is $\beta$-smooth and $\alpha$-strongly convex, and $h:{{\mathbb{R}}^{n}\rightarrow{{\mathbb{R}} \cup {\{{+ \infty}\}}}}$ is closed, convex, and is such that the proximal mapping is easily computable.
 
-<!-- chunk {"id": "body-0041", "role": "body", "section": "Comments on proximal extensions", "weight": 1.0} -->
+<!-- chunk {"id": "body-0031", "role": "body", "section": "Comments on proximal extensions", "weight": 1.0} -->
 
-is easily computable. In the analysis of first-order methods for such problems, the *gradient mapping* ${G_{t}{(x)}}:={\frac{1}{t}\left( {x - {\text{prox}_{th}{({x - {t{\nabla g}{(x)}}})}}} \right)}$ plays the role of the usual gradient. The following is a standard estimate; see for example \[10, Section 2.2.3\]. We provide a proof for completeness.
+In the analysis of first-order methods for such problems, the *gradient mapping* ${G_{t}{(x)}}:={\frac{1}{t}\left({x - {\text{prox}_{th}{({x - {t{\nabla g}{(x)}}})}}} \right)}$ plays the role of the usual gradient. The following is a standard estimate; see for example \[10, Section 2.2.3\]. We provide a proof for completeness.

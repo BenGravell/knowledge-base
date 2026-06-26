@@ -32,7 +32,7 @@ DriveIRL achieves strong real-world driving performance on the Las Vegas Strip. 
 
 <!-- chunk {"id": "body-0008", "role": "body", "section": "Introduction", "weight": 1.5} -->
 
-The first learning-based planner to drive a car in dense, urban traffic using IRL.
+Our main contributions towards learning-based planning for self-driving cars are: The first learning-based planner to drive a car in dense, urban traffic using IRL.
 
 <!-- chunk {"id": "body-0009", "role": "body", "section": "Introduction", "weight": 1.5} -->
 
@@ -72,147 +72,147 @@ In a typical scene, the trajectory generator usually creates $50$-$150$ trajecto
 
 <!-- chunk {"id": "body-0018", "role": "body", "section": "Safety filter", "weight": 1.0} -->
 
-Before scoring candidate trajectories, we apply an interpretable safety filter (Fig 3) to guarantee basic safety (i.e., no collisions).
+Before scoring candidate trajectories, we apply an interpretable safety filter (Fig 3) to guarantee basic safety (i.e., no collisions). It consists of: a set of world assumptions used to predict the behavior of the non-ego road users, a set of trajectory modifiers which are applied to the ego trajectory, and a set of safety checks which the modified ego trajectory needs to pass.
 
 <!-- chunk {"id": "body-0019", "role": "body", "section": "Safety filter", "weight": 1.0} -->
 
-a set of world assumptions used to predict the behavior of the non-ego road users,
+For a candidate trajectory to be considered safe, it must pass all safety checks, under the given trajectory modifications and assumptions about the other road users. See A.2 for details.
 
 <!-- chunk {"id": "body-0020", "role": "body", "section": "Safety filter", "weight": 1.0} -->
 
-a set of trajectory modifiers which are applied to the ego trajectory, and
-
-<!-- chunk {"id": "body-0021", "role": "body", "section": "Safety filter", "weight": 1.0} -->
-
-a set of safety checks which the modified ego trajectory needs to pass.
-
-<!-- chunk {"id": "body-0022", "role": "body", "section": "Safety filter", "weight": 1.0} -->
-
-For a candidate trajectory to be considered safe, it must pass all safety checks, under the given trajectory modifications and assumptions about the other road users. See A.2 for details.
-
-<!-- chunk {"id": "body-0023", "role": "body", "section": "Safety filter", "weight": 1.0} -->
-
 Our safety filter is similar in spirit to the fallback layer proposed by Vitelli et al., except that 1) it directly filters the proposed trajectories, rather than projecting the output trajectory to an ad-hoc trajectory set, and 2) the trajectory modifier effectively implements a recursive safety guarantee with minimal assumptions and checks, without compromising comfort.
 
-<!-- chunk {"id": "body-0024", "role": "body", "section": "Trajectory scoring with maximum entropy IRL", "weight": 1.0} -->
+<!-- chunk {"id": "body-0021", "role": "body", "section": "Trajectory scoring with maximum entropy IRL", "weight": 1.0} -->
 
 Appropriately scoring trajectories is the core challenge of our planning approach. This difficulty is because proper driving behavior is heavily influenced by the environment around us, including other road user behavior and goals, of which we only have a partial understanding.
 
-<!-- chunk {"id": "body-0025", "role": "body", "section": "Trajectory scoring with maximum entropy IRL", "weight": 1.0} -->
+<!-- chunk {"id": "body-0022", "role": "body", "section": "Trajectory scoring with maximum entropy IRL", "weight": 1.0} -->
 
 Trajectories are scored by a deep neural network trained with a maximum entropy IRL loss. We use expert demonstrations collected from a skilled human driving our vehicle. The loss favors trajectories that most closely match the expert demonstration $\tau^{\star}$ in feature space. In particular, let $r{(\tau)}$ represent the reward of the trajectory $\tau \in \mathcal{T}$, the probability of a trajectory $\tau^{\ast}$ being selected according to the maximum entropy principle is ${P{(\tau^{\star})}} = \frac{{\exp r}{(\tau^{\star})}}{\sum\limits_{\tau}{{\exp r}{(\tau)}}}$.
 
-<!-- chunk {"id": "body-0026", "role": "body", "section": "Trajectory scoring with maximum entropy IRL", "weight": 1.0} -->
+<!-- chunk {"id": "body-0023", "role": "body", "section": "Trajectory scoring with maximum entropy IRL", "weight": 1.0} -->
 
-The negative log-likelihood loss (NLL) on a dataset $D$ is defined as ${\ell{(D)}} = {- {\sum\limits_{d \in D}{{\log P}{({\tau^{\star}{(d)}})}}}}$ where $\tau^{\star}{(d)}$ is the demonstrated trajectory on the token $d \in D$. To address data imbalance issues, we augment NLL with focal loss (with a $\gamma$ of $2.0$)
+The negative log-likelihood loss (NLL) on a dataset $D$ is defined as ${\ell{(D)}} = {- {\sum\limits_{d \in D}{{\log P}{({\tau^{\star}{(d)}})}}}}$ where $\tau^{\star}{(d)}$ is the demonstrated trajectory on the token $d \in D$. To address data imbalance issues, we augment NLL with focal loss (with a $\gamma$ of $2.0$) Features: We compute features for each proposed trajectory to use as inputs to our neural network.
 
-<!-- chunk {"id": "body-0027", "role": "body", "section": "Trajectory scoring with maximum entropy IRL", "weight": 1.0} -->
+<!-- chunk {"id": "body-0024", "role": "body", "section": "Trajectory scoring with maximum entropy IRL", "weight": 1.0} -->
 
-Features: We compute features for each proposed trajectory to use as inputs to our neural network. These features can be based on any combination of a proposed trajectory $\tau$, ego state $\mathcal{S}$, other road users $\mathcal{U}$, the map $\mathcal{M}$, route $\mathcal{R}$, and history $\mathcal{H}$, meaning that $F_{i}:{{(\tau,\mathcal{S},\mathcal{U},\mathcal{M},\mathcal{R},\mathcal{H})}\mapsto f_{i} \in {\mathbb{R}}^{k_{i}}}$, where $F_{i}$ is the feature extraction function corresponding to feature $i$ and $k_{i}$ is its dimension.
+These features can be based on any combination of a proposed trajectory $\tau$, ego state $\mathcal{S}$, other road users $\mathcal{U}$, the map $\mathcal{M}$, route $\mathcal{R}$, and history $\mathcal{H}$, meaning that $F_{i}:{{(\tau,\mathcal{S},\mathcal{U},\mathcal{M},\mathcal{R},\mathcal{H})}\mapsto f_{i} \in {\mathbb{R}}^{k_{i}}}$, where $F_{i}$ is the feature extraction function corresponding to feature $i$ and $k_{i}$ is its dimension.
 
-<!-- chunk {"id": "body-0028", "role": "body", "section": "Trajectory scoring with maximum entropy IRL", "weight": 1.0} -->
+<!-- chunk {"id": "body-0025", "role": "body", "section": "Trajectory scoring with maximum entropy IRL", "weight": 1.0} -->
 
 Time-to-collision (TTC): the minimum number of seconds before the ego would collide with another road user in the (predicted) future. Evaluated at multiple points.
 
-<!-- chunk {"id": "body-0029", "role": "body", "section": "Trajectory scoring with maximum entropy IRL", "weight": 1.0} -->
+<!-- chunk {"id": "body-0026", "role": "body", "section": "Trajectory scoring with maximum entropy IRL", "weight": 1.0} -->
 
 ACCInfo: the ego speed, the distance to the road user ahead, the speed of the road user ahead, and the relative speed of the road user ahead. Evaluated at multiple points.
 
-<!-- chunk {"id": "body-0030", "role": "body", "section": "Trajectory scoring with maximum entropy IRL", "weight": 1.0} -->
+<!-- chunk {"id": "body-0027", "role": "body", "section": "Trajectory scoring with maximum entropy IRL", "weight": 1.0} -->
 
 MaxJerk: the maximum jerk ($\ {m/s^{3}}$) along the trajectory.
 
-<!-- chunk {"id": "body-0031", "role": "body", "section": "Trajectory scoring with maximum entropy IRL", "weight": 1.0} -->
+<!-- chunk {"id": "body-0028", "role": "body", "section": "Trajectory scoring with maximum entropy IRL", "weight": 1.0} -->
 
 MaxLateralAccel: the max lateral acceleration ($\ {m/s^{2}}$) along the trajectory.
 
-<!-- chunk {"id": "body-0032", "role": "body", "section": "Trajectory scoring with maximum entropy IRL", "weight": 1.0} -->
+<!-- chunk {"id": "body-0029", "role": "body", "section": "Trajectory scoring with maximum entropy IRL", "weight": 1.0} -->
 
 PastCoupling: concatenation of the future trajectory and the one second of past ego poses to model learn to maintain the coherence between the past, present, and future trajectories.
 
-<!-- chunk {"id": "body-0033", "role": "body", "section": "Trajectory scoring with maximum entropy IRL", "weight": 1.0} -->
+<!-- chunk {"id": "body-0030", "role": "body", "section": "Trajectory scoring with maximum entropy IRL", "weight": 1.0} -->
 
 SpeedLimit: how closely the trajectory obeys the speed limit. Evaluated at multiple points.
 
-<!-- chunk {"id": "body-0034", "role": "body", "section": "Trajectory scoring with maximum entropy IRL", "weight": 1.0} -->
+<!-- chunk {"id": "body-0031", "role": "body", "section": "Trajectory scoring with maximum entropy IRL", "weight": 1.0} -->
 
 More implementation details can be found in the Appendix A.3.
 
-<!-- chunk {"id": "body-0035", "role": "body", "section": "Trajectory scoring with maximum entropy IRL", "weight": 1.0} -->
+<!-- chunk {"id": "body-0032", "role": "body", "section": "Trajectory scoring with maximum entropy IRL", "weight": 1.0} -->
 
 Motion prediction: Some of the features computed for each proposed trajectory require an estimate of where other road users will be in the future, such as Time-to-collision (TTC) and ACCInfo. We use an Intelligent Driver Model (IDM) as our prediction model for other cars, with a conservative acceleration value to avoid assuming that stationary vehicles will speed up. We use a constant velocity model for pedestrians and for vehicles without a nearby lane.
 
-<!-- chunk {"id": "body-0036", "role": "body", "section": "Trajectory scoring with maximum entropy IRL", "weight": 1.0} -->
+<!-- chunk {"id": "body-0033", "role": "body", "section": "Trajectory scoring with maximum entropy IRL", "weight": 1.0} -->
 
 Model architecture: To score a trajectory, we adopt an architecture in which the extracted features are processed separately before interacting with one another through a masked self-attention mechanism.
 
-<!-- chunk {"id": "body-0037", "role": "body", "section": "Trajectory scoring with maximum entropy IRL", "weight": 1.0} -->
+<!-- chunk {"id": "body-0034", "role": "body", "section": "Trajectory scoring with maximum entropy IRL", "weight": 1.0} -->
 
 Under this architecture, each input feature $f_{i}$, as a temporal sequence of related vehicle-environment interaction data, is first normalized through an application of a BatchNorm1D layer before being fed to an LSTM module with one layer and a hidden size of $20$. The output of the LSTM becomes the input to a feed-forward module and then a self-attention mechanism with two heads and an embedding dimension of $120$. Here we employ zero-masking of the queries to encode position. By taking into account other features through self-attention, the model produces for each feature a "corrected" output embedding that can now be passed to a feed-forward network which converts it into a scalar and then a $\tanh$ activation to produce a feature score $y_{i}$. The final score for the trajectory is the sum of these feature scores after they are multiplied by the corresponding learnable feature weight parameters $w_{i}$: ${r{(\tau)}} = {\sum\limits_{i}{w_{i}y_{i}}}$.
 
-<!-- chunk {"id": "body-0038", "role": "body", "section": "Trajectory scoring with maximum entropy IRL", "weight": 1.0} -->
+<!-- chunk {"id": "body-0035", "role": "body", "section": "Trajectory scoring with maximum entropy IRL", "weight": 1.0} -->
 
 In total, our base (best) model has $\approx {88,700}$ trainable parameters.
 
-<!-- chunk {"id": "body-0039", "role": "body", "section": "Experiments", "weight": 1.0} -->
+<!-- chunk {"id": "body-0036", "role": "body", "section": "Experiments", "weight": 1.0} -->
 
 The proposed inverse reinforcement leaning planner was evaluated on a large-scale dataset and the results are presented in the following. The dataset we used is described in Sec 4.1. The metrics for comparison is explained in Sec 4.2. Various model ablation studies and the comparison with baseline are shown in Sec 4.3 and 4.4. We demonstrated both simulation results and the real-world driving tests in Sec 4.5 and 4.6 respectively.
 
-<!-- chunk {"id": "body-0040", "role": "body", "section": "Dataset", "weight": 1.0} -->
+<!-- chunk {"id": "body-0037", "role": "body", "section": "Dataset", "weight": 1.0} -->
 
 We created a self-driving car dataset that captures real-world urban driving in the center of Las Vegas. Our dataset is a part of the nuPlan dataset that will be made public. It includes object annotations and high-definition maps. Vehicles, pedestrians, and bicyclists are automatically annotated using an offline perception system (similar in spirit to Qi et al. ) and viewed as ground truth. We performed filtering and extracted 182,032 scenarios, each 11 seconds in duration (1 second past, 10 seconds future), for a total of approximately 556 hours. Our main interest was to learn good adaptive cruise control (ACC) behavior. Thus, we filtered out scenarios where the ego made lane changes or deviated far from the lane. After filtering, we performed a 3:1:1 split for train, val, and test sets. Tab. 1 shows a detailed distribution of our dataset by scenario tags. The tags in the table are not mutually exclusive and a scenario can belong to multiple tags. More detailed definitions for the scenario tags are in Appendix A.4.
 
-<!-- chunk {"id": "body-0041", "role": "body", "section": "Metrics", "weight": 1.0} -->
+<!-- chunk {"id": "body-0038", "role": "body", "section": "Metrics", "weight": 1.0} -->
 
 We evaluate our model using a variety of metrics to give a full picture of driving. To approximate real-world conditions, we perform a closed-loop replay for each scenario for a duration of 10 seconds. We initialize the ego at the start of the scene, compute a planned trajectory, move along that trajectory for one step, replay the other agents, and repeat. Then, we compute metrics on the resulting executed trajectory as averages over the full scene duration.
 
-<!-- chunk {"id": "body-0042", "role": "body", "section": "Metrics", "weight": 1.0} -->
+<!-- chunk {"id": "body-0039", "role": "body", "section": "Metrics", "weight": 1.0} -->
 
 Metric computation: Evaluation was done with a time step size of $0.2$ seconds and a total duration of $10$ seconds. The model was given $1$ second of ground truth past prior to the start of the scene. Other road users were updated by replaying their positions from the database.
 
-<!-- chunk {"id": "body-0043", "role": "body", "section": "Metrics", "weight": 1.0} -->
+<!-- chunk {"id": "body-0040", "role": "body", "section": "Metrics", "weight": 1.0} -->
 
 Metric categories: We have four high level categories of metrics that contain "low level" metrics and high level summary metrics that act as a score for the category. The categories for our metrics are Safety, Comfort, Progress, and $\ell_{2}$ (with a yaw penalty of $2.5$). Further details about our metric categories and the low level computations that make them up can be found in Appendix A.5.
 
-<!-- chunk {"id": "body-0044", "role": "body", "section": "Metrics", "weight": 1.0} -->
+<!-- chunk {"id": "body-0041", "role": "body", "section": "Metrics", "weight": 1.0} -->
 
 Metric limitations: Currently, there are two major limitations to our metrics evaluation.
 
-<!-- chunk {"id": "body-0045", "role": "body", "section": "Metrics", "weight": 1.0} -->
+<!-- chunk {"id": "body-0042", "role": "body", "section": "Metrics", "weight": 1.0} -->
 
 The use of replay for other agents. Since other vehicles do not react to the ego (e.g., if we drive slower than the expert in the data), the overall "Safety" score is a lower bound on safety.
 
-<!-- chunk {"id": "body-0046", "role": "body", "section": "Metrics", "weight": 1.0} -->
+<!-- chunk {"id": "body-0043", "role": "body", "section": "Metrics", "weight": 1.0} -->
 
 No controller or vehicle dynamic simulation for the Ego. We currently "teleport" the ego along its trajectory, causing jerk to be erroneously high in some cases. Similar to safety, this makes our "Comfort" score a lower bound on what we actually observe in real world driving.
 
-<!-- chunk {"id": "body-0047", "role": "body", "section": "Model ablations", "weight": 1.0} -->
+<!-- chunk {"id": "body-0044", "role": "body", "section": "Model ablations", "weight": 1.0} -->
 
 In our experiments, we use a batch size of $64$ and an Adam optimizer with an initial learning rate of $10^{- 3}$. Additionally, we use a "cosine annealing with warm restarts" scheduler, which gradually lowers the learning rate to a minimum of $10^{- 4}$ and resets it every seven epochs. All models are trained over 20 epochs on eight AWS g4dn-metal instances with eight 16 GB NVIDIA Tesla T4 GPUs each. Because closed-loop simulation is computationally expensive, we randomly sampled $1,000$ scenarios from our evaluation set for ablation studies and $3,000$ scenarios from the test set for the final performance evaluation against other baselines. Training and closed-loop metrics evaluation takes about an hour per epoch.
 
-<!-- chunk {"id": "body-0048", "role": "body", "section": "Model ablations", "weight": 1.0} -->
+<!-- chunk {"id": "body-0045", "role": "body", "section": "Model ablations", "weight": 1.0} -->
 
 Feature importance: To understand the importance of each hand-engineered feature and the main contribution of each, an ablation study for features is conducted and summarized in Tab. 2. The relative importance of each feature is shown by dropping one of them out at a time. We claim that all the features are important because the Base model which includes all features got the highest scores across all high-level metrics and had lowest Collision rate. Even though the $\ell_{2}$ error is a bit higher compared to No MaxJerk, the $0.089$ $m$ difference is not significant in the qualitative results. The results also demonstrated the importance of PastCoupling feature in ensuring Comfort. The experiment also showed that TTC feature contributes significantly to reducing the collision rate.
 
-<!-- chunk {"id": "body-0049", "role": "body", "section": "Model ablations", "weight": 1.0} -->
+<!-- chunk {"id": "body-0046", "role": "body", "section": "Model ablations", "weight": 1.0} -->
 
 Data augmentation: Data augmentation is important to ensure that our model can learn how to recover from errors. Since the reference trajectory is never followed perfectly by the vehicle, errors can accumulate. We perturb the ego's initial state during training to reduce the sensitivity to such errors. For our low noise baseline, we use zero-mean Gaussian data augmentation for longitudinal offset ($1.2\ {m\text{/}}$ std), lateral offset ($0.8\ {m\text{/}}$ std), heading offset ($0.1\ {{rad}\text{/}}$ std), and velocity ($0.1\ {m\text{/}s}$ std). For the high noise ablation, we respectively use $2.5\ {m\text{/}}$ std, $1.5\ {m\text{/}}$ std, $0.3\ {{rad}\text{/}}$ std, and $0.2\ {m\text{/}s}$ std.
 
-<!-- chunk {"id": "body-0050", "role": "body", "section": "Model ablations", "weight": 1.0} -->
+<!-- chunk {"id": "body-0047", "role": "body", "section": "Model ablations", "weight": 1.0} -->
 
 We clamp velocity to avoid negative values. Several example images are shown in A.6.
 
-<!-- chunk {"id": "body-0051", "role": "body", "section": "Model ablations", "weight": 1.0} -->
+<!-- chunk {"id": "body-0048", "role": "body", "section": "Model ablations", "weight": 1.0} -->
+
+Base (low noise) Low past + present Table 3: Comparison between different augmentation schemes.
+
+<!-- chunk {"id": "body-0049", "role": "body", "section": "Model ablations", "weight": 1.0} -->
 
 Architecture: We perform several ablations on the model architecture before selecting an architecture in which the extracted features are processed separately before interacting with one another through a masked self-attention mechanism. We show in Tab. 4 that the other two extremes, namely, concatenating all input features and using them as one monolithic feature in a single feedforward network or siloing all input features (not allowing any interaction through attention or otherwise) have resulted in inferior performance. It is also seen that input normalization and attention input masking are beneficial.
 
-<!-- chunk {"id": "body-0052", "role": "body", "section": "Model ablations", "weight": 1.0} -->
+<!-- chunk {"id": "body-0050", "role": "body", "section": "Model ablations", "weight": 1.0} -->
 
 Loss: Tab. 5 shows that it is better to maximize the probability the projection of the ground truth onto the trajectory set (the best approximation in average $\ell_{2}$ norm) instead of the ground truth itself. This makes sense because the ground truth does not come from the same distribution as the proposals and is not available at inference time. Filtering possibly unsafe trajectories from the set before finding the ground truth projection is also crucial to obtaining a safe model. Doing the projection using the average $\ell_{2}$ norm instead of an $\ell_{2}$ norm with a yaw error penalty also seems favorable. Lastly from the same table, we can see that using focal loss as in Equation 1 improves performance. Another experiment in Appendix A.7 that compares focal loss against training on a better balanced dataset also shows that using focal loss is actually more effective for DriveIRL.
 
-<!-- chunk {"id": "body-0053", "role": "body", "section": "Baselines", "weight": 1.0} -->
+<!-- chunk {"id": "body-0051", "role": "body", "section": "Model ablations", "weight": 1.0} -->
+
+Possibly unsafe demo Demo w/ weighted yaw Without focal loss Table 5: Comparison between different loss functions.
+
+<!-- chunk {"id": "body-0052", "role": "body", "section": "Baselines", "weight": 1.0} -->
 
 In this section, we evaluate our model on a test dataset and compare it with an Intelligent Driver Model (IDM) and a constant speed (CS) lane follow model. The IDM baseline is a reasonable choice because it is a well-known version of an expert planner that focuses on adaptive cruise control. Meanwhile, the CS lane follow model is a simple lower-bound. The results are shown in Tab. 6. Our base model plus safety filter outperforms others in all safety related metrics, and that shows the safety filter protects the vehicle on several collision cases our model cannot handle perfectly. Without the safety filter, our base model still outperforms the IDM baseline. The IDM model has significantly higher $\ell_{2}$ error, indicating that the IDM model does not drive like a human expert. Furthermore, our base model also has higher scores in all safety related metrics in both high- and low-level scores like collision rate and tailgate rate.
+
+<!-- chunk {"id": "body-0053", "role": "body", "section": "Baselines", "weight": 1.0} -->
+
+Base + Safety (ours) Table 6: Baselines on the test set. IDM = Intelligent Driver Model. CS = constant speed.
 
 <!-- chunk {"id": "body-0054", "role": "body", "section": "Simulation results", "weight": 1.0} -->
 

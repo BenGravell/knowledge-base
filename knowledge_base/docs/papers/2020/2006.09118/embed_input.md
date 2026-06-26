@@ -98,60 +98,52 @@ Each episode starts at an initial state $x_{1} \in \mathcal{S}$ picked by an adv
 
 <!-- chunk {"id": "body-0025", "role": "body", "section": "Episodic MDP", "weight": 1.0} -->
 
-In this paper, we focus on deterministic policies. A deterministic policy $\pi$ is a sequence of mappings $\pi_{h}:{\mathcal{S}\rightarrow\mathcal{A}}$ for $h = {1,\ldots,H}$. Given a policy $\pi$, for a state $x \in \mathcal{S}$, the value function of state $x \in \mathcal{S}$ at the $h$-step is defined as
+In this paper, we focus on deterministic policies. A deterministic policy $\pi$ is a sequence of mappings $\pi_{h}:{\mathcal{S}\rightarrow\mathcal{A}}$ for $h = {1,\ldots,H}$.
 
 <!-- chunk {"id": "body-0026", "role": "body", "section": "Episodic MDP", "weight": 1.0} -->
 
-and the associated $Q$-function of a state-action pair ${(x,a)} \in {\mathcal{S} \times \mathcal{A}}$ at the $h$-step is
+For episodic MDP, the agent interacts with the MDP for $K \in {\mathbb{Z}}^{+}$ episodes. For each episode $k = {1,\ldots,K}$, the learning algorithm $\mathsf{A}\mathsf{l}\mathsf{g}$ specifies a policy $\pi^{k}$, plays $\pi^{k}$ for $H$ steps and observes trajectory ${(x_{1},a_{1})},\cdots,{(x_{H},a_{H})}$. The total number of steps is $T = {KH}$, and the total regret of an execution instance of $\mathsf{A}\mathsf{l}\mathsf{g}$ is then In this paper we focus on bounding the expected regret ${\mathbb{E}}\left\lbrack {{Regret}{(K)}} \right\rbrack$ where the expectation is over the randomness from the environment.
 
-<!-- chunk {"id": "body-0027", "role": "body", "section": "Episodic MDP", "weight": 1.0} -->
-
-In this paper we focus on bounding the expected regret ${\mathbb{E}}\left\lbrack {{Regret}{(K)}} \right\rbrack$ where the expectation is over the randomness from the environment.
-
-<!-- chunk {"id": "body-0028", "role": "body", "section": "Model-free Algorithm V.S. Model-based Algorithm", "weight": 1.0} -->
+<!-- chunk {"id": "body-0027", "role": "body", "section": "Model-free Algorithm V.S. Model-based Algorithm", "weight": 1.0} -->
 
 In this paper we focus on *model-free* $Q$-learning algorithms. Formally, by model-free algorithms, we mean the space complexity of the algorithm scales at most *linearly* in $S$ in contrast to the model-based algorithms whose space complexity often scales *quadratically* with $S$. For episodic MDP, we will analyze the $Q$-learning with UCB-Hoeffding algorithm studied in Jin et al. (cf. Algorithm 1). At a high level, this algorithm maintains an upper bound of $Q^{\ast}$ for every $(s,a)$ pair and choose the action greedily at every episode. The algorithm uses a carefully designed step size sequence $\{\alpha_{k}\}$ to update the upper bound based on the observed data. Jin et al. proved that Algorithm 1 enjoys $\left( \sqrt{H^{4}SAT{\log\left( {SAT} \right)}} \right)$ regret, which is the first $\sqrt{T}$-type bound for model-free algorithms.
 
-<!-- chunk {"id": "body-0029", "role": "body", "section": "Model-free Algorithm V.S. Model-based Algorithm", "weight": 1.0} -->
+<!-- chunk {"id": "body-0028", "role": "body", "section": "Model-free Algorithm V.S. Model-based Algorithm", "weight": 1.0} -->
 
-1:Initialize: Qh (x,a) ← H and Nh (x,a) ← 0 for all (x,a,h) ∈ 𝒮 × 𝒜 × [H].
-2:Define $\alpha_{t} = \frac{H + 1}{H + t}$, ι ← log (S A T2).
-6: Take action ah ← argmaxa′ ∈ 𝒜 Qh (xh,a′), observe xh + 1.
-8: $b_{t}\leftarrow{c\sqrt{{H^{3}\iota}/t}}$, ⊳ c is a constant that can be set to 4.
-Algorithm 1 Q-learning with UCB-Hoeffding
+1:Initialize: Qh (x, a) ← H and Nh (x, a) ← 0 for all (x, a, h) ∈ 𝒮 × 𝒜 × [H]. 2:Define $\alpha_{t} = \frac{H + 1}{H + t}$, ι ← log (S A T2). 6: Take action ah ← argmaxa′ ∈ 𝒜 Qh (xh, a′), observe xh + 1. 8: $b_{t}\leftarrow{c\sqrt{{H^{3}\iota}/t}}$, ⊳ c is a constant that can be set to 4. Algorithm 1 Q-learning with UCB-Hoeffding
 
-<!-- chunk {"id": "body-0030", "role": "body", "section": "Sub-optimality Gap", "weight": 1.0} -->
+<!-- chunk {"id": "body-0029", "role": "body", "section": "Sub-optimality Gap", "weight": 1.0} -->
 
 Our paper investigates what structures of the MDP enable us to improve the $\sqrt{T}$-type bound. In this paper we focus on the positive sub-optimality gap condition.
 
-<!-- chunk {"id": "body-0031", "role": "body", "section": "Infinite-horizon Discounted MDP", "weight": 1.0} -->
+<!-- chunk {"id": "body-0030", "role": "body", "section": "Infinite-horizon Discounted MDP", "weight": 1.0} -->
 
 In this paper we also study infinite-horizon discounted MDP, which is a tuple $\mathcal{M}:=(\mathcal{S},\mathcal{A},\gamma,P,r)$, where every step shares the same transition operator $P$ and reward function $r$. Here $\gamma$ denotes the discount factor, and there is no restart during the entire process. Let $\mathcal{C} = {\left\{ {\mathcal{S} \times \mathcal{A} \times {\lbrack 0,1\rbrack}} \right\}^{\ast} \times \mathcal{S}}$ be the set of all possible trajectories of any length. A non-stationary deterministic policy $\pi:{\mathcal{C}\rightarrow\mathcal{A}}$ is a mapping from paths to actions.
 
-<!-- chunk {"id": "body-0032", "role": "body", "section": "Infinite-horizon Discounted MDP", "weight": 1.0} -->
+<!-- chunk {"id": "body-0031", "role": "body", "section": "Infinite-horizon Discounted MDP", "weight": 1.0} -->
 
 Let $V^{\ast}{(s)}$ and $Q^{\ast}{(s,a)}$ denote respectively the value function and $Q$ function of the optimal policy $\pi^{\ast}$.
 
-<!-- chunk {"id": "body-0033", "role": "body", "section": "Main Theoretical Results", "weight": 1.0} -->
+<!-- chunk {"id": "body-0032", "role": "body", "section": "Main Theoretical Results", "weight": 1.0} -->
 
 Now we present our main results.
 
-<!-- chunk {"id": "body-0034", "role": "body", "section": "Main Result for Episodic MDP", "weight": 1.0} -->
+<!-- chunk {"id": "body-0033", "role": "body", "section": "Main Result for Episodic MDP", "weight": 1.0} -->
 
 The following theorem characterizes the performance of Algorithm 1 for episodic MDP. To our knowledge, this is the first theoretical result showing a model-free algorithm can achieve logarithmic regret of tabular RL.
 
-<!-- chunk {"id": "body-0035", "role": "body", "section": "Main Result for Infinite-horizon Discounted MDP", "weight": 1.0} -->
+<!-- chunk {"id": "body-0034", "role": "body", "section": "Main Result for Infinite-horizon Discounted MDP", "weight": 1.0} -->
 
 Algorithm 1 can be easily generalized to the discounted MDP. See Algorithm 2 in the appendix. We also obtain a logarithmic regret bound for infinite-horizon discounted MDP.
 
-<!-- chunk {"id": "body-0036", "role": "body", "section": "Conclusion and Future Directions", "weight": 1.5} -->
+<!-- chunk {"id": "body-0035", "role": "body", "section": "Conclusion and Future Directions", "weight": 1.5} -->
 
 This paper gives the first logarithmic regret bounds for $Q$-learning in both finite-horizon and discounted tabular MDPs. Below we list some future directions that we believe are worth exploring.
 
-<!-- chunk {"id": "body-0037", "role": "body", "section": "$H$ dependence", "weight": 1.0} -->
+<!-- chunk {"id": "body-0036", "role": "body", "section": "$H$ dependence", "weight": 1.0} -->
 
 The dependency on $H$ in our regret bound for episodic RL is $H^{6}$, which we believe is suboptimal. As discussed in Simchowitz and Jamieson, improving the $H$ dependence is often a challenging task. Recently, Zhang et al. showed a model-free algorithm can achieve near-optimal regret in the worst case using the idea of reference value function. It would be interesting to apply this idea to improve the $H$ dependence in our logarithmic regret bound.
 
-<!-- chunk {"id": "body-0038", "role": "body", "section": "Function Approximation", "weight": 1.0} -->
+<!-- chunk {"id": "body-0037", "role": "body", "section": "Function Approximation", "weight": 1.0} -->
 
 Lastly, we note that recently researchers found the sub-optimality gap assumption is crucial for dealing with large state-space RL problems where function approximation is needed. Du et al. presented an algorithm that enjoys polynomial sample complexity if there is a sub-optimality gap and the environment satisfies a low-variance assumption. Du et al. further showed this assumption is necessary in certain settings. There is another line of works putting certain low-rank assumptions on MDPs. It would be interesting to extend our analysis to these settings and obtain logarithmic regret bounds.

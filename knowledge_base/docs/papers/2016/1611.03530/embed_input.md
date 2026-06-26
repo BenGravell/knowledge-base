@@ -9,3 +9,211 @@ Topics include Stochastic gradients, Neural networks, Deep learning, Convolution
 <!-- chunk {"id": "abstract-0002", "role": "abstract", "section": "Abstract", "weight": 2.0} -->
 
 Despite their massive size, successful deep artificial neural networks can exhibit a remarkably small difference between training and test performance. Conventional wisdom attributes small generalization error either to properties of the model family, or to the regularization techniques used during training. Through extensive systematic experiments, we show how these traditional approaches fail to explain why large neural networks generalize well in practice. Specifically, our experiments establish that state-of-the-art convolutional networks for image classification trained with stochastic gradient methods easily fit a random labeling of the training data. This phenomenon is qualitatively unaffected by explicit regularization, and occurs even if we replace the true images by completely unstructured random noise. We corroborate these experimental findings with a theoretical construction showing that simple depth two neural networks already have perfect finite sample expressivity as soon as the number of parameters exceeds the number of data points as it usually does in practice. We interpret our experimental findings by comparison with traditional models.
+
+<!-- chunk {"id": "body-0003", "role": "body", "section": "INTRODUCTION", "weight": 1.5} -->
+
+Deep artificial neural networks often have far more trainable model parameters than the number of samples they are trained. Nonetheless, some of these models exhibit remarkably small generalization error, i.e., difference between 'training error' and 'test error'. At the same time, it is certainly easy to come up with natural model architectures that generalize poorly. What is it then that distinguishes neural networks that generalize well from those that don't? A satisfying answer to this question would not only help to make neural networks more interpretable, but it might also lead to more principled and reliable model architecture design.
+
+<!-- chunk {"id": "body-0004", "role": "body", "section": "INTRODUCTION", "weight": 1.5} -->
+
+To answer such a question, statistical learning theory has proposed a number of different complexity measures that are capable of controlling generalization error. These include VC dimension, Rademacher complexity, and uniform stability. Moreover, when the number of parameters is large, theory suggests that some form of regularization is needed to ensure small generalization error. Regularization may also be implicit as is the case with early stopping.
+
+<!-- chunk {"id": "body-0005", "role": "body", "section": "OUR CONTRIBUTIONS", "weight": 1.0} -->
+
+In this work, we problematize the traditional view of generalization by showing that it is incapable of distinguishing between different neural networks that have radically different generalization performance.
+
+<!-- chunk {"id": "body-0006", "role": "body", "section": "OUR CONTRIBUTIONS", "weight": 1.0} -->
+
+∗ Work performed while interning at Google Brain.
+
+<!-- chunk {"id": "body-0007", "role": "body", "section": "OUR CONTRIBUTIONS", "weight": 1.0} -->
+
+Moritz Hardt Google Brain mrtz@google.com Randomization tests. At the heart of our methodology is a variant of the well-known randomization test from non-parametric statistics. In a first set of experiments, we train several standard architectures on a copy of the data where the true labels were replaced by random labels.
+
+<!-- chunk {"id": "body-0008", "role": "body", "section": "Deep neural networks easily fit random labels", "weight": 1.0} -->
+
+More precisely, when trained on a completely random labeling of the true data, neural networks achieve 0 training error. The test error, of course, is no better than random chance as there is no correlation between the training labels and the test labels. In other words, by randomizing labels alone we can force the generalization error of a model to jump up considerably without changing the model, its size, hyperparameters, or the optimizer. We establish this fact for several different standard architectures trained on the and ImageNet classification benchmarks. While simple to state, this observation has profound implications from a statistical learning perspective: 1. The effective capacity of neural networks is sufficient for memorizing the entire data set. 2. Even optimization on random labels remains easy. In fact, training time increases only by a small constant factor compared with training on the true labels. 3. Randomizing labels is solely a data transformation, leaving all other properties of the learning problem unchanged.
+
+<!-- chunk {"id": "body-0009", "role": "body", "section": "Deep neural networks easily fit random labels", "weight": 1.0} -->
+
+Extending on this first set of experiments, we also replace the true images by completely random pixels (e.g., Gaussian noise) and observe that convolutional neural networks continue to fit the data with zero training error. This shows that despite their structure, convolutional neural nets can fit random noise. We furthermore vary the amount of randomization, interpolating smoothly between the case of no noise and complete noise. This leads to a range of intermediate learning problems where there remains some level of signal in the labels. We observe a steady deterioration of the generalization error as we increase the noise level. This shows that neural networks are able to capture the remaining signal in the data, while at the same time fit the noisy part using brute-force.
+
+<!-- chunk {"id": "body-0010", "role": "body", "section": "Deep neural networks easily fit random labels", "weight": 1.0} -->
+
+Wediscuss in further detail below how these observations rule out all of VC-dimension, Rademacher complexity, and uniform stability as possible explanations for the generalization performance of state-of-the-art neural networks.
+
+<!-- chunk {"id": "body-0011", "role": "body", "section": "Deep neural networks easily fit random labels", "weight": 1.0} -->
+
+The role of explicit regularization. If the model architecture itself isn't a sufficient regularizer, it remains to see how much explicit regularization helps. We show that explicit forms of regularization, such as weight decay, dropout, and data augmentation, do not adequately explain the generalization error of neural networks.
+
+<!-- chunk {"id": "body-0012", "role": "body", "section": "Explicit regularization may improve generalization performance, but is neither necessary nor by itself sufficient for controlling generalization error", "weight": 1.0} -->
+
+In contrast with classical convex empirical risk minimization, where explicit regularization is necessary to rule out trivial solutions, we found that regularization plays a rather different role in deep learning. It appears to be more of a tuning parameter that often helps improve the final test error of a model, but the absence of all regularization does not necessarily imply poor generalization error. As reported by Krizhevsky et al., ℓ 2 -regularization (weight decay) sometimes even helps optimization, illustrating its poorly understood nature in deep learning.
+
+<!-- chunk {"id": "body-0013", "role": "body", "section": "Explicit regularization may improve generalization performance, but is neither necessary nor by itself sufficient for controlling generalization error", "weight": 1.0} -->
+
+Finite sample expressivity. We complement our empirical observations with a theoretical construction showing that generically large neural networks can express any labeling of the training data. More formally, we exhibit a very simple two-layer ReLU network with p = 2 n + d parameters that can express any labeling of any sample of size n in d dimensions. A previous construction due to Livni et al. achieved a similar result with far more parameters, namely, O ( dn ). While our depth 2 network inevitably has large width, we can also come up with a depth k network in which each layer has only O ( n/k ) parameters.
+
+<!-- chunk {"id": "body-0014", "role": "body", "section": "Explicit regularization may improve generalization performance, but is neither necessary nor by itself sufficient for controlling generalization error", "weight": 1.0} -->
+
+While prior expressivity results focused on what functions neural nets can represent over the entire domain, we focus instead on the expressivity of neural nets with regards to a finite sample. In contrast to existing depth separations in function space, our result shows that even depth2 networks of linear size can already represent any labeling of the training data.
+
+<!-- chunk {"id": "body-0015", "role": "body", "section": "Explicit regularization may improve generalization performance, but is neither necessary nor by itself sufficient for controlling generalization error", "weight": 1.0} -->
+
+The role of implicit regularization. While explicit regularizers like dropout and weight-decay may not be essential for generalization, it is certainly the case that not all models that fit the training data well generalize well. Indeed, in neural networks, we almost always choose our model as the output of running stochastic gradient descent. Appealing to linear models, we analyze how SGD acts as an implicit regularizer. For linear models, SGD always converges to a solution with small norm. Hence, the algorithm itself is implicitly regularizing the solution. Indeed, we show on small data sets that even Gaussian kernel methods can generalize well with no regularization. Though this doesn't explain why certain architectures generalize better than other architectures, it does suggest that more investigation is needed to understand exactly what the properties are inherited by models that were trained using SGD.
+
+<!-- chunk {"id": "body-0016", "role": "body", "section": "EFFECTIVE CAPACITY OF NEURAL NETWORKS", "weight": 1.0} -->
+
+Our goal is to understand the effective model capacity of feed-forward neural networks. Toward this goal, we choose a methodology inspired by non-parametric randomization tests. Specifically, we take a candidate architecture and train it both on the true data and on a copy of the data in which the true labels were replaced by random labels. In the second case, there is no longer any relationship between the instances and the class labels. As a result, learning is impossible. Intuition suggests that this impossibility should manifest itself clearly during training, e.g., by training not converging or slowing down substantially. To our surprise, several properties of the training process for multiple standard achitectures is largely unaffected by this transformation of the labels. This poses a conceptual challenge. Whatever justification we had for expecting a small generalization error to begin with must no longer apply to the case of random labels.
+
+<!-- chunk {"id": "body-0017", "role": "body", "section": "EFFECTIVE CAPACITY OF NEURAL NETWORKS", "weight": 1.0} -->
+
+To gain further insight into this phenomenon, we experiment with different levels of randomization exploring the continuum between no label noise and completely corrupted labels. We also try out different randomizations of the inputs (rather than labels), arriving at the same general conclusion.
+
+<!-- chunk {"id": "body-0018", "role": "body", "section": "EFFECTIVE CAPACITY OF NEURAL NETWORKS", "weight": 1.0} -->
+
+The experiments are run on two image classification datasets, the dataset and the ImageNet ILSVRC 2012 dataset. We test the Inception V3 architecture on ImageNet and a smaller version of Inception, Alexnet, and MLPs. Please see Section A in the appendix for more details of the experimental setup.
+
+<!-- chunk {"id": "body-0019", "role": "body", "section": "FITTING RANDOM LABELS AND PIXELS", "weight": 1.0} -->
+
+- True labels: the original dataset without modification. - Partially corrupted labels: independently with probability p, the label of each image is corrupted as a uniform random class. - Random labels: all the labels are replaced with random ones. - Shuffled pixels: a random permutation of the pixels is chosen and then the same permutation is applied to all the images in both training and test set. - Random pixels: a different random permutation is applied to each image independently. - Gaussian: AGaussian distribution (with matching mean and variance to the original image dataset) is used to generate random pixels for each image.
+
+<!-- chunk {"id": "body-0020", "role": "body", "section": "FITTING RANDOM LABELS AND PIXELS", "weight": 1.0} -->
+
+Surprisingly, stochastic gradient descent with unchanged hyperparameter settings can optimize the weights to fit to random labels perfectly, even though the random labels completely destroy the relationship between images and labels. We further break the structure of the images by shuffling the image pixels, and even completely re-sampling random pixels from a Gaussian distribution. But the networks we tested are still able to fit.
+
+<!-- chunk {"id": "body-0021", "role": "body", "section": "FITTING RANDOM LABELS AND PIXELS", "weight": 1.0} -->
+
+On the dataset, Alexnet and MLPs all converge to zero loss on the training set. The shaded rows in Table 1 show the exact numbers and experimental setup. We also tested random labels on the ImageNet dataset. As shown in the last three rows of Table 2 in the appendix, although it does not reach the perfect 100% top-1 accuracy, 95.20% accuracy is still very surprising for a million random labels from 1000 categories. Note that we did not do any hyperparameter tuning when switching from the true labels to random labels. It is likely that with some modification of the hyperparameters, perfect accuracy could be achieved on random labels. The network also manages to reach ∼ 90% top-1 accuracy even with explicit regularizers turned.
+
+<!-- chunk {"id": "body-0022", "role": "body", "section": "FITTING RANDOM LABELS AND PIXELS", "weight": 1.0} -->
+
+Partially corrupted labels Wefurther inspect the behavior of neural network training with a varying level of label corruptions from 0 (no corruption) to 1 (complete random labels) on the dataset. The networks fit the corrupted training set perfectly for all the cases. Figure 1b shows the slowdown of the convergence time with increasing level of label noises. Figure 1c depicts the test errors after convergence. Since the training errors are always zero, the test errors are the same as generalization errors. As the noise level approaches 1, the generalization errors converge to 90% the performance of random guessing.
+
+<!-- chunk {"id": "body-0023", "role": "body", "section": "IMPLICATIONS", "weight": 1.0} -->
+
+In light of our randomization experiments, we discuss how our findings pose a challenge for several traditional approaches for reasoning about generalization.
+
+<!-- chunk {"id": "body-0024", "role": "body", "section": "IMPLICATIONS", "weight": 1.0} -->
+
+Rademacher complexity and VC-dimension. Rademacher complexity is commonly used and flexible complexity measure of a hypothesis class. The empirical Rademacher complexity of a hypothesis class H on a dataset { x 1,..., x n } is defined as where σ 1,..., σ n ∈ {± 1 } are i.i.d. uniform random variables. This definition closely resembles our randomization test. Specifically, ˆ R n (H) measures ability of H to fit random ± 1 binary label assignments. While we consider multiclass problems, it is straightforward to consider related binary classification problems for which the same experimental observations hold. Since our randomization tests suggest that many neural networks fit the training set with random labels perfectly, we expect that ˆ R n (H) ≈ 1 for the corresponding model class H. This is, of course, a trivial upper bound on the Rademacher complexity that does not lead to useful generalization bounds in realistic settings. A similar reasoning applies to VC-dimension and its continuous analog fat-shattering dimension, unless we further restrict the network.
+
+<!-- chunk {"id": "body-0025", "role": "body", "section": "IMPLICATIONS", "weight": 1.0} -->
+
+While Bartlett proves a bound on the fat-shattering dimension in terms of ℓ 1 norm bounds on the weights of the network, this bound does not apply to the ReLU networks that we consider here. This result was generalized to other norms by Neyshabur et al., but even these do not seem to explain the generalization behavior that we observe.
+
+<!-- chunk {"id": "body-0026", "role": "body", "section": "IMPLICATIONS", "weight": 1.0} -->
+
+Uniform stability. Stepping away from complexity measures of the hypothesis class, we can instead consider properties of the algorithm used for training. This is commonly done with some notion of stability, such as uniform stability. Uniform stability of an algorithm A measures how sensitive the algorithm is to the replacement of a single example. However, it is solely a property of the algorithm, which does not take into account specifics of the data or the distribution of the labels. It is possible to define weaker notions of stability. The weakest stability measure is directly equivalent to bounding generalization error and does take the data into account. However, it has been difficult to utilize this weaker stability notion effectively.
+
+<!-- chunk {"id": "body-0027", "role": "body", "section": "THE ROLE OF REGULARIZATION", "weight": 1.0} -->
+
+Most of our randomization tests are performed with explicit regularization turned off. Regularizers are the standard tool in theory and practice to mitigate overfitting in the regime when there are more parameters than data points. The basic idea is that although the original hypothesis is too large to generalize well, regularizers help confine learning to a subset of the hypothesis space with manageable complexity. By adding an explicit regularizer, say by penalizing the norm of the optimal solution, the effective Rademacher complexity of the possible solutions is dramatically reduced.
+
+<!-- chunk {"id": "body-0028", "role": "body", "section": "THE ROLE OF REGULARIZATION", "weight": 1.0} -->
+
+| model | # params | random crop | weight decay | train accuracy | test accuracy | As we will see, in deep learning, explicit regularization seems to play a rather different role. As the bottom rows of Table 2 in the appendix show, even with dropout and weight decay, InceptionV3 is still able to fit the random training set extremely well if not perfectly. Although not shown explicitly both Inception and MLPs still fit perfectly the random training set with weight decay turned. However, AlexNet with weight decay turned on fails to converge on random labels. To investigate the role of regularization in deep learning, we explicitly compare behavior of deep nets learning with and without regularizers.
+
+<!-- chunk {"id": "body-0029", "role": "body", "section": "THE ROLE OF REGULARIZATION", "weight": 1.0} -->
+
+Instead of doing a full survey of all kinds of regularization techniques introduced for deep learning, we simply take several commonly used network architectures, and compare the behavior when turning off the equipped regularizers.
+
+<!-- chunk {"id": "body-0030", "role": "body", "section": "THE ROLE OF REGULARIZATION", "weight": 1.0} -->
+
+- Data augmentation: augment the training set via domain-specific transformations. For image data, commonly used transformations include random cropping, random perturbation of brightness, saturation, hue and contrast. - Weight decay: equivalent to a ℓ 2 regularizer on the weights; also equivalent to a hard constrain of the weights to an Euclidean ball, with the radius decided by the amount of weight decay. - Dropout: mask out each element of a layer output randomly with a given dropout probability. Only the Inception V3 for ImageNet uses dropout in our experiments.
+
+<!-- chunk {"id": "body-0031", "role": "body", "section": "THE ROLE OF REGULARIZATION", "weight": 1.0} -->
+
+Table 1 shows the results of Inception, Alexnet and MLPs, toggling the use of data augmentation and weight decay. Both regularization techniques help to improve the generalization performance, but even with all of the regularizers turned off, all of the models still generalize very well.
+
+<!-- chunk {"id": "body-0032", "role": "body", "section": "THE ROLE OF REGULARIZATION", "weight": 1.0} -->
+
+Table 2 in the appendix shows a similar experiment on the ImageNet dataset. A 18% top-1 accuracy drop is observed when we turn off all the regularizers. Specifically, the top-1 accuracy without regularization is 59.80%, while random guessing only achieves 0.1% top-1 accuracy on ImageNet. More strikingly, with data-augmentation on but other explicit regularizers off, Inception is able to achieve a top-1 accuracy of 72.95%. Indeed, it seems like the ability to augment the data using known symmetries is significantly more powerful than just tuning weight decay or preventing low training error.
+
+<!-- chunk {"id": "body-0033", "role": "body", "section": "THE ROLE OF REGULARIZATION", "weight": 1.0} -->
+
+Inception achieves 80.38% top-5 accuracy without regularization, while the reported number of the winner of ILSVRC 2012 achieved 83.6%. So while regularization is important, bigger gains can be achieved by simply changing the model architecture. It is difficult to say that the regularizers count as a fundamental phase change in the generalization capability of deep nets.
+
+<!-- chunk {"id": "body-0034", "role": "body", "section": "IMPLICIT REGULARIZATIONS", "weight": 1.0} -->
+
+Early stopping was shown to implicitly regularize on some convex learning problems. In Table 2 in the appendix, we show in parentheses the best test accuracy along the training process. It confirms that early stopping could potentially 1 improve the generalization performance. Figure 2a shows the training and testing accuracy on ImageNet. The shaded area indicate the accumulative best test accuracy, as a reference of potential performance gain for early stopping. However, on the dataset, we do not observe any potential benefit of early stopping.
+
+<!-- chunk {"id": "body-0035", "role": "body", "section": "IMPLICIT REGULARIZATIONS", "weight": 1.0} -->
+
+Batch normalization is an operator that normalizes the layer responses within each mini-batch. It has been widely adopted in many modern neural network architectures such as Inception and Residual Networks. Although not explicitly designed for regularization, batch normalization is usually found to improve the generalization performance. The Inception architecture uses a lot of batch normalization layers. To test the impact of batch normalization, we create a 'Inception w/o BatchNorm' architecture that is exactly the same as Inception in Figure 3, except with all the batch normalization layers removed. Figure 2b compares the learning curves of the two variants of Inception, with all the explicit regularizers turned off. The normalization operator helps stablize the learning dynamics, but the impact on the generalization performance is only 3 ∼ 4%. The exact accuracy is also listed in the section 'Inception w/o BatchNorm' of Table 1.
+
+<!-- chunk {"id": "body-0036", "role": "body", "section": "IMPLICIT REGULARIZATIONS", "weight": 1.0} -->
+
+1 We say 'potentially' because to make this statement rigorous, we need to have another isolated test set and test the performance there when we choose early stopping point on the first test set (acting like a validation set).
+
+<!-- chunk {"id": "body-0037", "role": "body", "section": "IMPLICIT REGULARIZATIONS", "weight": 1.0} -->
+
+In summary, our observations on both explicit and implicit regularizers are consistently suggesting that regularizers, when properly tuned, could help to improve the generalization performance. However, it is unlikely that the regularizers are the fundamental reason for generalization, as the networks continue to perform well after all the regularizers removed.
+
+<!-- chunk {"id": "body-0038", "role": "body", "section": "FINITE-SAMPLE EXPRESSIVITY", "weight": 1.0} -->
+
+Much effort has gone into characterizing the expressivity of neural networks, e.g, Cybenko; Mhaskar; Delalleau & Bengio; Mhaskar & Poggio; Eldan & Shamir; Telgarsky; Cohen & Shashua. Almost all of these results are at the 'population level' showing what functions of the entire domain can and cannot be represented by certain classes of neural networks with the same number of parameters. For example, it is known that at the population level depth k is generically more powerful than depth k -1.
+
+<!-- chunk {"id": "body-0039", "role": "body", "section": "FINITE-SAMPLE EXPRESSIVITY", "weight": 1.0} -->
+
+We argue that what is more relevant in practice is the expressive power of neural networks on a finite sample of size n. It is possible to transfer population level results to finite sample results using uniform convergence theorems. However, such uniform convergence bounds would require the sample size to be polynomially large in the dimension of the input and exponential in the depth of the network, posing a clearly unrealistic requirement in practice.
+
+<!-- chunk {"id": "body-0040", "role": "body", "section": "FINITE-SAMPLE EXPRESSIVITY", "weight": 1.0} -->
+
+We instead directly analyze the finite-sample expressivity of neural networks, noting that this dramatically simplifies the picture. Specifically, as soon as the number of parameters p of a networks is greater than n, even simple two-layer neural networks can represent any function of the input sample. We say that a neural network C can represent any function of a sample of size n in d dimensions if for every sample S ⊆ R d with | S | = n and every function f: S → R, there exists a setting of the weights of C such that C ( x ) = f ( x ) for every x ∈ S.
+
+<!-- chunk {"id": "body-0041", "role": "body", "section": "FINITE-SAMPLE EXPRESSIVITY", "weight": 1.0} -->
+
+Theorem 1. There exists a two-layer neural network with ReLU activations and 2 n + d weights that can represent any function on a sample of size n in d dimensions.
+
+<!-- chunk {"id": "body-0042", "role": "body", "section": "FINITE-SAMPLE EXPRESSIVITY", "weight": 1.0} -->
+
+The proof is given in Section C in the appendix, where we also discuss how to achieve width O ( n/k ) with depth k. We remark that it's a simple exercise to give bounds on the weights of the coefficient vectors in our construction. Lemma 1 gives a bound on the smallest eigenvalue of the matrix A. This can be used to give reasonable bounds on the weight of the solution w.
+
+<!-- chunk {"id": "body-0043", "role": "body", "section": "IMPLICIT REGULARIZATION: AN APPEAL TO LINEAR MODELS", "weight": 1.0} -->
+
+Although deep neural nets remain mysterious for many reasons, we note in this section that it is not necessarily easy to understand the source of generalization for linear models either. Indeed, it is useful to appeal to the simple case of linear models to see if there are parallel insights that can help us better understand neural networks.
+
+<!-- chunk {"id": "body-0044", "role": "body", "section": "IMPLICIT REGULARIZATION: AN APPEAL TO LINEAR MODELS", "weight": 1.0} -->
+
+Suppose we collect n distinct data points { (x i, y i) } where x i are d -dimensional feature vectors and y i are labels. Letting loss denote a nonnegative loss function with loss(y, y) = 0, consider the empirical risk minimization (ERM) problem min w ∈ R d 1 n ∑ n i =1 loss(w T x i, y i) If d ≥ n, then we can fit any labeling. But is it then possible to generalize with such a rich model class and no explicit regularization?
+
+<!-- chunk {"id": "body-0045", "role": "body", "section": "IMPLICIT REGULARIZATION: AN APPEAL TO LINEAR MODELS", "weight": 1.0} -->
+
+Let X denote the n × d data matrix whose i -th row is x T i. If X has rank n, then the system of equations Xw = y has an infinite number of solutions regardless of the right hand side. We can find a global minimum in the ERM problem by simply solving this linear system.
+
+<!-- chunk {"id": "body-0046", "role": "body", "section": "IMPLICIT REGULARIZATION: AN APPEAL TO LINEAR MODELS", "weight": 1.0} -->
+
+But do all global minima generalize equally well? Is there a way to determine when one global minimum will generalize whereas another will not? One popular way to understand quality of minima is the curvature of the loss function at the solution. But in the linear case, the curvature of all optimal solutions is the same. To see this, note that in the case when y i is a scalar, A similar formula can be found when y is vector valued. In particular, the Hessian is not a function of the choice of w. Moreover, the Hessian is degenerate at all global optimal solutions.
+
+<!-- chunk {"id": "body-0047", "role": "body", "section": "IMPLICIT REGULARIZATION: AN APPEAL TO LINEAR MODELS", "weight": 1.0} -->
+
+If curvature doesn't distinguish global minima, what does? A promising direction is to consider the workhorse algorithm, stochastic gradient descent (SGD), and inspect which solution SGD converges to. Since the SGD update takes the form w t +1 = w t -η t e t x i t where η t is the step size and e t is the prediction error loss. If w 0 = 0, we must have that the solution has the form w = ∑ n i =1 α i x i for some coefficients α. Hence, if we run SGD we have that w = X T α lies in the span of the data points. If we also perfectly interpolate the labels we have Xw = y. Enforcing both of these identities, this reduces to the single equation which has a unique solution. Note that this equation only depends on the dot-products between the data points x i. We have thus derived the 'kernel trick' -albeit in a roundabout fashion.
+
+<!-- chunk {"id": "body-0048", "role": "body", "section": "IMPLICIT REGULARIZATION: AN APPEAL TO LINEAR MODELS", "weight": 1.0} -->
+
+We can therefore perfectly fit any set of labels by forming the Gram matrix (aka the kernel matrix ) on the data K = XX T and solving the linear system Kα = y for α. This is an n × n linear system that can be solved on standard workstations whenever n is less than a hundred thousand, as is the case for small benchmarks like and MNIST.
+
+<!-- chunk {"id": "body-0049", "role": "body", "section": "IMPLICIT REGULARIZATION: AN APPEAL TO LINEAR MODELS", "weight": 1.0} -->
+
+Quite surprisingly, fitting the training labels exactly yields excellent performance for convex models. On MNIST with no preprocessing, we are able to achieve a test error of 1.2% by simply solving. Note that this is not exactly simple as the kernel matrix requires 30GB to store in memory. Nonetheless, this system can be solved in under 3 minutes in on a commodity workstation with 24 cores and 256 GB of RAM with a conventional LAPACK call. By first applying a Gabor wavelet transform to the data and then solving, the error on MNIST drops to 0.6%. Surprisingly, adding regularization does not improve either model's performance!
+
+<!-- chunk {"id": "body-0050", "role": "body", "section": "IMPLICIT REGULARIZATION: AN APPEAL TO LINEAR MODELS", "weight": 1.0} -->
+
+Similar results follow. Simply applying a Gaussian kernel on pixels and using no regularization achieves 46% test error. By preprocessing with a random convolutional neural net with 32,000 random filters, this test error drops to 17% error 2. Adding ℓ 2 regularization further reduces this number to 15% error. Note that this is without any data augmentation.
+
+<!-- chunk {"id": "body-0051", "role": "body", "section": "IMPLICIT REGULARIZATION: AN APPEAL TO LINEAR MODELS", "weight": 1.0} -->
+
+Note that this kernel solution has an appealing interpretation in terms of implicit regularization. Simple algebra reveals that it is equivalent to the minimum ℓ 2 -norm solution of Xw = y. That is, out of all models that exactly fit the data, SGD will often converge to the solution with minimum norm. It is very easy to construct solutions of Xw = y that don't generalize: for example, one could fit a Gaussian kernel to data and place the centers at random points. Another simple example would be to force the data to fit random labels on the test data. In both cases, the norm of the solution is significantly larger than the minimum norm solution.
+
+<!-- chunk {"id": "body-0052", "role": "body", "section": "IMPLICIT REGULARIZATION: AN APPEAL TO LINEAR MODELS", "weight": 1.0} -->
+
+Unfortunately, this notion of minimum norm is not predictive of generalization performance. For example, returning to the MNIST example, the ℓ 2 -norm of the minimum norm solution with no preprocessing is approximately 220. With wavelet preprocessing, the norm jumps to 390. Yet the test error drops by a factor of 2. So while this minimum-norm intuition may provide some guidance to new algorithm design, it is only a very small piece of the generalization story.
+
+<!-- chunk {"id": "body-0053", "role": "body", "section": "CONCLUSION", "weight": 1.5} -->
+
+In this work we presented a simple experimental framework for defining and understanding a notion of effective capacity of machine learning models. The experiments we conducted emphasize that the effective capacity of several successful neural network architectures is large enough to shatter the training data. Consequently, these models are in principle rich enough to memorize the training data. This situation poses a conceptual challenge to statistical learning theory as traditional measures of model complexity struggle to explain the generalization ability of large artificial neural networks. We argue that we have yet to discover a precise formal measure under which these enormous models are simple. Another insight resulting from our experiments is that optimization continues to be empirically easy even if the resulting model does not generalize. This shows that the reasons for why optimization is empirically easy must be different from the true cause of generalization.
+
+<!-- chunk {"id": "body-0054", "role": "body", "section": "CONCLUSION", "weight": 1.5} -->
+
+2 This conv-net is the Coates & Ng net, but with the filters selected at random instead of with k-means.

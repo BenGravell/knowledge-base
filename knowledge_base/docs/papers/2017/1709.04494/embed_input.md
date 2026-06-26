@@ -32,319 +32,252 @@ These DSLs do support some nonconvex regimes (e.g., combinatorial optimization),
 
 <!-- chunk {"id": "body-0008", "role": "body", "section": "Domain-specific languages", "weight": 1.0} -->
 
-We present below a toy example of an optimization problem written in CVXPY (version 1.0), a Python-embedded DSL (see Hudak, \\APACyear1996, for background on embedded DSLs). The choice of language here is not particularly important, as the code would look similar if translated to any of the other aforementioned DSLs.
+We present below a toy example of an optimization problem written in CVXPY (version 1.0), a Python-embedded DSL (see Hudak, \\APACyear1996, for background on embedded DSLs). The choice of language here is not particularly important, as the code would look similar if translated to any of the other aforementioned DSLs. from cvxpy import * objective = Minimize(maximum(alice + bob + 2, -alice - bob)) constraints = [alice <= 0, bob == -0.5] toy = Problem(objective, constraints) opt = toy.solve The CVXPY problem toy has two scalar optimization variables, alice and bob. Every Variable object has stored in its value field a numeric value, which is unspecified upon creation; alice and bob can hold floating point values. The objective is to minimize a piecewise-affine function of alice and bob, where the function is represented with the max atom. Atoms are mathematical functions like square and exp that operate on CVXPY expressions. CVXPY implements as library functions dozens of atoms for users to use in constructing problems. The arguments to the max atom are Expression objects, which encode mathematical expressions.
 
 <!-- chunk {"id": "body-0009", "role": "body", "section": "Domain-specific languages", "weight": 1.0} -->
 
-objective = Minimize(maximum(alice + bob + 2, -alice - bob))
-constraints = [alice <= 0, bob == -0.5]
-toy = Problem(objective, constraints)
-opt = toy.solve
+Constraint objects are created by linking two expressions with a relational operator (\<=, \>=, or ==). In the second-to-last line, the CVXPY problem toy is constructed, but not solved. Finally, an invocation to toy's solve method solves the problem. A side-effect is that the value fields of the optimization variables present in the problem (alice and bob) are assigned values that minimize the objective while satisfying the constraints, and the return value of such a solve is the value of the objective function evaluated at the variable values. After invoking solve above, we find that alice.value == -0.5, bob.value == -0.5, and opt == 1.0. These values satisfy the two constraints, and among all such assigments, yield the smallest value of the objective function.
 
 <!-- chunk {"id": "body-0010", "role": "body", "section": "Domain-specific languages", "weight": 1.0} -->
 
-The CVXPY problem toy has two scalar optimization variables, alice and bob. Every Variable object has stored in its value field a numeric value, which is unspecified upon creation; alice and bob can hold floating point values. The objective is to minimize a piecewise-affine function of alice and bob, where the function is represented with the max atom. Atoms are mathematical functions like square and exp that operate on CVXPY expressions. CVXPY implements as library functions dozens of atoms for users to use in constructing problems. The arguments to the max atom are Expression objects, which encode mathematical expressions. Constraint objects are created by linking two expressions with a relational operator (\<=, \>=, or ==). In the second-to-last line, the CVXPY problem toy is constructed, but not solved. Finally, an invocation to toy's solve method solves the problem. A side-effect is that the value fields of the optimization variables present in the problem (alice and bob) are assigned values that minimize the objective while satisfying the constraints, and the return value of such a solve is the value of the objective function evaluated at the variable values.
+The solve method cannot solve all problems: Whether or not a problem can be solved depends on the objective, constraints, and variables present in the problem. In particular, these entities must be constructed in such a way that CVXPY can detect that their assemblage is in fact a convex problem. Recognizing convexity in general can be difficult. Many tricks aid in this task, but their application is sometimes guided by an intuition that is difficult to codify. Nonetheless, there do exist sufficient, but not necessary, rulesets for algorithmically detecting convexity. The ruleset employed by CVXPY, CVX, Convex.jl, and Yalmip is called disciplined convex programming (DCP) (Grant, \\APACyear2004). These DSLs require users to express their problems by means of DCP, and while not all convex problems adhere to DCP, non-DCP convex problems can in practice be made DCP-compliant with at most a moderate amount of human effort and expertise. DCP-compliant problems can be verified as convex using a simple set of rules that are readily automated.
 
 <!-- chunk {"id": "body-0011", "role": "body", "section": "Domain-specific languages", "weight": 1.0} -->
 
-After invoking solve above, we find that alice.value == -0.5, bob.value == -0.5, and opt == 1.0. These values satisfy the two constraints, and among all such assigments, yield the smallest value of the objective function.
-
-<!-- chunk {"id": "body-0012", "role": "body", "section": "Domain-specific languages", "weight": 1.0} -->
-
-The solve method cannot solve all problems: Whether or not a problem can be solved depends on the objective, constraints, and variables present in the problem. In particular, these entities must be constructed in such a way that CVXPY can detect that their assemblage is in fact a convex problem. Recognizing convexity in general can be difficult. Many tricks aid in this task, but their application is sometimes guided by an intuition that is difficult to codify. Nonetheless, there do exist sufficient, but not necessary, rulesets for algorithmically detecting convexity. The ruleset employed by CVXPY, CVX, Convex.jl, and Yalmip is called disciplined convex programming (DCP) (Grant, \\APACyear2004). These DSLs require users to express their problems by means of DCP, and while not all convex problems adhere to DCP, non-DCP convex problems can in practice be made DCP-compliant with at most a moderate amount of human effort and expertise. DCP-compliant problems can be verified as convex using a simple set of rules that are readily automated.
-
-<!-- chunk {"id": "body-0013", "role": "body", "section": "Domain-specific languages", "weight": 1.0} -->
-
 Our CVXPY example does not procedurally describe the method of procuring a solution. Optimization DSLs are in this sense declarative languages. An optimization problem is simply a precise articulation of preferences and constraints among the values of the variables; how the problem is to be solved is another story. This story is the topic of our next section. But an abridged version is as follows: A subroutine inspects the problem and invokes a numerical solver capable of solving it, and most DSLs also allow users to mandate that a specific solver be used to solve any given problem --- in CVXPY, for example, users may select a solver via the solve method's keyword argument solver.
 
-<!-- chunk {"id": "body-0014", "role": "body", "section": "Numerical solvers", "weight": 1.0} -->
+<!-- chunk {"id": "body-0012", "role": "body", "section": "Numerical solvers", "weight": 1.0} -->
 
 A numerical solver is a low-level tool that takes as input an optimization problem encoded in a rigid format and returns a solution for it. Every solver is tied to one or more classes of problems, insofar as problems supplied to a solver must be instances of one of its supported classes. One of the oldest problem classes is least squares, dating back to works authored by Legendre and Gauss in the late 18th and early 19th centuries (see Stigler, \\APACyear1981, for a discussion of Legendre and Gauss' contributions to the methodology, and Gauss, \\APACyear1995, for a translation of Gauss' manuscript on the same). Other well-studied convex optimization classes include linear programs, popularized by Dantzig following the Second World War (Dantzig, \\APACyear1963), and cone programs, introduced in the late 20th century by Nesterov \\BBA Nemirovski (Nesterov \\BBA Nemirovski, \\APACyear1992; Nesterov \\BBA Nemirovski, \\APACyear1994, §4.1).
 
-<!-- chunk {"id": "body-0015", "role": "body", "section": "Numerical solvers", "weight": 1.0} -->
+<!-- chunk {"id": "body-0013", "role": "body", "section": "Numerical solvers", "weight": 1.0} -->
 
 Various classes of convex problems fit into a hierarchy, as depicted in Fig. 2. Every linear program reduces to a quadratic program (Boyd \\BBA Vandenberghe, \\APACyear2004, §4.4); every quadratic program reduces to a second-order cone program (Nesterov \\BBA Nemirovski, \\APACyear1994, §6.2.3); every second-order cone program reduces to a semidefinite program (Vandenberghe \\BBA Boyd, \\APACyear1996); every semidefinite program reduces to a cone program; and every cone program reduces to a graph form program (Parikh \\BBA Boyd, \\APACyear2014). Problem classes increase in both generality and difficulty as one goes up the hierarchy. For example, whereas every second-order cone program is also a semidefinite program, it is not advisable to solve the second-order cone programs using semidefinite program solvers (Alizadeh \\BBA Goldfarb, \\APACyear2001).
 
-<!-- chunk {"id": "body-0016", "role": "body", "section": "Numerical solvers", "weight": 1.0} -->
+<!-- chunk {"id": "body-0014", "role": "body", "section": "Numerical solvers", "weight": 1.0} -->
 
 This fact motivates the existence of numerical solvers for different classes of problems --- all other things equal, it is better to use as specific a solver as possible for the problem at hand.
 
-<!-- chunk {"id": "body-0017", "role": "body", "section": "Numerical solvers", "weight": 1.0} -->
+<!-- chunk {"id": "body-0015", "role": "body", "section": "Numerical solvers", "weight": 1.0} -->
 
 In 1953, Hays and Dantzig developed for the RAND Corporation one of the earliest linear program solvers (Dantzig, \\APACyear1963, §2.1). The universe of solvers has since grown in lockstep with the universe of optimization algorithms. There exist today solvers for many types of convex programs.
 
-<!-- chunk {"id": "body-0018", "role": "body", "section": "Numerical solvers", "weight": 1.0} -->
+<!-- chunk {"id": "body-0016", "role": "body", "section": "Numerical solvers", "weight": 1.0} -->
 
 Examples of solvers specialized to each class include GLPK (Makhorin, \\APACyear2016) and CBC (Forrest \\BBA Lougee-Heimer, \\APACyear2005) for linear programs; qpOASES (Ferreau \\BOthers., \\APACyear2014) and OSQP (Banjac \\BOthers., \\APACyear2017) for quadratic programs; ECOS (Domahidi \\BOthers., \\APACyear2013) and Gurobi (\\APACcitebtitleGurobi Optimizer Reference Manual, \\APACyear2017) for second-order cone programs; MOSEK (\\APACcitebtitleMOSEK optimization suite, \\APACyear2017) and SeDuMi (Sturm, \\APACyear1999) for semidefinite programs; SCS (O'Donoghue \\BOthers., \\APACyear2016) for more general cone programs; and POGS for graph form programs (Fougner \\BBA Boyd,
 
-<!-- chunk {"id": "body-0019", "role": "body", "section": "Numerical solvers", "weight": 1.0} -->
+<!-- chunk {"id": "body-0017", "role": "body", "section": "Numerical solvers", "weight": 1.0} -->
 
 \\APACyear2015). Many of the solvers listed also support nonconvex problems such as mixed-integer and nonlinear programs.
 
-<!-- chunk {"id": "body-0020", "role": "body", "section": "Numerical solvers", "weight": 1.0} -->
+<!-- chunk {"id": "body-0018", "role": "body", "section": "Numerical solvers", "weight": 1.0} -->
 
 When we say that numerical solvers are low-level tools, we mean that it is onerous to translate problems to forms acceptable to solvers --- even deciding which solver to use for a particular problem is a skill that requires training. These observations provide two of the raisons d'être for optimization DSLs.
 
+<!-- chunk {"id": "body-0019", "role": "body", "section": "Canonicalization", "weight": 1.0} -->
+
+The process of converting an optimization problem encoded in a DSL to a solver-compatible form --- for example, the process by which CVXPY transformed our toy problem to the above representation --- is called canonicalization (Grant, \\APACyear2004, §4). Consider once again the toy problem from §1.1, the one transcribed in CVXPY. This problem can be transformed to an equivalent linear program, i.e., a problem of the form where $x$ is the (vector) variable, the matrices $G$ and $A$, and vectors $c$, $h$, and $b$, are constants, and the inequality is component-wise. Upon invoking the solve method, CVXPY canonicalizes the toy problem to the above standard form to make it compatible with a numerical (linear program) solver. The transformed problem has a variable $x \in \mathbf{R}^{3}$ whose first and second components represent alice and bob, respectively, and whose third component is an auxiliary variable introduced in the canonicalization.
+
+<!-- chunk {"id": "body-0020", "role": "body", "section": "Canonicalization", "weight": 1.0} -->
+
+The problem data are This canonical form of our toy problem is the result of applying the transformation described in §6.5 of Dantzig \\BBA Thapa's \\APACyear1997 text, and as such it could have easily been produced manually. Yet as problems of interest grow larger and more complex, producing canonical forms by hand quickly becomes a tedious, laborious, and error-prone task. Many users of convex optimization still canonicalize problems manually --- instead of letting optimization DSLs do the work for them --- due to reliance on legacy systems, performance concerns, or in some cases, ignorance of the existence of DSLs that can automate the task.
+
 <!-- chunk {"id": "body-0021", "role": "body", "section": "Canonicalization", "weight": 1.0} -->
-
-The process of converting an optimization problem encoded in a DSL to a solver-compatible form --- for example, the process by which CVXPY transformed our toy problem to the above representation --- is called canonicalization (Grant, \\APACyear2004, §4). Consider once again the toy problem from §1.1, the one transcribed in CVXPY. This problem can be transformed to an equivalent linear program, i.e., a problem of the form
-
-<!-- chunk {"id": "body-0022", "role": "body", "section": "Canonicalization", "weight": 1.0} -->
-
-where $x$ is the (vector) variable, the matrices $G$ and $A$, and vectors $c$, $h$, and $b$, are constants, and the inequality is component-wise. Upon invoking the solve method, CVXPY canonicalizes the toy problem to the above standard form to make it compatible with a numerical (linear program) solver. The transformed problem has a variable $x \in \mathbf{R}^{3}$ whose first and second components represent alice and bob, respectively, and whose third component is an auxiliary variable introduced in the canonicalization. The problem data are
-
-<!-- chunk {"id": "body-0023", "role": "body", "section": "Canonicalization", "weight": 1.0} -->
-
-This canonical form of our toy problem is the result of applying the transformation described in §6.5 of Dantzig \\BBA Thapa's \\APACyear1997 text, and as such it could have easily been produced manually. Yet as problems of interest grow larger and more complex, producing canonical forms by hand quickly becomes a tedious, laborious, and error-prone task. Many users of convex optimization still canonicalize problems manually --- instead of letting optimization DSLs do the work for them --- due to reliance on legacy systems, performance concerns, or in some cases, ignorance of the existence of DSLs that can automate the task.
-
-<!-- chunk {"id": "body-0024", "role": "body", "section": "Canonicalization", "weight": 1.0} -->
 
 Problems written in CVX, Convex.jl, and CVXPY are automatically canonicalized to conic form, and Yalmip supports other classes of problems as well. For all of these DSLs, however, the solver selection and canonicalization procedures are implemented in ad hoc fashions that cannot easily be modified or extended, for instance to target new problem classes.
 
-<!-- chunk {"id": "body-0025", "role": "body", "section": "This paper", "weight": 1.0} -->
+<!-- chunk {"id": "body-0022", "role": "body", "section": "This paper", "weight": 1.0} -->
 
 This paper is about treating canonicalization as a first-class component of the software ecosystem for convex optimization. We propose a rewriting system that sits between DSLs and numerical solvers, translating problems expressed in the former to forms compatible with the latter.
 
-<!-- chunk {"id": "body-0026", "role": "body", "section": "This paper", "weight": 1.0} -->
+<!-- chunk {"id": "body-0023", "role": "body", "section": "This paper", "weight": 1.0} -->
 
 The atomic rewriting unit in our rewriting system is the reduction. A reduction is a function that converts problems of one form to equivalent problems of another form. Two problems are equivalent if a solution for one can be readily converted to a solution for the other (as defined in Boyd \\BBA Vandenberghe, \\APACyear2004, §4.1.3); readers from computer science will recognize that our definitions are in the same spirit as the more formal ones from their field (Papadimitriou, \\APACyear1994, see for example §10.3 of, and Arora \\BBA Barak, \\APACyear2009, §2.2 of).
 
-<!-- chunk {"id": "body-0027", "role": "body", "section": "This paper", "weight": 1.0} -->
+<!-- chunk {"id": "body-0024", "role": "body", "section": "This paper", "weight": 1.0} -->
 
 Every canonicalization is a reduction. In many cases, canonicalizations are complex enough to merit decomposing them into compositions of reductions. For a rewriting system to be useful, it must retrieve solutions for canonicalized problems to solutions for their provenances; because reductions output equivalent problems, they by definition support retrieval. The dual processes of canonicalization and retrieval are diagrammed in Fig. 2. Any rewriting that is cast as a composition of reductions is provably correct: The rewriting will either (a) output an equivalent problem, if the reductions in the canonicalization are mutually compatible and the first reduction is applicable to the source problem, or otherwise (b) audibly fail. There are at least three other benefits enjoyed by placing special emphasis on problem rewritings and reductions: doing so provides a structured way of preferentially targeting some solvers over others, simplifies the interfacing of domain-specific languages with new solvers, and unifies problem transformations and back-end optimizations like presolves within a single conceptual framework.
 
-<!-- chunk {"id": "body-0028", "role": "body", "section": "This paper", "weight": 1.0} -->
+<!-- chunk {"id": "body-0025", "role": "body", "section": "This paper", "weight": 1.0} -->
 
 The remainder of this paper is structured as follows. In §2, we elaborate upon the role and structure of rewriting systems; in §3, we list many examples of reductions, from simple to nuanced; and in §4, we discuss version 1.0 of CVXPY, an open-source implementation of our proposed rewriting system.
 
-<!-- chunk {"id": "body-0029", "role": "body", "section": "Principles", "weight": 1.0} -->
+<!-- chunk {"id": "body-0026", "role": "body", "section": "Principles", "weight": 1.0} -->
 
 There are four principles to which all optimization rewriting systems should adhere; these principles are informed by ones adopted by the software compiler community (Aho \\BOthers., \\APACyear2006, §1.4.2).
 
-<!-- chunk {"id": "body-0030", "role": "body", "section": "Principles", "weight": 1.0} -->
+<!-- chunk {"id": "body-0027", "role": "body", "section": "Principles", "weight": 1.0} -->
 
 Every rewriting must yield an equivalent problem that is target-compatible.
 
-<!-- chunk {"id": "body-0031", "role": "body", "section": "Principles", "weight": 1.0} -->
+<!-- chunk {"id": "body-0028", "role": "body", "section": "Principles", "weight": 1.0} -->
 
 For each problem, an effort should be made to select a suitable solver for it.
 
-<!-- chunk {"id": "body-0032", "role": "body", "section": "Principles", "weight": 1.0} -->
+<!-- chunk {"id": "body-0029", "role": "body", "section": "Principles", "weight": 1.0} -->
 
 The rewriting time must be tolerable.
 
-<!-- chunk {"id": "body-0033", "role": "body", "section": "Principles", "weight": 1.0} -->
+<!-- chunk {"id": "body-0030", "role": "body", "section": "Principles", "weight": 1.0} -->
 
 The engineering effort required to maintain the rewriting system and add solvers to it must be kept manageable.
 
-<!-- chunk {"id": "body-0034", "role": "body", "section": "Principles", "weight": 1.0} -->
+<!-- chunk {"id": "body-0031", "role": "body", "section": "Principles", "weight": 1.0} -->
 
 Adherence to the first three principles is necessary in order for a rewriting system to be useful, and to faithfully solve the specified problem. The fourth principle expedites not only the work of engineers responsible for rewriting systems but also that of those developing new solvers: Researchers who interface their solvers to popular DSLs gain immediate access to a rich ecosystem of problems for testing and tuning their algorithms. Indeed, the advent of software compilers fundamentally altered the development cycle of processors --- today, compilers are built before processor designs are finalized, for often a processor is only useful if a compiler can exploit it (Aho \\BOthers., \\APACyear2006, §1.5.3). The creation of optimization rewriting systems that satisfy the fourth principle might effect a similar paradigm shift in the design of numerical solvers.
 
-<!-- chunk {"id": "body-0035", "role": "body", "section": "Principles", "weight": 1.0} -->
+<!-- chunk {"id": "body-0032", "role": "body", "section": "Principles", "weight": 1.0} -->
 
 As for how to actually satisfy these principles --- the first principle is automatically satisfied by the use of reductions. One way to satisfy the remaining three principles is to decompose the rewriting system architecture into three distinct phases.
 
-<!-- chunk {"id": "body-0036", "role": "body", "section": "Phases", "weight": 1.0} -->
+<!-- chunk {"id": "body-0033", "role": "body", "section": "Phases", "weight": 1.0} -->
 
 Just as it is natural to decompose software compilers into three phases (Aho \\BOthers., \\APACyear2006, §1.2), so it is with optimization rewriting systems (Fig. 3). The first and third phases of both systems are analogous. In the first phase, a front end takes a human-readable specification of a program and converts it to an intermediate representation; both compilers and rewriting systems often use abstract syntax trees as their intermediate representations (Aho \\BOthers., \\APACyear2006, §2.5.1; Udell \\BOthers., \\APACyear2014, Diamond \\BBA Boyd, \\APACyear2016\\APACexlab\\BCnt2). In the third phase, a back end takes an intermediate representation and translates it to a target-compatible form; targets for software compilers are processor architectures, while targets for optimization rewriting systems are numerical solvers.
 
-<!-- chunk {"id": "body-0037", "role": "body", "section": "Phases", "weight": 1.0} -->
+<!-- chunk {"id": "body-0034", "role": "body", "section": "Phases", "weight": 1.0} -->
 
 Our front end does not make use of reductions, as the problem of constructing a syntax tree is one of parsing, but our back ends most certainly do --- in fact, our back ends are nothing more than sequences of reductions. In other words, each of the back ends supported by the rewriting system is a different canonicalization procedure.
 
-<!-- chunk {"id": "body-0038", "role": "body", "section": "Phases", "weight": 1.0} -->
+<!-- chunk {"id": "body-0035", "role": "body", "section": "Phases", "weight": 1.0} -->
 
 Whereas the second phase of a compiler optimizes programs (Aho \\BOthers., \\APACyear2006, §1.2.5), the second phase of our rewriting system analyzes problems, selecting for each a suitable target; an imperfect analogy might compare our analysis phase to a static analysis tool like Frama-C (Kirchner \\BOthers., \\APACyear2015). Compilers like the GNU Compiler Collection (Stallman \\BBA GCC Developer Community, \\APACyear2017) can translate a given source program to any of their targeted architectures, since every architecture is Turing complete (Sipser, \\APACyear1996). Rewriting systems provide no such guarantees --- solvers are specific to particular classes of problem, i.e., a given optimization problem might be compatible with but a subset of the solvers targeted by a rewriting system, hence the need for analysis. A sensible analysis policy is to identify the most specific class to which a problem belongs and choose a target supporting that class (see Fig. 2). Solver selection might also reflect desiderata like accuracy, scalability, and speed.
 
-<!-- chunk {"id": "body-0039", "role": "body", "section": "Phases", "weight": 1.0} -->
+<!-- chunk {"id": "body-0036", "role": "body", "section": "Phases", "weight": 1.0} -->
 
 For example, first-order solvers like SCS scale to larger problems than interior-point methods like ECOS, though the latter typically provide more accurate solutions than do the former. Analysis may of course fail to find a target that can handle a particular problem. When this happens, the rewriting system should abort with a descriptive error code or message.
 
-<!-- chunk {"id": "body-0040", "role": "body", "section": "Phases", "weight": 1.0} -->
+<!-- chunk {"id": "body-0037", "role": "body", "section": "Phases", "weight": 1.0} -->
 
 This three-phase architecture satisfies principles two through four listed in §2.1. The existence of an analysis phase satisfies the second principle, a best-effort implementation of the analysis phase will satisfy the third principle, and the separation of back ends from front ends, together with the use of reductions as modular rewriting units, satisfies the fourth principle.
 
-<!-- chunk {"id": "body-0041", "role": "body", "section": "Reductions", "weight": 1.0} -->
+<!-- chunk {"id": "body-0038", "role": "body", "section": "Reductions", "weight": 1.0} -->
 
-In this section, we list several examples of reductions. Some of the listed reductions might be used to perform routine operations common among canonicalizations, while other more involved ones might be used to reduce problems to instances of simpler classes.\
+In this section, we list several examples of reductions. Some of the listed reductions might be used to perform routine operations common among canonicalizations, while other more involved ones might be used to reduce problems to instances of simpler classes.\Notation. In all of the following examples, the variable $x$ denotes the optimization variable wherever it appears, which may be a scalar or a vector. If we refer to the variables, plural, of an optimization problem, we mean to refer to the individual components of $x$. An equality constraint is one of the form ${f{(x)}} = {g{(x)}}$. An inequality constraint is one of the form ${f{(x)}} \leq {g{(x)}}$, where $f$ and $g$ are (real) vector-valued functions and the inequality is component-wise; the constraint function of a constraint is $f - g$. Equality constraints are convex if the constraint function is affine, and inequality constraints are convex if the function on the left ($f$) is convex and the function on the right ($g$) is concave.
+
+<!-- chunk {"id": "body-0039", "role": "body", "section": "Simple reductions", "weight": 1.0} -->
+
+In this section, we present some simple but useful reductions.\Flipping objectives. The action of inverting a maximization objective to a minimization is a reduction: Maximizing a function $f$ over its domain is equivalent to minimizing $- f$, as solutions to the two problems are related by an inversion of sign. No work is required to retrieve a solution from the reduced-to problem, as the optimal sets of both problems are the same. (The optimal value of the problem must be negated.)\Moving expressions to the left of a relation. Subtracting the right-hand side of each constraint of a problem from both sides yields an equivalent problem in which all constraints have zero-valued right-hand sides. As in the case of the previous reduction, solution retrieval requires no work.\Eliminating general linear inequality constraints. Linear inequality constraints (i.e., those with $f$ and $g$ both affine) can be replaced with equality constraints by introducing nonnegative variables.
+
+<!-- chunk {"id": "body-0040", "role": "body", "section": "Simple reductions", "weight": 1.0} -->
+
+To wit, the constraint ${f{(x)}} \leq {g{(x)}}$ holds if and only if ${{f{(x)}} + s} = {g{(x)}}$, for some $s \geq 0$; the auxiliary variable $s$ is called a slack variable (see Dantzig, \\APACyear1963, §4.3). Applying this reduction gives an equivalent problem in which every linear constraint is either an equality constraint or a nonnegativity constraint on a slack variable. A solution for the original problem may be retrieved from a solution for the transformed problem by simply fetching the value of $x$ and discarding the slack variables.\Monotone transformations of objective and constraints. Composing any monotone increasing function with the objective function of a problem yields an equivalent problem; so does transforming any number of constraints by applying any monotone increasing function to both sides. The retrieval method for this reduction is essentially a no-op, as the feasible and optimal sets for the two problems are identical.
+
+<!-- chunk {"id": "body-0041", "role": "body", "section": "Simple reductions", "weight": 1.0} -->
+
+This reduction has been employed for centuries --- squaring the Euclidean norm when it appears as an objective function to render it differentiable is, at least historically, standard mathematical practice.
 
 <!-- chunk {"id": "body-0042", "role": "body", "section": "Simple reductions", "weight": 1.0} -->
 
-In this section, we present some simple but useful reductions.\
+Stated in the opposite direction, if the objective function of a convex problem is monotone increasing, then the problem given by replacing the objective function with a composition of its inverse and itself (and similarly for the constraints) is an equivalent convex problem. This reduction might be used to eliminate exponentials and logarithms from a problem, which in turn might make the problem amenable to more solvers.\Changing variables. Let $\phi$ be any one-to-one function whose image covers the problem domain. Replacing the optimization variable $x$ wherever it appears with $\phi{(z)}$ is a reduction, yielding an equivalent problem with optimization variable $z$. To retrieve a solution for the original problem from one for the transformed problem, simply take $x^{\star} = {\phi{(z^{\star})}}$, where $x^{\star}$ denotes an optimal point for the original problem and $z^{\star}$ an optimal point for the transformed problem.
 
 <!-- chunk {"id": "body-0043", "role": "body", "section": "Simple reductions", "weight": 1.0} -->
 
-Flipping objectives. The action of inverting a maximization objective to a minimization is a reduction: Maximizing a function $f$ over its domain is equivalent to minimizing $- f$, as solutions to the two problems are related by an inversion of sign. No work is required to retrieve a solution from the reduced-to problem, as the optimal sets of both problems are the same. (The optimal value of the problem must be negated.)\
+Changing variables can convert nonconvex problems to equivalent convex problems. A classic example is the technique for convexifying geometric programs; this technique both changes variables and transforms the objective and constraints. A geometric program is an optimization problem of the form where the functions $f_{i}$ are posynomials and the functions $h_{i}$ are monomials. A monomial is a function $f:{\mathbf{R}^{n}\rightarrow\mathbf{R}}$ over the nonnegative orthant defined as where $c > 0$ and $a_{i} \in \mathbf{R}$, and a posynomial is a sum of monomials. Performing a change of variables with $x_{i} = {\exp{(z_{i})}}$ and taking logarithms of both the objective and constraints results in a convex problem. In fact, if the $f_{i}$ are all monomials, then the resulting problem is a linear program.
 
 <!-- chunk {"id": "body-0044", "role": "body", "section": "Simple reductions", "weight": 1.0} -->
 
-Moving expressions to the left of a relation. Subtracting the right-hand side of each constraint of a problem from both sides yields an equivalent problem in which all constraints have zero-valued right-hand sides. As in the case of the previous reduction, solution retrieval requires no work.\
+For a brief introduction to geometric programming, see (Boyd \\BBA Vandenberghe, \\APACyear2004, §4.5); for a longer survey, see (Boyd \\BOthers., \\APACyear2007).\Eliminating complex numbers. It is possible to reduce an optimization problem over a complex domain to one over a real domain. (While such a problem has complex variables and expressions, the constraint and objective functions must all be real-valued.)
 
 <!-- chunk {"id": "body-0045", "role": "body", "section": "Simple reductions", "weight": 1.0} -->
 
-Eliminating general linear inequality constraints. Linear inequality constraints (i.e., those with $f$ and $g$ both affine) can be replaced with equality constraints by introducing nonnegative variables. To wit, the constraint ${f{(x)}} \leq {g{(x)}}$ holds if and only if ${{f{(x)}} + s} = {g{(x)}}$, for some $s \geq 0$; the auxiliary variable $s$ is called a slack variable (see Dantzig, \\APACyear1963, §4.3). Applying this reduction gives an equivalent problem in which every linear constraint is either an equality constraint or a nonnegativity constraint on a slack variable. A solution for the original problem may be retrieved from a solution for the transformed problem by simply fetching the value of $x$ and discarding the slack variables.\
+We provide here a partial specification of the reduction. Absolute values of complex numbers reduce to Euclidean norms of their concatenated real and imaginary parts, sums of complex numbers reduce to sums of their real and imaginary parts, and equality constraints between two complex numbers reduce to equality constraints on the implicated expressions' real and imaginary parts. Perhaps more interesting, positive semidefinite constraints on Hermitian matrices reduce to positive semidefinite constraints on real symmetric matrices. As presented in (Goemans \\BBA Williamson, \\APACyear2004), a Hermitian matrix $X$ is positive semidefinite if and only if the real symmetric matrix $T{(X)}$ is positive semidefinite, where the mapping $T$ is defined as As this reduction expands the optimization variable into its real and imaginary parts, retrieving a solution for the complex-domain problem from a solution for the real-domain problem requires but a bit of book-keeping to map variable values from the latter solution to the real and imaginary parts of the original variable.
 
-<!-- chunk {"id": "body-0046", "role": "body", "section": "Simple reductions", "weight": 1.0} -->
-
-Monotone transformations of objective and constraints. Composing any monotone increasing function with the objective function of a problem yields an equivalent problem; so does transforming any number of constraints by applying any monotone increasing function to both sides. The retrieval method for this reduction is essentially a no-op, as the feasible and optimal sets for the two problems are identical. This reduction has been employed for centuries --- squaring the Euclidean norm when it appears as an objective function to render it differentiable is, at least historically, standard mathematical practice.
-
-<!-- chunk {"id": "body-0047", "role": "body", "section": "Simple reductions", "weight": 1.0} -->
-
-Stated in the opposite direction, if the objective function of a convex problem is monotone increasing, then the problem given by replacing the objective function with a composition of its inverse and itself (and similarly for the constraints) is an equivalent convex problem. This reduction might be used to eliminate exponentials and logarithms from a problem, which in turn might make the problem amenable to more solvers.\
-
-<!-- chunk {"id": "body-0048", "role": "body", "section": "Simple reductions", "weight": 1.0} -->
-
-Changing variables. Let $\phi$ be any one-to-one function whose image covers the problem domain. Replacing the optimization variable $x$ wherever it appears with $\phi{(z)}$ is a reduction, yielding an equivalent problem with optimization variable $z$. To retrieve a solution for the original problem from one for the transformed problem, simply take $x^{\star} = {\phi{(z^{\star})}}$, where $x^{\star}$ denotes an optimal point for the original problem and $z^{\star}$ an optimal point for the transformed problem.
-
-<!-- chunk {"id": "body-0049", "role": "body", "section": "Simple reductions", "weight": 1.0} -->
-
-Changing variables can convert nonconvex problems to equivalent convex problems. A classic example is the technique for convexifying geometric programs; this technique both changes variables and transforms the objective and constraints. A geometric program is an optimization problem of the form
-
-<!-- chunk {"id": "body-0050", "role": "body", "section": "Simple reductions", "weight": 1.0} -->
-
-where the functions $f_{i}$ are posynomials and the functions $h_{i}$ are monomials. A monomial is a function $f:{\mathbf{R}^{n}\rightarrow\mathbf{R}}$ over the nonnegative orthant defined as
-
-<!-- chunk {"id": "body-0051", "role": "body", "section": "Simple reductions", "weight": 1.0} -->
-
-where $c > 0$ and $a_{i} \in \mathbf{R}$, and a posynomial is a sum of monomials. Performing a change of variables with $x_{i} = {\exp{(z_{i})}}$ and taking logarithms of both the objective and constraints results in a convex problem. In fact, if the $f_{i}$ are all monomials, then the resulting problem is a linear program. For a brief introduction to geometric programming, see (Boyd \\BBA Vandenberghe, \\APACyear2004, §4.5); for a longer survey, see (Boyd \\BOthers., \\APACyear2007).\
-
-<!-- chunk {"id": "body-0052", "role": "body", "section": "Simple reductions", "weight": 1.0} -->
-
-Eliminating complex numbers. It is possible to reduce an optimization problem over a complex domain to one over a real domain. (While such a problem has complex variables and expressions, the constraint and objective functions must all be real-valued.)
-
-<!-- chunk {"id": "body-0053", "role": "body", "section": "Simple reductions", "weight": 1.0} -->
-
-We provide here a partial specification of the reduction. Absolute values of complex numbers reduce to Euclidean norms of their concatenated real and imaginary parts, sums of complex numbers reduce to sums of their real and imaginary parts, and equality constraints between two complex numbers reduce to equality constraints on the implicated expressions' real and imaginary parts. Perhaps more interesting, positive semidefinite constraints on Hermitian matrices reduce to positive semidefinite constraints on real symmetric matrices. As presented in (Goemans \\BBA Williamson, \\APACyear2004), a Hermitian matrix $X$ is positive semidefinite if and only if the real symmetric matrix $T{(X)}$ is positive semidefinite, where the mapping $T$ is defined as
-
-<!-- chunk {"id": "body-0054", "role": "body", "section": "Simple reductions", "weight": 1.0} -->
-
-As this reduction expands the optimization variable into its real and imaginary parts, retrieving a solution for the complex-domain problem from a solution for the real-domain problem requires but a bit of book-keeping to map variable values from the latter solution to the real and imaginary parts of the original variable.
-
-<!-- chunk {"id": "body-0055", "role": "body", "section": "Presolves", "weight": 1.0} -->
+<!-- chunk {"id": "body-0046", "role": "body", "section": "Presolves", "weight": 1.0} -->
 
 A presolve is any reduction that is meant to decrease the computational cost incurred when solving a problem. Presolves are typically performed immediately before problems are solved, with some but not all numerical solvers subjecting problems to a battery of presolves prior to solving them. Many presolves are applicable across solvers, i.e., a presolve that helps one solver is likely to help many others. This motivates folding presolves into rewriting systems and excising them from numerical solvers whenever possible. As recommended by G. Bradley \\BOthers. (\\APACyear1983), one might even treat the application of presolves as a fixed point iteration, cyclically applying presolves until the problem cannot be further simplified. This approach resembles the multiple passes an optimizing software compiler may make over an intermediate code representation (Aho \\BOthers., \\APACyear2006, §8 and §9).
 
-<!-- chunk {"id": "body-0056", "role": "body", "section": "Presolves", "weight": 1.0} -->
+<!-- chunk {"id": "body-0047", "role": "body", "section": "Presolves", "weight": 1.0} -->
 
-There is substantial literature on presolves. Andersen \\BBA Andersen (\\APACyear1995) cast presolves as reductions, listing many examples for linear programs together with methods for retrieving their solutions. Earlier surveys of linear programming presolves include (Brearley \\BOthers., \\APACyear1975), (G. Bradley \\BOthers., \\APACyear1983), and (L. Tomlin \\BBA Welch, \\APACyear1986). J. Tomlin (\\APACyear1975) discusses the problem of scaling data matrices to coax faster performance out of the simplex algorithm, while A\\BPBIM. Bradley (\\APACyear2010) provides a more modern perspective on scaling for a wider class of algorithms. Here, we present a sample of some of the presolves covered by these and other references.\
+There is substantial literature on presolves. Andersen \\BBA Andersen (\\APACyear1995) cast presolves as reductions, listing many examples for linear programs together with methods for retrieving their solutions. Earlier surveys of linear programming presolves include (Brearley \\BOthers., \\APACyear1975), (G. Bradley \\BOthers., \\APACyear1983), and (L. Tomlin \\BBA Welch, \\APACyear1986). J. Tomlin (\\APACyear1975) discusses the problem of scaling data matrices to coax faster performance out of the simplex algorithm, while A\\BPBIM. Bradley (\\APACyear2010) provides a more modern perspective on scaling for a wider class of algorithms. Here, we present a sample of some of the presolves covered by these and other references.\Eliminating fixed variables. Any variable that is constrained to be a constant is called a fixed variable; replacing every occurrence of it with the value of the constant yields an equivalent problem.
 
-<!-- chunk {"id": "body-0057", "role": "body", "section": "Presolves", "weight": 1.0} -->
+<!-- chunk {"id": "body-0048", "role": "body", "section": "Presolves", "weight": 1.0} -->
 
-Eliminating fixed variables. Any variable that is constrained to be a constant is called a fixed variable; replacing every occurrence of it with the value of the constant yields an equivalent problem. In the software compilers literature, this technique is called constant propagation (Aho \\BOthers., \\APACyear2006, §9.4). Solution retrieval simply requires setting the values of the fixed variables to their respective constant values and copying all other variable values.\
+In the software compilers literature, this technique is called constant propagation (Aho \\BOthers., \\APACyear2006, §9.4). Solution retrieval simply requires setting the values of the fixed variables to their respective constant values and copying all other variable values.\Eliminating free variables. Any variable that does not have upper and lower bounds is called a free variable; replacing every occurrence of it with the difference of two auxiliary nonnegative variables yields an equivalent problem for which a solution can be retrieved in the obvious way (Dantzig, \\APACyear1963, §4.3). In the setting of cone programs, free variables are those that are not restricted to lie in a cone (other than $\mathbf{R}^{n}$). There are a number of ways to exploit free variables in cone programs, some of which are outlined by Anjos \\BBA Burer (\\APACyear2008).\Eliminating redundant constraints. Any constraint whose removal leaves the feasible region unchanged is redundant; deleting such constraints yields an equivalent problem.
 
-<!-- chunk {"id": "body-0058", "role": "body", "section": "Presolves", "weight": 1.0} -->
+<!-- chunk {"id": "body-0049", "role": "body", "section": "Presolves", "weight": 1.0} -->
 
-Eliminating free variables. Any variable that does not have upper and lower bounds is called a free variable; replacing every occurrence of it with the difference of two auxiliary nonnegative variables yields an equivalent problem for which a solution can be retrieved in the obvious way (Dantzig, \\APACyear1963, §4.3). In the setting of cone programs, free variables are those that are not restricted to lie in a cone (other than $\mathbf{R}^{n}$). There are a number of ways to exploit free variables in cone programs, some of which are outlined by Anjos \\BBA Burer (\\APACyear2008).\
+For example, any equation in a linear system that is a linear combination of the others is redundant (Dantzig \\BBA Thapa, \\APACyear1997, §B.2). As another example, if it is required that $x \leq b$ and $x \leq c$, and moreover if it is known that $b \leq c$, then the constraint $x \leq c$ is redundant. Solution retrieval for this reduction is a no-op.\Scaling. Scaling both sides of a constraint by a positive constant is a presolve; this presolve is an instance of monotonically transforming constraints (see §3.1). It has long been known that scaling matrices (i.e., scaling constraints of the form ${Ax} \leq b$ or ${Ax} = b$) can by lowering the condition numbers of these matrices dramatically affect the performance of first-order methods for convex optimization (see, e.g., J. Tomlin, \\APACyear1975).
 
-<!-- chunk {"id": "body-0059", "role": "body", "section": "Presolves", "weight": 1.0} -->
+<!-- chunk {"id": "body-0050", "role": "body", "section": "Presolves", "weight": 1.0} -->
 
-Eliminating redundant constraints. Any constraint whose removal leaves the feasible region unchanged is redundant; deleting such constraints yields an equivalent problem. For example, any equation in a linear system that is a linear combination of the others is redundant (Dantzig \\BBA Thapa, \\APACyear1997, §B.2). As another example, if it is required that $x \leq b$ and $x \leq c$, and moreover if it is known that $b \leq c$, then the constraint $x \leq c$ is redundant. Solution retrieval for this reduction is a no-op.\
+One scaling technique, called diagonal preconditioning, premultiplies such constraints by diagonal matrices and also changes variables by premultiplying the optimization variable by another diagonal matrix (Kelley, \\APACyear1995, §2.5; Pock \\BBA Chambolle, \\APACyear2011; Takapoui \\BBA Javadi, \\APACyear2016). A popular instantiation of this technique is matrix equilibration, which chooses the diagonal matrices so that all rows of the scaled data matrix have one $p$-norm and all columns have another, with the two equal for square matrices. The literature on equilibration spans decades --- see, for example, (Sluis, \\APACyear1969), (A\\BPBIM. Bradley, \\APACyear2010), (Diamond \\BBA Boyd, \\APACyear2016\\APACexlab\\BCnt3) and the references therein.
 
-<!-- chunk {"id": "body-0060", "role": "body", "section": "Presolves", "weight": 1.0} -->
+<!-- chunk {"id": "body-0051", "role": "body", "section": "Conic canonicalization of DCP programs", "weight": 1.0} -->
 
-Scaling. Scaling both sides of a constraint by a positive constant is a presolve; this presolve is an instance of monotonically transforming constraints (see §3.1). It has long been known that scaling matrices (i.e., scaling constraints of the form ${Ax} \leq b$ or ${Ax} = b$) can by lowering the condition numbers of these matrices dramatically affect the performance of first-order methods for convex optimization (see, e.g., J. Tomlin, \\APACyear1975). One scaling technique, called diagonal preconditioning, premultiplies such constraints by diagonal matrices and also changes variables by premultiplying the optimization variable by another diagonal matrix (Kelley, \\APACyear1995, §2.5; Pock \\BBA Chambolle, \\APACyear2011; Takapoui \\BBA Javadi, \\APACyear2016).
+The embedded languages CVX, Convex.jl, CVXPY, and YALMIP canonicalize problems to a form compatible with cone program solvers; in particular, the canonicalized objective function is affine and all constraints are conic, imposed only on affine expressions of the optimization variable. These tools canonicalize problems in the same fashion, and the methodology shared among them is the subject of this section. The methodology --- which is a reduction if the problem operated upon is DCP-compliant --- proceeds in three steps: first, the problem is lifted into a higher dimension via its Smith form, making affine the arguments of each atom; second, the lifted problem is relaxed to a convex problem; and third, every nonlinear atom is replaced with conic constraints that encode its graph implementation. Our exposition in this section draws from work by Smith (\\APACyear1996), who introduced Smith form, Grant \\BBA Boyd (\\APACyear2008), who introduced graph implementations, and Chu \\BOthers. (\\APACyear2013), who illustrated these three steps with a clear example.\Smith form.
 
-<!-- chunk {"id": "body-0061", "role": "body", "section": "Presolves", "weight": 1.0} -->
+<!-- chunk {"id": "body-0052", "role": "body", "section": "Conic canonicalization of DCP programs", "weight": 1.0} -->
 
-A popular instantiation of this technique is matrix equilibration, which chooses the diagonal matrices so that all rows of the scaled data matrix have one $p$-norm and all columns have another, with the two equal for square matrices. The literature on equilibration spans decades --- see, for example, (Sluis, \\APACyear1969), (A\\BPBIM. Bradley, \\APACyear2010), (Diamond \\BBA Boyd, \\APACyear2016\\APACexlab\\BCnt3) and the references therein.
+It is natural to view an optimization problem as composed of a forest of mathematical expression trees, with one tree for the objective function and two trees for every constraint, one for each side of the constraint. The inner nodes of an expression tree represent mathematical functions, or atoms, and the leaves represent variables and constants. Every inner node is evaluated at its children, i.e., the children of an atom are its arguments. For example, the expression ${f{(x)}} + c$, in which $f$ is an atom and $c$ a constant, parses into a tree where the summation atom is the root, $f$ and $c$ are the children of the root, and $x$ is the child of $f$.
 
-<!-- chunk {"id": "body-0062", "role": "body", "section": "Conic canonicalization of DCP programs", "weight": 1.0} -->
+<!-- chunk {"id": "body-0053", "role": "body", "section": "Conic canonicalization of DCP programs", "weight": 1.0} -->
 
-The embedded languages CVX, Convex.jl, CVXPY, and YALMIP canonicalize problems to a form compatible with cone program solvers; in particular, the canonicalized objective function is affine and all constraints are conic, imposed only on affine expressions of the optimization variable. These tools canonicalize problems in the same fashion, and the methodology shared among them is the subject of this section. The methodology --- which is a reduction if the problem operated upon is DCP-compliant --- proceeds in three steps: first, the problem is lifted into a higher dimension via its Smith form, making affine the arguments of each atom; second, the lifted problem is relaxed to a convex problem; and third, every nonlinear atom is replaced with conic constraints that encode its graph implementation. Our exposition in this section draws from work by Smith (\\APACyear1996), who introduced Smith form, Grant \\BBA Boyd (\\APACyear2008), who introduced graph implementations, and Chu \\BOthers. (\\APACyear2013), who illustrated these three steps with a clear example.\
+Converting an optimization problem to Smith form requires making a single pass over every expression tree present in the problem. Recursively, beginning with the root, each subexpression is replaced with an auxiliary variable, and equality constraints are introduced between the auxiliary variables and the subexpressions they replaced. The resulting problem is said to be in Smith form, a key property of which is that the arguments of each atom within the problem are affine (indeed, they are unadorned variables). Transforming a problem to Smith form is always a reduction. This reduction does not however preserve convexity, as any convex function present in the original problem will appear as the constraint function of an equality constraint in the transformed problem.\Relaxed Smith form. If the original problem is DCP-compliant, then its Smith form can be relaxed to an equivalent convex problem.
 
-<!-- chunk {"id": "body-0063", "role": "body", "section": "Conic canonicalization of DCP programs", "weight": 1.0} -->
+<!-- chunk {"id": "body-0054", "role": "body", "section": "Conic canonicalization of DCP programs", "weight": 1.0} -->
 
-Smith form. It is natural to view an optimization problem as composed of a forest of mathematical expression trees, with one tree for the objective function and two trees for every constraint, one for each side of the constraint. The inner nodes of an expression tree represent mathematical functions, or atoms, and the leaves represent variables and constants. Every inner node is evaluated at its children, i.e., the children of an atom are its arguments. For example, the expression ${f{(x)}} + c$, in which $f$ is an atom and $c$ a constant, parses into a tree where the summation atom is the root, $f$ and $c$ are the children of the root, and $x$ is the child of $f$.
+In particular, relaxing in the correct direction the nonconvex equality constraints between the auxiliary variables and their associated atoms is in this case a reduction, in the following sense: if $(x^{\star},t^{\star})$ is optimal for the relaxed problem, $t$ a vector of the auxiliary variables and $x$ the original variable, then $x^{\star}$ is optimal for the original problem.\Graph implementations. The final step in this reduction replaces every constraint in which a nonlinear convex atom appears with conic constraints that encode the atom's epigraph. The epigraph of a function is defined as the set of points that lie above its graph: For a function $f$, its epigraph is defined as the set of points $\{{(x,y)}\mid{{f{(x)}} \leq y}\}$.
 
-<!-- chunk {"id": "body-0064", "role": "body", "section": "Conic canonicalization of DCP programs", "weight": 1.0} -->
+<!-- chunk {"id": "body-0055", "role": "body", "section": "Conic canonicalization of DCP programs", "weight": 1.0} -->
 
-Converting an optimization problem to Smith form requires making a single pass over every expression tree present in the problem. Recursively, beginning with the root, each subexpression is replaced with an auxiliary variable, and equality constraints are introduced between the auxiliary variables and the subexpressions they replaced. The resulting problem is said to be in Smith form, a key property of which is that the arguments of each atom within the problem are affine (indeed, they are unadorned variables). Transforming a problem to Smith form is always a reduction. This reduction does not however preserve convexity, as any convex function present in the original problem will appear as the constraint function of an equality constraint in the transformed problem.\
+As a simple example of such a replacement, the epigraph of the function $|x|$ is the set $\{{(x,y)}\mid{{x \leq y},{{- x} \leq y}}\}$; accordingly, the constraint ${|t_{1}|} \leq t_{2}$ would be replaced with the constraints $t_{1} \leq t_{2}$ and ${- t_{1}} \leq t_{2}$. Constraints encoding the epigraph of an atom are called the graph implementation of the atom, coined in (Grant, \\APACyear2004), though such constraints might more aptly be referred to as an epigraph implementation; the action of replacing a nonlinear atom with its graph implementation is called a graph expansion.
 
-<!-- chunk {"id": "body-0065", "role": "body", "section": "Conic canonicalization of DCP programs", "weight": 1.0} -->
-
-Relaxed Smith form. If the original problem is DCP-compliant, then its Smith form can be relaxed to an equivalent convex problem. In particular, relaxing in the correct direction the nonconvex equality constraints between the auxiliary variables and their associated atoms is in this case a reduction, in the following sense: if $(x^{\star},t^{\star})$ is optimal for the relaxed problem, $t$ a vector of the auxiliary variables and $x$ the original variable, then $x^{\star}$ is optimal for the original problem.\
-
-<!-- chunk {"id": "body-0066", "role": "body", "section": "Conic canonicalization of DCP programs", "weight": 1.0} -->
-
-Graph implementations. The final step in this reduction replaces every constraint in which a nonlinear convex atom appears with conic constraints that encode the atom's epigraph. The epigraph of a function is defined as the set of points that lie above its graph: For a function $f$, its epigraph is defined as the set of points $\{{(x,y)}\mid{{f{(x)}} \leq y}\}$. As a simple example of such a replacement, the epigraph of the function $|x|$ is the set $\{{(x,y)}\mid{{x \leq y},{{- x} \leq y}}\}$; accordingly, the constraint ${|t_{1}|} \leq t_{2}$ would be replaced with the constraints $t_{1} \leq t_{2}$ and ${- t_{1}} \leq t_{2}$.
-
-<!-- chunk {"id": "body-0067", "role": "body", "section": "Conic canonicalization of DCP programs", "weight": 1.0} -->
-
-Constraints encoding the epigraph of an atom are called the graph implementation of the atom, coined in (Grant, \\APACyear2004), though such constraints might more aptly be referred to as an epigraph implementation; the action of replacing a nonlinear atom with its graph implementation is called a graph expansion.
-
-<!-- chunk {"id": "body-0068", "role": "body", "section": "Conic canonicalization of DCP programs", "weight": 1.0} -->
+<!-- chunk {"id": "body-0056", "role": "body", "section": "Conic canonicalization of DCP programs", "weight": 1.0} -->
 
 Graph implementations are useful outside of conic canonicalization as well. For example, one might choose to only perform graph expansions for piecewise-linear atoms such as abs, max, and sum_k_largest, which sums the $k$ largest entries of a vector or matrix. This process of eliminating piecewise-linear atoms is itself a reduction if the problem to which it is applied is DCP-compliant.
 
-<!-- chunk {"id": "body-0069", "role": "body", "section": "Other reductions", "weight": 1.0} -->
+<!-- chunk {"id": "body-0057", "role": "body", "section": "Other reductions", "weight": 1.0} -->
 
-The reductions presented are somewhat subtle and problem specific, examples of the kinds of experimental reductions one might include in a rewriting system.\
+The reductions presented are somewhat subtle and problem specific, examples of the kinds of experimental reductions one might include in a rewriting system.\Decomposing second-order cone constraints. A second-order cone constraint on a block vector $(x,t)$ is a constraint of the form ${\| x\|}_{2} \leq t$, where $x \in \mathbf{R}^{n}$ is a vector and $t$ is a scalar. The dimension of such a second-order cone constraint is $n + 1$.
 
-<!-- chunk {"id": "body-0070", "role": "body", "section": "Other reductions", "weight": 1.0} -->
-
-Decomposing second-order cone constraints. A second-order cone constraint on a block vector $(x,t)$ is a constraint of the form ${\| x\|}_{2} \leq t$, where $x \in \mathbf{R}^{n}$ is a vector and $t$ is a scalar. The dimension of such a second-order cone constraint is $n + 1$.
-
-<!-- chunk {"id": "body-0071", "role": "body", "section": "Other reductions", "weight": 1.0} -->
+<!-- chunk {"id": "body-0058", "role": "body", "section": "Other reductions", "weight": 1.0} -->
 
 Any second-order constraint of dimension $n + 1$, $n \geq 2$, can be reduced to $n - 1$ three-dimensional second-order cone constraints by the following chain of observations: The constraint ${\| x\|}_{2} \leq t$ holds if and only if ${x_{1}^{2} + x_{2}^{2} + \cdots + x_{n}^{2}} \leq t^{2}$ and $t \geq 0$, which in turn holds if and only if ${x_{2}^{2} + \cdots + x_{n}^{2}} \leq u^{2}$, $u^{2} \leq {t^{2} - x_{1}^{2}}$, and ${u,t} \geq 0$, where $u$ is a scalar variable, i.e., if and only if $(x_{2},\ldots,x_{n},u)$ and
 
-<!-- chunk {"id": "body-0072", "role": "body", "section": "Other reductions", "weight": 1.0} -->
+<!-- chunk {"id": "body-0059", "role": "body", "section": "Other reductions", "weight": 1.0} -->
 
-$(x_{1},u,t)$ are in the second-order cone. The result follows by recursing on $(x_{2},\ldots,x_{n},u)$.\
+The result follows by recursing on $(x_{2},\ldots,x_{n},u)$.\Decomposing semidefinite constraints. A semidefinite program is a convex optimization problem of the form where the constraint $X \in \mathbf{S}_{+}^{n}$ requires $X$ to be an $n \times n$ positive semidefinite matrix. Semidefinite programs can become significantly harder to solve as the size of the matrices involved increases, motivating reductions that decompose the matrices into smaller ones.
 
-<!-- chunk {"id": "body-0073", "role": "body", "section": "Other reductions", "weight": 1.0} -->
-
-Decomposing semidefinite constraints. A semidefinite program is a convex optimization problem of the form
-
-<!-- chunk {"id": "body-0074", "role": "body", "section": "Other reductions", "weight": 1.0} -->
-
-where the constraint $X \in \mathbf{S}_{+}^{n}$ requires $X$ to be an $n \times n$ positive semidefinite matrix. Semidefinite programs can become significantly harder to solve as the size of the matrices involved increases, motivating reductions that decompose the matrices into smaller ones.
-
-<!-- chunk {"id": "body-0075", "role": "body", "section": "Other reductions", "weight": 1.0} -->
+<!-- chunk {"id": "body-0060", "role": "body", "section": "Other reductions", "weight": 1.0} -->
 
 A semidefinite program that exhibits a chordal aggregate sparsity pattern can often be reduced to a program involving smaller matrices. The sparsity pattern of an $n \times n$ matrix is a set $E$ of pairs $(i,j)$, ${i,j} \in {\{ 1,2,\ldots,n\}}$, such that $A_{ij} = 0$ if ${(i,j)} \notin E$ and $i \neq j$; the aggregate sparsity pattern of a semidefinite program is the union of the edge sets of the sparsity patterns of $C$ and $A_{1},A_{2},\ldots,A_{p}$. A sparsity pattern is chordal if the induced graph (with vertices $V = {\{ 1,2,\ldots,n\}}$ and edges $E$) is chordal, i.e., if every cycle of length greater than three contains an edge between two non-consecutive vertices, called a chord.
 
-<!-- chunk {"id": "body-0076", "role": "body", "section": "Other reductions", "weight": 1.0} -->
+<!-- chunk {"id": "body-0061", "role": "body", "section": "Other reductions", "weight": 1.0} -->
 
-The reduction in question replaces the optimization variable with smaller matrix variables, one for each clique in the graph induced by the aggregate sparsity pattern, rewriting the objective and equality constraints in terms of these new variables and adding equality constraints to preserve the semantics of the original problem. The particulars of this reduction (and related ones) can be found in Fukuda \\BOthers. (\\APACyear2001), whose authors were among the first to exploit chordal sparsity patterns to decompose large semidefinite programs, and (Vandenberghe \\BBA Andersen, \\APACyear2015, §14.2), which thoroughly surveys the topic of chordal graphs as they relate to semidefinite optimization.\
+The reduction in question replaces the optimization variable with smaller matrix variables, one for each clique in the graph induced by the aggregate sparsity pattern, rewriting the objective and equality constraints in terms of these new variables and adding equality constraints to preserve the semantics of the original problem. The particulars of this reduction (and related ones) can be found in Fukuda \\BOthers. (\\APACyear2001), whose authors were among the first to exploit chordal sparsity patterns to decompose large semidefinite programs, and (Vandenberghe \\BBA Andersen, \\APACyear2015, §14.2), which thoroughly surveys the topic of chordal graphs as they relate to semidefinite optimization.\Relaxing convex equality constraints. Consider an optimization problem with a convex objective, convex inequality constraints, and a single convex equality constraint. This problem is not convex; however, it can in certain cases be coerced into a convex form.
 
-<!-- chunk {"id": "body-0077", "role": "body", "section": "Other reductions", "weight": 1.0} -->
+<!-- chunk {"id": "body-0062", "role": "body", "section": "Other reductions", "weight": 1.0} -->
 
-Relaxing convex equality constraints. Consider an optimization problem with a convex objective, convex inequality constraints, and a single convex equality constraint. This problem is not convex; however, it can in certain cases be coerced into a convex form. Letting $x$ be the problem variable, if there is an index $r$ such that the objective is monotonically increasing in $x_{r}$, each inequality constraint function is nondecreasing in $x_{r}$, and the equality constraint function is monotonically decreasing in $x_{r}$, then relaxing the equality constraint to a nonpositive inequality constraint produces an equivalent convex problem, i.e., the relaxation is tight (Boyd \\BBA Vandenberghe, \\APACyear2004, exercise 4.6).
+Letting $x$ be the problem variable, if there is an index $r$ such that the objective is monotonically increasing in $x_{r}$, each inequality constraint function is nondecreasing in $x_{r}$, and the equality constraint function is monotonically decreasing in $x_{r}$, then relaxing the equality constraint to a nonpositive inequality constraint produces an equivalent convex problem, i.e., the relaxation is tight (Boyd \\BBA Vandenberghe, \\APACyear2004, exercise 4.6).
 
-<!-- chunk {"id": "body-0078", "role": "body", "section": "An example", "weight": 1.0} -->
+<!-- chunk {"id": "body-0063", "role": "body", "section": "An example", "weight": 1.0} -->
 
 We address in this section the following quite practical question: What types of convex programs reduce to quadratic programs?
 
-<!-- chunk {"id": "body-0079", "role": "body", "section": "An example", "weight": 1.0} -->
+<!-- chunk {"id": "body-0064", "role": "body", "section": "An example", "weight": 1.0} -->
 
 A quadratic program is an optimization problem in which the objective function is a convex quadratic and the constraint functions are affine (Boyd \\BBA Vandenberghe, \\APACyear2004, §4.4); quadratic programs have been studied since the 1950s. Evidently, a problem in which every inequality constraint function is piecewise-linear and every equality constraint function is affine can be reduced to a problem in which every constraint function is affine (by eliminating the piecewise-linear atoms via graph expansions, as described in §3.3).
 
-<!-- chunk {"id": "body-0080", "role": "body", "section": "An example", "weight": 1.0} -->
+<!-- chunk {"id": "body-0065", "role": "body", "section": "An example", "weight": 1.0} -->
 
 Describing acceptable objective functions requires more work; we will specify acceptable objective functions via their expression trees, and we will specify an acceptable expression tree by providing regular expressions (Aho \\BOthers., \\APACyear2006, §3.3.3) for paths beginning at the root and terminating at (the ancestor of) a leaf. Letting $A$ denote an affine atom, $P$ a piecewise-linear atom, and $Q$ a quadratic atom, it is clear that any objective function whose root-to-leaf paths satisfy the regular expression $A \ast QA \ast |P +$ can be canonicalized to a quadratic by eliminating the piecewise-linear atoms --- this is evident because the Hessian of such a function is constant almost everywhere.
 
-<!-- chunk {"id": "body-0081", "role": "body", "section": "An example", "weight": 1.0} -->
+<!-- chunk {"id": "body-0066", "role": "body", "section": "An example", "weight": 1.0} -->
 
 Barring nonlinear transformations (e.g., squaring a norm), one might reasonably assume that the class of problems reducible to quadratic problem cannot be further generalized, for the regular expression does after all capture both linear programs and quadratic programs. But such an assumption would be incorrect. In fact, any DCP-compliant problem (with acceptable constraints) whose objective function's root-to-leaf paths satisfy the regular expression $A \ast QP \ast |P +$ can be reduced to a quadratic program (Fig. 4 renders the regular expression as a finite-state machine). The corresponding reduction eliminates the piecewise-linear atoms using graph expansions and then massages the objective into a quadratic.
 
-<!-- chunk {"id": "body-0082", "role": "body", "section": "An example", "weight": 1.0} -->
+<!-- chunk {"id": "body-0067", "role": "body", "section": "An example", "weight": 1.0} -->
 
-Note that unlike the simpler class of problems we described, this problem does not have a constant Hessian --- its second derivative is $0$ when $x < 0$, $2$ when $0 < x < 1$, and $8$ when $x > 1$. It is nonetheless reducible to a quadratic program, i.e., a problem whose objective function has a constant Hessian.
+As an example, the following problem can be canonicalized to a quadratic program: Note that unlike the simpler class of problems we described, this problem does not have a constant Hessian --- its second derivative is $0$ when $x < 0$, $2$ when $0 < x < 1$, and $8$ when $x > 1$. It is nonetheless reducible to a quadratic program, i.e., a problem whose objective function has a constant Hessian.
 
-<!-- chunk {"id": "body-0083", "role": "body", "section": "Implementation", "weight": 1.0} -->
+<!-- chunk {"id": "body-0068", "role": "body", "section": "Implementation", "weight": 1.0} -->
 
-We have implemented a number of the reductions from §3 in version 1.0 of CVXPY, an open-source implementation of our proposed three-phase rewriting system, available at
+We have implemented a number of the reductions from §3 in version 1.0 of CVXPY, an open-source implementation of our proposed three-phase rewriting system, available at All problem rewriting is facilitated by Reduction objects, and every reduction implements three methods: accepts, apply, and retrieve. The accepts method takes as input a problem and returns a boolean indicating whether or not the reduction can be applied to the problem, the apply method takes as input a problem and returns a new equivalent problem, and the retrieve method takes a solution for the problem returned by an invocation of apply and retrieves from it a solution for its problem of provenance. Some of the tasks carried out by reductions in our system include flipping objectives (§3.1), eliminating piecewise-linear atoms (§3.3), canonicalizing problems to cone programs, (§3.3), and canonicalizing problems to quadratic programs (§3.5). Sequences of reductions are represented by Chain objects, which are themselves reductions, and solver back ends are implemented with Chain objects.
 
-<!-- chunk {"id": "body-0084", "role": "body", "section": "Implementation", "weight": 1.0} -->
-
-All problem rewriting is facilitated by Reduction objects, and every reduction implements three methods: accepts, apply, and retrieve. The accepts method takes as input a problem and returns a boolean indicating whether or not the reduction can be applied to the problem, the apply method takes as input a problem and returns a new equivalent problem, and the retrieve method takes a solution for the problem returned by an invocation of apply and retrieves from it a solution for its problem of provenance. Some of the tasks carried out by reductions in our system include flipping objectives (§3.1), eliminating piecewise-linear atoms (§3.3), canonicalizing problems to cone programs, (§3.3), and canonicalizing problems to quadratic programs (§3.5). Sequences of reductions are represented by Chain objects, which are themselves reductions, and solver back ends are implemented with Chain objects.
-
-<!-- chunk {"id": "body-0085", "role": "body", "section": "Implementation", "weight": 1.0} -->
+<!-- chunk {"id": "body-0069", "role": "body", "section": "Implementation", "weight": 1.0} -->
 
 Creating expressions and constraints in CVXPY invokes behind-the-scenes a front end that parses them into expression trees; this functionality is not new (see Diamond \\BBA Boyd, \\APACyear2016\\APACexlab\\BCnt1). What is new is the method by which solvers are chosen for problems and the methods by which problems are canonicalized to their standard forms. In CVXPY 1.0, invoking the solve method of a problem triggers an analyzer, phase two of our rewriting system. The analyzer determines the most specific class to which the problem belongs by checking which back ends accept the problem; back ends are checked in order of decreasing specificity, and the analysis is short-circuited as soon as a suitable back end is found. Analysis may itself apply simple reductions to the problem. Any such reductions are prepended to the back end to create a Chain object that encapsulates the entire rewriting process, and the problem is solved by applying the chained reduction, invoking a solver, and using the chained reduction to retrieve a solution.
 
-<!-- chunk {"id": "body-0086", "role": "body", "section": "Implementation", "weight": 1.0} -->
+<!-- chunk {"id": "body-0070", "role": "body", "section": "Implementation", "weight": 1.0} -->
 
 For example, if a user specifies a problem that is recognizably reducible to a quadratic program, and if a quadratic solver is installed on the user's device, CVXPY 1.0 will automatically target it.

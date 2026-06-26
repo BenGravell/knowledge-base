@@ -11,3 +11,2303 @@ Reliable and efficient trajectory generation methods are a fundamental need for 
 <!-- chunk {"id": "abstract-0003", "role": "abstract", "section": "Abstract", "weight": 2.0} -->
 
 Among these applications are high-profile rocket flights conducted by organizations like NASA, Masten Space Systems, SpaceX, and Blue Origin. This article aims to give the reader the tools and understanding necessary to work with each algorithm, and to know what each method can and cannot do. A publicly available source code repository supports the provided numerical examples. By the end of the article, the reader should be ready to use the methods, to extend them, and to contribute to their many exciting modern applications.
+
+<!-- chunk {"id": "body-0004", "role": "body", "section": "Paper Body", "weight": 1.0} -->
+
+#4
+
+<!-- chunk {"id": "body-0005", "role": "body", "section": "Paper Body", "weight": 1.0} -->
+
+#2(%
+
+<!-- chunk {"id": "body-0006", "role": "body", "section": "Paper Body", "weight": 1.0} -->
+
+\newcommand{\bbar}{\bar{\bar}} \DeclareFontShape{U}{tipa}{m}{n}{<->tipa10}{} \newcommand{\arc@char}{{\usefont{U}{tipa}{m}{n}\symbol{62}}}% \renewcommand{\arc}{\mathpalette\arc@arc} \newcommand{\arc@arc}{% \hbox{\resizebox{\wd0}{\height}{\arc@char}}% \end{subequations} will advance `equation`% set the current label \makeatother %not \makeatletter \newcommand{\dash}{\Hyphdash}% \hfill equivalents inside math mode \ifmeasuring@#1\else\omit\hfill$\displaystyle#1$\fi\ignorespaces}
+
+<!-- chunk {"id": "body-0007", "role": "body", "section": "Paper Body", "weight": 1.0} -->
+
+\newcommand{\volume}{\vol\left(#1\right)} \DeclareMathOperator{\vtcs}{\set V} \newcommand{\vertices}{\vtcs\left(#1\right)} \DeclareMathOperator{\myfixedpointset}{fixed} \newcommand{\fixedpoint}{\myfixedpointset\left(#1\right)} \DeclareMathOperator{\sublevelsetsymbol}{lev} \newcommand{\levelset}{\sublevelsetsymbol_#2} \newcommand{\algvar}{\text{\IfSubStr{_}{% \newcommand{\true}{\algvar{true}\xspace} \newcommand{\false}{\algvar{false}\xspace} \newcommand{\bigO}{O\left(#1\right)} \newcommand{\smallO}{o\left(#1\right)}
+
+<!-- chunk {"id": "body-0008", "role": "body", "section": "Paper Body", "weight": 1.0} -->
+
+\newcommand{\bigOmega}{\Omega\left(#1\right)} \newcommand{\bigTheta}{\Theta\left(#1\right)} \definecolor{listinggray}{gray}{0.9} \definecolor{lbcolor}{rgb}{0.9,0.9,0.9} \colorlet{Darkgreen}{green!60!black} {morekeywords={abstract,break,case,catch,const,continue,do,else,elseif,% end,export,false function,immutable,import,importall,if % macro,module,otherwise,quote,return,switch,true,try,type,typealias,%}[keywords,comments,strings] backgroundcolor=\color{lbcolor}, prebreak = \raisebox{0ex}[0ex][0ex]{\ensuremath{\hookleftarrow}}, keywordstyle=\color[rgb]{0,0,1}, commentstyle=\color{Darkgreen},
+
+<!-- chunk {"id": "body-0009", "role": "body", "section": "Paper Body", "weight": 1.0} -->
+
+stringstyle=\color{red}, numberstyle=\color[rgb]{0.205, 0.142, 0.73}, \lstdefinestyle{listing@Julia}{% \lstdefinestyle{listing@Python}{% \newcommand\langname@bash{} \def\langname@bash{bash} \newcommand\prompt@bash{\texttt{\$}\ } %\$ \newcommand\addedToEveryPar@bash{} \lst@AddToHook{EveryPar}{\addedToEveryPar@bash} \lst@AddToHook{PreInit}{% \ifx\lst@language\langname@bash% \let\addedToEveryPar@bash\prompt@bash% backgroundcolor=\color{black!90!blue}, basicstyle=\color{white}, commentstyle=\color{yellow!50}, keywordstyle=\bfseries\color{orange},
+
+<!-- chunk {"id": "body-0010", "role": "body", "section": "Paper Body", "weight": 1.0} -->
+
+\newcommand{\cppcode}{\lstinputlisting[style=listing@C++,#1]} \newcommand{\pythoncode}{\lstinputlisting[style=listing@Python,#1]} \newcommand{\juliacode}{\lstinputlisting[style=listing@Julia,#1]} \lstnewenvironment{terminalcode}{\lstset{style=listingterminal,#1}}{} \newcommand{\converge}{\overset{\to}} \newcommand{\grad}{\nabla} \newcommand{\hess}{\nabla^2} \newcommand{\diff}{\nabla\_#2} \newcommand{\hot}{\textnormal{h.o.t.}} \newcommand{\ddx}{\frac{\dd}{\dd x}} \newcommand{\subdiff}[none]{%
+
+<!-- chunk {"id": "body-0011", "role": "body", "section": "Paper Body", "weight": 1.0} -->
+
+\begin{bmatrix}#2\end{bmatrix}} \ifthenelse{\equal{}}{}{\setlength\arraycolsep}% \begin{matrix}#2\end{matrix}} \newcommand{\Mnl}{\protect\\} % protected newline \newcommand{\linmap}{\mathcal} \def\arr@offset{0.15em} \def\arr@len{0.7em} \def\arr@height{0.3em} \tikz[minimum height=0ex,outer sep=0,inner sep=0] \path[-{Latex[length=0.8mm]}] node (b) at (0,\arr@height) {} (a) edge ++(\arr@len,0) (b) edge ++(\arr@len,0) (a) edge[draw=none] ++(0,-\arr@offset);%
+
+<!-- chunk {"id": "body-0012", "role": "body", "section": "Paper Body", "weight": 1.0} -->
+
+}#1} \ifthenelse{\equal{}}{\forall[0,#3]}{\forall[#2,#3]}% \ifthenelse{\equal{}}{\forall(0,#3)}{\forall(#2,#3)}% \ifthenelse{\equal{}}{\forall(0,#3]}{\forall(#2,#3]}% \ifthenelse{\equal{}}{\forall[0,#3)}{\forall[#2,#3)}% \DeclareMathOperator*{\argmax}{argmax} \DeclareMathOperator*{\argmin}{argmin} \DeclareMathOperator*{\minimize}{\mathrm{minimize}} \DeclareMathOperator*{\maximize}{\mathrm{maximize}} \DeclareMathOperator*{\find}{\mathrm{find}} \DeclareMathOperator{\val}{val}
+
+<!-- chunk {"id": "body-0013", "role": "body", "section": "Paper Body", "weight": 1.0} -->
+
+\newcommand{\lse}{\mathsf{L}\_} \newcommand*\softmax{\lse}% Get more optimization commands via \input{latex\_common/optimization.tex} \def\SectionLabel{section} \def\SubsectionLabel{subsection} \def\SubsubsectionLabel{subsubsection} \def\ChapterLabel{chapter} \def\AppendixLabel{appendix} \def\FigureLabel{fig} \def\TableLabel{table} \def\FootnoteLabel{footnote} \def\AlgorithmLabel{alg} \def\ProblemLabel{problem} \def\PropertyLabel{property} \def\TheoremLabel{theorem} \def\CorollaryLabel{corollary} \def\ConditionLabel{condition} \def\AssumptionLabel{assumption} \def\PropositionLabel{proposition} \def\DefinitionLabel{definition} \def\LemmaLabel{lemma} \def\ExampleLabel{example} \def\ListingLabel{listing}
+
+<!-- chunk {"id": "body-0014", "role": "body", "section": "Paper Body", "weight": 1.0} -->
+
+\newcommand{\GetLabel}{\expandafter\csname #1Label\endcsname} \define@key{printRefKeys}{otherLabel}{\def\otherLabel} \define@key{printRefKeys}{concatenate}{\def\concatenate}% \ifthenelse{{}}{}{\edef\MyModifiedLabel}% \setkeys{printRefKeys}{otherLabel=,#1}% \setkeys{printRefKeys}{concatenate=false,#1}% \ifthenelse{\equal{\otherLabel}{}}{}{\xdef\MyModifiedLabel{\otherLabel}}% \tikzmath{\MyRefCount=int(\MyRefCount+1);}% \xdef\MyRefCount{\MyRefCount}% \edef\OrigRefCount{\MyRefCount}%
+
+<!-- chunk {"id": "body-0015", "role": "body", "section": "Paper Body", "weight": 1.0} -->
+
+#2~\GetLabel{\MyModifiedLabel:#3}%
+
+<!-- chunk {"id": "body-0016", "role": "body", "section": "Paper Body", "weight": 1.0} -->
+
+#2s%
+
+<!-- chunk {"id": "body-0017", "role": "body", "section": "Paper Body", "weight": 1.0} -->
+
+\tikzmath{\MyCounter=int(\MyCounter+1);}% \xdef\MyCounter{\MyCounter}% \ifthenelse{\equal{\concatenate}{true}}{% \GetLabel{\MyModifiedLabel:\AlgRef}-% \pgfmathparse{\MyCounter==\MyRefCount ? 1: 0}% \GetLabel{\MyModifiedLabel:\AlgRef}% \pgfmathparse{\MyCounter<\MyRefCount-1 ? 1: 0}% \GetLabel{\MyModifiedLabel:\AlgRef}, % \pgfmathparse{\MyCounter<\MyRefCount ?
+
+<!-- chunk {"id": "body-0018", "role": "body", "section": "Paper Body", "weight": 1.0} -->
+
+1: 0}% \GetLabel{\MyModifiedLabel:\AlgRef}% \ifthenelse{\pgfmathresult>0}{ and }{, and }% \GetLabel{\MyModifiedLabel:\AlgRef}%% Document section references \newcommand{\sref}{\PrintRefs{Section}} \newcommand{\ssref}{\PrintRefs[otherLabel=Subsection,#1]{Section}} \newcommand{\sssref}{\PrintRefs[otherLabel=Subsubsection,#1]{Section}} \newcommand{\cref}{\PrintRefs{Chapter}} \newcommand{\appref}{\PrintRefs{Appendix}} \newcommand{\figref}{\PrintRefs{Figure}} \newcommand{\tabref}{\PrintRefs[#1]{Table}}
+
+<!-- chunk {"id": "body-0019", "role": "body", "section": "Paper Body", "weight": 1.0} -->
+
+\ifthenelse{\equal{\showalg}{true}}{\PrintRefs{Algorithm}}{}%% Mathematical element references \newcommand{\pref}{\PrintRefs[#1]{Problem}} \newcommand{\propref}{\PrintRefs[#1]{Property}} \newcommand{\tref}{\PrintRefs[#1]{Theorem}} \newcommand{\corref}{\PrintRefs[#1]{Corollary}} \newcommand{\conref}{\PrintRefs[#1]{Condition}} \newcommand{\aref}{\PrintRefs[#1]{Assumption}} \newcommand{\prref}{\PrintRefs[#1]{Proposition}} \newcommand{\dref}{\PrintRefs[#1]{Definition}} \newcommand{\lref}{\PrintRefs[#1]{Lemma}}
+
+<!-- chunk {"id": "body-0020", "role": "body", "section": "Paper Body", "weight": 1.0} -->
+
+\newcommand{\eref}{\PrintRefs[#1]{Example}} \newcommand{\lstref}{\PrintRefs[#1]{Listing}} \newcommand{\figlabel}{\label{fig:#1}} \newcommand{\tablabel}{\label{table:#1}}% Add an external file whose content we wish to reference \newcommand*{\addFileDependency}{% argument=file name and extension \IfFileExists{}{\typeout{No file #1.}} \DeclareSIUnit{\radian}{rad} \DeclareSIUnit\century{century}% Add an item to a comma separated list \newcommand{\add@list@item}{ \ifthenelse{\equal{}}{\xdef#1{}}{\xdef#1}}% Create a new counter, or reset its value to zero if one already exists% Make an indexable "array" from a comma-separated list%
+
+<!-- chunk {"id": "body-0021", "role": "body", "section": "Paper Body", "weight": 1.0} -->
+
+Arguments: #1 (list name), #2 (comma-separate value list) \xdef\@current@list@name \xdef\@current@list@counter \providecounter{\@current@list@counter} \edef\@tmp@list{} \expandafter\forcsvlist\expandafter\list@saveitem\@tmp@list% Atomic function that assign i-th list element to i-th array element \newcommand{\list@saveitem}{% \stepcounter{\@current@list@counter}% \expandafter\def\csname\@current@list@name% \arabic{\@current@list@counter}\endcsname% Access the i-th array element% Arguments: #1 (list name), #2 (one-based index) \newcommand{\list@nth}{\csname #1#2\endcsname}% Print message to the compilation.log file \newcommand{\echodebug}{\typeout{debug> #1}}
+
+<!-- chunk {"id": "body-0022", "role": "body", "section": "Paper Body", "weight": 1.0} -->
+
+\newenvironment{qanswer}{\color{blue}}{} \newenvironment{unfinished}{\color{red}\itshape}{} \newcommand{\makeunderscoreletter}{\catcode`\_11} \newcommand{\makeunderscoreother}{\catcode`\_8}% Hypertarget with correct baseline (to not aim a line too low) \newcommand{\linkdest}{\Hy@raisedlink{\hypertarget{}}}% >> Optionally building parts of text according to flags << \expandafter\newif\csname ifmake#1\endcsname \csname make#1#2\endcsname \csname ifmake#2\endcsname
+
+<!-- chunk {"id": "body-0023", "role": "body", "section": "Paper Body", "weight": 1.0} -->
+
+#1
+
+<!-- chunk {"id": "body-0024", "role": "body", "section": "Paper Body", "weight": 1.0} -->
+
+\ifthenelse{\isundefined{\noindentadjust}}{ \setlength\parindent{0pt} % No paragraph indentation \setlength{\parskip}{4pt} % Paragraph spacing \allowdisplaybreaks % Allow breaking long equations across pages \ifthenelse{\isundefined{\nohref}}{ \ifthenelse{\isundefined{\preprintcsm}}{ \usepackage[hypertexnames=false]{hyperref}}{}}{}}{} \ifthenelse{\isundefined{\nohref}}{% \hypersetup{colorlinks,linkcolor={red},citecolor={green},urlcolor={blue}} {\color{black!75!white}}% {\color{black}\bfseries} {\thmname~\thmnumber\thmnote{ (#3)}}% \ifthenelse{\isundefined{\theoremlook}}{
+
+<!-- chunk {"id": "body-0025", "role": "body", "section": "Paper Body", "weight": 1.0} -->
+
+\def\theoremlook{theorem}}{} \ifthenelse{\isundefined{\definitionlook}}{ \def\definitionlook{definition}}{} \newtheorem{theorem}{Theorem} \newtheorem{lemma}{Lemma} \newtheorem{corollary}{Corollary} \newtheorem{proposition}{Proposition} \newtheorem{remark}{Remark} \newtheorem{property}{Property} \newtheorem{condition}{Condition} \newtheorem{method}{Method} \newtheorem{example}{Example} \newtheorem{problem}{Problem} \newtheorem{definition}{Definition} \newtheorem{assumption}{Assumption} \def\thmenvs{theorem,lemma,corollary,proposition,remark,property,% condition,method,example,problem,definition,assumption}% Save the original definition \expandafter\let\csname o\@te\expandafter\endcsname\csname\@te\endcsname
+
+<!-- chunk {"id": "body-0026", "role": "body", "section": "Paper Body", "weight": 1.0} -->
+
+\expandafter\let\csname eo\@te\expandafter\endcsname\csname end\@te\endcsname% Re-define the environment \csname o\@currenvir\endcsname% \ifthenelse{\equal{}}{}{\label{\@currenvir:##1}} \expandafter\csname eo\@currenvir\endcsname% \setlength{\nomitemsep}{-\parsep} \newcommand{\defvar}[show]{\nomenclature% \ifthenelse{\equal{show}}{}} \def\objective@label{objective} \tl\_new:N \l\_opti\_task\_tl \tl\_new:N \l\_opti\_label\_tl \tl\_new:N \l\_opti\_vars\_tl \tl\_new:N \l\_opti\_objective\_tl
+
+<!-- chunk {"id": "body-0027", "role": "body", "section": "Paper Body", "weight": 1.0} -->
+
+\makeflag{twocolcsm}{false} \ifthenelse{\isundefined{\arxivcsm}}{}{ \makeflag{prettycsm}{false} \makeflag{arxivcsm}{true} \usepackage[margin=1in]{geometry} \usepackage[nolists,nomarkers,tablesfirst]{endfloat} % put figures at end% added for CSMAG only \usepackage{graphicx,xcolor} \newcommand{\verbatimfont}{\def\verbatim@font}% \verbatimfont{\ttfamily\small} \newcommand{\bi}{\begin{itemize}}\newcommand{\ei}{\end{itemize}} \newcommand{\be}{\begin{equation}}\newcommand{\ee}{\end{equation}}
+
+<!-- chunk {"id": "body-0028", "role": "body", "section": "Paper Body", "weight": 1.0} -->
+
+\newcommand{\bee}{\begin{enumerate}}\newcommand{\eee}{\end{enumerate}} \newcommand{\bea}{\begin{eqnarray}}\newcommand{\eea}{\end{eqnarray}} \newcommand{\beas}{\begin{eqnarray*}}\newcommand{\eeas}{\end{eqnarray*}} \newcommand{\bc}{\begin{center}}\newcommand{\ec}{\end{center}} \usepackage[left,pagewise]{lineno} \usepackage[english]{babel}% added for CSMAG only \newif\ifPDF \ifx\pdfoutput\undefined\PDFfalse \else \ifnum\pdfoutput > 0\PDFtrue \else\PDFfalse \fi \usepackage[pdftex, plainpages = false, colorlinks=true, linkcolor=black,
+
+<!-- chunk {"id": "body-0029", "role": "body", "section": "Paper Body", "weight": 1.0} -->
+
+citecolor = green!50!blue, urlcolor = blue, filecolor=black, pagebackref=false, hypertexnames=false, pdfpagelabels]{hyperref} \definecolor{csm@intro@first@char}{HTML}{df9434} \definecolor{csm@sidebar@bg}{HTML}{f2e9c4} \colorlet{csm@sidebar@arxiv@bg}{black!2!white} \definecolor{csm@sidebar@first@char}{HTML}{a08c2f} \definecolor{csm@fig@bg}{HTML}{e6f7fe} \definecolor{@light@blue}{HTML}{26baf2} \colorlet{csm@fig@label@body}{@light@blue} \colorlet{csm@blurb@color}{@light@blue} \definecolor{@golden}{HTML}{c8b03b} \colorlet{csm@fig@label@sidebar}{@golden}
+
+<!-- chunk {"id": "body-0030", "role": "body", "section": "Paper Body", "weight": 1.0} -->
+
+\colorlet{csm@abstract@color}{@golden} \definecolor{csm@table@caption@bg}{HTML}{abc2e9} \definecolor{csm@table@border}{HTML}{5e81c9} \colorlet{csm@table@arxiv@border}{black} \colorlet{csm@table@bg}{csm@fig@bg} \colorlet{csm@table@arxiv@bg}{black!4!white} \definecolor{TitleRed}{HTML}{db6245} \def\@csm@parindent{1em} \def\@csm@parskip{0pt plus1pt} \setlength\parindent{\@csm@parindent} % Paragraph indentation \setlength{\parskip}{\@csm@parskip} % Paragraph spacing% \let\transp\relax \let\temp\rmdefault \let\rmdefault\temp
+
+<!-- chunk {"id": "body-0031", "role": "body", "section": "Paper Body", "weight": 1.0} -->
+
+\DeclareMathSymbol{\Psi}{\mathord}{Greekletters}{"09} \DeclareMathSymbol{\Omega}{\mathord}{Greekletters}{"0A} \DeclareMathSymbol{\alpha}{\mathord}{greekletters}{"0B} \DeclareMathSymbol{\beta}{\mathord}{greekletters}{"0C} \DeclareMathSymbol{\gamma}{\mathord}{greekletters}{"0D} \DeclareMathSymbol{\delta}{\mathord}{greekletters}{"0E} \DeclareMathSymbol{\epsilon}{\mathord}{greekletters}{"0F} \DeclareMathSymbol{\zeta}{\mathord}{greekletters}{"10} \DeclareMathSymbol{\eta}{\mathord}{greekletters}{"11} \DeclareMathSymbol{\theta}{\mathord}{greekletters}{"12}
+
+<!-- chunk {"id": "body-0032", "role": "body", "section": "Paper Body", "weight": 1.0} -->
+
+\DeclareMathSymbol{\upsilon}{\mathord}{greekletters}{"1D} \DeclareMathSymbol{\phi}{\mathord}{greekletters}{"1E} \DeclareMathSymbol{\chi}{\mathord}{greekletters}{"1F} \DeclareMathSymbol{\psi}{\mathord}{greekletters}{"20} \DeclareMathSymbol{\omega}{\mathord}{greekletters}{"21} \DeclareMathSymbol{\varepsilon}{\mathord}{greekletters}{"22} \DeclareMathSymbol{\vartheta}{\mathord}{greekletters}{"23} \DeclareMathSymbol{\varpi}{\mathord}{greekletters}{"24} \DeclareMathSymbol{\varrho}{\mathord}{greekletters}{"25}
+
+<!-- chunk {"id": "body-0033", "role": "body", "section": "Paper Body", "weight": 1.0} -->
+
+\DeclareMathSymbol{\varsigma}{\mathord}{greekletters}{"26} \DeclareMathSymbol{\varphi}{\mathord}{greekletters}{"27}% Fix the prime symbol \let\oldprime\prime \renewcommand{\prime}{^\oldprime}% \newcommand\der{\mkern+0mu\raise-0.0ex\hbox{$\scriptstyle\prime$}} \newcommand\der{^{\mkern+2.5mu\raise-3pt\hbox{$\scriptstyle\prime$}}} \newcommand\dder{\der\der} \newcommand\ddder{\der\der\der} \newcommand\dddder{\der\der\der\der} list bullet/.style={ \setlist[itemize,1]{label={% \tikz[outer sep=0,inner sep=0,baseline=-0.3em]{% \node[list bullet] at
+
+<!-- chunk {"id": "body-0034", "role": "body", "section": "Paper Body", "weight": 1.0} -->
+
+\renewcommand{\LettrineFontHook}{\sffamily\bfseries}% \color{csm@intro@first@char}% \first@char}{\rest@of@word}%%..:: Header and footer::..
+
+<!-- chunk {"id": "body-0035", "role": "body", "section": "Paper Body", "weight": 1.0} -->
+
+\tl\_new:N \l\_csm\_date \tl\_set:Nn \l\_csm\_date {} \tl\_set:Nn \l\_csm\_date \textbf{IEEE~CONTROL~SYSTEMS}~~% \tikz[outer~sep=0,inner~sep=0]{% \node[scale=0.8] at {\faChevronRight};% \node[scale=0.8] at (0.4em,0) {\faChevronRight};}% {\normalfont\sffamily{}~\tl\_use:N \l\_csm\_date}% {\tl\_use:N \l\_csm\_date}~% \tikz[outer~sep=0,inner~sep=0]{% \node[scale=0.8] at {\faChevronLeft};% \node[scale=0.8] at (0.4em,0)
+
+<!-- chunk {"id": "body-0036", "role": "body", "section": "Paper Body", "weight": 1.0} -->
+
+{\faChevronLeft};}% \textbf{~IEEE~CONTROL~SYSTEMS}% \tl\_new:N \l\_csm\_date \tl\_set:Nn \l\_csm\_date {} \tl\_set:Nn \l\_csm\_date \footnotesize\sffamily\color{black!20!white}%% >> Set the theorem environment style << \newtheoremstyle{csm@theorem@style}% name {\fontsize{9}{11}\sffamily}% Theorem head font {}% Punctuation after theorem head {\newline}% Space after theorem head {}% Theorem head spec(can be left empty, meaning ‘normal’) \theoremstyle{csm@theorem@style}% >> Define the "basic" theorem environments << \newtheorem{csm@theorem}{Theorem} \newtheorem{csm@lemma}{Lemma} \newtheorem{csm@corollary}{Corollary}
+
+<!-- chunk {"id": "body-0037", "role": "body", "section": "Paper Body", "weight": 1.0} -->
+
+\newtheorem{csm@proposition}{Proposition} \newtheorem{csm@remark}{Remark} \newtheorem{csm@property}{Property} \newtheorem{csm@condition}{Condition} \newtheorem{csm@method}{Method} \newtheorem{csm@example}{Example} \newtheorem{csm@problem}{Problem} \newtheorem{csm@definition}{Definition} \newtheorem{csm@assumption}{Assumption}% >> Update basic theorem environments with extra elements << \def\@thmenvs{theorem,lemma,corollary,proposition,remark,property,% condition,method,example,problem,definition,assumption}% Save the original definition \expandafter\let\csname ocsm@\@te\expandafter\endcsname \csname csm@\@te\endcsname \expandafter\let\csname eocsm@\@te\expandafter\endcsname \csname
+
+<!-- chunk {"id": "body-0038", "role": "body", "section": "Paper Body", "weight": 1.0} -->
+
+\define@key{csm@figure@keys}{caption}{\tl\_set:Nn \l\_csm\_figure\_caption\_tl } \define@key{csm@figure@keys}{position}{\tl\_set:Nn \l\_csm\_figure\_pos\_tl } \define@key{csm@figure@keys}{columns}{\tl\_set:Nn \l\_csm\_figure\_cols\_tl } boxsep=\tcb@boxsep, colback=csm@fig@bg, colbacktitle=csm@fig@bg \captionsetup[figure]{font={footnotesize,sf},labelfont={}, name={\bfseries\color{csm@fig@label@body}FIGURE~},labelsep=space} boxsep=\tcb@boxsep,
+
+<!-- chunk {"id": "body-0039", "role": "body", "section": "Paper Body", "weight": 1.0} -->
+
+\captionsetup[figure]{font={footnotesize,sf},labelfont={}, name={\bfseries FIGURE~},labelsep=space} \newenvironment{figure@internal}[tbp]{% \def\fig@width% \ifthenelse{\equal{\fig@width}{}}{% \begin{figure}[#1]}{\begin{figure*}[#1]}}{% \ifthenelse{\equal{\fig@width}{}}{% \end{figure}}{\end{figure*}}} \setkeys{csm@figure@keys}{label=,#1}% \setkeys{csm@figure@keys}{caption=,#1}% \setkeys{csm@figure@keys}{position=tbp,#1}% \setkeys{csm@figure@keys}{columns=1,#1}% \edef\csm@fig@pos{\tl\_use:N
+
+<!-- chunk {"id": "body-0040", "role": "body", "section": "Paper Body", "weight": 1.0} -->
+
+1:0}% \gdef\csm@figure@width{}% \gdef\csm@figure@width{dbl}% \edef\begin@figure@cmd{{figure@internal}[\csm@fig@pos}% \expandafter\begin\begin@figure@cmd]{\csm@figure@width}% \caption{\tl\_use:N \l\_csm\_figure\_caption\_tl} \figlabel{\tl\_use:N \l\_csm\_figure\_label\_tl} \end{figure@internal} \gdef\csm@singlecol@emulate@width{0.7} \setkeys{csm@figure@keys}{label=,#1}% \setkeys{csm@figure@keys}{caption=,#1}% \setkeys{csm@figure@keys}{position=tbp,#1}%
+
+<!-- chunk {"id": "body-0041", "role": "body", "section": "Paper Body", "weight": 1.0} -->
+
+1:0} \ifthenelse{\pgfmathresult>0}{\def\csm@figarea@width{1}}{% \def\csm@figarea@width{\csm@singlecol@emulate@width}} \begin{minipage}{\csm@figarea@width\textwidth} \caption{\tl\_use:N \l\_csm\_figure\_caption\_tl} \figlabel{\tl\_use:N \l\_csm\_figure\_label\_tl} \DeclareDelayedFloatFlavor{csmfigure}{figure}% Reference a subfigure that is baked into the drawing, so not really a LaTeX \figref(#3)\ifthenelse{\equal{}}{}{-(#1)}} \tl\_new:N \l\_csm\_table\_label\_tl \tl\_new:N
+
+<!-- chunk {"id": "body-0042", "role": "body", "section": "Paper Body", "weight": 1.0} -->
+
+\def\@table@border@width{1pt} fonttitle=\sffamily\bfseries\small, boxrule=\@table@border@width, titlerule=\@table@border@width, left=\@table@inner@pad, right=\@table@inner@pad, bottom=\@table@inner@pad, top=\@table@inner@pad, toptitle=\@table@inner@pad, bottomtitle=\@table@inner@pad, boxsep=\tcb@boxsep, colback=csm@table@bg, colbacktitle=csm@table@caption@bg, colframe=csm@table@border, attach~boxed~title~to~top, boxed~title~style={colframe=csm@table@border,rounded~corners} \def\@table@inner@pad{3mm} \def\@table@border@width{1pt} fonttitle=\sffamily\bfseries\small, boxrule=\@table@border@width,
+
+<!-- chunk {"id": "body-0043", "role": "body", "section": "Paper Body", "weight": 1.0} -->
+
+titlerule=\@table@border@width, left=\@table@inner@pad, right=\@table@inner@pad, bottom=\@table@inner@pad, top=\@table@inner@pad, toptitle=\@table@inner@pad, bottomtitle=\@table@inner@pad, boxsep=\tcb@boxsep, colback=csm@table@arxiv@bg, colbacktitle=csm@table@caption@bg, colframe=csm@table@arxiv@border, minipage~boxed~title, attach~boxed~title~to~top~left, boxed~title~style={% \newenvironment{table@internal}[tbp]{% \def\table@width% \ifthenelse{\equal{\table@width}{}}{% \begin{table}[#1]}{\begin{table*}[#1]}}{% \ifthenelse{\equal{\table@width}{}}{%
+
+<!-- chunk {"id": "body-0044", "role": "body", "section": "Paper Body", "weight": 1.0} -->
+
+1:0}% \gdef\csm@table@width{}% \gdef\csm@table@width{dbl}% \edef\begin@table@cmd{{table@internal}[\csm@table@pos}% \expandafter\begin\begin@table@cmd]{\csm@table@width}% {\bfseries TABLE~\arabic{table}}% \tl\_use:N \l\_csm\_table\_caption\_tl]% \tablabel{\tl\_use:N \l\_csm\_table\_label\_tl} \end{table@internal} \setkeys{csm@table@keys}{label=,#1}% \setkeys{csm@table@keys}{caption=,#1}% \setkeys{csm@table@keys}{position=tbp,#1}% \setkeys{csm@table@keys}{columns=1,#1}%
+
+<!-- chunk {"id": "body-0045", "role": "body", "section": "Paper Body", "weight": 1.0} -->
+
+1:0} \ifthenelse{\pgfmathresult>0}{\def\csm@tabarea@width{1}}{% \def\csm@tabarea@width{\csm@singlecol@emulate@width}} \caption{\tl\_use:N \l\_csm\_table\_caption\_tl} \begin{minipage}{\csm@tabarea@width\textwidth} \tablabel{\tl\_use:N \l\_csm\_table\_label\_tl} \DeclareDelayedFloatFlavor{csmtable}{table} \let\oldhypertarget\hypertarget \protected@write\@mainaux{}{% \string\expandafter\string\gdef \string\csname\string\detokenize\string\endcsname% \hyperlink{\csname #1\endcsname}% \tl\_new:N
+
+<!-- chunk {"id": "body-0046", "role": "body", "section": "Paper Body", "weight": 1.0} -->
+
+\define@key{csm@sidebar@keys}{position}{\tl\_set:Nn \l\_csm\_sidebar\_pos\_tl } \define@key{csm@sidebar@keys}{columns}{\tl\_set:Nn \l\_csm\_sidebar\_cols\_tl } \newcounter{sidebar@equation}% \newcounter{sidebar@table}% \newcounter{sidebar@figure}% \newcounter{subsidebar@counter} \setcounter{subsidebar@counter}{0}% Keep track of how many references the sidebar bibliography has \renewbibmacro*{finentry}{\stepcounter{sbrefs}\finentry}% Low-level print sidebar bibliography \newcommand{\csm@sb@printbib}{% \printbibliography[title=References,keyword=#1,resetnumbers=#2]}% Print a sidebar bibliography with new references specifically for the
+
+<!-- chunk {"id": "body-0047", "role": "body", "section": "Paper Body", "weight": 1.0} -->
+
+sidebar \newcommand{\make@sidebar@bib}{% \edef\sidebar@bib@label{sidebar:\tl\_use:N \l\_csm\_sidebar\_label\_tl}%% Decision whether to reset the reference counter \def\@sb@bibnum@reset{false}%% \ifthenelse{\equal{\@sidebar@number}{1}}{% \def\@sb@bibnum@reset{true} \def\@sb@bibnum@reset{false}% Print the bibliography, citations start with an "S" \begin{refcontext}[sorting=none,labelprefix=S]% \renewcommand*{\bibfont}{\fontsize{7}{9}\sffamily}% \renewcommand*{\bibfont}{\footnotesize}% \begingroup\edef\sidebar@print@bib{\endgroup\noexpand \printbibliography[title=References,
+
+<!-- chunk {"id": "body-0048", "role": "body", "section": "Paper Body", "weight": 1.0} -->
+
+keyword=\sidebar@bib@label, resetnumbers=\@sb@bibnum@reset]}\sidebar@print@bib% Prefix labels with "S" for sidebar \newcommand{\sidebar@labels@on}{ \global\chardef\dc@currentequation=\value{equation}% \global\chardef\dc@currentfigure=\value{figure}% \global\chardef\dc@currenttable=\value{table}% \let\c@equation\c@sidebar@equation \let\c@figure\c@sidebar@figure \let\c@table\c@sidebar@table \renewcommand{\theequation}{S\arabic{equation}}% \renewcommand{\thetable}{S\arabic{table}}% \renewcommand{\thefigure}{S\arabic{figure}}% \renewcommand{\theHequation}{S\arabic{equation}}%
+
+<!-- chunk {"id": "body-0049", "role": "body", "section": "Paper Body", "weight": 1.0} -->
+
+\renewcommand{\theHtable}{S\arabic{table}}% \renewcommand{\theHfigure}{S\arabic{figure}}%% Reset labels to original \newcommand{\sidebar@labels@off}{ \edef\equation@mem{\arabic{sidebar@equation}}% \edef\figure@mem{\arabic{sidebar@figure}}% \edef\table@mem{\arabic{sidebar@table}}% \setcounter{equation}{\dc@currentequation}% \setcounter{figure}{\dc@currentfigure}% \setcounter{table}{\dc@currenttable}% \setcounter{sidebar@equation}{\equation@mem}% \setcounter{sidebar@figure}{\figure@mem}% \setcounter{sidebar@table}{\table@mem}% \def\tcb@left{1em} \def\tcb@right{1em}
+
+<!-- chunk {"id": "body-0050", "role": "body", "section": "Paper Body", "weight": 1.0} -->
+
+\def\tcb@bottom{1em} \def\tcb@boxsep{0pt} \def\tcb@leftfill{0cm} \def\tcb@rightfill{0cm} \def\continued@message{\textit{(continued...)}} fonttitle=\sffamily\bfseries\large, left=\tcb@left, right=\tcb@right, bottom=\tcb@bottom, boxsep=\tcb@boxsep, leftrule=\tcb@leftfill, grow~to~left~by=\tcb@leftfill, rightrule=\tcb@rightfill, grow~to~right~by=\tcb@rightfill, colback=csm@sidebar@bg, colframe=csm@sidebar@bg, colbacktitle=csm@sidebar@bg, \def\tcb@left{1em} \def\tcb@right{1em} \def\tcb@bottom{1em}
+
+<!-- chunk {"id": "body-0051", "role": "body", "section": "Paper Body", "weight": 1.0} -->
+
+\def\tcb@boxsep{0pt} \def\tcb@leftfill{0cm} \def\tcb@rightfill{0cm} \def\continued@message{\textit{(continued...)}} fonttitle=\sffamily\bfseries\large, left=\tcb@left, right=\tcb@right, bottom=\tcb@bottom, boxsep=\tcb@boxsep, colback=csm@sidebar@arxiv@bg, frame~style={left~color=white, right~color=white, top~color=white, bottom~color=black}, colbacktitle=csm@sidebar@arxiv@bg, \newsavebox{\sidebar@box@full} \newsavebox{\sidebar@box@left} \newsavebox{\sidebar@box@right} \setkeys{csm@sidebar@keys}{title=,#1}%
+
+<!-- chunk {"id": "body-0052", "role": "body", "section": "Paper Body", "weight": 1.0} -->
+
+1:0}% \gdef\figure@width{}% \tikzmath{\sidebar@box@width=\columnwidth; \sidebar@width=\sidebar@box@width-\tcb@left-\tcb@right-\tcb@boxsep;} \xdef\sidebar@box@width{\sidebar@box@width pt}% \xdef\sidebar@width{\sidebar@width pt}% \gdef\figure@width{dbl}% \tikzmath{\sidebar@box@width=\textwidth; \sidebar@width=\sidebar@box@width-\tcb@left-\tcb@right-\tcb@boxsep;} \xdef\sidebar@box@width{\sidebar@box@width pt}% \xdef\sidebar@width{\sidebar@width pt}%% Create the box \begin{subsidebar}[reset]%
+
+<!-- chunk {"id": "body-0053", "role": "body", "section": "Paper Body", "weight": 1.0} -->
+
+1:0}%% Show full content in one sidebar \sidebar@draw{none}{\sidebar@box@full}%% Show left and right content in separate sidebars \ifthenelse{\equal{\sidebar@side}{odd}}{% \def\sidebar@side@other{even}% \def\sidebar@side@other{odd}% \sidebar@draw{\sidebar@side}{\sidebar@box@left}% \sidebar@draw[notitle]{\sidebar@side@other}{\sidebar@box@right}% \setcounter{subsidebar@counter}{0} \newcommand{\sidebar@draw}[title]{ \xdef\sidebar@title{\tl\_use:N \l\_csm\_sidebar\_title\_tl}% \xdef\sidebar@label{sidebar:\tl\_use:N \l\_csm\_sidebar\_label\_tl}%
+
+<!-- chunk {"id": "body-0054", "role": "body", "section": "Paper Body", "weight": 1.0} -->
+
+\edef\begin@sidebar@cmd{{figure@internal}[\fig@pos}% \expandafter\begin\begin@sidebar@cmd]{\figure@width}% \ifthenelse{\equal{title}}{% title={\hypertarget{\sidebar@label}{\sidebar@title}} \ifthenelse{\equal{none}}{% \def\tcb@leftfill{0cm}% \def\tcb@rightfill{0cm}% \ifthenelse{\equal{odd}}{% \def\tcb@leftfill{0cm}% \def\tcb@rightfill{10cm}% \def\tcb@leftfill{10cm}% \def\tcb@rightfill{0cm}% \begin{sidebarbox}[\sidebar@box@width]% \end{figure@internal}% \newenvironment{subsidebar}[noreset]{ \def\sidebar@reset% Check if too many subsidebars
+
+<!-- chunk {"id": "body-0055", "role": "body", "section": "Paper Body", "weight": 1.0} -->
+
+1:0}% \PackageError{CSM~style}{Only~two~subsidebars~are~allowed}{}%% Get the box name to save content to \pgfmathparse{\value{subsidebar@counter}==0 ? 1:0}% \def\sidebar@box{sidebar@box@full}% \pgfmathparse{\value{subsidebar@counter}==1 ?
+
+<!-- chunk {"id": "body-0056", "role": "body", "section": "Paper Body", "weight": 1.0} -->
+
+1:0}% \def\sidebar@box{sidebar@box@left}% \def\sidebar@box{sidebar@box@right}%% Increment the counter \stepcounter{subsidebar@counter}%% Create the box \begin{lrbox}{\csname\sidebar@box\endcsname}% \begin{minipage}{\sidebar@width}% \ifthenelse{\equal{\sidebar@reset}{noreset}}{}{\sidebar@labels@on}% \ifthenelse{\equal{\figure@width}{}}{}{% \setlength\parindent{\@csm@parindent} % Paragraph indentation \setlength{\parskip}{\@csm@parskip} % Paragraph spacing% \renewcommand\familydefault\sfdefault \captionsetup[figure]{name={% \bfseries\color{csm@fig@label@sidebar}FIGURE~}}% Print "continued" if
+
+<!-- chunk {"id": "body-0057", "role": "body", "section": "Paper Body", "weight": 1.0} -->
+
+this is the second subsidebar panel \pgfmathparse{\value{subsidebar@counter}==3 ?
+
+<!-- chunk {"id": "body-0058", "role": "body", "section": "Paper Body", "weight": 1.0} -->
+
+1:0}%% Main text body (given environment body)...%... End of main text body \pgfmathparse{\value{subsidebar@counter}!=2 ?
+
+<!-- chunk {"id": "body-0059", "role": "body", "section": "Paper Body", "weight": 1.0} -->
+
+1:0}% \make@sidebar@bib%% Print "continued" if this is the first subsidebar panel \ifthenelse{\equal{\figure@width}{}}{}{% \ifthenelse{\equal{\sidebar@reset}{noreset}}{}{\sidebar@labels@off}%% Save the box for global access \expandafter\setbox\csname\sidebar@box\endcsname% \expandafter\box\csname\sidebar@box\endcsname% \setkeys{csm@sidebar@keys}{title=,#1}% \setkeys{csm@sidebar@keys}{label=,#1}% \setkeys{csm@sidebar@keys}{side=odd,#1}% \setkeys{csm@sidebar@keys}{position=t,#1}% \setkeys{csm@sidebar@keys}{columns=2,#1}%
+
+<!-- chunk {"id": "body-0060", "role": "body", "section": "Paper Body", "weight": 1.0} -->
+
+\edef\@csm@sb@title{\tl\_use:N \l\_csm\_sidebar\_title\_tl} \edef\@csm@sb@label{sidebar:\tl\_use:N \l\_csm\_sidebar\_label\_tl}%% >> Create the sidebar << \section[\@csm@sb@title]{Sidebar:~% \hypertarget{\@csm@sb@label}{\@csm@sb@title}} \sidebar@labels@on % Turn on "S" prefixes \make@sidebar@bib% Print out the figures \processdelayedfloats % place sidebar endfloats here \sidebar@labels@off % Turn off "S" prefixes \newenvironment{subsidebar}[noreset]{}{}% Define a queue of sidebars that are to be printed \newcounter{sidebar@queue@size}% \newcommand{\reset@sidebar@queue}{
+
+<!-- chunk {"id": "body-0061", "role": "body", "section": "Paper Body", "weight": 1.0} -->
+
+\gdef\csm@sb@queue@title{} \gdef\csm@sb@queue@label{} \gdef\csm@sb@queue@side{} \gdef\csm@sb@queue@position{} \gdef\csm@sb@queue@columns{} \gdef\csm@sb@queue@content{} \setcounter{sidebar@queue@size}{0} \reset@sidebar@queue% Push a new sidebar into the queue \setkeys{csm@sidebar@keys}{title=,#1}% \setkeys{csm@sidebar@keys}{label=,#1}% \setkeys{csm@sidebar@keys}{side=odd,#1}% \setkeys{csm@sidebar@keys}{position=t,#1}% \setkeys{csm@sidebar@keys}{columns=2,#1}%
+
+<!-- chunk {"id": "body-0062", "role": "body", "section": "Paper Body", "weight": 1.0} -->
+
+sidebars immediately if pretty CSM% Print out all sidebars, removing them from the queue (FIFO) \makeflag{printsb}{false}% Decide if there are any sidebars to be printed \pgfmathparse{\thesidebar@queue@size>0 ?
+
+<!-- chunk {"id": "body-0063", "role": "body", "section": "Paper Body", "weight": 1.0} -->
+
+1:0} \ifthenelse{\pgfmathresult>0}{\makeprintsbtrue}{\makeprintsbfalse}% Reset the reference counter% Make sidebar queues into indexable arrays \makelist{csm@sb@titles}{\csm@sb@queue@title} \makelist{csm@sb@labels}{\csm@sb@queue@label} \makelist{csm@sb@sides}{\csm@sb@queue@side} \makelist{csm@sb@positions}{\csm@sb@queue@position} \makelist{csm@sb@columns}{\csm@sb@queue@columns} \makelist{csm@sb@contents}{\csm@sb@queue@content} \foreach \@sidebar@number in {1,...,\thesidebar@queue@size} { title={\list@nth{csm@sb@titles}{\@sidebar@number}},
+
+<!-- chunk {"id": "body-0064", "role": "body", "section": "Paper Body", "weight": 1.0} -->
+
+label={\list@nth{csm@sb@labels}{\@sidebar@number}}, side={\list@nth{csm@sb@sides}{\@sidebar@number}}, position={\list@nth{csm@sb@positions}{\@sidebar@number}}, columns={\list@nth{csm@sb@columns}{\@sidebar@number}}] \input{\list@nth{csm@sb@contents}{\@sidebar@number}} \reset@sidebar@queue % Empty the queue \StrChar{1}[\first@char]% \StrBehind{\first@char}[\rest@of@word]% \lettrine[nindent=0pt,slope=0pt,findent=3pt]{% \color{csm@sidebar@first@char}\bfseries% \first@char}{\rest@of@word}%%..:: Highlight text blurb::..
+
+<!-- chunk {"id": "body-0065", "role": "body", "section": "Paper Body", "weight": 1.0} -->
+
+\def\blurb@pad{4mm} fontupper=\sffamily\bfseries\large, left=\blurb@pad, right=\blurb@pad, bottom=\blurb@pad, top=\blurb@pad, colframe=csm@blurb@color, coltext=csm@blurb@color \def\blurb@pad{4mm} fontupper=\sffamily\itshape\large, sharp corners=all, left=\blurb@pad, right=\blurb@pad, bottom=\blurb@pad, top=\blurb@pad, colback=black!5!white,%..:: Abstract (which will not appear in print)::..
+
+<!-- chunk {"id": "body-0066", "role": "body", "section": "Paper Body", "weight": 1.0} -->
+
+\def\abstract@pad{2mm} left=\abstract@pad, right=\abstract@pad, bottom=\abstract@pad, top=\abstract@pad, colframe=csm@abstract@color, \paragraph{\sffamily Abstract (hidden in print).}% \tl\_new:N \l\_csm\_nomenclature\_title\_tl \tl\_new:N \l\_csm\_nomenclature\_label\_tl \tl\_new:N \l\_csm\_nomenclature\_first\_col\_width\_tl \tl\_new:N \l\_csm\_nomenclature\_position\_tl \define@key{csm@nomenclature@keys}{title}{\tl\_set:Nn \l\_csm\_nomenclature\_title\_tl } \define@key{csm@nomenclature@keys}{label}{\tl\_set:Nn \l\_csm\_nomenclature\_label\_tl }
+
+<!-- chunk {"id": "body-0067", "role": "body", "section": "Paper Body", "weight": 1.0} -->
+
+\define@key{csm@nomenclature@keys}{width}{\tl\_set:Nn \l\_csm\_nomenclature\_first\_col\_width\_tl } \define@key{csm@nomenclature@keys}{position}{\tl\_set:Nn \l\_csm\_nomenclature\_position\_tl } \setkeys{csm@nomenclature@keys}{title=,#1}% \setkeys{csm@nomenclature@keys}{label=,#1}% \setkeys{csm@nomenclature@keys}{width=0.2,#1}% \setkeys{csm@nomenclature@keys}{position=t,#1}% \edef\nomenc@title{\tl\_use:N \l\_csm\_nomenclature\_title\_tl}% \edef\nomenc@label{\tl\_use:N \l\_csm\_nomenclature\_label\_tl}%
+
+<!-- chunk {"id": "body-0068", "role": "body", "section": "Paper Body", "weight": 1.0} -->
+
+\edef\nomenc@width{\tl\_use:N \l\_csm\_nomenclature\_first\_col\_width\_tl}% \edef\nomenc@position{\tl\_use:N \l\_csm\_nomenclature\_position\_tl}% \def\@nomenclature@content{\BODY}% Write sidebar body to file \immediate\openout\file=csm\_\nomenc@label.tex \immediate\write\file{\noexpand\footnotesize} \immediate\write\file{\string\def\string\arraystretch{1.2}} \immediate\write\file{\string\newcolumntype{V}{% >{\string\hsize=\nomenc@width\string\linewidth}X}} \immediate\write\file{\string\begin{tabularx}{\string\columnwidth}{VX}} \immediate\write\file{ \string\input}
+
+<!-- chunk {"id": "body-0069", "role": "body", "section": "Paper Body", "weight": 1.0} -->
+
+\immediate\write\file{\string\end{tabularx}} \immediate\closeout\file% Push sidebar into queue title={\nomenc@title}, label={\nomenc@label}, position={\nomenc@position}]{csm\_\nomenc@label.tex}
+
+<!-- chunk {"id": "body-0070", "role": "body", "section": "Paper Body", "weight": 1.0} -->
+
+#1~}{}
+
+<!-- chunk {"id": "body-0071", "role": "body", "section": "Paper Body", "weight": 1.0} -->
+
+\twocolumn[{\begin{figure}[H] cover art/.style={ font=\bfseries\sffamily\huge, font=\itshape\sffamily\large, text width=1\textwidth affil info/.style={ text width=0.95\textwidth, abstract rule/.style={ line cap=round shift={(current page.north)}] \node[cover art] at {\includegraphics{cover\_art\_arxiv}}; \node[title] (title) at {{\color{white}Convex} Optimization for Trajectory Generation}; \node[subtitle] (subtitle) at (title.south)% {A Tutorial On Generating Dynamically Feasible Trajectories Reliably And \node[authorlist] (authors) at (subtitle.south)% \begin{minipage}[c]{1.0\linewidth} Danylo Malyuta\uwaffil\corresp{danylo@malyuta.name}, % Taylor
+
+<!-- chunk {"id": "body-0072", "role": "body", "section": "Paper Body", "weight": 1.0} -->
+
+P. Reynolds\uwaffil, % Michael Szmuk\uwaffil, % Thomas Lew\stanfordaffil, \\% Riccardo Bonalli\stanfordaffil, % Marco Pavone\stanfordaffil, % and \Behcet{} \Acikmese{}\uwaffil \node[affil info] (uw info) at (authors.south) {\linkdest{uwinfo}{$^{\textsf{a}}$} % William E. Boeing Department of Aeronautics and Astronautics, % University of Washington, Seattle, WA 98195, USA}; \node[affil info,yshift=5mm] (stanford info) at (uw info.south) {\linkdest{stanfordinfo}{$^{\textsf{b}}$} % Department of Aeronautics and Astronautics, % Stanford University, Stanford, CA 94305, USA}; \node[abstract] (abstract) at (stanford info.south) {\input{sections/abstract}}; \draw[abstract rule] ($(abstract.north
+
+<!-- chunk {"id": "body-0073", "role": "body", "section": "Paper Body", "weight": 1.0} -->
+
+west)+(0,\abstractruleshift)$) -- ($(abstract.north east)+(0,\abstractruleshift)$); \draw[abstract rule] ($(abstract.south west)+(0,-\abstractruleshift)$) -- ($(abstract.south east)+(0,-\abstractruleshift)$); \title{Convex Optimization for Trajectory Generation\\\Large A Tutorial On Generating Dynamically Feasible Trajectories Reliably And Efficiently} and \Behcet{} \Acikmese{} \\POC: D.\ Malyuta (danylo@malyuta.name) \\\input{sections/notation.tex} \input{sections/abstract} \firstword[nindent=0pt,slope=4pt,findent=-8pt]{Autonomous} vehicles and robots promise many exciting new applications that will transform our society.
+
+<!-- chunk {"id": "body-0074", "role": "body", "section": "Paper Body", "weight": 1.0} -->
+
+For example, autonomous aerial vehicles (AAVs) operating in urban environments could deliver commercial goods, emergency medical supplies, monitor traffic, and provide threat alerts for national security. At the same time, these applications present significant engineering challenges for performance, trustworthiness, and safety. For instance, AAVs can be a catastrophic safety hazard should they lose control or situational awareness over a populated area. Space missions, self\dash driving cars, and applications of autonomous underwater vehicles (AUVs) share similar concerns.
+
+<!-- chunk {"id": "body-0075", "role": "body", "section": "Paper Body", "weight": 1.0} -->
+
+Generating a trajectory autonomously onboard the vehicle is not only desirable for many of these applications but also indeed a necessity when considering the deployment of autonomous systems either in remote areas with little to no communication, or at scale in a dynamic and uncertain world. For example, it is not possible to remotely control a spacecraft during a Mars landing scenario to coordinate the motion of tens of thousands of delivery drones from a% while it is landing back on Earth In these and many other scenarios, individual vehicles must be endowed with their own high quality decision making capability. Failure to generate a safe trajectory can result in losing the vehicle, the payload, and even human life.% Furthermore, the trajectory planning must be performed onboard in real-time% in many of these applications. Reliable methods for trajectory generation are a fundamental need if we are to maintain public trust and the high safety standard that we have come to expect from autonomous or automatic systems.
+
+<!-- chunk {"id": "body-0076", "role": "body", "section": "Paper Body", "weight": 1.0} -->
+
+Computational resource requirements are the second major consideration for onboard trajectory generation. Historically, this has been the driving factor for much of practical algorithm development. Although the modern consumer desktop is an incredibly powerful machine, industrial central processing units (CPUs) can still be relatively modest. This is especially true for spaceflight, where the harsh radiation environment of outer space prevents the rapid adoption of new computing technologies. For example, NASA's flagship Mars rover ``Perseverance'' landed in 2021 using a BAE RAD750 PowerPC flight computer, which is a 20 year\dash old technology {Dueri2017, Mars2020RoverBrains}. When we factor in the energy requirements of powerful CPUs and the fact that trajectory generation is a small part of all the tasks that an autonomous vehicle must perform, it becomes clear that modern trajectory generation is still confined to a small computational footprint. Consequently, real\dash time onboard trajectory generation algorithms must be computationally efficient.
+
+<!-- chunk {"id": "body-0077", "role": "body", "section": "Paper Body", "weight": 1.0} -->
+
+% The goal of this paper is to provide a comprehensive overview of convex% optimization-based optimization trajectory planning methods for the control% of autonomous dynamical systems.
+
+<!-- chunk {"id": "body-0078", "role": "body", "section": "Paper Body", "weight": 1.0} -->
+
+We define trajectory generation to be the computation of a multi-dimensional temporal state and control signal that satisfies a set of specifications, while optimizing key mission objectives. This article is concerned exclusively with dynamically feasible trajectories, which are those that respect the equations of motion of the vehicle under consideration. Although it is commonplace to track dynamically \textit{in}feasible trajectories using feedback control, at the end of the day a system can only evolve along dynamically feasible paths, whether those are computed upfront during trajectory generation or are the result of feedback tracking. Performing dynamically feasible trajectory generation carries two important advantages. First, it provides a method to systematically satisfy constraints (i.e., specifications) that are hard, if not impossible, to meet through feedback control. This includes, for example, translation-attitude coupled sensor pointing constraints. Secondly, dynamically feasible trajectories leave much less tracking error for feedback controllers to ``clean up'', which usually means that tracking performance can be vastly improved.
+
+<!-- chunk {"id": "body-0079", "role": "body", "section": "Paper Body", "weight": 1.0} -->
+
+These two advantages shall become more apparent throughout the% feedback control architectures can follow an% infeasible trajectory within reason, a dynamical system strictly speaking can% only evolve along dynamically feasible trajectories. This provides an incentive% to compute dynamically feasible trajectories upfront, which can increase system% robustness and performance.
+
+<!-- chunk {"id": "body-0080", "role": "body", "section": "Paper Body", "weight": 1.0} -->
+
+% With a trajectory available, many control architectures then use feedback% controllers to modify the trajectory control signal in order to handle% uncertainties and exogenous disturbances. In other words, feedback control% ensures robust execution (tracking) of the planned trajectories. Therefore, we% may view trajectory planning as designing the best possible state and control% trajectory with our best knowledge of the system dynamics and its current% state. % within the mission specifications.
+
+<!-- chunk {"id": "body-0081", "role": "body", "section": "Paper Body", "weight": 1.0} -->
+
+Numerical optimization provides a systematic mathematical framework to specify mission objectives as \alert{costs or rewards} to be optimized, and to enforce state and control specifications as well as the equations of motion via \alert{constraints}. As a result, we can express trajectory generation problems as optimal control problems, which are infinite\dash dimensional optimization problems over function spaces. Since the early 1960s, optimal control theory has proven to be extremely powerful. Early developments were driven by aerospace applications, where every gram of mass matters and trajectories are typically sought to minimize fuel or some other mass\dash reducing metric (such as aerodynamic load and thereby structural mass). This led to work on trajectory algorithms for climbing aircraft, ascending and landing rockets, and spacecraft orbit transfer, to name just a few these early applications, trajectory optimization problems have now been formulated in many practical areas, including aerial, underwater, and space vehicles, as well as for chemical processes, building climate control medicine, to mention a few.
+
+<!-- chunk {"id": "body-0082", "role": "body", "section": "Paper Body", "weight": 1.0} -->
+
+At its core, optimization-based trajectory generation requires solving an optimal control problem of the following form (at this point, we keep the problem very general): label={general\_ocp}]% & \pare[big]{x(t),u(t),p,t\_f} \in \set C(t),~\forall t\in [0,t\_f], \\\optilabel{bcs} & \pare[big]{x, p}\in\set X\_0,~\pare[big]{x(t\_f), p}\in\set X\_f.
+
+<!-- chunk {"id": "body-0083", "role": "body", "section": "Paper Body", "weight": 1.0} -->
+
+The cost \optiobjref{general\_ocp} encodes the mission goal, the system dynamics are modeled by the differential equation constraint \optieqref{general\_ocp}{dynamics}, the state and control specifications are enforced through \optieqref{general\_ocp}{xu\_constraints}, and the boundary conditions are fixed by \optieqref{general\_ocp}{bcs}. Note that \pref{general\_ocp} makes a distinction between a control vector $u(t)$, which is a temporal signal, and a so-called parameter vector $p$, which is a static variable that encodes other decision variables like temporal scaling.
+
+<!-- chunk {"id": "body-0084", "role": "body", "section": "Paper Body", "weight": 1.0} -->
+
+In most cases, the solution of such an infinite\dash dimensional optimization problem is neither available in closed form nor is it computationally tractable to numerically compute (especially in real-time). Instead, different solution methods have been proposed that typically share the following three main \item Formulation: specification of how the functions $J$ and $f$, and the sets $\set C$, $\set X_0$, and $\set X_f$ are expressed mathematically; \item Discretization: approximation of the infinite\Hyphdash dimensional state and control signal by a finite-dimensional set of basis functions; \item Numerical optimization: iterative computation of an optimal solution of the discretized problem.
+
+<!-- chunk {"id": "body-0085", "role": "body", "section": "Paper Body", "weight": 1.0} -->
+
+Choosing the most suitable combination of these three components is truly a mathematical art form that is highly problem dependent, and not an established plug-and-play process like least\dash squares regression. No single recipe or method is the best, and methods that work well for some problems can fare much worse for others. Trajectory algorithm design is replete with problem dependent tradeoffs in performance, optimality, and robustness, among others. Still, optimization literature (to which this article belongs) attempts to provide some formal guidance and intuition about the process. For the rest of this article, we will be interested in methods that solve the \alert{exact} form of \pref{general\_ocp}, subject only to the initial approximation made by discretizing the Many excellent references discuss the discretization component. Once the problem is discretized, we can employ numerical optimization methods to obtain a solution. This is where the real technical challenges for reliable trajectory generation arise. Depending on the problem formulation and the discretization method, the finite\dash dimensional optimization problem that must be solved can end up being a nonlinear (i.e., \alert{nonconvex}) optimization problem (NLP).
+
+<!-- chunk {"id": "body-0086", "role": "body", "section": "Paper Body", "weight": 1.0} -->
+
+However, NLP optimization has high computational complexity, and there are no general guarantees of either obtaining a solution or even certifying that a solution does not exist. Hence, general NLP methods may not be appropriate for control applications, since we need deterministic guarantees for reliable trajectory generation in autonomous% Typically the complexity of% numerical solutions for nonconvex problems can grow arbitrarily, that is, there% are no guarantees of finding solutions and certifying feasibility or% infeasibility (i.e., whether there are any solutions that meet the problem% constraints). According to the above% discussion on the necessity of reliable and efficient computation methods, an% NLP may not be appropriate for control computations, since we need% deterministic guarantees for reliable trajectory planning in autonomous In contrast, if the discretized problem is convex, then it can be solved reliably and with an efficiency that exceeds all other areas of numerical optimization except for linear programming and least squares {BoydConvexBook,NocedalBook,WrightIPMBook, GillPracticalBook,RoosLPIPMBook,wright2005interior}.
+
+<!-- chunk {"id": "body-0087", "role": "body", "section": "Paper Body", "weight": 1.0} -->
+
+This is the key motivation behind this article's focus on a convex optimization-based problem formulations for trajectory generation. By building methods on top of convex optimization, we are able to leverage fast iterative algorithms with plain language, given any desired solution accuracy, a convex optimization problem can be solved to within this accuracy in a predetermined number of arithmetic operations that is a polynomial function of the problem size. Hence, there is a deterministic bound on how much computation is needed to solve a given convex optimization problem, and the number of iterations cannot grow indefinitely like for NLP.
+
+<!-- chunk {"id": "body-0088", "role": "body", "section": "Paper Body", "weight": 1.0} -->
+
+% Arguably, it is a foregone conclusion that% optimization problems can be classified as convex and nonconvex optimization% problems rather than linear and nonlinear problems% cite{rockafellar1993watershed}.% This insight, together with theoretical and empirical numerical evidence% obtained over the last decades of application, motivates the proposed convex% optimization based solution methods for the discretized optimal control These special properties, together with a mature theoretical understanding and an ever\dash growing list of successful real-world use\dash cases, leave little doubt that convex optimization-based solution methods are uniquely well-suited to be used in the solution of optimal control problems.
+
+<!-- chunk {"id": "body-0089", "role": "body", "section": "Paper Body", "weight": 1.0} -->
+
+Among the successful real-world use-cases of convex optimization-based trajectory generation are several inspiring examples from the aerospace domain. These include autonomous drones, spacecraft rendezvous and docking, and most notably planetary landing. The latter came into high profile % through the% use of convex optimization as an enabling technology for reusability of the SpaceX Falcon 9 and Heavy rockets. Even earlier, the NASA Jet Propulsion Laboratory (JPL) demonstrated the use of a similar method for Mars pinpoint landing aboard the Masten Xombie sounding rocket. Today, these methods are being studied and adopted for several Mars, Moon, and Earth landing applications. Although each application has its own set of unique challenges, they all share the need to use the full spacecraft motion envelope with limited sensing, actuation, and fuel/power. These considerations are not unique to space applications, and can be found in almost all autonomous vehicles such as cars Having motivated the use of convex optimization, we note that many trajectory generation problems have common sources of nonconvexity, among which are: nonconvex control constraints, nonconvex or coupled state-control constraints, and nonlinear dynamics.
+
+<!-- chunk {"id": "body-0090", "role": "body", "section": "Paper Body", "weight": 1.0} -->
+
+The goal of a convex optimization-based trajectory generation algorithm is to provide a systematic way of handling these nonconvexities, and to generate a trajectory using a convex solver at its core.
+
+<!-- chunk {"id": "body-0091", "role": "body", "section": "Paper Body", "weight": 1.0} -->
+
+Two methods stand out to achieve this goal. In special cases, it is possible to reformulate the problem into a convex one through a variable substitution and a ``lifting'' (i.e., augmentation) of the control input into a higher-dimensional space. In this case, Pontryagin's maximum principle can be used to show that solving the new problem recovers a globally optimal solution of the original problem. This gives the approach the name \alert{lossless convexification} (\lcvx), and the resulting problem can often be solved with a single call to a convex solver. As one can imagine, however, \lcvx tends to apply only to very specific problems. Fortunately, this includes some important and practically useful forms of rocket landing and other trajectory generation problems for spacecraft and AAV vehicles. When \lcvx cannot be used, convex optimization can be applied via \alert{sequential convex programming} (SCP). This natural extension linearizes all nonconvex elements of \pref{general\_ocp}, and solves the convex problem in a local neighborhood where the linearization is accurate.
+
+<!-- chunk {"id": "body-0092", "role": "body", "section": "Paper Body", "weight": 1.0} -->
+
+Roughly speaking, the problem is then re-linearized at the new solution, and the whole process is repeated until a stopping criterion is met. In the overall classification of optimization algorithms, SCP is a trust region method. While SCP is a whole class of algorithms, our primary focus is on two particular and closely related methods called \scvx (also known as successive convexification) and \gusto Let us go through the numerous applications where the \lcvx, \scvx and \gusto methods have been used. The \lcvx method was originally developed for rocket landing. This was the method at the center of the aforementioned NASA JPL multi-year flight test campaign for Mars pinpoint landing. We hypothesize that \lcvx is also a close relative of the SpaceX Falcon 9 terminal landing algorithm. The method also appears in applications for fixed-wing and quadrotor AAV trajectory generation, spacecraft hypersonic reentry, and spacecraft rendezvous and docking.
+
+<!-- chunk {"id": "body-0093", "role": "body", "section": "Paper Body", "weight": 1.0} -->
+
+The \scvx method, which applies to far more general problems albeit with fewer runtime guarantees, has been used extensively for the general rocket landing problem {Szmuk2016,SzmukReynolds2018,szmuk2018successive-conf, szmuk2019successive,Reynolds2019b,Reynolds2020}, quadrotor trajectory generation, spacecraft rendezvous and docking, and cubesat attitude control. Recently, as part of the NASA SPLICE project to develop a next-generation planetary landing computer, the \scvx algorithm is being tested as an experimental payload aboard the Blue Origin New Shepard rocket. The \gusto method has been applied to free-flyer robots such as those used aboard the international space station motion planning, aircraft motion planning, and robot manipulator arms.
+
+<!-- chunk {"id": "body-0094", "role": "body", "section": "Paper Body", "weight": 1.0} -->
+
+A typical control architecture consists of trajectory generation and feedback control elements. This article discusses algorithms for trajectory generation, which traditionally provides reference and feedforward control signals. By repeatedly generating new trajectories, a feedback action is created that can itself be used for control. Repeated trajectory generation for feedback control underlies the theory of model predictive control. label={control\_architecture}]% \includegraphics[width=1\columnwidth]{gnc\_architecture} This article provides a first\dash ever comprehensive tutorial of the \lcvx, \scvx and \gusto algorithms. Placing these related methods under the umbrella of a single article allows to provide a unified description that highlights common ideas and helps the practitioner to know how, where, and when to deploy each method. Previous tutorials on \lcvx and \scvx provide a complementary There are two reasons for focusing on \lcvx, \scvx, and \gusto specifically. First, the authors are the developers of the three algorithms. Hence, we feel best positioned to provide a thorough description for these particular methods, given our experience with their implementation.
+
+<!-- chunk {"id": "body-0095", "role": "body", "section": "Paper Body", "weight": 1.0} -->
+
+Second, these three methods have a significant history of real-world application. This should provide confidence that the methods withstood the test of time, and have proven themselves to be useful when the stakes were high. % The applied aspect of all three% methods should make them interesting in their own right. By the end of the article, our hope is to have provided the understanding and the tools necessary in order to adapt each method to the reader's particular Although our discussion for SCP is restricted to \scvx and \gusto, both methods are closely related to other existing SCP algorithms. We hope that after reading this tutorial, the reader will be well-positioned to understand most if not all other SCP methods for trajectory generation. Applications of these SCP alternatives are discussed in the recent survey paper.
+
+<!-- chunk {"id": "body-0096", "role": "body", "section": "Paper Body", "weight": 1.0} -->
+
+Finally, we note that this article is focused on solving a trajectory optimization problem like \pref{general\_ocp} \textit{once} in real\dash time. As illustrated in \figref{control\_architecture}, this results in a single optimal trajectory that can be robustly tracked by a downstream control system. The ability to solve for the trajectory in real\dash time, however, can allow for updating the trajectory as the mission evolves and more information is revealed to the autonomous vehicle. % In other words, the trajectory can be updated and% reshaped as the state of the system evolves. Repetitive trajectory generation provides a feedback action that can itself be used for control purposes. This approach is the driving force behind model predictive control (MPC), which has been applied to many application domains over the last three decades. This article does not cover MPC, and we refer the interested reader to existing literature The complete implementation source code for the numerical examples at the end of this article can be found in the \texttt{csm} branch of our open-source GitHub repository.
+
+<!-- chunk {"id": "body-0097", "role": "body", "section": "Paper Body", "weight": 1.0} -->
+
+The \texttt{master} branch provides even more algorithms and examples that are not covered in this article. \input{figures/qr\_code.tex} \includegraphics[scale=\csmpreprintfigscale]{qr\_code} The rest of this article is organized as follows. We begin with a short section on convex optimization, with the primary objective of highlighting why it is so useful for trajectory generation. The article is then split into three main parts. Part I surveys the major results of lossless convexification (\lcvx) to solve nonconvex trajectory problems in one shot. Part II discusses sequential convex programming (SCP) which can handle very general and highly nonconvex trajectory generation tasks by iteratively solving a number of convex optimization problems. In particular, Part II provides a detailed tutorial on two modern SCP methods called \scvx and \gusto. Lastly, Part III applies \lcvx, \scvx, and \gusto to three complex trajectory generation problems: a rocket\dash powered planetary lander, a quadrotor, and a microgravity free\dash flying robotic assistant.
+
+<!-- chunk {"id": "body-0098", "role": "body", "section": "Paper Body", "weight": 1.0} -->
+
+Some important naming conventions and notation that we use throughout the article are defined in the \sbref{nomencl} and \sbref{symbols}.
+
+<!-- chunk {"id": "body-0099", "role": "body", "section": "Paper Body", "weight": 1.0} -->
+
+To complement the tutorial style of this article, the numerical examples in Part III are accompanied by open-source implementation code linked in \figref{github\_qr}. We use the Julia programming language because it is simple to read like Python, yet it can be as fast as C/C++. By downloading and running the code, the reader can recreate the exact plots seen \subsection{Convex Optimization Background} Convex optimization seeks to minimize a convex objective function while satisfying a set of convex constraints. The technique is expressive enough to capture many trajectory generation and control applications, and is appealing due to the availability of solution algorithms with the following properties \item A {globally optimal} solution is found if a feasible solution exists; \item A {certificate of infeasibility} is provided when a feasible solution does not exist; \item The runtime complexity is {polynomial} in the problem size; \item The algorithms can {self-initialize}, eliminating the need for an expert The above properties are fairly general and apply to most, if not all, trajectory generation and control applications. This makes convex programming safer than other optimization methods for autonomous applications.
+
+<!-- chunk {"id": "body-0100", "role": "body", "section": "Paper Body", "weight": 1.0} -->
+
+To appreciate what makes an optimization problem convex, we introduce some basic definitions here and defer to for further details. Two fundamental objects must be considered: a convex function and a convex set. For reference, \figref{convex\_example} illustrates a notional convex set and function. By definition, $\mathcal C\subseteq\real^n$ is a convex set if and only if it contains the line segment connecting any two \label{eq:generic\_convex\_set} x,y\in\mathcal C\Rightarrow [x,y]\_\theta\in\mathcal C for all $\theta\in$, where $[x,y]_\theta\definedas\theta x+(1-\theta)y$. An important property is that convexity is preserved under set intersection. This allows us to build complicated convex sets by intersecting simpler sets. By replacing the word ``sets'' with ``constraints'', we can readily appreciate how this property plays into modeling trajectory generation problems using convex optimization.
+
+<!-- chunk {"id": "body-0101", "role": "body", "section": "Paper Body", "weight": 1.0} -->
+
+Illustration of a notional convex set (\protect\subref{fig:convex\_example\_set}) and convex function (\protect\subref{fig:convex\_example\_function}). In both cases, the variable $\theta\in $ generates a line segment between two points. The epigraph $\epi f\subseteq\real^n\times\real$ is the set of points which lie above the function, and itself defines a convex set.
+
+<!-- chunk {"id": "body-0102", "role": "body", "section": "Paper Body", "weight": 1.0} -->
+
+label={convex\_example}, \begin{subfigure}[b]{1.0\linewidth} \includegraphics[width=0.9\columnwidth]{convex\_example\_set} \caption{A convex set contains all line segments connecting its points.} \label{fig:convex\_example\_set} \begin{subfigure}[b]{1.0\linewidth} \includegraphics[width=0.9\columnwidth]{convex\_example\_function} \caption{A convex function lies below all line segments connecting its \label{fig:convex\_example\_function} A function $f:\real^n\to\real$ is convex if and only if $\dom f$ is a convex set and $f$ lies below the line segment connecting any two of its points: x,y\in\dom f\Rightarrow f([x,y]\_\theta)\le [f(x),f(y)]\_\theta for all $\theta\in$.
+
+<!-- chunk {"id": "body-0103", "role": "body", "section": "Paper Body", "weight": 1.0} -->
+
+A convex optimization problem is simply the minimization of a convex function subject to a number of convex constraints that act to restrict the search space: & f\_i(x)\le 0,~i=1,\ldots,n\_{\mrm{ineq}}, \\where~$f_0:\real^n\to\real$ is a convex \alert{cost} function, $f_i:\real^n\to\real$ are convex inequality constraints, and $g_i:\real^n\to\real$ are affine equality constraints. The problem contains $n_{\mrm{ineq}}$ inequality and $n_{\mrm{eq}}$ equality constraints. We stress that the equality constraints must be affine, which means that each function $g_i$ is a linear expression in $x$ plus a constant offset. The equations of motion are equality constraints, therefore basic convex optimization restricts the dynamics to be affine (i.e., linear time-varying at most). Handling nonlinear dynamics will be a major topic of discussion throughout this article.
+
+<!-- chunk {"id": "body-0104", "role": "body", "section": "Paper Body", "weight": 1.0} -->
+
+Each constraint defines a convex set so that, together, \optieqref{cvx}{inequalities} and \optieqref{cvx}{equalities} form a convex feasible set of values that the decision variable $x$ may take. To explicitly connect this discussion back to the generic convex set introduced in eq:generic\_convex\_set, we can write the feasible set as: &f\_i(x)\le 0,~i=1,\ldots,n\_{\mrm{ineq}}, \\\label{eq:convex\_feasible\_set} &g\_i(x) = 0,~i=1,\ldots,n\_{\mrm{eq}}\bigg\}.
+
+<!-- chunk {"id": "body-0105", "role": "body", "section": "Paper Body", "weight": 1.0} -->
+
+A fundamental consequence of convexity is that any local minimum of a convex function is a global minimum. More generally, convex functions come with a plethora of properties that allow algorithm designers to obtain global information about function behavior from local measurements. For example, a differentiable convex function is globally lower bounded by its local first\dash order approximation. Thus, we may look at convexity as a highly beneficial assumption on function behavior that enables efficient algorithm design. Indeed, a landmark discovery of the twentieth century was that it is convexity, not linearity, that separates ``hard'' and ``easy'' problems For practitioners, the utility of convex optimization stems not so much from the ability to find the global minimum, but rather from the ability to find it (or indeed any other feasible solution) \textit{quickly}. The field of numerical convex optimization was invigorated by the interior-point method (IPM) family of optimization algorithms, first introduced in 1984 by Karmarkar. Today, convex optimization problems can be solved by primal\dash dual IPMs in a few tens of iterations. Roughly speaking, we can say that substantially large trajectory generation problems can usually be solved in under one second.
+
+<!-- chunk {"id": "body-0106", "role": "body", "section": "Paper Body", "weight": 1.0} -->
+
+In technical parlance, IPMs have a favorable polynomial problem complexity: the number of iterations required to solve the problem to a given tolerance grows polynomially in the number of constraints $n_{\mrm{ineq}}+n_{\mrm{eq}}$. With some further assumptions, it is even possible to provide an upper bound on the We defer to for futher details on convex optimization algorithms. Throughout this article, our goal will be to leverage existing convex problem solvers to create higher-level frameworks for the solution of trajectory generation problems.
+
+<!-- chunk {"id": "body-0107", "role": "body", "section": "Paper Body", "weight": 1.0} -->
+
+\section{Part I: Lossless Convexification} \alert{Lossless convexification} (\lcvx) is a modeling technique that solves nonconvex optimal control problems through a convex relaxation. In this method, Pontryagin's maximum principle is used to show that a convex relaxation of a nonconvex problem finds the globally optimal solution to the original problem, hence the method's name. To date, the method has been extended as far as relaxing certain classes of nonconvex control constraints, such as an input norm lower bound (see \sbref{inputrelax}) and a nonconvex pointing constraint (see \sbref{pointingrelax}).
+
+<!-- chunk {"id": "body-0108", "role": "body", "section": "Paper Body", "weight": 1.0} -->
+
+The \lcvx method has been shown to work for a large class of state-constrained optimal control problems, however a working assumption is that state constraints are convex. Lossless relaxation of nonconvex state constraints remains under active research, and some related results are available (which we will cover in this section).
+
+<!-- chunk {"id": "body-0109", "role": "body", "section": "Paper Body", "weight": 1.0} -->
+
+As the reader goes through Part I, it is suggested to keep in mind that the main concerns of lossless convexification are: \item To find a convex lifting of the feasible input set; \item To show that the optimal input of the lifted problem projects back to a feasible input of the original non-lifted problem.
+
+<!-- chunk {"id": "body-0110", "role": "body", "section": "Paper Body", "weight": 1.0} -->
+
+\figref{lcvx\_history} chronicles the development history of \lcvx. The aim of this part of the article is to provide a tutorial overview of the key results, so theoretical proofs are omitted in favor of a more practical and action\dash oriented description. Ultimately, our aim is for the reader to come away with a clear understanding of how \lcvx can be applied to their own problems.
+
+<!-- chunk {"id": "body-0111", "role": "body", "section": "Paper Body", "weight": 1.0} -->
+
+In the following sections, we begin by introducing \lcvx for the input norm lower bound and pointing nonconvexities using a baseline problem with no state constraints. Then, the method is extended to handle affine and quadratic state constraints, followed by general convex state constraints. We then describe how the \lcvx method can also handle a class of dynamical systems with nonlinear dynamics. For more general applications, embedding \lcvx into nonlinear optimization algorithms is also discussed. At the very end of this part of the article, we cover some of the newest \lcvx results from the past year, and provide a toy example that gives a first taste of how \lcvx can be used in Chronology of lossless convexification theory development. Note the progression from state\dash unconstrained problems to those with progressively more general state constraints and, finally, to problems that contain integer variables. label={lcvx\_history}, \input{figures/lcvx\_chronology.tex} \subsection{No State Constraints} We begin by stating perhaps the simplest optimal control problem for which an \lcvx result is available.
+
+<!-- chunk {"id": "body-0112", "role": "body", "section": "Paper Body", "weight": 1.0} -->
+
+Its salient features are a distinct absence of state constraints (except for the boundary conditions), and its only source of nonconvexity is a lower-bound on the input given by \optieqref{lcvx\_o\_nostate}{bounds}. A detailed description of \lcvx for this problem may be found.
+
+<!-- chunk {"id": "body-0113", "role": "body", "section": "Paper Body", "weight": 1.0} -->
+
+label={lcvx\_o\_nostate}, objective={m(t\_f,x(t\_f))+\runningk \int\_0^{t\_f} \ell(g\_1(u(t)))\,\dt}] & \rho\_{\min}\le g\_1(u(t)),~g\_0(u(t))\le\rho\_{\max}, \\In \pref{lcvx\_o\_nostate}, $t_f>0$ is the terminal time, $x(\cdot)\in\real^n$ is the state trajectory, $u(\cdot)\in\real^m$ is the input trajectory, $w(\cdot)\in\real^p$ is an exogenous additive disturbance, $m:\real\times\real^n\to\real$ is a convex terminal cost, $\ell:\real\to\real$ is a convex and non-decreasing running cost modifier,
+
+<!-- chunk {"id": "body-0114", "role": "body", "section": "Paper Body", "weight": 1.0} -->
+
+$\runningk\in\{0,1\}$ is a fixed user-chosen parameter to toggle the running cost, $g_0,g_1:\real^m\to\real_+$ are convex functions, $\rho_{\min}>0$ and $\rho_{\max}>\rho_{\min}$ are user-chosen bounds, and $b:\real\times\real^n\to\real^{n_b}$ is an affine terminal constraint function.
+
+<!-- chunk {"id": "body-0115", "role": "body", "section": "Paper Body", "weight": 1.0} -->
+
+Note that the dynamics in \pref{lcvx\_o\_nostate} define a linear time varying (LTV) system. For all the \lcvx discussion that follows, we will also make the following two assumptions on the problem data.
+
+<!-- chunk {"id": "body-0116", "role": "body", "section": "Paper Body", "weight": 1.0} -->
+
+\begin{assumption}[terminal\_state\_not\_overconstrained] If any part of the terminal state is constrained then the Jacobian $\grad_x b[t_f]\in\reals^{n_b\times n}$ is full row rank, i.e., $\rank{\grad_x b[t_f]}=n_b$. This implies that the terminal state is not \begin{assumption}[position\_running\_cost] The running cost is positive definite, in other words $\ell(z)>0$ for all When faced with a nonconvex problem like \pref{lcvx\_o\_nostate}, an engineer has two choices. Either devise a nonlinear optimization algorithm, or solve a simpler problem that is convex. The mantra of \lcvx is to take the latter approach by ``relaxing'' the problem until it is convex.
+
+<!-- chunk {"id": "body-0117", "role": "body", "section": "Paper Body", "weight": 1.0} -->
+
+In the case of \pref{lcvx\_o\_nostate}, let us propose the following relaxation, which introduces a new variable $\sigma(\cdot)\in\real$ called the \alert{slack input}.
+
+<!-- chunk {"id": "body-0118", "role": "body", "section": "Paper Body", "weight": 1.0} -->
+
+label={lcvx\_r\_nostate}, objective={m(t\_f,x(t\_f))+\runningk \int\_0^{t\_f} \ell(\sigma(t))\,\dt}] & \rho\_{\min}\le \sigma(t),~g\_0(u(t))\le\rho\_{\max}, \\\optilabel{lcvx\_equality} & {\color{lcvxColor}g\_1(u(t))\le\sigma(t)}, \\title={Convex Relaxation of an Input Lower Bound}, sidebars/lcvx\_lower\_bound.tex} The relaxation of the nonconvex input constraint \optieqref{lcvx\_o\_nostate}{bounds} to the convex constraints
+
+<!-- chunk {"id": "body-0119", "role": "body", "section": "Paper Body", "weight": 1.0} -->
+
+\optieqref{lcvx\_r\_nostate}{bounds}-\optieqref{lcvx\_r\_nostate}{lcvx\_equality} is illustrated in \sbref{inputrelax} for the case of a throttleable rocket engine.
+
+<!-- chunk {"id": "body-0120", "role": "body", "section": "Paper Body", "weight": 1.0} -->
+
+Note that if \optieqref{lcvx\_r\_nostate}{lcvx\_equality} is replaced with equality, then \pref{lcvx\_r\_nostate} is equivalent to \pref{lcvx\_o\_nostate}. Indeed, the entire goal of \lcvx is to \textit{prove} that \optieqref{lcvx\_r\_nostate}{lcvx\_equality} holds with equality at the globally optimal solution of \pref{lcvx\_r\_nostate}. Because of the clear importance of constraint \optieqref{lcvx\_r\_nostate}{lcvx\_equality} to the \lcvx method, we shall call it the \alert{\lcvx equality constraint}. This special constraint will be highlighted in red in all subsequent \lcvx optimization problems.
+
+<!-- chunk {"id": "body-0121", "role": "body", "section": "Paper Body", "weight": 1.0} -->
+
+Consider now the following set of conditions, which arise naturally when using the maximum principle to prove lossless convexification. The theoretical details \begin{condition}[lcvx\_nostate\_controllability] The pair $\{A(\cdot),B(\cdot)\}$ must be totally controllable. This means that any initial state can be transferred to any final state by a bounded control trajectory in any finite time interval $[0,t_f]$.
+
+<!-- chunk {"id": "body-0122", "role": "body", "section": "Paper Body", "weight": 1.0} -->
+
+If the system is time invariant, this is equivalent to $\{A,B\}$ being controllable, and can be verified by checking that the controllability matrix is full rank or, more robustly, via the PBH \begin{condition}[lcvx\_nostate\_linindep] Define the quantities: \label{eq:lcvx\_nostate\_linindep\_m\_B} &= \Matrix{\grad\_x m[t\_f] \\ \grad\_t m[t\_f]+\runningk\ell(\sigma(t\_f))}% \label{eq:lcvx\_nostate\_linindep\_B} &= \Matrix{\grad\_x b[t\_f]\T \\ \grad\_t b[t\_f]\T}% The vector $m_{\text{\lcvx}}$ and the columns of $B_{\text{\lcvx}}$ must be We can now state
+
+<!-- chunk {"id": "body-0123", "role": "body", "section": "Paper Body", "weight": 1.0} -->
+
+\tref{nostate}, which is the main lossless convexification result for \pref{lcvx\_o\_nostate}.
+
+<!-- chunk {"id": "body-0124", "role": "body", "section": "Paper Body", "weight": 1.0} -->
+
+The practical implication of \tref{nostate} is that the solution of \pref{lcvx\_o\_nostate} can be found in polynomial time by solving \pref{lcvx\_r\_nostate} instead.
+
+<!-- chunk {"id": "body-0125", "role": "body", "section": "Paper Body", "weight": 1.0} -->
+
+\begin{theorem}[nostate] The solution of \pref{lcvx\_r\_nostate} is globally optimal for \pref{lcvx\_o\_nostate} if \conref{lcvx\_nostate\_controllability,lcvx\_nostate\_linindep} hold.
+
+<!-- chunk {"id": "body-0126", "role": "body", "section": "Paper Body", "weight": 1.0} -->
+
+There is a partial generalization of \tref{nostate}. First, restrict \pref{lcvx\_o\_nostate} to the choices $\runningk=1$ and $g_0=g_1$. Next, introduce a new pointing-like input constraint \optieqref{lcvx\_o\_nostate\_pointing}{pointing}. The quantities $\hat n_u\in\real^m$ and $\hat n_g\in\real$ are user-chosen parameters.
+
+<!-- chunk {"id": "body-0127", "role": "body", "section": "Paper Body", "weight": 1.0} -->
+
+The new problem takes the following form: label={lcvx\_o\_nostate\_pointing}, objective={m(t\_f,x(t\_f))+\int\_0^{t\_f} \ell(g\_0(u(t)))\,\dt}] & \rho\_{\min}\le g\_0(u(t))\le\rho\_{\max}, \\Using \optieqref{lcvx\_o\_nostate\_pointing}{pointing}, one can, for example, constrain an airborne vehicle's tilt angle. This constraint, however, is nonconvex for $\hat n_g<0$.
+
+<!-- chunk {"id": "body-0128", "role": "body", "section": "Paper Body", "weight": 1.0} -->
+
+We take care of this nonconvexity, along with the typical nonconvexity of the lower bound in \optieqref{lcvx\_o\_nostate\_pointing}{bounds}, by solving the following relaxation of the original problem: label={lcvx\_r\_nostate\_pointing}, objective={m(t\_f,x(t\_f))+\int\_0^{t\_f} \ell(\sigma(t))\,\dt}] & \rho\_{\min}\le \sigma(t)\le\rho\_{\max}, \\\optilabel{lcvx\_equality} & {\color{lcvxColor}g\_0(u(t))\le\sigma(t)}, \\& \hat n\_u\T u(t)\ge \sigma(t) \hat n\_g, \\Just like in \pref{lcvx\_r\_nostate}, we introduced a slack input
+
+<!-- chunk {"id": "body-0129", "role": "body", "section": "Paper Body", "weight": 1.0} -->
+
+$\sigma(\cdot)\in\reals$ to strategically remove nonconvexity.
+
+<!-- chunk {"id": "body-0130", "role": "body", "section": "Paper Body", "weight": 1.0} -->
+
+Note once again the appearance of the \lcvx equality constraint \optieqref{lcvx\_r\_nostate\_pointing}{lcvx\_equality}. Meanwhile, the relaxation of \optieqref{lcvx\_o\_nostate\_pointing}{pointing} to \optieqref{lcvx\_r\_nostate\_pointing}{pointing} corresponds to a halfspace input constraint in the $(u,\sigma)\in\reals^{m+1}$ space. A geometric intuition about the relaxation is illustrated in \sbref{pointingrelax} for a typical vehicle tilt constraint. Lossless convexification can again be shown under an extra \conref{lcvx\_nostate\_controllability\_pointing}, yielding \tref{nostate\_pointing}.
+
+<!-- chunk {"id": "body-0131", "role": "body", "section": "Paper Body", "weight": 1.0} -->
+
+Theoretical details are provided in title={Convex Relaxation of an Input Pointing Constraint}, sidebars/lcvx\_pointing.tex} \begin{condition}[lcvx\_nostate\_controllability\_pointing] Let $N\in\real^{m\times (m-1)}$ be a matrix whose columns span the nullspace of $\hat n_u$ in \optieqref{lcvx\_o\_nostate\_pointing}{pointing}. The pair $\{A(\cdot),B(\cdot)N\}$ must be totally controllable.
+
+<!-- chunk {"id": "body-0132", "role": "body", "section": "Paper Body", "weight": 1.0} -->
+
+\begin{theorem}[nostate\_pointing] The solution of \pref{lcvx\_r\_nostate\_pointing} is globally optimal for \pref{lcvx\_o\_nostate\_pointing} if \conref{lcvx\_nostate\_controllability,lcvx\_nostate\_linindep,% lcvx\_nostate\_controllability\_pointing} hold.% Suppose that Conditions~condition:lcvx\_nostate\_controllability-condition:lcvx\_nostate\_controllability\_pointing% hold. If $\runningk=1$ and $g_0=g_1$, the solution of% \pref{lcvx\_r\_nostate} with the extra constraint% eq:lcvx\_r\_nostate\_pointing is globally optimal for% \pref{lcvx\_o\_nostate} with the extra constraint% eq:lcvx\_o\_nostate\_pointing.
+
+<!-- chunk {"id": "body-0133", "role": "body", "section": "Paper Body", "weight": 1.0} -->
+
+\subsection{Affine State Constraints} The logical next step after \tref{nostate,nostate\_pointing} is to ask whether \pref{lcvx\_o\_nostate} can incorporate state constraints. It turns out that this is possible under a fairly mild set of extra conditions. The results presented in this section originate.
+
+<!-- chunk {"id": "body-0134", "role": "body", "section": "Paper Body", "weight": 1.0} -->
+
+Affine inequality constraints are the simplest class of state constraints that can be handled in \lcvx.
+
+<!-- chunk {"id": "body-0135", "role": "body", "section": "Paper Body", "weight": 1.0} -->
+
+The nonconvex statement of the original problem is a close relative of \pref{lcvx\_o\_nostate}: label={lcvx\_o\_linstate}, objective={m(x(t\_f))+\runningk \int\_0^{t\_f} \ell(g\_1(u(t)))\,\dt}] & \rho\_{\min}\le g\_1(u(t)),~g\_0(u(t))\le\rho\_{\max}, \\\optilabel{affine\_input} \optilabel{affine\_state} First, we note that \pref{lcvx\_o\_linstate} is \alert{autonomous}, in other words the terminal cost in \optieqref{lcvx\_o\_linstate}{objective}, the dynamics \optieqref{lcvx\_o\_linstate}{dynamics}, and the boundary constraint
+
+<!-- chunk {"id": "body-0136", "role": "body", "section": "Paper Body", "weight": 1.0} -->
+
+\optieqref{lcvx\_o\_linstate}{boundary} are all independent of time.
+
+<!-- chunk {"id": "body-0137", "role": "body", "section": "Paper Body", "weight": 1.0} -->
+
+Note that a limited form of time variance can still be included through an additional time integrator state whose dynamics are $\dot z(t)=1$. The limitation here is that time variance must not introduce nonconvexity in the cost, in the dynamics, and in the terminal constraint \optieqref{lcvx\_o\_linstate}{boundary}. The matrix of facet normals $H\in\real^{n_h\times n}$ and the vector of facet offsets $h\in\real^{n_h}$ define a new polytopic (affine) state constraint set. A practical use-case for this constraint is described in \sbref{sidebar\_affinestate}. Similarly, $C\in\real^{n_c\times m}$ and $c\in\real^{n_c}$ define a new polytopic subset of the input constraint set, as illustrated in \sbref{sidebar\_inputcut}.
+
+<!-- chunk {"id": "body-0138", "role": "body", "section": "Paper Body", "weight": 1.0} -->
+
+% As explained, the difficulty for% non-autonomous problems that requires us to restrict eq:linstate\_ineq% to eq:linstate\_eq is that the optimal trajectory cannot be decomposed% into subarcs that are individually optimal as independent subproblems.
+
+<!-- chunk {"id": "body-0139", "role": "body", "section": "Paper Body", "weight": 1.0} -->
+
+title={Landing Glideslope as an Affine State Constraint}, label={sidebar\_affinestate}]{% sidebars/lcvx\_glideslope.tex} title={Using Halfspaces to Further Constrain the Input Set}, label={sidebar\_inputcut}]{% sidebars/lcvx\_input\_cut.tex} Let us propose the following convex relaxation of \pref{lcvx\_o\_linstate}, which takes the familiar form of \pref{lcvx\_r\_nostate}: label={lcvx\_r\_linstate}, objective={m(x(t\_f))+\runningk \int\_0^{t\_f} \ell(\sigma(t))\,\dt}] & \rho\_{\min}\le \sigma(t),~g\_0(u(t))\le\rho\_{\max}, \\&
+
+<!-- chunk {"id": "body-0140", "role": "body", "section": "Paper Body", "weight": 1.0} -->
+
+{\color{lcvxColor}g\_1(u(t))\le\sigma(t)}, \\\optilabel{affine\_state} To guarantee lossless convexification for this convex relaxation, \conref{lcvx\_nostate\_controllability} can be modified to handle the new state and input constraints \optieqref{lcvx\_o\_linstate}{affine\_input} and \optieqref{lcvx\_o\_linstate}{affine\_state}. To this end, we use the following notion of cyclic coordinates from mechanics.
+
+<!-- chunk {"id": "body-0141", "role": "body", "section": "Paper Body", "weight": 1.0} -->
+
+\begin{definition}[cyclic] For a dynamical system $\dot x = f(x)$, with state $x\in\reals^n$, any components of $x$ that do not appear explicitly in $f(\cdot)$ are said to be \alert{cyclic coordinates}. Without loss of generality, we can decompose the \label{eq:state\_cyclic} where $x_c\in\reals^{n_c}$ are the cyclic and $x_{nc}\in\reals^{n_{nc}}$ are the non-cyclic coordinates, such that $n_c+n_{nc}=n$. We can then write Many mechanical systems have cyclic coordinates. For example, quadrotor drone and fixed-wing aircraft dynamics do not depend on the position or yaw angle. Satellite dynamics in a circular low Earth orbit, frequently approximated with the Clohessy\dash Wiltshire\dash Hill equations, do not depend on the true anomaly angle which locates the spacecraft along the orbit.
+
+<!-- chunk {"id": "body-0142", "role": "body", "section": "Paper Body", "weight": 1.0} -->
+
+With \dref{cyclic} in hand, we call a \alert{cyclic transformation} $\cyclicshift:\real^n\to\real^n$ any mapping from the state space to itself which translates the state vector along the cyclic coordinates. In other words, assuming without loss of generality that the state is given by eq:state\_cyclic, we can write: \cyclicshift(x) = \Matrix{x\_c+\Delta x\_c \\ x\_{nc}} for some translation $\Delta x_c\in\reals^n$. Let us now consider the polytopic state constraint \optieqref{lcvx\_r\_linstate}{affine\_state} and, in particular, let $\set F_i = \{x\in\real^n: H_i\T x= h_i\}$ be its $i$-th facet ($H_i\T$ is the $i$-th row of $H$).
+
+<!-- chunk {"id": "body-0143", "role": "body", "section": "Paper Body", "weight": 1.0} -->
+
+% Published papers on \lcvx with affine state constraints% assume $h_i=0$, such that $\set F_i$ is a linear subspace% cite{Harris2014,Harris2013a,HarrisThesis}. However, \lcvx in fact holds for% $h_i\ne 0$ as long as the following condition is satisfied. The following condition must then hold.
+
+<!-- chunk {"id": "body-0144", "role": "body", "section": "Paper Body", "weight": 1.0} -->
+
+\begin{condition}[lcvx\_linstate\_cyclic\_shift] Let $\set F_i = \{x\in\real^n: H_i\T x= h_i\}$ denote the $i$-th facet of the polytopic state constraint \optieqref{lcvx\_r\_linstate}{affine\_state}, for any $i\in\{1,\dots,n_h\}$. If $h_i\ne 0$, then there must exist a cyclic transformation $\cyclicshift$ such that Illustration of a landing glideslope constraint ({\color{beamerRed}red}, sideview of \figref{sidebar\_affine\_glideslope}) that undergoes a cyclic shift in position along the positive $x_2$ axis, to arrive at a new landing location ({\color{beamerBlue}blue}).
+
+<!-- chunk {"id": "body-0145", "role": "body", "section": "Paper Body", "weight": 1.0} -->
+
+Thanks to \conref{lcvx\_linstate\_cyclic\_shift}, the \lcvx guarantee continues to hold for the new glideslope constraint, even though the new constraint facets are label={landing\_glideslope\_cyclic\_shift}]% \centering \includegraphics[width=0.6\columnwidth]{landing\_glideslope\_cyclic} To visualize the implication of \conref{lcvx\_linstate\_cyclic\_shift}, simply consider the case of the landing glideslope constraint from \sbref{sidebar\_affinestate}. Because the position of a spacecraft in a constant gravity field is a cyclic coordinate, \conref{lcvx\_linstate\_cyclic\_shift} confirms our intuitive understanding that we can impose landing at a coordinate other than the origin without compromising lossless convexification. \figref{landing\_glideslope\_cyclic\_shift} provides an illustration.
+
+<!-- chunk {"id": "body-0146", "role": "body", "section": "Paper Body", "weight": 1.0} -->
+
+From linear systems theory, it turns out that $x(t)\in\set F_i$ can hold for a non\dash zero time interval (i.e. the state ``sticks'' to a facet) if and only if there exists a triplet of $\{F_i\in\reals^{m\times n},G_i\in\reals^{m\times n_v},H_i\in\reals^{m\times p}\}$ \label{eq:input\_friends\_mapping} caption={Given $x\in\set F_i$, the dynamical system \optieqref{lcvx\_o\_linstate}{dynamics} evolves on $\set F_i$ if and only if $u(t)$ is of the form eq:input\_friends\_mapping.}, label={friends\_block\_diagram} \includegraphics[width=0.75\columnwidth]{friends\_block\_diagram}
+
+<!-- chunk {"id": "body-0147", "role": "body", "section": "Paper Body", "weight": 1.0} -->
+
+\includegraphics[width=0.7\columnwidth]{friends\_block\_diagram} The ``new'' control input $v(t)\in\real^{n_v}$ effectively gets filtered through eq:input\_friends\_mapping to produce a control that maintains $x(\cdot)$ on the hyperplane $\set F_i$.
+
+<!-- chunk {"id": "body-0148", "role": "body", "section": "Paper Body", "weight": 1.0} -->
+
+The situation is illustrated in \figref{friends\_block\_diagram} in a familiar block diagram form. While the matrix triplet is not unique, a valid triplet may be computed via standard linear algebra operations. The reader may consult these operations directly in the source code of the \lcvx examples provided at the end of this article.
+
+<!-- chunk {"id": "body-0149", "role": "body", "section": "Paper Body", "weight": 1.0} -->
+
+% Friend matrices (the matrix triplet) are generally not unique, I think, as% suggested by equation in Matt's 2014 Automatica paper%, which writes that the matrices belong to% sets of matrices --> if they were unique, Matt wouldn't write them as sets% since those sets would be trivial singletons.
+
+<!-- chunk {"id": "body-0150", "role": "body", "section": "Paper Body", "weight": 1.0} -->
+
+The proof of \lcvx for \pref{lcvx\_o\_linstate} was originally developed. The theory behind equation eq:input\_friends\_mapping is among the most abstract in all of \lcvx, and we shall not attempt a proof here. The ultimate outcome of the proof is that the following condition must hold.
+
+<!-- chunk {"id": "body-0151", "role": "body", "section": "Paper Body", "weight": 1.0} -->
+
+\begin{condition}[lcvx\_linstate\_controllability] For each facet $\set F_i\subseteq\reals^n$ of the polytopic state constraint \optieqref{lcvx\_r\_linstate}{affine\_state}, the following ``dual'' linear system has no transmission zeros: \dot\lambda(t) &= -(A+BF\_i)\T\lambda(t)-(CF\_i)\T \mu(t), \\Transmission zeros are defined. Roughly speaking, if there are no transmission zeros then there cannot exist an initial condition $\lambda\in\reals^n$ and an input trajectory $\mu\in\reals^{n_c}$ such that $y(t)=0$ for a non\dash zero time interval.
+
+<!-- chunk {"id": "body-0152", "role": "body", "section": "Paper Body", "weight": 1.0} -->
+
+We can now state when lossless convexification holds for \pref{lcvx\_r\_linstate}. Note that the statement is very similar to \tref{nostate}. Indeed, the primary contribution of was to introduce \conref{lcvx\_linstate\_controllability} and to show that \lcvx holds by using a version of the maximum principle that includes state constraints. The actual lossless convexification procedure, meanwhile, does not change.
+
+<!-- chunk {"id": "body-0153", "role": "body", "section": "Paper Body", "weight": 1.0} -->
+
+\begin{theorem}[linstate] The solution of \pref{lcvx\_r\_linstate} is globally optimal for \pref{lcvx\_o\_linstate} if \conref{lcvx\_nostate\_linindep,lcvx\_linstate\_controllability} hold.
+
+<!-- chunk {"id": "body-0154", "role": "body", "section": "Paper Body", "weight": 1.0} -->
+
+Most recently, a similar \lcvx result was proved for problems with affine equality state constraints that can furthermore depend on the input. These so\dash called mixed constraints are of the following form: \label{eq:lcvx\_mixed\_constraints} where $y$, $C$, and $D$ are problem data.
+
+<!-- chunk {"id": "body-0155", "role": "body", "section": "Paper Body", "weight": 1.0} -->
+
+\subsection{Quadratic State Constraints} In the last section, we showed an \lcvx result for state constraints that can be represented by the affine description \optieqref{lcvx\_o\_linstate}{affine\_state}. The natural next question is whether \lcvx extends to more complicated state constraints. It turns out that a generalization of \lcvx exists for quadratic state constraints, if one can accept a slight restriction to the system dynamics. This result was originally presented.
+
+<!-- chunk {"id": "body-0156", "role": "body", "section": "Paper Body", "weight": 1.0} -->
+
+The nonconvex problem statement is label={lcvx\_o\_quadstate}, objective={m(x(t\_f))+\runningk \int\_0^{t\_f} \ell(g\_1(u(t)))\,\dt}]% & \rho\_{\min}\le g\_1(u(t)),~g\_0(u(t))\le\rho\_{\max}, \\\optilabel{max\_speed} where $(x_1,x_2)\in\real^n\times\real^n$ is the state that has been partitioned into two distinct parts, $u\in\reals^n$ is an input of the same dimension, and the exogenous disturbance $w\in\reals^n$ is some fixed constant.
+
+<!-- chunk {"id": "body-0157", "role": "body", "section": "Paper Body", "weight": 1.0} -->
+
+The matrix $H\in\real^{n\times n}$ is symmetric positive definite such that \optieqref{lcvx\_o\_quadstate}{max\_speed} maintains the state in an ellipsoid. An example of such a constraint is illustrated in \sbref{sidebar\_quadstate}. title={Maximum Velocity as a Quadratic State Constraint}, label={sidebar\_quadstate}]{% sidebars/lcvx\_max\_speed.tex} Although the dynamics \optieqref{lcvx\_o\_quadstate}{dynamics\_1}-\optieqref{lcvx\_o\_quadstate}{dynamics\_2} are less general than \optieqref{lcvx\_o\_linstate}{dynamics}, they can still accommodate problems related to vehicle trajectory generation.
+
+<!-- chunk {"id": "body-0158", "role": "body", "section": "Paper Body", "weight": 1.0} -->
+
+In such problems, the vehicle is usually closely related to a double integrator system, for which $A=I_n$ and $B=I_n$ such that $x_1$ is the position and $x_2$ is the velocity of the vehicle. The control $u$ in this case is the acceleration.
+
+<!-- chunk {"id": "body-0159", "role": "body", "section": "Paper Body", "weight": 1.0} -->
+
+The following assumption further restricts the problem setup, and is a consequence of the lossless convexification proof.
+
+<!-- chunk {"id": "body-0160", "role": "body", "section": "Paper Body", "weight": 1.0} -->
+
+\aref{lcvx\_quadstate\_ass} has the direct interpretation of requiring that the disturbance $w$ can be counteracted by an input that is feasible with respect to \optieqref{lcvx\_o\_quadstate}{bounds}.
+
+<!-- chunk {"id": "body-0161", "role": "body", "section": "Paper Body", "weight": 1.0} -->
+
+The relaxed problem once again simply convexifies the nonconvex input lower bound by introducing a slack input: label={lcvx\_r\_quadstate}, objective={m(x(t\_f))+\runningk \int\_0^{t\_f} \ell(\sigma(t))\,\dt}] & \rho\_{\min}\le \sigma(t),~g\_0(u(t))\le\rho\_{\max}, \\& {\color{lcvxColor}g\_1(u(t))\le\sigma(t)}, \\Thanks to the structure of the dynamics \optieqref{lcvx\_r\_quadstate}{dynamics\_1}-\optieqref{lcvx\_r\_quadstate}{dynamics\_2}, it can be shown that \conref{lcvx\_nostate\_controllability} is automatically satisfied.
+
+<!-- chunk {"id": "body-0162", "role": "body", "section": "Paper Body", "weight": 1.0} -->
+
+On the other hand, \conref{lcvx\_nostate\_linindep} must be modified to account for the quadratic state constraint.
+
+<!-- chunk {"id": "body-0163", "role": "body", "section": "Paper Body", "weight": 1.0} -->
+
+\begin{condition}[lcvx\_quadstate\_linindep] If $\runningk=0$, the vector $\grad_x m[t_f]\in\real^{2n}$ and the columns of the following matrix must be linearly independent: \Matrix{\grad\_{x\_1} b[t\_f]\T & 0 \\ \grad\_{x\_2} b[t\_f]\T & 2Hx\_2(t\_f)}% Note that \conref{lcvx\_quadstate\_linindep} carries a subtle but important implication. Recall that due to \aref{terminal\_state\_not\_overconstrained}, $\grad_x b[t_f]\T$ must be full column rank.
+
+<!-- chunk {"id": "body-0164", "role": "body", "section": "Paper Body", "weight": 1.0} -->
+
+Hence, if $\runningk=0$ then the vector $\pare[big]{0,~2Hx_2(t_f)}\in\reals^{2n}$ and the columns of $\grad_x b[t_f]\T$ must be linearly dependent. Otherwise, $\tilde B_{\lcvx}$ is full column rank and \conref{lcvx\_quadstate\_linindep} cannot be satisfied. With this in mind, the following \lcvx result was proved in% Intuitively, the idea is that when the optimal control problem does not have a% running cost, the terminal state cannot be fully constrained.
+
+<!-- chunk {"id": "body-0165", "role": "body", "section": "Paper Body", "weight": 1.0} -->
+
+\begin{theorem}[quadstate] The solution of \pref{lcvx\_r\_quadstate} is globally optimal for \pref{lcvx\_o\_quadstate} if \conref{lcvx\_quadstate\_linindep} holds.
+
+<!-- chunk {"id": "body-0166", "role": "body", "section": "Paper Body", "weight": 1.0} -->
+
+\subsection{General Convex State Constraints} The preceding two sections discussed problem classes where an \lcvx guarantee is available even in the presence of affine or quadratic state constraints. For obvious reasons, an engineer may want to impose more exotic constraints than afforded by \pref{lcvx\_o\_linstate,lcvx\_o\_quadstate}. Luckily, an \lcvx guarantee is available for general convex state constraints.
+
+<!-- chunk {"id": "body-0167", "role": "body", "section": "Paper Body", "weight": 1.0} -->
+
+As may be expected, generality comes at the price of a somewhat weaker result. In the preceding sections, the \lcvx guarantee was independent from the way in which the affine and quadratic state constraints get activated: instantaneously, for periods of time, or even for the entire optimal trajectory duration. In contrast, for the case of general convex state constraints, an \lcvx guarantee will only hold as long as the state constraints are active \alert{pointwise} in time. In other words, they get activated at isolated time instances and never persistently over a time interval. This result was originally provided.
+
+<!-- chunk {"id": "body-0168", "role": "body", "section": "Paper Body", "weight": 1.0} -->
+
+The nonconvex problem statement is: label={lcvx\_o\_genstate}, objective={m(x(t\_f))+\runningk \int\_0^{t\_f} \ell(g\_1(u(t)))\,\dt}]% & \rho\_{\min}\le g\_1(u(t)),~g\_0(u(t))\le\rho\_{\max}, \\\optilabel{state\_constraint} where $\mathcal X\subseteq\real^n$ is a convex set that defines the state constraints. Without the state constraint, \pref{lcvx\_o\_genstate} is nothing but the autonomous version of \pref{lcvx\_o\_nostate}. As for \pref{lcvx\_o\_linstate}, time variance can be introduced in a limited way by using a time integrator state, as long as this does not introduce nonconvexity.
+
+<!-- chunk {"id": "body-0169", "role": "body", "section": "Paper Body", "weight": 1.0} -->
+
+The relaxed problem uses the by-now familiar slack variable relaxation technique for \optieqref{lcvx\_o\_genstate}{bounds}: label={lcvx\_r\_genstate}, objective={m(x(t\_f))+\runningk \int\_0^{t\_f} \ell(\sigma(t))\,\dt}] & \rho\_{\min}\le \sigma(t),~g\_0(u(t))\le\rho\_{\max}, \\& {\color{lcvxColor}g\_1(u(t))\le\sigma(t)}, \\The \lcvx proof is provided, and relies on recognizing two key facts: \item When $x(t)\in\interior{\set X}$ for any time interval $t\in[t_1,t_2]$, the state of the optimal control problem is unconstrained along that time \item For autonomous problems (recall the description after
+
+<!-- chunk {"id": "body-0170", "role": "body", "section": "Paper Body", "weight": 1.0} -->
+
+\pref{lcvx\_o\_linstate}), every segment of the trajectory is itself optimal The dashed {\color{beamerBlue}blue} curve represents any segment of the optimal state trajectory for \pref{lcvx\_o\_genstate} that evolves in the interior of the state constraint set \optieqref{lcvx\_o\_genstate}{state\_constraint}.
+
+<!-- chunk {"id": "body-0171", "role": "body", "section": "Paper Body", "weight": 1.0} -->
+
+Because the optimal control problem is autonomous, any such segment is the solution to the state-unconstrained \pref{lcvx\_o\_nostate}. When $\runningk=1$ and in the limit as $a\to\infty$, \lcvx applies to the entire (open) segment inside label={lcvx\_genstate\_interior\_arc} \includegraphics[width=0.7\columnwidth]{lcvx\_genstate\_interior\_arc} \includegraphics[width=0.7\columnwidth]{lcvx\_genstate\_interior\_arc} As a result, whenever $x(t)\in\interior{\set X}$, the solution of \pref{lcvx\_r\_genstate} is equivalent to the solution of \pref{lcvx\_r\_nostate}. Consider an \alert{interior} trajectory segment, as illustrated in \figref{lcvx\_genstate\_interior\_arc}.
+
+<!-- chunk {"id": "body-0172", "role": "body", "section": "Paper Body", "weight": 1.0} -->
+
+The optimal trajectory for the dashed portion in \figref{lcvx\_genstate\_interior\_arc} is the solution of the following fixed final state, free final time problem: label={lcvx\_genstate\_subarc}, objective={m(z(t\_e))+\runningk \int\_{t\_s}^{t\_e} \ell(g\_1(u(t)))\,\dt}] & \rho\_{\min}\le g\_1(u(t)),~g\_0(u(t))\le\rho\_{\max}, \\We recognize that \pref{lcvx\_genstate\_subarc} is an instance of \pref{lcvx\_o\_nostate} and, as long as $\runningk=1$ (in order for \conref{lcvx\_nostate\_linindep} to hold), \tref{nostate} applies.
+
+<!-- chunk {"id": "body-0173", "role": "body", "section": "Paper Body", "weight": 1.0} -->
+
+Because $a>0$ can be arbitrarily large in \figref{lcvx\_genstate\_interior\_arc}, lossless convexification applies over the open $(t_1,t_2)$. % Thus, interior segments of the optimal trajectory for% pref{lcvx\_r\_genstate} are lossless. Thus, the solution segments of the relaxed problem that lie in the interior of the state constraint set are feasible and globally optimal for the original \pref{lcvx\_o\_genstate}. title={Permissible State Constraint Activation for General Convex State label={sidebar\_genstate}]{% sidebars/lcvx\_pointwise\_state.tex} The same cannot be said when $x(t)\in\boundary{\set X}$. During these segments, the solution can become infeasible for \pref{lcvx\_o\_genstate}.
+
+<!-- chunk {"id": "body-0174", "role": "body", "section": "Paper Body", "weight": 1.0} -->
+
+However, as long as $x(t)\in\boundary{\set X}$ at isolated time instances, \lcvx can be guaranteed to hold. This idea is further illustrated in \sbref{sidebar\_genstate}.
+
+<!-- chunk {"id": "body-0175", "role": "body", "section": "Paper Body", "weight": 1.0} -->
+
+% \begin{definition}[discrete\_set]% A point $t$ of a set $\set T$ is called an \alert{isolated point} if there% exists a neighborhood of $t$ not containing other points of $\set T$. In other% words, there exists $\tau>0$ such that% $[t-\tau,t+\tau]\intersection\set T=\emptyset$. A set of isolated points is% called a \alert{discrete set}.
+
+<!-- chunk {"id": "body-0176", "role": "body", "section": "Paper Body", "weight": 1.0} -->
+
+When $\runningk=0$, the situation becomes more complicated because \conref{lcvx\_nostate\_linindep} does not hold for \pref{lcvx\_genstate\_subarc}. This is clear from the fact that the terms defined in \conref{lcvx\_nostate\_linindep} m\_{\text{\lcvx}} = \Matrix{\grad\_z m[t\_e] \\ 0}, \quad B\_{\text{\lcvx}} = \Matrix{I\_n \\ 0}, which are clearly not linearly independent since $B_{\text{\lcvx}}$ is full column rank. Thus, even for interior segments the solution may be infeasible for \pref{lcvx\_o\_genstate}. To remedy this, suggests \algref{lcvx\_genstate}. At its core, the algorithm relies on the following simple idea.
+
+<!-- chunk {"id": "body-0177", "role": "body", "section": "Paper Body", "weight": 1.0} -->
+
+By solving \pref{lcvx\_r\_genstate} with the suggested modifications on \algref[start=modifications]{lcvx\_genstate}, every interior segment once again becomes an instance of \pref{lcvx\_o\_nostate} for which \tref{nostate} holds. Furthermore, due to the constraint $x(t_f)=\optimal{x}(\optimal{t_f})$, any solution to the modified problem will be optimal for the original formulation where $\runningk=0$ (since This modification can be viewed as a search for an equivalent solution for which \lcvx holds. As a concrete example, \pref{lcvx\_r\_genstate} may be searching for a minimum miss distance solution for a planetary rocket landing trajectory. The ancillary problem in \algref{lcvx\_genstate} can search for a minimum fuel solution that achieves the same miss distance. Clearly, other running cost choices are possible. Thus, the ancillary problem's running cost becomes an extra tuning parameter.
+
+<!-- chunk {"id": "body-0178", "role": "body", "section": "Paper Body", "weight": 1.0} -->
+
+\State Solve \pref{lcvx\_r\_genstate} to obtain $\optimal{x}(\optimal{t_f})$ \label{alg:lcvx\_genstate:line:step1} \State Solve \pref{lcvx\_r\_genstate} again, with the modifications: \item Use the cost $\int_0^{t_f}\ell(\sigma(t))\dd t$ \item Set $b(x(t_f))=x(t_f)-\optimal{x}(\optimal{t_f})$ % where% $\optimal{x}(\optimal{t_f})$ is the optimal terminal state obtained on% line~alg:lcvx\_genstate:line:step1 \label{alg:lcvx\_genstate:line:modifications} \caption{Solution algorithm for \pref{lcvx\_o\_genstate}.
+
+<!-- chunk {"id": "body-0179", "role": "body", "section": "Paper Body", "weight": 1.0} -->
+
+When $\runningk=0$, a two-step procedure is used where an auxiliary problem with $\runningk=1$ searches over the optimal solutions to the original problem.} \label{alg:lcvx\_genstate} We are now able to summarize the lossless convexification result for problems with general convex state constraints.
+
+<!-- chunk {"id": "body-0180", "role": "body", "section": "Paper Body", "weight": 1.0} -->
+
+\begin{theorem}[genstate] \algref{lcvx\_genstate} returns the globally optimal solution of \pref{lcvx\_o\_genstate} if the state constraint \optieqref{lcvx\_o\_genstate}{state\_constraint} is activated at isolated time instances, and \conref{lcvx\_nostate\_controllability,lcvx\_nostate\_linindep} hold.
+
+<!-- chunk {"id": "body-0181", "role": "body", "section": "Paper Body", "weight": 1.0} -->
+
+\subsection{Nonlinear Dynamics} A unifying theme of the previous sections is the assumption that the system dynamics are linear. In fact, across all \lcvx results that we have mentioned so far, the dynamics did not vary much from the first formulation in \optieqref{lcvx\_o\_nostate}{dynamics}. Many engineering applications, however, involve non-negligible nonlinearities. A natural question is then whether the theory of lossless convexification can be extended to systems with general An \lcvx result is available for a class of nonlinear dynamical systems. The groundwork for this extension was presented. The goal here is to show that the standard input set relaxation based on the \lcvx equality constraint is also lossless when the dynamics are nonlinear. Importantly, note that the dynamics themselves are not convexified, so the relaxed optimization problem is still nonlinear, and it is up to the user to solve the problem to global optimality. This is possible in special cases, for example if the nonlinearities are approximated by piecewise affine functions. This yields a mixed-integer convex problem whose globally optimal solution can be found via mixed-integer programming.
+
+<!-- chunk {"id": "body-0182", "role": "body", "section": "Paper Body", "weight": 1.0} -->
+
+With this introduction, let us begin by introducing the generalization of \pref{lcvx\_o\_nostate} that we shall solve using \lcvx: label={lcvx\_o\_nonlinear}, objective={m(t\_f,x(t\_f))+\runningk \int\_0^{t\_f} \ell(g(u(t)))\,\dt}]% & \rho\_{\min}\le g(u(t))\le\rho\_{\max}, \\where $f:\real\times\real^n\times\real^m\times\real\to\real^n$ defines the nonlinear dynamics. Just as for \pref{lcvx\_o\_nostate\_pointing}, it is required that $g_0=g_1\definedas g$.
+
+<!-- chunk {"id": "body-0183", "role": "body", "section": "Paper Body", "weight": 1.0} -->
+
+Consider the following convex relaxation of the input constraint by using a slack input: label={lcvx\_r\_nonlinear}, objective={m(t\_f,x(t\_f))+\runningk \int\_0^{t\_f} \ell(\sigma(t))\,\dt}]% & \rho\_{\min}\le\sigma(t)\le\rho\_{\max}, \\& {\color{lcvxColor}g(u(t))\le\sigma(t)}, \\Note that the slack input $\sigma$ makes a new appearance in the dynamics \optieqref{lcvx\_r\_nonlinear}{dynamics}.
+
+<!-- chunk {"id": "body-0184", "role": "body", "section": "Paper Body", "weight": 1.0} -->
+
+The more complicated dynamics require an updated version of \conref{lcvx\_nostate\_controllability} in order to guarantee that \begin{condition}[lcvx\_nonlinear\_controllability] The pair $\{\grad_{x}f[t],\grad_{u}f[t]\}$ must be totally controllable on $[0,t_f]$ for all feasible sequences of $x(\cdot)$ and $u(\cdot)$ for \pref{lcvx\_r\_nonlinear}.
+
+<!-- chunk {"id": "body-0185", "role": "body", "section": "Paper Body", "weight": 1.0} -->
+
+Using the above condition, we can state the following quite general \lcvx guarantee for problems that fit the \pref{lcvx\_o\_nonlinear} template.
+
+<!-- chunk {"id": "body-0186", "role": "body", "section": "Paper Body", "weight": 1.0} -->
+
+\begin{theorem}[nonlinear] The solution of \pref{lcvx\_r\_nonlinear} is globally optimal for \pref{lcvx\_o\_nonlinear} if \conref{lcvx\_nostate\_linindep,lcvx\_nonlinear\_controllability} hold.
+
+<!-- chunk {"id": "body-0187", "role": "body", "section": "Paper Body", "weight": 1.0} -->
+
+Alas, \conref{lcvx\_nonlinear\_controllability} is generally quite difficult to check. Nevertheless, two general classes of systems have been shown to automatically satisfy this condition thanks to the structure of their dynamics. These classes accommodate vehicle trajectory generation problems with double integrator dynamics and nonlinearities like mass depletion, aerodynamic drag, and nonlinear gravity. The following discussion of these system classes can appear hard to parse at first sight. For this reason, we provide two practical examples of systems that belong to each class in \sbref{lcvx\_nonlinear}. title={Examples of Losslessly Convexifiable Nonlinear Systems}, label={lcvx\_nonlinear}, sidebars/lcvx\_nonlinear.tex} The first corollary of \tref{nonlinear} introduces the first class of systems. A key insight is that the nullspace conditions of the corollary require that $2m\ge n$, in other words there are at least twice as many control variables as there are state variables.
+
+<!-- chunk {"id": "body-0188", "role": "body", "section": "Paper Body", "weight": 1.0} -->
+
+This is satisfied by some vehicle trajectory generation problems where $2m=n$, for example when the state consists of position and velocity while the control is an acceleration that acts on all the velocity states. This is a common approximation for flying vehicles. We shall see an example for rocket landing in Part III of the article.
+
+<!-- chunk {"id": "body-0189", "role": "body", "section": "Paper Body", "weight": 1.0} -->
+
+The next corollary to \tref{nonlinear} introduces the second class of systems, for which $2m<n$ is allowed. This class is once again useful for vehicle trajectory generation problems where the dynamics are given by eq:lcvx\_o\_nonlinear\_class2\_dynamics and $g(u)$ is a function that measures control effort. A practical example is when the state $x_2$ is mass, which is depleted as a function of the control effort (such as thrust for a rocket).
+
+<!-- chunk {"id": "body-0190", "role": "body", "section": "Paper Body", "weight": 1.0} -->
+
+\begin{corollary}[nonlinear\_2] Suppose that the dynamics \optieqref{lcvx\_o\_nonlinear}{dynamics} are of the \label{eq:lcvx\_o\_nonlinear\_class2\_dynamics} Define the matrix: \label{eq:lcvx\_o\_nonlinear\_class2\_M3} \displaystyle\frac{\dd(\grad\_u f\_1)\T}{\dt}-(\grad\_u f)\T (\grad\_x f\_1)\T Furthermore, suppose that the terminal constraint function $b$ is affine and $x_2(t_f)$ is unconstrained, such that $\grad_{x_2} b = 0$. Then \tref{nonlinear} applies if $\nul(M)=\{0\}$ and \conref{lcvx\_nostate\_linindep} holds.
+
+<!-- chunk {"id": "body-0191", "role": "body", "section": "Paper Body", "weight": 1.0} -->
+
+It must be emphasized that \pref{lcvx\_r\_nonlinear} is still a nonlinear program and that for \tref{nonlinear} to hold, a globally optimal solution of \pref{lcvx\_r\_nonlinear} must be found. Although this cannot be done for general nonlinear programming, if the dynamics $f$ are piecewise affine then the problem can be solved to global optimality via mixed-integer programming case, convexification of the nonconvex input lower bound reduces the number of disjunctions in the branch-and-bound tree, and hence lowers the problem complexity. Several examples of nonlinear systems that can be modeled in this way, and which comply with \corref{nonlinear\_1,nonlinear\_2}, are illustrated in \sbref{lcvx\_pwa}.
+
+<!-- chunk {"id": "body-0192", "role": "body", "section": "Paper Body", "weight": 1.0} -->
+
+title={Approximating Nonlinear Systems with Piecewise Affine Functions}, label={lcvx\_pwa}, sidebars/lcvx\_pwa.tex} \subsection{Embedded Lossless Convexification} The reader will notice that the \lcvx theory of the previous sections deals with special cases of problems whose nonconvexity is ``just right'' for an \lcvx guarantee to be provable using the maximum principle. Although such problems have found their practical use in problems like spaceflight and quadrotor path planning, it leaves out many trajectory generation applications that do not fit the tight mold of original problems and conditions of the previous sections.
+
+<!-- chunk {"id": "body-0193", "role": "body", "section": "Paper Body", "weight": 1.0} -->
+
+caption={Illustration of how embedded \lcvx can be used to solve an optimal control problem that does not fit into any of the templates presented in Part I label={embedded\_lcvx\_procedure}]% \begin{subfigure}{1.0\linewidth} \includegraphics[width=0.9\linewidth]{embedded\_lcvx\_none} \caption{The solution process for a nonconvex optimal control problem, without using \lcvx.} \figlabel{embedded\_lcvx\_none} \begin{subfigure}{1.0\linewidth} \includegraphics[width=0.9\linewidth]{embedded\_lcvx\_with} \caption{The solution process for a nonconvex optimal control problem, where \lcvx is embedded to convexify part of the original problem.} \figlabel{embedded\_lcvx\_with} Despite this apparent limitation, \lcvx is still highly relevant for problems that simply do not conform to one of the forms
+
+<!-- chunk {"id": "body-0194", "role": "body", "section": "Paper Body", "weight": 1.0} -->
+
+For such problems, we assume that the reader is facing the challenge of solving a nonconvex optimal control problem that fits the mold of \pref{scp\_gen\_cont} (the subject of Part II of the article), and is considering whether \lcvx can help. There is evidence that the answer is affirmative, by using \lcvx theory only on the constraints that are losslessly convexifiable. We call this \alert{embedded \lcvx}, because it is used to convexify only part of the problem, while the rest is handled by another nonconvex optimization method such as presented in Part II of this article. Because \lcvx reduces the amount of nonconvexity present in the problem, it can significantly improve the convergence properties and reduce the computational cost to solve the resulting problem. An example of this approach for quadrotor trajectory generation is demonstrated in Part III.
+
+<!-- chunk {"id": "body-0195", "role": "body", "section": "Paper Body", "weight": 1.0} -->
+
+The basic procedure for applying embedded \lcvx is illustrated in \figref{embedded\_lcvx\_procedure}. As shown in \figref{embedded\_lcvx\_with}, we reiterate that \lcvx is not a computation scheme, but rather it is a convex relaxation with an accompanying proof of equivalence to the original problem. As such, it happens prior to the solution and simply changes the problem description seen by the subsequent numerical optimization algorithm.
+
+<!-- chunk {"id": "body-0196", "role": "body", "section": "Paper Body", "weight": 1.0} -->
+
+There are a number of examples of embedded \lcvx that we can mention. First, the previous section on nonlinear dynamics can be intepreted as embedded \lcvx. For example, solves a rocket landing problem where only the nonconvex input constraint \optieqref{lcvx\_o\_nonlinear}{bounds} is convexified. This leaves behind a nonconvex problem due to nonlinear dynamics, and mixed-integer programming is used to solve it. Another example is, where \lcvx is embedded in a mixed-integer autonomous aerial vehicle trajectory generation problem in order to convexify a stall speed constraint of the form: \label{eq:stall\_speed\_constraint} 0<v\_{\min}\le\norm{v\_{cmd}(t)}\le v\_{\max}, where the input $v_{cmd}(\cdot)\in\reals^3$ is the commanded velocity, while $v_{\min}$ and $v_{\max}$ are lower and upper bounds that guarantee a stable flight envelope. The same constraint is also considered.
+
+<!-- chunk {"id": "body-0197", "role": "body", "section": "Paper Body", "weight": 1.0} -->
+
+In, the authors develop a highly nonlinear planetary entry trajectory optimization problem where the control input is the bank angle $\beta\in\reals$, parameterized via two inputs $u_1\definedas\cos(\beta)$ and $u_2\definedas\sin(\beta)$. The associated constraint $\norm{u}^2=1$ is convexified to $\norm{u}^2\le 1$, and equality at the optimal solution is shown in an \lcvx-like fashion (the authors call it ``assurance of active control constraint''). Similar methods are used in in the context of rocket landing with aerodynamic controls. A survey of related methods is available. Finally, we will mention where embedded \lcvx is used to convexify an input lower bound and an attitude pointing constraint for rocket landing and for agile quadrotor flight. Sequential convex programming from Part II is then using to solve the remaining nonlinear optimal control problems. The quadrotor application in particular is demonstrated as a numerical example in Part III.
+
+<!-- chunk {"id": "body-0198", "role": "body", "section": "Paper Body", "weight": 1.0} -->
+
+As a result of the success of these applications, we foresee there being further opportunities to use \lcvx as a strategy to derive simpler problem formulations. The result would be a speedup in computation for optimization-based trajectory generation.
+
+<!-- chunk {"id": "body-0199", "role": "body", "section": "Paper Body", "weight": 1.0} -->
+
+\subsection{The Future of Lossless Convexification}% \item My papers on mixed-integer lossless (IFAC and rejected% \item Matt's TAC paper on LCvx for disconnected sets DONE% \item Matt's JGCD on rendezvous with differential drag ``head on'' handling of% LCvx singularity DONE% \item Kunhippurayil result on fixed final time problems% \item Kunhippurayil result on strong observability being sufficient Lossless convexification is a method that solves nonconvex trajectory generation problems with one or a small number of calls to a convex solver. This places it among the most reliable and robust methods for nonconvex trajectory generation. The future of \lcvx therefore has an obvious motivation: to expand the class of problems that can be losslessly convexified. The most recent result discussed in the previous sections is for problems with affine state constraints, and this dates back to 2014. In the past two years, \lcvx research has been rejuvenated by several fundamental discoveries and practical methods that expand the method to new and interesting problem types. This section briefly surveys these new results.
+
+<!-- chunk {"id": "body-0200", "role": "body", "section": "Paper Body", "weight": 1.0} -->
+
+\subsubsection{Fixed\dash final Time Problems} The first new \lcvx result applies to a fixed\dash final time and fixed\dash final state version of \pref{lcvx\_o\_nostate} with no state constraints. To begin, recognize that the classical \lcvx result from \tref{nostate} does not apply when both $t_f$ and $x(t_f)$ are fixed. In this case, $B_{\text{\lcvx}}=I_{n+1}$ in eq:lcvx\_nostate\_linindep\_B and therefore its columns, which span all of $\reals^{n+1}$, cannot be linearly independent from $m_{\text{\lcvx}}$. Thus, traditionally one could not fix the final time and the final state simultaneously.
+
+<!-- chunk {"id": "body-0201", "role": "body", "section": "Paper Body", "weight": 1.0} -->
+
+Very recently, Kunhippurayil et al. showed that \conref{lcvx\_nostate\_linindep} is in fact not necessary for the following version of \pref{lcvx\_o\_nostate}: label={lcvx\_o\_fixedtime}, objective={\int\_0^{t\_f} \ell(g(u(t)))\,\dt}] & \rho\_{\min}\le g(u(t))\le\rho\_{\max}, \\where $t_f$ is fixed and $x_f\in\reals^n$ specifies the final state.
+
+<!-- chunk {"id": "body-0202", "role": "body", "section": "Paper Body", "weight": 1.0} -->
+
+The lossless relaxation is the usual one, and is just a specialization of \pref{lcvx\_r\_nostate} for \pref{lcvx\_o\_fixedtime}: label={lcvx\_r\_fixedtime}, objective={\int\_0^{t\_f} \ell(\sigma(t))\,\dt}] & \rho\_{\min}\le \sigma(t)\le\rho\_{\max}, \\\optilabel{lcvx\_equality} & {\color{lcvxColor}g(u(t))\le\sigma(t)}, \\The following result is then proved. By dropping \conref{lcvx\_nostate\_linindep}, the result generalizes \tref{nostate} and significantly expands the reach of \lcvx to problems without state constraints.
+
+<!-- chunk {"id": "body-0203", "role": "body", "section": "Paper Body", "weight": 1.0} -->
+
+\begin{theorem}[fixed\_time] The solution of \pref{lcvx\_r\_fixedtime} is globally optimal for \pref{lcvx\_o\_fixedtime} if \conref{lcvx\_nostate\_controllability} holds and $t_f$ is between the minimum feasible time and the time that minimizes \optiobjref{lcvx\_o\_fixedtime}. For longer trajectory durations, there exists a solution to \pref{lcvx\_r\_fixedtime} that is globally optimal for \pref{lcvx\_o\_fixedtime}.
+
+<!-- chunk {"id": "body-0204", "role": "body", "section": "Paper Body", "weight": 1.0} -->
+
+Perhaps the most important part of \tref{fixed\_time}, and a significant future direction for \lcvx, is in its final sentence. Although a lossless solution ``exists'', how does one find it? An \textit{algorithm} is provided in to find the lossless solution, that is, one solution among many others which may not be lossless. This is similar to \tref{genstate} and \algref{lcvx\_genstate}: we know that slackness in \optieqref{lcvx\_r\_fixedtime}{lcvx\_equality} may occur, so we devise an algorithm that works around the issue and is able to recover an input for which \optieqref{lcvx\_r\_fixedtime}{lcvx\_equality} holds with equality. Most traditional \lcvx results place further restrictions on the original problem in order to ``avoid'' slackness, but this by definition limits the applicability of \lcvx.
+
+<!-- chunk {"id": "body-0205", "role": "body", "section": "Paper Body", "weight": 1.0} -->
+
+By instead providing algorithms which recover lossless inputs from problems that do not admit \lcvx naturally, we can tackle lossless convexification ``head on'' and expand the class of losslessly convexifiable problems. A similar approach is used for spacecraft rendezvous, where an iterative algorithm modifies the dynamics in order to extract bang\dash bang controls from a solution that exhibits \subsubsection{Hybrid System Problems} Many physical systems contain on\dash off elements such as valves, relays, and behavior can also appear through interactions between the autonomous agent and its environment, such as through foot contact for walking robots. Modeling discrete behavior is the province of hybrid systems theory, and the resulting trajectory problems typically combine continuous variables and discrete logic elements (i.e., ``and'' and ``or'' gates). Because these is no concept like local perturbation for values that, for example, can only be equal to zero or one, problems with discrete logic are fundamentally more difficult. Traditional solution methods use mixed\dash integer programming. The underlying branch\dash and\dash bound method, however, has poor (combinatorial) worst\dash case complexity.
+
+<!-- chunk {"id": "body-0206", "role": "body", "section": "Paper Body", "weight": 1.0} -->
+
+Historically, this made it very difficult to put optimization with discrete logic onboard computationally constrained and safety\dash critical systems throughout aerospace, automotive, and even state\dash of\dash the\dash art robotics Two recent results showed that \lcvx can be applied to certain classes of hybrid optimal control problems that are useful for trajectory generation. While the results are more general, the following basic problem will help ground our discussion: label={lcvx\_o\_hybrid}, objective={\int\_0^{t\_f} \sum\_{i=1}^M\norm{u\_i(t)}\,\dt}] & \gamma\_i(t)\rho\_{\min,i}\le \norm{u\_i(t)}\le\gamma\_i(t)\rho\_{\max,i}, \\\optilabel{affine\_input} where $M$ is the number of individual input vectors and the binary variables $\gamma_i$ are used to model the on\dash off nature of each input.
+
+<!-- chunk {"id": "body-0207", "role": "body", "section": "Paper Body", "weight": 1.0} -->
+
+Compared to the traditional \pref{lcvx\_o\_nostate}, this new problem can be seen as a system controlled by $M$ actuators that can be either ``off'' or ``on'' and norm\dash bounded in the $[\rho_{\min,i}, \rho_{\max,i}]$ interval. The affine input constraint \optieqref{lcvx\_o\_hybrid}{affine\_input} represents an affine cone, and is a specialized version of the earlier constraint \optieqref{lcvx\_o\_linstate}{affine\_input}. \figref{lcvx\_mixed\_example} illustrates the kind of input set that can be modeled.
+
+<!-- chunk {"id": "body-0208", "role": "body", "section": "Paper Body", "weight": 1.0} -->
+
+Imitating the previous results, the convex relaxation uses a slack input for each control vector: label={lcvx\_r\_hybrid}, variables={\sigma,u,\gamma,t\_f}, objective={\int\_0^{t\_f} \sum\_{i=1}^M\ell(\sigma\_i(t))\,\dt}] & \gamma\_i(t)\rho\_{\min,i}\le\sigma\_i(t)\le\gamma\_i(t)\rho\_{\max,i}, \\\optilabel{lcvx\_equality} & {\color{lcvxColor}\norm{u\_i(t)}\le\sigma\_i(t)}, \\\optilabel{affine\_input} where the only real novelty is that the $\gamma_i$ variables have also been relaxed to the continuous $$ interval.
+
+<!-- chunk {"id": "body-0209", "role": "body", "section": "Paper Body", "weight": 1.0} -->
+
+Example of a feasible input set that can be modeled in \pref{lcvx\_o\_hybrid}. It is a nonconvex disconnected set composed of the origin, a {\color{beamerRed}point}, an {\color{beamerGreen}arc}, and a {\color{beamerBlue}nonconvex set} with an interior. For example, this setup can represent a satellite equipped with thrusters and drag plates, or a rocket with a thrust-gimbal coupled engine. label={lcvx\_mixed\_example}]% \includegraphics[width=0.65\linewidth]{disconnected\_input\_set} \includegraphics[width=0.65\linewidth]{disconnected\_input\_set} Taking \pref{lcvx\_r\_hybrid} as an example, the works of prove lossless convexification from slightly different angles.
+
+<!-- chunk {"id": "body-0210", "role": "body", "section": "Paper Body", "weight": 1.0} -->
+
+In it is recognized that \pref{lcvx\_r\_hybrid} will be a lossless convexification of \pref{lcvx\_o\_hybrid} if the dynamical system is ``normal'' due to the so\dash called bang\dash bang principle. Normality is related to, but much stronger than, the notion of controllability from \conref{lcvx\_nostate\_controllability}. Nevertheless, it is shown that the dynamical system can be perturbed by an arbitrarily small amount to induce normality. This phenomenon was previously observed in a practical context for rocket landing \lcvx with a pointing constraint, which we discussed for \pref{lcvx\_o\_nostate\_pointing}. Practical examples are shown for spacecraft orbit reshaping, minimum\dash energy transfer, and CubeSat differential drag and thrust maneuvering. It is noted that while mixed\dash integer programming fails to solve the latter problem, the convex relaxation is The results in also prove lossless convexification for \pref{lcvx\_r\_hybrid}.
+
+<!-- chunk {"id": "body-0211", "role": "body", "section": "Paper Body", "weight": 1.0} -->
+
+However, instead of leveraging normality and perturbing the dynamics, the nonsmooth maximum principle is used directly to develop a set of conditions for which \lcvx holds. These conditions are an interesting mix of problem geometry (i.e., the shapes and orientations of the constraint cones \optieqref{lcvx\_r\_hybrid}{affine\_input}) and \conref{lcvx\_nostate\_controllability, lcvx\_nostate\_linindep}. Notably, they are more general than normality, so they can be satisfied by systems that are not normal. Practical examples are given for spacecraft rendezvous and rocket landing with a coupled thrust\dash gimbal constraint. The solution is observed to take on the order of a few seconds and to be more than 100 times faster than mixed\dash integer We see the works as complementary: shows that for some systems, the perturbation proposed by is not necessary. On the other hand, provides a method to recover \lcvx when the conditions of fail.
+
+<!-- chunk {"id": "body-0212", "role": "body", "section": "Paper Body", "weight": 1.0} -->
+
+Altogether, the fact that an arbitrarily small perturbation of the dynamics can recover \lcvx suggests a deeper underlying theory for how and why problems can be losslessly convexified. We feel that the search for this theory will be a running theme of future \lcvx research, and its eventual discovery will lead to more general lossless convexification algorithms.
+
+<!-- chunk {"id": "body-0213", "role": "body", "section": "Paper Body", "weight": 1.0} -->
+
+\subsection{Toy Example} The following example provides a simple illustration of how \lcvx can be used to solve a nonconvex problem. This example is meant to be a ``preview'' of the practical application of \lcvx. More challenging and realistic examples are given in Part III.
+
+<!-- chunk {"id": "body-0214", "role": "body", "section": "Paper Body", "weight": 1.0} -->
+
+The problem that we will solve is minimum-effort control of a double integrator system (such as a car) with a constant ``friction'' term $g$. This can be written as a linear time-invariant instance of \pref{lcvx\_o\_nostate}: label={lcvx\_o\_toy}, The input $u(\cdot)\in\reals$ is the acceleration of the car. The constraint \optieqref{lcvx\_o\_toy}{bounds} is a nonconvex one-dimensional version of the constraint eq:inputrelax:lb\_convexify\_1. Assuming that the car has unit mass, the integrand in \optiobjref{lcvx\_o\_toy} has units of Watts. The objective of \pref{lcvx\_o\_toy} is therefore to move a car by a distance $s$ in $t_f=10$ seconds while minimizing the average power.
+
+<!-- chunk {"id": "body-0215", "role": "body", "section": "Paper Body", "weight": 1.0} -->
+
+Following the relaxation template provided by \pref{lcvx\_r\_nostate}, we propose the following convex relaxation to solve \pref{lcvx\_o\_toy}: label={lcvx\_r\_toy}, objective={\int\_0^{t\_f}\sigma(t)^2\,\dt}]% \optilabel{lcvx\_equality} & {\color{lcvxColor} |u(t)|\le\sigma(t)}, \\\optilabel{boundary\_start} \optilabel{boundary\_end} To guarantee that \lcvx holds, in other words that \pref{lcvx\_r\_toy} finds the globally optimal solution of \pref{lcvx\_o\_toy}, let us first attempt to verify the conditions of \tref{nostate}. In particular, we need to show that \conref{lcvx\_nostate\_controllability,lcvx\_nostate\_linindep} hold.
+
+<!-- chunk {"id": "body-0216", "role": "body", "section": "Paper Body", "weight": 1.0} -->
+
+First, from \optieqref{lcvx\_o\_toy}{dynamics\_1}-\optieqref{lcvx\_o\_toy}{dynamics\_2}, we can extract the following state\dash space matrices: We can verify that \conref{lcvx\_nostate\_controllability} holds by either showing that the controllability matrix is full rank, or by using the PBH test.
+
+<!-- chunk {"id": "body-0217", "role": "body", "section": "Paper Body", "weight": 1.0} -->
+
+Next, from \optiobjref{lcvx\_r\_toy} and \optieqref{lcvx\_r\_toy}{boundary\_start}-\optieqref{lcvx\_r\_toy}{boundary\_end}, we can extract the following terminal cost and terminal constraint functions: \label{eq:lcvx\_r\_toy\_mb} We can now substitute eq:lcvx\_r\_toy\_mb into eq:lcvx\_nostate\_linindep\_m\_B to obtain: \label{eq:m\_B\_lcvx\_toy} Thus, $B_{\text{\lcvx}}$ is full column rank and its columns cannot be linearly independent from $m_{\text{\lcvx}}$. We conclude that \conref{lcvx\_nostate\_linindep} does not hold, so \tref{nostate} cannot be applied.
+
+<!-- chunk {"id": "body-0218", "role": "body", "section": "Paper Body", "weight": 1.0} -->
+
+In fact, \pref{lcvx\_o\_toy} has both a fixed final time and a fixed final state. This is exactly the edge case for which traditional \lcvx does not apply, as was mentioned in the previous section on future \lcvx. Instead, we fall back on \tref{fixed\_time} which says that \conref{lcvx\_nostate\_linindep} is not needed as long as $t_f$ is between the minimum and optimal times for \pref{lcvx\_o\_toy}. It turns out that this holds for the problem parameters used in \figref{lcvx\_toy}. The minimum time is just slightly below $10~\si{\second}$ and the optimal time is $\approx 13.8~\si{\second}$ for \figref{lcvx\_toy\_1} and $\approx 13.3~\si{\second}$ for \figref{lcvx\_toy\_2}.
+
+<!-- chunk {"id": "body-0219", "role": "body", "section": "Paper Body", "weight": 1.0} -->
+
+Most interestingly, lossless convexification fails (i.e., \optieqref{lcvx\_r\_toy}{lcvx\_equality} does not hold with equality) for $t_f$ values almost exactly past the optimal time for \figref{lcvx\_toy\_1}, and just slightly past it for \figref{lcvx\_toy\_2}.
+
+<!-- chunk {"id": "body-0220", "role": "body", "section": "Paper Body", "weight": 1.0} -->
+
+Although \pref{lcvx\_r\_toy} is convex, it has an infinite number of solution variables because time is continuous. To be able to find an approximation of the optimal solution using a numerical convex optimization algorithm, the problem must be temporally discretized. To this end, we apply a first-order hold (FOH) discretization with $N=50$ temporal nodes, as explained in caption={\lcvx solutions of \pref{lcvx\_r\_toy} for two scenarios.
+
+<!-- chunk {"id": "body-0221", "role": "body", "section": "Paper Body", "weight": 1.0} -->
+
+The close match of the analytic solution using the maximum principle (drawn as a continuous line) and the discretized solution using \lcvx (drawn as discrete dots) confirms that \lcvx finds the globally optimal solution of the label={lcvx\_toy}, \def\lcvxtoyplotsz{\columnwidth} \def\lcvxtoyinnerszleft{0.8\textwidth} \def\lcvxtoyinnerszright{0.8\textwidth} \def\lcvxtoyplotsz{0.48\textwidth} \def\lcvxtoyinnerszleft{0.975\textwidth} \def\lcvxtoyinnerszright{\textwidth} \begin{subfigure}[b]{\lcvxtoyplotsz} \includegraphics[width=\lcvxtoyinnerszleft]{code/lcvx\_double\_integrator\_1} \caption{Solution of \pref{lcvx\_r\_toy}
+
+<!-- chunk {"id": "body-0222", "role": "body", "section": "Paper Body", "weight": 1.0} -->
+
+for $g=0.1$~m/s$^2$ and $s=47$~m.} \label{fig:lcvx\_toy\_1} \begin{subfigure}[b]{\lcvxtoyplotsz} \includegraphics[width=\lcvxtoyinnerszright]{code/lcvx\_double\_integrator\_2} \caption{Solution of \pref{lcvx\_r\_toy} for $g=0.6$~m/s$^2$ and $s=30$~m.} \label{fig:lcvx\_toy\_2} Looking at the solutions in \figref{lcvx\_toy} for two values of the friction parameter $g$, we can see that the nonconvex constraint \optieqref{lcvx\_o\_toy}{bounds} holds in both cases.
+
+<!-- chunk {"id": "body-0223", "role": "body", "section": "Paper Body", "weight": 1.0} -->
+
+We emphasize that this is despite the trajectories in \figref{lcvx\_toy} coming from the solution of \pref{lcvx\_r\_toy}, where $|u(t)|<1$ is feasible. The fact that this does not occur is the salient feature of \lcvx theory, and for this problem it is guaranteed by \tref{fixed\_time}. Finally, we note that \figref{lcvx\_toy} also plots the analytical globally optimal solution obtained via the maximum principle, where no relaxation nor discretization is made. The close match between this solution and the numerical \lcvx solution further confirms the theory, as well as the accuracy of the FOH discretization method. Note that the mismatch at $t=0$ in the acceleration plot in \figref{lcvx\_toy\_2} is a benign single-time-step discretization artifact that is commonly observed in \lcvx numerical solutions.
+
+<!-- chunk {"id": "body-0224", "role": "body", "section": "Paper Body", "weight": 1.0} -->
+
+\section{Part II: Sequential Convex Programming} We now move on to a different kind of convex optimization\dash based trajectory generation algorithm, known as sequential convex programming (SCP). The reader will see that this opens up a whole world of possibilities beyond the restricted capabilities of lossless convexification. One could say that if \lcvx is a surgical knife to remove acute nonconvexity, then SCP is a catch-all sledgehammer for nonconvex trajectory design.
+
+<!-- chunk {"id": "body-0225", "role": "body", "section": "Paper Body", "weight": 1.0} -->
+
+A wealth of industrial and research applications, including high-profile experiments, support this statement. Examples can be found in many engineering domains, ranging from aerospace~ and mechanical design~ to power grid technology~, chemical processes~, and computer vision~. Just last year, the Tipping Point Partnership between NASA and Blue Origin started testing an SCP algorithm (that we will discuss in this section) aboard the New Shepard rocket. Another application of SCP methods is for the SpaceX Starship landing flip maneuver. Although SpaceX's methods are undiscolsed, we know that convex optimization is used by the Falcon 9 rocket and that SCP algorithms are highly capable of solving such challenging trajectories Further afield, examples of SCP can be found in biology~, and fisheries~. Of course, in any of these applications, SCP is not the only methodology that can be used to obtain good solutions. Others might include interior point methods augmented Lagrangian techniques, genetic or evolutionary algorithms, and machine learning and neural networks, to name only a few. However, it is our view that SCP methods are fast, flexible and efficient local optimization algorithms for trajectory generation.
+
+<!-- chunk {"id": "body-0226", "role": "body", "section": "Paper Body", "weight": 1.0} -->
+
+They are a powerful tool to have in a trajectory engineer's toolbox, and they will be the focus of this part of the article.
+
+<!-- chunk {"id": "body-0227", "role": "body", "section": "Paper Body", "weight": 1.0} -->
+
+Block diagram illustration of a typical SCP algorithm. Every SCP-based trajectory generation method is comprised of three major components: a way to guess the initial trajectory ({\color{beamerBlue}Starting}), an iteration scheme which refines the trajectory until it is feasible and locally optimal ({\color{beamerRed}Iteration}), and an exit criterion to stop once the trajectory has been computed ({\color{beamerGreen}Stopping}). In a well-designed SCP scheme, the test (convergence) criterion is guaranteed to trigger, but the solution may be infeasible for the original problem. label={scp\_loop},position=t,columns=2]% \includegraphics[scale=1.1]{scvx\_loop} \includegraphics[scale=1.2]{scvx\_loop}% As the name suggests, the key component of SCP methods is the use of convex% optimization to solve a sequence of approximated problems.
+
+<!-- chunk {"id": "body-0228", "role": "body", "section": "Paper Body", "weight": 1.0} -->
+
+All SCP methods% solve a sequence of convex approximations, called subproblems, to the original% nonconvex problem and update the approximation as new solutions are obtained. As the name suggests, at the core of SCP is the idea of iterative convex approximation. Most, if not all, SCP algorithms for trajectory generation can be cast in the form illustrated by \figref{scp\_loop}. Strictly speaking, SCP methods are nonlinear local optimization algorithms. In particular, the reader will recognize that SCP algorithms are specialized trust region methods for continuous-time optimal control problems. % Before we define the% trust region precisely in a later section, the reader may imagine it as a% restriction on how far a solution can be from a reference point.
+
+<!-- chunk {"id": "body-0229", "role": "body", "section": "Paper Body", "weight": 1.0} -->
+
+All SCP methods solve a sequence of convex approximations, called \alert{subproblems}, to the original nonconvex problem and update the approximation as new solutions are obtained. Going around the loop of \figref{scp\_loop}, all algorithms start with a user-supplied initial guess, which can be very coarse (more on this later). At \alglocation{\iterstartloc}, the SCP algorithm has available a so-called reference trajectory, which may be infeasible with respect to the problem dynamics and constraints. The nonconvexities of the problem are removed by a local linearization around the reference trajectory, while convex elements are kept unchanged. %, which may render the subproblem infeasible through% so-called artificial infeasibility and/or artificial unboundedness (discussed Well-designed SCP algorithms add extra features to the problem in order to maintain subproblem feasibility after linearization. The resulting convex continuous-time subproblem is then temporally discretized to yield a finite-dimensional convex optimization problem.
+
+<!-- chunk {"id": "body-0230", "role": "body", "section": "Paper Body", "weight": 1.0} -->
+
+The optimal solution to the discretized subproblem is computed at \alglocation{\solveloc}, where the SCP algorithm makes a call to any appropriate % (e.g., customized or off-the-shelf) convex optimization solver. The solution is tested at \alglocation{\testloc} against stopping criteria. If the test passes, we say that the algorithm has \alert{converged}, and the most recent % trajectory solution from \alglocation{\solveloc} is returned. Otherwise, the solution is used to update the trust region (and possibly other parameters) that are internal to the SCP algorithm. The solution then becomes the new reference trajectory for the next iteration of the algorithm.
+
+<!-- chunk {"id": "body-0231", "role": "body", "section": "Paper Body", "weight": 1.0} -->
+
+The SCP approach offers two main advantages. First, a wide range of algorithms exist to reliably solve each convex subproblem at \alglocation{\solveloc}. Because SCP is agnostic to the particular choice of subproblem optimizer, well-tested % heritage algorithms can be used. This makes SCP very attractive for safety\dash critical applications, which are ubiquitous throughout disciplines like aerospace and automotive engineering. Second, one can derive meaningful theoretical guarantees on algorithm performance and computational complexity, as opposed to general NLP optimization where the convergence guarantees are much weaker. Taken together, these advantages have led to the development of very efficient SCP algorithms with runtimes low enough to enable real-time deployment for some applications.
+
+<!-- chunk {"id": "body-0232", "role": "body", "section": "Paper Body", "weight": 1.0} -->
+
+A fundamental dilemma of NLP optimization is that one can either compute locally optimal solutions quickly, or globally optimal solutions slowly. SCP techniques are not immune to this trade-off, despite the fact that certain subclasses of convex optimization can be viewed as ``easy'' from a computational perspective due to the availability of interior point methods. Some of the aforementioned applications may favor the ability to compute solutions quickly (i.e., in near real-time), such as aerospace and power grid technologies. Others, such as economics and structural truss design, may favor global optimality and put less emphasis on solution time (although early trade studies may still benefit from a fast optimization method). Given the motivation from the beginning of this article, our focus is on the former class of algorithms that provide locally optimal solutions in near real-time.
+
+<!-- chunk {"id": "body-0233", "role": "body", "section": "Paper Body", "weight": 1.0} -->
+
+This part of the article will provide an overview of the algorithmic design choices and assumptions that lead to effective SCP implementations. The core tradeoffs include how the convex approximations are formulated, what structure is devised for updating the solutions, how progress towards a solution is measured, and how all of the above enables theoretical convergence and% In other words, the method with which one approximates the nonconvex problem% with a convex one has fundamental implications on the performance of the% overall SCP algorithm.
+
+<!-- chunk {"id": "body-0234", "role": "body", "section": "Paper Body", "weight": 1.0} -->
+
+We hope that the reader comes away with the following view of SCP: it is an effective and flexible way to do trajectory optimization, and inherits some but not all of the theoretical properties of convex optimization. % (which is already% very good for an NLP algorithm). SCP works well for complex problems, but it is definitely not a panacea for all of nonconvex optimization. SCP can fail to find a solution, but usually a slight change to the parameters recovers convergence. This part of the article provides the reader with all the necessary insights to get started with SCP. The numerical examples in Part III provide a practical and open\dash source implementation of the algorithms herein.
+
+<!-- chunk {"id": "body-0235", "role": "body", "section": "Paper Body", "weight": 1.0} -->
+
+\subsection{Historical Development of SCP} Tracing the origins of what we refer to as sequential convex programming is not a simple task. Since the field of nonlinear programming gained traction as a popular discipline in the 1960s and 70s, many researchers have explored the solution of nonconvex optimization problems via convex approximations. This section attempts to catalogue some of the key developments, with a focus on providing insight into how the field moved toward the present day version of sequential convex programming for trajectory generation.% The follows historical review is bound to omit some important works that have% influenced, directly or indirectly, the work presented in this article.
+
+<!-- chunk {"id": "body-0236", "role": "body", "section": "Paper Body", "weight": 1.0} -->
+
+The idea to solve a general (nonconvex) optimization problem by iteratively approximating it as a convex program was perhaps first developed using branch\dash and\dash bound techniques~. Early results were of mainly academic interest, and computationally tractable methods remained elusive. One of the most important ideas that emerged from these early investigations appears to be that of McCormick relaxations~. These are a set of atomic rules for constructing convex/concave relaxations of a specific class of functions that everywhere under-/over-estimate the original functions. These rules result in a class of SCP methods, and algorithms based on McCormick relaxations continue to be developed with increasing computational Because SCP is agnostic to the choice of subproblem optimizer, well\dash tested algorithms can be used, which is attractive for safety\dash critical Difference\dash of\dash convex programming is a related class of SCP methods~. These types of algorithms rely on the formulation of nonconvex constraints as the difference between two convex functions, say $f = f_1 - f_2$, where both $f_1$ and $f_2$ are convex functions.
+
+<!-- chunk {"id": "body-0237", "role": "body", "section": "Paper Body", "weight": 1.0} -->
+
+The advantage of this decomposition is that only the function $f_2$ needs to be linearized in order to approximate the nonconvex function $f$. The convex-concave procedure presented in~ is one example of a successful implementation of this idea, and it has been applied, among other places, in the field of machine learning to support vector machines and principal component analysis~.
+
+<!-- chunk {"id": "body-0238", "role": "body", "section": "Paper Body", "weight": 1.0} -->
+
+Perhaps the earliest and simplest class of SCP methods whose structure resembles that shown in \figref{scp\_loop} is, unsurprisingly, sequential \alert{linear} programming (SLP). These algorithms linearize all nonlinear functions about a current reference solution so that each subproblem is a linear program. These linear programs are then solved with a trust region to obtain a new reference, and the process is repeated. Early developments came from the petroleum industry and were intended to solve large\dash scale problems~. From a computational perspective, SLP was initially attractive due to the maturity of the simplex algorithm. Over time, however, solvers for more general classes of convex optimization problems have advanced to the point that restricting oneself to linear programs to save computational resources at \alglocation{\solveloc} in \figref{scp\_loop} has become unnecessary, except perhaps for very large\dash scale problems.
+
+<!-- chunk {"id": "body-0239", "role": "body", "section": "Paper Body", "weight": 1.0} -->
+
+Another important class of SCP methods is that of sequential quadratic programming (SQP). The works of Han~, Powell~, Boggs and Tolle~, and Fukushima~ appear to have exerted significant influence on the early developments of SQP-type algorithms, and their impact remains evident today. An excellent survey was written by Boggs and Tolle~ and an exhaustive monograph is available by Conn, Gould, and Toint. SQP methods approximate a nonconvex program with a quadratic program using some reference solution, and then use the solution to this quadratic program to update the approximation. Byrd, Schnabel, and Schultz provide a general theory for inexact SQP methods. The proliferation of SQP-type algorithms can be attributed to three main aspects: 1) their similarity with the familiar class of Newton methods, 2) the fact that the initial reference need not be feasible, and 3) the existence of algorithms to quickly and reliably solve quadratic programs. In fact, the iterates obtained by SQP algorithms can be interpreted either as solutions to quadratic programs or as the application of Newton's method to the optimality conditions of the original problem~.
+
+<!-- chunk {"id": "body-0240", "role": "body", "section": "Paper Body", "weight": 1.0} -->
+
+SQP algorithms are arguably the most mature class of SCP methods~, and modern developments continue to address both theoretical and applied aspects~.
+
+<!-- chunk {"id": "body-0241", "role": "body", "section": "Paper Body", "weight": 1.0} -->
+
+% \item SQP algorithm design spends a lot of effort on approximating the% subproblem solution in order to balance computational expense with global% convergence guarantees and local convergence speed. On the other hand, SCP% solves the subproblem to full optimality since IPMs are fast these% days. Hence, provided that a convex solver is available, it is a far simpler% method to implement than SQP.% \item Mention diagonal scaling from - that it's the same as% what we do. Mention the possible extension to update the scaling every% iteration - however that keep things simple and generally do not do this.% \item Cite refs from biblio page 98 Their long history of successful deployment in NLP solvers notwithstanding~, SQP methods do come with several drawbacks. Gill and Wong nicely summarize the difficulties that can arise when using SQP methods~, and we will only outline the basic ideas here. Most importantly (and this goes for any ``second-order'' method), it is difficult to accurately and reliably estimate the Hessian of the nonconvex program's Lagrangian.
+
+<!-- chunk {"id": "body-0242", "role": "body", "section": "Paper Body", "weight": 1.0} -->
+
+Even if this is done, say, analytically, there is no guarantee that it will be positive semidefinite, and an indefinite Hessian results in an NP-hard nonconvex quadratic program. Hessian approximation techniques must therefore be used, such as keeping only the positive semidefinite part or using the BFGS update~. In the latter case, additional conditions must be met to ensure that the Hessian remains positive-definite. These impose both theoretical and computational challenges which, if unaddressed, can both impede convergence and curtail the real-time applicability of an SQP-type algorithm. Fortunately, a great deal of effort has gone into making SQP algorithms highly practical, resulting in mature algorithm packages like SNOPT~.
+
+<!-- chunk {"id": "body-0243", "role": "body", "section": "Paper Body", "weight": 1.0} -->
+
+One truly insurmountable drawback of SQP methods for trajectory generation in particular is that quadratic programs require all constraints to be affine in the solution variable. Alas, many motion planning problems are naturally subject to non\dash affine convex constraints. We have already seen an example of a second-order cone constraint that arises from a spacecraft glideslope requirement in \sbref{sidebar\_affinestate}, shown in~\figref{landing\_glideslope\_cyclic\_shift}. % This constraint need not be touched to% obtain a convex subproblem in an SCP method. Yet if one were to linearize the% constraint for use in an SQP algorithm, many more passes around the loop of% \figref{scp\_loop} may be needed to converge, leading to computational inefficiency% if not the loss of real-time performance. For problems with non\dash affine convex constraints, the use of an SQP algorithm may require more iterations to converge compared to a more general SCP algorithm, leading to a reduction in computational efficiency.
+
+<!-- chunk {"id": "body-0244", "role": "body", "section": "Paper Body", "weight": 1.0} -->
+
+Moreover, each SQP iterate is not guaranteed to be feasible with respect to the original convex constraints, whereas the SCP iterates will be.
+
+<!-- chunk {"id": "body-0245", "role": "body", "section": "Paper Body", "weight": 1.0} -->
+
+There are several classes of SCP algorithms that generalize the idea of SQP in order to deal with exactly this limitation. Semidefinite programs are the most general class of convex optimization problems for which efficient off-the-shelf solvers are available. Fares et al. introduced sequential semidefinite programming~, which uses matrix variables that are subject to definiteness constraints. Such algorithms find application most commonly in robust control, where problems are formulated as (nonconvex) semidefinite programs with linear and bilinear matrix inequalities~. Recent examples have appeared for robust planetary rocket landing. We can view sequential semidefinite programming as the furthest possible generalization of SLP to the idea of exploiting existing convexity in the subproblems.
+
+<!-- chunk {"id": "body-0246", "role": "body", "section": "Paper Body", "weight": 1.0} -->
+
+This article focuses on the class of SCP methods that solve a general convex program at each iteration, without a priori restriction to one of the previously mentioned classes of convex programs (e.g., LPs, QPs, SOCPs, and SDPs). This class of SCP methods has been developed largely over the last decade, and represents the most active area of current development, with successful applications in robot and spacecraft trajectory optimization~{Schulman2014,Liu2014,Liu2015,Liu2016,Lee2017,% SzmukReynolds2018,Reynolds2020,Reynolds2019b,Sagliano2017,% Simplicio2019,MalyutaARC}. We focus, in particular, on two specific algorithms within this class of SCP methods: \scvx and \gusto. These two algorithms are complementary in a number of ways, and enjoy favorable theoretical guarantees. On the one hand, the theoretical analysis of \scvx works with the temporally discretized problem and provides guarantees in terms of the Karush-Kuhn-Tucker (KKT) optimality conditions~.
+
+<!-- chunk {"id": "body-0247", "role": "body", "section": "Paper Body", "weight": 1.0} -->
+
+On the other hand, \gusto is analyzed for the continuous\dash time problem and provides theoretical guarantees in terms of the Pontryagin maximum principle examples in Part III of this article are solved using both \scvx and \gusto exactly as they are presented here. These examples illustrate that the methods are, to some degree, interchangeable.
+
+<!-- chunk {"id": "body-0248", "role": "body", "section": "Paper Body", "weight": 1.0} -->
+
+Sequential convex programming can be placed atop a hierarchy of classical optimization algorithms. In this illustration, the ``width'' of each layer is representative of the corresponding algorithm's implementation and runtime complexity (to be used only as an intuitive guide). Each layer embeds within itself the algorithms from the layers below it. label={opti\_alg\_hierarchy}]% \includegraphics{opti\_alg\_hierarchy} \includegraphics[scale=\csmpreprintfigscale]{opti\_alg\_hierarchy} Typically, although not necessarily, the convex solver used at \alglocation{\solveloc} in \figref{scp\_loop} is based on an interior point method. This leads to a nice interpretation of SCP as the ``next layer up'' in a hierarchy of optimization algorithms described, and which we illustrate in \figref{opti\_alg\_hierarchy}. In the bottommost layer, we have the unconstrained Newton's method, which solves a sequence of unconstrained QPs.
+
+<!-- chunk {"id": "body-0249", "role": "body", "section": "Paper Body", "weight": 1.0} -->
+
+The next layer solves linear equality constrained convex problems. This again uses Newton's method, but with a more complicated step computation. % that solves a KKT linear The third layer is the IPM family of methods, which solve a convex problem with linear equality and convex inequality constraints as a sequence of linear equality constrained problems. Thus, we may think of IPMs as iteratively calling the algorithm in layer \alglayer{beamerBlue}{2} of \figref{opti\_alg\_hierarchy}. Analogously, SCP solves a nonconvex problem as a sequence of convex problems with linear equality and convex inequality constraints. Thus, SCP iteratively calls an IPM algorithm from layer \alglayer{beamerYellow!85!black}{3}. Numerical experience has shown that for most problems, IPMs require on the order of tens of iterations (i.e., calls to layer \alglayer{beamerBlue}{2}) to converge.
+
+<!-- chunk {"id": "body-0250", "role": "body", "section": "Paper Body", "weight": 1.0} -->
+
+Similarly, our experience has been that SCP requires on the order of tens of iterations (i.e., calls to layer \alglayer{beamerYellow!85!black}{3}) to converge.
+
+<!-- chunk {"id": "body-0251", "role": "body", "section": "Paper Body", "weight": 1.0} -->
+
+The rest of this part of the article is organized as follows. We first state the general continuous-time optimal control problem that we wish to solve, and discuss the common algorithmic underpinnings of the SCP framework. We then describe the \scvx and \gusto algorithms in full detail. At the end of Part II, we compare \scvx and \gusto and give some advice on using SCP in the real world. Part III will present two numerical experiments that provide practical insight and highlight the capabilities of each algorithm.
+
+<!-- chunk {"id": "body-0252", "role": "body", "section": "Paper Body", "weight": 1.0} -->
+
+% Several other techniques have emerged as well that have relied on empirical% evidence to establish convergence behavior, but that offer quite practical% design tools and/or implementable real-time% algorithms~{SzmukReynolds2018,Reynolds2020,Reynolds2019b,%% Sagliano2017,Simplicio2019}. While the majority of these algorithms have been% introduced in the context of trajectory optimization, the basic algorithm% construction is applicable to more general nonconvex parameter optimization \subsection{Problem Formulation}% Motion planning problems are typically composed of an objective function,% dynamics, state constraints, and control constraints. These problems are% usually expressed in continuous-time by first modeling dynamic processes% using first principles physical laws.
+
+<!-- chunk {"id": "body-0253", "role": "body", "section": "Paper Body", "weight": 1.0} -->
+
+The goal of SCP methods is to solve continuous-time optimal control problems of the following form: label={scp\_gen\_cont},% & \dot{x}(t) = f\big(t,x(t),u(t),p\big), \\\optilabel{convex\_path\_constraints\_X}% & \pare[big]{x(t),p} \in \set{X}(t), \\\optilabel{convex\_path\_constraints\_U}% &\pare[big]{u(t),p} \in \set{U}(t), \\\optilabel{nonconvex\_constraints}% & s\big(t,x(t),u(t),p\big) \leq 0, \\\optilabel{initial\_conditions}% & \gic\big(x,p\big) = 0, \\\optilabel{final\_conditions}% & \gtf\big(x,p\big) =
+
+<!-- chunk {"id": "body-0254", "role": "body", "section": "Paper Body", "weight": 1.0} -->
+
+0, where $x(\cdot)\in\reals^n$ is the state trajectory, $u(\cdot)\in\reals^m$ is the control trajectory, and $\pk\in\real^d$ is a vector of parameters.
+
+<!-- chunk {"id": "body-0255", "role": "body", "section": "Paper Body", "weight": 1.0} -->
+
+The $f: \real\times\real^n \times \real^m \times \real^d \rightarrow \real^n$ represents the (nonlinear) dynamics, which are assumed to be at least once continuously differentiable. Initial and terminal boundary conditions are enforced by using the continuously differentiable functions $\gic:\real^n \times \real^d \rightarrow \real^{\dimgic}$ and $\gtf: \real^n \times \real^d \rightarrow \real^{\dimgtf}$. We separate convex and nonconvex path (i.e., state and control) constraints by using the convex sets $\set{X}(t)$ and $\set{U}(t)$ to represent convex path constraints, and the continuously differentiable function $s: \real \times \real^n \times \real^m \times \real^d \rightarrow \real^{\dimss}$ to represent nonconvex path constraints.
+
+<!-- chunk {"id": "body-0256", "role": "body", "section": "Paper Body", "weight": 1.0} -->
+
+It is assumed that the sets $\set{X}(t)$ and $\set{U}(t)$ are compact (i.e., closed and bounded). This amounts to saying that the vehicle cannot escape to infinity or apply infinite control action, which is obviously reasonable for all practical applications. Finally, note that \pref{scp\_gen\_cont} is defined on the $$ time interval, and the constraints \optieqref{scp\_gen\_cont}{dynamics}-\optieqref{scp\_gen\_cont}{nonconvex\_constraints} have to hold at each time instant.
+
+<!-- chunk {"id": "body-0257", "role": "body", "section": "Paper Body", "weight": 1.0} -->
+
+We highlight that the parameter vector $\pk$ can be used, among other things, to capture free initial and/or free final time problems by making $\tio$ and $\tf$ elements of $\pk$. In particular, an appropriate scaling of time can transform the $$ time interval in \pref{scp\_gen\_cont} into a $[\tio,\tf]$ interval. This allows us to restrict the problem statement to the $$ time interval without loss of generality~. We make use of this transformation in the numerical examples at the end of the article.
+
+<!-- chunk {"id": "body-0258", "role": "body", "section": "Paper Body", "weight": 1.0} -->
+
+Hybrid systems like bouncing balls, colliding objects, and bipedal robots require integer variables in their optimization models. The integer variable type, however, is missing from \pref{scp\_gen\_cont}. Nevertheless, methods exist to embed integer variables into the continuous\dash variable formulation. Among these methods are state-triggered constraints {SzmukThesis,SzmukReynolds2018,Reynolds2019b,szmuk2019successive, szmuk2019real,malyuta2020fast,MalyutaJGCD}, and homotopy techniques such as the relaxed autonomously switched hybrid system and composite smooth control. We shall therefore move forward using \pref{scp\_gen\_cont} ``without loss of generality'', keeping in mind that there are methods to embed integer solution variables exactly or as an arbitrarily accurate approximation.
+
+<!-- chunk {"id": "body-0259", "role": "body", "section": "Paper Body", "weight": 1.0} -->
+
+We also take this opportunity to note that \pref{scp\_gen\_cont} is not the most general optimal control problem that SCP methods can solve. However, it is general enough for the introductory purpose of this article, and can already cover the vast majority of trajectory optimization problems. The numerical implementation attached to this article (see \figref{github\_qr}) was applied to solve problems ranging from quadrotor trajectory generation to spacecraft rendezvous and docking% handle many interesting trajectory problems as described in the numerical% examples section. We refer the reader to our aforementioned papers for other% variants of \pref{scp\_gen\_cont}.
+
+<!-- chunk {"id": "body-0260", "role": "body", "section": "Paper Body", "weight": 1.0} -->
+
+The cost function in~\optiobjref{scp\_gen\_cont} is assumed to be of the Bolza form \label{eq:ocost\_nlin} \ocost(x,u,p) = \term(x,p) + \int\_0^{1} \runn(x(t),u(t),p)\sdt, where the terminal cost $\term:\reals^n\times\reals^d\to\reals$ is assumed to be a convex function and the running cost $\runn:\reals^n\times\reals^m\times\reals^d\to\reals$ can be in general a nonconvex function. Note that convexity assumptions on $\term$ are without loss of generality.
+
+<!-- chunk {"id": "body-0261", "role": "body", "section": "Paper Body", "weight": 1.0} -->
+
+For example, a nonconvex $\term$ can be replaced by a linear terminal cost $\tau_{\mathrm{f}}$ (where $\tau_{\mathrm{f}}$ becomes an element of $p$), and a nonconvex terminal boundary condition is added to the definition of $\gtf$ in \optieqref{scp\_gen\_cont}{final\_conditions}: \label{eq:terminal\_cost\_ncvx\_fix} \term(x,p)=\tau\_{\mathrm{f}}.
+
+<!-- chunk {"id": "body-0262", "role": "body", "section": "Paper Body", "weight": 1.0} -->
+
+\subsection{SCP Algorithm Foundations} All SCP methods work by solving a sequence of local convex approximations to~\pref{scp\_gen\_cont}, which we call subproblems. As shown in \figref{scp\_loop}, this requires having access to an existing reference trajectory at location \alglocation{\iterstartloc} of the figure. We will call this a \alert{reference solution}, with the understanding that this trajectory need not be a feasible solution to the problem (neither for the dynamics nor for the constraints). SCP methods update this reference solution after each passage around the loop of \figref{scp\_loop}, with the solution obtained at \alglocation{\solveloc} becoming the reference for the next iteration. This begs the question: where does the reference solution for the first iteration come from? % The answer is% through an initial trajectory guess, which we cover next.
+
+<!-- chunk {"id": "body-0263", "role": "body", "section": "Paper Body", "weight": 1.0} -->
+
+\subsubsection{Initial Trajectory Guess} A user-supplied initial trajectory guess is responsible for providing the first SCP iteration with a reference solution. Henceforth, the notation $\trajohone$ shall denote a reference trajectory on the time interval $$.
+
+<!-- chunk {"id": "body-0264", "role": "body", "section": "Paper Body", "weight": 1.0} -->
+
+We will see in the following sections that the SCP algorithms that we discuss, \scvx and \gusto, are guaranteed to converge almost regardless of the initial trajectory guess. In particular, this guess can be grossly infeasible with respect to both the dynamics \optieqref{scp\_gen\_cont}{dynamics} and the nonconvex constraints \optieqref{scp\_gen\_cont}{nonconvex\_constraints}\dash \optieqref{scp\_gen\_cont}{final\_conditions}. However, the algorithms do require the guess to be feasible with respect to the convex path constraints \CTNLconvexpath. Assuring this is almost always an easy task, either by manually constructing a simplistic solution that respects the convex constraints, or by projecting an infeasible guess onto the $\set{X}(t)$ and $\set{U}(t)$ sets. For reference, both strategies are implemented in our open\dash source code linked in \figref{github\_qr}.
+
+<!-- chunk {"id": "body-0265", "role": "body", "section": "Paper Body", "weight": 1.0} -->
+
+Numerical experience has shown that both \scvx and \gusto are extremely adept at morphing coarse initial guesses into feasible and locally optimal trajectories. This represents a significant algorithmic benefit, since most traditional methods, like SQP and NLP, require good (or even feasible) initial guesses, which can be very hard to come.% Thus, selecting an initial guess for both \scvx and \gusto is not about% getting the algorithm to converge (it will always do so), but about reducing% the number of iterations and improving the solution optimality and To give the reader a sense for what kind of initial guess can be provided, we present an initialization method called \alert{straight\dash line interpolation}. We have observed that this technique works well for a wide variety of problems, and we use it in the numerical examples at the end of this article. However, we stress that this is merely a rule of thumb and not a rigorously derived technique.
+
+<!-- chunk {"id": "body-0266", "role": "body", "section": "Paper Body", "weight": 1.0} -->
+
+We begin by fixing the initial and final states $\xxic$ and $\xxfc$ that represent either single-point boundary conditions or points in a desired initial and terminal set defined by \optieqref{scp\_gen\_cont}{initial\_conditions} and \optieqref{scp\_gen\_cont}{final\_conditions}. The state trajectory is then defined as a linear interpolation between the two endpoints: \label{eq:state\_initial\_guess} \xb(t) = (1-t)\xxic+t\xxfc,~\textnormal{for}~t\.
+
+<!-- chunk {"id": "body-0267", "role": "body", "section": "Paper Body", "weight": 1.0} -->
+
+If a component of the state is a non-additive quantity, such as a unit quaternion, then linear interpolation is not the most astute choice. In such cases, we opt for the simplest alternative to linear interpolation. For unit quaternions, this would be spherical linear interpolation.
+
+<!-- chunk {"id": "body-0268", "role": "body", "section": "Paper Body", "weight": 1.0} -->
+
+Whenever possible, we select the initial input trajectory based on insight from the physics of the problem. For example, for an aerial vehicle we would choose an input that opposes the pull of gravity. In the case of a rocket, the choice can be $\uuic = -m_{\mathrm{wet}}\gI$ and $\uufc=-m_{\mathrm{dry}}\gI$, where $m_{\mathrm{wet}}$ and $m_{\mathrm{dry}}$ are the initial and estimated final masses of the vehicle, and $\gI$ is the inertial gravity vector. If the problem structure does not readily admit a physics\dash based choice of control input, our go\dash to approach is to set the input to the smallest feasible value that is compliant with \optieqref{scp\_gen\_cont}{convex\_path\_constraints\_U}. The intuition is that small inputs are often associated with a small cost \optiobjref{scp\_gen\_cont}.
+
+<!-- chunk {"id": "body-0269", "role": "body", "section": "Paper Body", "weight": 1.0} -->
+
+In any case, the initial control solution is interpolated using a similar expression to~eq:state\_initial\_guess: \label{eq:input\_initial\_guess} \ub(t) = (1-t)\uuic+t\uufc,~\textnormal{for}~t\.
+
+<!-- chunk {"id": "body-0270", "role": "body", "section": "Paper Body", "weight": 1.0} -->
+
+The initial guess for $\pb$ can have a significant impact on the number of SCP iterations required to obtain a solution. For example, if $\pb$ represents the final time of a free final time problem that evolves on the $[0,\tf]$ interval, then it is best to guess a time dilation value that is reasonable for the expected trajectory. Since parameters are inherently problem specific, however, it is unlikely that any generic rule of thumb akin to eq:state\_initial\_guess and eq:input\_initial\_guess will prove reliable. Fortunately, since SCP runtime is usually on the order of a few seconds or less, the user can experiment with different initial guesses for $\pb$ and come up with a good initialization strategy relatively quickly.
+
+<!-- chunk {"id": "body-0271", "role": "body", "section": "Paper Body", "weight": 1.0} -->
+
+For all but the simplest problems, the initial guess $\trajohone$ constructed above is going to be (highly) infeasible with respect to the dynamics and constraints of \pref{scp\_gen\_cont}. Nevertheless, SCP methods like \scvx and \gusto can, and often do, converge to usable trajectories using such a coarse initial guess. However, this does not relieve the user entirely from choosing an initial guess that exploits the salient features of their particular problem. A well-chosen initial guess will (likely) have the following three benefits for the solution process: \item It will reduce the number of iterations and the time required to converge. This is almost always a driving objective in the design of a trajectory optimization algorithm since fast convergence is not only a welcome feature but also a hard requirement for onboard implementation in an \item It will encourage the converged solution to be feasible for \pref{scp\_gen\_cont}. As mentioned, SCP methods like \scvx and \gusto will always converge to a trajectory, but without a guarantee that the trajectory will be feasible for the original problem.
+
+<!-- chunk {"id": "body-0272", "role": "body", "section": "Paper Body", "weight": 1.0} -->
+
+The fact that the solution often \textit{is} feasible with respect to \pref{scp\_gen\_cont} is a remarkable ``observation'' that researchers and engineers have made, and it is a driving reason for the modern interest in SCP methods. Nevertheless, an observation is not a proof, and there are limits to how bad an initial guess can be. The only rule of thumb that is always valid is that one should embed as much problem knowledge as possible in the initial guess; \item A better initial guess may also improve the converged trajectory's optimality. However, the level of optimality is usually difficult to measure, because a globally optimal solution is rarely available for the kinds of difficult trajectory problems that we are concerned with using SCP. Nevertheless, some attempts to characterize the optimality level have been made in recent years.
+
+<!-- chunk {"id": "body-0273", "role": "body", "section": "Paper Body", "weight": 1.0} -->
+
+Let us now place ourselves at location \alglocation{\iterstartloc} in \figref{scp\_loop}, and imagine that the algorithm is at some iteration during the SCP solution process. The first task in the way of constructing a convex subproblem is to remove the nonconvexities of \pref{scp\_gen\_cont}. For this purpose, recall that the algorithm has access to the reference trajectory $\trajohone$. If we replace every nonconvexity by its first-order approximation around the reference trajectory, then we are guaranteed to generate convex subproblems. Furthermore, these are computationally inexpensive to compute relative to second-order approximations (i.e., those involving Hessian matrices). As we alluded in the previous section on SCP history, linearization of all nonconvex elements is not the only choice for SCP -- it is simply a very common one, and we take it for this article.
+
+<!-- chunk {"id": "body-0274", "role": "body", "section": "Paper Body", "weight": 1.0} -->
+
+To formulate the linearized nonconvex terms, the following Jacobians must be computed (the time argument is omitted where necessary to keep the notation short): \label{eq:scvx\_lin\_mats} \label{eq:scvx\_lin\_mats\_d} \label{eq:scvx\_lin\_mats\_e} \label{eq:scvx\_lin\_mats\_f} \label{eq:scvx\_lin\_mats\_g} \label{eq:scvx\_lin\_mats\_h} \label{eq:scvx\_lin\_mats\_i} \label{eq:scvx\_lin\_mats\_j} \label{eq:scvx\_lin\_mats\_k} \label{eq:scvx\_lin\_mats\_l} H\_0 &\definedas \diff{x}{\gic}(\xb,\pb),
+
+<!-- chunk {"id": "body-0275", "role": "body", "section": "Paper Body", "weight": 1.0} -->
+
+These matrices can be used to write down the first-order Taylor series approximations for each of $f$, $s$, $\gic$, and $\gtf$. Note that we will not linearize the cost function eq:ocost\_nlin at this point, since \scvx and \gusto make different assumptions about its particular form.
+
+<!-- chunk {"id": "body-0276", "role": "body", "section": "Paper Body", "weight": 1.0} -->
+
+Convexification of the cost function will be tackled separately in later sections on \scvx and Using the terms in eq:scvx\_lin\_mats, we obtain the following approximation of~\pref{scp\_gen\_cont} about the reference trajectory: label={scp\_gen\_cvx}, \optilabel{convex\_path\_constraints\_X}% & \pare[big]{x(t),p} \in \set{X}(t), \\\optilabel{convex\_path\_constraints\_U}% &\pare[big]{u(t),p} \in \set{U}(t), \\\optilabel{convexified\_constraints} \optilabel{initial\_conditions} \optilabel{final\_conditions} \pref{scp\_gen\_cvx} is convex in the constraints and potentially nonconvex in the cost. Note that the convex path constraints in \CTNLconvexpath are kept without approximation.
+
+<!-- chunk {"id": "body-0277", "role": "body", "section": "Paper Body", "weight": 1.0} -->
+
+This is a key advantage of SCP over methods like SLP and SQP, as was discussed in the previous section on SCP history.
+
+<!-- chunk {"id": "body-0278", "role": "body", "section": "Paper Body", "weight": 1.0} -->
+
+Because the control trajectory $u(\cdot)$ belongs to an infinite\dash dimensional vector space of continuous\dash time functions, \pref{scp\_gen\_cvx} cannot be implemented and solved numerically on a digital computer. To do so, we must consider a finite\dash dimensional representation of the control function $u(t)$, which can be obtained via temporal discretization or direct collocation~. These representations turn the original infinite\dash dimensional optimal control problem into a finite\dash dimensional parameter optimization problem that can be solved on a digital In general, and rather unsurprisingly, solutions to discretized problems are only approximately optimal and feasible with respect to the original problem. In particular, a discrete-time control signal has fewer degrees of freedom than its continuous\dash time counterpart. Therefore, it may lack the flexibility required to exactly match the true continuous\dash time optimal control signal. By adding more temporal nodes, the approximation can become arbitrarily accurate, albeit at the expense of problem size and computation Another problem with discretization is that the path constraints are usually enforced only at the discrete temporal nodes, and not over the entire time horizon.
+
+<!-- chunk {"id": "body-0279", "role": "body", "section": "Paper Body", "weight": 1.0} -->
+
+This can lead to (typically mild) constraint violation between the discrete-time nodes, although some techniques exist to remedy this artifact% In the absence of path constraints, a discretized solution will always be% suboptimal with respect to its continuous-time counterpart, though the% suboptimality can be made to be arbitrarily small at the expense of problem The bad news notwithstanding, there are well established discretization methods that ensure exact satisfaction of the original continuous\dash time nonlinear dynamics \optieqref{scp\_gen\_cont}{dynamics}. Thus, the discretized solution can still produce strictly dynamically feasible continuous\dash time trajectories. We refer the reader explanations of discretization methods that ensure exact satisfaction of the continuous\dash time nonlinear dynamics.
+
+<!-- chunk {"id": "body-0280", "role": "body", "section": "Paper Body", "weight": 1.0} -->
+
+An introduction to the technique that we will use for the numerical examples at the end of this article is given in title={Discretizing Continuous-time Optimal Control Problems}, sidebars/discretization.tex} Our systematic linearization of all nonconvex elements has ensured that \pref{scp\_gen\_cvx} is convex in the constraints, which is good news. However, linearization unsurprisingly has a price. We have inadvertently introduced two artifacts that must be addressed: artificial unboundedness and artificial \subsubsection{Artificial Unboundedness} Linear approximations are only accurate in a neighborhood around the reference solution $\trajohone$. Thus, for each $t\in $, the subproblem solution must be kept ``sufficiently close'' to the linearization point defined by the reference solution. Another reason to not deviate too far from the reference is that, in certain malicious cases, linearization can render the solution unbounded below (i.e., the convex cost \optiobjref{scp\_gen\_cvx} can be driven to negative infinity).
+
+<!-- chunk {"id": "body-0281", "role": "body", "section": "Paper Body", "weight": 1.0} -->
+
+We refer to this phenomenon as \alert{artificial unboundedness}. To mitigate this problem and to quantify the meaning of ``sufficiently close'', we add the following trust region constraint: &\trx \norm[q]{\delta x(t)} +% \tru \norm[q]{\delta u(t)} + \\\label{eq:scp\_trust\_region} \trp \norm[q]{\delta p} \leq \tr,~\textnormal{for}~t\. for some choice of $q\in\brac{1,2,2^{\scriptscriptstyle +},\infty}$ and constants $\trx,\tru,\trp\in\{0,1\}$. We use $q=2^{\scriptscriptstyle +}$ to denote the ability to impose the trust region as the quadratic two-norm squared.
+
+<!-- chunk {"id": "body-0282", "role": "body", "section": "Paper Body", "weight": 1.0} -->
+
+The trust region radius $\tr$ is a fixed scalar that is updated between SCP iterations (i.e., passages around the loop in \figref{scp\_loop}). The update rule associated with the trust region measures how well the linearization approximates the original nonconvex elements at each iterate. This informs the algorithm whether to shrink, grow, or maintain the trust region radius. SCP methods can be differentiated by how they update the trust region, and so the trust region update will be discussed separately for \scvx and \gusto in the following sections.
+
+<!-- chunk {"id": "body-0283", "role": "body", "section": "Paper Body", "weight": 1.0} -->
+
+\figref{scvx\_infeas\_tr} shows a two\dash dimensional toy problem that exemplifies a single iteration of an SCP convergence process. In this example, the ``original problem'' consists of one parabolic (nonconvex) equality constraint ({\color{tay\_col\_b}blue}), a convex equality constraint ({\color{tay\_col\_g}green}), and a convex halfspace inequality constraint (feasible to the left of the vertical {\color{tay\_col\_r}red} dashed line). The original problem is approximated about the reference solution $\bar{z}$, resulting in the {\color{tay\_col\_b}blue} dash-dot equality constraint and the same convex equality and inequality constraints. The trust region is shown as the {\color{tay\_col\_r}red} circle, and represents the region in which the SCP algorithm has deemed the convex approximation to be valid.
+
+<!-- chunk {"id": "body-0284", "role": "body", "section": "Paper Body", "weight": 1.0} -->
+
+Evidently, if the new solution $z$ deviates too much from $\bar{z}$, the linear approximation of the parabola becomes poor. Moreover, had the green equality constraint been removed, removal of the trust region would lead to artificial unboundedness, as the cost could be decreased indefinitely.
+
+<!-- chunk {"id": "body-0285", "role": "body", "section": "Paper Body", "weight": 1.0} -->
+
+Clearly, there is another problem with the linearization in \figref{scvx\_infeas\_tr} -- the resulting subproblem is infeasible. This is because the {\color{tay\_col\_g}green} and {\color{tay\_col\_b}blue} dash-dot equality constraints do not intersect inside the set defined by the trust region and the convex inequality constraint halfspace. This issue is known as artificial A two\dash dimensional nonconvex toy problem that exemplifies a convex subproblem obtained during an SCP iteration. In this case, the cost function $L(z)=-z_2$ and level curves of the cost are shown as {\color{gray}gray} dashed lines. The {\color{tay\_col\_b}blue} curve represents a nonconvex equality constraint, and its linearization is shown as the {\color{tay\_col\_b}blue} dash-dot line.
+
+<!-- chunk {"id": "body-0286", "role": "body", "section": "Paper Body", "weight": 1.0} -->
+
+Another convex equality constraint is shown in {\color{tay\_col\_g}green}, and a convex inequality constraint is shown as the vertical {\color{tay\_col\_r}red} dashed line. The trust region is the {\color{tay\_col\_r}red} circle centered at the linearization point $\bar{z}$, and has radius~$\tr$. The optimal solution of the original (non-approximated) problem is shown as the black square. The convex subproblem is artificially infeasible.
+
+<!-- chunk {"id": "body-0287", "role": "body", "section": "Paper Body", "weight": 1.0} -->
+
+Without the trust region and the {\color{tay\_col\_g}green} constraint, it would also be label={scvx\_infeas\_tr},position=t]% \includegraphics[width=\textwidth]{tikz\_scvx\_infeasible\_tr\_depiction} \includegraphics[width=0.8\textwidth]{tikz\_scvx\_infeasible\_tr\_depiction} \subsubsection{Artificial Infeasibility} Linearization can make the resulting subproblem infeasible. Two independent cases can arise wherein the constraints imposed in~\pref{scp\_gen\_cvx} are inconsistent (i.e., no feasible solution exists), even though the original constraints admit a non-empty feasible set: \item In the first case, the intersection of the convexified path constraints may be empty.
+
+<!-- chunk {"id": "body-0288", "role": "body", "section": "Paper Body", "weight": 1.0} -->
+
+This occurs in the example of~\figref{scvx\_infeas\_tr}, where no feasible solution exists because the linearized constraints ({\color{tay\_col\_g}green} and {\color{tay\_col\_b}blue} dash-dot) do not intersect to the left of the {\color{tay\_col\_r}red} inequality constraint; \item In the second case, the trust region may be so small that it restricts the solution variables to a part of the solution space that is outside of the feasible set. In other words, the intersection of the trust region with the (non-empty) feasible region of the convexified constraints may itself be empty.
+
+<!-- chunk {"id": "body-0289", "role": "body", "section": "Paper Body", "weight": 1.0} -->
+
+This would have been the case in \figref{scvx\_infeas\_tr} if the {\color{tay\_col\_g}green} and {\color{tay\_col\_b}blue} dash-dot lines were to intersect outside of the {\color{tay\_col\_r}red} trust region circle, but to the left of the halfspace inequality (for example, if $\bar z$ was slightly further to the right).
+
+<!-- chunk {"id": "body-0290", "role": "body", "section": "Paper Body", "weight": 1.0} -->
+
+The occurence of either case would prevent SCP from finding a new reference solution at \alglocation{\solveloc} in \figref{scp\_loop}. Thus, the solution loop cannot continue, and the algorithm will fail. As a result, even if the original problem admits a feasible solution (shown as the black square in \figref{scvx\_infeas\_tr}), either of the two aforementioned scenarios would prevent SCP from finding it. We refer to this phenomenon as \alert{artificial Artificial infeasibility in sequential convex programming was recognized early in the development of SCP algorithms~. % If% artificial infeasibility is encountered at some iteration, the subproblem% cannot be solved, and the optimization process terminates without a Two equivalent strategies exist to counteract this issue. One approach adds an unconstrained, but penalized, slack variable to each linearized constraint. This variable is sometimes called a \alert{virtual control} when applied to the dynamics constraint \optieqref{scp\_gen\_cont}{dynamics}, and a virtual buffer when applied to other constraints.
+
+<!-- chunk {"id": "body-0291", "role": "body", "section": "Paper Body", "weight": 1.0} -->
+
+To keep our language succinct, we will use virtual control in both cases.
+
+<!-- chunk {"id": "body-0292", "role": "body", "section": "Paper Body", "weight": 1.0} -->
+
+The second approach penalizes constraint violations by augmenting the original cost function with \alert{soft penalty} terms \optiobjref{scp\_gen\_cvx}. When the same functions and weights are used as to penalize the virtual control terms, this strategy results in the same optimality conditions. The ultimate result of both strategies is that subproblem is guaranteed to be feasible.
+
+<!-- chunk {"id": "body-0293", "role": "body", "section": "Paper Body", "weight": 1.0} -->
+
+Because the virtual control is a new term that we add to the problem, it follows that the converged solution must have a zero virtual control in order to be feasible and physically meaningful with respect to the original problem. If, instead, the second strategy is used and constraint violations are penalized in the cost, the converged solution must not violate the constraints (i.e., the penalty terms should be zero). Intuitively, if the converged solution uses a non-zero virtual control or has a non-zero constraint violation penalty, then it is not a solution of the original optimal control problem.
+
+<!-- chunk {"id": "body-0294", "role": "body", "section": "Paper Body", "weight": 1.0} -->
+
+The fact that trajectories can converge to an infeasible solution is one of the salient limitations of SCP. However, it is not unlike the drawback of any NLP optimization method, which may fail to find a solution entirely even if one exists. When SCP converges to an infeasible solution, we call it a ``soft'' failure, since usually only a few virtual control terms are non-zero. A soft failure carries important information, since the temporal nodes and constraints with non-zero virtual control hint at how and where the solution is infeasible. Usually, relatively mild tuning of the algorithm parameters or the problem definition will recover convergence to a feasible solution. In relation to the optimization literature at large, the soft failure exhibited by SCP is related to one-norm regularization, lasso regression, and basis pursuit, used to find sparse approximate solutions.
+
+<!-- chunk {"id": "body-0295", "role": "body", "section": "Paper Body", "weight": 1.0} -->
+
+The specific algorithmic choices made to address artificial unboundedness (e.g., selection of the trust region radius update rule) and artificial infeasibility (e.g., virtual control versus constraint penalization) lead to SCP algorithms with different characteristics. The next two sections review two such methods, \scvx and \gusto, and highlight their design choices and algorithmic properties. To facilitate a concise presentation, we henceforth suppress the time argument $t$ whenever possible.
+
+<!-- chunk {"id": "body-0296", "role": "body", "section": "Paper Body", "weight": 1.0} -->
+
+\subsection{The \scvx Algorithm} In light of the above discussion, the \scvx algorithm makes the following \item The terminal and running costs in eq:ocost\_nlin are both assumed to be convex functions. We already mentioned that this is without loss of generality for the terminal cost, and the same reasoning applies for the running cost. Any nonconvex term in the cost can be offloaded into the constraints, and an example was given in eq:terminal\_cost\_ncvx\_fix; \item To handle artificial unboundedness, \scvx enforces eq:scp\_trust\_region as a hard constraint. While several choices are possible, this article uses $\trx=\tru=\trp=1$. The trust region radius $\eta$ is adjusted at each iteration by an update rule, which we discuss below; \item To handle artificial infeasibility, \scvx uses virtual control terms.
+
+<!-- chunk {"id": "body-0297", "role": "body", "section": "Paper Body", "weight": 1.0} -->
+
+Let us begin by describing how \scvx uses virtual control to handle artificial infeasibility.
+
+<!-- chunk {"id": "body-0298", "role": "body", "section": "Paper Body", "weight": 1.0} -->
+
+$\vcc(\cdot)\in\reals^{\dimss}$, $\vccic\in\reals^{\dimgic}$, and $\vcctf\in\reals^{\dimgtf}$ are the virtual control terms. To keep notation manageable, we will use the symbol $\vcany$ as a shorthand for the argument list $(\vc,\vcc,\vccic,\vcctf)$.
+
+<!-- chunk {"id": "body-0299", "role": "body", "section": "Paper Body", "weight": 1.0} -->
+
+The virtual control $\vc$ in eq:scvx\_lin\_approxs\_vc\_f can be viewed simply as another control variable that can be used to influence the state trajectory. Like the other virtual control terms, we would like $\vc$ to be zero for any converged trajectory, because it is a synthetic input that cannot be used in reality. Note that it is required that the pair $\pare{A,E}$ in eq:scvx\_lin\_approxs\_vc\_f is controllable, which is easy to verify using any of several available controllability tests. A common choice is $E=I_n$, in which case $\pare{A,E}$ is unconditionally controllable.
+
+<!-- chunk {"id": "body-0300", "role": "body", "section": "Paper Body", "weight": 1.0} -->
+
+The use of non-zero virtual control in the subproblem solution is discouraged by augmenting the cost function with a virtual control penalty term. Intuitively, this means that virtual control is used only when it is necessary to avoid subproblem infeasibility. To this end, we define a positive definite penalty function $P: \real^{n} \times \real^p \rightarrow \nonneg$ where $p$ is any appropriate integer. The following choice is typical in \label{eq:P\_penalty\_def} where $y$ and $z$ are placeholder arguments.
+
+<!-- chunk {"id": "body-0301", "role": "body", "section": "Paper Body", "weight": 1.0} -->
+
+The cost function~\optiobjref{scp\_gen\_cvx} is augmented using the penalty function as &\definedas \termw(x,p,\vccic,\vcctf)+\\\label{eq:scvx\_Lpen} &\pushright{\int\_0^1\runnw(x,u,p,E\vc,\vcc)\sdt,\qquad\quad} \\\termw(x,p,\vccic,\vcctf) &= \term(x,p)+\Jw P(0,\vccic)+ \label{eq:scvx\_Lrunnw} \runnw(x,u,p,E\vc,\vcc) &= \runn(x,u,p)+\lambda P\pare[big]{E \vc, \vcc}.
+
+<!-- chunk {"id": "body-0302", "role": "body", "section": "Paper Body", "weight": 1.0} -->
+
+The positive weight $\lambda\in\pos$ is selected by the user, and must be sufficiently large. We shall make this statement more precise later in the section on \scvx convergence guarantees. For now, we note that in practice it is quite easy to find an appropriately large $\lambda$ value by selecting a power of ten. In general, $\lambda$ can be a function of time, but we rarely do We also point to an important notational feature of eq:scvx\_Lrunnw, where we used $E\vc$ in place of $\vc$ for the argument list of $\runnw$. This will help later on to highlight that the continuous\dash time matrix $E$ is substituted with its discrete\dash time version after temporal discretization (see ahead in eq:scvx\_costs\_runnw\_trapz).
+
+<!-- chunk {"id": "body-0303", "role": "body", "section": "Paper Body", "weight": 1.0} -->
+
+The continuous-time convex subproblem that is solved at each iteration of the \scvx algorithm can then be stated formally as: label={subproblem\_scvx\_ct}, objective={\ocostw(x,u,p,\vcany)}]% & (x, p) \in \set{X}, \quad (u, p) \in\set{U}, \\& C x + D u + G \pk + r\der \leq \vcc, \\& \norm[q]{\delta x}+\norm[q]{\delta u}+\norm[q]{\delta p} \leq \tr.
+
+<!-- chunk {"id": "body-0304", "role": "body", "section": "Paper Body", "weight": 1.0} -->
+
+It was mentioned in the previous section that \pref{subproblem\_scvx\_ct} is not readily implementable on a computer because it is a continuous-time, and hence infinite-dimensional, optimization problem. To solve the problem numerically, a temporal discretization is applied, such as the one discussed in \sbref{discretization}. In particular, we select a set of temporal nodes $t_k\in$ for $k=1,\ldots,N$ and recast the subproblem as a parameter optimization problem in the (overloaded) variables $x = \{\xk\}_{k=1}^{N}$, $\vcc=\brac{\vcck}_{k=1}^N$, $\vccic$, and $\vcctf$.
+
+<!-- chunk {"id": "body-0305", "role": "body", "section": "Paper Body", "weight": 1.0} -->
+
+Depending on the details of the discretization scheme, there may be fewer decision variables than there are temporal nodes. In particular, for simplicity we will use a zeroth-order hold (ZOH) assumption (i.e., a piecewise constant function) to discretize the dynamics virtual control $\vc(\cdot)$. This means that the virtual control takes the value $\vc(t)=\vck$ inside each time interval $[t_k,t_{k+1})$, and the discretization process works like any other interpolating polynomial method from \sbref{discretization}. Because this leaves $\vc_N$ undefined, we take $\vc_N=0$ for notational convenience whenever it appears in future equations.
+
+<!-- chunk {"id": "body-0306", "role": "body", "section": "Paper Body", "weight": 1.0} -->
+
+The continuous-time cost function~eq:scvx\_Lpen can be discretized using any appropriate method. Pseudospectral methods, for example, specify a numerical quadrature that must be used to discretize the integral. For simplicity, we shall assume that the time grid is uniform (i.e., $t_{k+1}-t_k=\timeintvl$ for all $k=1,\dots,N-1$) and that trapezoidal numerical integration is used.
+
+<!-- chunk {"id": "body-0307", "role": "body", "section": "Paper Body", "weight": 1.0} -->
+
+This allows us to write the discrete-time version of eq:scvx\_Lpen as: \label{eq:scvx\_costs\_L} &= \termw\pare[big]{x,p,\vccic,\vcctf}+\mathtt{trapz}(\runnw^N), \\\label{eq:scvx\_costs\_runnw\_trapz} \runnw[,k]^N &= \runnw(\xk,\uk,p,E\_k\vck,\vcck). where trapezoidal integration is implemented by the function $\mathtt{trapz}:\reals^N\to\reals$, defined as follows: \mathtt{trapz}(z) \definedas \frac{\timeintvl}{2} We call eq:scvx\_costs\_L the \alert{linear augmented cost function}.
+
+<!-- chunk {"id": "body-0308", "role": "body", "section": "Paper Body", "weight": 1.0} -->
+
+This name is a slight misnomer, because eq:scvx\_costs\_L is in fact a general nonlinear convex function. However, we use the ``linear'' qualifier to emphasize that the cost relates to the convex subproblem for which all nonconvexities have been linearized. In particular, the virtual control terms can be viewed as linear measurements of dynamic and nonconvex path and boundary Lastly, the constraints~\optieqref{subproblem\_scvx\_ct}{xu\_constraints\_1}, \optieqref{subproblem\_scvx\_ct}{xu\_constraints\_2}, and~\optieqref{subproblem\_scvx\_ct}{xu\_constraints\_3} are enforced at the discrete temporal nodes $t_k$ for each $k=1,\ldots,N$.
+
+<!-- chunk {"id": "body-0309", "role": "body", "section": "Paper Body", "weight": 1.0} -->
+
+In summary, the following discrete-time convex subproblem is solved at each \scvx iteration (i.e., location \alglocation{\solveloc} in \figref{scp\_loop}):% label={subproblem\_scvx\_dt}, objective={\mflw(x,u,p,\vcany)}]% \optilabel{convex\_path} & (\xk, \pk) \in \set{X}\_k, \quad (\uk, \pk) \in\set{U}\_k, \\\optilabel{nonconvex\_path} & C\_k \xk + D\_k \uk + G\_k \pk + r\_k\der \leq \vcck, \\\optilabel{final\_conditions} \optilabel{trust\_region} & \norm[q]{\delta \xk}+\norm[q]{\delta \uk}+\norm[q]{\delta p}
+
+<!-- chunk {"id": "body-0310", "role": "body", "section": "Paper Body", "weight": 1.0} -->
+
+We want to clarify that \optieqref{subproblem\_scvx\_dt}{dynamics} is written as a shorthand convenience for discretized dynamics, and is not representative of every possible discretization choice. For example, \optieqref{subproblem\_scvx\_dt}{dynamics} is correct if ZOH discretization is used. However, as specified in eq:sidebar\_dynamics\_dt, FOH discretization would lead to the following constraint that replaces \optieqref{subproblem\_scvx\_dt}{dynamics}: B\_k^{\scriptscriptstyle +} \ukp + F\_k p + r\_k + E\_k \vck.
+
+<!-- chunk {"id": "body-0311", "role": "body", "section": "Paper Body", "weight": 1.0} -->
+
+The most general interpolating polynomial discretization fits into the following discrete\dash time dynamics constraint: \xkp = A\_k \xk + \sum\_{j=1}^N B\_{k}^{j} u\_j + F\_k p + r\_k + E\_k \vck, where the $j$ superscript indexes different input coefficient matrices. Other discretization methods lead to yet other affine equality constraints, all of which simply replace \optieqref{subproblem\_scvx\_dt}{dynamics}. With this in mind, we will continue to write \optieqref{subproblem\_scvx\_dt}{dynamics} for simplicity.
+
+<!-- chunk {"id": "body-0312", "role": "body", "section": "Paper Body", "weight": 1.0} -->
+
+Furthermore, it is implicitly understood that the constraints \optieqref{subproblem\_scvx\_dt}{dynamics}-\optieqref{subproblem\_scvx\_dt}{nonconvex\_path} and \optieqref{subproblem\_scvx\_dt}{trust\_region} hold at each temporal node.
+
+<!-- chunk {"id": "body-0313", "role": "body", "section": "Paper Body", "weight": 1.0} -->
+
+Because \pref{subproblem\_scvx\_dt} is a finite-dimensional convex optimization problem, it can be solved to global optimality using an off-the-shelf convex optimization solver.
+
+<!-- chunk {"id": "body-0314", "role": "body", "section": "Paper Body", "weight": 1.0} -->
+
+We shall denote the optimal solution $\vc^*=\brac{\vck^*}_{k=1}^{N-1}$, $\vcc^*=\brac{\vcck^*}_{k=1}^N$, $\vccic^*$, \subsubsection{\scvx Update Rule} At this point, we know how to take a nonconvex optimal control problem like \pref{scp\_gen\_cont} and: 1) convexify it to \pref{scp\_gen\_cvx}, 2) add a trust region eq:scp\_trust\_region to avoid artificial unboundedness, 3) add virtual control terms eq:scvx\_lin\_approxs\_vc to avoid artificial infeasibility, 4) penalize virtual control usage in the cost eq:scvx\_Lpen, and 5) apply discretization to obtain a finite-dimensional convex \pref{subproblem\_scvx\_dt}.
+
+<!-- chunk {"id": "body-0315", "role": "body", "section": "Paper Body", "weight": 1.0} -->
+
+In fact, this gives us all of the necessary ingredients to go around the loop in \figref{scp\_loop}, except for one thing: how to update the trust region radius $\eta$ in eq:scp\_trust\_region. In general, the trust region changes after each pass around the loop. In this section, we discuss this missing ingredient.
+
+<!-- chunk {"id": "body-0316", "role": "body", "section": "Paper Body", "weight": 1.0} -->
+
+To begin, we define a linearization accuracy metric called the \alert{defect}: \label{eq:scvx\_defect} \defectk \definedas \xkp - \flow(t\_k,t\_{k+1},x\_{k},u,p) for $k=1,\dots,N-1$. The function $\flow$ is called the \alert{flow map} and its role is to ``propagate'' the control input $u$ through the continuous\dash time nonlinear dynamics \optieqref{scp\_gen\_cont}{dynamics}, starting at state $x_k$ at time $t_k$ and evolving until the next temporal grid node $t_{k+1}$. It is important that the flow map is implemented in a way that is consistent with the chosen discretization scheme, as defined below.
+
+<!-- chunk {"id": "body-0317", "role": "body", "section": "Paper Body", "weight": 1.0} -->
+
+\begin{definition}[scvx\_flow\_consistency] The flow map $\flow$ in eq:scvx\_defect is \alert{consistent} with the discretization used for \pref{subproblem\_scvx\_dt}, if the following equation holds for all $k=1,\dots,N-1$: A\_k \xbk + B\_k \ubk + F\_k \pbk + r\_k. caption={Illustration of the flow map consistency property in \dref{scvx\_flow\_consistency}. When the flow map is consistent with the discretization scheme, the state $\tilde x_{k+1}$ propagated through the flow map ({\color{beamerYellow}yellow} circle) and the state $\hat x_{k+1}$ propagated through the discrete-time linearized update equation (dashed {\color{beamerGreen}green} circle) match.
+
+<!-- chunk {"id": "body-0318", "role": "body", "section": "Paper Body", "weight": 1.0} -->
+
+When the reference trajectory is not dynamically feasible, it generally deviates from the flow map trajectory, hence $\tilde x_{k+1}\ne \bar x_{k+1}$.% label={scvx\_consistency}]% \includegraphics{scvx\_consistency}% \includegraphics[scale=1.4]{scvx\_consistency}% There is an intuitive way to think about the consistency property of $\flow$. The reader may follow along using the illustration in \figref{scvx\_consistency}. On the one hand, $\flow(t_k,t_{k+1},\xbk,\ub,\pb)$ maps an initial state $\xbk$ through the continuous\dash time nonlinear dynamics \optieqref{scp\_gen\_cont}{dynamics} to a new state $\tilde x_{k+1}$.
+
+<!-- chunk {"id": "body-0319", "role": "body", "section": "Paper Body", "weight": 1.0} -->
+
+On the other hand, the right-hand side of eq:consistency does the same, except that it uses the linearized and discretized dynamics and outputs a new state $\hat x_{k+1}$. Because the linearization is being evaluated at the reference trajectory (i.e., at the linearization point), the linearized continuous-time dynamics will yield the exact same trajectory. Thus, the only difference between the left- and right-hand sides of eq:consistency is that the right-hand side works in discrete-time. Consistency, then, simply means that propagating the continuous-time dynamics yields the same point as performing the discrete-time update (i.e., $\tilde x_{k+1}=\hat x_{k+1}$). For every discretization method that is used to construct \pref{subproblem\_scvx\_dt}, there exists a consistent flow map.% Achieving consistency is always possible through a proper definition of% $\flow$, which will depend on the discretization method used.
+
+<!-- chunk {"id": "body-0320", "role": "body", "section": "Paper Body", "weight": 1.0} -->
+
+The reader is likely already familiar with flow maps, even if the term sounds new. Consider the following concrete examples. When using forward Euler discretization, the corresponding consistent flow map is simply: \label{eq:consistent\_flow\_map\_forward\_euler} When using an interpolating polynomial discretization scheme like the one described in \sbref{discretization}, the corresponding consistent flow map is the solution to the dynamics \optieqref{scp\_gen\_cont}{dynamics} obtained through numerical integration. In other words, the flow map satisfies the following conditions at each time instant $t\in[t_k,t_{k+1}]$: \label{eq:consistent\_flow\_map\_interpolating\_poly} &= f\pare[big]{t,\flow(t\_k,t,x\_{k},u,p),u,p}. caption={Illustration of defect calculation according to eq:scvx\_defect. The flow map computation restarts at each discrete-time node.
+
+<!-- chunk {"id": "body-0321", "role": "body", "section": "Paper Body", "weight": 1.0} -->
+
+At each temporal node, the defect is computed as the difference between the discrete solution output by \pref{subproblem\_scvx\_dt} and the corresponding flow map value.% label={scvx\_defects}]% \includegraphics{scvx\_defects}% \includegraphics[scale=1.4]{scvx\_defects}% As illustrated in \figref{scvx\_defects}, the defect eq:scvx\_defect captures the discrepancy between the next discrete-time state $x_{k+1}$ and the state obtained by using the flow map starting at time $t_k$. The defect has the following interpretation: a non-zero defect indicates that the solution to the subproblem is dynamically infeasible with respect to the original nonconvex dynamics. For a dynamically feasible subproblem solution, the flow map trajectories in \figref{scvx\_defects} coincide with the discrete-time states at the discrete\dash time nodes.
+
+<!-- chunk {"id": "body-0322", "role": "body", "section": "Paper Body", "weight": 1.0} -->
+
+This is a direct consequence of the consistency property from \dref{scvx\_flow\_consistency}. We shall see this happen for the converged solutions of the numerical examples presented in Part III of this article (e.g., see~\figref{ex\_quad\_pos,ex\_ff\_pos}).
+
+<!-- chunk {"id": "body-0323", "role": "body", "section": "Paper Body", "weight": 1.0} -->
+
+We now know how to compute a consistent flow map and how to use it to calculate defects using eq:scvx\_defect. We will now leverage defects to update the trust region radius in \scvx.
+
+<!-- chunk {"id": "body-0324", "role": "body", "section": "Paper Body", "weight": 1.0} -->
+
+First, define a nonlinear version of eq:scvx\_costs\_L as follows: &= \termw\pare[big]{x,p,\gic(x,p),\gtf(x,p)}+ \\\label{eq:scvx\_costs\_J} &\pushright{\mathtt{trapz}(\runnw^N),\qquad} \\&= \runnw\big(\xk,\uk,p,\defectk, \\\label{eq:scvx\_costs\_J\_trap} &\pushright{\brak[big]{s(t\_k,\xk,\uk,p)}^+\big).\qquad\qquad} where the positive\dash part function $\brak{\cdot}^+$ returns zero when its argument is negative, and otherwise just returns the argument.
+
+<!-- chunk {"id": "body-0325", "role": "body", "section": "Paper Body", "weight": 1.0} -->
+
+A salient feature of eq:scvx\_costs\_J is that it evaluates the penalty function eq:P\_penalty\_def based on how well the actual nonconvex constraints are satisfied. To do so, when compared to eq:scvx\_costs\_L, $E_k\vck$ is replaced with the defect $\defectk$ measuring dynamic infeasibility, $\vcck$ is replaced with the actual nonconvex path constraints \optieqref{scp\_gen\_cont}{nonconvex\_constraints}, while $\vccic$ and $\vcctf$ are replaced by the actual boundary conditions \optieqref{scp\_gen\_cont}{initial\_conditions} and \optieqref{scp\_gen\_cont}{final\_conditions}. Because evaluation of the defect and the nonconvex path and boundary constraints is a nonlinear operation, we call eq:scvx\_costs\_J the nonlinear augmented cost function.
+
+<!-- chunk {"id": "body-0326", "role": "body", "section": "Paper Body", "weight": 1.0} -->
+
+The \scvx trust region update rule. The accuracy metric $\rho$ is defined in~eq:scvx\_ratio and provides a measure of how accurately the convex subproblem given by \pref{subproblem\_scvx\_dt} describes the original \pref{scp\_gen\_cont}. Note that Case 1 actually rejects the solution to \pref{subproblem\_scvx\_dt} and shrinks the trust region before proceeding to the next iteration. In this case, the convex approximation is deemed so poor label={scvx\_updates}, \includegraphics{tikz\_scvx\_updates} The \scvx algorithm uses the linear augmented cost eq:scvx\_costs\_L and the nonlinear augmented cost eq:scvx\_costs\_J to, roughly speaking, measure the accuracy of the convex approximation of \pref{scp\_gen\_cont} by \pref{scp\_gen\_cvx}.
+
+<!-- chunk {"id": "body-0327", "role": "body", "section": "Paper Body", "weight": 1.0} -->
+
+Using the reference solution and the optimal solution to \pref{subproblem\_scvx\_dt}, \scvx defines the following scalar metric to measure \label{eq:scvx\_ratio} \frac{\mfnlw(\xb,\ub,\pb) - \mfnlw(x^*,u^*,p^*)} {\mfnlw(\xb,\ub,\pb) - \mflw(x^*,u^*,p^*,\vc^*,{\vcc}^*)}.
+
+<!-- chunk {"id": "body-0328", "role": "body", "section": "Paper Body", "weight": 1.0} -->
+
+Let us carefully analyze the elements of eq:scvx\_ratio. First of all, the denominator is always nonnegative because the following relation holds \label{eq:scvx\_ratio\_denominator\_nonneg} The proof of eq:scvx\_ratio\_denominator\_nonneg works by constructing a feasible subproblem solution that matches the cost $\mfnlw(\xb,\ub,\pb)$. Begin by setting the state, input, and parameter values to the reference solution $\trajohone$. We now have to choose the virtual controls that make this solution feasible for \pref{subproblem\_scvx\_dt} and that yield a matching cost \optiobjref{subproblem\_scvx\_dt}. The consistency property from \dref{scvx\_flow\_consistency} ensures that this is always possible to do. In particular, choose the dynamics virtual control to match the defects, and the other virtual controls to match the constraint values at the reference solution.
+
+<!-- chunk {"id": "body-0329", "role": "body", "section": "Paper Body", "weight": 1.0} -->
+
+This represents a feasible solution of \pref{subproblem\_scvx\_dt} whose cost equals $\mfnlw(\xb,\ub,\pb)$. The optimal cost for the subproblem cannot be worse, so the inequality eq:scvx\_ratio\_denominator\_nonneg follows.
+
+<!-- chunk {"id": "body-0330", "role": "body", "section": "Paper Body", "weight": 1.0} -->
+
+If the denominator of eq:scvx\_ratio is zero, it follows from the above discussion that the reference trajectory is an optimal solution of the convex subproblem. This signals that it is appropriate to terminate \scvx and to exit the loop in \figref{scp\_loop}. Hence, we can use the denominator of eq:scvx\_ratio as part of a stopping criterion that avoids a division by zero. The stopping criterion is discussed further in the next section.
+
+<!-- chunk {"id": "body-0331", "role": "body", "section": "Paper Body", "weight": 1.0} -->
+
+Looking at eq:scvx\_ratio holistically, it is essentially a ratio between the actual cost improvement (the numerator) and the predicted cost improvement (the denominator), achieved during one \scvx iteration \label{eq:scvx\_rat\_holistic} \rat = \frac{\textnormal{actual improvement}}{% \textnormal{predicted improvement}}.
+
+<!-- chunk {"id": "body-0332", "role": "body", "section": "Paper Body", "weight": 1.0} -->
+
+In fact, the denominator can be loosely interpreted as a lower bound prediction: the algorithm ``thinks'' that the actual cost improves by at least that much. We can thus adopt the following intuition based on seeing \pref{subproblem\_scvx\_dt} as a local model of \pref{scp\_gen\_cont}. A small $\rho$ value indicates that the model is inaccurate because the actual cost decrease is much smaller than predicted. If $\rho$ is close to unity, the model is accurate because the actual cost decrease is similar to the prediction. If the $\rho$ value is greater than unity, the model is ``conservative'' because it underestimates the cost reduction. As a result, large $\rho$ values incentivize growing the trust region because the model is trustworthy and we want to utilize more of it. On the other hand, small $\rho$ values incentivize shrinking the trust region in order to not ``overstep'' an inaccurate model The \scvx update rule for the trust region radius $\tr$ formalizes the above intuition.
+
+<!-- chunk {"id": "body-0333", "role": "body", "section": "Paper Body", "weight": 1.0} -->
+
+Using three user-defined scalars $\rat_0,\,\rat_1,\,\rat_2\in $ that split the real number line into four parts, the trust region radius and reference trajectory are updated at the end of each \scvx iteration according to~\figref{scvx\_updates}. The user-defined constants $\trshrink,\,\trgrow > 1$ are the trust region shrink and growth rates, respectively. Practical implemenations of \scvx also let the user define a minimum and a maximum trust region radius by using $\tr_0,\,\tr_1> 0$.
+
+<!-- chunk {"id": "body-0334", "role": "body", "section": "Paper Body", "weight": 1.0} -->
+
+The choice of the user-defined scalars $\rat_0$, $\rat_1$, and $\rat_2$ greatly influences the algorithm runtime. Indeed, as shown in~\figref{scvx\_updates}, when $\rat<\rat_0$ the algorithm will actually outright reject the subproblem solution, and will resolve the same problem with a smaller trust region. This begs the question: can rejection go on indefinitely? If this occurs, the algorithm will be stuck in an infinite loop. The answer is no, the metric~eq:scvx\_ratio must eventually rise above $\rat_0$% Consequently, any limit point of the \scvx algorithm will satisfy the KKT% conditions of~\pref{scp\_gen\_cont} provided that $\vc=0$ and $\vcc=0$.
+
+<!-- chunk {"id": "body-0335", "role": "body", "section": "Paper Body", "weight": 1.0} -->
+
+\subsubsection{\scvx Stopping Criterion} The previous sections provide a complete description of the \textsf{\color{beamerBlue}Starting} and \textsf{\color{beamerRed}Iteration} regions in \figref{scp\_loop}. A crucial remaining element is how and when to exit from the ``SCP loop'' of the \textsf{\color{beamerRed}Iteration} region. This is defined by a stopping criterion (also called an exit criterion), which is implemented at location \alglocation{\testloc} in \figref{scp\_loop}. When the stopping criterion triggers, we say that the algorithm has converged, and the final iteration's trajectory $\{x^*(t),\,u^*(t),\,p^*\}_0^1$ is output.
+
+<!-- chunk {"id": "body-0336", "role": "body", "section": "Paper Body", "weight": 1.0} -->
+
+The basic idea of the stopping criterion is to measure how different the new trajectory $\{x^*(t),\,u^*(t),\,p^*\}_0^1$ is from the reference trajectory $\trajohone$. Intuitively, if the difference is small, then the algorithm considers the trajectory not worthy of further improvement and it is appropriate to exit the SCP loop. The formal \scvx exit criterion uses the denominator of eq:scvx\_ratio (i.e, the predicted cost improvement) as the \label{eq:scvx\_stopping\_criterion\_official} \mfnlw(\xb,\ub,\pb) - \mflw(x^*,u^*,p^*,\vc^*,{\vcc}^*)\le\varepsilon, where $\varepsilon\in\pos$ is a user-defined (small) threshold.
+
+<!-- chunk {"id": "body-0337", "role": "body", "section": "Paper Body", "weight": 1.0} -->
+
+For notational simplicity, we will write eq:scvx\_stopping\_criterion\_official as: \bar{\mfnlw} - \mflw^*\le\varepsilon.
+
+<!-- chunk {"id": "body-0338", "role": "body", "section": "Paper Body", "weight": 1.0} -->
+
+Numerical experience has shown a control-dependent stopping criterion to sometimes lead to an unnecessarily conservative definition of convergence. For example, in an application like rocket landing, common vehicle characteristics (e.g., inertia and engine specific impulse) imply that relatively large changes in control can have little effect on the state trajectory and optimality. When the cost is control dependent (which it often is), eq:scvx\_stopping\_criterion\_official may be a conservative choice that will result in more iterations without providing a more optimal solution. We may thus opt for the following simpler and less conservative stopping \label{eq:scvx\_stopping\_criterion} \max\_{k\in\{1,\dots,N\}} \norm[\hat q]{\xk^* - \xbk}% where $\hat q\in\brac{1,2,2^{\scriptscriptstyle +},\infty}$ defines a norm similarly to eq:scp\_trust\_region.
+
+<!-- chunk {"id": "body-0339", "role": "body", "section": "Paper Body", "weight": 1.0} -->
+
+Importantly, the following correspondence holds between eq:scvx\_stopping\_criterion\_official and eq:scvx\_stopping\_criterion. For any $\varepsilon$ choice in eq:scvx\_stopping\_criterion, there is a (generally different) $\varepsilon$ choice in eq:scvx\_stopping\_criterion\_official such that: if eq:scvx\_stopping\_criterion\_official holds, then eq:scvx\_stopping\_criterion holds. We call this an ``implication correspondence'' between stopping criteria.
+
+<!-- chunk {"id": "body-0340", "role": "body", "section": "Paper Body", "weight": 1.0} -->
+
+\scvx guarantees that there will be an iteration for which eq:scvx\_stopping\_criterion\_official holds. By implication correspondence, this guarantee extends to eq:scvx\_stopping\_criterion. In general, the user can define yet another stopping criterion that is tailored to the specific trajectory problem, as long as implication correspondence holds.
+
+<!-- chunk {"id": "body-0341", "role": "body", "section": "Paper Body", "weight": 1.0} -->
+
+In fact, we do this for the numerical examples at the end of the article, where we use the following stopping criterion that combines eq:scvx\_stopping\_criterion\_official and eq:scvx\_stopping\_criterion: \label{eq:scvx\_numerical\_example\_stopping\_criterion} \textnormal{eq:scvx\_stopping\_criterion holds or}~% \bar{\mfnlw} - \mflw^*% \le \varepsilon\_{\mathrm{r}}\abso[big]{\bar{\mfnlw}}, where $\varepsilon_{\mathrm{r}}\in\pos$ is a user-defined (small) threshold on the relative cost improvement. The second term in eq:scvx\_numerical\_example\_stopping\_criterion allows the algorithm to terminate when relatively little progress is being made in decreasing the cost, a signal that it has achieved local optimality.
+
+<!-- chunk {"id": "body-0342", "role": "body", "section": "Paper Body", "weight": 1.0} -->
+
+\subsubsection{\scvx Convergence Guarantee} The \scvx trust region update rule in \figref{scvx\_updates} is designed to permit a rigorous convergence analysis of the algorithm. A detailed discussion is given. To arrive at the convergence result, the proof requires the following (mild) technical condition that is common to most if not all optimization algorithms. We really do mean that the condition is ``mild'' because we almost never check it in practice and \scvx just works.
+
+<!-- chunk {"id": "body-0343", "role": "body", "section": "Paper Body", "weight": 1.0} -->
+
+\begin{condition}[scvx\_licq] The gradients of the equality and active inequality constraints of \pref{scp\_gen\_cont} must be linearly independent for the final converged trajectory output by \scvx. This is known as a linear independence constraint It is also required that the weight $\lambda$ in eq:scvx\_Lpen is sufficiently large. This ensures that the integral penalty term in eq:scvx\_Lpen is a so-called exact penalty function. A precise condition for ``large enough'' is provided, and a possible strategy is outlined following the theorem in that paper. However, in practice, we simply iterate over a few powers of ten until \scvx converges with zero virtual control. An approximate range that works for most problems is $10^2$ to $10^4$. Once a magnitude is identified, it usually works well across a wide range of parameter variations for the problem.
+
+<!-- chunk {"id": "body-0344", "role": "body", "section": "Paper Body", "weight": 1.0} -->
+
+The \scvx convergence guarantee is stated below, and is proved. Beside \conref{scvx\_licq}, the theorem requires a few more mild assumptions on the inequality constraints in \pref{scp\_gen\_cont} and on the penalized cost eq:scvx\_costs\_L. We do not state them here due to their technical nature, and refer the reader to the paper. It is enough to say that, like \conref{scvx\_licq}, these assumptions are mild enough that we rarely check \begin{theorem}[scvx\_convergence] Suppose that \conref{scvx\_licq} holds and the weight $\lambda$ in eq:scvx\_Lpen is large enough. Regardless of the initial reference trajectory provided in \figref{scp\_loop}, the \scvx algorithm will always converge at a superlinear rate by iteratively solving~\pref{subproblem\_scvx\_dt}.
+
+<!-- chunk {"id": "body-0345", "role": "body", "section": "Paper Body", "weight": 1.0} -->
+
+Furthermore, if the virtual controls are zero for the converged solution, then it is a stationary point of \pref{scp\_gen\_cont} in the sense of having satisfied the KKT conditions.% Note: in fact, local minimum of the *discretized* problem, but we'll be% fast and loose here and say that it's a local optimum of the \tref{scvx\_convergence} confirms that \scvx solves the KKT conditions of the original \pref{scp\_gen\_cont}. Because these are first-order necessary conditions of optimality, they are also satisfied by local maxima and saddle points. Nevertheless, because each convex subproblem is minimized by \scvx, the event of converging to a stationary point that is not a local minimum is very \tref{scvx\_convergence} also states that the convergence rate is superlinear, which is to say that the distance away from the converged solution decreases superlinearly. This is better than general NLP methods, and on par with SQP methods that usually also attain at most superlinear convergence.
+
+<!-- chunk {"id": "body-0346", "role": "body", "section": "Paper Body", "weight": 1.0} -->
+
+% This is perhaps unsurprising,% since \scvx is tailored to solve optimal control problems that fit% \pref{scp\_gen\_cont}, while SQP is a general nonlinear optimizer.
+
+<!-- chunk {"id": "body-0347", "role": "body", "section": "Paper Body", "weight": 1.0} -->
+
+% Thus, under mild assumptions, \scvx achieves global convergence and at a% faster speed compared to general NLP methods, which converge locally and% We emphasize that the technical assumptions behind \scvx convergence behavior% are so mild that we typically ignore them in practical implementation, and we% shall follow suit in this article.
+
+<!-- chunk {"id": "body-0348", "role": "body", "section": "Paper Body", "weight": 1.0} -->
+
+% If the point to which \scvx converges is feasible for~\pref{scp\_gen\_cont}, then it% is a locally optimal solution for~\pref{scp\_gen\_cont}, in the sense of having% satisfied the KKT conditions~. Feasibility for~\pref{scp\_gen\_cont} is% equivalent to both $\vc=0$ and $\vcc=0$ provided that the solution% to~\pref{subproblem\_scvx\_dt} is exactly the reference solution.
+
+<!-- chunk {"id": "body-0349", "role": "body", "section": "Paper Body", "weight": 1.0} -->
+
+In conclusion, note that \tref{scvx\_convergence} is quite intuitive and confirms our basic intuition. If we are ``lucky'' to get a solution with zero virtual control, then it is a local minimum of the original nonconvex \pref{scp\_gen\_cont}. The reader will be surprised, however, at just how easy it is to be ``lucky''. In most cases, it really is a simple matter of ensuring that the penalty weight $\lambda$ in eq:scvx\_Lpen is large enough. If the problem is feasible but \scvx is not converging or is converging with non-zero virtual control, the first thing to try is to increase $\lambda$. In more difficult cases, some nonconvex constraints may need to be reformulated as equivalent versions that play nicer with the linearization process (the free-flyer example in Part III discusses this in detail). However, let us be clear that there is no a priori hard guarantee that the converged solution will satisfy $\vcany=0$.
+
+<!-- chunk {"id": "body-0350", "role": "body", "section": "Paper Body", "weight": 1.0} -->
+
+In fact, since \scvx always converges, even an infeasible optimal control problem can be solved, and it will return a solution for which \subsection{The \gusto Algorithm} The \gusto algorithm is another SCP method that can be used for trajectory generation. The reader will find that \gusto has a familiar feel to that of \scvx. Nevertheless, the algorithm is subtly different from both computational and theoretical standpoints. For example, while \scvx works directly with the temporally discretized \pref{subproblem\_scvx\_dt} and derives its convergence guarantees from the KKT conditions, \gusto performs all of its analysis in continuous-time using Pontryagin's maximum principle discretization is only introduced at the very end to enable numerical solutions to the problem.
+
+<!-- chunk {"id": "body-0351", "role": "body", "section": "Paper Body", "weight": 1.0} -->
+
+\gusto applies to versions of \pref{scp\_gen\_cont} where the running cost in eq:ocost\_nlin is quadratic in the control variable: \label{eq:gusto\_running\_cost} \runn(x,u,p) = u^\transp \Jq(p) u + u^\transp \Jl (x,p) + \Jc(x,p), where the parameter $p$, as before, can be used to capture free final time problems. The functions $\Jq$, $\Jl$, and $\Jc$ must all be continuously differentiable. Furthermore, the function $\Jq$ must be positive semidefinite.
+
+<!-- chunk {"id": "body-0352", "role": "body", "section": "Paper Body", "weight": 1.0} -->
+
+The dynamics must be affine in the control variable: \label{eq:control\_affine\_gusto} where the $f_i:\reals\times\reals^n\times\reals^d\to\reals^n$ are nonlinear functions representing a decomposition of the dynamics into terms that are control-independent and terms that linearly depend on each of the control variables $u_i$. Note that any Lagrangian mechanical system can be expressed in the control affine form, and so eq:control\_affine\_gusto is applicable to the vast majority of real\dash world vehicle trajectory generation applications. Finally, the nonconvex path constraints \optieqref{scp\_gen\_cont}{nonconvex\_constraints} are independent of the control terms, i.e., $s(t,x,u,p)=s(t,x,p)$. Altogether, these assumptions specialize \pref{scp\_gen\_cont} to problems that are convex in the control variable.
+
+<!-- chunk {"id": "body-0353", "role": "body", "section": "Paper Body", "weight": 1.0} -->
+
+At its core, \gusto is an SCP trust region method just like \scvx. Thus, it has to deal with the same issues of artificial infeasibility and artificial unboundedness. To this end, the \gusto algorithm makes the following \item To handle artificial unboundedness, \gusto augments the cost function with a soft penalty on the violation of eq:scp\_trust\_region. Because the original \pref{scp\_gen\_cont} is convex in the control variables, there is no need for a trust region with respect to the control and we use $\tru=0$. In its standard form, \gusto works with default values $\alpha_x=\alpha_p=1$. However, one can choose different values $\alpha_x, \alpha_p>0$ without affecting the convergence guarantees; \item To handle artificial infeasibility, \gusto augments the cost function with a soft penalty on nonconvex path constraint violation. As the algorithm progresses, the penalty weight increases.
+
+<!-- chunk {"id": "body-0354", "role": "body", "section": "Paper Body", "weight": 1.0} -->
+
+From these choices, we can already deduce that a salient feature of the \gusto algorithm is its use of soft penalties to enforce nonconvex constraints. Recall that in \scvx, the trust region eq:scp\_trust\_region is imposed exactly, and the linearized constraints are (equivalently) relaxed by using virtual control eq:scvx\_lin\_approxs\_vc. By penalizing constraints, \gusto can be analyzed in continuous\dash time via the classical Pontryagin maximum principle benefit of having moved the state constraints into the cost is that the virtual control term employed in the dynamics eq:scvx\_lin\_approxs\_vc\_f can be safely removed, since linearized dynamics are almost always controllable Let us begin by formulating the augmented cost function used by the \gusto convex subproblem at \alglocation{2} in \figref{scp\_loop}. This involves three elements: the original cost eq:ocost\_nlin, soft penalties on path constraints that involve the state, and a soft penalty on trust region violation.
+
+<!-- chunk {"id": "body-0355", "role": "body", "section": "Paper Body", "weight": 1.0} -->
+
+We will now dicuss the latter two elements.
+
+<!-- chunk {"id": "body-0356", "role": "body", "section": "Paper Body", "weight": 1.0} -->
+
+To formulate the soft penalties, consider a continuously differentiable, convex, and nondecreasing penalty function $\hpen:\reals\to\nonneg$ that depends on a scalar weight $\Jw\ge 1$. The goal of $\hpen$ is to penalize any positive value and to be agnostic to nonpositive values. Thus, a simple example is a quadratic rectifier: \label{eq:gusto\_hpen} \hpen(z) = \Jw\pare[big]{\brak{z}^+}^2, where higher $\lambda$ values indicate higher penalization. Another example is the softplus function: \label{eq:gusto\_hpen\_softplus} \hpen(z) = \Jw \sigma\inv\log\pare[big]{1+\exp{\sigma z}}, where $\sigma\in\pos$ is a sharpness parameter.
+
+<!-- chunk {"id": "body-0357", "role": "body", "section": "Paper Body", "weight": 1.0} -->
+
+As $\sigma$ grows, the softplus function becomes an increasingly accurate approximation of $\Jw\max\{0,z\}$. % Note that this function is an instance of the softmax% function eq:softmax for the choice $v=(0, z)\in\reals^2$.
+
+<!-- chunk {"id": "body-0358", "role": "body", "section": "Paper Body", "weight": 1.0} -->
+
+We use $\hpen$ to enforce soft penalties for violating the constraints \optieqref{scp\_gen\_cont}{convex\_path\_constraints\_X} and \optieqref{scp\_gen\_cont}{nonconvex\_constraints} that involve the state and parameter. To this end, let $\indi:\reals^n\times\reals^d\to\reals^{\dimindi}$ be a convex continuously differentiable indicator function that is nonpositive if and only if the convex state constraints in \optieqref{scp\_gen\_cont}{convex\_path\_constraints\_X} are satisfied: \indi(x,p)\le 0~\iff~(x, p)\in\set X.
+
+<!-- chunk {"id": "body-0359", "role": "body", "section": "Paper Body", "weight": 1.0} -->
+
+Note that because $\set X$ is a convex set, such a function always exists. Using $\indi$, $s$ from \optieqref{scp\_gen\_cont}{nonconvex\_constraints}, and $\hpen$, we can lump all of the state constraints into a single soft \label{eq:gusto\_soft\_penalty\_state} \Jpen(t,x,p)\definedas\sum\_{i=1}^{\dimindi}\hpen\pare[big]{\indi\_i(t,x)}+ \sum\_{i=1}^{\dimss}\hpen\pare[big]{s\_i(t,x,p)}.
+
+<!-- chunk {"id": "body-0360", "role": "body", "section": "Paper Body", "weight": 1.0} -->
+
+% We can use $\Jpen$ to remove all constraints involving the state from% pref{scp\_gen\_cont} by augmenting the cost function with their corresponding soft% penalties. This yields the following augmented cost function:% \label{eq:augmented\_cost\_gusto\_notr}% \ocost(x,u,p) + \int\_0^1 \Jpen(x,p)\sdt.
+
+<!-- chunk {"id": "body-0361", "role": "body", "section": "Paper Body", "weight": 1.0} -->
+
+Another term is added to the augmented cost function to handle artificial unboundedness. This term penalizes violations of the trust region constraint, and is defined in a similar fashion as eq:gusto\_soft\_penalty\_state: \label{eq:gusto\_soft\_penalty\_tr} \Jtr(x,p)\definedas \hpen\pare[big]{\norm[q]{\delta x}+ although we note that hard enforced versions of the trust region constraint can The overall augmented cost function is obtained by combining the original cost \optiobjref{scp\_gen\_cont} with eq:gusto\_soft\_penalty\_state and eq:gusto\_soft\_penalty\_tr.
+
+<!-- chunk {"id": "body-0362", "role": "body", "section": "Paper Body", "weight": 1.0} -->
+
+Because the resulting function is generally nonconvex, we take this opportunity to decompose it into its convex and \label{eq:gusto\_Jpen} &\definedas \ocostwCvx(x,p)+\ocostwNCvx(x,u,p), \\&= \term(x,p)+\int\_0^1 \Jtr(x,p)+ \\\label{eq:gusto\_Jpen\_cvx} &\pushright{\sum\_{i=1}^{\dimindi}\hpen\pare{\indi\_i(t,x)}\sdt,\quad} \\\label{eq:gusto\_Jpen\_ncvx} \sum\_{i=1}^{\dimss}\hpen\pare{s\_i(t,x,p)}\sdt.
+
+<!-- chunk {"id": "body-0363", "role": "body", "section": "Paper Body", "weight": 1.0} -->
+
+% \todo{Note that gtr can be considered as a hard constraint, reference TAC for The terms $\Jtr(x, p)$ and $\hpen(\indi_i(x))$ in eq:gusto\_Jpen\_cvx are convex functions, since they are formed by composing a convex nondecreasing function $\hpen$ with a convex function. Thus, eq:gusto\_Jpen\_cvx is the convex part of the cost, while eq:gusto\_Jpen\_ncvx is the nonconvex part.
+
+<!-- chunk {"id": "body-0364", "role": "body", "section": "Paper Body", "weight": 1.0} -->
+
+Our ultimate goal is to construct a convex subproblem that can be solved at location \alglocation{\solveloc} in \figref{scp\_loop}. Thus, the nonconvex part of the cost eq:gusto\_Jpen\_ncvx must be convexified around the reference trajectory $\trajohone$.
+
+<!-- chunk {"id": "body-0365", "role": "body", "section": "Paper Body", "weight": 1.0} -->
+
+This requires the following Jacobians in addition to the initial list eq:scvx\_lin\_mats: \label{eq:gusto\_lin\_mats} \label{eq:scvx\_lin\_mats\_a\_lambda} \diffLx &\definedas \diff{x}\runn(\xb,\ub,\pb), \\\label{eq:scvx\_lin\_mats\_b\_lambda} \diffLu &\definedas \diff{u}\runn(\xb,\ub,\pb), \\\label{eq:scvx\_lin\_mats\_c\_lambda} \diffLp &\definedas \diff{p}\runn(\xb,\ub,\pb).
+
+<!-- chunk {"id": "body-0366", "role": "body", "section": "Paper Body", "weight": 1.0} -->
+
+Using eq:scvx\_lin\_mats\_h, eq:scvx\_lin\_mats\_j, and eq:gusto\_lin\_mats, we can write the convex approximation of eq:gusto\_Jpen\_ncvx: \runn(\xb,\ub,\pb)+\diffLx\delta x+\diffLu\delta u+\diffLp\delta p \label{eq:gusto\_Jpen\_ncvx\_lin} \sum\_{i=1}^{\dimss}\hpen\pare[big]{ where $C_i$ and $G_i$ are the $i$-th rows of the Jacobians eq:scvx\_lin\_mats\_h and eq:scvx\_lin\_mats\_j, respectively.
+
+<!-- chunk {"id": "body-0367", "role": "body", "section": "Paper Body", "weight": 1.0} -->
+
+Note that, strictly speaking, $\ocostLwNCvx$ is not a linearized version of $\ocostwNCvx$ because the second term in eq:gusto\_Jpen\_ncvx is only linearized inside the $\hpen(\cdot)$ function.
+
+<!-- chunk {"id": "body-0368", "role": "body", "section": "Paper Body", "weight": 1.0} -->
+
+Replacing $\ocostwNCvx$ in eq:gusto\_Jpen with $\ocostLwNCvx$, we obtain a convexified augmented cost function: \label{eq:gusto\_Lpen} \ocostLw(x,u,p) = \ocostwCvx(x,p)+\ocostLwNCvx(x,u,p).
+
+<!-- chunk {"id": "body-0369", "role": "body", "section": "Paper Body", "weight": 1.0} -->
+
+To summarize the above discussion, the continuous-time convex subproblem that is solved at each iteration of the \gusto algorithm can be stated formally as: label={subproblem\_gusto\_ct}, \optilabel{initial\_condition} \optilabel{terminal\_condition} \pref{subproblem\_gusto\_ct} can be compared to the \scvx continuous\dash time convex subproblem, given by \pref{subproblem\_scvx\_ct}. Broadly speaking, the problems are quite similar. Their main differences stem from how the \scvx and \gusto algorithms handle artificial infeasibility and artificial unboundedness. In the case of \scvx, virtual control terms are introduced and a hard trust region \optieqref{subproblem\_scvx\_ct}{xu\_constraints\_3} is imposed. In the case of \gusto, everything is handled via soft penalties in the augmented cost.
+
+<!-- chunk {"id": "body-0370", "role": "body", "section": "Paper Body", "weight": 1.0} -->
+
+The result is that penalty terms in the cost \optiobjref{subproblem\_gusto\_ct} replace the constraints \optieqref{subproblem\_scvx\_ct}{xu\_constraints\_1}, \optieqref{subproblem\_scvx\_ct}{xu\_constraints\_2}, and \optieqref{subproblem\_scvx\_ct}{xu\_constraints\_3}.
+
+<!-- chunk {"id": "body-0371", "role": "body", "section": "Paper Body", "weight": 1.0} -->
+
+There is another subtle difference between \pref{subproblem\_gusto\_ct} and \pref{subproblem\_scvx\_ct}, which is that \gusto does not use virtual control terms for the linearized boundary conditions \optieqref{subproblem\_gusto\_ct}{initial\_condition} and \optieqref{subproblem\_gusto\_ct}{terminal\_condition}. In \scvx, these virtual control terms maintain subproblem feasibility when the linearized boundary conditions define hyperplanes that do not intersect with the hard-enforced convex state path constraints in \optieqref{subproblem\_scvx\_ct}{xu\_constraints\_1}. This is not a problem in \gusto, since the convex state path constraints are only penalized in the cost eq:gusto\_soft\_penalty\_state, and violating them for the sake of retaining feasibility is allowed.
+
+<!-- chunk {"id": "body-0372", "role": "body", "section": "Paper Body", "weight": 1.0} -->
+
+Furthermore, the linearized dynamics \optieqref{subproblem\_gusto\_ct}{dynamics} are theoretically guaranteed to be almost always controllable. This implies that the dynamics \optieqref{subproblem\_gusto\_ct}{dynamics} can always be steered between the linearized boundary conditions \optieqref{subproblem\_gusto\_ct}{initial\_condition} and \optieqref{subproblem\_gusto\_ct}{terminal\_condition}.
+
+<!-- chunk {"id": "body-0373", "role": "body", "section": "Paper Body", "weight": 1.0} -->
+
+Similar to how we treated \pref{subproblem\_scvx\_ct}, a temporal discretization scheme must be applied in order to numerically solve the subproblem. Discretization proceeds in the same way as for \scvx: we select a set of temporal points $t_k\in$ for $k=1,\ldots,N$, and recast \pref{subproblem\_gusto\_ct} as a parameter optimization problem in the (overloaded) variables $x = \{\xk\}_{k=1}^{N}$, $u = \{\uk\}_{k=1}^{N}$, and $p$. The same discretization choices are available as for \scvx, such as described in% \gusto requires the discretization to exactly satisfy the dynamics% \optieqref{subproblem\_gusto\_ct}{dynamics}, which can be done with an% interpolating polynomial method such as described in \sbref{discretization}.
+
+<!-- chunk {"id": "body-0374", "role": "body", "section": "Paper Body", "weight": 1.0} -->
+
+This% is slightly more restricting than \scvx, where any discretization can be used% as long as the consistency property from \dref{scvx\_flow\_consistency} holds. We% will come back to this point in a later section on \gusto convergence% guarantees. Aside from this nuance, The integrals of the continuous-time cost function \optiobjref{subproblem\_gusto\_ct} also need to be discretized. This is done in a similar fashion to the way eq:scvx\_costs\_L was obtained from eq:scvx\_Lpen for \scvx. For simplicity, we will again assume that the time grid is uniform with step size $\timeintvl$ and that trapezoidal numerical integration eq:trapz is used.
+
+<!-- chunk {"id": "body-0375", "role": "body", "section": "Paper Body", "weight": 1.0} -->
+
+For notational convenience, by combining the integral terms in eq:gusto\_Jpen\_cvx and eq:gusto\_Jpen\_ncvx\_lin, we can write eq:gusto\_Lpen compactly as: \label{eq:gusto\_Lpen\_concat} \ocostLw(x,u,p) = \term(x,p)+\int\_0^1 \ocostLwrunn(x,u,p)\sdt, where the convex function $\ocostLwrunn$ is formed by summing the integrands of eq:gusto\_Jpen\_cvx and eq:gusto\_Jpen\_ncvx\_lin.
+
+<!-- chunk {"id": "body-0376", "role": "body", "section": "Paper Body", "weight": 1.0} -->
+
+We can then compute the discrete-time version of eq:gusto\_Lpen\_concat, which is the \gusto equivalent of its \scvx counterpart eq:scvx\_costs\_L: \label{eq:gusto\_costs\_L} \mflw(x,u,p) &=\term(x,p)+\mathtt{trapz}(\ocostLwrunnN), \\Lastly, like in \scvx, the constraint \optieqref{subproblem\_gusto\_ct}{u\_constraints} is enforced only at the discrete temporal nodes.
+
+<!-- chunk {"id": "body-0377", "role": "body", "section": "Paper Body", "weight": 1.0} -->
+
+In summary, the following discrete-time convex subproblem is solved at each \gusto iteration (i.e., location \alglocation{\solveloc} in \figref{scp\_loop}): label={subproblem\_gusto\_dt}, \optilabel{input\_constraints} where it is implicitly understood that the constraints \optieqref{subproblem\_gusto\_dt}{dynamics} and \optieqref{subproblem\_gusto\_dt}{input\_constraints} hold at each temporal node.
+
+<!-- chunk {"id": "body-0378", "role": "body", "section": "Paper Body", "weight": 1.0} -->
+
+\subsubsection{\gusto Update Rule} \label{subsubsec:gusto\_update} We are now at the same point as we were in the \scvx section: by using \pref{subproblem\_gusto\_dt} as the discrete-time convex subproblem, all of the necessary elements are available to go around the loop in \figref{scp\_loop}, except for how to update the trust region radius $\eta$ and the penalty weight $\Jw$. Both values are generally different at each \gusto iteration, and we shall now describe the method by which they are updated. The reader will find the concept to be similar to how things worked for \scvx.
+
+<!-- chunk {"id": "body-0379", "role": "body", "section": "Paper Body", "weight": 1.0} -->
+
+First, recall that \gusto imposes the trust region eq:scp\_trust\_region as a soft constraint via the penalty function eq:gusto\_soft\_penalty\_tr. This means that the trust region constraint can possible be violated. If the solution to \pref{subproblem\_gusto\_dt} violates eq:scp\_trust\_region, \gusto rejects the solution and increases the penalty weight $\lambda$ by a user-defined factor $\Jwgrow>1$.
+
+<!-- chunk {"id": "body-0380", "role": "body", "section": "Paper Body", "weight": 1.0} -->
+
+Otherwise, if eq:scp\_trust\_region holds, the algorithm proceeds by computing the following convexification accuracy metric that is analogous to eq:scvx\_ratio: \label{eq:gusto\_ratio} \frac{\abso[big]{\ocostw(x^*,u^*,p^*) - {\abso[big]{\ocostLw (x^*,u^*,p^*)} + \int\_0^1 \norm{\dot{x}^*}\sdt}, where, recalling \optieqref{scp\_gen\_cont}{dynamics} and \optieqref{subproblem\_gusto\_ct}{dynamics}, we have defined: \label{eq:gusto\_ratio\_defs} \label{eq:gusto\_integrate\_x\_star} \label{eq:gusto\_integrate\_Theta\_star} \varTheta^* &\definedas \int\_0^1
+
+<!-- chunk {"id": "body-0381", "role": "body", "section": "Paper Body", "weight": 1.0} -->
+
+Equation eq:gusto\_integrate\_x\_star integrates to yield the continuous-time state solution trajectory. This is done in accordance with the temporal discretization scheme, such as the one described in \sbref{discretization}. As a result, the value of $\varTheta^*$ is nothing but a measure of the total accumulated error that results from linearizing the dynamics along the subproblem's optimal solution. In a way, $\varTheta^*$ is the counterpart of \scvx defects defined in eq:scvx\_defect, with the subtle difference that while defects measure the discrepancy between the linearized and nonlinear state trajectories, $\varTheta^*$ measures the discrepancy between the linearized and nonlinear state dynamics.
+
+<!-- chunk {"id": "body-0382", "role": "body", "section": "Paper Body", "weight": 1.0} -->
+
+The continuous-time integrals in eq:gusto\_ratio can, in principle, be evaluated exactly (i.e., to within numerical precision) based on the discretization scheme used. In practice, we approximate them by directly numerically integrating the solution of \pref{subproblem\_gusto\_dt} using (for example) trapezoidal integration eq:trapz.
+
+<!-- chunk {"id": "body-0383", "role": "body", "section": "Paper Body", "weight": 1.0} -->
+
+The nonlinear augmented cost $\mfnlw$ in the numerator of eq:gusto\_ratio\_approx is a temporally discretized version of eq:gusto\_Jpen.
+
+<!-- chunk {"id": "body-0384", "role": "body", "section": "Paper Body", "weight": 1.0} -->
+
+In particular, combine the integrals of eq:gusto\_Jpen\_cvx and eq:gusto\_Jpen\_ncvx to express eq:gusto\_Jpen \label{eq:gusto\_pen\_concat} \ocostw(x,u,p) = \term(x,p)+\int\_0^1 \ocostwrunn(x,u,p)\sdt, which allows us to compute $\mfnlw$ as follows: \label{eq:gusto\_costs\_J} \mfnlw(x,u,p) &=\term(x,p)+\mathtt{trapz}(\ocostwrunnN), \\\label{eq:gusto\_costs\_J\_trapz} Looking at eq:gusto\_ratio holistically, it can be seen as a normalized error that results from linearizing the cost and the dynamics: \label{eq:gusto\_rat\_holistic} \rat =
+
+<!-- chunk {"id": "body-0385", "role": "body", "section": "Paper Body", "weight": 1.0} -->
+
+\frac{\textnormal{cost error}+\textnormal{dynamics error}}{% \textnormal{normalization term}}.
+
+<!-- chunk {"id": "body-0386", "role": "body", "section": "Paper Body", "weight": 1.0} -->
+
+Note that as long as the solution of \pref{subproblem\_gusto\_dt} is nontrivial (i.e., $x^*(t)=0$ for all $t\in $ does not hold), the normalization term is guaranteed to be strictly positive. Thus, there is no danger of dividing by For comparison, \scvx evaluates convexification accuracy through eq:scvx\_rat\_holistic, which measures accuracy as a relative error in the cost improvement prediction. This prediction is a ``higher order'' effect: linearization error indirectly influences cost prediction error through the optimization of \pref{subproblem\_scvx\_dt}. \gusto takes a more direct route with eq:gusto\_rat\_holistic, and measures convexification accuracy directly as a normalized error that results from linearizing both the cost and the dynamics.
+
+<!-- chunk {"id": "body-0387", "role": "body", "section": "Paper Body", "weight": 1.0} -->
+
+Looking at eq:gusto\_rat\_holistic, we can adopt the following intuition about the size of $\rat$. As for \scvx, let us view \pref{subproblem\_gusto\_dt} as a local model of \pref{scp\_gen\_cont}. A large $\rat$ value indicates an inaccurate model, since the linearization error is large. A small $\rat$ value indicates an accurate model, since the linearization error is relatively small compared to the normalization term. Hence, large $\rat$ values incentivize shrinking the trust region in order to not overstep the model, while small $\rat$ values incentivize growing it in order to exploit a larger region of an accurate model. Note that the opposite intuition holds for \scvx, where small $\rat$ values are associated with shrinking the trust region.
+
+<!-- chunk {"id": "body-0388", "role": "body", "section": "Paper Body", "weight": 1.0} -->
+
+The \gusto trust region update rule. The accuracy metric $\rat$ is defined in~eq:gusto\_ratio and provides a measure of how accurately the convex subproblem given by \pref{subproblem\_gusto\_dt} describes the original \pref{scp\_gen\_cont}. Note that Cases 3 and 4 reject the solution to \pref{subproblem\_gusto\_dt}. In Case 3, this is due to the convex approximation being deemed so inaccurate that it is unusable, and the trust region is shrunk accordingly. In Case 4, this is due to the trust region constraint eq:scp\_trust\_region being violated.% label={gusto\_updates},% \includegraphics{tikz\_gusto\_updates} The \gusto update rule formalizes the above intuition.
+
+<!-- chunk {"id": "body-0389", "role": "body", "section": "Paper Body", "weight": 1.0} -->
+
+Using two user-defined constants $\rat_0,\,\rat_1\in $ that split the real number line into three parts, the trust region radius $\tr$ and the penalty weight $\Jw$ are updated at the end of each \gusto iteration according to \figref{gusto\_updates}. Just like in \scvx, the user-defined constants $\trshrink,\,\trgrow > 1$ are the trust region shrink and growth rates, respectively. The sizes of the trust region and the penalty weight are restricted by user-defined constants: $\tr_0$ is the minimum trust region radius, $\tr_1$ is the maximum trust region radius, and $\Jw_0\ge 1$ is the minimum penalty weight.
+
+<!-- chunk {"id": "body-0390", "role": "body", "section": "Paper Body", "weight": 1.0} -->
+
+Importantly, for cases 1 and 2 in \figref{gusto\_updates}, whenever the solution of \pref{subproblem\_gusto\_dt} is accepted, the penalty weight $\Jw$ is increased by a factor $\Jwgrow$ if any of the nonconvex state constraints in \optieqref{scp\_gen\_cont}{nonconvex\_constraints} are violated. This incentivizes subsequent iterates to become feasible with respect to \optieqref{scp\_gen\_cont}{nonconvex\_constraints}.% Note that the \scvx algorithm does not update the weight $\Jw$ in the% penalized cost that we have shown in~eq:subproblem\_scvx\_dt\_a, although% it has been explored for a similar algorithm in~.
+
+<!-- chunk {"id": "body-0391", "role": "body", "section": "Paper Body", "weight": 1.0} -->
+
+In addition, \gusto requires that $\eta$ eventually shrinks to zero as the SCP iterations progress (we cover this in more detail in a later section on \gusto convergence). However, if the trajectory is converging, then $\delta x,\,\delta u,\,\delta p\to 0$ and the linearizations in \pref{subproblem\_gusto\_ct} are bound to become more accurate. Hence, we expect near-zero $\rat$ values when the trajectory is converging, which means that \figref{gusto\_updates} will grow the trust region instead of shrinking it. A simple remedy is to apply the following exponential shrink factor following the update in \figref{gusto\_updates}: \label{eq:gusto\_exp\_shrink} \tr \gets \shrinkrate^{\brak{1+k-\shrinkk}^+}\tr, where $\shrinkrate\in $ is an exponential shrink rate and $\shrinkk\ge 1$ is the first SCP iteration where shrinking is applied.
+
+<!-- chunk {"id": "body-0392", "role": "body", "section": "Paper Body", "weight": 1.0} -->
+
+The user sets both $\shrinkrate$ and $\shrinkk$, and in this manner can regulate how fast the trust region shrinks to zero. We view low $\shrinkrate$ values and high $\shrinkk$ values as setting the algorithm up for a longer ``exploration'' phase prior to tightening the trust region.
+
+<!-- chunk {"id": "body-0393", "role": "body", "section": "Paper Body", "weight": 1.0} -->
+
+\subsubsection{\gusto Stopping Criterion} To complete the description of the \gusto algorithm, it remains to define the stopping criterion used at location \alglocation{\testloc} of \figref{scp\_loop}.
+
+<!-- chunk {"id": "body-0394", "role": "body", "section": "Paper Body", "weight": 1.0} -->
+
+The formal \gusto exit criterion directly checks if the control and parameters are all almost unchanged: &\biggg(\norm[\hat q]{\pb-p^*}\le\varepsilon ~\textnormal{and} \notag \\\label{eq:gusto\_stopping\_criterion\_official} &\qquad\qquad\int\_0^1\norm[\hat q]{u^*(t)-\ub(t)}\le\varepsilon\biggg) where $\varepsilon\in\pos$ and $\hat q\in\brac{2,2^{\scriptscriptstyle +},\infty}$ have the same meaning as before in eq:scvx\_stopping\_criterion, and the new parameter $\Jw_{\max}\in\pos$ is a (large) maximum penalty weight.
+
+<!-- chunk {"id": "body-0395", "role": "body", "section": "Paper Body", "weight": 1.0} -->
+
+When eq:gusto\_stopping\_criterion\_official triggers due to $\Jw_{\max}$, \gusto exits with an unconverged trajectory that violates the state and/or trust region constraints. This is equivalent to \scvx exiting with non-zero virtual control, and indicates that the algorithm failed to solve the problem due to inherent infeasibility or numerical issues.
+
+<!-- chunk {"id": "body-0396", "role": "body", "section": "Paper Body", "weight": 1.0} -->
+
+Computing eq:gusto\_stopping\_criterion\_official can be computationally expensive due to numerical integration of the control deviation. We can simplify the calculation by directly using the discrete\dash time solution. This leads to the following stopping criterion: \label{eq:gusto\_stopping\_criterion} \mathtt{trapz}(\Delta u^*) \leq \varepsilon~\textnormal{or}~\Jw>\Jw\_{\max}, \\&\Delta u\_k^* = \norm[\hat q]{\uk^* - \ubk}.
+
+<!-- chunk {"id": "body-0397", "role": "body", "section": "Paper Body", "weight": 1.0} -->
+
+Just as discussed for \scvx, an implication correspondence holds between the stopping criteria eq:gusto\_stopping\_criterion\_official and eq:gusto\_stopping\_criterion. In practice, we follow the example of eq:scvx\_numerical\_example\_stopping\_criterion and add the option for exiting when relatively little progress is being made in decreasing the cost, which can often signal local optimality sooner than eq:gusto\_stopping\_criterion is \label{eq:gusto\_numerical\_example\_stopping\_criterion} \textnormal{eq:gusto\_stopping\_criterion holds or}~% \abso[big]{\bar{\mfnlw} - \mfnlw^*}% \le \varepsilon\_{\mathrm{r}}\abso[big]{\bar{\mfnlw}}, where, as before, $\varepsilon_{\mathrm{r}}\in\pos$ is a user-defined (small) threshold on the relative cost improvement.
+
+<!-- chunk {"id": "body-0398", "role": "body", "section": "Paper Body", "weight": 1.0} -->
+
+The numerical examples at the end of the article implement eq:gusto\_numerical\_example\_stopping\_criterion.% However, we emphasize that% eq:gusto\_numerical\_example\_stopping\_criterion is a useful practical% heuristic and not a theoretically rigorous convergence guarantee, since small% changes in cost do not necessarily imply small changes in the variable (e.g.,% consider the cost $z^2$, whose value is the same for plus or minus any \subsubsection{\gusto Convergence Guarantee} Each iteration of the \gusto numerical implementation can be seen as composed of three stages. Looking at \figref{scp\_loop}, first the convex \pref{subproblem\_gusto\_dt} is constructed and solved with a convex optimizer at location \alglocation{\solveloc}. Using the solution, the stopping criterion eq:gusto\_numerical\_example\_stopping\_criterion is checked at \alglocation{\testloc}.
+
+<!-- chunk {"id": "body-0399", "role": "body", "section": "Paper Body", "weight": 1.0} -->
+
+If the test fails, the third and final stage updates the trust region radius and soft penalty weight according to \figref{gusto\_updates} and eq:gusto\_exp\_shrink. In this context, a convergence guarantee ensures that the stopping criterion at \alglocation{\testloc} in \figref{scp\_loop} \gusto is an SCP algorithm that was designed and analyzed in continuous-time using the Pontryagin maximum principle. Thus, the first convergence guarantee that we are able to provide assumes that the \gusto algorithm solves the continuous\dash time subproblem (i.e., \pref{subproblem\_gusto\_ct}) at each \begin{theorem}[gusto\_convergence] Regardless of the initial reference trajectory provided in \figref{scp\_loop}, the \gusto algorithm will always converge by iteratively solving~\pref{subproblem\_scvx\_ct}.
+
+<!-- chunk {"id": "body-0400", "role": "body", "section": "Paper Body", "weight": 1.0} -->
+
+Furthermore, if $\Jw\le\Jw_{\max}$ (in particular, the state constraints are exactly satisfied), then the solution is a stationary point of \pref{scp\_gen\_cont} in the sense of having satisfied the necessary optimality conditions of the Pontryagin maximum principle.
+
+<!-- chunk {"id": "body-0401", "role": "body", "section": "Paper Body", "weight": 1.0} -->
+
+We will emphasize once again the following duality between the \gusto and \scvx convergence guarantees. Both algorithms can converge to infeasible points of the original \pref{scp\_gen\_cont}. For \scvx, this corresponds to a non\dash zero virtual control (recall \tref{scvx\_convergence}). For \gusto, this corresponds to $\Jw>\Jw_{\max}$. The situations are completely equivalent, and correspond simply to the different choices made by the algorithms to impose nonconvex constraints either with virtual control (as in \scvx) or as soft cost penalties (as in \gusto).
+
+<!-- chunk {"id": "body-0402", "role": "body", "section": "Paper Body", "weight": 1.0} -->
+
+\tref{gusto\_convergence} should be viewed as the \gusto counterpart of \tref{scvx\_convergence} for \scvx. Despite the similarities between the two statements, there are three important nuances about \tref{gusto\_convergence} that The first difference concerns how the \gusto update rule in \figref{gusto\_updates} and eq:gusto\_exp\_shrink play into the convergence proof. In \scvx, the update rule from \figref{scvx\_updates} plays a critical role in proving convergence. Thus, \scvx is an SCP algorithm that is intimately linked to its trust region update rule. This is not the case for \gusto, whose convergence proof does not rely on the update rule definition at all. The only thing assumed by \tref{gusto\_convergence} is that the trust region radius $\eta$ eventually shrinks to zero. Ensuring this is the reason for eq:gusto\_exp\_shrink. Thus, \gusto is an SCP algorithm that accepts any update rule that eventually shrinks to zero.
+
+<!-- chunk {"id": "body-0403", "role": "body", "section": "Paper Body", "weight": 1.0} -->
+
+Clearly, some update rules may work better than others, and the one presented in this article is simply a choice that we have implemented in practice. Another simple update rule is given. Overall, the \gusto update rule can be viewed as a mechanism by which to accept or reject solutions based on their convexification accuracy, and not as a function designed to facilitate formal The reason why it is necessary to shrink the trust region to zero is the second nuanced detail of \tref{gusto\_convergence}. In nonlinear optimization literature, most claims of convergence fall into the so-called weak convergence category. This is a technical term which means that a \textit{subsequence} among the trajectory iterates $\{x^i(t),u^i(t),p^i\}_0^1$ converges. For example, the subsequence may be $i=1,3,5,7,\dots$, while the iterates $i=2,4,6,\dots$ behave differently. Both \scvx and \gusto provide, at the baseline, the weak convergence guarantee.
+
+<!-- chunk {"id": "body-0404", "role": "body", "section": "Paper Body", "weight": 1.0} -->
+
+The next step is to provide a strong convergence guarantee, which ensures that the full sequence of iterates converges. For \scvx, this is possible by leveraging properties of the update rule in \figref{scvx\_updates}. As we mentioned in the above paragraph, \gusto is more flexible in its choice of update rule. To get a converging iterate sequence, the additional element eq:gusto\_exp\_shrink is introduced to force all subsequences to converge to the same value. Because our analysis for \scvx has shown the strong convergence guarantee to be tied exclusively to the choice of update rule, \gusto can likely achieve a similar guarantee with an appropriately designed update rule.
+
+<!-- chunk {"id": "body-0405", "role": "body", "section": "Paper Body", "weight": 1.0} -->
+
+The third and final nuanced detail of \tref{gusto\_convergence} is that it assumes continuous\dash time subproblems (i.e., \pref{subproblem\_gusto\_ct}) are solved. In reality, the discretized \pref{subproblem\_gusto\_dt} is implemented on the computer. This difference between proof and reality should ring a familiar tone to Part I on \lcvx, where proofs are also given using the continuous-time Pontryagin's maximum principle, even though the implementation is in discrete-time. If the discretization error is small, the numerically implemented \gusto algorithm will remain in the vicinity of a convergent sequence of continuous\dash time subproblem solutions. Thus, given an accurate temporal discretization, \tref{gusto\_convergence} can be reasonably assumed to apply for the numerical \gusto algorithm.
+
+<!-- chunk {"id": "body-0406", "role": "body", "section": "Paper Body", "weight": 1.0} -->
+
+Our default choice in research has been to use an interpolating polynomial method such as described in \sbref{discretization}. This approach has three advantages: 1) the continuous\dash time dynamics \optieqref{subproblem\_gusto\_ct}{dynamics} are satisfied exactly, 2) there is a cheap way to convert the discrete\dash time numerical solution into a continuous-time control signal, and 3) the discretized dynamics \optieqref{subproblem\_gusto\_dt}{dynamics} result in a more sparse problem than alternative formulations (e.g., pseudospectral), which benefits real\dash time solution. With this choice, discretization introduces only two artifacts: the control signal has fewer degrees of freedom, and the objective function \optiobjref{subproblem\_gusto\_dt} is off from \optiobjref{subproblem\_gusto\_ct} by a discretization error.
+
+<!-- chunk {"id": "body-0407", "role": "body", "section": "Paper Body", "weight": 1.0} -->
+
+Thus, by using an interpolating polynomial discretization we can rigorously say that \pref{subproblem\_gusto\_dt} finds a ``local'' optimum for a problem that is ``almost'' \pref{subproblem\_gusto\_ct}. We say ``local'' because the control function has fewer DoFs, and ``almost'' due to discretization error in the objective function. At convergence, this means that the \gusto solution satisfies the Pontryagin maximum principle for a slightly different problem than \pref{scp\_gen\_cont}. In practice, this technical discrepancy makes little to% The continuous-time convergence guarantee of \tref{gusto\_convergence} can be used% to subsequently show that the discrete-time \gusto implementation will also% converge to a solution of the necessary optimality conditions of the% Pontryagin maximum principle.
+
+<!-- chunk {"id": "body-0408", "role": "body", "section": "Paper Body", "weight": 1.0} -->
+
+This, however, requires the discretization% method used for \pref{subproblem\_gusto\_dt} to exactly satisfy the dynamics% \optieqref{subproblem\_gusto\_ct}{dynamics}. This can be achieved with an% interpolating polynomial discretization method. Note that by choosing an% interpolation that enforces input continuity, such as in% eq:sidebar\_control\_foh, part of \conref{gusto\_condition} is automatically% There are no a-priori guarantees that the converged solution will be% feasible. It is possible for \gusto to converge to a solution for which the% original state and dynamics constraints are not be satisfied. This is% equivalent to the \scvx algorithm converging to a solution that uses non-zero \subsection{Implementation Details} We have now seen a complete description of the \scvx and \gusto algorithms. In particular, we have all the elements that are needed to go around, and to eventually exit, the SCP loop in \figref{scp\_loop}.
+
+<!-- chunk {"id": "body-0409", "role": "body", "section": "Paper Body", "weight": 1.0} -->
+
+In this section, we discuss two implementation details that significantly improve the performance of both algorithms. The first detail concerns the temporal discretization procedure, and the second detail is about variable scaling.
+
+<!-- chunk {"id": "body-0410", "role": "body", "section": "Paper Body", "weight": 1.0} -->
+
+\subsubsection{Temporal Discretization} The core task of discretization is to convert a continuous\dash time LTV dynamics constraint into a discrete\dash time constraint. For \scvx, this means converting \optieqref{subproblem\_scvx\_ct}{dynamics} to \optieqref{subproblem\_scvx\_dt}{dynamics}. For \gusto, this means converting \optieqref{subproblem\_gusto\_ct}{dynamics} to \optieqref{subproblem\_gusto\_dt}{dynamics}. In all cases, our approach is to find the equivalent discrete-time representation of the consistent flow map $\flow$ from \dref{scvx\_flow\_consistency}. The details of this conversion depend entirely on the type of discretization. One example was given in detail for FOH, which is an interpolating polynomial method, in \sbref{discretization}.
+
+<!-- chunk {"id": "body-0411", "role": "body", "section": "Paper Body", "weight": 1.0} -->
+
+This example encapsulates a core issue with many other discretization schemes, so we will work with it for concreteness.
+
+<!-- chunk {"id": "body-0412", "role": "body", "section": "Paper Body", "weight": 1.0} -->
+
+In FOH discretization, the integrals in eq:sidebar\_dynamics\_integrals require the continuous\dash time reference trajectory $\trajohone$ in order to evaluate the corresponding Jacobians in eq:scvx\_lin\_mats. However, the convex subproblem solution only yields a discrete\dash time trajectory. To obtain the continuous\dash time reference, we use the continuous\dash time input obtained directly from eq:sidebar\_control\_foh and integrate eq:consistent\_flow\_map\_interpolating\_poly in tandem with the integrals in eq:sidebar\_dynamics\_integrals. This operation is implemented over a time interval $[t_k,t_{k+1}]$ as one big integration of a concatenated time derivative composed of eq:consistent\_flow\_map\_interpolating\_poly and all the integrands in eq:sidebar\_dynamics\_integrals.
+
+<!-- chunk {"id": "body-0413", "role": "body", "section": "Paper Body", "weight": 1.0} -->
+
+This saves computational resources by not repeating multiple integrals, and has the numerical advantage of letting an adaptive step integrator automatically regulate the temporal resolution of the continuous\dash time reference trajectory. Because the integration is reset at the end of each time interval, the continuous\dash time reference state trajectory is discontinuous, as illustrated in \figref{scvx\_defects}. Further details are provided in and the source code of our numerical examples, which is linked in \figref{github\_qr}.
+
+<!-- chunk {"id": "body-0414", "role": "body", "section": "Paper Body", "weight": 1.0} -->
+
+In theory, discretization occurs in the forward path of the SCP loop, just before subproblem solution, as shown in \figref{scp\_loop}. However, by integrating eq:consistent\_flow\_map\_interpolating\_poly as described above, we can actually obtain the \scvx defects that are needed at stage \alglocation{\testloc} in \figref{scp\_loop}. Integrating the flow map twice, once for discretization and another time for the defects, is clearly wasteful. Hence, in practice, we implement discretization at stage \alglocation{\testloc} in \figref{scp\_loop}, and store the result in memory to be used at the next iteration. Note that there is no computational benefit when the flow map does not need to be integrated, such as in eq:consistent\_flow\_map\_forward\_euler. This is the case for many discretization schemes like forward Euler, Runge-Kutta, and pseudospectral methods.
+
+<!-- chunk {"id": "body-0415", "role": "body", "section": "Paper Body", "weight": 1.0} -->
+
+The unifying theme of these methods is that the next discrete\dash time state is obtained algebraically as a function of (a subset of) the other discrete\dash time states, rather than through a numerical integration process.
+
+<!-- chunk {"id": "body-0416", "role": "body", "section": "Paper Body", "weight": 1.0} -->
+
+% Let us go back and take a careful look at the continuous-time linearized% dynamics constraint \optieqref{scp\_gen\_cvx}{dynamics}. This represents an LTV% dynamical system, just as required by our discretization procedure in% sbref{discretization}. However, the coefficient matrices of% optieqref{scp\_gen\_cvx}{dynamics} are defined in eq:scvx\_lin\_mats and all of% them require a continuous-time reference trajectory% $\trajohone$. Unfortunately, the solution to the discretized convex subproblem% (i.e., \pref{subproblem\_scvx\_dt} or \pref{subproblem\_gusto\_dt}) returns only a% discrete-time reference trajectory.
+
+<!-- chunk {"id": "body-0417", "role": "body", "section": "Paper Body", "weight": 1.0} -->
+
+Resolving this discrepancy is the first% For both \scvx and \gusto, we use the consistent flow map $\flow$ from% dref{scvx\_flow\_consistency} to convert the subproblem solution into a% continuous-time reference trajectory. The definition of $\flow$ depends on the% temporal discretization scheme. We gave two examples in% eqref{eq:consistent\_flow\_map\_forward\_euler} and% eqref{eq:consistent\_flow\_map\_interpolating\_poly}, and more examples are available%. The application of $\flow$ results in a continuous-time,% discontinuous state trajectory such as illustrated in \figref{scvx\_defects}.
+
+<!-- chunk {"id": "body-0418", "role": "body", "section": "Paper Body", "weight": 1.0} -->
+
+\subsubsection{Variable Scaling}% \todo{Mention updating scaling at each iteration like Nocedal and Wright The convex SCP subproblems consist of the following optimization variables: the states, the inputs, the parameter vector, and possibly a number of virtual controls. The \alert{variable scaling} operation uses an invertible function to transform the optimization variables into a set of new ``scaled'' variables. The resulting subproblems are completely equivalent, but the magnitudes of the optimization variables are different. % Because the primary% purpose of the operation is to change the variable magnitudes, we call it \scvx and \gusto are not scale\dash invariant algorithms. This means that good variable scaling can significantly impact not only how quickly a locally optimal solution is found, but also the solution quality (i.e., the level of optimality it achieves). Hence, it is imperative that the reader applies good variable scaling when using SCP to solve trajectory problems. We will now present a standard variable scaling technique that we have used successfully in To motivate our scaling approach, let us review the two major effects of variable magnitude on SCP algorithms.
+
+<!-- chunk {"id": "body-0419", "role": "body", "section": "Paper Body", "weight": 1.0} -->
+
+The first effect is common throughout scientific computing and arises from the finite precision arithmetic used by variables have very different magnitudes, a lot of numerical error can accumulate over the iterations of a numerical optimization algorithm. Managing variables of very different magnitudes is a common requirement for numerical optimal control, where optimization problems describe physical processes. For example, the state may include energy (measured in Joules) and angle (measured in radians). The former might be on the order of $10^6$ while the latter is on the order of $10^0$. Most algorithms will struggle to navigate the resulting decision space, which is extremely elongated along the energy axis. % A similar% situation occurs for chemical processes involving reactions with very different% rates, and most if not all other physical process control problems.
+
+<!-- chunk {"id": "body-0420", "role": "body", "section": "Paper Body", "weight": 1.0} -->
+
+The second effect of different variable magnitudes occurs in the formulation of the trust region constraint eq:scp\_trust\_region. This constraint mixes all of the states, inputs, and parameters into a single sum on its left\dash hand side. We have long been taught not to compare apples and oranges, and yet (without scaling), this is exactly what we are doing in eq:scp\_trust\_region. Reusing the previous example, a trust region radius $\eta=1$ means different things for an angle state than for an energy state. It would effectively bias progress to the angle state, while allowing almost no progress in the energy state. However, if we scale the variables to nondimensionalize their values, then the components in the left-hand side of eq:scp\_trust\_region become comparable and the sum is valid. Thus, variable scaling plays an important role in ensuring that the trust region radius $\eta$ is ``meaningful'' across states, inputs, and parameters.
+
+<!-- chunk {"id": "body-0421", "role": "body", "section": "Paper Body", "weight": 1.0} -->
+
+Without variable scaling, SCP algorithms usually have a very hard time converging to feasible We now have an understanding that variable scaling should seek to nondimensionalize the state, input, and parameter vector in order to make them comparable. Furthermore, it should bound the values to a region where finite precision arithmetic is accurate. To this end, we have used the following affine transformation with success across a broad spectrum of our trajectory \label{eq:variable\_scaling} where $\hat x\in\reals^n$, $\hat u\in\reals^m$, and $\hat p\in\reals^d$ are the new scaled variables. The user-defined matrices and offset vectors in eq:variable\_scaling are chosen so that the state, input, and parameter vector are roughly bounded by a unit hypercube: $x\in ^n$, $u\in ^m$, and $\pk\in ^d$.
+
+<!-- chunk {"id": "body-0422", "role": "body", "section": "Paper Body", "weight": 1.0} -->
+
+Another advantage to using a $$ interval is that box constraint lower bounds on the variables can be enforced ``for free'' if the low\dash level convex solver operates on nonnegative variables To give a concrete example of eq:variable\_scaling, suppose that the state is composed of two quantities: a position that takes values in $~\si{\meter}$, and a velocity that takes values in $~\si{\meter\per\second}$. We would then choose $S_x=\diag\pare{900,20}\in\reals^{2\times 2}$ and $c_x=(100,-10)\in\reals^2$. Most trajectory problems have enough problem-specific information to find an appropriate scaling. When exact bounds on possible variable values are unknown, an engineering approximation is The previous two sections make it clear that \scvx and \gusto are two instances of SCP algorithms that share many practical and theoretical properties. The algorithms even share similar parameters sets, which are listed in \tabref{algo\_params}.
+
+<!-- chunk {"id": "body-0423", "role": "body", "section": "Paper Body", "weight": 1.0} -->
+
+From a practical point of view, \scvx can be shown to have superlinear convergence rates under some mild additional assumptions. On the other hand, the theory of \gusto allows one to leverage additional information from dual variables to accelerate the algorithm, providing quadratic convergence rates. Finally, both methods can be readily extended to account for manifold-type constraints, which can be thought of as implicit, nonlinear equality constraints, and stochastic problem settings, e.g., Although theoretical convergence proofs of \scvx and \gusto do rely on a set of assumptions, these assumptions are not strictly necessary for the algorithms to work well in practice. Much of our numerical experience suggests that SCP methods can be deployed to solve diverse and challenging problem formulations that do not necessarily satisfy the theory of the past two sections. It is often the case that what works best in practice, we cannot (yet) prove rigorously in theory.
+
+<!-- chunk {"id": "body-0424", "role": "body", "section": "Paper Body", "weight": 1.0} -->
+
+As Renegar writes regarding convex optimization, ``It is one of the ironies of the IPM literature that algorithms which are more efficient in practice often have somewhat worse complexity bounds.'' The same applies for SCP methods, where algorithms that work better in practice may admit weaker theoretical guarantees in the general case.
+
+<!-- chunk {"id": "body-0425", "role": "body", "section": "Paper Body", "weight": 1.0} -->
+
+The reader should thus feel free to modify and adapt the methods based on the requirements of their particular problem. In general, we suggest adopting a modify\dash first\dash prove\dash later approach. For example, when using \scvx, we are often able to significantly speed up convergence by entirely replacing the trust region update step with a soft trust region penalty in the To conclude Part II, we note that \scvx, \gusto, and related SCP methods have been used to solve a plethora of trajectory generation problems, including: reusable launch vehicles~, robotic manipulators~, robot motion planning~, and other examples mentioned in the article's introduction and at the beginning of Part II. All of these SCP variants and applications should inspire the reader to come up with their own SCP method that works best for their particular application.
+
+<!-- chunk {"id": "body-0426", "role": "body", "section": "Paper Body", "weight": 1.0} -->
+
+A summary of the user-selected parameters for the \scvx and \gusto label={algo\_params}]% \includegraphics[width=\textwidth]{tikz\_scp\_parameters} \includegraphics[scale=\csmpreprintfigscale]{tikz\_scp\_parameters} \section{Part III: Application Examples} Parts I and II of this article provided the theoretical background necessary to start solving nonconvex trajectory generation problems using \lcvx, \scvx, and \gusto. This final part of the article is dedicated to doing just that: providing examples of how trajectory generation problems can be solved using the three algorithms. We cover rocket landing first, followed by quadrotor flight with obtacle avoidance, and finally six degree\dash of\dash freedom flight of a robot inside a space station. The implementation code that produces the exact plots seen in this part of the article is entirely available at the link in \figref{github\_qr}.
+
+<!-- chunk {"id": "body-0427", "role": "body", "section": "Paper Body", "weight": 1.0} -->
+
+We provide a CVX-like parser interface to \scvx and \gusto, so the reader can leverage the code to begin solving their own \subsection{\lcvx: 3-DoF Fuel-Optimal Rocket Landing} Rocket\dash powered planetary landing guidance, also known as \defintext{powered descent guidance} (PDG), was the original motivation for the development of lossless convexification. It makes use of several \lcvx results that we presented, making it a fitting first example.
+
+<!-- chunk {"id": "body-0428", "role": "body", "section": "Paper Body", "weight": 1.0} -->
+
+Work on PDG began in the late 1960s~, and has since been extensively studied. The objective is to find a sequence of thrust commands that transfer the vehicle from a specified initial state to a desired landing site without consuming more propellant than what is available. Using optimization to compute this sequence can greatly increase the range of feasible landing sites and the precision of the final landing location Lossless convexification for PDG was first introduced, where minimizing fuel usage was the objective. It was the first time that convex optimization was shown to be applicable to PDG. This discovery unlocked a polynomial time algorithm with guaranteed convergence properties for generating optimal landing trajectories. The work was later expanded to handle state constraints, to solve a mininimum landing\dash error problem, to include nonconvex pointing constraints, and to handle nonlinear terms in the dynamics such as aerodynamic drag and nonlinear gravity.
+
+<!-- chunk {"id": "body-0429", "role": "body", "section": "Paper Body", "weight": 1.0} -->
+
+Today, we know that SpaceX uses convex optimization for the Falcon 9 rocket landing algorithm. Flight tests have also been performed using lossless convexification in a collaboration between NASA and Masten Space Systems, as shown in \figref{lcvx\_masten}.
+
+<!-- chunk {"id": "body-0430", "role": "body", "section": "Paper Body", "weight": 1.0} -->
+
+The Masten Xombie rocket near the end of a 750~m divert maneuver. Figure reproduced with permission.% label={lcvx\_masten}]% \includegraphics[width=0.9\columnwidth]{masten\_adapt} \includegraphics[width=0.7\columnwidth]{masten\_adapt} We will now present a lossless convexification PDG example based on a mixture of original ideas. Note that \lcvx considers the 3\dash degree\dash of\dash freedom (DoF) PDG problem, where the vehicle is modeled as a point mass. This model is accurate as long as attitude can be controlled in an inner loop faster than the outer translation control loop. This is a valid assumption for many vehicles, including rockets and aircraft. The thrust vector is taken as the control input, where its direction serves as a proxy for the vehicle attitude. We begin by stating the raw minimum fuel 3\dash DoF PDG problem.
+
+<!-- chunk {"id": "body-0431", "role": "body", "section": "Paper Body", "weight": 1.0} -->
+
+Illustration of the 3-DoF PDG problem, showing some of the relevant constraints on the rocket-powered lander's trajectory.
+
+<!-- chunk {"id": "body-0432", "role": "body", "section": "Paper Body", "weight": 1.0} -->
+
+T\_c(t)\T\hat e\_z\ge \norm{T\_c(t)}\cos(\gamma\_{p}), \\The vehicle translational dynamics correspond to a double integrator with variable mass, moving in a constant gravitational field, viewed in the planet's rotating frame.
+
+<!-- chunk {"id": "body-0433", "role": "body", "section": "Paper Body", "weight": 1.0} -->
+
+In particular, $r\in\real^3$ is the position, $v\in\real^3$ is the velocity, $g\in\real^3$ is the gravitational acceleration, and $\omega\in\real^3$ is the planet's constant angular velocity. The notation $\omega^\times$ denotes the skew-symmetric matrix representation of the cross product $\omega\times(\cdot)$. The mass $m\in\real$ is depleted by the rocket engine according to \optieqref{lcvx\_o\_pdg}{mdot} with the fuel consumption rate \alpha\definedas\frac{1}{I\_{sp}g\_e}, where $g_e\approx 9.807~\si{\meter\per\second\squared}$ is the Earth's standard gravitational acceleration and $I_{sp}~\si{\second}$ is the rocket engine's specific impulse.
+
+<!-- chunk {"id": "body-0434", "role": "body", "section": "Paper Body", "weight": 1.0} -->
+
+As illustrated in \figref{rocket\_landing\_setup}, $T_c\in\reals^3$ is the rocket engine thrust vector, which is upper and lower bounded via \optieqref{lcvx\_o\_pdg}{thrust\_bounds}. The lower bound was motivated in \sbref{inputrelax}. The thrust vector, and therefore the vehicle attitude, also has a tilt angle constraint \optieqref{lcvx\_o\_pdg}{pointing} which prevents the vehicle from deviating by more than angle $\gamma_p$ away from the vertical. Following the discussion in \sbref{sidebar\_affinestate}, we also impose an affine glideslope constraint via \optieqref{lcvx\_o\_pdg}{glideslope} with a maximum glideslope angle $\gamma_{gs}$. The velocity is constrained to a maximum magnitude $v_{\max}$ by \optieqref{lcvx\_o\_pdg}{speed}.
+
+<!-- chunk {"id": "body-0435", "role": "body", "section": "Paper Body", "weight": 1.0} -->
+
+The final mass must be greater than $m_{dry}$ \optieqref{lcvx\_o\_pdg}{dry}, which ensures that no more fuel is consumed than what is available. Constraints \optieqref{lcvx\_o\_pdg}{bdry1} and \optieqref{lcvx\_o\_pdg}{bdry2} impose fixed boundary conditions on the rocket's state. In particular, the starting mass is $m_{wet}>m_{dry}$.
+
+<!-- chunk {"id": "body-0436", "role": "body", "section": "Paper Body", "weight": 1.0} -->
+
+To begin the lossless convexification process, the standard input slack variable $\sigma\in\real$ from \sbref{inputrelax} is introduced in order to remove the nonconvex lower bound in \optieqref{lcvx\_o\_pdg}{thrust\_bounds}. As a consequence, the familiar \lcvx equality constraint appears in \optieqref{lcvx\_r1\_pdg}{lcvx\_equality}. Following \sbref{pointingrelax}, this also replaces $\norm{T_c(t)}$ in \optieqref{lcvx\_o\_pdg}{pointing} with $\sigma(t)$ in \optieqref{lcvx\_r1\_pdg}{pointing}.
+
+<!-- chunk {"id": "body-0437", "role": "body", "section": "Paper Body", "weight": 1.0} -->
+
+To this end, showed that the following change of variables can be made: \label{eq:lcvx\_pdg\_cov} \xi\definedas\frac{\sigma}{m},~u\definedas\frac{T\_c}{m},~ Using the new variables, note that \frac{\dot m(t)}{m(t)} = -\alpha\xi(t)~\implies~z(t)=z-\alpha\int\_0^{t}\xi(\tau)\dd\tau.
+
+<!-- chunk {"id": "body-0438", "role": "body", "section": "Paper Body", "weight": 1.0} -->
+
+Since the cost in \optiobjref{lcvx\_r1\_pdg} maximizes $m(t_f)$, and since $\alpha>0$, an equivalent cost is to minimize $\int_0^{t_f}\xi(t)\dt$. It turns out that the new variables linearize all constraints except for the upper bound part of \optieqref{lcvx\_r1\_pdg}{sigma\_bounds}. In the new variables, \optieqref{lcvx\_r1\_pdg}{sigma\_bounds} becomes: \label{eq:lcvx\_pdg\_nonlinear\_exp} \rho\_{\min}\exp{-z(t)}\le\xi(t)\le\rho\_{\max}\exp{-z(t)}.
+
+<!-- chunk {"id": "body-0439", "role": "body", "section": "Paper Body", "weight": 1.0} -->
+
+To keep the optimization problem an SOCP, it is desirable to also do something about the lower bound in eq:lcvx\_pdg\_nonlinear\_exp, which is a convex exponential cone.
+
+<!-- chunk {"id": "body-0440", "role": "body", "section": "Paper Body", "weight": 1.0} -->
+
+The reference profile $z_0(\cdot)$ corresponds to the maximum fuel rate, thus $z_0(t)$ lower bounds $z(t)$. To ensure that physical bounds on $z(t)$ are not violated, the following extra constraint is imposed: \label{eq:z\_phys\_bnd} z\_0(t)\le z(t)\le\ln(m\_{wet}-\alpha\rho\_{\min}t).
+
+<!-- chunk {"id": "body-0441", "role": "body", "section": "Paper Body", "weight": 1.0} -->
+
+The constraints eq:exp\_approx and eq:z\_phys\_bnd together approximate eq:lcvx\_pdg\_nonlinear\_exp and have the important property of being conservative with respect to the original constraint. Thus, using this approximation \emphasize{will not generate solutions that are infeasible for the original problem}. We can now write the finalized convex relaxation of \pref{lcvx\_o\_pdg}.
+
+<!-- chunk {"id": "body-0442", "role": "body", "section": "Paper Body", "weight": 1.0} -->
+
+z(t)\le\ln(m\_{wet}-\alpha\rho\_{\min}t), \\Several conditions must now be checked to ascertain lossless convexification, i.e., that the solution of \pref{lcvx\_r2\_pdg} is globally optimal for \pref{lcvx\_o\_pdg}.
+
+<!-- chunk {"id": "body-0443", "role": "body", "section": "Paper Body", "weight": 1.0} -->
+
+To begin, let us view $z$ in \optieqref{lcvx\_r2\_pdg}{zdot} as a ``fictitious'' state that is used for concise notation. In practice, we know explicitly that $z(t)=\ln(m_{wet})-\alpha\int_0^{t}\xi(t)\dt$ and thus we can replace every instance of $z(t)$ in \optieqref{lcvx\_r2\_pdg}{xi\_lb}-\optieqref{lcvx\_r2\_pdg}{z\_bounds} with this expression.
+
+<!-- chunk {"id": "body-0444", "role": "body", "section": "Paper Body", "weight": 1.0} -->
+
+Thus, we do \emphasize{not} consider $z$ as part of the state and, furthermore, \optieqref{lcvx\_r2\_pdg}{xi\_lb}, \optieqref{lcvx\_r2\_pdg}{xi\_ub}, \optieqref{lcvx\_r2\_pdg}{z\_dry}, and \optieqref{lcvx\_r2\_pdg}{z\_bounds} are \emphasize{input} and not state constraints.
+
+<!-- chunk {"id": "body-0445", "role": "body", "section": "Paper Body", "weight": 1.0} -->
+
+Defining the state as $x=(r,v)\in\reals^6$, the state\dash space matrices are -\omega^\times\omega^\times & -2\omega^\times A force balance in the normal direction $\hat n_{gs}$ can be used to guarantee that the glideslope constraint can only be activated label={rocket\_glideslope\_balance}]% \includegraphics[width=0.5\columnwidth]{rocket\_glideslope\_balance} \includegraphics[width=0.4\columnwidth]{rocket\_glideslope\_balance} The pair $\{A,B\}$ is unconditionally controllable and therefore \conref{lcvx\_nostate\_controllability} is satisfied. We also need to verify \conref{lcvx\_nostate\_controllability\_pointing} due to the presence of the pointing constraint \optieqref{lcvx\_r2\_pdg}{pointing}.
+
+<!-- chunk {"id": "body-0446", "role": "body", "section": "Paper Body", "weight": 1.0} -->
+
+In this case $\hat n_u=\hat e_z$ and $N=\Matrix{\hat e_x & \hat e_y}$. \conref{lcvx\_nostate\_controllability\_pointing} holds as long as $\omega^\times \hat e_z\ne 0$, which means that the planet does not rotate about the local vertical of the landing frame.
+
+<!-- chunk {"id": "body-0447", "role": "body", "section": "Paper Body", "weight": 1.0} -->
+
+The glideslope constraint \optieqref{lcvx\_r2\_pdg}{glideslope} can be treated either via \conref{lcvx\_linstate\_controllability} or by checking that it can only be instantaneously active. In this case, we can prove the latter by considering a force balance in the glideslope plane's normal direction $\hat n_{gs}$, as illustrated in \figref{rocket\_glideslope\_balance}. We also invoke the fact that the optimal thrust profile for the rocket landing problem is bang-bang.
+
+<!-- chunk {"id": "body-0448", "role": "body", "section": "Paper Body", "weight": 1.0} -->
+
+Various views of the globally optimal rocket landing trajectory obtained via lossless convexification for \pref{lcvx\_o\_pdg}. Circular markers show the discrete\dash time trajectory directly returned from the convex solver. Lines show the continuous\dash time trajectory, which is obtained by numerically integrating the ZOH discretized control signal through the dynamics \optieqref{lcvx\_o\_pdg}{rdot}-\optieqref{lcvx\_o\_pdg}{mdot}. The exact match at every discrete\dash time node demonstrates that the solution is dynamically feasible for the actual continuous\dash time vehicle. label={lcvx\_pdg\_results},% \includegraphics[width=1\textwidth]{lcvx\_results} It turns out that for the problem parameters eq:lcvx\_3dof\_pdg\_parameters of this example, the above inequalities hold.
+
+<!-- chunk {"id": "body-0449", "role": "body", "section": "Paper Body", "weight": 1.0} -->
+
+Therefore \optieqref{lcvx\_r2\_pdg}{glideslope} can only be instantaneously active and does not pose a threat to lossless convexification.
+
+<!-- chunk {"id": "body-0450", "role": "body", "section": "Paper Body", "weight": 1.0} -->
+
+We also need to check \conref{lcvx\_nostate\_linindep}, which relates to the transversality condition of the maximum principle \pref{lcvx\_r2\_pdg}, we have $m[t_f]=0$ and $b[t_f]=x(t_f)$, hence Hence, as long as $\xi(t_f)>0$, \conref{lcvx\_nostate\_linindep} holds. Since $\xi(t_f)>0$ is guaranteed by the fact that the lower bound in eq:exp\_approx is greater than the exact lower bound $\rho_{\min}\exp{-z(t_f)}>0$, \conref{lcvx\_nostate\_linindep} holds.
+
+<!-- chunk {"id": "body-0451", "role": "body", "section": "Paper Body", "weight": 1.0} -->
+
+The remaining constraint to be checked is the maximum velocity bound \optieqref{lcvx\_r2\_pdg}{speed}. Although it can be written as the quadratic constraint $v_{\max}^{-2}v(t)\T v(t)\le 1$, the dynamics \optieqref{lcvx\_r2\_pdg}{rdot}-\optieqref{lcvx\_r2\_pdg}{vdot} do not match the form \optieqref{lcvx\_o\_quadstate}{dynamics\_1}-\optieqref{lcvx\_o\_quadstate}{dynamics\_2} required by the \lcvx result for quadratic state constraints. Thus, we must resort to the more restricted statement for general state constraints in \tref{genstate}.
+
+<!-- chunk {"id": "body-0452", "role": "body", "section": "Paper Body", "weight": 1.0} -->
+
+According to \tref{genstate}, we conclude that lossless convexification will hold as long as the maximum velocity bound \optieqref{lcvx\_r2\_pdg}{speed} is activated at most a discrete number of times. In summary, we can conclude that the solution of \pref{lcvx\_r2\_pdg} is guaranteed to be globally optimal for \pref{lcvx\_o\_pdg} as long as \optieqref{lcvx\_r2\_pdg}{speed} is never persistently active.
+
+<!-- chunk {"id": "body-0453", "role": "body", "section": "Paper Body", "weight": 1.0} -->
+
+Golden search is used to find the optimal time of flight $t_f$. This is a valid choice because the cost function is unimodal with respect to $t_f$. For the problem parameters in eq:lcvx\_3dof\_pdg\_parameters, an optimal rocket landing trajectory is found with a minimum fuel time of flight $\optimal{t_f}=75~\si{\second}$.
+
+<!-- chunk {"id": "body-0454", "role": "body", "section": "Paper Body", "weight": 1.0} -->
+
+\figref{lcvx\_pdg\_results} visualizes the computed optimal landing trajectory. From \fakesubfigref{lcvx\_pdg\_results}{a}, we can clearly see that the glide slope constraint is not only satisfied, it is also activated only twice (once mid\dash flight and another time at touchdown), as required by the \lcvx guarantee. From \fakesubfigref{lcvx\_pdg\_results}{c}, we can see that the velocity constraint is never activated. Hence, in this case, it does not pose a threat to lossless convexification. Several other interesting views of the optimal trajectory are plotted in \fakesubfigref[g]{lcvx\_pdg\_results}{d}. In all cases, the state and input constraints of \pref{lcvx\_o\_pdg} hold.
+
+<!-- chunk {"id": "body-0455", "role": "body", "section": "Paper Body", "weight": 1.0} -->
+
+The fact that \pref{lcvx\_r2\_pdg} is a lossless convexification of \pref{lcvx\_o\_pdg} is most evident during the minimum-thrust segment from about 40 to 70 seconds in \fakesubfigref{lcvx\_pdg\_results}{f}. Here, it is important realize that $\norm{T_c(t)}< \rho_{\min}$ is feasible for the relaxed problem. The fact that this never occurs is a consequence of the lossless convexification guarantee that \optieqref{lcvx\_r2\_pdg}{lcvx\_equality} holds with equality.
+
+<!-- chunk {"id": "body-0456", "role": "body", "section": "Paper Body", "weight": 1.0} -->
+
+In conclusion, we emphasize that the rocket landing trajectory presented in \figref{lcvx\_pdg\_results} is not just a feasible solution, nor even a locally optimal one, but it is a \textit{globally} optimal solution to this rocket landing problem. This means that one can do no better given these parameters and problem description.
+
+<!-- chunk {"id": "body-0457", "role": "body", "section": "Paper Body", "weight": 1.0} -->
+
+\subsection{SCP: Quadrotor Obstacle Avoidance} A quadrotor at the University of Washington's Autonomous Controls Laboratory, executing a collision-free trajectory computed by \scvx label={scvx\_quadrotor\_obstacle}, \includegraphics[width=0.9\columnwidth]{quadrotor\_obstacles} We now move on to trajectory generation for problems which cannot be handled by \lcvx. The objective of this first example is to compute a trajectory for a quadrotor that flies from one point to another through an obstacle-filled flight space. This example is sourced primarily from~, and a practical demonstration is shown in \figref{scvx\_quadrotor\_obstacle}.
+
+<!-- chunk {"id": "body-0458", "role": "body", "section": "Paper Body", "weight": 1.0} -->
+
+The quadrotor is modeled as a point mass, which is a reasonable approximation for small and agile quadrotors whose rotational states evolve over much shorter time scales than the translational states. We express the equations of motion in an East-North-Up (ENU) inertial coordinate system, and take the state vector to be the position and velocity. Using a simple double-integrator model, the continuous\dash time equations of motion are expressed in the ENU frame as: \label{eq:ex\_quad\_dynamics} \ddot{r}(\tabs) = a(\tabs) - g\hat{n}, where $r\in\real^3$ denotes the position, $g\in\reals$ is the (constant) acceleration due to gravity, $\hat{n} = \in\real^3$ is the ``up'' direction, and $a(\tabs)\in\real^3$ is the commanded acceleration, which is the control input. The time $\tabs$ spans the interval $[0,\tf]$.
+
+<!-- chunk {"id": "body-0459", "role": "body", "section": "Paper Body", "weight": 1.0} -->
+
+Because the previous section on SCP used a normalized time $t\in $, we call $\tabs$ the absolute time and use the special font to denote it. We allow the trajectory duration to be optimized, and impose the following constraint to keep the final time bounded: \label{eq:ex\_quad\_tf\_bounds} where $\tf[,\min]\in\reals$ and $\tf[,\max]\in\reals$ are user-defined parameters. Boundary conditions on the position and velocity are imposed to ensure that the vehicle begins and ends at the desired states: \label{eq:ex\_quad\_bcs}% For quadrotors that are only actuated using body-fixed rotors, the% acceleration vector constraints in~eq:ex\_quad\_bcs ensure that the% vehicle begins and ends the maneuver in an upright orientation.
+
+<!-- chunk {"id": "body-0460", "role": "body", "section": "Paper Body", "weight": 1.0} -->
+
+The magnitude of the commanded acceleration is limited from above and below by the electric motor and propeller configuration, and its direction is constrained to model a tilt angle constraint on the quadrotor. In effect, the acceleration direction is used as a proxy for the vehicle attitude. This is an accurate approximation for a ``flat'' quadrotor configuration where the propellers are not canted with respect to the plane of the quadrotor body.
+
+<!-- chunk {"id": "body-0461", "role": "body", "section": "Paper Body", "weight": 1.0} -->
+
+Specifically, we enforce the following control constraints: \label{eq:ex\_quad\_nrm\_bnd} a\_{\min} \leq \norm{a(\tabs)} &\leq a\_{\max}, \\\label{eq:ex\_quad\_tilt\_bnd} \norm{a(\tabs)} \cos \tiltmax &\leq \hat{n}^\transp a(\tabs), where $0<a_{\min}<a_{\max}$ are the acceleration bounds and $\tiltmax\in(0\si{\degree},180\si{\degree}]$ is the maximum angle by which the acceleration vector is allowed to deviate from the ``up'' direction.
+
+<!-- chunk {"id": "body-0462", "role": "body", "section": "Paper Body", "weight": 1.0} -->
+
+Finally, obstacles are modeled as three-dimensional ellipsoidal keep-out zones, described by the following nonconvex constraints: \label{eq:ex\_quad\_sc\_obs} \norm{H\_j \big(r(\tabs) - c\_j \big)} \geq 1, \quad where $c_j\in\real^3$ denotes the center, and $H_j\in\pd^3$ defines the size and shape of the $j$-th obstacle. Note that the formulation allows the obstacles to intersect. % Optionally, one can also model the flight space% boundaries using convex (affine) inequality constraints. Because this example% is designed to not touch any of these boundaries, these extra constraints are% omitted from the formulation.
+
+<!-- chunk {"id": "body-0463", "role": "body", "section": "Paper Body", "weight": 1.0} -->
+
+Using the above equations, we wish to solve the following free final time optimal control problem that minimizes control energy: label={ex\_quad\_ocp}, objective={\int\_{0}^{\tf}\norm{a(\tabs)}^2\sdd\tabs}]% \textnormal{eq:ex\_quad\_dynamics-eq:ex\_quad\_sc\_obs.} Due to the presence of nonconvex state constraints eq:ex\_quad\_sc\_obs, only embedded \lcvx applies to the above problem. In particular, \lcvx can be used to handle the nonconvex input lower bound in eq:ex\_quad\_nrm\_bnd along with the tilt constraint in eq:ex\_quad\_tilt\_bnd. This removes some of the nonconvexity. However, it is only a partial convexification which still leaves behind a nonconvex optimal control problem. Thus, we must resort to SCP techniques for the solution.
+
+<!-- chunk {"id": "body-0464", "role": "body", "section": "Paper Body", "weight": 1.0} -->
+
+\subsubsection{\scvx Formulation} caption={Algorithm parameters for the quadrotor obstacle avoidance example.}, label={ex\_quad\_params}, \includegraphics[width=\textwidth]{tikz\_ex\_quad\_parameters} \includegraphics[scale=\csmpreprintfigscale]{tikz\_ex\_quad\_parameters} We begin by demonstrating how \scvx can be used to solve \pref{ex\_quad\_ocp}. To this end, we describe how the problem can be cast into the template of \pref{scp\_gen\_cont}. Once this is done, the rest of the solution process is completely automated by the mechanics of the \scvx algorithm as described in the previous section. To make the notation lighter, we will omit the argument of time whenever possible.
+
+<!-- chunk {"id": "body-0465", "role": "body", "section": "Paper Body", "weight": 1.0} -->
+
+Let us begin by defining the state and input vectors. For the input vector, note that the nonconvex input constraints in eq:ex\_quad\_cc can be convexified via embedded \lcvx.
+
+<!-- chunk {"id": "body-0466", "role": "body", "section": "Paper Body", "weight": 1.0} -->
+
+In particular, the relaxation used for \pref{lcvx\_r\_nostate\_pointing} can losslessly convexify both input constraints by introducing a slack input $\sigma\in\real$ and rewriting~eq:ex\_quad\_cc as: \label{eq:ex\_quad\_cc\_cvx} a\_{\min} \leq \sigma &\leq a\_{\max}, \\\label{eq:ex\_quad\_cc\_cvx\_lcvx\_equality} \color{red}\norm{a} &\color{red}\leq \sigma{\color{black},} \\\sigma \cos \tiltmax &\leq \hat{n}^\transp a, where eq:ex\_quad\_cc\_cvx\_lcvx\_equality is the familiar \lcvx equality constraint.
+
+<!-- chunk {"id": "body-0467", "role": "body", "section": "Paper Body", "weight": 1.0} -->
+
+Thus, we can define the following state and ``augmented'' input \label{eq:ex\_quad\_scvx\_state\_input} x=\Matrix{r \\ \dot r}\in\reals^6,\quad u=\Matrix{a \\ \sigma}\in\reals^4.
+
+<!-- chunk {"id": "body-0468", "role": "body", "section": "Paper Body", "weight": 1.0} -->
+
+Next, we have to deal with the fact that \pref{scp\_gen\_cont} uses normalized time $t\in $, while \pref{ex\_quad\_ocp} uses absolute time $\tabs\in [0,\tf]$. To reconcile the two quantities, we use a one\dash dimensional parameter vector $p\in\reals$. The parameter defines a \alert{time dilation} such that the following relation holds: \label{eq:ex\_quad\_time\_dilation} from which it follows that $p\equiv\tf$. In absolute time, the dynamics are given directly by writing eq:ex\_quad\_dynamics in terms of eq:ex\_quad\_scvx\_state\_input, which gives a set of time-invariant first-order ordinary differential equations: \label{eq:ex\_quad\_dynamics\_abs\_time} For \pref{scp\_gen\_cont}, we need to convert the dynamics to normalized time.
+
+<!-- chunk {"id": "body-0469", "role": "body", "section": "Paper Body", "weight": 1.0} -->
+
+The convex path constraints \CTNLconvexpath are easy to write. Although there are no convex state constraints, there are convex final time bounds eq:ex\_quad\_tf\_bounds. These can be included as a convex state path constraint \optieqref{scp\_gen\_cont}{convex\_path\_constraints\_X}, which is mixed in the state and parameter. Using eq:ex\_quad\_time\_dilation, we define the convex state path constraints as: \label{eq:ex\_quad\_state\_path} \set{X}=\brac[big]{(x,p)\in\reals^6\times\reals\where On the other hand, the convex input constraint set $\set{U}$ is given by all the input vectors that satisfy eq:ex\_quad\_cc\_cvx.
+
+<!-- chunk {"id": "body-0470", "role": "body", "section": "Paper Body", "weight": 1.0} -->
+
+The nonconvex path constraints \optieqref{scp\_gen\_cont}{nonconvex\_constraints} are given by the vector function $s:\reals^3\to\reals^{\Nobs}$, whose elements encode the obstacle avoidance constraints: \label{eq:ex\_quad\_s\_obs\_avoid} s\_j\pare{r} = 1-\norm{H\_j (r - c\_j)},\quad j=1,\dots,\Nobs.
+
+<!-- chunk {"id": "body-0471", "role": "body", "section": "Paper Body", "weight": 1.0} -->
+
+We will briefly mention how to evaluate the Jacobian eq:scvx\_lin\_mats\_h for eq:ex\_quad\_s\_obs\_avoid. Suppose that a reference position trajectory $\{\bar r(t)\}_0^1$ is available, and consider the $j$-th obstacle constraint in eq:ex\_quad\_s\_obs\_avoid. The following gradient then allows to evaluate eq:scvx\_lin\_mats\_h: \grad s\_j(r) = -\frac{H\_j^\transp H\_j \big(r - c\_j \big)}% {\norm[2,big]{H\_j \big(r - c\_j \big)}}.
+
+<!-- chunk {"id": "body-0472", "role": "body", "section": "Paper Body", "weight": 1.0} -->
+
+Lastly, we have to convert the cost \optiobjref{ex\_quad\_ocp} into the Bolza form eq:ocost\_nlin. There is no terminal cost, hence $\term\equiv 0$. On the other hand, the direct transcription of the running cost would be $\runn(x, u, p) = p\sigma^2$. However, we will simplify this by omitting the time dilation parameter. This simplification makes the problem easier by removing nonconvexity from the running cost, and numerical results still show good resulting trajectories. Furthermore, since \scvx augments the cost with penalty terms in eq:scvx\_Lpen, we will normalize the running cost by its nominal value in order to make it roughly unity for a ``mild'' trajectory. This greatly facilitates the selection of the penalty weight $\lambda$.
+
+<!-- chunk {"id": "body-0473", "role": "body", "section": "Paper Body", "weight": 1.0} -->
+
+By taking the nominal value of $\sigma$ as the hover condition, we define the following \label{eq:ex\_quad\_running\_cost} \runn(x, u, p) = \pare[biggg]{\frac{\sigma}{g}}^2.
+
+<!-- chunk {"id": "body-0474", "role": "body", "section": "Paper Body", "weight": 1.0} -->
+
+We now have a complete definition of \pref{scp\_gen\_cont} for the quadrotor obstacle avoidance problem. The only remaining task is to choose the \scvx algorithm parameters listed in \tabref{algo\_params}. The rest of the solution process is completely automated by the general \scvx algorithm description in Part II.
+
+<!-- chunk {"id": "body-0475", "role": "body", "section": "Paper Body", "weight": 1.0} -->
+
+\subsubsection{\gusto Formulation} The \gusto algorithm can also be used to solve \pref{ex\_quad\_ocp}. The formulation is almost identical to \scvx, which underscores the fact that the two algorithms can be used interchangeably to solve many of the same problems.
+
+<!-- chunk {"id": "body-0476", "role": "body", "section": "Paper Body", "weight": 1.0} -->
+
+The quadratic running cost eq:gusto\_running\_cost encodes eq:ex\_quad\_running\_cost as follows: \label{eq:ex\_quad\_gusto\_running\_cost} \Jq(p) &= \diag\pare[big]{0,0,0,g^{-2}}, \\We can also cast the dynamics eq:ex\_quad\_dynamics\_abs\_time into the control affine form eq:control\_affine\_gusto: \label{eq:ex\_quad\_gusto\_dynamics} f\_0(x) &= \Matrix{\dot r \\ -g\hat n}, \\where $e_i\in\reals^3$ is the $i$-th standard basis vector. The reader may be surprised that these are the only changes required to convert the \scvx formulation from the previous section into a form that can be ingested by \gusto.
+
+<!-- chunk {"id": "body-0477", "role": "body", "section": "Paper Body", "weight": 1.0} -->
+
+The only remaining task is to choose the \gusto algorithm parameters listed in \tabref{algo\_params}. Just like for \scvx, the rest of the solution process is completely automated by the general \gusto algorithm description in \subsubsection{Initial Trajectory Guess} The initial state reference trajectory is obtained by a simple straight-line interpolation as provided by eq:state\_initial\_guess: \label{eq:ex\_quad\_initial\_state} The initial parameter vector, which is just the time dilation, is chosen to be in the middle of the allowed trajectory durations: \label{eq:ex\_quad\_initial\_parameter} p = \frac{\tf[,\min] + \tf[,\max]}{2}.
+
+<!-- chunk {"id": "body-0478", "role": "body", "section": "Paper Body", "weight": 1.0} -->
+
+The initial input trajectory is guessed based on insight about the quadrotor problem. Ignoring any particular trajectory task, we know that the quadrotor will generally have to support its own weight under the influence of gravity. Thus, we choose a constant initial input guess that would make a static quadrotor hover: \label{eq:ex\_quad\_initial\_input} a(t)=g\hat n,~\sigma(t)=g,~\textnormal{for}~t\.
+
+<!-- chunk {"id": "body-0479", "role": "body", "section": "Paper Body", "weight": 1.0} -->
+
+This initial guess is infeasible with respect to both the dynamics and the obstacle constraints, and it is extremely cheap to compute. The fact that it works well in practice highlights two facts: SCP methods are relatively easy to initialize, and they readily accept infeasible initial guesses. Note that in the particular case of this problem, an initial trajectory could also be computed using a convex version of the problem obtained by removing the obstacle constraints eq:ex\_quad\_sc\_obs and applying the \lcvx relaxation \subsubsection{Numerical Results} caption={Breakdown of subproblem size for the quadrotor obstacle avoidance label={ex\_quad\_subproblem\_size}, \includegraphics[width=0.7\columnwidth]{scp\_quad\_sizes} \includegraphics[scale=\csmpreprintfigscale]{scp\_quad\_sizes} We now have a specialized instance of \pref{scp\_gen\_cont} and an initialization strategy for the quadrotor obstacle avoidance problem.
+
+<!-- chunk {"id": "body-0480", "role": "body", "section": "Paper Body", "weight": 1.0} -->
+
+The solution is obtained via SCP according to the general algorithm descriptions for \scvx and \gusto. For temporal discretization, we use the FOH interpolating polynomial method from \sbref{discretization}. The algorithm parameters are provided in \tabref{ex\_quad\_params}, and the full implementation is available in the code repository linked in \figref{github\_qr}. ECOS is used as the numerical convex optimizer at \alglocation{\solveloc} in \figref{scp\_loop}. The timing results correspond to a Dell XPS 13 9260 laptop powered by an Intel Core i5-7200U CPU clocked at 2.5~\si{\giga\hertz}. The computer has 8~\si{\gibi\byte} LPDD3 RAM and 128~\si{\kibi\byte} L1, 512~\si{\kibi\byte} L2, and 3~\si{\mebi\byte} L3 cache.
+
+<!-- chunk {"id": "body-0481", "role": "body", "section": "Paper Body", "weight": 1.0} -->
+
+The position trajectory evolution (left) and the final converged trajectory (right) for the quadrotor obstacle avoidance problem. The continuous\dash time trajectory in the right plots is obtained by numerically integrating the dynamics eq:ex\_ff\_dynamics. The fact that this trajectory passes through the discrete\dash time subproblem solution confirms dynamic feasibility. The {\color{beamerRed}red} lines in the right plots show the acceleration vector as seen from above.
+
+<!-- chunk {"id": "body-0482", "role": "body", "section": "Paper Body", "weight": 1.0} -->
+
+label={ex\_quad\_pos}, \begin{subfigure}[t]{\columnwidth} \includegraphics[width=\columnwidth,page=1]{scp\_quad\_pos}% \label{fig:ex\_quad\_pos\_scvx} \begin{subfigure}[t]{\columnwidth} \includegraphics[width=\columnwidth,page=2]{scp\_quad\_pos}% \label{fig:ex\_quad\_pos\_gusto} Convergence and runtime performance for the quadrotor obstacle avoidance problem. Both algorithms take a similar amount of time and number of iterations to converge to a given tolerance. The runtime subplots in the bottom row show statistics on algorithm performance over 50 executions. The solution times per subproblem are roughly equal, which shows that the subproblem difficulty stays constant over the iterations.
+
+<!-- chunk {"id": "body-0483", "role": "body", "section": "Paper Body", "weight": 1.0} -->
+
+{\color{beamerDarkBlue}Formulate} measures the time taken to parse the subproblem into the input format of the convex optimizer; {\color{beamerYellow}Discretize} measures the time taken to temporally discretize the linearized dynamics \optieqref{scp\_gen\_cvx}{dynamics}; and {\color{beamerRed}Solve} measures the time taken by the core convex numerical optimizer. Each bar shows the median time. The {\color{beamerBlue}blue} trace across the diagonal shows the cumulative time obtained by summing the runtimes of all preceding iterations. Its markers are placed at the median time, and the error bars show the $10\%$ (bottom) and $90\%$ (top) quantiles. Because small runtime differences accumulate over iterations, the error bars grow with iteration count.
+
+<!-- chunk {"id": "body-0484", "role": "body", "section": "Paper Body", "weight": 1.0} -->
+
+label={ex\_quad\_convergence}, \def\subfigwidth{0.45\textwidth} \def\subfigwidth{0.48\textwidth} \def\figwidth{\columnwidth} \begin{subfigure}[t]{\subfigwidth} \includegraphics[width=\figwidth]{code/scvx\_quadrotor\_convergence}% \label{fig:ex\_quad\_convergence\_scvx} \begin{subfigure}[t]{\subfigwidth} \includegraphics[width=\figwidth]{code/gusto\_quadrotor\_convergence}% \label{fig:ex\_quad\_convergence\_gusto} The convergence process for both algorithms is illustrated in \figref{ex\_quad\_convergence}.
+
+<!-- chunk {"id": "body-0485", "role": "body", "section": "Paper Body", "weight": 1.0} -->
+
+We have set the convergence tolerances $\varepsilon=\varepsilon_{\mrm{r}}=0$ and we terminate both algorithms after 15 iterations. At each iteration, the algorithms have to solve subproblems of roughly equal sizes, as shown in \tabref{ex\_quad\_subproblem\_size}. Differences in the sizes arise from the slightly different subproblem formulations of each algorithm. Among the primary contributors are how artificial infeasibility and unboundedness are treated, and differences in the cost penalty terms. Notably, \gusto has no one-norm cones because it does not have a dynamics virtual control term like \scvx (compare \optieqref{subproblem\_scvx\_dt}{dynamics} and \optieqref{subproblem\_gusto\_dt}{dynamics}).
+
+<!-- chunk {"id": "body-0486", "role": "body", "section": "Paper Body", "weight": 1.0} -->
+
+Despite their differences, \figref{ex\_quad\_convergence} shows that \gusto and \scvx are equally fast.% The large formulation and overhead% times at the first iteration are due to the Julia language's just\dash in\dash% time (JIT) compilation, and they are not related to the SCP algorithms. The% same can be said of the slightly larger overhead times for the \gusto% algorithm, which is a consequence of the implementation and not of the% Finally, note that the discretization time is generally larger than% the subproblem solution time. This is expected, since the solver is written in% highly optimized C code, while discretization is done in Julia with readability% emphasized over performance.
+
+<!-- chunk {"id": "body-0487", "role": "body", "section": "Paper Body", "weight": 1.0} -->
+
+The trajectory solutions for \scvx and \gusto are shown in \figref{ex\_quad\_pos,ex\_quad\_timeseries}. Recall that this is a free final time problem, and both algorithms are able to increase the initial guess eq:ex\_quad\_initial\_parameter until the maximum allowed flight time $\tf[,\max]$. Note that this is optimal, since a quadrotor minimizing control energy \optiobjref{ex\_quad\_ocp} will opt for a slow trajectory with the lowest The \scvx and \gusto solutions are practically identical. The fact that they were produced by two different algorithms can only be spotted from the different convergence histories on the left side in \figref{ex\_quad\_pos}. It is not always intuitive how the initial guess morphs into the final trajectory. It is remarkable that the infeasible trajectories of the early iterations morph into a smooth and feasible trajectory. Yet, this is guaranteed by the SCP convergence theory in Part II.
+
+<!-- chunk {"id": "body-0488", "role": "body", "section": "Paper Body", "weight": 1.0} -->
+
+For this and many other trajectory problems, we have observed time and again how SCP is adept at morphing rough initial guesses into fine-tuned feasible and locally optimal trajectories.
+
+<!-- chunk {"id": "body-0489", "role": "body", "section": "Paper Body", "weight": 1.0} -->
+
+Finally, we will make a minor note of that temporal discretization results in some clipping of the obstacle keep-out zones in \figref{ex\_quad\_pos}. This is the direct result of imposing constraints only at the discrete\dash time nodes. Various strategies exist to mitigate the clipping effect, such as increasing the radius of the keep-out zones, increasing the number of discretization points, imposing a sufficiently low maximum velocity constraint, or numerically minimizing a function related to the state transition matrix The acceleration norm and tilt angle time histories for the converged trajectory of the quadrotor obstacle avoidance problem. These are visually identical for \scvx and \gusto, so we only show a single plot. The continuous\dash time acceleration norm is obtained from the FOH assumption eq:sidebar\_control\_foh, while the continuous\dash time tilt angle is obtained by integrating the solution through the nonlinear dynamics.
+
+<!-- chunk {"id": "body-0490", "role": "body", "section": "Paper Body", "weight": 1.0} -->
+
+Similar to \figref{lcvx\_pdg\_results}, the acceleration time history plot confirms that lossless convexification holds (i.e., the constraint eq:ex\_quad\_cc\_cvx\_lcvx\_equality holds with equality).% The reader can run the code in \figref{github\_qr} to generate separate% plots for both algorithms, and confirm for themselves. label={ex\_quad\_timeseries}, \def\figwidth{0.9\columnwidth} \def\figwidth{0.8\columnwidth} \includegraphics[width=\figwidth,page=1]{scp\_quad\_timeseries}% \subsection{SCP: 6-DoF Free-flyer} Two examples of free-flyer robots at the International Space Station, the JAXA Int-Ball (left) and the Naval Postgraduate School/NASA Astrobee (right). These robots provide a helping hand in space station maintenance tasks.
+
+<!-- chunk {"id": "body-0491", "role": "body", "section": "Paper Body", "weight": 1.0} -->
+
+\includegraphics[width=0.9\columnwidth]{freeflyer} Having demonstrated the use of sequential convex programming on a relatively simple quadrotor trajectory, we now present a substantially more challenging example involving nonlinear 6-DoF dynamics and a more complex set of obstacle The objective is to compute a trajectory for a 6-DoF free-flying robotic vehicle that must navigate through an environment akin to the International Space Station (ISS). Free-flyers are robots that provide assistance to human operators in micro\dash gravity environments~. As shown in \figref{ff\_examples}, Astrobee and the JAXA Internal Ball Camera (Int-Ball) are two recent successful deployments of such robots. Their goals include filming the ISS and assisting with maintenance tasks~. The particulars of this SCP example are taken primarily The quadrotor in the previous section was modeled as a point mass whose attitude is approximated by the direction of the acceleration vector. The free-flyer, on the other hand, is a more complex vehicle that must generally perform coupled translational and rotational motion using a multi-thruster assembly.
+
+<!-- chunk {"id": "body-0492", "role": "body", "section": "Paper Body", "weight": 1.0} -->
+
+Maneuvers may require to point a camera at a fixed target, or to emulate nonholonomic behavior for the sake of predictability and operator comfort. This calls for whole-body motion planning, for which we model the free-flyer as a full 6-DoF rigid body with both translational and rotational dynamics.
+
+<!-- chunk {"id": "body-0493", "role": "body", "section": "Paper Body", "weight": 1.0} -->
+
+To describe the equations of motion, we need to introduce two reference frames. First, let $\Finertial$ be an inertial reference frame with a conveniently positioned, but otherwise arbitrary, origin. Second, let $\Fbody$ be a rotating reference frame affixed to the robot's center of mass, and whose unit vectors are aligned with the robot's principal axes of inertia. We call $\Finertial$ the inertial frame and $\Fbody$ the body frame. Correspondingly, vectors expressed in $\Finertial$ are inertial vectors and carry an $\inertial$ subscript (e.g., $x_{\inertial}$), while those expressed in $\Fbody$ are body vectors and carry a $\body$ subscript (e.g., $x_{\body}$). For the purpose of trajectory generation, we encode the orientation of $\Fbody$ with respect to $\Finertial$ using a vector representation of a unit quaternion, Our convention is to represent the translational dynamics in $\Finertial$ and the attitude dynamics in $\Fbody$.
+
+<!-- chunk {"id": "body-0494", "role": "body", "section": "Paper Body", "weight": 1.0} -->
+
+This yields the following Newton\dash Euler equations that govern the free-flyer's motion: &= m\inv T\_{\inertial}(\tabs), \\\label{eq:ex\_ff\_dynamics\_quaternion} &= \frac{1}{2} \qIB(\tabs) \otimes \wB(\tabs), \\&= J^{-1} \pare[big]{ M\_{\body}(\tabs) - \wB(\tabs)\skew J \wB(\tabs) }.
+
+<!-- chunk {"id": "body-0495", "role": "body", "section": "Paper Body", "weight": 1.0} -->
+
+The state variables in the above equations are the inertial position $\rI\in\reals^3$, the inertial velocity $\vI\in\reals^3$, the aforementioned unit quaternion attitude $\qIB\in\reals^4$, and the body angular velocity $\wB\in\reals^3$. The latter variable represents the rate at which $\Fbody$ rotates with respect to $\Finertial$. The free-flyer's motion is controlled by an inertial thrust vector $T_{\inertial}\in\real^3$ and a body torque vector $M_{\body}\in\real^3$. The physical parameters of the free-flyer, the mass $m>0$ and the principal moment of inertia matrix $J\in\reals^{3\times 3}$, are fixed. The dynamics are written in absolute time $\tabs$ that spans the interval $[0,\tf]$.
+
+<!-- chunk {"id": "body-0496", "role": "body", "section": "Paper Body", "weight": 1.0} -->
+
+We allow the final time $\tf$ to be optimized, and bound it using the previous constraint eq:ex\_quad\_tf\_bounds.
+
+<!-- chunk {"id": "body-0497", "role": "body", "section": "Paper Body", "weight": 1.0} -->
+
+The initial and final conditions for each state are specified in this example \label{eq:ex\_ff\_bcs\_pos} \rI &= \ric, \quad &\rI(\tf) &= \rfc, \\\vI &= \vic, \quad &\vI(\tf) &= \vfc, \\\label{eq:ex\_ff\_bcs\_quat} \qIB &= \qic, \quad &\qIB(\tf) &= \qfc, \\The free-flyer robot implements a 6-DoF holonomic actuation system based on a centrifugal impeller that pressurizes air, which can then be vented from a set of nozzles distributed around the body. Holonomic actuation means that the thrust and torque vectors are independent from the vehicle's attitude.
+
+<!-- chunk {"id": "body-0498", "role": "body", "section": "Paper Body", "weight": 1.0} -->
+
+The capability of this system can be modeled by the following control input constraints: \norm{T\_{\inertial}(\tabs)} \leq T\_{\max}, \quad \norm{M\_{\body}(\tabs)} \leq M\_{\max}, where $T_{\max} > 0$ and $M_{\max} > 0$ are user-defined constants representing the maximum thrust and torque.
+
+<!-- chunk {"id": "body-0499", "role": "body", "section": "Paper Body", "weight": 1.0} -->
+
+This problem involves both convex and nonconvex state constraints. Convex constraints are used to bound the velocity and angular velocity magnitudes to user\dash defined constants: \norm{\vI(\tabs)} \leq v\_{\max}, \quad \norm{\wB(\tabs)} \leq \omega\_{\max}.
+
+<!-- chunk {"id": "body-0500", "role": "body", "section": "Paper Body", "weight": 1.0} -->
+
+Nonconvex state constraints are used to model the (fictional) ISS flight space and to avoid floating obstacles. The latter are modeled exactly as in the quadrotor example using the constraints in eq:ex\_quad\_sc\_obs. The flight space, on the other hand, is represented by a union of rectangular rooms. This is a difficult nonconvex constraint and its efficient modeling requires some A heatmap visualization of the exact SDF eq:sdf\_iss and the approximate SDF eq:sdf\_iss\_approx for several values of the sharpness parameter $\sigma$. Each plot also shows the SDF zero-level set boundary as a dashed line. This boundary encloses the feasible flight space, which corresponds to nonnegative values of the SDF.
+
+<!-- chunk {"id": "body-0501", "role": "body", "section": "Paper Body", "weight": 1.0} -->
+
+label={sdf\_illustration},% \includegraphics[width=0.9\textwidth]{sdf\_illustration} \includegraphics[width=\textwidth]{sdf\_illustration} At the conceptual level, the space station flight space is represented by a function $\diss:\reals^3\to\reals$ that maps inertial position to a scalar number. This is commonly referred to as a signed distance function (SDF). Let us denote the set of positions that are within the flight space by $\ObsISS\subset\reals^3$. A valid SDF is given by any function that satisfies the following property: \label{eq:sdf\_property} \rI\in\ObsISS~\iff~\diss(\rI)\ge 0.
+
+<!-- chunk {"id": "body-0502", "role": "body", "section": "Paper Body", "weight": 1.0} -->
+
+If we can formulate a continuously differentiable $\diss$, then we can model the flight space using eq:sdf\_property as the following nonconvex path constraint \optieqref{scp\_gen\_cont}{nonconvex\_constraints}: \label{eq:sdf\_constraint\_exact} Open-source libraries such as Bullet~ are available to compute the SDF for obstacles of arbitrary shape. In this work, we will use a simpler custom implementation. To begin, let us model the space station as an assembly of several rooms. This is expressed as a set union: \label{eq:iss\_volume} \ObsISS \definedas \Union\_{i=1}^{\niss}\Obsi, where each room $\Obsi$ is taken to be a rectangular box: \label{eq:iss\_room} \Obsi \definedas \brac[big]{ \rI\in\reals^3: l\_i^{\ISS} \le \rI \le u\_i^{\ISS}}.
+
+<!-- chunk {"id": "body-0503", "role": "body", "section": "Paper Body", "weight": 1.0} -->
+
+The coordinates $l_i^{\ISS}$ and $u_i^{\ISS}$ represent the ``rear bottom right'' and the ``ahead top left'' corners of the $i$-th room, when looking along the positive axis directions.
+
+<!-- chunk {"id": "body-0504", "role": "body", "section": "Paper Body", "weight": 1.0} -->
+
+To find the SDF for the overall flight space, we begin with the simpler task of writing an SDF for a single room. This is straightforward using eq:iss\_room\_inf\_norm: 1-\norm[\infty,biggg]{\frac{\rI-c\_i^{\ISS}}{s\_i^{\ISS}}}, which is a concave function that satisfies a similar property to \label{eq:sdf\_i\_property} \rI\in\Obsi~\iff~\diss[i](\rI)\ge 0.
+
+<!-- chunk {"id": "body-0505", "role": "body", "section": "Paper Body", "weight": 1.0} -->
+
+Because $\diss[i]$ is concave, the constraint on the right side of eq:sdf\_i\_property is convex. This means that constraining the robot to be inside room $\Obsi$ is a convex operation, which makes sense since $\Obsi$ is a As the free-flyer traverses the flight space, one can imagine the room SDFs to evolve based on the robot's position. When the robot enters the $i$-th room, $\diss[i]$ becomes positive and grows up to a maximum value of one as the robot approaches the room center. As the robot exits the room, $\diss[i]$ becomes negative and decreases in value as the robot flies further away. To keep the robot inside the space station flight space, the room SDFs have to evolve such that there is always at least one nonnegative room SDF.
+
+<!-- chunk {"id": "body-0506", "role": "body", "section": "Paper Body", "weight": 1.0} -->
+
+This requirement precisely describes the overall SDF, which can be encoded mathematically as a \label{eq:sdf\_iss} \diss(\rI) \definedas \max\_{i=1,\dots,\niss} \diss[i](\rI).
+
+<!-- chunk {"id": "body-0507", "role": "body", "section": "Paper Body", "weight": 1.0} -->
+
+We now have an SDF definition which satisfies the required property eq:sdf\_property. \fakesubfigref{sdf\_illustration}{a} shows an example scalar field generated by eq:sdf\_iss for a typical space station layout. Visually, when restricted to a plane with a fixed altitude $\rI$, the individual room SDFs form four\dash sided ``pyramids'' above their corresponding room.
+
+<!-- chunk {"id": "body-0508", "role": "body", "section": "Paper Body", "weight": 1.0} -->
+
+The room SDFs $\diss[i]$ are concave, however the maximization in eq:sdf\_iss generates a nonconvex function. Two possible strategies to encode eq:sdf\_iss are by introducing integer variables or by a smooth approximation. The former strategy generates a mixed-integer convex subproblem, which is possible to solve but does not fit the SCP algorithm mold of this article. As mentioned before for \pref{scp\_gen\_cont}, our subproblems do not involve integer variables. We thus pursue the smooth approximation strategy, which yields an arbitrarily accurate approximation of the feasible flight space $\ObsISS$ and carries the significant computational benefit of avoiding mixed-integer programming.
+
+<!-- chunk {"id": "body-0509", "role": "body", "section": "Paper Body", "weight": 1.0} -->
+
+The crux of our strategy is to replace the maximization in eq:sdf\_iss with the softmax function. Given a general vector $v\in\reals^n$, this function is \softmax[\sigma](v) = \sigma\inv \log\sum\_{i=1}^n \exp{\sigma v\_i}, where $\sigma>0$ is a sharpness parameter such that $\softmax[\sigma]$ upper bounds the exact $\max$ with an additive error of at most $\log(n)/\sigma$. To develop intuition, consider the SDF eq:sdf\_iss for two adjacent rooms and restricted along the $j$-th axis of the inertial frame.
+
+<!-- chunk {"id": "body-0510", "role": "body", "section": "Paper Body", "weight": 1.0} -->
+
+We can then write the \label{eq:sdf\_iss\_restricted} \diss(\rI[j]) = \max\brac[Big]{ 1-\abso[Big]{\frac{\rI[j]-c\_{1j}^{\ISS}}{s\_{1j}^{\ISS}}}, 1-\abso[Big]{\frac{\rI[j]-c\_{2j}^{\ISS}}{s\_{2j}^{\ISS}}} Illustration of the correspondence between between the exact SDF eq:sdf\_iss and its approximation $\sdiss$ using the softmax function eq:softmax. As the sharpness parameter $\sigma$ increases, the approximation quickly converges to the exact SDF.
+
+<!-- chunk {"id": "body-0511", "role": "body", "section": "Paper Body", "weight": 1.0} -->
+
+This figure illustrates a sweep for $\sigma\in $, where lower values are associated with darker label={softmax\_1d\_intuition},% \includegraphics[width=0.9\columnwidth]{softmax\_1d\_intuition} \includegraphics[width=0.8\columnwidth]{softmax\_1d\_intuition} \figref{softmax\_1d\_intuition} illustrates the relationship between the exact SDF eq:sdf\_iss\_restricted and its approximation, which is obtained by replacing the $\max$ operator with $\softmax[\sigma]$. We readily observe that $\diss$ is indeed highly nonconvex, and that the approximation quickly converges to the exact SDF as $\sigma$ increases.
+
+<!-- chunk {"id": "body-0512", "role": "body", "section": "Paper Body", "weight": 1.0} -->
+
+We now generalize this one-dimensional example and replace eq:sdf\_iss with the following approximation: \label{eq:sdf\_iss\_approx} \label{eq:sdf\_iss\_smooth} \sdiss(\rI) &\definedas \softmax[\sigma]\pare[big]{\disslb(\rI)}, \\\label{eq:sdf\_room\_convex} \disslb[i](\rI) &\le \diss[i](\rI),\quad i=1,\dots,\niss, where the new functions $\disslb[i]$ as so-called ``slack'' room SDFs. The model eq:sdf\_iss\_approx admits several favorable properties.
+
+<!-- chunk {"id": "body-0513", "role": "body", "section": "Paper Body", "weight": 1.0} -->
+
+First, eq:sdf\_iss\_smooth is smooth in the new slack SDFs and can be included directly in \optieqref{scp\_gen\_cont}{nonconvex\_constraints} as the following nonconvex path constraint: Second, the constraints in eq:sdf\_room\_convex are convex and can be included directly in \optieqref{scp\_gen\_cont}{convex\_path\_constraints\_X}. Overall, the approximate SDF eq:sdf\_iss\_smooth satisfies the following property: \label{eq:sdf\_iss\_approx\_property} \rI\in\sObsISS~\iff~\exists\disslb(\rI)~\textnormal{such that where $\sObsISS\subset\reals^3$ is an approximation of $\ObsISS$ that becomes arbitrarily more accurate as the sharpness parameter $\sigma$ increases.
+
+<!-- chunk {"id": "body-0514", "role": "body", "section": "Paper Body", "weight": 1.0} -->
+
+The geometry of this convergence process is illustrated in \fakesubfigref[c]{sdf\_illustration}{b} for a typical space station layout. Crucially, the fact that $\softmax[\sigma]$ is an upper bound of the $\max$ means that the approximate SDF $\sdiss$ is nonnegative at the interfaces of adjacent rooms. In other words, the passage between adjacent rooms is not artificially blocked by our approximation.
+
+<!-- chunk {"id": "body-0515", "role": "body", "section": "Paper Body", "weight": 1.0} -->
+
+Summarizing the above discussion, we wish to solve the following free final time optimal control problem that minimizes control energy: variables={T\_{\inertial},M\_{\body},\tf}, objective={\int\_{0}^{\tf} \norm{T\_{\inertial}(\tabs)}^2 +% \norm{M\_{\body}(\tabs)}^2\sdd\tabs}] \subsubsection{\scvx Formulation} Algorithm parameters for the 6-DoF free\dash flyer example. \includegraphics[width=\textwidth]{tikz\_ex\_ff\_parameters} \includegraphics[scale=\csmpreprintfigscale]{tikz\_ex\_ff\_parameters} Like for the quadrotor example, we begin by demonstrating how to cast \pref{ex\_ff\_ocp} into the standard template of \pref{scp\_gen\_cont}.
+
+<!-- chunk {"id": "body-0516", "role": "body", "section": "Paper Body", "weight": 1.0} -->
+
+While this process is mostly similar to that of the quadrotor, the particularities of the flight space constraint eq:ex\_ff\_iss will reveal a salient feature of efficient modeling for SCP. Once the modeling step is done and an initial guess trajectory is defined, the solution process is completely automated by the general \scvx algorithm description in Part II. To keep the notation light, we omit the argument of time where possible.
+
+<!-- chunk {"id": "body-0517", "role": "body", "section": "Paper Body", "weight": 1.0} -->
+
+Looking at the dynamics eq:ex\_ff\_dynamics, we define the following state and control vectors: \label{eq:ex\_ff\_scvx\_state\_input} x &= \pare[big]{\rI,~\vI,~\qIB,~\wB}\in\reals^{13},\quad \\u &= \pare[big]{T\_{\inertial},~M\_{\body}}\in\reals^6.
+
+<!-- chunk {"id": "body-0518", "role": "body", "section": "Paper Body", "weight": 1.0} -->
+
+Next, we define the parameter vector to serve two purposes. First, as for the quadrotor, we define a time dilation $\tdil$ such that eq:ex\_quad\_time\_dilation holds, yielding $\tabs=\tdil t$. Second, we take advantage of the fact that \optieqref{scp\_gen\_cont}{convex\_path\_constraints\_X} is mixed in the state and parameter in order to place the slack room SDFs in eq:sdf\_room\_convex into the parameter vector. In particular, we recognize that according to \optieqref{subproblem\_scvx\_dt}{convex\_path}, the constraint eq:sdf\_room\_convex is imposed only at the discrete\dash time grid nodes. Thus, for a grid of $N$ nodes, there are only $N\niss$ instances of eq:sdf\_room\_convex to be included.
+
+<!-- chunk {"id": "body-0519", "role": "body", "section": "Paper Body", "weight": 1.0} -->
+
+We can therefore define the following \label{eq:ex\_ff\_vectorized\_diss\_lb} \disslb^1, \dots, \disslb^N where $\disslb^k\equiv\disslb\pare[big]{\rI(t_k)}$ and $\disslbvec[i+(k-1)\niss]$ denotes the slack SDF value for the $i$-th room at time $t_k$. To keep the notation concise, we will use the shorthand $\disslbvec[ik]\equiv \disslbvec[i+(k-1)\niss]$. The overall parameter vector p = \Matrix{\tdil \\ \disslbvec}\in\reals^{1+N\niss}.
+
+<!-- chunk {"id": "body-0520", "role": "body", "section": "Paper Body", "weight": 1.0} -->
+
+In absolute time, the dynamics \optieqref{scp\_gen\_cont}{dynamics} are given directly by eq:ex\_ff\_dynamics.
+
+<!-- chunk {"id": "body-0521", "role": "body", "section": "Paper Body", "weight": 1.0} -->
+
+As for the quadrotor, this forms a set of time\dash invariant first\dash order ordinary differential equations: \label{eq:ex\_ff\_dynamics\_abs\_time} \frac{1}{2} \qIB \otimes \wB \\J^{-1} \pare[big]{ M\_{\body} - \wB\skew J \wB } The boundary conditions \optieqref{scp\_gen\_cont}{initial\_conditions} and \optieqref{scp\_gen\_cont}{final\_conditions} are obtained from eq:ex\_ff\_bcs: \label{eq:ex\_ff\_gic\_gtc} \gic\pare[big]{x,p} &= \Matrix{\rI-\ric \\\vI-\vic \\ \qIB - \qic \\ \wB}, \\\gtf\pare[big]{x,p} &= \Matrix{\rI-\rfc
+
+<!-- chunk {"id": "body-0522", "role": "body", "section": "Paper Body", "weight": 1.0} -->
+
+The dynamics are converted to normalized time in the same way as eq:ex\_quad\_dynamics\_normalized\_time: \label{eq:ex\_ff\_dynamics\_normalized\_time} f\pare{x, u, p} = \tdil f\pare{x, u}.
+
+<!-- chunk {"id": "body-0523", "role": "body", "section": "Paper Body", "weight": 1.0} -->
+
+The convex state and input path constraints \CTNLconvexpath are straightforward. As for the quadrotor example, we leverage the mixed state\dash parameter nature of \optieqref{scp\_gen\_cont}{convex\_path\_constraints\_X} to include all of the convex state and parameter constraints. In particular, these are eq:ex\_quad\_tf\_bounds, eq:ex\_ff\_cvx\_sc, and eq:sdf\_room\_convex. Using the definition of time dilation, we translate eq:ex\_quad\_tf\_bounds into the constraint: \label{eq:ex\_ff\_tdil\_constraint} \tf[,\min] \le \tdil \le \tf[,\max].
+
+<!-- chunk {"id": "body-0524", "role": "body", "section": "Paper Body", "weight": 1.0} -->
+
+Using the definition of the concatenated slack SDF vector eq:ex\_ff\_vectorized\_diss\_lb, we translate eq:sdf\_room\_convex into the \label{eq:ex\_ff\_slack\_sdf\_constraints} \disslbvec[ik] \le \diss[i]\pare[big]{\rI(t\_k)},\quad Consequently, the convex path constraint set $\set X$ in \optieqref{scp\_gen\_cont}{convex\_path\_constraints\_X} is given: = \big\{(x,p)\in\reals^{13}\times\reals^{1+N\niss}\where~% &\textnormal{eq:ex\_ff\_cvx\_sc, eq:ex\_ff\_tdil\_constraint,} \\\label{eq:ex\_ff\_state\_path}
+
+<!-- chunk {"id": "body-0525", "role": "body", "section": "Paper Body", "weight": 1.0} -->
+
+The convex input constraint set $\set{U}$ in \optieqref{scp\_gen\_cont}{convex\_path\_constraints\_U} is given simply by all the input vectors that satisfy eq:ex\_ff\_cc.
+
+<!-- chunk {"id": "body-0526", "role": "body", "section": "Paper Body", "weight": 1.0} -->
+
+The nonconvex path constraints \optieqref{scp\_gen\_cont}{nonconvex\_constraints} for the free-flyer problem involve the ellipsoidal floating obstacles eq:ex\_quad\_sc\_obs and the approximate flight space constraint eq:ex\_ff\_iss. The floating obstacle constraints are modeled exactly like for the quadrotor using eq:ex\_quad\_s\_obs\_avoid.
+
+<!-- chunk {"id": "body-0527", "role": "body", "section": "Paper Body", "weight": 1.0} -->
+
+For the flight space constraint, we leverage the concatenated slack SDF vector eq:ex\_ff\_vectorized\_diss\_lb and the eventual temporal discretization of the problem in order to impose eq:ex\_ff\_iss at each temporal grid node as \label{eq:ex\_ff\_scvx\_iss} \softmax[\sigma]\pare[big]{\disslb^k}\ge 0,~ Hence, the nonconvex path constraint function in \optieqref{scp\_gen\_cont}{nonconvex\_constraints} can be written as $s:\reals^3\times\reals^{N\niss}\to\reals^{\Nobs+1}$. The first $\Nobs$ components are given by eq:ex\_quad\_s\_obs\_avoid and the last component is given by the negative left\dash hand side of eq:ex\_ff\_scvx\_iss.
+
+<!-- chunk {"id": "body-0528", "role": "body", "section": "Paper Body", "weight": 1.0} -->
+
+It remains to define the running cost of the Bolza cost function eq:ocost\_nlin. Like for the quadrotor, we scale the integrand in \optiobjref{ex\_ff\_ocp} to be mindful of the penalty terms which the \scvx algorithm will add. Furthermore, we simplify the cost by neglecting time dilation and directly associating the absolute\dash time integral of \optiobjref{ex\_ff\_ocp} with the normalized\dash time integral of eq:ocost\_nlin. This yields the following convex running cost definition: \label{eq:ex\_ff\_running\_cost} \pare[Big]{\frac{\norm{T\_{\inertial}}}{T\_{\max}}}^2+ \pare[Big]{\frac{\norm{M\_{\body}}}{M\_{\max}}}^2.
+
+<!-- chunk {"id": "body-0529", "role": "body", "section": "Paper Body", "weight": 1.0} -->
+
+At this point, it may seem as though we are finished with formulating \pref{scp\_gen\_cont} for \scvx. However, the seemingly innocuous flight space constraint eq:ex\_ff\_scvx\_iss actually hides an important difficulty that we will now address. The importance of the following discussion cannot be overstated, as it can mean the difference between successful trajectory generation, and convergence to an infeasible trajectory (i.e., one with non\dash zero virtual control). In the case of the 6-DoF free\dash flyer, omission of the following discussion incurs a $40\si{\percent}$ optimality penalty for the value of \optiobjref{ex\_ff\_ocp}.
+
+<!-- chunk {"id": "body-0530", "role": "body", "section": "Paper Body", "weight": 1.0} -->
+
+We begin investigating eq:ex\_ff\_scvx\_iss by writing down its Jacobians, which \scvx will use for linearizing the constraint. Note that eq:ex\_ff\_scvx\_iss is a function of only $\disslb^k\in\reals^{\niss}$, which is part of the concatenated slack SDF eq:ex\_ff\_vectorized\_diss\_lb, and thus resides in the parameter vector. Hence, only the Jacobian eq:scvx\_lin\_mats\_j is non\dash zero.
+
+<!-- chunk {"id": "body-0531", "role": "body", "section": "Paper Body", "weight": 1.0} -->
+
+Using the general softmax definition eq:softmax, the $i$-th element of $\grad\softmax[\sigma]\pare[big]{\disslb^k}$ is given: \label{eq:ex\_ff\_softmax\_iss} \frac{\partial\softmax[\sigma]\pare[big]{\disslb^k}}{\partial\disslb[i]^k} = \pare[Big]{\sum\_{j=1}^{\niss} \exp{\sigma\disslb[j]^k}}\inv \exp{\sigma\disslb[i]^k}.
+
+<!-- chunk {"id": "body-0532", "role": "body", "section": "Paper Body", "weight": 1.0} -->
+
+Visualization of the effect of slackness in the SDF lower\dash bound constraint eq:sdf\_room\_convex on the gradient of the approximate SDF eq:sdf\_iss\_smooth. This plot is obtained by setting $\niss=6$ and $\disslb[j]=-1$ for all $j\ne i$. The individual curves are obtained by gradually reducing $\disslb[i]$ from its maximum value of $\diss[i]$.
+
+<!-- chunk {"id": "body-0533", "role": "body", "section": "Paper Body", "weight": 1.0} -->
+
+As the sharpness parameter $\sigma$ increases, a ``cutoff'' value appears, below which the approximate SDF becomes insensitive to changes in label={softmax\_gradient\_problem},% \includegraphics[width=\columnwidth]{softmax\_gradient\_problem} When the slack SDF satisfies the lower\dash bound eq:ex\_ff\_slack\_sdf\_constraints with equality, the Jacobian eq:ex\_ff\_softmax\_iss is an accurate representation of how the overall SDF eq:sdf\_iss\_smooth changes due to small perturbations in the robot's position. The problematic case occurs when this bound is loose. To illustrate the idea, suppose that the robot is located near the center of $\Obsi$, such that $\diss[i]\pare[big]{\rI(t_k)}=0.8$.
+
+<!-- chunk {"id": "body-0534", "role": "body", "section": "Paper Body", "weight": 1.0} -->
+
+We assume that the rooms do not overlap and that the slack SDF values of the other rooms satisfy $\disslb[j]^k=\diss[j]\pare[big]{\rI(t_k)}=-1$ for all $j\ne i$. Since the robot is uniquely inside $\Obsi$, the exact SDF eq:sdf\_iss is locally a linear function of $\diss[i]$ and has a gradient $\partial\diss/\partial\diss[i]=1$. Since we want the SCP subproblem to be an accurate local approximation of the nonconvex problem, we expect the same behavior for the approximate SDF eq:sdf\_iss\_smooth for high values of $\sigma$. However, this may not be the case.
+
+<!-- chunk {"id": "body-0535", "role": "body", "section": "Paper Body", "weight": 1.0} -->
+
+\figref{softmax\_gradient\_problem} illustrates what happens to the approximate SDF gradient eq:ex\_ff\_softmax\_iss as the slackness in eq:ex\_ff\_slack\_sdf\_constraints increases. First, we note that when there is no slackness, increasing the $\sigma$ parameter does indeed make the approximate gradient converge to the exact value of one. However, as slackness grows, there is a distinct cutoff value below which eq:ex\_ff\_softmax\_iss becomes zero. This is known as a \textbf{vanishing gradient} problem, and has been studied extensively for machine learning. The core issue is that SCP relies heavily on gradient information in order to determine how to improve the feasibility and optimality of the subproblem solution. As an analogy, the gradient acts like a torchlight that illuminates the local surroundings in a dark room and allows one to take a step closer to a light switch. When the gradient vanishes, so does the torchlight, and SCP no longer has information about which direction is best to take.
+
+<!-- chunk {"id": "body-0536", "role": "body", "section": "Paper Body", "weight": 1.0} -->
+
+Unless the solution is already locally optimal, a vanished gradient most often either blocks SCP from finding more optimal solutions, or forces it to use non\dash zero virtual control. The result is that the converged trajectory is either (heavily) suboptimal or even infeasible.
+
+<!-- chunk {"id": "body-0537", "role": "body", "section": "Paper Body", "weight": 1.0} -->
+
+Favorable gradient behavior is instrumental for good performance.
+
+<!-- chunk {"id": "body-0538", "role": "body", "section": "Paper Body", "weight": 1.0} -->
+
+Looking at \figref{softmax\_gradient\_problem}, one may ask, in order to recover gradient information, why does SCP not simply increase $\disslb[i]^k$ above the vanishing threshold? But remember, it is the gradient that indicates that increasing $\disslb[i]^k$ is a good approach in the first place. The situation is much like focusing your eyes on the flat region of the $\sigma=50$ curve on the very left in \figref{softmax\_gradient\_problem}. If you only saw the part of the curve for $\disslb[i]^k/\diss[i]\pare[big]{\rI(t_k)}\in $, you would also not know whether it is best to increase or decrease $\disslb[i]^k$.
+
+<!-- chunk {"id": "body-0539", "role": "body", "section": "Paper Body", "weight": 1.0} -->
+
+Fortunately, the remedy is quite simple. Because eq:sdf\_property is a necessary and sufficient condition, we know that slackness in eq:ex\_ff\_slack\_sdf\_constraints cannot be used to make the trajectory more optimal. In other words, a trajectory with non\dash zero slackness will not achieve a lower cost \optiobjref{ex\_ff\_ocp}. Hence, we simply need some way to incentivize the convex subproblem optimizer to make eq:ex\_ff\_slack\_sdf\_constraints hold with equality.
+
+<!-- chunk {"id": "body-0540", "role": "body", "section": "Paper Body", "weight": 1.0} -->
+
+Our approach is to introduce a terminal cost that maximizes the concatenated slack SDF: \label{eq:ex\_ff\_scvx\_terminal\_cost} \term\pare{\disslbvec} = -\sdissweight \sum\_{k=1}^{N}\sum\_{i=1}^{\niss}\disslbvec[ik], where $\sdissweight\in\pos$ is any user\dash chosen positive number. To make sure that eq:ex\_ff\_scvx\_terminal\_cost does not interfere with the extra penalty terms introduced by \scvx, we set $\sdissweight$ to a very small but numerically tolerable value as shown in \tabref{ex\_ff\_params}.
+
+<!-- chunk {"id": "body-0541", "role": "body", "section": "Paper Body", "weight": 1.0} -->
+
+In summary, our investigation into eq:ex\_ff\_scvx\_iss allowed us to identify a vanishing gradient issue. This resulted in a simple yet effective remedy in the form of a terminal cost eq:ex\_ff\_scvx\_terminal\_cost. The discussion hopefully highlights three salient features of good modeling for SCP\dash based trajectory generation. First, SCP does not have equal performance for mathematically equivalent problem formulations (such as the free\dash flyer problem with and without eq:ex\_ff\_scvx\_terminal\_cost). Second, favorable gradient behavior is instrumental for good performance. Third, remedies to recover good performance for difficult problems are often surprisingly simple.
+
+<!-- chunk {"id": "body-0542", "role": "body", "section": "Paper Body", "weight": 1.0} -->
+
+% Zero gradient is synonymous with zero information. When the gradient is zero,% roughly one of two things is true: either you are at a stationary point (aka% locally optimal wrt first-order conditions), or you have no knowledge of where% you are going. The gradient guides you to where you want to go. When your% gradient is zero, it's like missing a ``map'', and you don't have a clear idea% The long discussion on flight space constraint modeling has hopefully% highlighted that it can sometimes take careful planning to get good performance% out of an SCP-based trajectory optimization method. As a local optimization% method, SCP does not exhibit the same performance on mathematically equivalent \subsubsection{\gusto Formulation} Like for the quadrotor example, the \gusto formulation is very similar to \scvx.
+
+<!-- chunk {"id": "body-0543", "role": "body", "section": "Paper Body", "weight": 1.0} -->
+
+We can express eq:ex\_ff\_running\_cost as the quadratic running cost eq:gusto\_running\_cost as follows: \label{eq:ex\_ff\_gusto\_running\_cost} \Jq(p) &= \diag\pare[bigg]{T\_{\max}\inv I\_3, M\_{\max}\inv I\_3}, \\The dynamics eq:ex\_ff\_dynamics\_abs\_time are also cast into the control affine form eq:control\_affine\_gusto: \frac{1}{2} \qIB \otimes \wB \\-J^{-1} \pare[big]{ \wB\skew J \wB } where $e_i\in\reals^3$ is the $i$-th standard basis vector.
+
+<!-- chunk {"id": "body-0544", "role": "body", "section": "Paper Body", "weight": 1.0} -->
+
+Just like for the quadrotor, we are ``done'' at this point and the rest of the optimization model is exactly the same as for \scvx in the last section.
+
+<!-- chunk {"id": "body-0545", "role": "body", "section": "Paper Body", "weight": 1.0} -->
+
+\subsubsection{Initial Trajectory Guess} The initial trajectory guess is based on some simple intuition about what a feasible free-flyer trajectory might look like. Although this guess is more complicated than the straight\dash line initialization used for the quadrotor, it is based on purely kinematic considerations. This makes the guess quick to compute but also means that it does not satisfy the dynamics and obstacle constraints. The fact that SCP readily morphs this coarse guess into a feasible and locally optimal trajectory corroborates the effectiveness of SCP methods for high\dash dimensional nonconvex trajectory generation tasks.
+
+<!-- chunk {"id": "body-0546", "role": "body", "section": "Paper Body", "weight": 1.0} -->
+
+To begin, the time dilation $\tdil$ is obtained by averaging the final time bounds as in eq:ex\_quad\_initial\_parameter. An ``L\dash shape'' path is then used for the position trajectory guess. In particular, recall that according to eq:ex\_ff\_bcs\_pos, the free\dash flyer has to go from $\ric$ to $\rfc$. We define a constant velocity trajectory which closes the gap between $\ric$ and $\rfc$ along the first axis, then the second, and finally the third, in a total time of $\tdil$ seconds. The trajectory thus consists of three straight legs with sharp 90 degree turns at the transition points, which is akin to the Manhattan or taxicab geometry of the one\dash norm. The velocity is readily derived from the position trajectory, and is a constant\dash norm vector whose direction changes twice to align with the appropriate axis in each trajectory leg.
+
+<!-- chunk {"id": "body-0547", "role": "body", "section": "Paper Body", "weight": 1.0} -->
+
+Furthermore, we initialize the concatenated slack SDF parameter vector eq:ex\_ff\_vectorized\_diss\_lb by evaluating eq:sdf\_i along the position trajectory guess for each room and discrete\dash time grid node.
+
+<!-- chunk {"id": "body-0548", "role": "body", "section": "Paper Body", "weight": 1.0} -->
+
+The attitude trajectory guess is only slightly more involved, and it is a general procedure that we can recommend for attitude trajectories. According to eq:ex\_ff\_bcs\_quat, the free\dash flyer has to rotate between the attitudes encoded by $\qic$ and $\qfc$. Since quaternions are not additive and must maintain a unit norm to represent rotation, straight\dash line interpolation from $\qic$ to $\qfc$ is not an option. Instead, we use spherical linear interpolation (SLERP). This operation performs a continuous rotation from $\qic$ to $\qfc$ at a constant angular velocity around a fixed axis.
+
+<!-- chunk {"id": "body-0549", "role": "body", "section": "Paper Body", "weight": 1.0} -->
+
+To define the operation, we introduce the exponential and logarithmic maps for unit quaternions: \label{eq:q\_exp\_log\_maps} \label{eq:q\_exp\_map} &\definedas \alpha u,~\textnormal{where}~\alpha\in\reals,~u\in\reals^3, \\\label{eq:q\_log\_map} \Logquat\pare[big]{\alpha u} &\definedas \Matrix{u \sin\pare{\alpha/2} \\ \cos\pare{\alpha/2}}.
+
+<!-- chunk {"id": "body-0550", "role": "body", "section": "Paper Body", "weight": 1.0} -->
+
+The exponential map converts a unit quaternion to its equivalent angle\dash axis representation. The logarithmic map converts an angle\dash axis rotation back to a quaternion, which we write here in the vectorized form used to implement $\qIB$ in eq:ex\_ff\_dynamics\_quaternion.
+
+<!-- chunk {"id": "body-0551", "role": "body", "section": "Paper Body", "weight": 1.0} -->
+
+SLERP for the attitude quaternion $\qIB$ can then be defined by leveraging eq:q\_exp\_log\_maps: \label{eq:slerp\_error\_quaternion} q\_e &= \qic\qconj\otimes \qfc, \\\qIB(t) &= q\_0\otimes \Expquat\pare[big]{t\Logquat\pare{q\_e}}, where $q_e$ is the error quaternion between $\qfc$ and $\qic$, and $t\in $ is an interpolation parameter such that $\qIB=\qic$ and $\qIB=\qfc$. The angular velocity trajectory guess is simple to derive, since SLERP performs a constant velocity rotation around a fixed axis.
+
+<!-- chunk {"id": "body-0552", "role": "body", "section": "Paper Body", "weight": 1.0} -->
+
+The free\dash flyer is a very low thrust vehicle to begin. By using \optiobjref{ex\_ff\_ocp}, we are in some sense searching for the lowest of low thrust trajectories. Hence, we expect the control inputs $T_{\inertial}$ and $M_{\body}$ to be small. Without any further insight, it is hard to guess what the thrust and torque would look like for a 6-DoF vehicle in a micro\dash gravity environment. Hence, we simply set the initial control guess to zero.
+
+<!-- chunk {"id": "body-0553", "role": "body", "section": "Paper Body", "weight": 1.0} -->
+
+\subsubsection{Numerical Results} caption={Breakdown of subproblem size for the 6-DoF free-flyer label={ex\_ff\_subproblem\_size}, \includegraphics[width=0.7\columnwidth]{scp\_ff\_sizes} \includegraphics[scale=\csmpreprintfigscale]{scp\_ff\_sizes} We now have a specialized instance of \pref{scp\_gen\_cont} and an initialization strategy for the 6-DoF free\dash flyer problem. The trajectory solution is generated using \scvx and \gusto with temporal discretization performed using the FOH interpolating polynomial method in \sbref{discretization}. The algorithm parameters are provided in \tabref{ex\_ff\_params}, where the initial and final quaternion vectors are expressed in degrees using the angle\dash axis representation of eq:q\_exp\_map.
+
+<!-- chunk {"id": "body-0554", "role": "body", "section": "Paper Body", "weight": 1.0} -->
+
+ECOS is used as the numerical convex optimizer, and the full implementation is available in the code repository linked in \figref{github\_qr}.
+
+<!-- chunk {"id": "body-0555", "role": "body", "section": "Paper Body", "weight": 1.0} -->
+
+Convergence and runtime performance for the 6-DoF free-flyer problem. Both algorithms take a similar amount of time to converge. The runtime subplots in the bottom row show statistics on algorithm performance over 50 executions. \gusto converges slightly faster for this example and, although both algorithms reach numerical precision for practical purposes, \gusto converges all the way down to a $10^{-14}$ tolerance. The plots are generated according to the same description as for \figref{ex\_quad\_convergence}.
+
+<!-- chunk {"id": "body-0556", "role": "body", "section": "Paper Body", "weight": 1.0} -->
+
+\def\subfigwidth{0.45\textwidth} \def\subfigwidth{0.48\textwidth} \def\figwidth{\columnwidth} \begin{subfigure}[t]{\subfigwidth} \includegraphics[width=\figwidth]{code/scvx\_freeflyer\_convergence}% \label{fig:ex\_ff\_convergence\_scvx} \begin{subfigure}[t]{\subfigwidth} \includegraphics[width=\figwidth]{code/gusto\_freeflyer\_convergence}% \label{fig:ex\_ff\_convergence\_gusto} The convergence processes for \scvx and \gusto are shown in \figref{ex\_ff\_convergence}.
+
+<!-- chunk {"id": "body-0557", "role": "body", "section": "Paper Body", "weight": 1.0} -->
+
+We have again set $\varepsilon=\varepsilon_{\mrm{r}}=0$ so that we can observe the convergence process for exactly 15 iterations. At each iteration, the algorithms solve a convex subproblem whose size is documented in \tabref{ex\_ff\_subproblem\_size}. Note that the subproblems of both algorithms are substantially larger than for the quadrotor example, and represent a formidable increase in dimensionality for the numerical problem. However, modern IPMs easily handle problems of this size and we will see that the increased variable and constraint count is of little concern. We further note that the larger number of variables and affine inequalities for \gusto is due to how our implementation uses extra slack variables to encode the soft penalty function eq:gusto\_hpen. Because \gusto does not use a dynamics virtual control, it has no one\dash norm cones, while \scvx has several such cones to model the virtual control penalty eq:P\_penalty\_def.
+
+<!-- chunk {"id": "body-0558", "role": "body", "section": "Paper Body", "weight": 1.0} -->
+
+Due to its larger subproblem size and slightly more complicated code for including constraints as soft penalties, the ``solve'' and ``formulate'' times per subproblem are slightly larger for \gusto in this example. Nevertheless, both algorithms have roughly equal runtimes, and \gusto has the advantage of converging to a given tolerance in slightly fewer% Comparing \figref{ex\_ff\_convergence\_scvx} with \figref{ex\_ff\_convergence\_gusto}, it is% remarkable that both algorithms have a quasi\dash identical convergence% history. This is coincidental and by no means a guaranteed phenomenon, as we% already saw in \figref{ex\_quad\_convergence} that the algorithms generally take% different paths even if they sometimes arrive at the same local% optimum. Nevertheless, this coincidence helps to highlight that \scvx and% \gusto are fundamentally similar algorithms.
+
+<!-- chunk {"id": "body-0559", "role": "body", "section": "Paper Body", "weight": 1.0} -->
+
+We will also note that the longer% per\dash iteration discretization times for \gusto in% \figref{ex\_ff\_convergence\_gusto} are an artifact of slightly slower Julia code that% implements the dynamics in control affine form% eq:control\_affine\_gusto. Generally, \gusto can directly use the same% dynamics function as \scvx as long as the control affine assumption holds, and% this will make the discretization times identical. We chose to implement the% \gusto dynamics explicitly as eq:control\_affine\_gusto in order to% facilitate correspondence between this article and the implementation.
+
+<!-- chunk {"id": "body-0560", "role": "body", "section": "Paper Body", "weight": 1.0} -->
+
+The position trajectory evolution (left) and the final converged trajectory (right) for the 6-DoF free-flyer problem. In the right plots for each algorithm, the continuous\dash time trajectory is obtained by numerically integrating the dynamics eq:ex\_ff\_dynamics. The fact that this trajectory passes through the discrete\dash time subproblem solution confirms dynamic feasibility.
+
+<!-- chunk {"id": "body-0561", "role": "body", "section": "Paper Body", "weight": 1.0} -->
+
+\def\subfigwidth{0.5\textwidth} \def\subfigfigwidth{0.98\textwidth} \def\subfigwidth{\textwidth} \def\subfigfigwidth{0.7\textwidth} \begin{subfigure}[t]{\subfigwidth} \includegraphics[width=\subfigfigwidth,page=1]{scp\_ff\_pos}% \label{fig:ex\_ff\_pos\_scvx} \begin{subfigure}[t]{\subfigwidth} \includegraphics[width=\subfigfigwidth,page=2]{scp\_ff\_pos}% \label{fig:ex\_ff\_pos\_gusto} The converged trajectories are plotted in \figref{ex\_ff\_pos,ex\_ff\_timeseries}.
+
+<!-- chunk {"id": "body-0562", "role": "body", "section": "Paper Body", "weight": 1.0} -->
+
+The left subplots in \figref{ex\_ff\_pos\_scvx,ex\_ff\_pos\_gusto} show a remarkably similar evolution of the initial guess into the converged trajectory. The final trajectories are visually identical, and both algorithms discover that the maximum allowed flight time of $\tf[,\max]$ is control energy\dash optimal, as Lastly, \figref{ex\_ff\_obstacles} plots the evolution of the nonconvex flight space and obstacle avoidance inequalities eq:ex\_ff\_iss and eq:ex\_quad\_sc\_obs. Our first observation is that the constraints hold at the discrete\dash time nodes, and that the free\dash flyer approaches the ellipsoidal obstacles quite closely. This is similar to how the quadrotor brushes against the obstacles in \figref{ex\_quad\_pos}, and is a common feature of time- or energy\dash optimal trajectories in a cluttered environment.
+
+<!-- chunk {"id": "body-0563", "role": "body", "section": "Paper Body", "weight": 1.0} -->
+
+Our second observation concerns the sawtooth\dash like nonsmooth nature of the SDF time history. Around $\tabs=25~\si{\second}$ and $\tabs=125~\si{\second}$, the approximate SDF comes close to zero even though the position trajectory in \figref{ex\_ff\_pos} is not near a wall at those times. This is a consequence of our modeling, since the SDF is near\dash zero at the room interfaces (see \figref{sdf\_illustration,softmax\_1d\_intuition}), even though these are not physical ``walls''. However, around $\tabs=100~\si{\second}$, the flight space constraint eq:ex\_ff\_iss is actually activated as the free\dash flyer rounds a corner. Roughly speaking, this is intuitively the optimal thing to do. Like a Formula One driver rounding a corner by following the racing line, the free\dash flyer spends less control effort by following the shortest path.
+
+<!-- chunk {"id": "body-0564", "role": "body", "section": "Paper Body", "weight": 1.0} -->
+
+An unfortunate consequence is that this results in minor clipping of the continuous\dash time flight space constraint. The issue can be mitigated by the same strategies as proposed in the last section for the quadrotor example State and control time histories for the converged trajectory of the 6-DoF free-flyer problem. These are visually identical for \scvx and \gusto, so we only show a single plot. Euler angles using the intrinsic Tait-Bryan convention are shown in place of the quaternion attitude. Like in \figref{ex\_quad\_timeseries}, the dots represent the discrete\dash time solution while the continuous lines are obtained by propagating the solution through the actual continuous\dash time dynamics \optieqref{scp\_gen\_cont}{dynamics}. \includegraphics[width=\columnwidth]{code/scvx\_freeflyer\_timeseries}% Signed distance function and obstacle avoidance time histories for the converged trajectory of the 6-DoF free-flyer problem.
+
+<!-- chunk {"id": "body-0565", "role": "body", "section": "Paper Body", "weight": 1.0} -->
+
+Like for \figref{ex\_ff\_timeseries}, these are visually identical for \scvx and \gusto, so we only show a single plot. Note the highly nonlinear nature of the SDF, whose time history exhibits sharp corners as the robot traverses the feasible flight space. Although the SDF constraint eq:ex\_ff\_scvx\_iss is satisfied at the discrete\dash time nodes, minor inter-sample constraint clipping occurs around 100 seconds as the robot rounds a turn in the middle of its trajectory (see \figref{ex\_ff\_pos}). \includegraphics[width=\columnwidth]{code/scvx\_freeflyer\_obstacles}% Modern vehicle engineering is moving in the direction of increased autonomy. This includes aerospace, automotive, and marine transport, as well as robots on land, in the air, and in our homes. No matter the application, a common feature across autonomous systems is the basic requirement to generate trajectories. In a general sense, trajectories serve like plans to be executed in order for the system to complete its task.
+
+<!-- chunk {"id": "body-0566", "role": "body", "section": "Paper Body", "weight": 1.0} -->
+
+Due to the large scale of deployment and/or the safety\dash critical nature of the system, reliable real\dash time onboard trajectory generation has never been more important.
+
+<!-- chunk {"id": "body-0567", "role": "body", "section": "Paper Body", "weight": 1.0} -->
+
+This article takes the stance that convex optimization is a prime contender for the job, thanks to 40 years of optimization research having produced a remarkable suite of numerical methods for quickly and reliably solving convex problems. Many of these methods are now packaged as either commercial or open\dash source off\dash the\dash shelf codes. This makes the injection of convex optimization into an autonomous system easier than ever before, provided that the right high\dash level algorithms exist to leverage To leverage convex optimization for the difficult task of nonconvex trajectory generation, this article provides an expansive tutorial of three algorithms. First, the lossless convexification (\lcvx) algorithm is introduced to remove acute nonconvexities in the control input constraints. This provides an optimal control theory\dash backed way to transform certain families of nonconvex trajectory generation tasks into ones that can be solved in one shot by a convex optimizer. A variable\dash mass rocket landing example at the end of the article illustrates a real\dash world application of the \lcvx method.
+
+<!-- chunk {"id": "body-0568", "role": "body", "section": "Paper Body", "weight": 1.0} -->
+
+Not stopping there, the article then motivates an entire family of optimization methods called sequential convex programming (SCP). These methods use a linearize\dash solve loop whereby a convex optimizer is called several times until a locally optimal trajectory is obtained. SCP strikes a compelling middleground between ``what is possible'' and ``what is acceptable'' for safety\dash critical real\dash time trajectory generation. In particular, SCP inherits much from trust region methods in numerical optimization, and its performance is amenable to theoretical analysis using standard tools of analysis, constrained optimization, and optimal control theory. This articles provides a detailed overview of two specific and closely related SCP algorithms called \scvx and \gusto. To corroborate their effectiveness for difficult trajectory generation tasks, two numerical examples are presented based on a quadrotor and a space\dash station free\dash flyer maintenance The theory behind \lcvx, \scvx, and \gusto is relatively new and under active research, with the oldest method in this article (i.e., classical \lcvx) being just 15 years old.
+
+<!-- chunk {"id": "body-0569", "role": "body", "section": "Paper Body", "weight": 1.0} -->
+
+We firmly believe that neither one of the methods has attained the limits of its capabilities, and this presents the reader with an exciting opportunity to contribute to the effort. It is clear to us that convex optimization has a role to play in the present and future of advanced trajectory generation. With the help of this article and the associated source code, we hope that the reader now has the knowledge and tools to join in the adventure.
+
+<!-- chunk {"id": "body-0570", "role": "body", "section": "Paper Body", "weight": 1.0} -->
+
+% SCP strickes a middleground between what is possible and what is% acceptable. Many algorithms exist to solve nonconvex trajectory generator,% however many are incapable of realtime while others are too convoluted and% finicky to allow reliable solution. SCP offers a clean enough algorithmic% description to enable research on its convergence property, and is rooted in% the widespread family of trust region methods.
+
+<!-- chunk {"id": "body-0571", "role": "body", "section": "Paper Body", "weight": 1.0} -->
+
+% \item Performing trajectory generation autonomously onboard the vehicle is not% only desirable for many of these applications, but it is indeed a necessity% when considering the deployment of autonomous systems either in remote areas% with poor connection, or at scale in a dynamic and uncertain world.% \item Hence, reliable methods for trajectory generation are a fundamental need% if we are to maintain public trust and the high safety standard that we have% come to expect from autonomous or automatic systems% \item we can express trajectory planning problems as optimal control problems,% which are infinite-dimensional optimization problems over function spaces% \item Alhough each application has its own set of challenges, the commonality% among them is the need to use the full spacecraft motion envelope with% limited sensing, actuation, and fuel/power. These% considerations are not unique to space applications, and can be found in% almost all autonomous vehicles. In such applications, convex optimization% presents a systematic and reliable trajectory generation method.
+
+<!-- chunk {"id": "body-0572", "role": "body", "section": "Paper Body", "weight": 1.0} -->
+
+This work was supported in part by the National Science Foundation, Cyber-Physical Systems (CPS) program (award 1931815), by the Office of Naval Research, ONR YIP Program (contract N00014-17-1-2433), and by the King Abdulaziz City for Science and Technology (KACST). The authors would like to extend their gratitude to Yuanqi Mao for his invaluable inputs on sequential convex programming algorithms, to Abhinav Kamath for his meticulous review of every detail, and to Jonathan P. How for the initial encouragement to write \section{Author Information} \begin{authorbio}[Danylo Malyuta]% received the B.Sc. degree in Mechanical Engineering from EPFL and the M.Sc. degree in Robotics, Systems and Control from ETH Z{\"u}rich. He is currently a Ph.D. candidate in the Autonomous Controls Lab at the Department of Aeronautics and Astronautics of the University of Washington. His research is primarily focused on computationally efficient optimization-based control of dynamical systems. Danylo has held internship positions at the NASA Jet Propulsion Laboratory, NASA Johnson Space Center, and Amazon Prime Air.
+
+<!-- chunk {"id": "body-0573", "role": "body", "section": "Paper Body", "weight": 1.0} -->
+
+\begin{authorbio}[Taylor P. Reynolds]% received the B.S. degree in Mathematics \& Engineering from Queen's University in 2016. He received the Ph.D. degree from the Department of Aeronautics \& Astronautics at the University of Washington in 2020 under the supervision of Mehran Mesbahi. During his Ph.D., Taylor worked with NASA JSC and Draper Laboratories to develop advanced guidance algorithms for planetary landing on the SPLICE project, and also co-founded the Aeronautics \& Astronautics CubeSat Team at the University of Washington. He now works as a Research Scientist at Amazon Prime Air.
+
+<!-- chunk {"id": "body-0574", "role": "body", "section": "Paper Body", "weight": 1.0} -->
+
+\begin{authorbio}[Michael Szmuk]% received the B.S. and M.S. degrees in Aerospace Engineering from the University of Texas at Austin. In 2019, he received the Ph.D. degree while working in the Autonomous Controls Lab at the Department of Aeronautics and Astronautics of the University of Washington, under the supervision of \Behcet{} \Acikmese{}. During his academic career, he completed internships at NASA, AFRL, Emergent Space, Blue Origin, and Amazon Prime Air. He now works as a Research Scientist at Amazon Prime Air, specializing in the design of flight control algorithms for autonomous air delivery vehicles.
+
+<!-- chunk {"id": "body-0575", "role": "body", "section": "Paper Body", "weight": 1.0} -->
+
+\begin{authorbio}[Thomas Lew]% is a Ph.D. candidate in Aeronautics and Astronautics at Stanford University. He received the B.Sc. degree in Microengineering from {\'E}cole Polytechnique F{\'e}d{\'e}rale de Lausanne in 2017 and the M.Sc. degree in Robotics from ETH Z{\"u}rich in 2019. His research focuses on the intersection between optimal control and machine learning techniques for robotics and aerospace applications.
+
+<!-- chunk {"id": "body-0576", "role": "body", "section": "Paper Body", "weight": 1.0} -->
+
+\begin{authorbio}[Riccardo Bonalli]% obtained the M.Sc. degree in Mathematical Engineering from Politecnico di Milano, Italy in 2014 and the Ph.D. degree in applied mathematics from Sorbonne Universit{\'e}, France in 2018 in collaboration with ONERA -- The French Aerospace Lab. He is recipient of the ONERA DTIS Best Ph.D. Student Award 2018. He is now a postdoctoral researcher at the Department of Aeronautics and Astronautics at Stanford University. His main research interests concern theoretical and numerical robust optimal control with applications in aerospace systems and robotics.
+
+<!-- chunk {"id": "body-0577", "role": "body", "section": "Paper Body", "weight": 1.0} -->
+
+\begin{authorbio}[Marco Pavone]% is an Associate Professor of Aeronautics and Astronautics at Stanford University, where he is the Director of the Autonomous Systems Laboratory. Before joining Stanford, he was a Research Technologist within the Robotics Section at the NASA Jet Propulsion Laboratory. He received the Ph.D. degree in Aeronautics and Astronautics from the Massachusetts Institute of Technology in 2010. His main research interests are in the development of methodologies for the analysis, design, and control of autonomous systems, with an emphasis on self-driving cars, autonomous aerospace vehicles, and future mobility systems. He is a recipient of a number of awards, including a Presidential Early Career Award for Scientists and Engineers, an ONR YIP Award, an NSF CAREER Award, and a NASA Early Career Faculty Award. He was identified by the American Society for Engineering Education (ASEE) as one of America’s 20 most highly promising investigators under the age of 40. He is currently serving as an Associate Editor for the IEEE Control Systems \begin{authorbio}[\Behcet{} \Acikmese{}]% is a Professor at the University of Washington, Seattle.
+
+<!-- chunk {"id": "body-0578", "role": "body", "section": "Paper Body", "weight": 1.0} -->
+
+He received the Ph.D. degree in Aerospace Engineering from Purdue University. He was a senior technologist at the NASA Jet Propulsion Laboratory (JPL) and a lecturer at the California Institute of Technology. At JPL, he developed control algorithms for planetary landing, spacecraft formation flying, and asteroid and comet sample return missions. He developed the ``flyaway'' control algorithms used successfully in NASA’s Mars Science Laboratory (MSL) and Mars 2020 missions during the landings of Curiosity and Perseverance rovers on Mars. He is a recipient of the NSF CAREER Award, the IEEE Award for Technical Excellence in Aerospace Control, and numerous NASA Achievement awards for his contributions to NASA missions and technology development. His research interests include optimization\dash based control, nonlinear and robust control, and stochastic control.

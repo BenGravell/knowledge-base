@@ -22,11 +22,11 @@ In this study, we utilize a hierarchical game-theoretic framework (level-$k$ gam
 
 <!-- chunk {"id": "body-0006", "role": "body", "section": "Introduction", "weight": 1.5} -->
 
-As illustrated in Fig. 1, we initially encode the driving scene into background information, encompassing vectorized maps and observed agent states, using Transformer encoders. In the future decoding stage, we follow the level-$k$ game theory to design the structure. Concretely, we set up a series of Transformer decoders to implement level-$k$ reasoning. The level-$0$ decoder employs only the initial modality query and encoded scene context as key and value to predict the agent's multi-modal future trajectories. Then, at each iteration $k$, the level-$k$ decoder takes as input the predicted trajectories from the level-$({k - 1})$ decoder, along with the background information, to predict the agent's trajectories at the current level. Moreover, we design a learning process that regulates the agents' trajectories to respond to the trajectories of other agents from the previous level while also staying close to human driving data.
+As illustrated in Fig. 1, we initially encode the driving scene into background information, encompassing vectorized maps and observed agent states, using Transformer encoders. In the future decoding stage, we follow the level-$k$ game theory to design the structure. Concretely, we set up a series of Transformer decoders to implement level-$k$ reasoning. The level-$0$ decoder employs only the initial modality query and encoded scene context as key and value to predict the agent's multi-modal future trajectories. Then, at each iteration $k$, the level-$k$ decoder takes as input the predicted trajectories from the level-$({k - 1})$ decoder, along with the background information, to predict the agent's trajectories at the current level. Moreover, we design a learning process that regulates the agents' trajectories to respond to the trajectories of other agents from the previous level while also staying close to human driving data. The main contributions of this paper are summarized as follows: We propose GameFormer, a Transformer-based interactive prediction and planning framework.
 
 <!-- chunk {"id": "body-0007", "role": "body", "section": "Introduction", "weight": 1.5} -->
 
-We propose GameFormer, a Transformer-based interactive prediction and planning framework. The model employs a hierarchical decoding structure to capture agent interactions, iteratively refine predictions, and is trained based on the level-$k$ game formalism.
+The model employs a hierarchical decoding structure to capture agent interactions, iteratively refine predictions, and is trained based on the level-$k$ game formalism.
 
 <!-- chunk {"id": "body-0008", "role": "body", "section": "Introduction", "weight": 1.5} -->
 
@@ -66,160 +66,132 @@ We leverage level-$k$ game theory to model agent interactions in an iterative ma
 
 <!-- chunk {"id": "body-0017", "role": "body", "section": "Game-theoretic Formulation", "weight": 1.0} -->
 
-For instance, the AV's policy at level-$2$ $\pi_{0}^{}$ would take into account all neighboring agents' policies at level-$1$ $\pi_{1:{N - 1}}^{}$.
+For instance, the AV's policy at level-$2$ $\pi_{0}^{}$ would take into account all neighboring agents' policies at level-$1$ $\pi_{1:{N - 1}}^{}$. Formally, the $i$-th agent's level-$k$ policy is set to optimize the following objective: where $\mathcal{L}{(\cdot)}$ is the loss (or cost) function. It is important to note that policy $\pi$ here represents the multi-modal predicted trajectories (GMM) of an agent and that the loss function is calculated on the trajectory level.
 
 <!-- chunk {"id": "body-0018", "role": "body", "section": "Game-theoretic Formulation", "weight": 1.0} -->
 
-where $\mathcal{L}{( \cdot )}$ is the loss (or cost) function. It is important to note that policy $\pi$ here represents the multi-modal predicted trajectories (GMM) of an agent and that the loss function is calculated on the trajectory level.
-
-<!-- chunk {"id": "body-0019", "role": "body", "section": "Game-theoretic Formulation", "weight": 1.0} -->
-
 For the level-$0$ policies, they do not take into account probable actions or reactions of other agents and instead behave independently. Based on the level-$k$ game theory framework, we design the future decoder, which we elaborate upon in Section 3.3.
 
-<!-- chunk {"id": "body-0020", "role": "body", "section": "Scene Encoding", "weight": 1.0} -->
+<!-- chunk {"id": "body-0019", "role": "body", "section": "Scene Encoding", "weight": 1.0} -->
 
 Input representation. The input data comprises historical state information of agents, $S_{p} \in {\mathbb{R}}^{N \times T_{h} \times d_{s}}$, where $d_{s}$ represents the number of state attributes, and local vectorized map polylines $M \in {\mathbb{R}}^{N \times N_{m} \times N_{p} \times d_{p}}$. For each agent, we find $N_{m}$ nearby map elements such as routes and crosswalks, each containing $N_{p}$ waypoints with $d_{p}$ attributes. The inputs are normalized according to the state of the ego agent, and any missing positions in the tensors are padded with zeros.
 
-<!-- chunk {"id": "body-0021", "role": "body", "section": "Scene Encoding", "weight": 1.0} -->
+<!-- chunk {"id": "body-0020", "role": "body", "section": "Scene Encoding", "weight": 1.0} -->
 
 Agent History Encoding. We use LSTM networks to encode the historical state sequence $S_{p}$ for each agent, resulting in a tensor $A_{p} \in {\mathbb{R}}^{N \times D}$, which contains the past features of all agents. Here, $D$ denotes the hidden feature dimension.
 
-<!-- chunk {"id": "body-0022", "role": "body", "section": "Scene Encoding", "weight": 1.0} -->
+<!-- chunk {"id": "body-0021", "role": "body", "section": "Scene Encoding", "weight": 1.0} -->
 
 Vectorized Map Encoding. To encode the local map polylines of all agents, we use the multi-layer perceptron (MLP) network, which generates a map feature tensor $M_{p} \in {\mathbb{R}}^{N \times N_{m} \times N_{p} \times D}$ with a feature dimension of $D$. We then group the waypoints from the same map element and use max-pooling to aggregate their features, reducing the number of map tokens. The resulting map feature tensor is reshaped into $M_{r} \in {\mathbb{R}}^{N \times N_{mr} \times D}$, where $N_{mr}$ represents the number of aggregated map elements.
 
-<!-- chunk {"id": "body-0023", "role": "body", "section": "Scene Encoding", "weight": 1.0} -->
+<!-- chunk {"id": "body-0022", "role": "body", "section": "Scene Encoding", "weight": 1.0} -->
 
 Relation Encoding. We concatenate the agent features and their corresponding local map features to create an agent-wise scene context tensor $C^{i} = {\lbrack A_{p},M_{p}^{i}\rbrack} \in {\mathbb{R}}^{{({N + N_{mr}})} \times D}$ for each agent. We use a Transformer encoder with $E$ layers to capture the relationships among all the scene elements in each agent's context tensor $C^{i}$. The Transformer encoder is applied to all agents, generating a final scene context encoding $C_{s} \in {\mathbb{R}}^{N \times {({N + N_{mr}})} \times D}$, which represents the common environment background inputs for the subsequent decoder network.
 
-<!-- chunk {"id": "body-0024", "role": "body", "section": "Future Decoding with Level-$k$ Reasoning", "weight": 1.0} -->
+<!-- chunk {"id": "body-0023", "role": "body", "section": "Future Decoding with Level-$k$ Reasoning", "weight": 1.0} -->
 
 Modality embedding. To account for future uncertainties, we need to initialize the modality embedding for each possible future, which serves as the query to the level-$0$ decoder. This can be achieved through either a heuristics-based method, learnable initial queries, or through a data-driven method. Specifically, a learnable initial modality embedding tensor $I \in {\mathbb{R}}^{N \times M \times D}$ is generated, where $M$ represents the number of future modalities.
 
-<!-- chunk {"id": "body-0025", "role": "body", "section": "Future Decoding with Level-$k$ Reasoning", "weight": 1.0} -->
+<!-- chunk {"id": "body-0024", "role": "body", "section": "Future Decoding with Level-$k$ Reasoning", "weight": 1.0} -->
 
 Level-$0$ Decoding. In the level-$0$ decoding layer, a multi-head cross-attention Transformer module is utilized, which takes as input the combination of the initial modality embedding $I$ and the agent's historical encoding in the final scene context $C_{s,A_{p}}$ (by inflating a modality axis), resulting in ${({C_{s,A_{p}} + I})} \in {\mathbb{R}}^{N \times M \times D}$ as the query and the scene context encoding $C_{s}$ as the key and value. The attention is applied to the modality axis for each agent, and the query content features can be obtained after the attention layer as $Z_{L_{0}} \in {\mathbb{R}}^{N \times M \times D}$.
 
-<!-- chunk {"id": "body-0026", "role": "body", "section": "Future Decoding with Level-$k$ Reasoning", "weight": 1.0} -->
+<!-- chunk {"id": "body-0025", "role": "body", "section": "Future Decoding with Level-$k$ Reasoning", "weight": 1.0} -->
 
 Two MLPs are appended to the query content features $Z_{L_{0}}$ to decode the GMM components of predicted futures $G_{L_{0}} \in {\mathbb{R}}^{N \times M \times T_{f} \times 4}$ (corresponding to ($\mu_{x},\mu_{y},\log\sigma_{x},\log\sigma_{y})$ at every timestep) and the scores of these components $P_{L_{0}} \in {\mathbb{R}}^{N \times M \times 1}$.
 
-<!-- chunk {"id": "body-0027", "role": "body", "section": "Future Decoding with Level-$k$ Reasoning", "weight": 1.0} -->
+<!-- chunk {"id": "body-0026", "role": "body", "section": "Future Decoding with Level-$k$ Reasoning", "weight": 1.0} -->
 
 Interaction Decoding. The interaction decoding stage contains $K$ decoding layers corresponding to $K$ reasoning levels. In the level-$k$ layer ($k \geq 1$), it receives all agents' trajectories from the level-($k - 1$) layer $S_{f}^{L_{k - 1}} \in {\mathbb{R}}^{N \times M \times T_{f} \times 2}$ (the mean values of the GMM $G_{L_{k - 1}}$) and use an MLP with max-pooling on the time axis to encode the trajectories, resulting in a tensor of agent multi-modal future trajectory encoding $A_{mf}^{L_{k - 1}} \in {\mathbb{R}}^{N \times M \times D}$.
 
-<!-- chunk {"id": "body-0028", "role": "body", "section": "Future Decoding with Level-$k$ Reasoning", "weight": 1.0} -->
+<!-- chunk {"id": "body-0027", "role": "body", "section": "Future Decoding with Level-$k$ Reasoning", "weight": 1.0} -->
 
 Then, we apply weighted-average-pooling on the modality axis with the predicted scores from the level-($k - 1$) layer $P_{L_{k - 1}}$ to obtain the agent future features $A_{f}^{L_{k - 1}} \in {\mathbb{R}}^{N \times D}$. We use a multi-head self-attention Transformer module to model the interactions between agent future trajectories $A_{fi}^{L_{k - 1}}$ and concatenate the resulting interaction features with the scene context encoding from the encoder part. This yields an updated scene context encoding for agent $i$, denoted by $C_{L_{k}}^{i} = {\lbrack A_{fi}^{L_{k - 1}},C_{s}^{i}\rbrack} \in {\mathbb{R}}^{{({N + N_{m} + N})} \times D}$.
 
-<!-- chunk {"id": "body-0029", "role": "body", "section": "Future Decoding with Level-$k$ Reasoning", "weight": 1.0} -->
+<!-- chunk {"id": "body-0028", "role": "body", "section": "Future Decoding with Level-$k$ Reasoning", "weight": 1.0} -->
 
 We adopt a multi-head cross-attention Transformer module with the query content features from the level-($k - 1$) layer $Z_{L_{k - 1}}^{i}$ and agent future features $A_{mf}^{L_{k - 1}}$, ${({Z_{L_{k - 1}}^{i} + A_{mf}^{i,L_{k - 1}}})} \in {\mathbb{R}}^{M \times D}$ as query and the updated scene context encoding $C_{L_{k}}^{i}$ as key and value. We use a masking strategy to prevent an agent from accessing its own future information from the last layer. For example, agent $A_{0}$ can only get access to the future interaction features of other agents $\{ A_{1},\cdots,A_{N - 1}\}$.
 
-<!-- chunk {"id": "body-0030", "role": "body", "section": "Future Decoding with Level-$k$ Reasoning", "weight": 1.0} -->
+<!-- chunk {"id": "body-0029", "role": "body", "section": "Future Decoding with Level-$k$ Reasoning", "weight": 1.0} -->
 
 Finally, the resulting query content tensor from the cross-attention module $Z_{L_{k}}^{i}$ is passed through two MLPs to decode the agent's GMM components and scores, respectively. Fig. 3 illustrates the detailed structure of a level-$k$ interaction decoder. Note that we share the level-$k$ decoder for all agents to generate multi-agent trajectories at that level. At the final level of interaction decoding, we can obtain multi-modal trajectories for the AV and neighboring agents $G_{L_{K}}$, as well as their scores $P_{L_{K}}$.
 
-<!-- chunk {"id": "body-0031", "role": "body", "section": "Learning Process", "weight": 1.0} -->
+<!-- chunk {"id": "body-0030", "role": "body", "section": "Learning Process", "weight": 1.0} -->
 
 We present a learning process to train our model using the level-$k$ game theory formalism. First, we employ imitation loss as the primary loss to regularize the agent's behaviors, which can be regarded as a surrogate for factors such as traffic regulations and driving styles. The future behavior of an agent is modeled as a Gaussian mixture model (GMM), where each mode $m$ at time step $t$ is described by a Gaussian distribution over the $(x,y)$ coordinates, characterized by mean $\mu_{m}^{t}$ and covariance $\sigma_{m}^{t}$.
 
+<!-- chunk {"id": "body-0031", "role": "body", "section": "Learning Process", "weight": 1.0} -->
+
+The imitation loss is computed using the negative log-likelihood loss from the best-predicted component $m^{\ast}$ (closest to the ground truth) at each timestep, as formulated: The negative log-likelihood loss function $\mathcal{L}_{NLL}$ is defined as follows: where $d_{x} = {\mathbf{s}_{x} - \mu_{x}}$ and $d_{y} = {\mathbf{s}_{y} - \mu_{y}}$, $(\mathbf{s}_{x},\mathbf{s}_{y})$ is ground-truth position; $p_{m \ast}$ is the probability of the selected component, and we use the cross-entropy loss in practice.
+
 <!-- chunk {"id": "body-0032", "role": "body", "section": "Learning Process", "weight": 1.0} -->
 
-For a level-$k$ agent $A_{i}^{(k)}$, we design an auxiliary loss function inspired by prior works that considers the agent's interactions with others. The safety of agent interactions is crucial, and we use an interaction loss (applicable only to decoding levels $k \geq 1$) to encourage the agent to avoid collisions with the possible future trajectories of other level-$({k - 1})$ agents. Specifically, we use a repulsive potential field in the interaction loss to discourage the agent's future trajectories from getting too close to any possible trajectory of any other level-$({k - 1})$ agent $A_{\neg i}^{({k - 1})}$.
+For a level-$k$ agent $A_{i}^{(k)}$, we design an auxiliary loss function inspired by prior works that considers the agent's interactions with others. The safety of agent interactions is crucial, and we use an interaction loss (applicable only to decoding levels $k \geq 1$) to encourage the agent to avoid collisions with the possible future trajectories of other level-$({k - 1})$ agents. Specifically, we use a repulsive potential field in the interaction loss to discourage the agent's future trajectories from getting too close to any possible trajectory of any other level-$({k - 1})$ agent $A_{\neg i}^{({k - 1})}$. The interaction loss is defined as follows: where $d{(\cdot, \cdot)}$ is the $L_{2}$ distance between the future states ($(x,y)$ positions), $m$ is the mode of the agent $i$, $n$ is the mode of the level-$({k - 1})$ agent $j$.
 
 <!-- chunk {"id": "body-0033", "role": "body", "section": "Learning Process", "weight": 1.0} -->
 
-where $d{( \cdot, \cdot )}$ is the $L_{2}$ distance between the future states ($(x,y)$ positions), $m$ is the mode of the agent $i$, $n$ is the mode of the level-$({k - 1})$ agent $j$. To ensure activation of the repulsive force solely within close proximity, a safety margin is introduced, meaning the loss is only applied to interaction pairs with distances smaller than a threshold.
+To ensure activation of the repulsive force solely within close proximity, a safety margin is introduced, meaning the loss is only applied to interaction pairs with distances smaller than a threshold.
 
 <!-- chunk {"id": "body-0034", "role": "body", "section": "Learning Process", "weight": 1.0} -->
 
-The total loss function for the level-$k$ agent $i$ is the weighted sum of the imitation loss and interaction loss.
+The total loss function for the level-$k$ agent $i$ is the weighted sum of the imitation loss and interaction loss. where $w_{1}$ and $w_{2}$ are the weighting factors to balance the influence of the two loss terms.
 
-<!-- chunk {"id": "body-0035", "role": "body", "section": "Learning Process", "weight": 1.0} -->
-
-where $w_{1}$ and $w_{2}$ are the weighting factors to balance the influence of the two loss terms.
-
-<!-- chunk {"id": "body-0036", "role": "body", "section": "Experimental Setup", "weight": 1.0} -->
+<!-- chunk {"id": "body-0035", "role": "body", "section": "Experimental Setup", "weight": 1.0} -->
 
 Dataset. We set up two different model variants for different evaluation purposes. The prediction-oriented model is trained and evaluated using the Waymo open motion dataset (WOMD), specifically addressing the task of predicting the joint trajectories of two interacting agents. For the planning tasks, we train and test the models on both WOMD with selected interactive scenarios and the nuPlan dataset with a comprehensive evaluation benchmark.
 
-<!-- chunk {"id": "body-0037", "role": "body", "section": "Experimental Setup", "weight": 1.0} -->
+<!-- chunk {"id": "body-0036", "role": "body", "section": "Experimental Setup", "weight": 1.0} -->
 
 Prediction-oriented model. We adopt the setting of the WOMD interaction prediction task, where the model predicts the joint future positions of two interacting agents 8 seconds into the future. The neighboring agents within the scene will serve as the background information in the encoding stage, while only the two labeled interacting agents' joint future trajectories are predicted. The model is trained on the entire WOMD training dataset, and we employ the official evaluation metrics, which include minimum average displacement error (minADE), minimum final displacement error (minFDE), miss rate, and mean average precision (mAP). We investigate two different prediction model settings. Firstly, we consider the joint prediction setting, where only $M = 6$ joint trajectories of the two agents are predicted. Secondly, we examine the marginal prediction setting and train our model to predict $M = 64$ marginal trajectories for each agent in the interaction pair. During inference, the EM method proposed in MultiPath++ is employed to generate a set of $6$ marginal trajectories for each agent, from which the top $6$ joint predictions are selected for these two agents.
 
-<!-- chunk {"id": "body-0038", "role": "body", "section": "Experimental Setup", "weight": 1.0} -->
+<!-- chunk {"id": "body-0037", "role": "body", "section": "Experimental Setup", "weight": 1.0} -->
 
 Planning-oriented model. We introduce another model variant designed for planning tasks. Specifically, this variant takes into account multiple neighboring agents around the AV and predicts their future trajectories. The model is trained and tested across two datasets: WOMD and nuPlan. For WOMD, we randomly select 10,000 20-second scenarios, where 9,000 of them are used for training and the remaining 1,000 for validation. Then, we evaluate the model's joint prediction and planning performance on 400 9-second interactive and dynamic scenarios (*e.g*., lane-change, merge, and left-turn) in both open-loop and closed-loop settings. To conduct closed-loop testing, we utilize a log-replay simulator to replay the original scenarios involving other agents, with our planner taking control of the AV. In open-loop testing, we employ distance-based error metrics, which include planning ADE, collision rate, miss rate, and prediction ADE.
 
-<!-- chunk {"id": "body-0039", "role": "body", "section": "Experimental Setup", "weight": 1.0} -->
+<!-- chunk {"id": "body-0038", "role": "body", "section": "Experimental Setup", "weight": 1.0} -->
 
 In closed-loop testing, we focus on evaluating the planner's performance in a realistic driving context by measuring metrics including success rate (no collision or off-route), progress along the route, longitudinal acceleration and jerk, lateral acceleration, and position errors. For the nuPlan dataset, we design a comprehensive planning framework and adhere to the nuPlan challenge settings to evaluate the planning performance. Specifically, we evaluate the planner's performance in three tasks: open-loop planning, closed-loop planning with non-reactive agents, and closed-loop with reactive agents. These tasks are evaluated using a comprehensive set of metrics provided by the nuPlan platform, and an overall score is derived based on these tasks. More information about our models is provided in the supplementary material.
 
-<!-- chunk {"id": "body-0040", "role": "body", "section": "Interaction Prediction", "weight": 1.0} -->
+<!-- chunk {"id": "body-0039", "role": "body", "section": "Interaction Prediction", "weight": 1.0} -->
 
 Within the prediction-oriented model, we use a stack of $E = 6$ Transformer encoder layers, and the hidden feature dimension is set to $D = 256$. We consider $20$ neighboring agents around the two interacting agents as background information and employ $K = 6$ decoding layers. The model only generates trajectories for the two labeled interacting agents. Moreover, the local map elements for each agent comprise possible lane polylines and crosswalk polylines.
 
-<!-- chunk {"id": "body-0041", "role": "body", "section": "Interaction Prediction", "weight": 1.0} -->
+<!-- chunk {"id": "body-0040", "role": "body", "section": "Interaction Prediction", "weight": 1.0} -->
 
 Quantitative results. Table 1 summarizes the prediction performance of our model in comparison with state-of-the-art methods on the WOMD interaction prediction (joint prediction of two interacting agents) benchmark. The metrics are averaged over different object types (vehicle, pedestrian, and cyclist) and evaluation times (3, 5, and 8 seconds). Our joint prediction model (GameFormer (J, $M$=6)) outperforms existing methods in terms of position errors. This can be attributed to its superior ability to capture future interactions between agents through an iterative process and to predict future trajectories in a scene-consistent manner. However, the scoring performance of the joint model is limited without predicting an over-complete set of trajectories and aggregation. To mitigate this issue, we employ the marginal prediction model (GameFormer (M, $M$=64)) with EM aggregation, which significantly improves the scoring performance (better mAP metric). The overall performance of our marginal model is comparable to that of the ensemble and more complicated MTR model. Nevertheless, it is worth noting that marginal ensemble models may not be practical for real-world applications due to their substantial computational burden.
 
-<!-- chunk {"id": "body-0042", "role": "body", "section": "Interaction Prediction", "weight": 1.0} -->
+<!-- chunk {"id": "body-0041", "role": "body", "section": "Interaction Prediction", "weight": 1.0} -->
 
 Therefore, we utilize the joint prediction model, which provides better prediction accuracy and computational efficiency, for planning tests.
 
-<!-- chunk {"id": "body-0043", "role": "body", "section": "Interaction Prediction", "weight": 1.0} -->
-
-Qualitative results. Fig. 4 illustrates the interaction prediction performance of our approach in several typical scenarios. In the vehicle-vehicle interaction scenario, two distinct situations are captured by our model: vehicle 2 accelerates to take precedence at the intersection, and vehicle 2 yields to vehicle 1. In both cases, our model predicts that vehicle 1 creeps forward to observe the actions of vehicle 2 before executing a left turn. In the vehicle-pedestrian scenario, our model predicts that the vehicle will stop and wait for the pedestrian to pass before starting to move. In the vehicle-cyclist interaction scenario, where the vehicle intends to merge into the right lane, our model predicts the vehicle will decelerate and follow behind the cyclist in that lane. Overall, the results manifest that our model can capture multiple interaction patterns of interacting agents and accurately predict their possible joint futures.
-
-<!-- chunk {"id": "body-0044", "role": "body", "section": "Open-loop Planning", "weight": 1.0} -->
+<!-- chunk {"id": "body-0042", "role": "body", "section": "Open-loop Planning", "weight": 1.0} -->
 
 We first conduct the planning tests in selected WOMD scenarios with a prediction/planning horizon of 5 seconds. The model uses a stack of $E = 6$ Transformer encoder layers, and we consider $10$ neighboring agents closest to the ego vehicle to predict $M = 6$ joint future trajectories for them.
 
-<!-- chunk {"id": "body-0045", "role": "body", "section": "Open-loop Planning", "weight": 1.0} -->
+<!-- chunk {"id": "body-0043", "role": "body", "section": "Open-loop Planning", "weight": 1.0} -->
 
 Determining the decoding levels. To determine the optimal reasoning levels for planning, we analyze the impact of decoding layers on open-loop planning performance, and the results are presented in Table 2. Although the planning ADE and prediction ADE exhibit a slight decrease with additional decoding layers, the miss rate and collision rate are at their lowest when the decoding level is $4$. The intuition behind this observation is that humans are capable of performing only a limited depth of reasoning, and the optimal iteration depth empirically appears to be $4$ in this test.
 
-<!-- chunk {"id": "body-0046", "role": "body", "section": "Open-loop Planning", "weight": 1.0} -->
-
-Quantitative results. Our joint prediction and planning model employs $4$ decoding layers, and the results of the final decoding layer (the most-likely future evaluated by the trained scorer) are utilized as the plan for the AV and predictions for other agents. We set up some imitation learning-based planning methods as baselines, which are: 1) vanilla imitation learning (IL), 2) deep imitative model (DIM), 3) MultiPath++ (which predicts multi-modal trajectories for the ego agent), 4) MTR-e2e (end-to-end variant with learnable motion queries), and 5) differentiable integrated prediction and planning (DIPP). Table 3 reports the open-loop planning performance of our model in comparison with the baseline methods. The results reveal that our model performs significantly better than vanilla IL and DIM, because they are just trained to output the ego's trajectory while not explicitly predicting other agents' future behaviors. Compared to performant motion prediction models (MultiPath++ and MTR-e2e), our model also shows better planning metrics for the ego agent.
-
-<!-- chunk {"id": "body-0047", "role": "body", "section": "Open-loop Planning", "weight": 1.0} -->
-
-Moreover, our model outperforms DIPP (a joint prediction and planning method) in both planning and prediction metrics, especially the collision rate. These results emphasize the advantage of our model, which explicitly considers all agents' future behaviors and iteratively refines the interaction process.
-
-<!-- chunk {"id": "body-0048", "role": "body", "section": "Open-loop Planning", "weight": 1.0} -->
-
-Qualitative results. Fig. 5 displays qualitative results of our model's open-loop planning performance in complex driving scenarios. For clarity, only the most-likely trajectories of the agents are displayed. These results demonstrate that our model can generate a plausible future trajectory for the AV and handle diverse interaction scenarios, and predictions of the surrounding agents enhance the interpretability of our planning model's output.
-
-<!-- chunk {"id": "body-0049", "role": "body", "section": "Closed-loop Planning", "weight": 1.0} -->
+<!-- chunk {"id": "body-0044", "role": "body", "section": "Closed-loop Planning", "weight": 1.0} -->
 
 We evaluate the closed-loop planning performance of our model in selected WOMD scenarios. Within a simulated environment, we execute the planned trajectory generated by the model and update the ego agent's state at each time step, while other agents follow their logged trajectories from the dataset. Since other agents do not react to the ego agent, the success rate is a lower bound for safety assessment. For planning-based methods (DIPP and our proposed method), we project the output trajectory onto a reference path to ensure the ego vehicle's adherence to the roadway. Additionally, we employ a cost-based refinement planner, which utilizes the initial output trajectory and the predicted trajectories of other agents to explicitly regulate the ego agent's actions. Our method is compared against four baseline methods: 1) vanilla IL, 2) robust imitative planning (RIP), 3) conservative Q-learning (CQL), and 4) DIPP. We report the means and standard deviations of the planning-based methods over three training runs (models trained with different seeds).
 
-<!-- chunk {"id": "body-0050", "role": "body", "section": "Closed-loop Planning", "weight": 1.0} -->
+<!-- chunk {"id": "body-0045", "role": "body", "section": "Closed-loop Planning", "weight": 1.0} -->
 
 The quantitative results of closed-loop testing are summarized in Table 4. The results show that the IL and offline RL methods exhibit subpar performance in the closed-loop test, primarily due to distributional shifts and casual confusion. In contrast, planning-based methods perform significantly better across all metrics. Without the refinement step, our model outperforms DIPP because it captures agent interactions more effectively and thus the raw trajectory is closer to an expert driver. With the refinement step, the planner becomes more robust against training seeds, and our method surpasses DIPP because it can deliver better predictions of agent interactions and provide a good initial plan to the refinement planner.
 
-<!-- chunk {"id": "body-0051", "role": "body", "section": "nuPlan Benchmark Evaluation", "weight": 1.0} -->
+<!-- chunk {"id": "body-0046", "role": "body", "section": "nuPlan Benchmark Evaluation", "weight": 1.0} -->
 
 To handle diverse driving scenarios in the nuPlan platform, we develop a comprehensive planning framework GameFormer Planner. It fulfills all important steps in the planning pipeline, including feature processing, path planning, model query, and motion refinement. We increase the prediction and planning horizon to 8 seconds to meet benchmark requirements. The evaluation is conducted over three tasks: open-loop (OL) planning, closed-loop (CL) planning with non-reactive agents, and closed-loop planning with reactive agents. The score for each individual task is calculated using various metrics and scoring functions, and an overall score is obtained by aggregating these task-specific scores. It is important to note that we reduce the size of our model (encoder and decoder layers) due to limited computational resources on the test server. The performance of our model on the nuPlan test benchmark is presented in Table 5, in comparison with other competitive learning-based methods and a rule-based approach (IDM Planner). The results reveal the capability of our planning framework in achieving high-quality planning results across the evaluated tasks.
 
-<!-- chunk {"id": "body-0052", "role": "body", "section": "nuPlan Benchmark Evaluation", "weight": 1.0} -->
+<!-- chunk {"id": "body-0047", "role": "body", "section": "nuPlan Benchmark Evaluation", "weight": 1.0} -->
 
 Moreover, the closed-loop visualization results illustrate the ability of our model to facilitate the ego vehicle in making interactive and human-like decisions.
 
-<!-- chunk {"id": "body-0053", "role": "body", "section": "Ablation Study", "weight": 1.0} -->
+<!-- chunk {"id": "body-0048", "role": "body", "section": "Ablation Study", "weight": 1.0} -->
 
 Effects of agent future modeling. We investigate the impact of different agent future modeling settings on open-loop planning performance in WOMD scenarios. We compare our base model to three ablated models: 1) No future: agent future trajectories from the preceding level are not incorporated in the decoding process at the current level, 2) No self-attention: agent future trajectories are incorporated but not processed through a self-attention module, and 3) No interaction loss: the model is trained without the proposed interaction loss. The results, as presented in Table 6, demonstrate that our game-theoretic approach can significantly improve planning and prediction accuracy. It underscores the advantage of utilizing the future trajectories of agents from the previous level as contextual information for the current level. Additionally, incorporating a self-attention module to represent future interactions among agents improves the accuracy of planning the prediction. Using the proposed interaction loss during training can significantly reduce the collision rate.
 
-<!-- chunk {"id": "body-0054", "role": "body", "section": "Ablation Study", "weight": 1.0} -->
-
-Influence of decoder structures. We investigate the influence of decoder structures on the open-loop planning task in WOMD scenarios. Specifically, we examine two ablated models. First, we assess the importance of incorporating $k$ independent decoder layers, as opposed to training a single shared interaction decoder and iteratively applying it $k$ times. Second, we explore the impact of simplifying the decoder into a multi-layer Transformer that does not generate intermediate states. This translates into applying the loss solely to the final decoding layer, rather than all intermediate layers. The results presented in Table 7 demonstrate better open-loop planning performance for the base model (independent decoding layers with intermediate trajectories). This design allows each layer to capture different levels of relationships, thereby facilitating hierarchical modeling. In addition, the omission of intermediate trajectory outputs can degrade the model's performance, highlighting the necessity of regularizing the intermediate state outputs.
-
-<!-- chunk {"id": "body-0055", "role": "body", "section": "Ablation Study", "weight": 1.0} -->
-
-Ablation results on the interaction prediction task. We investigate the influence of the decoder on the WOMD interaction prediction task. Specifically, we vary the decoding levels from 0 to 8 to determine the optimal decoding level for this task. Moreover, we remove either the agent future encoding part from the decoder or the self-attention module (for modeling agent future interactions) to investigate their influences on prediction performance. We train the ablated models using the same training set and evaluate their performance on the validation set. The results in Table 8 reveal that the empirically optimal number of decoding layers is 6 for the interaction prediction task. It is evident that fewer decoding layers fail to adequately capture the interaction dynamics, resulting in subpar prediction performance. However, using more than 6 decoding layers may introduce training instability and overfitting issues, leading to worse testing performance. Similarly, we find that incorporating predicted agent future information is crucial for achieving good performance, and using self-attention to model the interaction among agents' futures can also improve prediction accuracy.
-
-<!-- chunk {"id": "body-0056", "role": "body", "section": "Conclusions", "weight": 1.0} -->
+<!-- chunk {"id": "body-0049", "role": "body", "section": "Conclusions", "weight": 1.0} -->
 
 This paper introduces GameFormer, a Transformer-based model that utilizes hierarchical game theory for interactive prediction and planning. Our proposed approach incorporates novel level-$k$ interaction decoders in the Transformer prediction model that iteratively refine the future trajectories of interacting agents. We also implement a learning process that regulates the predicted behaviors of agents based on the prediction results from the previous level. Experimental results on the Waymo open motion dataset demonstrate that our model achieves state-of-the-art accuracy in interaction prediction and outperforms baseline methods in both open-loop and closed-loop planning tests. Moreover, our proposed planning framework delivers leading performance on the nuPlan planning benchmark.

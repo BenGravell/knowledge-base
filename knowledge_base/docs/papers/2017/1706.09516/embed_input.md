@@ -28,183 +28,168 @@ As discussed in Section 3.1, an effective and efficient way to deal with a categ
 
 <!-- chunk {"id": "body-0007", "role": "body", "section": "Greedy TS", "weight": 1.0} -->
 
-A straightforward approach is to estimate ${\mathbb{E}}{({{y \mid x^{i}} = x_{k}^{i}})}$ as the average value of $y$ over the training examples with the same category $x_{k}^{i}$.
+A straightforward approach is to estimate ${\mathbb{E}}{({{y \mid x^{i}} = x_{k}^{i}})}$ as the average value of $y$ over the training examples with the same category $x_{k}^{i}$. This estimate is noisy for low-frequency categories, and one usually smoothes it by some prior $p$: where $a > 0$ is a parameter. A common setting for $p$ is the average target value in the dataset.
 
 <!-- chunk {"id": "body-0008", "role": "body", "section": "Greedy TS", "weight": 1.0} -->
 
-where $a > 0$ is a parameter. A common setting for $p$ is the average target value in the dataset.
+The problem of such greedy approach is target leakage: feature ${\hat{x}}_{k}^{i}$ is computed using $y_{k}$, the target of $\mathbf{x}_{k}$. This leads to a conditional shift: the distribution of $\left. {\hat{x}}^{i} \middle| y \right.$ differs for training and test examples. The following extreme example illustrates how dramatically this may affect the generalization error of the learned model. Assume $i$-th feature is categorical, all its values are unique, and for each category $A$, we have ${P{({y = {1 \mid x^{i}} = A})}} = 0.5$ for a classification task.
 
 <!-- chunk {"id": "body-0009", "role": "body", "section": "Greedy TS", "weight": 1.0} -->
 
-The problem of such greedy approach is target leakage: feature ${\hat{x}}_{k}^{i}$ is computed using $y_{k}$, the target of $\mathbf{x}_{k}$. This leads to a conditional shift: the distribution of $\left. {\hat{x}}^{i} \middle| y \right.$ differs for training and test examples. The following extreme example illustrates how dramatically this may affect the generalization error of the learned model. Assume $i$-th feature is categorical, all its values are unique, and for each category $A$, we have ${P{({y = {1 \mid x^{i}} = A})}} = 0.5$ for a classification task.
+Then, in the training dataset, ${\hat{x}}_{k}^{i} = \frac{y_{k} + {ap}}{1 + a}$, so it is sufficient to make only one split with threshold $t = \frac{0.5 + {ap}}{1 + a}$ to perfectly classify all training examples. However, for all test examples, the value of the greedy TS is $p$, and the obtained model predicts $0$ for all of them if $p < t$ and predicts $1$ otherwise, thus having accuracy $0.5$ in both cases.
 
 <!-- chunk {"id": "body-0010", "role": "body", "section": "Greedy TS", "weight": 1.0} -->
 
-Then, in the training dataset, ${\hat{x}}_{k}^{i} = \frac{y_{k} + {ap}}{1 + a}$, so it is sufficient to make only one split with threshold $t = \frac{0.5 + {ap}}{1 + a}$ to perfectly classify all training examples. However, for all test examples, the value of the greedy TS is $p$, and the obtained model predicts $0$ for all of them if $p < t$ and predicts $1$ otherwise, thus having accuracy $0.5$ in both cases.
-
-<!-- chunk {"id": "body-0011", "role": "body", "section": "Greedy TS", "weight": 1.0} -->
-
 There are several ways to avoid this conditional shift.
 
-<!-- chunk {"id": "body-0012", "role": "body", "section": "Holdout TS", "weight": 1.0} -->
+<!-- chunk {"id": "body-0011", "role": "body", "section": "Holdout TS", "weight": 1.0} -->
 
-One way is to partition the training dataset into two parts $\mathcal{D} = {{\hat{\mathcal{D}}}_{0} \sqcup {\hat{\mathcal{D}}}_{1}}$ and use $\mathcal{D}_{k} = {\hat{\mathcal{D}}}_{0}$ for calculating the TS according to and ${\hat{\mathcal{D}}}_{1}$ for training (e.g., applied in for Criteo dataset). Though such holdout TS satisfies P1, this approach significantly reduces the amount of data used both for training the model and calculating the TS.
+One way is to partition the training dataset into two parts $\mathcal{D} = {{\hat{\mathcal{D}}}_{0} \sqcup {\hat{\mathcal{D}}}_{1}}$ and use $\mathcal{D}_{k} = {\hat{\mathcal{D}}}_{0}$ for calculating the TS according to and ${\hat{\mathcal{D}}}_{1}$ for training (e.g., applied in for Criteo dataset). Though such holdout TS satisfies P1, this approach significantly reduces the amount of data used both for training the model and calculating the TS. So, it violates the following desired property: Effective usage of all training data for calculating TS features and for learning a model.
 
-<!-- chunk {"id": "body-0013", "role": "body", "section": "Holdout TS", "weight": 1.0} -->
-
-Effective usage of all training data for calculating TS features and for learning a model.
-
-<!-- chunk {"id": "body-0014", "role": "body", "section": "Leave-one-out TS", "weight": 1.0} -->
+<!-- chunk {"id": "body-0012", "role": "body", "section": "Leave-one-out TS", "weight": 1.0} -->
 
 At first glance, a leave-one-out technique might work well: take $\mathcal{D}_{k} = {\mathcal{D} \smallsetminus \mathbf{x}_{k}}$ for training examples $\mathbf{x}_{k}$ and $\mathcal{D}_{k} = \mathcal{D}$ for test ones. Surprisingly, it does not prevent target leakage. Indeed, consider a constant categorical feature: $x_{k}^{i} = A$ for all examples. Let $n^{+}$ be the number of examples with $y = 1$, then ${\hat{x}}_{k}^{i} = \frac{{n^{+} - y_{k}} + {ap}}{{n - 1} + a}$ and one can perfectly classify the training dataset by making a split with threshold $t = \frac{{n^{+} - 0.5} + {ap}}{{n - 1} + a}$.
 
-<!-- chunk {"id": "body-0015", "role": "body", "section": "Ordered TS", "weight": 1.0} -->
+<!-- chunk {"id": "body-0013", "role": "body", "section": "Ordered TS", "weight": 1.0} -->
 
 CatBoost uses a more effective strategy. It relies on the ordering principle, the central idea of the paper, and is inspired by online learning algorithms which get training examples sequentially in time ). Clearly, the values of TS for each example rely only on the observed history. To adapt this idea to standard offline setting, we introduce an artificial "time", i.e., a random permutation $\sigma$ of the training examples. Then, for each example, we use all the available "history" to compute its TS, i.e., take $\mathcal{D}_{k} = {\{\mathbf{x}_{j}:\sigma{(j)} < \sigma{(k)}}$} in Equation for a training example and $\mathcal{D}_{k} = \mathcal{D}$ for a test one. The obtained ordered TS satisfies the requirement P1 and allows to use all training data for learning the model (P2). Note that, if we use only one random permutation, then preceding examples have TS with much higher variance than subsequent ones.
 
-<!-- chunk {"id": "body-0016", "role": "body", "section": "Ordered TS", "weight": 1.0} -->
+<!-- chunk {"id": "body-0014", "role": "body", "section": "Ordered TS", "weight": 1.0} -->
 
 To this end, CatBoost uses different permutations for different steps of gradient boosting, see details in Section 5.
 
-<!-- chunk {"id": "body-0017", "role": "body", "section": "Prediction shift", "weight": 1.0} -->
+<!-- chunk {"id": "body-0015", "role": "body", "section": "Prediction shift", "weight": 1.0} -->
 
 In this section, we reveal the problem of prediction shift in gradient boosting, which was neither recognized nor previously addressed. Like in case of TS, prediction shift is caused by a special kind of target leakage. Our solution is called ordered boosting and resembles the ordered TS method.
 
-<!-- chunk {"id": "body-0018", "role": "body", "section": "Prediction shift", "weight": 1.0} -->
+<!-- chunk {"id": "body-0016", "role": "body", "section": "Prediction shift", "weight": 1.0} -->
 
-Let us go back to the gradient boosting procedure described in Section 2.
+Let us go back to the gradient boosting procedure described in Section 2. In practice, the expectation in is unknown and is usually approximated using the same dataset $\mathcal{D}$: Now we describe and analyze the following chain of shifts: the conditional distribution of the gradient ${g^{t}{(\mathbf{x}_{k},y_{k})}} \mid \mathbf{x}_{k}$ (accounting for randomness of $\mathcal{D} \smallsetminus {\{\mathbf{x}_{k}\}}$) is shifted from that distribution on a test example ${g^{t}{(\mathbf{x},y)}} \mid \mathbf{x}$; in turn, base predictor $h^{t}$ defined by Equation is biased from the solution of Equation; this, finally, affects the generalization ability of the trained model $F^{t}$.
 
-<!-- chunk {"id": "body-0019", "role": "body", "section": "Prediction shift", "weight": 1.0} -->
-
-in turn, base predictor $h^{t}$ defined by Equation is biased from the solution of Equation;
-
-<!-- chunk {"id": "body-0020", "role": "body", "section": "Prediction shift", "weight": 1.0} -->
-
-this, finally, affects the generalization ability of the trained model $F^{t}$.
-
-<!-- chunk {"id": "body-0021", "role": "body", "section": "Prediction shift", "weight": 1.0} -->
+<!-- chunk {"id": "body-0017", "role": "body", "section": "Prediction shift", "weight": 1.0} -->
 
 As in the case of TS, these problems are caused by the target leakage. Indeed, gradients used at each step are estimated using the target values of the same data points the current model $F^{t - 1}$ was built. However, the conditional distribution ${F^{t - 1}{(\mathbf{x}_{k})}} \mid \mathbf{x}_{k}$ for a training example $\mathbf{x}_{k}$ is shifted, in general, from the distribution ${F^{t - 1}{(\mathbf{x})}} \mid \mathbf{x}$ for a test example $\mathbf{x}$. We call this a prediction shift.
 
-<!-- chunk {"id": "body-0022", "role": "body", "section": "Analysis of prediction shift", "weight": 1.0} -->
+<!-- chunk {"id": "body-0018", "role": "body", "section": "Analysis of prediction shift", "weight": 1.0} -->
 
 We formally analyze the problem of prediction shift in a simple case of a regression task with the quadratic loss function ${L{(y,\hat{y})}} = {({y - \hat{y}})}^{2}$.^44^4We restrict the rest of Section 4 to this case, but the approaches of Section 4.2 are applicable to other tasks. In this case, the negative gradient $- {g^{t}{(\mathbf{x}_{k},y_{k})}}$ in Equation can be substituted by the residual function ${r^{t - 1}{(\mathbf{x}_{k},y_{k})}}:={y_{k} - {F^{t - 1}{(\mathbf{x}_{k})}}}$.^55^5Here we removed the multiplier 2, what does not matter for further analysis. Assume we have $m = 2$ features $x^{1},x^{2}$ that are i.i.d.
 
-<!-- chunk {"id": "body-0023", "role": "body", "section": "Ordered boosting", "weight": 1.0} -->
+<!-- chunk {"id": "body-0019", "role": "body", "section": "Ordered boosting", "weight": 1.0} -->
 
 Here we propose a boosting algorithm which does not suffer from the prediction shift problem described in Section 4.1. Assuming access to an unlimited amount of training data, we can easily construct such an algorithm. At each step of boosting, we sample a new dataset $\mathcal{D}_{t}$ independently and obtain unshifted residuals by applying the current model to new training examples. In practice, however, labeled data is limited. Assume that we learn a model with $I$ trees. To make the residual $r^{I - 1}{(\mathbf{x}_{k},y_{k})}$ unshifted, we need to have $F^{I - 1}$ trained without the example $\mathbf{x}_{k}$. Since we need unbiased residuals for all training examples, no examples may be used for training $F^{I - 1}$, which at first glance makes the training process impossible. However, it is possible to maintain a set of models differing by examples used for their training. Then, for calculating the residual on an example, we use a model trained without it.
 
-<!-- chunk {"id": "body-0024", "role": "body", "section": "Ordered boosting", "weight": 1.0} -->
+<!-- chunk {"id": "body-0020", "role": "body", "section": "Ordered boosting", "weight": 1.0} -->
 
 In order to construct such a set of models, we can use the ordering principle previously applied to TS in Section 3.2. To illustrate the idea, assume that we take one random permutation $\sigma$ of the training examples and maintain $n$ different supporting models $M_{1},\ldots,M_{n}$ such that the model $M_{i}$ is learned using only the first $i$ examples in the permutation. At each step, in order to obtain the residual for $j$-th sample, we use the model $M_{j - 1}$ (see Figure 1). The resulting Algorithm 1 is called ordered boosting below. Unfortunately, this algorithm is not feasible in most practical tasks due to the need of training $n$ different models, what increase the complexity and memory requirements by $n$ times. In CatBoost, we implemented a modification of this algorithm on the basis of the gradient boosting algorithm with decision trees as base predictors (GBDT) described in Section 5.
 
-<!-- chunk {"id": "body-0025", "role": "body", "section": "Ordered boosting with categorical features", "weight": 1.0} -->
+<!-- chunk {"id": "body-0021", "role": "body", "section": "Ordered boosting with categorical features", "weight": 1.0} -->
 
 In Sections 3.2 and 4.2 we proposed to use random permutations $\sigma_{cat}$ and $\sigma_{boost}$ of training examples for the TS calculation and for ordered boosting, respectively. Combining them in one algorithm, we should take $\sigma_{cat} = \sigma_{boost}$ to avoid prediction shift. This guarantees that target $y_{i}$ is not used for training $M_{i}$ (neither for the TS calculation, nor for the gradient estimation). See Appendix F for theoretical guarantees. Empirical results confirming the importance of having $\sigma_{cat} = \sigma_{boost}$ are presented in Appendix G.
 
-<!-- chunk {"id": "body-0026", "role": "body", "section": "Practical implementation of ordered boosting", "weight": 1.0} -->
+<!-- chunk {"id": "body-0022", "role": "body", "section": "Practical implementation of ordered boosting", "weight": 1.0} -->
 
 CatBoost has two boosting modes, Ordered and Plain. The latter mode is the standard GBDT algorithm with inbuilt ordered TS. The former mode presents an efficient modification of Algorithm 1. A formal description of the algorithm is included in Appendix B. In this section, we overview the most important implementation details.
 
-<!-- chunk {"id": "body-0027", "role": "body", "section": "Practical implementation of ordered boosting", "weight": 1.0} -->
+<!-- chunk {"id": "body-0023", "role": "body", "section": "Practical implementation of ordered boosting", "weight": 1.0} -->
 
-foreach step of top-down procedure do
-foreach candidate split c do
-Δ(i) ← avg(gradr(p) for p: leafr(p) = leafr(i)) for i = 1..n;
+Algorithm 1 Ordered boosting foreach step of top-down procedure do foreach candidate split c do Δ(i) ← avg(gradr(p) for p: leafr(p) = leafr(i)) for i = 1..n; Δ(i) ← avg(gradr, σr (i) − 1(p) for p: leafr(p) = leafr(i), σr(p) < σr(i)) for i = 1..n; Mr′(i) ← Mr′(i) − αavg(gradr′(p) for p: leafr′(p) = leafr′(i)) for r′ = 1..s, i = 1..n; Mr′, j(i) ← Mr′, j(i) − αavg(gradr′, j(p) for p: leafr′(p) = leafr′(i), σr′(p) ≤ j) for r′ = 1..s, i = 1..n, j ≥ σr′ (i) − 1; Algorithm 2
 
-<!-- chunk {"id": "body-0028", "role": "body", "section": "Practical implementation of ordered boosting", "weight": 1.0} -->
+<!-- chunk {"id": "body-0024", "role": "body", "section": "Practical implementation of ordered boosting", "weight": 1.0} -->
 
-Δ(i) ← avg(gradr, σr (i) − 1(p) for p: leafr(p) = leafr(i), σr(p) &lt; σr(i)) for i = 1..n;
-Mr′(i) ← Mr′(i) − αavg(gradr′(p) for p: leafr′(p) = leafr′(i)) for r′ = 1..s, i = 1..n;
+Building a tree in CatBoost At the start, CatBoost generates $s + 1$ independent random permutations of the training dataset.
 
-<!-- chunk {"id": "body-0029", "role": "body", "section": "Practical implementation of ordered boosting", "weight": 1.0} -->
+<!-- chunk {"id": "body-0025", "role": "body", "section": "Practical implementation of ordered boosting", "weight": 1.0} -->
 
-At the start, CatBoost generates $s + 1$ independent random permutations of the training dataset. The permutations $\sigma_{1},\ldots,\sigma_{s}$ are used for evaluation of splits that define tree structures (i.e., the internal nodes), while $\sigma_{0}$ serves for choosing the leaf values $b_{j}$ of the obtained trees (see Equation ). For examples with short history in a given permutation, both TS and predictions used by ordered boosting ($M_{{\sigma{(i)}} - 1}{(\mathbf{x}_{i})}$ in Algorithm 1) have a high variance. Therefore, using only one permutation may increase the variance of the final model predictions, while several permutations allow us to reduce this effect in a way we further describe. The advantage of several permutations is confirmed by our experiments in Section 6.
+The permutations $\sigma_{1},\ldots,\sigma_{s}$ are used for evaluation of splits that define tree structures (i.e., the internal nodes), while $\sigma_{0}$ serves for choosing the leaf values $b_{j}$ of the obtained trees (see Equation). For examples with short history in a given permutation, both TS and predictions used by ordered boosting ($M_{{\sigma{(i)}} - 1}{(\mathbf{x}_{i})}$ in Algorithm 1) have a high variance. Therefore, using only one permutation may increase the variance of the final model predictions, while several permutations allow us to reduce this effect in a way we further describe. The advantage of several permutations is confirmed by our experiments in Section 6.
 
-<!-- chunk {"id": "body-0030", "role": "body", "section": "Building a tree", "weight": 1.0} -->
+<!-- chunk {"id": "body-0026", "role": "body", "section": "Building a tree", "weight": 1.0} -->
 
 In CatBoost, base predictors are oblivious decision trees also called decision tables. Term oblivious means that the same splitting criterion is used across an entire level of the tree. Such trees are balanced, less prone to overfitting, and allow speeding up execution at testing time significantly. The procedure of building a tree in CatBoost is described in Algorithm 2.
 
-<!-- chunk {"id": "body-0031", "role": "body", "section": "Building a tree", "weight": 1.0} -->
+<!-- chunk {"id": "body-0027", "role": "body", "section": "Building a tree", "weight": 1.0} -->
 
 In the Ordered boosting mode, during the learning process, we maintain the supporting models $M_{r,j}$, where $M_{r,j}{(i)}$ is the current prediction for the $i$-th example based on the first $j$ examples in the permutation $\sigma_{r}$. At each iteration $t$ of the algorithm, we sample a random permutation $\sigma_{r}$ from $\{\sigma_{1},\ldots,\sigma_{s}\}$ and construct a tree $T_{t}$ on the basis of it. First, for categorical features, all TS are computed according to this permutation. Second, the permutation affects the tree learning procedure. Namely, based on $M_{r,j}{(i)}$, we compute the corresponding gradients ${grad_{r,j}{(i)}} = \left.
 
-<!-- chunk {"id": "body-0032", "role": "body", "section": "Building a tree", "weight": 1.0} -->
+<!-- chunk {"id": "body-0028", "role": "body", "section": "Building a tree", "weight": 1.0} -->
 
 \frac{\partial{L{(y_{i},s)}}}{\partial s} \right|_{s = {M_{r,j}{(i)}}}$. Then, while constructing a tree, we approximate the gradient $G$ in terms of the cosine similarity $\cos{( \cdot, \cdot )}$, where, for each example $i$, we take the gradient $grad_{r,{{\sigma{(i)}} - 1}}{(i)}$ (it is based only on the previous examples in $\sigma_{r}$). At the candidate splits evaluation step, the leaf value $\Delta{(i)}$ for example $i$ is obtained individually by averaging the gradients $grad_{r,{{\sigma_{r}{(i)}} - 1}}$ of the preceding examples $p$ lying in the same leaf $leaf_{r}{(i)}$ the example $i$ belongs to.
 
-<!-- chunk {"id": "body-0033", "role": "body", "section": "Building a tree", "weight": 1.0} -->
+<!-- chunk {"id": "body-0029", "role": "body", "section": "Building a tree", "weight": 1.0} -->
 
-Note that $leaf_{r}{(i)}$ depends on the chosen permutation $\sigma_{r}$, because $\sigma_{r}$ can influence the values of ordered TS for example $i$. When the tree structure $T_{t}$ (i.e., the sequence of splitting attributes) is built, we use it to boost all the models $M_{r^{\prime},j}$. Let us stress that one common tree structure $T_{t}$ is used for all the models, but this tree is added to different $M_{r^{\prime},j}$ with different sets of leaf values depending on $r^{\prime}$ and $j$, as described in Algorithm 2.
+Note that $leaf_{r}{(i)}$ depends on the chosen permutation $\sigma_{r}$, because $\sigma_{r}$ can influence the values of ordered TS for example $i$. When the tree structure $T_{t}$ (i.e., the sequence of splitting attributes) is built, we use it to boost all the models $M_{r',j}$. Let us stress that one common tree structure $T_{t}$ is used for all the models, but this tree is added to different $M_{r',j}$ with different sets of leaf values depending on $r'$ and $j$, as described in Algorithm 2.
 
-<!-- chunk {"id": "body-0034", "role": "body", "section": "Building a tree", "weight": 1.0} -->
+<!-- chunk {"id": "body-0030", "role": "body", "section": "Building a tree", "weight": 1.0} -->
 
 The Plain boosting mode works similarly to a standard GBDT procedure, but, if categorical features are present, it maintains $s$ supporting models $M_{r}$ corresponding to TS based on $\sigma_{1},\ldots,\sigma_{s}$.
 
-<!-- chunk {"id": "body-0035", "role": "body", "section": "Choosing leaf values", "weight": 1.0} -->
+<!-- chunk {"id": "body-0031", "role": "body", "section": "Choosing leaf values", "weight": 1.0} -->
 
 Given all the trees constructed, the leaf values of the final model $F$ are calculated by the standard gradient boosting procedure equally for both modes. Training examples $i$ are matched to leaves $leaf_{0}{(i)}$, i.e., we use permutation $\sigma_{0}$ to calculate TS here. When the final model $F$ is applied to a new example at testing time, we use TS calculated on the whole training data according to Section 3.2.
 
-<!-- chunk {"id": "body-0036", "role": "body", "section": "Complexity", "weight": 1.0} -->
+<!-- chunk {"id": "body-0032", "role": "body", "section": "Complexity", "weight": 1.0} -->
 
-In our practical implementation, we use one important trick, which significantly reduces the computational complexity of the algorithm. Namely, in the Ordered mode, instead of $O{({sn^{2}})}$ values $M_{r,j}{(i)}$, we store and update only the values ${M_{r,j}^{\prime}{(i)}}:={M_{r,2^{j}}{(i)}}$ for $j = {1,\ldots,{\lceil{\log_{2}n}\rceil}}$ and all $i$ with ${\sigma_{r}{(i)}} \leq 2^{j + 1}$, what reduces the number of maintained supporting predictions to $O{({sn})}$. See Appendix B for the pseudocode of this modification of Algorithm 2.
+In our practical implementation, we use one important trick, which significantly reduces the computational complexity of the algorithm. Namely, in the Ordered mode, instead of $O{({sn^{2}})}$ values $M_{r,j}{(i)}$, we store and update only the values ${M_{r,j}'{(i)}}:={M_{r,2^{j}}{(i)}}$ for $j = {1,\ldots,{\lceil{\log_{2}n}\rceil}}$ and all $i$ with ${\sigma_{r}{(i)}} \leq 2^{j + 1}$, what reduces the number of maintained supporting predictions to $O{({sn})}$. See Appendix B for the pseudocode of this modification of Algorithm 2.
 
-<!-- chunk {"id": "body-0037", "role": "body", "section": "Complexity", "weight": 1.0} -->
+<!-- chunk {"id": "body-0033", "role": "body", "section": "Complexity", "weight": 1.0} -->
 
 In Table 1, we present the computational complexity of different components of both CatBoost modes per one iteration (see Appendix C.1 for the proof). Here $N_{{TS},t}$ is the number of TS to be calculated at the iteration $t$ and $C$ is the set of candidate splits to be considered at the given iteration. It follows that our implementation of ordered boosting with decision trees has the same asymptotic complexity as the standard GBDT with ordered TS. In comparison with other types of TS (Section 3.2), ordered TS slow down by $s$ times the procedures $CalcGradient$, updating supporting models $M$, and computation of TS.
 
-<!-- chunk {"id": "body-0038", "role": "body", "section": "Feature combinations", "weight": 1.0} -->
+<!-- chunk {"id": "body-0034", "role": "body", "section": "Complexity", "weight": 1.0} -->
+
+Calc all bjt Complexity for iteration t Table 1: Computational complexity.
+
+<!-- chunk {"id": "body-0035", "role": "body", "section": "Feature combinations", "weight": 1.0} -->
 
 Another important detail of CatBoost is using combinations of categorical features as additional categorical features which capture high-order dependencies like joint information of user ID and ad topic in the task of ad click prediction. The number of possible combinations grows exponentially with the number of categorical features in the dataset, and it is infeasible to process all of them. CatBoost constructs combinations in a greedy way. Namely, for each split of a tree, CatBoost combines (concatenates) all categorical features (and their combinations) already used for previous splits in the current tree with all categorical features in the dataset. Combinations are converted to TS on the fly.
 
-<!-- chunk {"id": "body-0039", "role": "body", "section": "Other important details", "weight": 1.0} -->
+<!-- chunk {"id": "body-0036", "role": "body", "section": "Other important details", "weight": 1.0} -->
 
 Finally, let us discuss two options of the CatBoost algorithm not covered above. The first one is subsampling of the dataset at each iteration of boosting procedure, as proposed by Friedman. We claimed earlier in Section 4.1 that this approach alone cannot fully avoid the problem of prediction shift. However, since it has proved effective, we implemented it in both modes of CatBoost as a Bayesian bootstrap procedure. Specifically, before training a tree according to Algorithm 2, we assign a weight $w_{i} = a_{i}^{t}$ to each example $i$, where $a_{i}^{t}$ are generated according to the Bayesian bootstrap procedure (see \[28, Section 2\]). These weights are used as multipliers for gradients $grad_{r}{(i)}$ and $grad_{r,j}{(i)}$, when we calculate $\Delta{(i)}$ and the components of the vector $\Delta - G$ to define $loss{(T_{c})}$.
 
-<!-- chunk {"id": "body-0040", "role": "body", "section": "Other important details", "weight": 1.0} -->
+<!-- chunk {"id": "body-0037", "role": "body", "section": "Other important details", "weight": 1.0} -->
 
 The second option deals with first several examples in a permutation. For examples $i$ with small values $\sigma_{r}{(i)}$, the variance of $grad_{r,{{\sigma_{r}{(i)}} - 1}}{(i)}$ can be high. Therefore, we discard $\Delta{(i)}$ from the beginning of the permutation, when we calculate $loss{(T_{c})}$ in Algorithm 2. Particularly, we eliminate the corresponding components of vectors $G$ and $\Delta$ when calculating the cosine similarity between them.
 
-<!-- chunk {"id": "body-0041", "role": "body", "section": "Comparison with baselines", "weight": 1.0} -->
+<!-- chunk {"id": "body-0038", "role": "body", "section": "Comparison with baselines", "weight": 1.0} -->
 
 We compare our algorithm with the most popular open-source libraries --- XGBoost and LightGBM --- on several well-known machine learning tasks. The detailed description of the experimental setup together with dataset descriptions is available in Appendix D. The source code of the experiment is available, and the results can be reproduced.^77^7 For all learning algorithms, we preprocess categorical features using the ordered TS method described in Section 3.2. The parameter tuning and training were performed on 4/5 of the data and the testing was performed on the remaining 1/5.^88^8For Epsilon, we use default parameters instead of parameter tuning due to large running time for all algorithms. We tune only the number of trees to avoid overfitting. The results measured by logloss and zero-one loss are presented in Table 2 (the absolute values for the baselines are in Appendix G). For CatBoost, we used Ordered boosting mode in this experiment.^99^9The numbers for CatBoost in Table 2 may slightly differ from the corresponding numbers in our GitHub repository, since we use another version of CatBoost with all the discussed features implemented.
 
-<!-- chunk {"id": "body-0042", "role": "body", "section": "Comparison with baselines", "weight": 1.0} -->
+<!-- chunk {"id": "body-0039", "role": "body", "section": "Comparison with baselines", "weight": 1.0} -->
 
 One can see that CatBoost outperforms other algorithms on all the considered datasets. We also measured statistical significance of improvements presented in Table 2: except three datasets (Appetency, Churn and Upselling) the improvements are statistically significant with p-value $\ll 0.01$ measured by the paired one-tailed t-test.
 
-<!-- chunk {"id": "body-0043", "role": "body", "section": "Comparison with baselines", "weight": 1.0} -->
+<!-- chunk {"id": "body-0040", "role": "body", "section": "Comparison with baselines", "weight": 1.0} -->
 
 To demonstrate that our implementation of plain boosting is an appropriate baseline for our research, we show that a raw setting of CatBoost provides state-of-the-art quality. Particularly, we take a setting of CatBoost, which is close to classical GBDT, and compare it with the baseline boosting implementations in Appendix G. Experiments show that this raw setting differs from the baselines insignificantly.
 
-<!-- chunk {"id": "body-0044", "role": "body", "section": "Comparison with baselines", "weight": 1.0} -->
+<!-- chunk {"id": "body-0041", "role": "body", "section": "Comparison with baselines", "weight": 1.0} -->
 
 We also empirically analyzed the running times of the algorithms on Epsilon dataset. The details of the comparison can be found in Appendix C.2. To summarize, we obtained that CatBoost Plain and LightGBM are the fastest ones followed by Ordered mode, which is about 1.7 times slower.
 
-<!-- chunk {"id": "body-0045", "role": "body", "section": "Ordered and Plain modes", "weight": 1.0} -->
+<!-- chunk {"id": "body-0042", "role": "body", "section": "Ordered and Plain modes", "weight": 1.0} -->
 
 In this section, we compare two essential boosting modes of CatBoost: Plain and Ordered. First, we compared their performance on all the considered datasets, the results are presented in Table 3. It can be clearly seen that Ordered mode is particularly useful on small datasets. Indeed, the largest benefit from Ordered is observed on Adult and Internet datasets, which are relatively small (less than 40K training examples), which supports our hypothesis that a higher bias negatively affects the performance. Indeed, according to Theorem 1 and our reasoning in Section 4.1, bias is expected to be larger for smaller datasets (however, it can also depend on other properties of the dataset, e.g., on the dependency between features and target). In order to further validate this hypothesis, we make the following experiment: we train CatBoost in Ordered and Plain modes on randomly filtered datasets and compare the obtained losses, see Figure 2. As we expected, for smaller datasets the relative performance of Plain mode becomes worse. To save space, here we present the results only for logloss; the figure for zero-one loss is similar.
 
-<!-- chunk {"id": "body-0046", "role": "body", "section": "Ordered and Plain modes", "weight": 1.0} -->
+<!-- chunk {"id": "body-0043", "role": "body", "section": "Ordered and Plain modes", "weight": 1.0} -->
 
 We also compare Ordered and Plain modes in the above-mentioned raw setting of CatBoost in Appendix G and conclude that the advantage of Ordered mode is not caused by interaction with specific CatBoost options.
 
-<!-- chunk {"id": "body-0047", "role": "body", "section": "Analysis of target statistics", "weight": 1.0} -->
+<!-- chunk {"id": "body-0044", "role": "body", "section": "Analysis of target statistics", "weight": 1.0} -->
 
 We compare different TSs introduced in Section 3.2 as options of CatBoost in Ordered boosting mode keeping all other algorithmic details the same; the results can be found in Table 4. Here, to save space, we present only relative increase in loss functions for each algorithm compared to CatBoost with ordered TS. Note that the ordered TS used in CatBoost significantly outperform all other approaches. Also, among the baselines, the holdout TS is the best for most of the datasets since it does not suffer from conditional shift discussed in Section 3.2 (P1); still, it is worse than CatBoost due to less effective usage of training data (P2). Leave-one-out is usually better than the greedy TS, but it can be much worse on some datasets, e.g., on Adult. The reason is that the greedy TS suffer from low-frequency categories, while the leave-one-out TS suffer also from high-frequency ones, and on Adult all the features have high frequency.
 
-<!-- chunk {"id": "body-0048", "role": "body", "section": "Analysis of target statistics", "weight": 1.0} -->
+<!-- chunk {"id": "body-0045", "role": "body", "section": "Analysis of target statistics", "weight": 1.0} -->
 
 Finally, let us note that in Table 4 we combine Ordered mode of CatBoost with different TSs. To generalize these results, we also made a similar experiment by combining different TS with Plain mode, used in standard gradient boosting. The obtained results and conclusions turned out to be very similar to the ones discussed above.
 
-<!-- chunk {"id": "body-0049", "role": "body", "section": "Feature combinations", "weight": 1.0} -->
+<!-- chunk {"id": "body-0046", "role": "body", "section": "Feature combinations", "weight": 1.0} -->
 
 The effect of feature combinations discussed in Section 5 is demonstrated in Figure 3 in Appendix G. In average, changing the number $c_{max}$ of features allowed to be combined from 1 to 2 provides an outstanding improvement of logloss by $1.86\%$ (reaching $11.3\%$), changing from 1 to 3 yields $2.04\%$, and further increase of $c_{max}$ does not influence the performance significantly.
 
-<!-- chunk {"id": "body-0050", "role": "body", "section": "Number of permutations", "weight": 1.0} -->
+<!-- chunk {"id": "body-0047", "role": "body", "section": "Number of permutations", "weight": 1.0} -->
 
 The effect of the number $s$ of permutations on the performance of CatBoost is presented in Figure 4 in Appendix G. In average, increasing $s$ slightly decreases logloss, e.g., by $0.19\%$ for $s = 3$ and by $0.38\%$ for $s = 9$ compared to $s = 1$.
 
-<!-- chunk {"id": "body-0051", "role": "body", "section": "Conclusion", "weight": 1.5} -->
+<!-- chunk {"id": "body-0048", "role": "body", "section": "Conclusion", "weight": 1.5} -->
 
 In this paper, we identify and analyze the problem of prediction shifts present in all existing implementations of gradient boosting. We propose a general solution, ordered boosting with ordered TS, which solves the problem. This idea is implemented in CatBoost, which is a new gradient boosting library. Empirical results demonstrate that CatBoost outperforms leading GBDT packages and leads to new state-of-the-art results on common benchmarks.

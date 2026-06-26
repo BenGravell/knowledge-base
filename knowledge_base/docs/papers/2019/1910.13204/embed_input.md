@@ -32,15 +32,15 @@ In this paper, we propose a new approach to theoretical analysis of random sampl
 
 <!-- chunk {"id": "body-0008", "role": "body", "section": "Gradient Boosting", "weight": 1.0} -->
 
-Gradient boosting (GB) is a method of constructing the desired function $F$ in the form
+Given a loss function $L:{{\mathbb{R}}^{2}\rightarrow{\mathbb{R}}_{+}}$, the problem of supervised learning task is to find function $F:{X\rightarrow{\mathbb{R}}}$, which minimizes the empirical risk: Gradient boosting (GB) is a method of constructing the desired function $F$ in the form where $n$ is the number of iterations, i.e., the amount of base functions $f_{k}$ chosen from a simple parametric family $\mathcal{F}$, such as linear models or decision trees with small depth. The learning rate, or step size in functional space, is denoted by $\alpha$. Base learners $\{ f_{k}\}$ are learned sequentially in the following way.
 
 <!-- chunk {"id": "body-0009", "role": "body", "section": "Gradient Boosting", "weight": 1.0} -->
 
-where $n$ is the number of iterations, i.e., the amount of base functions $f_{k}$ chosen from a simple parametric family $\mathcal{F}$, such as linear models or decision trees with small depth. The learning rate, or step size in functional space, is denoted by $\alpha$. Base learners $\{ f_{k}\}$ are learned sequentially in the following way.
+Given a function $F_{m - 1} = {\sum\limits_{i = 1}^{m - 1}{\alphaf_{k}}}$, the goal is to construct the next member $f_{m}$ of the sequence $f_{1},\ldots,f_{m - 1}$ such that: Gradient boosting constructs a solution of Equation 1 by calculating first-order derivatives (gradients) $\left.
 
 <!-- chunk {"id": "body-0010", "role": "body", "section": "Gradient Boosting", "weight": 1.0} -->
 
-If a subfamily of decision tree functions is taken as a set of base functions $\mathcal{F}$ (e.g., all decision trees of depth 5), the algorithm is called Gradient Boosted Decision Trees (GBDT). A decision tree divides the original feature space ${\mathbb{R}}^{d}$ into disjoint areas, also called leaves, with a constant value in each region.
+The latter means that $f_{m}$ is learned using ${\{{- {g_{i}^{m}{(\overset{\rightarrow}{x_{i}},y_{i})}}}\}}_{i = 1}^{N}$ as targets and is fitted by the least--squares approximation: If a subfamily of decision tree functions is taken as a set of base functions $\mathcal{F}$ (e.g., all decision trees of depth 5), the algorithm is called Gradient Boosted Decision Trees (GBDT). A decision tree divides the original feature space ${\mathbb{R}}^{d}$ into disjoint areas, also called leaves, with a constant value in each region.
 
 <!-- chunk {"id": "body-0011", "role": "body", "section": "Gradient Boosting", "weight": 1.0} -->
 
@@ -56,7 +56,7 @@ Stochastic Gradient Boosting is a randomized version of standard Gradient Boosti
 
 <!-- chunk {"id": "body-0014", "role": "body", "section": "GOSS", "weight": 1.0} -->
 
-SGB algorithm makes all objects to be selected equally likely. However, different objects have different impacts on the learning process. Gradient-based one-side sampling (GOSS) implements an idea that objects ${\overset{\rightarrow}{x}}_{i}$ with larger absolute value of the gradient $|g_{i}|$ are more important than the ones that have smaller gradients. A large gradient value indicates that the model can be improved significantly with respect to the object, and it should be sampled with higher probability compared to well-trained instances with small gradients. So, GOSS takes the most important objects with probability 1 and chooses a random sample of other objects. To avoid distribution bias, GOSS re-weighs selected samples by setting higher weights to the examples with smaller gradients. More formally, the training sample consists of ${top\_rate} \times N$ instances with largest $|g_{i}|$ with weight equal to 1 and of ${other\_rate} \times N$ instances from the rest of the data with weights equal to $\frac{1 - {top\_rate}}{other\_rate}$.
+SGB algorithm makes all objects to be selected equally likely. However, different objects have different impacts on the learning process. Gradient-based one-side sampling (GOSS) implements an idea that objects ${\overset{\rightarrow}{x}}_{i}$ with larger absolute value of the gradient $|g_{i}|$ are more important than the ones that have smaller gradients. A large gradient value indicates that the model can be improved significantly with respect to the object, and it should be sampled with higher probability compared to well-trained instances with small gradients. So, GOSS takes the most important objects with probability 1 and chooses a random sample of other objects. To avoid distribution bias, GOSS re-weighs selected samples by setting higher weights to the examples with smaller gradients. More formally, the training sample consists of ${top_rate} \times N$ instances with largest $|g_{i}|$ with weight equal to 1 and of ${other_rate} \times N$ instances from the rest of the data with weights equal to $\frac{1 - {top_rate}}{other_rate}$.
 
 <!-- chunk {"id": "body-0015", "role": "body", "section": "Problem setting", "weight": 1.0} -->
 
@@ -64,11 +64,11 @@ As it was mentioned in Section 2.1, training a decision tree is a recursive proc
 
 <!-- chunk {"id": "body-0016", "role": "body", "section": "Problem setting", "weight": 1.0} -->
 
-There are various scoring metrics, e.g., Gini index and entropy criterion for classification tasks, mean squared error (MSE) and mean absolute error (MAE) for regression trees. Most of GB implementations (e.g. ) consider hessian while learning next tree (second-order approximation). The solution to in a leaf $l$ is the constant equal to the ratio $\frac{\sum\limits_{i \in l}g_{i}}{\sum\limits_{i \in l}h_{i}}$ of the sum of gradients and the sum of hessian diagonal elements. The score $S{(f,v)}$ of a split $(f,v)$ is calculated as
+There are various scoring metrics, e.g., Gini index and entropy criterion for classification tasks, mean squared error (MSE) and mean absolute error (MAE) for regression trees. Most of GB implementations (e.g.) consider hessian while learning next tree (second-order approximation). The solution to in a leaf $l$ is the constant equal to the ratio $\frac{\sum\limits_{i \in l}g_{i}}{\sum\limits_{i \in l}h_{i}}$ of the sum of gradients and the sum of hessian diagonal elements. The score $S{(f,v)}$ of a split $(f,v)$ is calculated as where $L$ is the set of obtained leaves, and leaf $l$ consists of objects that belong to this leaf. This score is, up to a common constant, the opposite to the value of the functional minimized in Equation 3 when we add this split to the tree.
 
 <!-- chunk {"id": "body-0017", "role": "body", "section": "Problem setting", "weight": 1.0} -->
 
-where $L$ is the set of obtained leaves, and leaf $l$ consists of objects that belong to this leaf. This score is, up to a common constant, the opposite to the value of the functional minimized in Equation 3 when we add this split to the tree. For classical GB based on the first-order gradient steps, according to Equation 2, score $S{(f,v)}$ should be calculated by setting $h_{i} = 1$ in Equation 4.
+For classical GB based on the first-order gradient steps, according to Equation 2, score $S{(f,v)}$ should be calculated by setting $h_{i} = 1$ in Equation 4.
 
 <!-- chunk {"id": "body-0018", "role": "body", "section": "Problem setting", "weight": 1.0} -->
 
@@ -76,105 +76,88 @@ To formulate the problem, we first describe the general sampling procedure, whic
 
 <!-- chunk {"id": "body-0019", "role": "body", "section": "Problem setting", "weight": 1.0} -->
 
-To make all key statistics (sum of gradients and sum of hessians in the leaf) unbiased, we perform inverse probability weighting estimation (IPWE), which assigns weight $w_{i} = \frac{1}{p_{i}}$ to instance $i$. In GB with sampling, score $S{(f,v)}$ is approximated by
+By sampling with sampling ratio $s$, we denote any sequence $(\xi_{1},\xi_{2},\ldots,\xi_{N})$, which samples $s \times {100\%}$ of data on average: To make all key statistics (sum of gradients and sum of hessians in the leaf) unbiased, we perform inverse probability weighting estimation (IPWE), which assigns weight $w_{i} = \frac{1}{p_{i}}$ to instance $i$. In GB with sampling, score $S{(f,v)}$ is approximated by where the numerator and denominator are estimators of $\left({\sum\limits_{i \in l}g_{i}} \right)^{2}$ and $\sum\limits_{i \in l}h_{i}$ correspondingly.
 
 <!-- chunk {"id": "body-0020", "role": "body", "section": "Problem setting", "weight": 1.0} -->
 
-where the numerator and denominator are estimators of $\left( {\sum\limits_{i \in l}g_{i}} \right)^{2}$ and $\sum\limits_{i \in l}h_{i}$ correspondingly.
-
-<!-- chunk {"id": "body-0021", "role": "body", "section": "Problem setting", "weight": 1.0} -->
-
 We are aimed at minimization of squared deviation $\Delta^{2} = \left( {{\hat{S}{(f,v)}} - {S{(f,v)}}} \right)^{2}$, under the assumption that previous splits of the tree are fixed and the same for subsampled and full data. Deviation $\Delta$ is a random variable due to the randomness of the sampling procedure (randomness of $\xi_{i}$). Therefore, we consider the minimization of the expectation ${\mathbb{E}}\Delta^{2}$.
 
-<!-- chunk {"id": "body-0022", "role": "body", "section": "Theoretical analysis", "weight": 1.0} -->
+<!-- chunk {"id": "body-0021", "role": "body", "section": "Theoretical analysis", "weight": 1.0} -->
 
 Here we show that Problem 9 has a simple solution and leads to an effective sampling algorithm. First, we discuss its meaning in the case of first-order optimization, where we have $h_{i} = 1$.
 
-<!-- chunk {"id": "body-0023", "role": "body", "section": "Theoretical analysis", "weight": 1.0} -->
+<!-- chunk {"id": "body-0022", "role": "body", "section": "Theoretical analysis", "weight": 1.0} -->
 
 The first term of the minimized expression is responsible for gradient distribution over the leaves of the decision tree, while the second one is responsible for the distribution of sample sizes. Coefficient $\lambda$ controls the magnitude of each of the component. It can be seen as a tradeoff between the variance of a single model and the variance of the ensemble. The variance of the ensemble consists of individual variances of every single algorithm and pairwise correlations between models. On the one hand, it is crucial to reduce individual variances of each model; on the other hand, the more dissimilar subsamples are, the less the total variance of the ensemble is. This is reflected in the accuracy dependence on the number of sampled examples: the slight reduction of this number usually leads to increase in the quality as the variance of each model is not corrupted a lot, but, when the sample size goes down to smaller numbers, the sum of variances prevails over the loss in correlations and the accuracy dramatically decreases.
 
-<!-- chunk {"id": "body-0024", "role": "body", "section": "Theoretical analysis", "weight": 1.0} -->
+<!-- chunk {"id": "body-0023", "role": "body", "section": "Theoretical analysis", "weight": 1.0} -->
 
 It is easy to derive that setting $\lambda$ to 0 implies the procedure of Importance Sampling. As it was mentioned before, the applicability of this procedure in GBDT is constrained since it is still important to estimate the number of instances accurately in each node of the tree. Besides, Importance Sampling is suffering from numerical instability while dealing with small gradients close to zero, what usually happens on the latter gradient boosting iterations. In this case, the second part of the expression may be interpreted as a regularisation member prohibiting enormous weights.
 
-<!-- chunk {"id": "body-0025", "role": "body", "section": "Theoretical analysis", "weight": 1.0} -->
+<!-- chunk {"id": "body-0024", "role": "body", "section": "Theoretical analysis", "weight": 1.0} -->
 
 Setting $\lambda$ to $\infty$ implies the SGB algorithm.
 
-<!-- chunk {"id": "body-0026", "role": "body", "section": "Algorithm", "weight": 1.0} -->
+<!-- chunk {"id": "body-0025", "role": "body", "section": "Algorithm", "weight": 1.0} -->
 
 Now we are ready to derive the MVS algorithm from Theorem 2, which can be directly applied to general scheme of Stochastic Gradient Boosting. First, for given sample rate $s$, MVS finds the threshold $\mu$ to decide, which gradients are considered to be large. Example $i$ with regularized absolute value $\sqrt{g_{i}^{2} + {\lambdah_{i}^{2}}}$ higher than chosen $\mu$ is sampled with probability equal to 1. Every object with small gradient is sampled independently with probability $p_{i} = \frac{\sqrt{g_{i}^{2} + {\lambdah_{i}^{2}}}}{\mu}$ and is assigned weight $w_{i} = \frac{1}{p_{i}}$. Still, it is not apparent how to find such a threshold $\mu^{\ast}$ that will give the required sampling ratio $s = s^{\ast}$.
 
-<!-- chunk {"id": "body-0027", "role": "body", "section": "Algorithm", "weight": 1.0} -->
+<!-- chunk {"id": "body-0026", "role": "body", "section": "Algorithm", "weight": 1.0} -->
 
 A brute-force algorithm relies on the fact that the sampling ratio has an inverse dependence on the threshold: the higher the threshold, the lower the fraction of sampled instances. First, we sort the data by regularized absolute value in descending order. Note that now, given a threshold $\mu$, the sampling ratio $s$ can be calculated as ${s{(\mu)}} = {{\frac{1}{\mu}{\sum\limits_{i = {k + 1}}^{N}\sqrt{g_{i}^{2} + {\lambdah_{i}^{2}}}}} + k}$, where $k + 1$ is the number of the first element in sorted sequence, which is less than $\mu$. Then the binary search is applied to find a threshold $\mu^{\ast}$ with the desired property ${s{(\mu^{\ast})}} = s^{\ast}$.
 
-<!-- chunk {"id": "body-0028", "role": "body", "section": "Algorithm", "weight": 1.0} -->
+<!-- chunk {"id": "body-0027", "role": "body", "section": "Algorithm", "weight": 1.0} -->
 
 To speed up this algorithm, the precalculation of cumulative sums of regularized absolute values $\sum\limits_{i = {k + 1}}^{N}\sqrt{g_{i}^{2} + {\lambdah_{i}^{2}}}$ for every $k$ is performed, so the calculation of sampling ratio at each step of binary search has $O{}$ time complexity. The total complexity of this procedure is $O{({N{\log N}})}$, due to sorting at the beginning. To compare, SGB and GOSS algorithms have $O{(N)}$ complexity for sampling.
 
-<!-- chunk {"id": "body-0029", "role": "body", "section": "Algorithm", "weight": 1.0} -->
+<!-- chunk {"id": "body-0028", "role": "body", "section": "Algorithm", "weight": 1.0} -->
 
 We propose a more efficient algorithm, which is similar to the quick select algorithm. In the beginning, the algorithm randomly selects the gradient, which is a candidate to be a threshold. The data is partitioned in such a way that all the instances with smaller gradients and larger gradients are on the opposite sides of the candidate. To calculate the current sample rate, it is sufficient to calculate the number of examples on the larger side and the sum of regularized absolute values on the other side. Then, estimated sample rate is used to determine the side where to continue the search for the desired threshold. If the current sample rate is higher, then algorithms searches threshold on the side with smaller gradients, otherwise on the side with greater. Calculated statistics for each side may be reused in further steps of the algorithm, so the number of the operations at each step is reduced by the number of rejected examples. The time complexity analysis can be carried out by analogy with the quick select algorithm, which results in $O{(N)}$ complexity.
 
-<!-- chunk {"id": "body-0030", "role": "body", "section": "Algorithm", "weight": 1.0} -->
+<!-- chunk {"id": "body-0029", "role": "body", "section": "Algorithm", "weight": 1.0} -->
 
-c u r S a m p l e R a t e = $\frac{{\text{Sum}{({smallArray})}} + {sumSmall}}{candidateThreshold}$ + Length(l a r g e A r r a y) + n L a r g e + 1 if Length(s m a l l A r r a y) == 0 and c u r S a m p l e R a t e &lt; s a m p l e R a t e then return $\frac{sumSmall}{{sampleRate} - {nLarge} - {\text{Length}{({largeArray})}} - 1}$ else if Length(l a r g e A r r a y) == 0 and c u r S a m p l e R a t e &gt; s a m p l e R a t e then return $\frac{{sumSmall} + {\text{Sum}{({smallArray})}} + {candidateThreshold}}{{sampleRate} - {nLarge}}$
+c u r S a m p l e R a t e = $\frac{{\text{Sum}{({smallArray})}} + {sumSmall}}{candidateThreshold}$ + Length(l a r g e A r r a y) + n L a r g e + 1 if Length(s m a l l A r r a y) == 0 and c u r S a m p l e R a t e < s a m p l e R a t e then return $\frac{sumSmall}{{sampleRate} - {nLarge} - {\text{Length}{({largeArray})}} - 1}$ else if Length(l a r g e A r r a y) == 0 and c u r S a m p l e R a t e > s a m p l e R a t e then return $\frac{{sumSmall} + {\text{Sum}{({smallArray})}} + {candidateThreshold}}{{sampleRate} - {nLarge}}$ Algorithm 2 Calculate Threshold
 
-<!-- chunk {"id": "body-0031", "role": "body", "section": "Experiments", "weight": 1.0} -->
+<!-- chunk {"id": "body-0030", "role": "body", "section": "Experiments", "weight": 1.0} -->
 
 Here we provide experimental results of MVS algorithm on two popular open-source implementations of gradient boosting: CatBoost and LightGBM.
 
-<!-- chunk {"id": "body-0032", "role": "body", "section": "Experiments", "weight": 1.0} -->
+<!-- chunk {"id": "body-0031", "role": "body", "section": "Experiments", "weight": 1.0} -->
 
 CatBoost. The default setting of CatBoost is known to achieve state-of-the-art quality on various machine learning tasks. We implemented MVS in CatBoost and performed benchmark comparison of MVS with sampling ratio 80% and default CatBoost with no sampling on 153 publicly available and proprietary binary classification datasets of different sizes up to 45 millions instances. The algorithms were compared by the ROC-AUC metric, and we calculated the number of wins for each algorithm. The results show significant improvement over the existing default: 97 wins of MVS versus 55 wins of default setting and $+ {0.12\%}$ mean ROC-AUC improvement.
 
-<!-- chunk {"id": "body-0033", "role": "body", "section": "Experiments", "weight": 1.0} -->
+<!-- chunk {"id": "body-0032", "role": "body", "section": "Experiments", "weight": 1.0} -->
 
 The source code of MVS is publicly available and ready to be used as a default option of CatBoost algorithm. The latter means that MVS is already acknowledged as a new benchmark in SGB implementations.
 
-<!-- chunk {"id": "body-0034", "role": "body", "section": "Experiments", "weight": 1.0} -->
+<!-- chunk {"id": "body-0033", "role": "body", "section": "Experiments", "weight": 1.0} -->
 
 LightGBM. To perform a fair comparison with previous sampling techniques (GOSS and SGB), MVS was also implemented in LightGBM, as it is a popular open-source library with GOSS inside. The MVS source code for LightGBM may be found.
 
-<!-- chunk {"id": "body-0035", "role": "body", "section": "Experiments", "weight": 1.0} -->
+<!-- chunk {"id": "body-0034", "role": "body", "section": "Experiments", "weight": 1.0} -->
 
 Datasets' descriptions used in this section are placed in Table 1. All the datasets are publicly available and were preprocessed according to.
 
-<!-- chunk {"id": "body-0036", "role": "body", "section": "Experiments", "weight": 1.0} -->
-
-## Examples
-## Features
-
-<!-- chunk {"id": "body-0037", "role": "body", "section": "Experiments", "weight": 1.0} -->
-
-We used the tuned parameters and train-test splitting for each dataset from as baselines, presetting the sampling ratio to 1. For tuning sampling parameters of each algorithm (sample rate and $\lambda$ coefficient for MVS, large gradients fraction and small gradients fraction for GOSS, sample rate for SGB), we use 5-fold cross-validation on train subset of the data. Then the tuned models are evaluated on test subsets (which is 20% of the original size of the data). Here we use the $1 - \text{ROC-AUC}$ score as an error measure (lower is better). To make the results more statistically significant, the evaluation part is run 10 times with different seeds. The final result is defined as the mean over these 10 runs.
-
-<!-- chunk {"id": "body-0038", "role": "body", "section": "Experiments", "weight": 1.0} -->
+<!-- chunk {"id": "body-0035", "role": "body", "section": "Features", "weight": 1.0} -->
 
 Here we also introduce hyperparameter-free MVS algorithm modification. Since $\lambda$ (see Equation 9) is an approximation of squared mean leaf value upper bound, we replace it with a squared mean of the initial leaf. As it will be shown, it achieves near-optimal results and dramatically reduces time spent on parameter tuning. Since it sets $\lambda$ adaptively at each iteration, we refer to this method as MVS Adaptive.
 
-<!-- chunk {"id": "body-0039", "role": "body", "section": "Experiments", "weight": 1.0} -->
+<!-- chunk {"id": "body-0036", "role": "body", "section": "Features", "weight": 1.0} -->
 
 Quality comparison. The first experiments are devoted to testing MVS as a regularization method. We state the following question: how much the quality changes when using different sampling techniques? To answer this question, we tuned the sampling parameters of algorithms to get the best quality. This quality scores compared to baselines quality are presented in Table 2. From this results, we can see that MVS demonstrates the best generalization ability among given sampling approaches. The best parameter $\lambda$ for MVS is about $10^{- 1}$, it shows good performance on most of the datasets. For GOSS, the best ratio of large and small gradients varies a lot from the predominance of large to the predominance of small.
 
-<!-- chunk {"id": "body-0040", "role": "body", "section": "Experiments", "weight": 1.0} -->
-
-The next research question is whether MVS is capable of reducing sample size per each iteration needed to achieve acceptable quality. Furthermore, whether MVS is harmful to accuracy while using small subsamples. For this experiment, we tuned parameters, so that the algorithms achieve the baseline score (or their best score if it is not possible) using the least number of instances. Figure 1 shows the dependence of error on the sample size for two datasets and its $\pm \sigma$ confidence interval. Table 3 demonstrates average relative error change with respect to the baseline over all datasets used in this paper. From these results, we can conclude that MVS reaches the goal of reducing the variance of the models, and a decrease in sample size affects the accuracy much less than it does for other algorithms.
-
-<!-- chunk {"id": "body-0041", "role": "body", "section": "Experiments", "weight": 1.0} -->
+<!-- chunk {"id": "body-0037", "role": "body", "section": "Features", "weight": 1.0} -->
 
 Learning time comparison. To compare the speed-up ability of MVS, GOSS and SGB, we used runs from the previous experiment setting, i.e., parameters were chosen in order to have the smallest sample rate with no quality loss. Among them, we choose the ones which have the least training time (if it is impossible to beat baseline, the best score point is chosen). The summary is shown in Table 4, which demonstrates the average learning time gain relative to the baseline learning time (using all examples). One can see that the usage of MVS has an advantage in training time over other methods at the amount of about 10% for datasets presented in this paper. Also, it is important to mention that tuning the hyperparemeters is a main part of training a model. There is one common hyperparameter for all sampling algorithms - sample rate. GOSS has one additional hyperparameter - ratio of large and small gradients in the subsample, and MVS has a hyperparameter $\lambda$. So tuning GOSS and MVS may potentially take more time than SGB.
 
-<!-- chunk {"id": "body-0042", "role": "body", "section": "Experiments", "weight": 1.0} -->
+<!-- chunk {"id": "body-0038", "role": "body", "section": "Features", "weight": 1.0} -->
 
-But introducing MVS Adaptive algorithm dramatically reduces tuning time due to hyperparameter-free sampling procedure, and we can conclude from Tables 2 and 3 that it achieves approximately optimal results on the test data
+But introducing MVS Adaptive algorithm dramatically reduces tuning time due to hyperparameter-free sampling procedure, and we can conclude from Tables 2 and 3 that it achieves approximately optimal results on the test data Large datasets. Experiments with CatBoost show that regularization effect of MVS is efficient for any size of the data. But for large datasets it is more crucial to reduce learning time of the model. To prove that MVS is efficient in accelerating the training we use Higgs dataset (11000000 instances and 28 features) and Recsys datasets (16549802 instances and 31 features). The set up of experiment remains the same as in the previous paragraph. For Higgs dataset SGB is not able to achieve the baseline quality with less than 100% sample size, while GOSS and MVS managed to do this with 80% of samples and MVS was faster than GOSS (-17.7% versus -8.5%) as it converges earlier.
 
-<!-- chunk {"id": "body-0043", "role": "body", "section": "Experiments", "weight": 1.0} -->
+<!-- chunk {"id": "body-0039", "role": "body", "section": "Features", "weight": 1.0} -->
 
-Large datasets. Experiments with CatBoost show that regularization effect of MVS is efficient for any size of the data. But for large datasets it is more crucial to reduce learning time of the model. To prove that MVS is efficient in accelerating the training we use Higgs dataset (11000000 instances and 28 features) and Recsys datasets (16549802 instances and 31 features). The set up of experiment remains the same as in the previous paragraph. For Higgs dataset SGB is not able to achieve the baseline quality with less than 100% sample size, while GOSS and MVS managed to do this with 80% of samples and MVS was faster than GOSS (-17.7% versus -8.5%) as it converges earlier. For Recsys dataset relative learning time differences are -50.3% for SGB (sample rate 20%), -39.9% for SGB (sample rate 20%) and -61.5% for MVS (sample rate 10%).
+For Recsys dataset relative learning time differences are -50.3% for SGB (sample rate 20%), -39.9% for SGB (sample rate 20%) and -61.5% for MVS (sample rate 10%).
 
-<!-- chunk {"id": "body-0044", "role": "body", "section": "Conclusion", "weight": 1.5} -->
+<!-- chunk {"id": "body-0040", "role": "body", "section": "Conclusion", "weight": 1.5} -->
 
 In this paper, we addressed a surprisingly understudied problem of weighted sampling in GBDT. We proposed a novel technique, which directly maximizes the accuracy of split scoring, a core step of the tree construction procedure. We rigorously formulated this goal as an optimization problem and derived a near-optimal closed-form solution. This solution led to a novel sampling technique MVS. We provided our work with necessary theoretical statements and empirical observations that show the superiority of MVS over the well-known state-of-the-art approaches to data sampling in SGB. MVS is implemented and used by default in CatBoost open-source library. Also, one can find MVS implementation in LightGBM package, and its source code is publicly available for further research.

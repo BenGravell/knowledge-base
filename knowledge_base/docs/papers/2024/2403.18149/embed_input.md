@@ -30,180 +30,149 @@ We present microcontroller benchmarks (Section V-A) demonstrating up to a two-or
 
 <!-- chunk {"id": "body-0008", "role": "body", "section": "II-A The Linear-Quadratic Regulator", "weight": 1.0} -->
 
-Feedback and feedback terms ($K_{k}$, $d_{k}$) are found by solving the discrete-time Riccati equation backward in time, starting with $P_{N} = Q_{N}$ and $p_{N} = q_{N}$, where $P_{k}$ and $p_{k}$ are the quadratic and linear terms of the cost-to-go function:\
+The linear-quadratic regulator (LQR) problem is an optimal control problem in which a quadratic cost function is minimized subject to linear (or affine) dynamics constraints: where $x_{k}\in\mathbb{R}^{n}$, $u_{k}\in\mathbb{R}^{m}$ are the state and control at time step $k$, $N$ is the number of time steps, $A_{k}\in\mathbb{R}^{n\times n}$, $B_{k}\in\mathbb{R}^{n\times m}$, and $c_{k}\in\mathbb{R}^{n}$ define the system dynamics, $Q_{k}\succeq 0$, $R_{k}\succ 0$, and $Q_{N}\succeq 0$ are symmetric cost-weighting matrices and $q_{k}$ and $r_{k}$ are linear cost vectors.
 
-<!-- chunk {"id": "body-0009", "role": "body", "section": "II-B Convex Model-Predictive Control", "weight": 1.0} -->
+<!-- chunk {"id": "body-0009", "role": "body", "section": "II-A The Linear-Quadratic Regulator", "weight": 1.0} -->
 
-where $\mathcal{X}$ and $\mathcal{U}$ are convex sets. The convexity of this problem means that it can be solved efficiently and reliably, enabling real-time deployment in a variety of control applications, including autonomous rocket landings, legged locomotion, and autonomous driving.
+Equation ([1) is a classical problem in the field of optimal control whose solution is an affine feedback controller: Feedback and feedback terms ($K_{k}$, $d_{k}$) are found by solving the discrete-time Riccati equation backward in time, starting with $P_{N}=Q_{N}$ and $p_{N}=q_{N}$, where $P_{k}$ and $p_{k}$ are the quadratic and linear terms of the cost-to-go function:\
 
 <!-- chunk {"id": "body-0010", "role": "body", "section": "II-B Convex Model-Predictive Control", "weight": 1.0} -->
 
-When $\mathcal{X}$ and $\mathcal{U}$ can be expressed as linear constraints, is a QP.
+The convexity of this problem means that it can be solved efficiently and reliably, enabling real-time deployment in a variety of control applications, including autonomous rocket landings \[, legged locomotion, and autonomous driving.
 
 <!-- chunk {"id": "body-0011", "role": "body", "section": "II-B Convex Model-Predictive Control", "weight": 1.0} -->
 
-The addition of the final constraints in blue separate the SOCP from the QP. Further analysis, including feasibility and stability guarantees can be found.
+When $\mathcal{X}$ and $\mathcal{U}$ can be expressed as linear constraints, is a QP. When $\mathcal{X}$ and $\mathcal{U}$ can be expressed as both linear and second-order cone constraints, is an SOCP, and can be put into the standard form (where $\mathcal{K}$ is a cone): | | $\displaystyle\min_{x\in\mathbb{R}^{n}}$ | $\displaystyle\tfrac{1}{2}x^{\intercal}Px+q^{\intercal}x$ | | \(5\) | | | subject to | $\displaystyle Gx\leq h,\;{\color[rgb]{0,0,1}\definecolor[named]{pgfstrokecolor}{rgb}{0,0,1}x\in\mathcal{K}}.$ | | | The addition of the final constraints in blue separate the SOCP from the QP.
 
-<!-- chunk {"id": "body-0012", "role": "body", "section": "II-C Alternating Direction Method of Multipliers (ADMM)", "weight": 1.0} -->
+<!-- chunk {"id": "body-0012", "role": "body", "section": "II-B Convex Model-Predictive Control", "weight": 1.0} -->
 
-We provide a very brief summary of ADMM here and refer readers to for more details.
+Further analysis, including feasibility and stability guarantees can be found.
 
 <!-- chunk {"id": "body-0013", "role": "body", "section": "II-C Alternating Direction Method of Multipliers (ADMM)", "weight": 1.0} -->
 
-If we perform alternating minimization of (8 ‣ II Background ‣ Code Generation and Conic Constraints for Model-Predictive Control on Microcontrollers with Conic-TinyMPC")) with respect to $x$ and $z$, we arrive at the three-step ADMM iteration,
+We provide a very brief summary of ADMM here and refer readers to for more details.
 
 <!-- chunk {"id": "body-0014", "role": "body", "section": "II-C Alternating Direction Method of Multipliers (ADMM)", "weight": 1.0} -->
 
-where the last step is a gradient-ascent update on the Lagrange multiplier. These steps can be iterated until a desired convergence tolerance is achieved.
+Given a generic optimization problem (with $f$ and $\mathcal{C}$ convex): | | $\displaystyle\min_{x}$ | $\displaystyle f(x)$ | | \(6\) | | | subject to | $\displaystyle x\in\mathcal{C},$ | | | we can form the equivalent problem, introducing slack $z$, and indicator function $I_{\mathcal{C}}$: The augmented Lagrangian of the transformed problem (7 ‣ II Background ‣ Code Generation and Conic Constraints for Model-Predictive Control on Microcontrollers with Conic-TinyMPC")) is (with Lagrange multiplier $\lambda$ and scalar penalty weight $\rho$): If we perform alternating minimization of (8 ‣ II Background ‣ Code Generation and Conic Constraints for Model-Predictive Control on Microcontrollers with Conic-TinyMPC")) with respect to $x$ and $z$, we arrive at the three-step ADMM iteration, where the last step is a gradient-ascent update on the Lagrange
 
 <!-- chunk {"id": "body-0015", "role": "body", "section": "II-C Alternating Direction Method of Multipliers (ADMM)", "weight": 1.0} -->
 
-In the special cases of QPs and SOCPs, each step of the ADMM algorithm becomes very simple to compute: the primal update is the solution to a linear system, the slack update is a linear or conic projection, and the dual update is simply scaled vector addition.
+multiplier. These steps can be iterated until a desired convergence tolerance is achieved.
 
 <!-- chunk {"id": "body-0016", "role": "body", "section": "II-C Alternating Direction Method of Multipliers (ADMM)", "weight": 1.0} -->
 
-$\mathcal{O}{(n^{3})}$ for the primal update (9 ‣ II Background ‣ Code Generation and Conic Constraints for Model-Predictive Control on Microcontrollers with Conic-TinyMPC")),
+In the special cases of QPs and SOCPs, each step of the ADMM algorithm becomes very simple to compute: the primal update is the solution to a linear system, the slack update is a linear or conic projection, and the dual update is simply scaled vector addition. As such, the computational complexity of the three steps for QPs and SOCPs is: $\mathcal{O}(n^{3})$ for the primal update (9 ‣ II Background ‣ Code Generation and Conic Constraints for Model-Predictive Control on Microcontrollers with Conic-TinyMPC")), $\mathcal{O}(n^{2})$ for the slack update (10 ‣ II Background ‣ Code Generation and Conic Constraints for Model-Predictive Control on Microcontrollers with Conic-TinyMPC")), and $\mathcal{O}(n)$ for the dual update (11 ‣ II Background ‣ Code Generation and Conic Constraints for Model-Predictive Control on Microcontrollers with Conic-TinyMPC")).
 
 <!-- chunk {"id": "body-0017", "role": "body", "section": "II-C Alternating Direction Method of Multipliers (ADMM)", "weight": 1.0} -->
 
-$\mathcal{O}{(n^{2})}$ for the slack update (10 ‣ II Background ‣ Code Generation and Conic Constraints for Model-Predictive Control on Microcontrollers with Conic-TinyMPC")),
-
-<!-- chunk {"id": "body-0018", "role": "body", "section": "II-C Alternating Direction Method of Multipliers (ADMM)", "weight": 1.0} -->
-
-and $\mathcal{O}{(n)}$ for the dual update (11 ‣ II Background ‣ Code Generation and Conic Constraints for Model-Predictive Control on Microcontrollers with Conic-TinyMPC")).
-
-<!-- chunk {"id": "body-0019", "role": "body", "section": "II-C Alternating Direction Method of Multipliers (ADMM)", "weight": 1.0} -->
-
 Due to this simplicity, ADMM-based QP and SOCP solvers have demonstrated state-of-the-art results.
 
-<!-- chunk {"id": "body-0020", "role": "body", "section": "II-D TinyMPC", "weight": 1.0} -->
+<!-- chunk {"id": "body-0018", "role": "body", "section": "II-D TinyMPC", "weight": 1.0} -->
 
-The dynamical system can be modeled as linear time invariant, with fixed ${A,B,{c{\forall k}}} \in {\lbrack 0,N)}$;
+TinyMPC, exploits properties of the MPC problem through pre-computation and caching with an ADMM framework to efficiently solve this problem via three assumptions: The dynamical system can be modeled as linear time invariant, with fixed $A,B,c\;\forall k\in[0,N)$; The quadratic cost can be modeled with fixed hessians, $Q,R\;\forall k\in[0,N)$, $Q_{N}$; and The finite horizon LQR feedback gain and cost-to-go Hessian, $K_{k},P_{k}$, can be effectively approximated by the solution to the infinite-horizon LQR solution, $K_{\text{inf}},P_{\text{inf}}\;\forall k\in[0,N]$.
 
-<!-- chunk {"id": "body-0021", "role": "body", "section": "II-D TinyMPC", "weight": 1.0} -->
-
-The quadratic cost can be modeled with fixed hessians, ${Q,{R{\forall k}}} \in {\lbrack 0,N)}$, $Q_{N}$; and
-
-<!-- chunk {"id": "body-0022", "role": "body", "section": "II-D TinyMPC", "weight": 1.0} -->
-
-The finite horizon LQR feedback gain and cost-to-go Hessian, $K_{k},P_{k}$, can be effectively approximated by the solution to the infinite-horizon LQR solution, ${K_{\text{inf}},{P_{\text{inf}}{\forall k}}} \in {\lbrack 0,N\rbrack}$.
-
-<!-- chunk {"id": "body-0023", "role": "body", "section": "II-D TinyMPC", "weight": 1.0} -->
+<!-- chunk {"id": "body-0019", "role": "body", "section": "II-D TinyMPC", "weight": 1.0} -->
 
 We provide a brief summary of the approach and refer to for more details. TinyMPC splits the standard LQR problem from all additional state and input constraints via ADMM.
 
+<!-- chunk {"id": "body-0020", "role": "body", "section": "II-D TinyMPC", "weight": 1.0} -->
+
+Conic-TinyMPC")), where we substitute the dual variables with their scaled forms and eliminate $\rho$.
+
+<!-- chunk {"id": "body-0021", "role": "body", "section": "II-D TinyMPC", "weight": 1.0} -->
+
+As a result, the scaled dual variables $y_{k}$ and $g_{k}$ are always equal to the difference between the primal and slack variables, which is a convergence criteria that now does not need to be recalculated during convergence checks.
+
+<!-- chunk {"id": "body-0022", "role": "body", "section": "II-D TinyMPC", "weight": 1.0} -->
+
+As has the same form as, it can be solved efficiently through a backwards Riccati recursion followed by an affine dynamics roll-out of the resulting policy,. The slack update remains a projection onto the feasible set: | | $\displaystyle z^{+}_{k}=\operatorname{proj}_{\mathcal{X}}(x^{+}_{k}+y_{k}),$ | | \(14\) | | | $\displaystyle w^{+}_{k}=\operatorname{proj}_{\mathcal{U}}(u^{+}_{k}+g_{k}),$ | | | where the superscript denotes the variable at the subsequent ADMM iteration, and the dual update becomes: Given a long enough horizon, the Riccati recursion converges to the solution of the infinite-horizon LQR problem.
+
+<!-- chunk {"id": "body-0023", "role": "body", "section": "II-D TinyMPC", "weight": 1.0} -->
+
+exploits this property and assumes that the single infinite horizon gain, $K_{\text{inf}}$, and cost-to-go Hessian, $P_{\text{inf}}$, sufficiently approximate the time-varying values, $K_{k},P_{k}$.
+
 <!-- chunk {"id": "body-0024", "role": "body", "section": "II-D TinyMPC", "weight": 1.0} -->
 
-This enables a slight simplification to (11 ‣ II Background ‣ Code Generation and Conic Constraints for Model-Predictive Control on Microcontrollers with Conic-TinyMPC")), where we substitute the dual variables with their scaled forms and eliminate $\rho$. As a result, the scaled dual variables $y_{k}$ and $g_{k}$ are always equal to the difference between the primal and slack variables, which is a convergence criteria that now does not need to be recalculated during convergence checks.
+Combining this approximation with our assumption of fixed $A,B,c,Q,Q_{N},R$ matrices enables us to drastically simplify the Riccati recursion not only easing its computational complexity, but also greatly reducing its memory footprint as we only need to cache $A,B,c,Q,Q_{N},R,K_{\text{inf}},P_{\text{inf}}$, along with a handful of other precomputed and cached constants: | | $\displaystyle C_{1}$ | $\displaystyle=(R+B^{\intercal}P_{\text{inf}}B)^{-1},$ | | \(16\) | | | $\displaystyle C_{2}$ | $\displaystyle=(A-BK_{\text{inf}})^{\intercal},$ | | | | | $\displaystyle C_{3}$ |
 
 <!-- chunk {"id": "body-0025", "role": "body", "section": "II-D TinyMPC", "weight": 1.0} -->
 
-As has the same form as, it can be solved efficiently through a backwards Riccati recursion followed by an affine dynamics roll-out of the resulting policy,.
+$\mathcal{O}(n^{2})$, drastically reducing online computation time, and avoiding online division entirely. We note that $C_{3}$ and $C_{4}$ are derived in addition to $C_{1}$ and $C_{2}$ from to support dynamics with the additional constant term $c$.
 
 <!-- chunk {"id": "body-0026", "role": "body", "section": "II-D TinyMPC", "weight": 1.0} -->
 
-Given a long enough horizon, the Riccati recursion converges to the solution of the infinite-horizon LQR problem. exploits this property and assumes that the single infinite horizon gain, $K_{\text{inf}}$, and cost-to-go Hessian, $P_{\text{inf}}$, sufficiently approximate the time-varying values, $K_{k},P_{k}$.
+Finally, we note that ADMM solvers like OSQP adaptively scale the penalty term $\rho$ in (8 ‣ II Background ‣ Code Generation and Conic Constraints for Model-Predictive Control on Microcontrollers with Conic-TinyMPC")) for performance. However, this requires performing additional matrix factorizations. To avoid this, pre-compute and cache sets of matrices corresponding to several values of $\rho$, which we refer to as the set $[\varrho]$. Online, the solver switches between these values of $\rho$, and their respective cached matrices, based on the values of the primal and dual residuals using heuristics adapted from OSQP.^11^1We also note that recent work proposes additional schemes to adapt $\rho$ with finer-grained updates. We will integrate this advance into our open-source conic framework in future work.
 
-<!-- chunk {"id": "body-0027", "role": "body", "section": "II-D TinyMPC", "weight": 1.0} -->
-
-which only requires matrix-vector products to compute, reducing computational complexity of the primal update from $\mathcal{O}{(n^{3})}$ to $\mathcal{O}{(n^{2})}$, drastically reducing online computation time, and avoiding online division entirely. We note that $C_{3}$ and $C_{4}$ are derived in addition to $C_{1}$ and $C_{2}$ from to support dynamics with the additional constant term $c$.
-
-<!-- chunk {"id": "body-0028", "role": "body", "section": "II-D TinyMPC", "weight": 1.0} -->
-
-Finally, we note that ADMM solvers like OSQP adaptively scale the penalty term $\rho$ in (8 ‣ II Background ‣ Code Generation and Conic Constraints for Model-Predictive Control on Microcontrollers with Conic-TinyMPC")) for performance. However, this requires performing additional matrix factorizations. To avoid this, pre-compute and cache sets of matrices corresponding to several values of $\rho$, which we refer to as the set $\lbrack\varrho\rbrack$. Online, the solver switches between these values of $\rho$, and their respective cached matrices, based on the values of the primal and dual residuals using heuristics adapted from OSQP.^11^1We also note that recent work proposes additional schemes to adapt $\rho$ with finer-grained updates. We will integrate this advance into our open-source conic framework in future work.
-
-<!-- chunk {"id": "body-0029", "role": "body", "section": "The Conic-TinyMPC Solver", "weight": 1.0} -->
+<!-- chunk {"id": "body-0027", "role": "body", "section": "The Conic-TinyMPC Solver", "weight": 1.0} -->
 
 As noted, the slack update in (10 ‣ II Background ‣ Code Generation and Conic Constraints for Model-Predictive Control on Microcontrollers with Conic-TinyMPC")) can be expressed as the operator $\Pi$, which projects the slack variable onto its feasible set. More generally, this projection step can be defined for any convex set. Because the ADMM algorithm naturally isolates the projection subproblem, any convex set with a computationally efficient projection operator can be seamlessly incorporated into our framework. Conveniently, many standard convex cones admit simple closed-form projection operators. We demonstrate this by example in the remainder of this section.
 
-<!-- chunk {"id": "body-0030", "role": "body", "section": "The Conic-TinyMPC Solver", "weight": 1.0} -->
+<!-- chunk {"id": "body-0028", "role": "body", "section": "The Conic-TinyMPC Solver", "weight": 1.0} -->
 
-This projection approach extends to conic problems in the same manner.
+We first note that projection onto a linear inequality constraint, or equivalently, projection of a point $z$ to a hyperplane $\mathcal{H}=\{x:\langle x,a\rangle=b\}$, can be written as follows: For constant bounds on variables, such as the case of position, velocity, or control limits, $(l,u)$, this can be reduced to a projection onto a set of upper and lower bounds: This projection approach extends to conic problems in the same manner. We can, for example, define the second-order cone ("ice-cream cone") as follows: The second-order cone also admits a closed-form and compact projection operator: where $v=[z_{1},\ldots,z_{n-1}]^{\intercal}$ and $a=z_{n}$. Here, $z_{i},i=1,...,n$ is any vector subset of the state or control slack variables.
 
-<!-- chunk {"id": "body-0031", "role": "body", "section": "The Conic-TinyMPC Solver", "weight": 1.0} -->
+<!-- chunk {"id": "body-0029", "role": "body", "section": "The Conic-TinyMPC Solver", "weight": 1.0} -->
 
-where $v = {\lbrack z_{1},\ldots,z_{n - 1}\rbrack}^{\intercal}$ and $a = z_{n}$. Here, ${{z_{i},i} = 1},{\ldots,n}$ is any vector subset of the state or control slack variables. In principle, other cones can also be implemented, e.g. the cone of $n \times n$ positive semi-definite matrices ("semi-definite cone"). Algorithm 1 summarizes the overall algorithm.
+In principle, other cones can also be implemented, e.g. the cone of $n\times n$ positive semi-definite matrices ("semi-definite cone"). Algorithm 1 summarizes the overall algorithm.
 
-<!-- chunk {"id": "body-0032", "role": "body", "section": "Code Generation", "weight": 1.0} -->
+<!-- chunk {"id": "body-0030", "role": "body", "section": "Code Generation", "weight": 1.0} -->
 
 To enable the community to more easily leverage Conic-TinyMPC, we have developed a code-generation tool with Python, MATLAB, and Julia interfaces that produces dependency-free C++ code for easy deployment. We hope that through such interfaces, and our additional examples, available alongside our open-source code, the community can quickly prototype and deploy our solver onto their tiny robot systems.
 
-<!-- chunk {"id": "body-0033", "role": "body", "section": "Code Generation", "weight": 1.0} -->
+<!-- chunk {"id": "body-0031", "role": "body", "section": "Code Generation", "weight": 1.0} -->
 
-function offline precompute(input)
-for ρ ∈ [𝜚] form cache via, Ki n f, Pi n f,
-function online solve(input)
-Select ρ ∈ [𝜚] and associated cached terms
-while not converged do
-p1: N − 1, d1: N − 1 ← Backward pass via
-x1: N, u1: N − 1 ← Forward pass via
-//Slack and Dual Updates
-q1: N, r1: N − 1, pN ← Update linear cost terms return x1: N, u1: N − 1
+function offline precompute(input) for ρ ∈ [𝜚] form cache via, Kinf, Pinf, function online solve(input) Select ρ ∈ [𝜚] and associated cached terms while not converged do $p_{1:N-1},d_{1:N-1}\leftarrow\text{Backward pass via eq:fast_riccati}$ $x_{1:N},u_{1:N-1}\leftarrow\text{Forward pass via eq:lqrSolution}$ //Slack and Dual Updates $z_{1:N},w_{1:N-1}\leftarrow\text{Projection via eq:proj_linear2, eq:proj_linear, or eq:proj_cone}$ $y_{1:N},g_{1:N-1}\leftarrow\text{Gradient ascent eq:mpc_dual}$ q1: N, r1: N − 1, pN ← Update linear cost terms return x1: N, u1: N − 1
 
-<!-- chunk {"id": "body-0034", "role": "body", "section": "Code Generation", "weight": 1.0} -->
+<!-- chunk {"id": "body-0032", "role": "body", "section": "Initialize the solver", "weight": 1.0} -->
 
-## Create the solver object
-solver = tinympc.TinyMPC
-## Initialize the solver
 solver.setup(N, A, B, c, Q, R, bnds, socs, options)
-## Generate code
-solver.codegen(output_dir)
-Listing 1: A minimal Python script to generate MPC problem code.
 
-<!-- chunk {"id": "body-0035", "role": "body", "section": "Code Generation", "weight": 1.0} -->
+<!-- chunk {"id": "body-0033", "role": "body", "section": "Generate code", "weight": 1.0} -->
 
-## Set initial state
-tinympcgen.set_x0(np.array([0.5, 0, 0, 0]))
-## Solve the problem
-solution = tinympcgen.solve
-## Get the solution
-controls = solution["controls"]
-Listing 2: An example Python script to run the generated code.
+solver.codegen(output_dir) Listing 1: A minimal Python script to generate MPC problem code.
 
-<!-- chunk {"id": "body-0036", "role": "body", "section": "Code Generation", "weight": 1.0} -->
+<!-- chunk {"id": "body-0034", "role": "body", "section": "Get the solution", "weight": 1.0} -->
+
+controls = solution["controls"] Listing 2: An example Python script to run the generated code.
+
+<!-- chunk {"id": "body-0035", "role": "body", "section": "Get the solution", "weight": 1.0} -->
 
 #include "tinympc.hpp"
+
+<!-- chunk {"id": "body-0036", "role": "body", "section": "Get the solution", "weight": 1.0} -->
+
 #include "tiny_data_workspace.hpp"
-int main(int argc, char **argv) {
-tiny_solve(&amp;solver); // Solve the problem
-Listing 3: A simple C++ program that loads the problem data from tiny_data_workspace.hpp and solves the problem.
 
-<!-- chunk {"id": "body-0037", "role": "body", "section": "Code Generation", "weight": 1.0} -->
+<!-- chunk {"id": "body-0037", "role": "body", "section": "Get the solution", "weight": 1.0} -->
 
-// Update initial/feedback state
-tiny_set_x0(&amp;solver, x0_new);
-// Update trajectory reference
-tiny_set_x_ref(&amp;solver, xref_new);
-tiny_set_bound_constraints(&amp;solver, xmin_new, xmax_new, umin_new, umax_new);
-Listing 4: Directly updating parameters of the MPC problem in C++.
+int main(int argc, char **argv) { tiny_solve(&solver); // Solve the problem Listing 3: A simple C++ program that loads the problem data from tiny_data_workspace.hpp and solves the problem.
 
-<!-- chunk {"id": "body-0038", "role": "body", "section": "Code Generation", "weight": 1.0} -->
+<!-- chunk {"id": "body-0038", "role": "body", "section": "Get the solution", "weight": 1.0} -->
 
-tiny data workspace.cpp
-tiny main.cpp
-Figure 2: The tree structure of the generated code. The main program is stored in tiny main.cpp.
+// Update initial/feedback state tiny_set_x0(&solver, x0_new); // Update trajectory reference tiny_set_x_ref(&solver, xref_new); tiny_set_bound_constraints(&solver, xmin_new, xmax_new, umin_new, umax_new); Listing 4: Directly updating parameters of the MPC problem in C++. tiny data workspace.cpp tiny main.cpp Figure 2: The tree structure of the generated code. The main program is stored in tiny main.cpp.
 
-<!-- chunk {"id": "body-0039", "role": "body", "section": "Code Generation", "weight": 1.0} -->
+<!-- chunk {"id": "body-0039", "role": "body", "section": "Get the solution", "weight": 1.0} -->
 
 In the remainder of this section, we describe our code-generation interfaces through examples and code listings using our Python interface and note that the process is nearly identical in MATLAB and Julia.
 
-<!-- chunk {"id": "body-0040", "role": "body", "section": "Code Generation", "weight": 1.0} -->
+<!-- chunk {"id": "body-0040", "role": "body", "section": "Get the solution", "weight": 1.0} -->
 
 Listing 1 shows how to generate problem-specific code. The setup function initializes the problem with specific data, namely: time horizon ($N$), system model ($A$, $B$, and $c$), cost weights ($Q$ and $R$), linear and conic constraint parameters (bnds and socs), and solver options. For example, users may set primal and dual tolerances, or the maximum number of ADMM iterations. This kind of parameter tuning is often critical for returning a usable solution within real-time limits for particular systems of interest. The codegen function is then used to generate the custom-tailored code.
 
-<!-- chunk {"id": "body-0041", "role": "body", "section": "Code Generation", "weight": 1.0} -->
+<!-- chunk {"id": "body-0041", "role": "body", "section": "Get the solution", "weight": 1.0} -->
 
 Users may choose to compile code for their host system either manually or through our interface for ease of testing when cumbersome to build in C++. Listing 2 shows an example script that loads the generated code library, solves the problem, then retrieves the solution. The reference trajectory and initial state may be set using set_x_ref, set_u_ref, and set_x0, and may be done on the microcontroller using the C++ equivalents. Additional wrapped functions exist for overwriting constraint parameters.
 
-<!-- chunk {"id": "body-0042", "role": "body", "section": "Code Generation", "weight": 1.0} -->
+<!-- chunk {"id": "body-0042", "role": "body", "section": "Get the solution", "weight": 1.0} -->
 
 The directory structure of the resulting generated C++ code is shown in Fig. 2. The solver's source code and associated headers are in the tinympc subdirectory. The generated code is compact and does not rely on dynamic memory allocation, making it particularly suitable for embedded use cases. An example program is located in tiny_main.cpp. This program imports workspace data from the tiny_data_workspace.hpp header and then solves the given problem (Listing 3).
 
-<!-- chunk {"id": "body-0043", "role": "body", "section": "Code Generation", "weight": 1.0} -->
+<!-- chunk {"id": "body-0043", "role": "body", "section": "Get the solution", "weight": 1.0} -->
 
 We also offer functions to update the initial state, reference trajectories, and constraints on the states and inputs using wrapper functions, which are essential in MPC settings (see Listing 4 for a number of examples).
 
-<!-- chunk {"id": "body-0044", "role": "body", "section": "Code Generation", "weight": 1.0} -->
+<!-- chunk {"id": "body-0044", "role": "body", "section": "Get the solution", "weight": 1.0} -->
 
 We note that the Python interface not only allows users to generate C++ code that may be run on a microcontroller, but it also allows the user to run TinyMPC functions directly in Python. This enables users to investigate the solver in a desktop environment before switching to a microcontroller. In future work, we also hope to build on these Python interfaces to enable us to build a complete MicroPython library, for even easier use on microcontrollers. Finally, we remind the reader that similar features, functions, and interfaces exist through our MATLAB and Julia interfaces.
 
@@ -217,60 +186,64 @@ We first formulate a QP with box constraints on states and controls to act as a 
 
 <!-- chunk {"id": "body-0047", "role": "body", "section": "V-A1 Predictive Safety Filtering", "weight": 1.0} -->
 
-Fig. 3(a) shows the total program size and the average execution times per iteration. Conic-TinyMPC uses drastically less memory and exhibits significant speed-ups over OSQP. For varying states, Conic-TinyMPC achieves up to 20.4× faster execution, while for varying time horizons, it achieves up to 7.2× faster execution. Moreover, the reduction in memory usage allows Conic-TinyMPC to solve real-time optimal control of complex systems with long time horizons. In particular, Conic-TinyMPC was able to handle time horizons of up to 100 knot points, whereas OSQP surpassed the 128 kB memory capacity of the at a time horizon of only $N = 32$. Additionally, Conic-TinyMPC demonstrated scalability to larger state dimensions up to $n = 32$, whereas OSQP encountered memory limitations beyond $n = 28$.
+(a) Predictive Safety Filtering (b) Rocket Soft Landing Figure 3: (a) Predictive safety filtering performance comparison between Conic-TinyMPC and OSQP on an STM32F405 Feather board. Top row shows average iteration times, bottom row shows memory usage. Left column: time horizon kept constant at N = 10 while state dimension n ranged from 2 to 32 and input dimension was set to half of the state dimension. Right column: state and control input held constant at n = 10 and m = 5 while N ranged from 4 to 100. Error bars represent maximum and minimum time taken per iteration for all MPC steps. Black dotted lines denote memory thresholds. (b) Rocket soft-landing performance comparison between Conic-TinyMPC, ECOS, and SCS using a Teensy 4.1 development board. Top plot shows memory usage, bottom plot shows average iteration times. In this SOCP-based experiment n = 6 and m = 3 while N varied from 2 to 256. Error bars represent maximum and minimum time taken per iteration for all MPC steps performed. Black dotted lines denote memory thresholds.
 
-<!-- chunk {"id": "body-0048", "role": "body", "section": "V-A2 Rocket Soft-Landing", "weight": 1.0} -->
+<!-- chunk {"id": "body-0048", "role": "body", "section": "V-A1 Predictive Safety Filtering", "weight": 1.0} -->
 
-The second benchmark is a rocket soft-landing problem which requires a rocket to land with small final velocity at a desired position, resulting in a conic glide-scope constraint. We benchmark the performance of Conic-TinyMPC again via it's Python code generation against ECOS and SCS, state-of-the-art SOCP solvers, using CVXPYgen's code generation interface. All solver options were set to equivalent values wherever possible and all tolerances were set to $0.01$.
+Fig. 3(a) shows the total program size and the average execution times per iteration. Conic-TinyMPC uses drastically less memory and exhibits significant speed-ups over OSQP. For varying states, Conic-TinyMPC achieves up to 20.4× faster execution, while for varying time horizons, it achieves up to 7.2× faster execution. Moreover, the reduction in memory usage allows Conic-TinyMPC to solve real-time optimal control of complex systems with long time horizons. In particular, Conic-TinyMPC was able to handle time horizons of up to 100 knot points, whereas OSQP surpassed the 128 kB memory capacity of the at a time horizon of only $N=32$. Additionally, Conic-TinyMPC demonstrated scalability to larger state dimensions up to $n=32$, whereas OSQP encountered memory limitations beyond $n=28$.
 
 <!-- chunk {"id": "body-0049", "role": "body", "section": "V-A2 Rocket Soft-Landing", "weight": 1.0} -->
 
-Here we benchmark on a Teensy 4.1 development board, which has an ARM Cortex-M7 microcontroller operating at 600 MHz, with 7.75 MB of flash memory, 512 kB of tightly coupled static RAM, and an additional 512 kB of tightly coupled dynamic RAM. The increased compute and memory capacity of the Teensy was particularly important to enable us to benchmark against ECOS and SCS, and enabled us to collect more overall data as the largest SOCP problem involved 2301 decision variables as well as 1530 linear equality constraints, 1530 linear inequality constraints, and 255 second-order cone constraints. However, we note that Conic-TinyMPC, even for this larger problem, could still fit on the more constrained Adafruit Feather used in the prior benchmark, as well as on the constrained MCU found on the Crazyflie 2.1, which we demonstrate via our hardware experiments in Section V-B.
+The second benchmark is a rocket soft-landing problem which requires a rocket to land with small final velocity at a desired position, resulting in a conic glide-scope constraint. We benchmark the performance of Conic-TinyMPC again via it's Python code generation against ECOS and SCS, state-of-the-art SOCP solvers, using CVXPYgen's code generation interface. All solver options were set to equivalent values wherever possible and all tolerances were set to $0.01$.
 
 <!-- chunk {"id": "body-0050", "role": "body", "section": "V-A2 Rocket Soft-Landing", "weight": 1.0} -->
 
-Fig. 3(b) shows the amount of statically and dynamically allocated memory and the average execution times per iteration for varying time horizon. Conic-TinyMPC outperforms SCS and ECOS in execution time and memory, achieving an average speed-up of 13.8x over SCS and 142.7x over ECOS. Conic-TinyMPC performed no dynamic allocation while SCS and ECOS dynamically allocated the workspace at the beginning due to the use of the CVXPYgen interface, causing them to exceed the total available RAM during execution. Without using the CVXPYgen interface, the dynamically allocated workspace must instead be stored statically, far exceeding the static memory limit. This severely limited SCS and ECOS, with both solvers exceeding total memory limits at $N = 64$, while Conic-TinyMPC can scale to $N = 256$.
+Here we benchmark on a Teensy 4.1 development board, which has an ARM Cortex-M7 microcontroller operating at 600 MHz, with 7.75 MB of flash memory, 512 kB of tightly coupled static RAM, and an additional 512 kB of tightly coupled dynamic RAM. The increased compute and memory capacity of the Teensy was particularly important to enable us to benchmark against ECOS and SCS, and enabled us to collect more overall data as the largest SOCP problem involved 2301 decision variables as well as 1530 linear equality constraints, 1530 linear inequality constraints, and 255 second-order cone constraints. However, we note that Conic-TinyMPC, even for this larger problem, could still fit on the more constrained Adafruit Feather used in the prior benchmark, as well as on the constrained MCU found on the Crazyflie 2.1, which we demonstrate via our hardware experiments in Section V-B.
 
-<!-- chunk {"id": "body-0051", "role": "body", "section": "V-A3 Early Termination", "weight": 1.0} -->
+<!-- chunk {"id": "body-0051", "role": "body", "section": "V-A2 Rocket Soft-Landing", "weight": 1.0} -->
 
-High-rate real-time control requires a solver to return a solution within a strict time window. Table II shows the trajectory-tracking performance of each solver on the rocket soft-landing problem with four different control step durations, resulting in four different time budgets. We solve the same problem as in V-A2, except that each solver must return within the specified time budget. The maximum number of iterations for each solver was determined based on the average time per iteration for each solver with $N = 16$ (Fig. 3(b)). For example, when given 20ms to solve the problem, the maximum number of solver iterations for ECOS, SCS, and Conic-TinyMPC were 3, 33, and 444, respectively. This represents a factor of 11x to 148x more solver iterations for Conic-TinyMPC. Table II reports two different metrics: A) the total control input violation on box and SOC constraints and B) the landing error (defined as the norm of the deviation between the final and goal states).
+Fig. 3(b) shows the amount of statically and dynamically allocated memory and the average execution times per iteration for varying time horizon. Conic-TinyMPC outperforms SCS and ECOS in execution time and memory, achieving an average speed-up of 13.8x over SCS and 142.7x over ECOS. Conic-TinyMPC performed no dynamic allocation while SCS and ECOS dynamically allocated the workspace at the beginning due to the use of the CVXPYgen interface, causing them to exceed the total available RAM during execution. Without using the CVXPYgen interface, the dynamically allocated workspace must instead be stored statically, far exceeding the static memory limit. This severely limited SCS and ECOS, with both solvers exceeding total memory limits at $N=64$, while Conic-TinyMPC can scale to $N=256$.
 
 <!-- chunk {"id": "body-0052", "role": "body", "section": "V-A3 Early Termination", "weight": 1.0} -->
 
+High-rate real-time control requires a solver to return a solution within a strict time window. Table II shows the trajectory-tracking performance of each solver on the rocket soft-landing problem with four different control step durations, resulting in four different time budgets. We solve the same problem as in V-A2, except that each solver must return within the specified time budget. The maximum number of iterations for each solver was determined based on the average time per iteration for each solver with $N=16$ (Fig. 3(b)). For example, when given 20ms to solve the problem, the maximum number of solver iterations for ECOS, SCS, and Conic-TinyMPC were 3, 33, and 444, respectively. This represents a factor of 11x to 148x more solver iterations for Conic-TinyMPC. Table II reports two different metrics: A) the total control input violation on box and SOC constraints and B) the landing error (defined as the norm of the deviation between the final and goal states).
+
+<!-- chunk {"id": "body-0053", "role": "body", "section": "V-A3 Early Termination", "weight": 1.0} -->
+
 ECOS successfully solved to convergence only when given 1000ms, impractical for most real-time control tasks. It failed in subsequent cases due to its limited speed and inability to warm start, with zero iterations completed within 2ms. On the other hand, even though SCS and Conic-TinyMPC were both unable to solve the problem to full convergence at every iteration for shorter time budgets, Conic-TinyMPC was able to utilize its increased number of iterations and warm starting to maintain low constraint violation and landing error. This resulted in Conic-TinyMPC outperforming SCS for all scenarios with a 1.6x to 2.4x reduction in landing error and, most critically, while SCS violated constraints across all time budgets, Conic-TinyMPC only appreciably did so for the shortest 2ms time budget.
-
-<!-- chunk {"id": "body-0053", "role": "body", "section": "V-B Robot Hardware Experiments", "weight": 1.0} -->
-
-Next, we demonstrate the efficacy of our solver for real-time execution of dynamic control tasks on a Crazyflie 2.1, a 27 gram quadrotor with an ARM Cortex-M4 (STM32F405) clocked at 168 MHz with 192 kB of SRAM and 1 MB of flash. We present three experiments detailing the high performance of Conic-TinyMPC for dynamic control tasks requiring the online solution to QPs and SOCPs: 1) predictive safety filtering to enable safe control of fundamentally unsafe policies, 2) attitude/thrust vector regulation with thrust-cone constraints, and 3) tracking a spiral landing trajectory with conic constraints and a constraint-violating helical reference.
 
 <!-- chunk {"id": "body-0054", "role": "body", "section": "V-B Robot Hardware Experiments", "weight": 1.0} -->
 
-We note that for the problem sizes required for these experiments, OSQP, SCS, and ECOS all could not fit within the memory available on this MCU and, as such, cannot be used as baselines. Instead, we compare against the Brescianini and Mellinger reactive controllers included with the Crazyflie firmware. These controllers often clip the control input to meet hardware constraints. For all experiments, we ran all controllers with their default parameters and attached an optical flow deck to the Crazyflie to perform state estimation fully onboard the robot.
+Next, we demonstrate the efficacy of our solver for real-time execution of dynamic control tasks on a Crazyflie 2.1, a 27 gram quadrotor with an ARM Cortex-M4 (STM32F405) clocked at 168 MHz with 192 kB of SRAM and 1 MB of flash. We present three experiments detailing the high performance of Conic-TinyMPC for dynamic control tasks requiring the online solution to QPs and SOCPs: 1) predictive safety filtering to enable safe control of fundamentally unsafe policies, 2) attitude/thrust vector regulation with thrust-cone constraints, and 3) tracking a spiral landing trajectory with conic constraints and a constraint-violating helical reference.
 
 <!-- chunk {"id": "body-0055", "role": "body", "section": "V-B Robot Hardware Experiments", "weight": 1.0} -->
 
-In all experiments, we linearized the quadrotor's 6-DOF dynamics about a hover, representing the quadrotor as a point mass with a thrust vector input, and representing its attitude with a quaternion using the formulation. This problem has state dimension $n = 12$ and $m = 4$, representing the quadrotor's full state and PWM motor commands. It is worth noting that the Crazyflie platform offers a great chance to test the controller's robustness due to its high model uncertainty and rapidly depleting battery power (only 5-15 minutes of flight). Under the restricted budget, our Conic-TinyMPC ran at 50 Hz with at most 20 ADMM iterations per call, using a fast reactive controller to track the predicted next state.
+We note that for the problem sizes required for these experiments, OSQP, SCS, and ECOS all could not fit within the memory available on this MCU and, as such, cannot be used as baselines. Instead, we compare against the Brescianini and Mellinger reactive controllers included with the Crazyflie firmware. These controllers often clip the control input to meet hardware constraints. For all experiments, we ran all controllers with their default parameters and attached an optical flow deck to the Crazyflie to perform state estimation fully onboard the robot.
 
-<!-- chunk {"id": "body-0056", "role": "body", "section": "V-B1 Predictive Safety Filtering", "weight": 1.0} -->
+<!-- chunk {"id": "body-0056", "role": "body", "section": "V-B Robot Hardware Experiments", "weight": 1.0} -->
+
+In all experiments, we linearized the quadrotor's 6-DOF dynamics about a hover, representing the quadrotor as a point mass with a thrust vector input, and representing its attitude with a quaternion using the formulation. This problem has state dimension $n=12$ and $m=4$, representing the quadrotor's full state and PWM motor commands. It is worth noting that the Crazyflie platform offers a great chance to test the controller's robustness due to its high model uncertainty and rapidly depleting battery power (only 5-15 minutes of flight). Under the restricted budget, our Conic-TinyMPC ran at 50 Hz with at most 20 ADMM iterations per call, using a fast reactive controller to track the predicted next state.
+
+<!-- chunk {"id": "body-0057", "role": "body", "section": "V-B1 Predictive Safety Filtering", "weight": 1.0} -->
 
 We use a nominal PD controller and formulate a predictive safety filtering problem as a QP, similar to V-A. The Crazyflie was commanded to follow a sinusoidal path along a single axis with an amplitude of 1.2 m (Fig. 1 bottom), which was then tracked with both a nominal PD controller (red) and by Conic-TinyMPC (blue) using a horizon of 20 knot points and box constraints at $\pm$`<!-- -->`{=html}0.6 m. The box constraints represent safety limits on the quadrotor's operating space. Conic-TinyMPC is able to successfully respect the safety limits, handling them by slowing to a stop and hovering at the boundaries of the constraints until the reference trajectory comes back around and sends the Crazyflie to the other side of the boundary. This experiment demonstrates Conic-TinyMPC's ability to act as a safety layer for unsafe policies.
 
-<!-- chunk {"id": "body-0057", "role": "body", "section": "V-B2 Attitude and Thrust-Vector Regulation", "weight": 1.0} -->
+<!-- chunk {"id": "body-0058", "role": "body", "section": "V-B2 Attitude and Thrust-Vector Regulation", "weight": 1.0} -->
 
 In many controllers for vertical take-off and landing (VTOL) aircraft, the thrust vector is constrained to lie within a cone. We formulated an SOCP-based MPC problem for the Crazyflie that incorporates such a constraint, implicitly constraining the drone's attitude. We used the Brescianini, Mellinger, and Conic-TinyMPC controllers to track an aggressive maneuver (drawing a circle in the air very quickly) to determine if the cone constraint was limiting the Crazyflie's attitude. As depicted in Fig. 4, Conic-TinyMPC was able to successfully limit the Crazyflie's attitude to two different maximum values (0.2 and 0.25 radians). Conversely, the baselines exhibited significant attitude deviations, resulting in failures.
 
-<!-- chunk {"id": "body-0058", "role": "body", "section": "V-B2 Attitude and Thrust-Vector Regulation", "weight": 1.0} -->
+<!-- chunk {"id": "body-0059", "role": "body", "section": "V-B2 Attitude and Thrust-Vector Regulation", "weight": 1.0} -->
 
 It is important to note that one can only reduce the attitude deviations of these myopic baselines through careful gain tuning, without any guarantees, while Conic-TinyMPC allows them to be specified explicitly as constraints.^22^2We note that thrust-cone constraints are particularly valuable for Conic-TinyMPC on quadrotors, as the solver relies on linearized dynamics with small-angle approximations, which are only valid within a fixed region of the state space. As such, enforcing a thrust-cone constraint helps ensure that the system remains within this valid operating region, which is essential for maintaining stability during control tasks.
 
-<!-- chunk {"id": "body-0059", "role": "body", "section": "V-B3 Conically Constrained Spiral Landing", "weight": 1.0} -->
+<!-- chunk {"id": "body-0060", "role": "body", "section": "V-B3 Conically Constrained Spiral Landing", "weight": 1.0} -->
 
 Planetary landing problems typically include a glideslope constraint to ensure sufficient elevation during approach and to prevent the spacecraft from crashing into terrain. Fig. 1 top demonstrates the ability of Conic-TinyMPC to handle the planetary landing glideslope constraint of a spacecraft. The reference trajectory is a descending cylindrical spiral (red) which we tracked with Conic-TinyMPC and no position constraints. We then added a conic constraint to restrict the Crazyflie's position to within a 45^∘^ cone originating from the center of the cylindrical reference trajectory. Conic-TinyMPC restricts the Crazyflie from leaving the cone defined by the glideslope constraint, resulting in a spiral landing maneuver (blue).
 
-<!-- chunk {"id": "body-0060", "role": "body", "section": "Conclusions and Future Work", "weight": 1.0} -->
+<!-- chunk {"id": "body-0061", "role": "body", "section": "Conclusions and Future Work", "weight": 1.0} -->
 
 In this paper, we develop Conic-TinyMPC, an open-source, high-speed, structure-exploiting, alternating direction method of multipliers (ADMM) solver targeting low-power embedded conic control applications. We also present a code-generation framework with high level Python, MATLAB, and Julia interfaces that makes it easy to use our solver. We demonstrate the performance of Conic-TinyMPC through a series of experiments including a number of microcontroller benchmarks, and hardware deployments using a 27 gram Crazyflie quadrotor.
 
-<!-- chunk {"id": "body-0061", "role": "body", "section": "Conclusions and Future Work", "weight": 1.0} -->
+<!-- chunk {"id": "body-0062", "role": "body", "section": "Conclusions and Future Work", "weight": 1.0} -->
 
 There are several directions for future work. One of particular note is that our approach, like that of, relies on fixed (set of) linearizations, which may not capture all robotic systems well. To address this, we plan to explore recent work that models the nonlinear-to-linear gap as an antagonistic disturbance using reachability analysis, enabling us to more safely support nonlinear systems.

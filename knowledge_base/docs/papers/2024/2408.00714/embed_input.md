@@ -166,10 +166,7 @@ Ensuring diversity in annotation is important to enable the anything capability 
 
 <!-- chunk {"id": "body-0042", "role": "body", "section": "Auto masklet generation", "weight": 1.0} -->
 
-Model in the Loop
-Time per Frame
-Clicks per Clicked Frame
-Phase 1 Mask Alignment Score (IoU&gt;0.75)
+Model in the Loop Time per Frame Clicks per Clicked Frame Phase 1 Mask Alignment Score (IoU>0.75) SAM + SAM 2 Mask Table 1: Evolution of data engine phases showing the average annotation time per frame, the average percent of edited frames per masklet, the number of manual clicks per clicked frame, and Mask Alignment to Phase 1 by mask size.
 
 <!-- chunk {"id": "body-0043", "role": "body", "section": "Analysis", "weight": 1.0} -->
 
@@ -206,67 +203,79 @@ See Appendix E for more details on the data engine and SA-V dataset, including a
 <!-- chunk {"id": "body-0051", "role": "body", "section": "Internal dataset", "weight": 1.0} -->
 
 #Videos
+
+<!-- chunk {"id": "body-0052", "role": "body", "section": "Internal dataset", "weight": 1.0} -->
+
 #Masklets
+
+<!-- chunk {"id": "body-0053", "role": "body", "section": "Internal dataset", "weight": 1.0} -->
+
 #Masks
+
+<!-- chunk {"id": "body-0054", "role": "body", "section": "Internal dataset", "weight": 1.0} -->
+
 #Frames
 
-<!-- chunk {"id": "body-0052", "role": "body", "section": "Zero-shot experiments", "weight": 1.0} -->
+<!-- chunk {"id": "body-0055", "role": "body", "section": "Internal dataset", "weight": 1.0} -->
+
+SA-V Manual+Auto Table 3: Comparison of our datasets with open source VOS datasets in terms of number of videos, duration, number of masklets, masks, frames, and disappearance rate. SA-V Manual contains only manually annotated labels. SA-V Manual+Auto combines manually annotated labels with automatically generated masklets.
+
+<!-- chunk {"id": "body-0056", "role": "body", "section": "Zero-shot experiments", "weight": 1.0} -->
 
 Here, we compare SAM 2 with previous work on zero-shot video and image tasks. We report the standard $\mathcal{J}\&\mathcal{F}$ metric for video and mIoU metric for image tasks. Unless otherwise mentioned, the results in this section follow our default setup using Hiera-B+ image encoder with a resolution of 1024 and trained on the full combination of datasets, i.e., SAM 2 (Hiera-B+) in Table 6 (see also §D.2 for details).
 
-<!-- chunk {"id": "body-0053", "role": "body", "section": "Promptable video segmentation", "weight": 1.0} -->
+<!-- chunk {"id": "body-0057", "role": "body", "section": "Promptable video segmentation", "weight": 1.0} -->
 
-(a) offline average 𝒥&amp;ℱ across datasets (3-click)
-(b) online average 𝒥&amp;ℱ across datasets (3-click)
+(a) offline average 𝒥&ℱ across datasets (3-click) (b) online average 𝒥&ℱ across datasets (3-click) Figure 5: Zero-shot accuracy over 9 datasets in interactive offline and online evaluation settings.
 
-<!-- chunk {"id": "body-0054", "role": "body", "section": "Promptable video segmentation", "weight": 1.0} -->
+<!-- chunk {"id": "body-0058", "role": "body", "section": "Promptable video segmentation", "weight": 1.0} -->
 
-We first evaluate promptable video segmentation, which involves simulating an interactive setting that resembles the user experience. We have two settings, offline evaluation, where multiple passes are made through a video to select frames to interact with based on the largest model error, and online evaluation, where the frames are annotated in a single forward pass through the video. These evaluations are conducted on 9 densely annotated zero-shot video datasets using $N_{click} = 3$ clicks per frame (see §F.1 for details).
+We first evaluate promptable video segmentation, which involves simulating an interactive setting that resembles the user experience. We have two settings, offline evaluation, where multiple passes are made through a video to select frames to interact with based on the largest model error, and online evaluation, where the frames are annotated in a single forward pass through the video. These evaluations are conducted on 9 densely annotated zero-shot video datasets using $N_{\mathrm{click}}=3$ clicks per frame (see §F.1 for details).
 
-<!-- chunk {"id": "body-0055", "role": "body", "section": "Promptable video segmentation", "weight": 1.0} -->
+<!-- chunk {"id": "body-0059", "role": "body", "section": "Promptable video segmentation", "weight": 1.0} -->
 
 We create two strong baselines, SAM+XMem++ and SAM+Cutie, based on two state-of-the-art models for video object segmentation, XMem++ and Cutie.
 
-<!-- chunk {"id": "body-0056", "role": "body", "section": "Promptable video segmentation", "weight": 1.0} -->
+<!-- chunk {"id": "body-0060", "role": "body", "section": "Promptable video segmentation", "weight": 1.0} -->
 
 We use XMem++ to generate a video segmentation based on mask inputs on one or multiple frames. SAM is used to provide an initial mask or to refine an output (by feeding the current segmentation as a mask prompt to SAM). For the SAM+Cutie baseline, we modify Cutie to allow taking mask inputs on multiple frames.
 
-<!-- chunk {"id": "body-0057", "role": "body", "section": "Promptable video segmentation", "weight": 1.0} -->
+<!-- chunk {"id": "body-0061", "role": "body", "section": "Promptable video segmentation", "weight": 1.0} -->
 
-In Fig. 5, we report the average $\mathcal{J}\&\mathcal{F}$ accuracy over $N_{frame} = {1,\ldots,8}$ interacted frames. SAM 2 outperforms SAM+XMem++ and SAM+Cutie for both offline and online evaluation settings. Across all 9 datasets (see per-dataset results in §F.1), SAM 2 dominates both methods, generating high-quality video segmentation from a few clicks while allowing continued refinement with prompts. Overall, SAM 2 can generate better segmentation accuracy, with $>$`<!-- -->`{=html}3$\times$ fewer interactions.
+In Fig. 5, we report the average $\mathcal{J}\&\mathcal{F}$ accuracy over $N_{\mathrm{frame}}=1,\ldots,8$ interacted frames. SAM 2 outperforms SAM+XMem++ and SAM+Cutie for both offline and online evaluation settings. Across all 9 datasets (see per-dataset results in §F.1), SAM 2 dominates both methods, generating high-quality video segmentation from a few clicks while allowing continued refinement with prompts. Overall, SAM 2 can generate better segmentation accuracy, with $>$`<!-- -->`{=html}3$\times$ fewer interactions.
 
-<!-- chunk {"id": "body-0058", "role": "body", "section": "Semi-supervised video object segmentation", "weight": 1.0} -->
+<!-- chunk {"id": "body-0062", "role": "body", "section": "Semi-supervised video object segmentation", "weight": 1.0} -->
 
 We evaluate the semi-supervised video object segmentation (VOS) setting with click, box, or mask prompts only on the first frame of the video. When using click prompts, we interactively sample either 1, 3 or 5 clicks on the first video frame.
 
-<!-- chunk {"id": "body-0059", "role": "body", "section": "Semi-supervised video object segmentation", "weight": 1.0} -->
+<!-- chunk {"id": "body-0063", "role": "body", "section": "Semi-supervised video object segmentation", "weight": 1.0} -->
 
 Similar to the interactive setting in §6.1, we compare to XMem++ and Cutie, using SAM for click and box prompts, and in their default setting when using mask prompts. We report the standard $\mathcal{J}\&\mathcal{F}$ accuracy, except for on VOST, where we report the $\mathcal{J}$ metric following its protocol. The results are in Table 4. SAM 2 outperforms both methods on the 17 datasets. The results underline that SAM 2 also excels at the conventional, non-interactive VOS task with mask input, for which these other works are specifically designed. Details are in §F.1.3.
 
-<!-- chunk {"id": "body-0060", "role": "body", "section": "Image segmentation", "weight": 1.0} -->
+<!-- chunk {"id": "body-0064", "role": "body", "section": "Image segmentation", "weight": 1.0} -->
 
 We evaluate SAM 2 on the Segment Anything task across 37 zero-shot datasets, including 23 datasets previously used by SAM for evaluation. 1-click and 5-click mIoUs are reported in Table 5 and we show the average mIoU by dataset domain and model speed in frames per second (FPS) on a single A100 GPU.
 
-<!-- chunk {"id": "body-0061", "role": "body", "section": "Image segmentation", "weight": 1.0} -->
+<!-- chunk {"id": "body-0065", "role": "body", "section": "Image segmentation", "weight": 1.0} -->
 
 The first column (SA-23 All) shows accuracy on the 23 datasets from SAM. SAM 2 achieves higher accuracy (58.9 mIoU with 1 click) than SAM (58.1 mIoU with 1 click), without using any extra data and while being 6$\times$ faster. This can be mainly attributed to the smaller but more effective Hiera image encoder in SAM 2.
 
-<!-- chunk {"id": "body-0062", "role": "body", "section": "Image segmentation", "weight": 1.0} -->
+<!-- chunk {"id": "body-0066", "role": "body", "section": "Image segmentation", "weight": 1.0} -->
 
 The bottom row shows how training on our SA-1B and video data mix can further improve accuracy to 61.4% on average on the 23 datasets. We also see exceptional gains on the video benchmarks from SA-23 (video datasets are evaluated as images, identical to Kirillov et al. ), and the 14 new video datasets we added. More detailed results including a breakdown by dataset are in §F.3.
 
-<!-- chunk {"id": "body-0063", "role": "body", "section": "Comparison to state-of-the-art in semi-supervised VOS", "weight": 1.0} -->
+<!-- chunk {"id": "body-0067", "role": "body", "section": "Comparison to state-of-the-art in semi-supervised VOS", "weight": 1.0} -->
 
 Our primary focus is on the general, interactive PVS task, but we also address the specific semi-supervised VOS setting (where the prompt is a ground-truth mask on the first frame), as it is a historically common protocol. We evaluate two versions of SAM 2 with varying image encoder sizes (Hiera-B+/-L) with different speed-vs-accuracy tradeoffs. We measure frames per second (FPS) on a single A100 GPU using a batch-size of one. SAM 2 based on Hiera-B+ and Hiera-L runs at real-time speeds of 43.8 and 30.2 FPS, respectively.
 
-<!-- chunk {"id": "body-0064", "role": "body", "section": "Comparison to state-of-the-art in semi-supervised VOS", "weight": 1.0} -->
+<!-- chunk {"id": "body-0068", "role": "body", "section": "Comparison to state-of-the-art in semi-supervised VOS", "weight": 1.0} -->
 
 We present a comparison with existing state-of-the-art in Table 6, reporting accuracy using standard protocols. SAM 2 shows significant improvement over the best existing methods. We observe that using a larger image encoder brings significant accuracy gains across the board.
 
-<!-- chunk {"id": "body-0065", "role": "body", "section": "Comparison to state-of-the-art in semi-supervised VOS", "weight": 1.0} -->
+<!-- chunk {"id": "body-0069", "role": "body", "section": "Comparison to state-of-the-art in semi-supervised VOS", "weight": 1.0} -->
 
 We also evaluate existing work on the SA-V val and test sets which measure performance for open-world segments of "any" object class. When comparing on this benchmark, we see that most previous methods peak at around the same accuracy. The best performance on SA-V val and SA-V test for prior work is significantly lower demonstrating the gap to a "segment anything in videos" capability. Finally, we see that SAM 2 also brings notable gains in long-term video object segmentation as observed in the LVOS benchmark result. For data and model ablations, see §A.
 
-<!-- chunk {"id": "body-0066", "role": "body", "section": "Conclusion", "weight": 1.5} -->
+<!-- chunk {"id": "body-0070", "role": "body", "section": "Conclusion", "weight": 1.5} -->
 
 We present a natural evolution of Segment Anything into the video domain, based on three key aspects: (i) extending the promptable segmentation task to video, (ii) equipping the SAM architecture to use memory when applied to video, and (iii) the diverse SA-V dataset for training and benchmarking video segmentation. We believe SAM 2 marks a significant advancement in visual perception, positioning our contributions as milestones that will propel further research and applications.

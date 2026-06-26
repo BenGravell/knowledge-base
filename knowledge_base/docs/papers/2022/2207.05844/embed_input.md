@@ -44,7 +44,7 @@ Our experiments suggest the domain of motion forecasting conforms to Occam's Raz
 
 <!-- chunk {"id": "body-0011", "role": "body", "section": "Introduction", "weight": 1.5} -->
 
-We design a family of models with two basic primitives: a *self-attention encoder*, where we fuse one or more modalities across temporal and spatial dimensions, and a *cross-attention decoder*, where we attend to driving scene elements to produce a diverse set of trajectories.
+Our contributions can be summarized as follows: We design a family of models with two basic primitives: a *self-attention encoder*, where we fuse one or more modalities across temporal and spatial dimensions, and a *cross-attention decoder*, where we attend to driving scene elements to produce a diverse set of trajectories.
 
 <!-- chunk {"id": "body-0012", "role": "body", "section": "Introduction", "weight": 1.5} -->
 
@@ -128,99 +128,99 @@ Computational complexity of the self-attention is a quadratic in input sequence 
 
 <!-- chunk {"id": "body-0032", "role": "body", "section": "Factorized Attention", "weight": 1.0} -->
 
-While factorized attention has the potential to reduce computation compared to multi-axis attention, it introduces complexity in deciding the order in which self-attention is applied to each dimension.
+While factorized attention has the potential to reduce computation compared to multi-axis attention, it introduces complexity in deciding the order in which self-attention is applied to each dimension. In our work, we compare two paradigms of factorized attention (see Figure 3(b)): Sequential Attention: an $N$ layer encoder consists of $N/2$ temporal encoder blocks followed by another $N/2$ spatial encoder blocks.
 
 <!-- chunk {"id": "body-0033", "role": "body", "section": "Factorized Attention", "weight": 1.0} -->
 
-Sequential Attention: an $N$ layer encoder consists of $N/2$ temporal encoder blocks followed by another $N/2$ spatial encoder blocks.
-
-<!-- chunk {"id": "body-0034", "role": "body", "section": "Factorized Attention", "weight": 1.0} -->
-
 Interleaved Attention: an $N$ layer encoder consists of temporal and spatial encoder blocks alternating $N/2$ times.
 
-<!-- chunk {"id": "body-0035", "role": "body", "section": "Latent Query Attention", "weight": 1.0} -->
+<!-- chunk {"id": "body-0034", "role": "body", "section": "Latent Query Attention", "weight": 1.0} -->
 
 Another approach to address the computational costs of large input sequences is to use latent queries in the first encoder block, where input $x \in {\mathbb{R}}^{A \times L_{\text{in}} \times D}$ is mapped to latent space $z \in {\mathbb{R}}^{A \times L_{\text{out}} \times D}$. These latents $z \in {\mathbb{R}}^{A \times L_{\text{out}} \times D}$ are processed further by a series of encoder blocks that take in and return arrays in this latent space (see Figure 3(a)). This gives us full freedom to set the latent space resolution, reducing the computational costs of the both self-attention component and the position-wise feedforward network of each block. We set the reduction value $\left( {R = {L_{\text{out}}/L_{\text{in}}}} \right)$ to be a percentage of the input sequence length.
 
-<!-- chunk {"id": "body-0036", "role": "body", "section": "Latent Query Attention", "weight": 1.0} -->
+<!-- chunk {"id": "body-0035", "role": "body", "section": "Latent Query Attention", "weight": 1.0} -->
 
 Reduction factor $R$ is kept constant across all the attention encoders in late and hierarchical fusions.
 
-<!-- chunk {"id": "body-0037", "role": "body", "section": "Trajectory Decoding", "weight": 1.0} -->
+<!-- chunk {"id": "body-0036", "role": "body", "section": "Trajectory Decoding", "weight": 1.0} -->
 
 As our focus is on how to integrate information from different modalities in the encoder, we simply follow the training and output format of, where the Wayformer predictor outputs a mixture of Gaussians to represent the possible trajectories an agent may take. To generate predictions, we use a Transformer decoder which is fed a set of $k$ learned initial queries (${\mathbf{S}}_{i} \in {\mathbb{R}}^{h})_{i = 1}^{k}$ and cross attends them with the scene embeddings from the encoder in order to generate embeddings for each component in the output mixture of Gaussians.
 
-<!-- chunk {"id": "body-0038", "role": "body", "section": "Trajectory Decoding", "weight": 1.0} -->
+<!-- chunk {"id": "body-0037", "role": "body", "section": "Trajectory Decoding", "weight": 1.0} -->
 
 Given the embedding $Y_{i}$ for a particular component of the mixture, we estimate the mixture likelihood with a linear projection layer that produces the unnormalized log-likelihood for the component. To generate the trajectory, we project $Y_{i}$ using another linear layer to output 4 time series: $T_{i} = {\{\mu_{x}^{t},\mu_{y}^{t},{\log\sigma_{x}^{t}},{\log\sigma_{y}^{t}}\}}_{t = 1}^{T}$ corresponding to the means and log-standard deviations of the predicted Gaussian at each timestep.
 
-<!-- chunk {"id": "body-0039", "role": "body", "section": "Trajectory Decoding", "weight": 1.0} -->
+<!-- chunk {"id": "body-0038", "role": "body", "section": "Trajectory Decoding", "weight": 1.0} -->
 
 During training, we follow in decomposing the loss into separate classification and regression losses. Given $k$ predicted Gaussians ${(T_{i})}_{i = 1}^{k}$, let $\hat{i}$ denote the index of the Gaussian with mean closest to the ground truth trajectory $G$. We train the mixture likelihoods on the log likelihood of selecting the index $\hat{i}$, and the Gaussian $T_{\hat{i}}$ to maximize the log-probability of the ground truth trajectory.
 
-<!-- chunk {"id": "body-0040", "role": "body", "section": "Trajectory Aggregation", "weight": 1.0} -->
+<!-- chunk {"id": "body-0039", "role": "body", "section": "Trajectory Aggregation", "weight": 1.0} -->
 
 If the predictor outputs a GMM with many modes, it can be difficult to reason about a mixture with so many components, and the benchmark metrics often restrict the number of trajectories being considered. During evaluation, we thus apply trajectory aggregation following in order to reduce the number of modes being considered while still preserving the diversity in the original output mixture. We refer the reader to Appendix C and for details of the aggregation scheme.
 
-<!-- chunk {"id": "body-0041", "role": "body", "section": "Waymo Open Motion Dataset (WOMD)", "weight": 1.0} -->
+<!-- chunk {"id": "body-0040", "role": "body", "section": "Waymo Open Motion Dataset (WOMD)", "weight": 1.0} -->
 
 consists of 1.1M examples time-windowed from 103K 20s scenarios derived from real-world driving in urban and suburban environments. Each example consists of 1 second of history state and 8 seconds of future, which we resample at 5Hz. The object-agent state contains attributes such as position, agent dimensions, velocity and acceleration vectors, orientation, angular velocity, and turn signal state. The long (8s) time horizon in this dataset tests the model's ability to capture a large field of view and scale to a large output space of trajectories.
 
-<!-- chunk {"id": "body-0042", "role": "body", "section": "Argoverse Dataset", "weight": 1.0} -->
+<!-- chunk {"id": "body-0041", "role": "body", "section": "Argoverse Dataset", "weight": 1.0} -->
 
 consists of 333K scenarios containing trajectory histories, context agents, and lane centerline inputs for motion prediction. The trajectories are sampled at 10Hz, with 2 seconds of history and a 3-second future prediction horizon.
 
-<!-- chunk {"id": "body-0043", "role": "body", "section": "Training Details and Hyperparameters", "weight": 1.0} -->
+<!-- chunk {"id": "body-0042", "role": "body", "section": "Training Details and Hyperparameters", "weight": 1.0} -->
 
 We compare models using competition specific metrics associated with these datasets (see Appendix E). For all metrics, we consider only the top $k = 6$ most likely modes output by our model (after trajectory aggregation) and use only the mean of each mode.
 
-<!-- chunk {"id": "body-0044", "role": "body", "section": "Training Details and Hyperparameters", "weight": 1.0} -->
+<!-- chunk {"id": "body-0043", "role": "body", "section": "Training Details and Hyperparameters", "weight": 1.0} -->
 
 For all experiments, we train models using the AdamW optimizer with an initial learning rate of 2e-4 and linearly decaying to 0 over 1M steps. We train models using 16 TPU v3 cores each, with a batch size of 16 per core, resulting in a total batch size of 256 examples per step.
 
-<!-- chunk {"id": "body-0045", "role": "body", "section": "Training Details and Hyperparameters", "weight": 1.0} -->
+<!-- chunk {"id": "body-0044", "role": "body", "section": "Training Details and Hyperparameters", "weight": 1.0} -->
 
 To vary the capacity of the models, we consider hidden sizes among $\{ 64,128,256\}$ and depths among $\{ 1,2,4\}$ layers. We fix the intermediate size in the feedforward network of the Transformer block to be either 2 or 4 times the hidden size.
 
-<!-- chunk {"id": "body-0046", "role": "body", "section": "Training Details and Hyperparameters", "weight": 1.0} -->
+<!-- chunk {"id": "body-0045", "role": "body", "section": "Training Details and Hyperparameters", "weight": 1.0} -->
 
 For our architecture study in Sections (5.1-5.3), each predictor outputs a mixture of Gaussians with $m = 6$ components, with no trajectory aggregation. For our benchmark results in Section 5.4, each predictor outputs a mixture of Gaussians with $m = 64$ components, and we prune the mixture components using the trajectory aggregation scheme described in Section 3.4. For experiments with latent queries, we experiment with reducing the original input resolution to $0.25,0.5$, $0.75$ and $0.9$ times the original sequence length. We include a full description of hyperparameters in Appendix B.
 
-<!-- chunk {"id": "body-0047", "role": "body", "section": "Results", "weight": 1.0} -->
+<!-- chunk {"id": "body-0046", "role": "body", "section": "Results", "weight": 1.0} -->
 
 In this Section, we present experiments that demonstrate the trade-offs of combining different fusion strategies with vanilla self-attention (multi-axis) and more optimized methods such as factorized attention and learned queries. In our ablation studies (Section 5.1-5.3), we trained models with varying capacities (0.3M-20M parameters) for 1M steps on WOMD. We report their inference latency on a current generation GPU, capacity, and minADE as a proxy of quality.
 
-<!-- chunk {"id": "body-0048", "role": "body", "section": "Multi-Axis Attention", "weight": 1.0} -->
+<!-- chunk {"id": "body-0047", "role": "body", "section": "Multi-Axis Attention", "weight": 1.0} -->
 
 In these experiments, we train Wayformer models on early, hierarchical and late fusion (Section 3.1) in combination with multi-axis attention. In Figure, we show that for models with low latency ($x \leq 16$ ms), late fusion represents an optimal choice. These models are computationally cheap since there is no interaction between modalities during the scene encoding step. Adding the cross modal encoder for hierarchical models unlocks further quality gains for models in the range ($16$ms $< x < 32$ms). Finally, we can see that early fusion can match hierarchical fusion at higher computational cost ($x > 32$ms). We then study the model quality as a function of capacity, as measured by the number of trainable parameters (Figure 4). Small models perform best with early fusion, but as model capacity increases, sensitivity to the choice of fusion decreases dramatically.
 
-<!-- chunk {"id": "body-0049", "role": "body", "section": "Factorized Attention", "weight": 1.0} -->
+<!-- chunk {"id": "body-0048", "role": "body", "section": "Factorized Attention", "weight": 1.0} -->
 
 To reduce the computational budget of our models, we train models with factorized attention instead of jointly attending to spatial and temporal dimensions together. When combining different modalities together for the cross modal encoder, we first tile the roadgraph modality to a common temporal dimension as the other modalities, then concatenate modalities along the spatial dimension. After the scene encoder, we pool the encodings over the time dimension before feeding to the predictor.
 
-<!-- chunk {"id": "body-0050", "role": "body", "section": "Factorized Attention", "weight": 1.0} -->
+<!-- chunk {"id": "body-0049", "role": "body", "section": "Factorized Attention", "weight": 1.0} -->
 
 We study two types of factorized attention: sequential, interleaved (Figure 5). First, we observe that both sequential and interleaved factorized attention perform similarly across all types of fusion. Second, we are surprised to see quality gains from applying factorized attention to the early and late fusion cases (Figures 5(a), 5(b)). Finally, we only observe latency improvements for late fusion models (Figure 5(b)), since tiling the road graph to the common temporal dimension in cross-modal encoder used in early and hierarchical fusion significantly increases the count of tokens.
 
-<!-- chunk {"id": "body-0051", "role": "body", "section": "Latent Queries", "weight": 1.0} -->
+<!-- chunk {"id": "body-0050", "role": "body", "section": "Latent Queries", "weight": 1.0} -->
 
 In this study, we train models with multi-axis latent query encoders with varying levels of input sequence length reduction in the first layer as shown in Figure 5. The number of the latent queries is calculated to be a percentage of the input size of the Transformer network with $0.0\%$ indicating the baseline models (multi-axis attention with no latent queries as presented in Figure 4).
 
-<!-- chunk {"id": "body-0052", "role": "body", "section": "Benchmark Results", "weight": 1.0} -->
+<!-- chunk {"id": "body-0051", "role": "body", "section": "Benchmark Results", "weight": 1.0} -->
 
 We validate our learnings by comparing Wayformer models to competitive models on popular benchmarks of motion forecasting. We choose early fusion models since they match the quality of the hierarchical models without increased complexity of implementation. Moreover, as models' capacity increases they are less sensitive to the choice of fusion (See Figure 4). We use latent queries since they speed up models without noticeable quality regression and, in some models, we combine them with factorized attention (see Appendix A) since that improves the quality further. We further apply ensembling, a standard practice for producing SOTA results for leaderboard submissions. Full hyperparameters for Wayformer models reported on benchmarks are reported in Appendix D.
 
-<!-- chunk {"id": "body-0053", "role": "body", "section": "Benchmark Results", "weight": 1.0} -->
+<!-- chunk {"id": "body-0052", "role": "body", "section": "Benchmark Results", "weight": 1.0} -->
 
 When ensembling for WOMD, the model has a single shared encoder but uses $N = 3$ separate Transformer decoders. To merge predictions over the ensemble, we simply combine all mixture components from each predictor to get a total of $N \times 64$ modes, and renormalize the mixture probabilities. We then apply our trajectory aggregation scheme (section 3.4) to the combined mixture distribution to reduce the number of output modes to the desired count $k = 6$.
 
-<!-- chunk {"id": "body-0054", "role": "body", "section": "Benchmark Results", "weight": 1.0} -->
+<!-- chunk {"id": "body-0053", "role": "body", "section": "Benchmark Results", "weight": 1.0} -->
 
 In Table 1, we present results on the Waymo Open Motion Dataset and Argoverse Dataset. We use the standard metrics used for the each dataset for their respective evaluation (see Appendix E). For the Waymo Open Motion Dataset, both Wayformer early fusion models outperform other models across all metrics; early fusion of input modalities results in better overall metrics independent of the attention structure (multi-axis or factorized attention).
 
-<!-- chunk {"id": "body-0055", "role": "body", "section": "Benchmark Results", "weight": 1.0} -->
+<!-- chunk {"id": "body-0054", "role": "body", "section": "Benchmark Results", "weight": 1.0} -->
 
 For Argoverse leaderboard, we train 15 replicas each with its own encoder and $N = 10$ transformer decoders. To merge predictions over $N$ decoders we follow the aggregation scheme in section 3.4 to result in $k = 6$ modes for each model. We then ensemble 15 such replicas following the same aggregation scheme (section 3.4) to reduce $N \times 6$ modes to $k = 6$.
+
+<!-- chunk {"id": "body-0055", "role": "body", "section": "Benchmark Results", "weight": 1.0} -->
+
+Waymo Open Motion Dataset Wayformer Early Fusion Table 1: Wayformer models and select SOTA baselines on Waymo Open Motion Dataset 2021 and Argoverse 2021. * denotes the metric used for leaderboard ranking. LQ denotes latent query.
 
 <!-- chunk {"id": "body-0056", "role": "body", "section": "Motion prediction architectures", "weight": 1.0} -->
 

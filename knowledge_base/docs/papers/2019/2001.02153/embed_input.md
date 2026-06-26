@@ -36,11 +36,11 @@ We explore this connection in depth and derive an infinite horizon information t
 
 <!-- chunk {"id": "body-0009", "role": "body", "section": "Reinforcement Learning with Entropy Regularization", "weight": 1.0} -->
 
-A Markov Decision Process (MDP) is defined by the tuple $\mathcal{M} = (\mathcal{S},\mathcal{A},c,P,\gamma,\mu)$ where $\mathcal{S}$ is the state space, $\mathcal{A}$ is the action space, $c$ is the per-step cost function, $s_{t + 1} \sim P\left( \cdot |s_{t},a_{t} \right)$ is the stochastic transition dynamics, $\gamma$ is the discount factor and $\mu$ is the prior distribution over the initial state. A closed-loop policy $\pi{( \cdot |s)}$ outputs a distribution over actions given a state.
+A Markov Decision Process (MDP) is defined by the tuple $\mathcal{M} = (\mathcal{S},\mathcal{A},c,P,\gamma,\mu)$ where $\mathcal{S}$ is the state space, $\mathcal{A}$ is the action space, $c$ is the per-step cost function, $s_{t + 1} \sim P\left(\cdot |s_{t},a_{t} \right)$ is the stochastic transition dynamics, $\gamma$ is the discount factor and $\mu$ is the prior distribution over the initial state. A closed-loop policy $\pi{(\cdot |s)}$ outputs a distribution over actions given a state.
 
 <!-- chunk {"id": "body-0010", "role": "body", "section": "Reinforcement Learning with Entropy Regularization", "weight": 1.0} -->
 
-where $s_{0} \sim \mu$ and $\lambda$ is a temperature parameter that penalizes deviation of $\pi$ from $\overline{\pi}$. Given $\pi$, we can define the soft value functions and their $H$-timestep versions as^11^1In this work we consider costs instead of rewards and hence aim to find policies that minimize cumulative cost-to-go.
+Given $c_{t} = {c{(s_{t},a_{t})}}$ and ${KL}_{t} = {KL}\left(\pi{(\cdot |s_{t})}||\overline{\pi}{(\cdot |s_{t})} \right)$, entropy-regularized RL aims to optimize the objective where $s_{0} \sim \mu$ and $\lambda$ is a temperature parameter that penalizes deviation of $\pi$ from $\overline{\pi}$. Given $\pi$, we can define the soft value functions and their $H$-timestep versions as^11^1In this work we consider costs instead of rewards and hence aim to find policies that minimize cumulative cost-to-go.
 
 <!-- chunk {"id": "body-0011", "role": "body", "section": "Reinforcement Learning with Entropy Regularization", "weight": 1.0} -->
 
@@ -48,178 +48,136 @@ It can be verified that $V^{\pi}\left( s_{t} \right) = {\mathbb{E}}_{a_{t} \sim 
 
 <!-- chunk {"id": "body-0012", "role": "body", "section": "Information Theoretic MPC", "weight": 1.0} -->
 
-Solving the above optimization for a global closed-loop policy can be prohibitively expensive and hard to accomplish during online operation, i.e. at every time step, as the system executes, especially when using complex policy classes like deep neural networks. In contrast, MPC computes a closed-loop policy by online optimization of a simple policy class with a truncated horizon. To achieve this, MPC algorithms such as Model Predictive Path Integral Control (MPPI) solve a surrogate MDP $\hat{\mathcal{M}} = \left( \mathcal{S},\mathcal{A},c,\hat{P},\gamma,H \right)$ at every timestep with an approximate dynamics model $\hat{P}$, which can be a deterministic simulator such as MuJoCo, and a shorter planning horizon $H$.^22^2We assume perfect state and cost information, as is common in MPC algorithms.
+Solving the above optimization for a global closed-loop policy can be prohibitively expensive and hard to accomplish during online operation, i.e. at every time step, as the system executes, especially when using complex policy classes like deep neural networks. In contrast, MPC computes a closed-loop policy by online optimization of a simple policy class with a truncated horizon. To achieve this, MPC algorithms such as Model Predictive Path Integral Control (MPPI) solve a surrogate MDP $\hat{\mathcal{M}} = \left(\mathcal{S},\mathcal{A},c,\hat{P},\gamma,H \right)$ at every timestep with an approximate dynamics model $\hat{P}$, which can be a deterministic simulator such as MuJoCo, and a shorter planning horizon $H$.^22^2We assume perfect state and cost information, as is common in MPC algorithms.
 
 <!-- chunk {"id": "body-0013", "role": "body", "section": "Information Theoretic MPC", "weight": 1.0} -->
 
-At timestep $t$, starting from the current system state $s_{t}$, a sequence of actions $A = \left( a_{t},a_{t + 1},{\ldotsa_{{t + H} - 1}} \right)$ is sampled from a parameterized open-loop control distribution $\pi_{\theta}(A)$, where $\theta = \left\lbrack \theta_{t},\theta_{t + 1},{\ldots\theta_{{t + H} - 1}} \right\rbrack^{T}$ is a vector of parameters. Since the actions are independent of state, we consider them to be sampled sequentially ${\pi_{\theta}{(A)}} = {\pi_{\theta_{t}}{(a_{t})}{\prod_{l = {t + 1}}^{{t + H} - 1}{\pi_{\theta_{l}}{(\left.
+At timestep $t$, starting from the current system state $s_{t}$, a sequence of actions $A = \left(a_{t},a_{t + 1},{\ldotsa_{{t + H} - 1}} \right)$ is sampled from a parameterized open-loop control distribution $\pi_{\theta}(A)$, where $\theta = \left\lbrack \theta_{t},\theta_{t + 1},{\ldots\theta_{{t + H} - 1}} \right\rbrack^{T}$ is a vector of parameters. Since the actions are independent of state, we consider them to be sampled sequentially ${\pi_{\theta}{(A)}} = {\pi_{\theta_{t}}{(a_{t})}{\prod_{l = {t + 1}}^{{t + H} - 1}{\pi_{\theta_{l}}{(\left.
 
 <!-- chunk {"id": "body-0014", "role": "body", "section": "Information Theoretic MPC", "weight": 1.0} -->
 
-s_{t + l + 1} \middle| {s_{t + l},a_{t + l}} \right.)}}$. Algorithms like MPPI aim to find an optimal $\theta^{\ast}$ that optimizes
+s_{t + l + 1} \middle| {s_{t + l},a_{t + l}} \right.)}}$. Algorithms like MPPI aim to find an optimal $\theta^{\ast}$ that optimizes where ${KL}_{t + l} = {KL}\left(\pi_{\theta}\left(a_{t + l} \middle| a_{t},\ldots,a_{{t + l} - 1} \right) \middle| \middle| {\overline{\pi}}_{\phi}\left(a_{t + l} \middle| a_{t},\ldots,a_{{t + l} - 1} \right) \right)$, ${\overline{\pi}}_{\phi}{(A)}$ is the passive dynamics of the system, i.e the distribution over actions produced when the control input is zero with parameters $\phi$ and $c_{f}$ is a terminal cost function.
 
 <!-- chunk {"id": "body-0015", "role": "body", "section": "Information Theoretic MPC", "weight": 1.0} -->
 
-where ${KL}_{t + l} = {KL}\left( \pi_{\theta}\left( a_{t + l} \middle| a_{t},\ldots,a_{{t + l} - 1} \right) \middle| \middle| {\overline{\pi}}_{\phi}\left( a_{t + l} \middle| a_{t},\ldots,a_{{t + l} - 1} \right) \right)$, ${\overline{\pi}}_{\phi}{(A)}$ is the passive dynamics of the system, i.e the distribution over actions produced when the control input is zero with parameters $\phi$ and $c_{f}$ is a terminal cost function. Once $\theta^{\ast}$ is obtained, the first action from the resulting distribution is executed on the system and the optimization is performed again from the next state resulting in a closed-loop controller.
+Once $\theta^{\ast}$ is obtained, the first action from the resulting distribution is executed on the system and the optimization is performed again from the next state resulting in a closed-loop controller. The re-optimization and entropy regularization helps in mitigating effects of model-bias and inaccuracies in optimization by avoiding overcommitment to the current estimate of the cost. A shortcoming of MPC is the finite horizon which is especially pronounced in tasks with sparse rewards where a short horizon can make the agent extremely myopic. To mitigate this, an approach known as *infinite horizon MPC* sets the terminal cost $c_{f}$ as a value function that adds global information to the problem.
 
-<!-- chunk {"id": "body-0016", "role": "body", "section": "Information Theoretic MPC", "weight": 1.0} -->
-
-The re-optimization and entropy regularization helps in mitigating effects of model-bias and inaccuracies in optimization by avoiding overcommitment to the current estimate of the cost. A shortcoming of MPC is the finite horizon which is especially pronounced in tasks with sparse rewards where a short horizon can make the agent extremely myopic. To mitigate this, an approach known as *infinite horizon MPC* sets the terminal cost $c_{f}$ as a value function that adds global information to the problem.
-
-<!-- chunk {"id": "body-0017", "role": "body", "section": "Approach", "weight": 1.0} -->
+<!-- chunk {"id": "body-0016", "role": "body", "section": "Approach", "weight": 1.0} -->
 
 We explore the connection between entropy-regularized RL and MPPI and use it to develop an infinite horizon MPC procedure. This enables us to use MPC to approximate the Q-function and Q-learning from real-data as a way to mitigate finite horizon and model-bias issues inherent with MPC. We first derive the expression for the infinite-horizon optimal policy, which is intractable to sample from and then a scheme to iteratively approximate it with a simple policy class similar to Williams et al..
 
+<!-- chunk {"id": "body-0017", "role": "body", "section": "Optimal H-step Boltzmann Distribution", "weight": 1.0} -->
+
+Let $\pi{(A)}$ and $\overline{\pi}{(A)}$ be the joint control distribution and prior over $H$-horizon open-loop actions respectively, with $\pi_{t} = {\pi{(a_{t})}}$ and $\pi_{t + l} = {\pi{(\left. a_{t + l} \middle| {a_{{t + l} - 1},\ldots,a_{t}} \right.)}}$. Assuming, $P$ is deterministic, the following equations hold We also assume the undiscounted case with discount factor, $\gamma = 1$. ^33^3Refer to Appendix A for discussion on the discounted case.
+
 <!-- chunk {"id": "body-0018", "role": "body", "section": "Optimal H-step Boltzmann Distribution", "weight": 1.0} -->
 
-Let $\pi{(A)}$ and $\overline{\pi}{(A)}$ be the joint control distribution and prior over $H$-horizon open-loop actions respectively, with $\pi_{t} = {\pi{(a_{t})}}$ and $\pi_{t + l} = {\pi{(\left. a_{t + l} \middle| {a_{{t + l} - 1},\ldots,a_{t}} \right.)}}$. Assuming, $P$ is deterministic, the following equations hold
+Substituting from the equation for $Q^{\pi}{(s,a)}$ into $V^{\pi}{(s)}$ in Eq. where $c_{t}$ and $\log\frac{\pi{(a_{t})}}{\overline{\pi}{(a_{t})}}$ are taken inside the expectation as they are constants with respect to $\pi{({a_{t + 1} \mid a_{t}})}$. Recursing $H$ times, Eq. (3.1) is similar to Eq. with the key difference being the use of open-loop policies and the deterministic dynamics assumption, leading to the expectation and KL divergence being applied to the joint action distribution rather than the state-action trajectory distribution $d_{\pi,P}^{t,H}$.
 
 <!-- chunk {"id": "body-0019", "role": "body", "section": "Optimal H-step Boltzmann Distribution", "weight": 1.0} -->
 
-We also assume the undiscounted case with discount factor, $\gamma = 1$. ^33^3Refer to Appendix A for discussion on the discounted case. Substituting from the equation for $Q^{\pi}{(s,a)}$ into $V^{\pi}{(s)}$ in Eq.
+Therefore, for $\pi$ in Eq., the soft value function is a constant with gradient zero and is thus the optimal value function, i.e which is often referred to in optimal control literature as the "free energy" of the system. For H=1, Eq. takes the form of the soft value function from Haarnoja et al..
 
-<!-- chunk {"id": "body-0020", "role": "body", "section": "Optimal H-step Boltzmann Distribution", "weight": 1.0} -->
+<!-- chunk {"id": "body-0020", "role": "body", "section": "Infinite Horizon MPPI Update Rule", "weight": 1.0} -->
 
-Eq. (3.1) is similar to Eq. with the key difference being the use of open-loop policies and the deterministic dynamics assumption, leading to the expectation and KL divergence being applied to the joint action distribution rather than the state-action trajectory distribution $d_{\pi,P}^{t,H}$. Now, consider the following joint action distribution over horizon $H$
+Here we derive our infinite horizon MPPI update rule following the approach of Williams et al.. Since sampling actions from the optimal control distribution in Eq. is intractable, we consider parameterized control policies ${\pi_{\theta}{(A)}} \in \Pi$ which are easy to sample. We then optimize for a vector of $H$ parameters $\theta$, such that the resulting action distribution minimizes the KL divergence with the optimal policy The objective can be expanded as where first term was removed as it was independent of $\theta$. Consider $\Pi$, to be a time-independent multivariate Gaussian over sequence of the $H$ controls with constant covariance $\Sigma$ at each timestep. We can write control distribution and prior as where $u_{t}$ and $a_{t}$ are the control inputs and actions respectively at timestep $t$ and $Z$ is the normalizing constant. Here the prior corresponds to the passive dynamics of the system, although other choices are possible.
 
-<!-- chunk {"id": "body-0021", "role": "body", "section": "Optimal H-step Boltzmann Distribution", "weight": 1.0} -->
+<!-- chunk {"id": "body-0021", "role": "body", "section": "Infinite Horizon MPPI Update Rule", "weight": 1.0} -->
 
-Since $\eta$ is a constant, ${V^{\pi}{(s)}} = {- {\lambda{\log{(\eta)}}}}$. Therefore, for $\pi$ in Eq., the soft value function is a constant with gradient zero and is thus the optimal value function, i.e
+The policy parameters $\theta$ are the sequence of control inputs $U = \left\lbrack u_{1},u_{2},\ldots,u_{H} \right\rbrack$, which is the mean of the Gaussian. Substituting in Eq.: The objective can be simplified to the following by integrating out the probability in the first term Since this is a concave function with respect to every $u_{t}$, we can find the maximum by setting its gradient with respect to $u_{t}$ to zero and solving for the optimal $u_{t}^{\ast}$ where the second equality comes from importance sampling to convert the optimal controls into an expectation over the control distribution instead of the optimal distribution, which is intractable to sample. The importance weight $w{(A)}$ can be written as follows (substituting $\pi^{\ast}$ from Eq.)
 
-<!-- chunk {"id": "body-0022", "role": "body", "section": "Optimal H-step Boltzmann Distribution", "weight": 1.0} -->
+<!-- chunk {"id": "body-0022", "role": "body", "section": "Infinite Horizon MPPI Update Rule", "weight": 1.0} -->
 
-which is often referred to in optimal control literature as the "free energy" of the system. For H=1, Eq. takes the form of the soft value function from Haarnoja et al..
+Eq. gives the expression for the mean of the optimal distribution (or optimal control inputs) as the expectation over the control distribution $\pi_{U}$ of the weighted actions, with weights given by Eq.. In practice, we estimate this expectation using a finite number of Monte-Carlo samples from current control distribution $\pi_{U}$ and iteratively update its mean towards the optimal. To make this clearer we make a change of variables ${u_{t} + \epsilon_{t}} = a_{t}$ for noise sequence $\mathcal{E} = \left({\epsilon_{0}\ldots\epsilon_{H - 1}} \right)$ sampled from independant Gaussians with zero mean and covariance $\Sigma$ similar to Williams et al. and get where $\eta$ can be estimated from $N$ Monte-Carlo samples as We can now form the following iterative update rule where at every iteration $i$ the sampled control sequence is updated according to where $\alpha$ is a step-size parameter proposed by Wagener et al..
 
 <!-- chunk {"id": "body-0023", "role": "body", "section": "Infinite Horizon MPPI Update Rule", "weight": 1.0} -->
 
-Here we derive our infinite horizon MPPI update rule following the approach of Williams et al.. Since sampling actions from the optimal control distribution in Eq. is intractable, we consider parameterized control policies ${\pi_{\theta}{(A)}} \in \Pi$ which are easy to sample. We then optimize for a vector of $H$ parameters $\theta$, such that the resulting action distribution minimizes the KL divergence with the optimal policy
+Eq. is the infinite horizon MPPI update rule. For $H = 1$, it corresponds to soft Q-learning with stochastic optimization to find the optimal action. This leads us to our soft Q-learning algorithm, MPQ that uses infinite horizon MPPI to generate actions and Q-targets.
 
-<!-- chunk {"id": "body-0024", "role": "body", "section": "Infinite Horizon MPPI Update Rule", "weight": 1.0} -->
+<!-- chunk {"id": "body-0024", "role": "body", "section": "Information Theoretic Model Predictive Q-Learning", "weight": 1.0} -->
 
-where first term was removed as it was independent of $\theta$. Consider $\Pi$, to be a time-independent multivariate Gaussian over sequence of the $H$ controls with constant covariance $\Sigma$ at each timestep. We can write control distribution and prior as
+We consider parameterized value functions $Q_{\theta}{(s,a)}$ where parameters $\theta$ are updated by stochastic gradient descent on the loss ${L(\theta)} = {\frac{1}{K}{\sum_{i = 1}^{K}\left({y_{i} - {Q_{\theta}\left(s_{i},a_{i} \right)}} \right)^{2}}}$ for a batch of $K$ experience tuples $(s,a,c,s')$ sampled from a replay buffer. Targets $y_{i}$ are calculated using the Bellman equation as The second term is the same as free energy from Eq. with the expectation over prior converted to expectation over the optimal policy $\pi^{\ast}$ using importance sampling. Since the value function updates are performed offline, we can utilize large amounts of computation to obtain $\pi^{\ast}{(A)}$.
 
-<!-- chunk {"id": "body-0025", "role": "body", "section": "Infinite Horizon MPPI Update Rule", "weight": 1.0} -->
+<!-- chunk {"id": "body-0025", "role": "body", "section": "Information Theoretic Model Predictive Q-Learning", "weight": 1.0} -->
 
-where $u_{t}$ and $a_{t}$ are the control inputs and actions respectively at timestep $t$ and $Z$ is the normalizing constant. Here the prior corresponds to the passive dynamics of the system, although other choices are possible. The policy parameters $\theta$ are the sequence of control inputs $U = \left\lbrack u_{1},u_{2},\ldots,u_{H} \right\rbrack$, which is the mean of the Gaussian. Substituting in Eq.:
+We do so by performing multiple iterations of the infinite horizon MPPI update in Eq. from $s'$, which allows for better approximation of the free energy (akin to approaches such as Covariance Matrix Adaption, although MPPI does not adapt the covariance). This helps in early stages of learning by providing better quality targets than a random Q function. Intuitively, this update rule leverages the biased dynamics model $\hat{P}$ for $H$ steps and a soft Q function at the end learned from interactions with the real system.
 
-<!-- chunk {"id": "body-0026", "role": "body", "section": "Infinite Horizon MPPI Update Rule", "weight": 1.0} -->
-
-The objective can be simplified to the following by integrating out the probability in the first term
-
-<!-- chunk {"id": "body-0027", "role": "body", "section": "Infinite Horizon MPPI Update Rule", "weight": 1.0} -->
-
-Since this is a concave function with respect to every $u_{t}$, we can find the maximum by setting its gradient with respect to $u_{t}$ to zero and solving for the optimal $u_{t}^{\ast}$
-
-<!-- chunk {"id": "body-0028", "role": "body", "section": "Infinite Horizon MPPI Update Rule", "weight": 1.0} -->
-
-where the second equality comes from importance sampling to convert the optimal controls into an expectation over the control distribution instead of the optimal distribution, which is intractable to sample. The importance weight $w{(A)}$ can be written as follows (substituting $\pi^{\ast}$ from Eq. )
-
-<!-- chunk {"id": "body-0029", "role": "body", "section": "Infinite Horizon MPPI Update Rule", "weight": 1.0} -->
-
-Eq. gives the expression for the mean of the optimal distribution (or optimal control inputs) as the expectation over the control distribution $\pi_{U}$ of the weighted actions, with weights given by Eq.. In practice, we estimate this expectation using a finite number of Monte-Carlo samples from current control distribution $\pi_{U}$ and iteratively update its mean towards the optimal. To make this clearer we make a change of variables ${u_{t} + \epsilon_{t}} = a_{t}$ for noise sequence $\mathcal{E} = \left( {\epsilon_{0}\ldots\epsilon_{H - 1}} \right)$ sampled from independant Gaussians with zero mean and covariance $\Sigma$ similar to Williams et al. and get
-
-<!-- chunk {"id": "body-0030", "role": "body", "section": "Infinite Horizon MPPI Update Rule", "weight": 1.0} -->
-
-where $\eta$ can be estimated from $N$ Monte-Carlo samples as
-
-<!-- chunk {"id": "body-0031", "role": "body", "section": "Infinite Horizon MPPI Update Rule", "weight": 1.0} -->
-
-We can now form the following iterative update rule where at every iteration $i$ the sampled control sequence is updated according to
-
-<!-- chunk {"id": "body-0032", "role": "body", "section": "Infinite Horizon MPPI Update Rule", "weight": 1.0} -->
-
-where $\alpha$ is a step-size parameter proposed by Wagener et al.. Eq. is the infinite horizon MPPI update rule. For $H = 1$, it corresponds to soft Q-learning with stochastic optimization to find the optimal action. This leads us to our soft Q-learning algorithm, MPQ that uses infinite horizon MPPI to generate actions and Q-targets.
-
-<!-- chunk {"id": "body-0033", "role": "body", "section": "Information Theoretic Model Predictive Q-Learning", "weight": 1.0} -->
-
-We consider parameterized value functions $Q_{\theta}{(s,a)}$ where parameters $\theta$ are updated by stochastic gradient descent on the loss ${L(\theta)} = {\frac{1}{K}{\sum_{i = 1}^{K}\left( {y_{i} - {Q_{\theta}\left( s_{i},a_{i} \right)}} \right)^{2}}}$ for a batch of $K$ experience tuples $(s,a,c,s^{\prime})$ sampled from a replay buffer. Targets $y_{i}$ are calculated using the Bellman equation as
-
-<!-- chunk {"id": "body-0034", "role": "body", "section": "Information Theoretic Model Predictive Q-Learning", "weight": 1.0} -->
-
-The second term is the same as free energy from Eq. with the expectation over prior converted to expectation over the optimal policy $\pi^{\ast}$ using importance sampling. Since the value function updates are performed offline, we can utilize large amounts of computation to obtain $\pi^{\ast}{(A)}$. We do so by performing multiple iterations of the infinite horizon MPPI update in Eq. from $s^{\prime}$, which allows for better approximation of the free energy (akin to approaches such as Covariance Matrix Adaption, although MPPI does not adapt the covariance). This helps in early stages of learning by providing better quality targets than a random Q function. Intuitively, this update rule leverages the biased dynamics model $\hat{P}$ for $H$ steps and a soft Q function at the end learned from interactions with the real system.
-
-<!-- chunk {"id": "body-0035", "role": "body", "section": "Information Theoretic Model Predictive Q-Learning", "weight": 1.0} -->
+<!-- chunk {"id": "body-0026", "role": "body", "section": "Information Theoretic Model Predictive Q-Learning", "weight": 1.0} -->
 
 At every timestep $t$ during online rollouts, an $H$-horizon sequence of actions is optimized using infinite horizon MPPI and the first action is executed on the system. Online optimization with predictive models can look ahead to produce better actions than ad-hoc exploration strategies such as $\epsilon$-greedy. Combined with the better Q estimates, this helps in accelerating learning as we demonstrate in our experiments. Algorithm 1 shows the complete MPQ algorithm. A closely related approach in literature is POLO, which also uses MPPI and offline value function learning, however they do not explore the connection between MPPI and entropy regularized RL, and thus the algorithm does not use free energy targets.
 
-<!-- chunk {"id": "body-0036", "role": "body", "section": "Information Theoretic Model Predictive Q-Learning", "weight": 1.0} -->
+<!-- chunk {"id": "body-0027", "role": "body", "section": "Information Theoretic Model Predictive Q-Learning", "weight": 1.0} -->
 
-Input: Approximate model P̂, initial Q function parameters θ1, experience buffer 𝒟
-Parameter: Number of episodes N, length of episode T, planning horizon H, number of update episodes Nu p d a t e, minibatch-size K, number of minibatches M
-3 (,…,at + H)← Infinite horizon MPPI (Eq. )
-4 Execute at on the real system to obtain c (st,at) and next state st + 1
-8 Sample M minibatches of size K from 𝒟
-9 Generate targets using Eq. and update parameters to θi + 1
-11 return θN or best θ on validation.
+Input: Approximate model P̂, initial Q function parameters θ1, experience buffer 𝒟 Parameter: Number of episodes N, length of episode T, planning horizon H, number of update episodes Nu p d a t e, minibatch-size K, number of minibatches M 3 (, …, at + H)← Infinite horizon MPPI (Eq.) 4 Execute at on the real system to obtain c (st, at) and next state st + 1 8 Sample M minibatches of size K from 𝒟 9 Generate targets using Eq. and update parameters to θi + 1 11 return θN or best θ on validation.
 
-<!-- chunk {"id": "body-0037", "role": "body", "section": "Experiments", "weight": 1.0} -->
+<!-- chunk {"id": "body-0028", "role": "body", "section": "Experiments", "weight": 1.0} -->
 
 We evaluate the efficacy of MPQ on two fronts: (a) overcoming the shortcomings of both stochastic optimal control and model free RL in terms of computational requirements, model bias, and sample efficiency; and (b) learning effective policies on systems for which accurate models are not known.
 
-<!-- chunk {"id": "body-0038", "role": "body", "section": "Experimental Setup", "weight": 1.0} -->
+<!-- chunk {"id": "body-0029", "role": "body", "section": "Experimental Setup", "weight": 1.0} -->
 
-We focus on sim-to-sim continuous control tasks using MuJoCo (except PendulumSwingup that uses dynamics equations) to study the properties of MPQ in a controlled manner. We consider robotics-inspired tasks (shown in Fig. 1) with either sparse rewards or requiring long-horizon planning. The complexity is further aggravated as the agent is not provided with the true dynamics parameters, but a uniform distribution over them with a biased mean and added noise. Details of the tasks are
+We focus on sim-to-sim continuous control tasks using MuJoCo (except PendulumSwingup that uses dynamics equations) to study the properties of MPQ in a controlled manner. We consider robotics-inspired tasks (shown in Fig. 1) with either sparse rewards or requiring long-horizon planning. The complexity is further aggravated as the agent is not provided with the true dynamics parameters, but a uniform distribution over them with a biased mean and added noise. Details of the tasks are PendulumSwingup: the agent tries to swingup and stabilize a pendulum by applying torque on the hinge given a biased distribution over mass and length. Initial state is randomized after every 10s episode.
 
-<!-- chunk {"id": "body-0039", "role": "body", "section": "Experimental Setup", "weight": 1.0} -->
-
-PendulumSwingup: the agent tries to swingup and stabilize a pendulum by applying torque on the hinge given a biased distribution over mass and length. Initial state is randomized after every 10s episode.
-
-<!-- chunk {"id": "body-0040", "role": "body", "section": "Experimental Setup", "weight": 1.0} -->
+<!-- chunk {"id": "body-0030", "role": "body", "section": "Experimental Setup", "weight": 1.0} -->
 
 BallInCupSparse: a sparse version of the task from the Deepmind Control Suite. Given a cup and ball attached by a tendon, the goal is to swing and catch the ball. The agent is provided with a biased distribution over the ball's mass, moment of inertia and tendon stiffness. A cost of 1 is incurred at every timestep and 0 if the ball is in the cup which corresponds to success. The position of the ball is randomized after every episode of 4s duration.
 
-<!-- chunk {"id": "body-0041", "role": "body", "section": "Experimental Setup", "weight": 1.0} -->
+<!-- chunk {"id": "body-0031", "role": "body", "section": "Experimental Setup", "weight": 1.0} -->
 
 FetchPushBlock: proposed by Plappert et al., the agent controls the cartesian position and opening of a Fetch robot gripper to push a block to a goal location. A biased distribution over the mass, moment of inertia, friction coefficients and size of the object is provided. An episode is successful if the agent gets the block within 5cm of the goal in 4s. The positions of both block and goal are randomized after every episode.
 
-<!-- chunk {"id": "body-0042", "role": "body", "section": "Experimental Setup", "weight": 1.0} -->
+<!-- chunk {"id": "body-0032", "role": "body", "section": "Experimental Setup", "weight": 1.0} -->
 
 FrankaDrawerOpen: based on a real-world manipulation problem from Chebotar et al. where the agent velocity controls a 7DOF Franka Panda arm to open a cabinet drawer. A biased distribution over damping and frictionloss of robot and drawer joints is provided. Every episode lasts 4s after which the arm configuration is randomized. Success is opening the drawer within 1cm of a target displacement.
 
-<!-- chunk {"id": "body-0043", "role": "body", "section": "Experimental Setup", "weight": 1.0} -->
+<!-- chunk {"id": "body-0033", "role": "body", "section": "Experimental Setup", "weight": 1.0} -->
 
-The tasks we chose are more realistic proxies for real-world robotics tasks than standard OpenAI Gym baselines such as Ant and HalfCheetah. The parameters we randomize are reasonable in real world scenarios as estimating moment of inertia and friction coefficients is especially error prone. Details of default parameters and randomization distributions are provided in \\tablereftab:environment_details. Experiments were performed on a desktop with 12 Intel Core i7-3930K @ 3.20GHz CPUs and 32 GB RAM with only few hours of training. Q-functions are parameterized with feed-forward neural networks that take as input an observation vector and action. Refer to Appendix B for further details.
+The tasks we chose are more realistic proxies for real-world robotics tasks than standard OpenAI Gym baselines such as Ant and HalfCheetah. The parameters we randomize are reasonable in real world scenarios as estimating moment of inertia and friction coefficients is especially error prone. Details of default parameters and randomization distributions are provided in \\tablereftab:environment_details. Experiments were performed on a desktop with 12 Intel Core i7-3930K @ 3.20GHz CPUs and 32 GB RAM with only few hours of training. Q-functions are parameterized with feed-forward neural networks that take as input an observation vector and action. Refer to Appendix B for further details. $\Theta^{2} + {0.1{\overset{˙}{\Theta}}^{2}}$ Table 1: Environment parameters and dynamics randomization. The last column denotes the range for the uniform distribution. Ix y z implies that moment of inertia is the same along all three axes. T is the tendon stiffness. For FetchPushBlock, the block is a cube with sides of length l.
 
-<!-- chunk {"id": "body-0044", "role": "body", "section": "Analysis of Overall Performance", "weight": 1.0} -->
+<!-- chunk {"id": "body-0034", "role": "body", "section": "Experimental Setup", "weight": 1.0} -->
+
+FetchPushBlock and FrankaDrawerOpen use uniform distribution for every parameter given: mean = bias × true value and range = [−σ, σ] × true_value
+
+<!-- chunk {"id": "body-0035", "role": "body", "section": "Analysis of Overall Performance", "weight": 1.0} -->
 
 By learning a terminal value function from real data we posit that MPQ will adapt to true system dynamics and allow us to truncate the MPC horizon. Using MPC for Q targets, we also expect to require significantly less data than model-free Q-learning. Hence, we compare MPQ with the following natural baselines: vanilla MPPI with same horizon as MPQ, MPPI with longer horizon, MPPI with longer horizon + true dynamics and SoftQLearning with target networks. Note MPQ does not use a target network. We do not compare with model-based RL methods as learning globally consistent neural network models adds an additional layer of complexity beyond the scope of this work. MPQ is complementary to model learning and one can benefit from the other.
 
-<!-- chunk {"id": "body-0045", "role": "body", "section": "O 1", "weight": 1.0} -->
+<!-- chunk {"id": "body-0036", "role": "body", "section": "O 1", "weight": 1.0} -->
 
 MPQ can truncate the planning horizon leading to computational efficiency over MPPI.
 
-<!-- chunk {"id": "body-0046", "role": "body", "section": "O 1", "weight": 1.0} -->
+<!-- chunk {"id": "body-0037", "role": "body", "section": "O 1", "weight": 1.0} -->
 
 Fig. LABEL:fig:trainingcomparison shows that MPQ outperforms MPPI with the same horizon after only a few training episodes and ultimately outperforms MPPI with a much longer horizon. This is due to global information encapsulated in the Q-function, hardness of optimizing longer sequences and compounding model error in longer rollouts. In FetchPushBlock, MPPI with a short horizon ($H = 10$) is unable to reach near the block whereas MPQ with $H = 10$ outperforms MPPI with $H = 64$ within 30 training episodes i.e. about 2 minutes of interaction with true sim parameters. In the high-dimensional FrankaDrawerOpen, MPQ with $H = 10$ achieves a success rate of $>$`<!-- -->`{=html}5X MPPI with $H = 10$, and outperforms MPPI with $H = 64$ within a few minutes of interaction. We also examine the effects of varying the horizon during training and present the result of an ablation study in Appendix C.
 
-<!-- chunk {"id": "body-0047", "role": "body", "section": "O 2", "weight": 1.0} -->
+<!-- chunk {"id": "body-0038", "role": "body", "section": "O 2", "weight": 1.0} -->
 
 MPQ mitigates effects of model-bias through a combination of MPC, entropy regularization and a Q function learned from true system.
 
-<!-- chunk {"id": "body-0048", "role": "body", "section": "O 2", "weight": 1.0} -->
+<!-- chunk {"id": "body-0039", "role": "body", "section": "O 2", "weight": 1.0} -->
 
 Fig. LABEL:fig:trainingcomparison shows that MPQ with short horizon achieves performance close to, or better than, MPPI with true dynamics and a longer horizon (dashed gray line) in all tasks.
 
-<!-- chunk {"id": "body-0049", "role": "body", "section": "O 3", "weight": 1.0} -->
+<!-- chunk {"id": "body-0040", "role": "body", "section": "O 3", "weight": 1.0} -->
 
-Using MPC provides stable Q targets leading to sample efficiency over SoftQLearning
+Using MPC provides stable Q targets leading to sample efficiency over SoftQLearning In BallInCupSparse, FetchPushBlock and FrankaDrawerOpen, SoftQLearning does not converge to a consistent policy whereas MPQ achieves good performance within few minutes of interaction with true system parameters.
 
-<!-- chunk {"id": "body-0050", "role": "body", "section": "O 3", "weight": 1.0} -->
-
-In BallInCupSparse, FetchPushBlock and FrankaDrawerOpen, SoftQLearning does not converge to a consistent policy whereas MPQ achieves good performance within few minutes of interaction with true system parameters.
-
-<!-- chunk {"id": "body-0051", "role": "body", "section": "Case Study: Learning Policies for Systems With Inaccurate Models", "weight": 1.0} -->
+<!-- chunk {"id": "body-0041", "role": "body", "section": "Case Study: Learning Policies for Systems With Inaccurate Models", "weight": 1.0} -->
 
 DR aims to make a policy learned in simulation robust by randomizing the simulation parameters. But, such policies can be suboptimal with respect to true parameters due to bias in randomization distribution.
 
-<!-- chunk {"id": "body-0052", "role": "body", "section": "Q 1", "weight": 1.0} -->
+<!-- chunk {"id": "body-0042", "role": "body", "section": "Q 1", "weight": 1.0} -->
 
 Can a Q-function learned using rollouts on a real system overcome model bias and outperform DR?
 
-<!-- chunk {"id": "body-0053", "role": "body", "section": "Q 1", "weight": 1.0} -->
+<!-- chunk {"id": "body-0043", "role": "body", "section": "Q 1", "weight": 1.0} -->
 
 We compare against a DR approach inspired by Peng et al. where simulated rollouts are generated by sampling different parameters at every timestep from a broad distribution shown in \\tablereftab:environment_details whereas real system rollouts use the true parameters. Table 2 shows that a Q function learned using DR with only simulated experience is unable to generalize to the true parameters during testing and MPQ has over 2X the success rate in BallInCupSparse and 3X in FrankaDrawerOpen. Note that MPC always uses simulated rollouts, the difference is whether the data for learning the Q function is generated using biased simulation (in DR approach) or true parameters.
 
-<!-- chunk {"id": "body-0054", "role": "body", "section": "Discussion", "weight": 1.5} -->
+<!-- chunk {"id": "body-0044", "role": "body", "section": "Q 1", "weight": 1.0} -->
+
+Avg. success rate Table 2: Average success when training Q function using real system rollouts (ending with REAL) and DR. Test episodes=100. H is horizon of MPC in both training and testing, with H = 1 being SoftQLearning
+
+<!-- chunk {"id": "body-0045", "role": "body", "section": "Discussion", "weight": 1.5} -->
 
 We presented a theoretical connection between information theoretic MPC and entropy-regularized RL that naturally provides an algorithm to leverage the benefits of both. While the approach is effective on a range of tasks, in the future we wish to investigate the dependence between model error and MPC horizon and adapt the horizon by reasoning about the quality of the Q function, both critical for real-world applications. \\acksThe authors would like to thank Nolan Wagener for insightful discussions for improving the manuscript.

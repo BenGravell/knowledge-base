@@ -42,11 +42,11 @@ A Markov Decision Process (MDP) is defined as a tuple $(\mathcal{S},\mathcal{A},
 
 <!-- chunk {"id": "body-0011", "role": "body", "section": "III-A Markov Decision Process", "weight": 1.0} -->
 
-A policy $\pi$ is a function that maps each state to a distribution over actions ($\pi:{\mathcal{S}\rightarrow\Delta_{\mathcal{A}}}$, where $\Delta_{\mathcal{A}}$ is the probability simplex on $\mathcal{A}$). Reinforcement learning optimizes policies to maximize expected returns (i.e.,
+A policy $\pi$ is a function that maps each state to a distribution over actions ($\pi:{\mathcal{S}\rightarrow\Delta_{\mathcal{A}}}$, where $\Delta_{\mathcal{A}}$ is the probability simplex on $\mathcal{A}$). Reinforcement learning optimizes policies to maximize expected returns (i.e., cumulative discounted future rewards): A policy $\pi$'s action-value function is | | & {{\int_{s'}{P{(s,a,s')}\left({{\mathcal{R}{(s,a,s')}} + {\gamma{\mathbb{E}}_{a' \sim {\pi{(s')}}}{\lbrack{Q^{\pi}{(s',a')}}\rbrack}}} \right)}}.} | | Typically $\mathcal{R}$ specifies how well the policy is doing in terms of accomplishing a task.
 
 <!-- chunk {"id": "body-0012", "role": "body", "section": "III-A Markov Decision Process", "weight": 1.0} -->
 
-Typically $\mathcal{R}$ specifies how well the policy is doing in terms of accomplishing a task. In this work, we augment $\mathcal{R}$ with several types of auxiliary rewards, in order to train policies for contract-centric, low-impact manipulation.
+In this work, we augment $\mathcal{R}$ with several types of auxiliary rewards, in order to train policies for contract-centric, low-impact manipulation.
 
 <!-- chunk {"id": "body-0013", "role": "body", "section": "III-B Deep Reinforcement Learning", "weight": 1.0} -->
 
@@ -58,176 +58,148 @@ D4PG is an actor-critic algorithm used to train policies for continuous control,
 
 <!-- chunk {"id": "body-0015", "role": "body", "section": "III-C Formalizing gentleness", "weight": 1.0} -->
 
-In this work, we define being gentle as minimizing impact. This is closely related to the notion of impact force in physics, which is the maximum amount of force experienced during a collision. However, we consider a more general definition of "impact," that does not only apply to cases when the initial applied force is zero. Instead, assuming a discrete time step, we define impact $m_{t}$ as
+In this work, we define being gentle as minimizing impact. This is closely related to the notion of impact force in physics, which is the maximum amount of force experienced during a collision. However, we consider a more general definition of "impact," that does not only apply to cases when the initial applied force is zero. Instead, assuming a discrete time step, we define impact $m_{t}$ as where $f_{t}$ is the sensed force at time step $t$. In other words, for a robot to be gentle, it should minimize *increases in sensed force*. To illustrate, consider a robot that needs to push a heavy object with a force of 20N. If the robot increases the applied force from zero to 20N in a fraction of a second, the action is more likely to cause damage compared to amortizing the increase in force over several seconds.
 
-<!-- chunk {"id": "body-0016", "role": "body", "section": "III-C Formalizing gentleness", "weight": 1.0} -->
-
-where $f_{t}$ is the sensed force at time step $t$. In other words, for a robot to be gentle, it should minimize *increases in sensed force*. To illustrate, consider a robot that needs to push a heavy object with a force of 20N. If the robot increases the applied force from zero to 20N in a fraction of a second, the action is more likely to cause damage compared to amortizing the increase in force over several seconds.
-
-<!-- chunk {"id": "body-0017", "role": "body", "section": "Proposed Approach", "weight": 1.0} -->
+<!-- chunk {"id": "body-0016", "role": "body", "section": "Proposed Approach", "weight": 1.0} -->
 
 In order to train policies that exhibit gentle manipulation, we propose to augment the original reward ($r_{t}$) with an impact force penalty ($r_{t}^{f}$) and an intrinsic reward based on surprise ($r_{t}^{s}$). Agents are trained to maximize the total expected return,
 
-<!-- chunk {"id": "body-0018", "role": "body", "section": "IV-A Impact penalty", "weight": 1.0} -->
+<!-- chunk {"id": "body-0017", "role": "body", "section": "IV-A Impact penalty", "weight": 1.0} -->
 
 The impact force penalty acts as an intrinsic pain signal to encourage agents to accomplish manipulation tasks in a more gentle way. Of course, in order to accomplish any manipulation task, small impacts are necessary---at some point the robot needs to go from zero to non-zero applied force on an object, in order to manipulate it. So, the impact penalty should scale non-linearly with the level of impact, by taking into account the *acceptability* of a particular amount of impact.
 
+<!-- chunk {"id": "body-0018", "role": "body", "section": "IV-A Impact penalty", "weight": 1.0} -->
+
+Let ${a_{\lambda}{(m)}} \in {\lbrack 0,1\rbrack}$, parametrized by $\lambda$, be the acceptability of an amount of impact $m$. This is a monotonically increasing function, that should be designed according to how resilient the robot and environment are to impacts. For instance, if the robot is interacting with very fragile objects, then the range of acceptable impacts should be smaller. Ideally, this function should express the probability of damage (to either robot or environment) from a given amount of impact, and could be learned from experience of actual damage. In our experiments, since we do not have enough data on damage to estimate likelihoods, we use a sigmoid function for acceptability: The impact penalty at time step $t$ is then: where the sum is over force sensors at different locations on the robot (e.g., the fingers of a robot hand). In our experiments, we set $\lambda = {\lbrack 2,2\rbrack}^{\top}$.
+
 <!-- chunk {"id": "body-0019", "role": "body", "section": "IV-A Impact penalty", "weight": 1.0} -->
 
-Let ${a_{\lambda}{(m)}} \in {\lbrack 0,1\rbrack}$, parametrized by $\lambda$, be the acceptability of an amount of impact $m$. This is a monotonically increasing function, that should be designed according to how resilient the robot and environment are to impacts. For instance, if the robot is interacting with very fragile objects, then the range of acceptable impacts should be smaller. Ideally, this function should express the probability of damage (to either robot or environment) from a given amount of impact, and could be learned from experience of actual damage.
+However, if the environment reward merely combines the task reward and the impact penalty, that is, $r_{t}' = {r_{t} + r_{t}^{f}}$, we find that policies get reliably stuck in a local optimum of not making contact with anything in the environment---the agent learns to be afraid of contact, since it encounters the impact penalty before the sparse task reward, hindering exploration.
 
-<!-- chunk {"id": "body-0020", "role": "body", "section": "IV-A Impact penalty", "weight": 1.0} -->
-
-where the sum is over force sensors at different locations on the robot (e.g., the fingers of a robot hand). In our experiments, we set $\lambda = {\lbrack 2,2\rbrack}^{\top}$.
-
-<!-- chunk {"id": "body-0021", "role": "body", "section": "IV-A Impact penalty", "weight": 1.0} -->
-
-However, if the environment reward merely combines the task reward and the impact penalty, that is, $r_{t}^{\prime} = {r_{t} + r_{t}^{f}}$, we find that policies get reliably stuck in a local optimum of not making contact with anything in the environment---the agent learns to be afraid of contact, since it encounters the impact penalty before the sparse task reward, hindering exploration.
-
-<!-- chunk {"id": "body-0022", "role": "body", "section": "IV-B Dynamics-based surprise", "weight": 1.0} -->
+<!-- chunk {"id": "body-0020", "role": "body", "section": "IV-B Dynamics-based surprise", "weight": 1.0} -->
 
 The purpose of adding surprise-based intrinsic rewards is to encourage policies to make *contact* with objects in the environment but still in a *gentle* way. For an agent to be "surprised," it must have some predictor of future states, i.e., a model. In the case of dynamics-based surprise, this model is a learned dynamics model that takes in the current state and action, and predicts the mean and variance of the next state. We train an ensemble of neural networks for the dynamics model, in order to have predictive uncertainty. Predictive uncertainty is useful for capturing novelty: in the case of environments with deterministic dynamics, if the networks in the ensemble either individually have high variance in their predictions, or have high variance across the ensemble, then this indicates a novel area that should be explored further.
 
-<!-- chunk {"id": "body-0023", "role": "body", "section": "IV-B Dynamics-based surprise", "weight": 1.0} -->
+<!-- chunk {"id": "body-0021", "role": "body", "section": "IV-B Dynamics-based surprise", "weight": 1.0} -->
 
-Each of the $M$ networks in the ensemble outputs the mean and variance of a Gaussian for each dimension $d$ of the prediction.
+Each of the $M$ networks in the ensemble outputs the mean and variance of a Gaussian for each dimension $d$ of the prediction. The ensemble's combined output is a mixture of Gaussians for each output dimension $d$: where $\mathbf{x}$ denotes the input and $\theta_{i}$ are the parameters of the $i$th network in the ensemble. During training, each network is randomly initialized, and they are trained on different batches of transitions. We choose $M = 5$, as recommended by related work.
 
-<!-- chunk {"id": "body-0024", "role": "body", "section": "IV-B Dynamics-based surprise", "weight": 1.0} -->
+<!-- chunk {"id": "body-0022", "role": "body", "section": "IV-B Dynamics-based surprise", "weight": 1.0} -->
 
-where $\mathbf{x}$ denotes the input and $\theta_{i}$ are the parameters of the $i$th network in the ensemble. During training, each network is randomly initialized, and they are trained on different batches of transitions. We choose $M = 5$, as recommended by related work.
+To compute dynamics-based surprise intrinsic reward $r_{t}^{s}$, we approximate the dynamics model's predicted distribution over next states with a single Gaussian per output dimension $d$, to measure how much variance there is *across* networks in the ensemble. The mean and variance of this is Then the intrinsic reward is the negative log-likelihood of the true next state under this predicted distribution over next states: This intrinsic reward is computed with respect to a target dynamics model, which is updated every 5000 iterations; this makes training more stable, so that the agent is not trying to surprise a model that is constantly changing. In addition, we wait for the dynamics model to become more accurate before providing intrinsic rewards to the agent: after 20,000 training steps for experiments in simulation, and after 8,000 training steps on the real robot.
 
-<!-- chunk {"id": "body-0025", "role": "body", "section": "IV-B Dynamics-based surprise", "weight": 1.0} -->
-
-To compute dynamics-based surprise intrinsic reward $r_{t}^{s}$, we approximate the dynamics model's predicted distribution over next states with a single Gaussian per output dimension $d$, to measure how much variance there is *across* networks in the ensemble. The mean and variance of this is
-
-<!-- chunk {"id": "body-0026", "role": "body", "section": "IV-B Dynamics-based surprise", "weight": 1.0} -->
-
-This intrinsic reward is computed with respect to a target dynamics model, which is updated every 5000 iterations; this makes training more stable, so that the agent is not trying to surprise a model that is constantly changing. In addition, we wait for the dynamics model to become more accurate before providing intrinsic rewards to the agent: after 20,000 training steps for experiments in simulation, and after 8,000 training steps on the real robot.
-
-<!-- chunk {"id": "body-0027", "role": "body", "section": "IV-C Penalty-based surprise", "weight": 1.0} -->
+<!-- chunk {"id": "body-0023", "role": "body", "section": "IV-C Penalty-based surprise", "weight": 1.0} -->
 
 Motivated by the role of risk-seeking behavior in childhood learning, we propose to reward the agent for being curious about the impact penalty itself. In other words, we add a reward to focus the learning and exploration of the agent on the intrinsic pain signal, with two motivations: to enable better prediction of pain, and to encourage contacts by mitigating some of the penalty. To compute the penalty-based surprise reward $r_{t}^{s_{p}}$, we train an impact penalty predictor in parallel with the agent, with the same implementation as the general dynamics model (an ensemble of five neural networks).
 
-<!-- chunk {"id": "body-0028", "role": "body", "section": "IV-C Penalty-based surprise", "weight": 1.0} -->
+<!-- chunk {"id": "body-0024", "role": "body", "section": "IV-C Penalty-based surprise", "weight": 1.0} -->
 
-To compute the intrinsic reward, we do not use the negative log-likelihood directly, as was done with the dynamics reward, because it would make high impact forces acceptable as long as the prediction likelihood in those areas was low enough, leading to very non-gentle actions by the agent. Rather, we would like agents to focus on learning about areas with low penalty (i.e., areas where impacts occur but are small), so that they learn how to be gentle. For areas of high penalty, it is enough for the agent to just know that the penalty is high, not necessarily *exactly* how high it is.
+To compute the intrinsic reward, we do not use the negative log-likelihood directly, as was done with the dynamics reward, because it would make high impact forces acceptable as long as the prediction likelihood in those areas was low enough, leading to very non-gentle actions by the agent. Rather, we would like agents to focus on learning about areas with low penalty (i.e., areas where impacts occur but are small), so that they learn how to be gentle. For areas of high penalty, it is enough for the agent to just know that the penalty is high, not necessarily *exactly* how high it is. To enforce this preference for exploring areas with low penalty while avoiding ones with high penalty, a natural approach is to augment the task reward with a convex combination between the negative log-likelihood and the impact penalty: where ${a_{\lambda'}{(r_{t}^{f})}} \in {\lbrack 0,1\rbrack}$ is the acceptability of a particular penalty $r_{t}^{f}$.
 
-<!-- chunk {"id": "body-0029", "role": "body", "section": "IV-C Penalty-based surprise", "weight": 1.0} -->
+<!-- chunk {"id": "body-0025", "role": "body", "section": "IV-C Penalty-based surprise", "weight": 1.0} -->
 
-where ${a_{\lambda^{\prime}}{(r_{t}^{f})}} \in {\lbrack 0,1\rbrack}$ is the acceptability of a particular penalty $r_{t}^{f}$. This is a monotonically increasing function, that should be chosen based on how much penalty the robot may experience for the sake of exploration or task completion. We use a sigmoid function for this acceptability, as we did for impact $a_{\lambda}{(m)}$ (Sec. IV-A).
+This is a monotonically increasing function, that should be chosen based on how much penalty the robot may experience for the sake of exploration or task completion. We use a sigmoid function for this acceptability, as we did for impact $a_{\lambda}{(m)}$ (Sec. IV-A).
 
-<!-- chunk {"id": "body-0030", "role": "body", "section": "IV-C Penalty-based surprise", "weight": 1.0} -->
+<!-- chunk {"id": "body-0026", "role": "body", "section": "IV-C Penalty-based surprise", "weight": 1.0} -->
 
-Note that $\lambda$ and $\lambda^{\prime}$ play different roles: $\lambda$ modulates the mapping of impact forces to pain penalties, whereas $\lambda^{\prime}$ controls the trade-off between these pain penalties and the agent's penalty-focused curiosity. The choice of $\lambda^{\prime}$ may be adjusted dynamically during learning; the higher $\lambda_{2}^{\prime}$ is, the easier it is for the robot to learn the task, at the cost of higher impact forces on average.
+Note that $\lambda$ and $\lambda'$ play different roles: $\lambda$ modulates the mapping of impact forces to pain penalties, whereas $\lambda'$ controls the trade-off between these pain penalties and the agent's penalty-focused curiosity. The choice of $\lambda'$ may be adjusted dynamically during learning; the higher $\lambda_{2}'$ is, the easier it is for the robot to learn the task, at the cost of higher impact forces on average.
 
-<!-- chunk {"id": "body-0031", "role": "body", "section": "IV-C Penalty-based surprise", "weight": 1.0} -->
+<!-- chunk {"id": "body-0027", "role": "body", "section": "IV-C Penalty-based surprise", "weight": 1.0} -->
 
-In order to augment the reward with this convex combination, we need to choose $r_{t}^{s_{p}}$ such that $r_{t}^{s_{p}} + r_{t}^{f}$ is equal to. In addition, we only provide this intrinsic reward if the penalty is non-zero, because the purpose is to encourage the agent to (cautiously) learn more about the penalty.
+In order to augment the reward with this convex combination, we need to choose $r_{t}^{s_{p}}$ such that $r_{t}^{s_{p}} + r_{t}^{f}$ is equal to. In addition, we only provide this intrinsic reward if the penalty is non-zero, because the purpose is to encourage the agent to (cautiously) learn more about the penalty. Based on this, we set the penalty-based surprise intrinsic reward to be: In the same way as dynamics-based surprise, this penalty-based surprise intrinsic reward is computed with respect to a target impact penalty predictor model, which is updated every 1000 iterations, and we do not provide intrinsic rewards to the agent until after 20,000 training steps for simulation experiments, and after 8,000 training steps for real robot experiments.
 
-<!-- chunk {"id": "body-0032", "role": "body", "section": "IV-C Penalty-based surprise", "weight": 1.0} -->
-
-In the same way as dynamics-based surprise, this penalty-based surprise intrinsic reward is computed with respect to a target impact penalty predictor model, which is updated every 1000 iterations, and we do not provide intrinsic rewards to the agent until after 20,000 training steps for simulation experiments, and after 8,000 training steps for real robot experiments.
-
-<!-- chunk {"id": "body-0033", "role": "body", "section": "IV-D Agent architecture and implementation details", "weight": 1.0} -->
+<!-- chunk {"id": "body-0028", "role": "body", "section": "IV-D Agent architecture and implementation details", "weight": 1.0} -->
 
 As mentioned, we use D4PG to train an actor (e.g., policy) and critic (e.g., action-value function). We use a separate critic for each of the reward components: the task reward critic encodes ${\hat{Q}}^{t}{(s_{t},a_{t})}$, the penalty-based surprise critic encodes ${\hat{Q}}^{s_{p}}{(s_{t},a_{t})}$, the dynamics-based surprise critic encodes ${\hat{Q}}^{s}{(s_{t},a_{t})}$, and the impact penalty critic encodes ${\hat{Q}}^{f}{(s_{t},a_{t})}$. The separation of the critics supports more stable learning. The components of the agent with penalty-based surprise are illustrated in Figure 1.
 
-<!-- chunk {"id": "body-0034", "role": "body", "section": "IV-D Agent architecture and implementation details", "weight": 1.0} -->
+<!-- chunk {"id": "body-0029", "role": "body", "section": "IV-D Agent architecture and implementation details", "weight": 1.0} -->
 
 The output of the actor is passed through a tanh, so that it is between -1 and +1. This output specifies delta position: it is added to the current position and then clipped based on the minimum and maximum joint angle per action dimension, to obtain the action. The actor network consists of two fully-connected layers of 300 and 200 hidden units each. Each of the critic networks consists of two fully-connected layers of 400 and 300 hidden units each. The distributional output of the critic has support $({- 100},100)$ and 101 bins. For both the actor and critic networks, the first hidden layer is followed by layer normalization and a tanh, and all other hidden layers are followed by exponential linear unit (ELU) activations. For D4PG, we used a batch size of 256 and a replay buffer of 1 million transitions.
 
-<!-- chunk {"id": "body-0035", "role": "body", "section": "IV-D Agent architecture and implementation details", "weight": 1.0} -->
+<!-- chunk {"id": "body-0030", "role": "body", "section": "IV-D Agent architecture and implementation details", "weight": 1.0} -->
 
 The dynamics model consists of three ensembles, one each for predicting the three types of state features: joint position, joint velocity, and touch. The non-gentleness predictor model consists of a single ensemble. Each of these ensembles consists of five neural networks, with three fully-connected layers of 128 hidden units each. All hidden layers are followed by rectified linear unit (ReLU) activations.
 
-<!-- chunk {"id": "body-0036", "role": "body", "section": "Experiments", "weight": 1.0} -->
+<!-- chunk {"id": "body-0031", "role": "body", "section": "Experiments", "weight": 1.0} -->
 
-Our goal is to learn policies that are safer, with less forceful impacts, while also improving sample efficiency and overall task performance.
+Our goal is to learn policies that are safer, with less forceful impacts, while also improving sample efficiency and overall task performance. The following experiments compare three approaches for achieving this; these approaches differ in terms of what the task reward is augmented: an impact penalty and a dynamics-based surprise intrinsic reward ($r_{t}^{f} + r_{t}^{s}$) an impact penalty and a penalty-based surprise intrinsic reward ($r_{t}^{f} + r_{t}^{s_{p}}$).
 
-<!-- chunk {"id": "body-0037", "role": "body", "section": "Experiments", "weight": 1.0} -->
-
-an impact penalty and a dynamics-based surprise intrinsic reward ($r_{t}^{f} + r_{t}^{s}$)
-
-<!-- chunk {"id": "body-0038", "role": "body", "section": "Experiments", "weight": 1.0} -->
-
-an impact penalty and a penalty-based surprise intrinsic reward ($r_{t}^{f} + r_{t}^{s_{p}}$).
-
-<!-- chunk {"id": "body-0039", "role": "body", "section": "V-A Experimental domain", "weight": 1.0} -->
+<!-- chunk {"id": "body-0032", "role": "body", "section": "V-A Experimental domain", "weight": 1.0} -->
 
 We run experiments both in simulation with MuJoCo and on a physical robot. The robot platform we use is the Shadow Dexterous Hand, with five fingers and a total of 24 degrees of freedom, actuated by 20 motors. We use this platform for several reasons: because it is actuated by antagonistic tendons, it is more susceptible to wear-and-tear (and thus gentle exploration and manipulation has greater potential benefit); it can be equipped with high-fidelity tactile sensors; and it is anthropomorphic and well suited for handling fragile objects.
 
-<!-- chunk {"id": "body-0040", "role": "body", "section": "V-A Experimental domain", "weight": 1.0} -->
+<!-- chunk {"id": "body-0033", "role": "body", "section": "V-A Experimental domain", "weight": 1.0} -->
 
 In simulation, each fingertip has a spatial touch sensor attached, with three channels and a spatial resolution of $4 \times 4$: one for normal force and two for tangential forces. We simplify this by taking the absolute value and then summing across the spatial dimensions, to obtain a 3D force vector for each fingertip. The impact force $m_{t}^{i}$ is then the sum over the increase in force per channel for fingertip $i$.
 
-<!-- chunk {"id": "body-0041", "role": "body", "section": "V-A Experimental domain", "weight": 1.0} -->
+<!-- chunk {"id": "body-0034", "role": "body", "section": "V-A Experimental domain", "weight": 1.0} -->
 
 On our real-world Shadow Hand, BioTac® sensors provide a more complex array of tactile signals. To compute the forces exerted by each finger, readings from the pressure channel of each tactile sensor were acquired and then normalized to match the range of the simulated tactile sensors. In this way, it was possible to directly compare results in simulation and on the real robot, without having to change the parameters of the task or learning algorithm.
 
-<!-- chunk {"id": "body-0042", "role": "body", "section": "V-A Experimental domain", "weight": 1.0} -->
+<!-- chunk {"id": "body-0035", "role": "body", "section": "V-A Experimental domain", "weight": 1.0} -->
 
 The state consists of proprioception (joint position and joint velocity) and touch. The action space is 20-dimensional. We use position control and a control rate of 20 Hz, both in simulation and on the physical robot.
 
-<!-- chunk {"id": "body-0043", "role": "body", "section": "V-A Experimental domain", "weight": 1.0} -->
+<!-- chunk {"id": "body-0036", "role": "body", "section": "V-A Experimental domain", "weight": 1.0} -->
 
 The environment consists of the Shadow Hand and a single block (Fig. 2, Fig. 7); the task reward $r_{t}$ depends on the experiment. Focusing on this simple environment enables us to clearly characterize the effectiveness of our three approaches for training low-impact policies. We find that even in this simple environment, learning policies for gentle manipulation is challenging for most approaches. Results from the simulated environment are presented first.
 
-<!-- chunk {"id": "body-0044", "role": "body", "section": "V-B Exploration with impact penalty", "weight": 1.0} -->
+<!-- chunk {"id": "body-0037", "role": "body", "section": "V-B Exploration with impact penalty", "weight": 1.0} -->
 
 First, we are interested in whether these approaches enable training policies that are gentle during exploration. We investigate this in a no-reward setting, where the policy receives intrinsic rewards (either from dynamics-based surprise or penalty-based surprise) and the intrinsic pain penalty, but no task reward. The goal is for policies to be gentle (i.e., experience low impact) while still exploring effectively, in terms of interacting with objects in the environment.
 
-<!-- chunk {"id": "body-0045", "role": "body", "section": "V-B Exploration with impact penalty", "weight": 1.0} -->
+<!-- chunk {"id": "body-0038", "role": "body", "section": "V-B Exploration with impact penalty", "weight": 1.0} -->
 
 As a baseline, we trained policies with only dynamics-based surprise intrinsic rewards, without an impact penalty. As expected, these policies experience a large amount of impact while exploring: the maximum amount of impact experienced per rollout is in the 5 to 15N range (Fig. 3, left). This suggests that this form of curiosity is not practical for running on real-world robots, if either the robot or the objects it interacts with are susceptible to wear and tear.
 
-<!-- chunk {"id": "body-0046", "role": "body", "section": "V-B Exploration with impact penalty", "weight": 1.0} -->
+<!-- chunk {"id": "body-0039", "role": "body", "section": "V-B Exploration with impact penalty", "weight": 1.0} -->
 
 When we add the impact penalty, we do observe more gentle exploration: there is a significant decrease in the maximum amount of impact experienced per rollout (now in the 0 to 5N range), for both kinds of intrinsic reward. However, having penalty-based surprise intrinsic rewards leads to more gentle touching, whereas dynamics-based surprise leads to the policy exploring interesting configurations of the hand, but with limited touching (Fig. 3, center and right).
 
-<!-- chunk {"id": "body-0047", "role": "body", "section": "V-C Manipulation with impact penalty", "weight": 1.0} -->
+<!-- chunk {"id": "body-0040", "role": "body", "section": "V-C Manipulation with impact penalty", "weight": 1.0} -->
 
 Next, we are interested in whether these approaches enable training policies that learn how to perform a task gently, while still being relatively sample-efficient. In the task, the episode terminates with a reward of +1 if the hand presses the block with any fingerpad (thus activating the touch sensor) with a force greater than 5N. A non-gentle way of achieving this is to go from no contact to 5N of applied force in a single timestep; in contrast, policies trained to be gentle should more gradually increase to 5N of applied force.
 
-<!-- chunk {"id": "body-0048", "role": "body", "section": "V-C Manipulation with impact penalty", "weight": 1.0} -->
+<!-- chunk {"id": "body-0041", "role": "body", "section": "V-C Manipulation with impact penalty", "weight": 1.0} -->
 
 This task is simple: without an impact penalty, agents learn this task quickly (Fig. 4, top), although with a significant amount of impact (Fig. 2, top center). However, once impact penalties are added, if there is no form of surprise-based intrinsic rewards to counteract them, then agents fail to learn the task---they get trapped in a local optimum of avoiding contact with the environment, since they experience penalties from contact before discovering how to perform the task (Fig. 2, center).
 
-<!-- chunk {"id": "body-0049", "role": "body", "section": "V-C Manipulation with impact penalty", "weight": 1.0} -->
+<!-- chunk {"id": "body-0042", "role": "body", "section": "V-C Manipulation with impact penalty", "weight": 1.0} -->
 
 In line with the results from our previous experiment, in which we observed that dynamics-based surprise leads to only limited gentle touching in the presence of impact penalties, we saw that penalty-based surprise was much more effective in terms of agents learning how to perform the task gently, with low impacts (Fig. 5). Even more, these agents learned as quickly as ones trained without the impact penalty (Fig. 4, top). This may be because this task is particularly contact-focused (in general manipulation tasks are contact-focused, but to varying degrees), so it is a setting in which contact-focused exploration is especially helpful. We also compare our approach with agents trained using the Intrinsic Curiosity Module (ICM) proposed. Similarly to the agents trained with dynamics-based surprise, these agents do not successfully learn the task.
 
-<!-- chunk {"id": "body-0050", "role": "body", "section": "V-D Manipulation of fragile objects", "weight": 1.0} -->
+<!-- chunk {"id": "body-0043", "role": "body", "section": "V-D Manipulation of fragile objects", "weight": 1.0} -->
 
 Finally, we made the task more difficult by introducing a 'fragile block'. This is analogous to a manipulation task involving fragile objects, such as picking ripe fruit or assisting humans. This fragile block 'breaks' if the impact force at any point is greater than 3N, and the episode terminates with a negative reward of -0.5. The reward for completing the task is +5. Now, policies trained with only the task reward are unable to learn the task at all, because they accidentally break the block a few times, and learn that any contact with the block is undesirable. There is no reward shaping that incentivizes these policies to try interacting with the block in a gentle way.
 
-<!-- chunk {"id": "body-0051", "role": "body", "section": "V-D Manipulation of fragile objects", "weight": 1.0} -->
+<!-- chunk {"id": "body-0044", "role": "body", "section": "V-D Manipulation of fragile objects", "weight": 1.0} -->
 
 In contrast, policies trained with the impact penalty are better able to learn the task. As before, penalty-based surprise intrinsic rewards are more effective than dynamics-based ones in terms of how quickly policies are able to learn the task (Fig. 4, bottom).
 
-<!-- chunk {"id": "body-0052", "role": "body", "section": "V-D Manipulation of fragile objects", "weight": 1.0} -->
+<!-- chunk {"id": "body-0045", "role": "body", "section": "V-D Manipulation of fragile objects", "weight": 1.0} -->
 
 Fig. 6 plots the evolution of reward components over time obtained by the agent trained on task reward, impact penalty and penalty-based surprise intrinsic reward. Each reward component in this plot is the average over batches sampled from the agent's replay buffer. The total reward (blue) is the combination of the pain surprise reward, the task reward, and the pain penalty. The dashed vertical line indicates the timestep when the intrinsic reward starts to be applied (i.e. after 20,000 timesteps). Before this point, the total reward is only affected by the task reward and the impact penalty.
 
-<!-- chunk {"id": "body-0053", "role": "body", "section": "V-E Real robot experiments", "weight": 1.0} -->
+<!-- chunk {"id": "body-0046", "role": "body", "section": "V-E Real robot experiments", "weight": 1.0} -->
 
 We also conducted experiments for the two manipulation tasks on a real Shadow Dexterous Hand. The setup used for these experiments is shown in Fig. 7. A force/torque sensor is attached to a foam block, and is used to measure the force on the block.
 
-<!-- chunk {"id": "body-0054", "role": "body", "section": "V-E Real robot experiments", "weight": 1.0} -->
+<!-- chunk {"id": "body-0047", "role": "body", "section": "V-E Real robot experiments", "weight": 1.0} -->
 
 As in the experiments in simulation, for the first task, the episode terminates with a reward of +1 if the hand presses the block with any fingerpad with a force greater than 5N. For the fragile objects case, the episodes terminate with a negative reward if the impact force at any point is greater than 3N, and the reward for completing the task is +5.
 
-<!-- chunk {"id": "body-0055", "role": "body", "section": "V-E Real robot experiments", "weight": 1.0} -->
+<!-- chunk {"id": "body-0048", "role": "body", "section": "V-E Real robot experiments", "weight": 1.0} -->
 
 As baselines, we also ran a random agent, and agents trained using the Intrinsic Curiosity Module (ICM) proposed. Although these agents sometimes randomly hit the block, they do not consistently solve the tasks, and their interaction with the block often includes high-impact forces that exceed 5N.
 
-<!-- chunk {"id": "body-0056", "role": "body", "section": "V-E Real robot experiments", "weight": 1.0} -->
+<!-- chunk {"id": "body-0049", "role": "body", "section": "V-E Real robot experiments", "weight": 1.0} -->
 
 We evaluated the different agents over 25,000 training steps. Since this is a shorter time window compared to that of the experiments executed in simulation, we increased the learning rate by one order of magnitude (from 0.0001 to 0.001). In line with the results obtained in simulation, we saw that penalty-based surprise was much more effective in learning how to perform the task gently, both in terms of learning speed (Fig. 8) and minimizing impacts (Fig. 9). The agent trained with dynamics-based surprise continues exploring the (complex) dynamics of the system on the real robot, and thus struggles to learn the simple manipulation task. On the other hand, the agent trained with penalty-based surprise is not only successful on the simple manipulation task, but notably it is the one that learns the task of manipulation of fragile objects more consistently.
 
-<!-- chunk {"id": "body-0057", "role": "body", "section": "Discussion and Future Work", "weight": 1.5} -->
+<!-- chunk {"id": "body-0050", "role": "body", "section": "Discussion and Future Work", "weight": 1.5} -->
 
 Our work takes a step toward using deep RL to train policies for gentle, contact-rich manipulation. Although curiosity has long been established as a source of endogenous motivation for artificial agents exploring the world, it may be too broad and general to drive an agent towards contact-rich policies, especially when penalties are used to discourage high-impact interactions. We found that in this scenario, choosing the appropriate focus of curiosity is important for incentivizing agents to interact gently with the environment. This enables efficient and safe exploration, precise task execution, and successful manipulation of fragile objects. Although the proposed approach is demonstrated on relatively simple tasks, we believe that it paves the way towards a new direction in curiosity research, one that identifies more nuanced types of curiosity and intrinsic motivation for deep RL agents.
 
-<!-- chunk {"id": "body-0058", "role": "body", "section": "Discussion and Future Work", "weight": 1.5} -->
+<!-- chunk {"id": "body-0051", "role": "body", "section": "Discussion and Future Work", "weight": 1.5} -->
 
 A main direction of future work is to apply this approach to more complex tasks, for instance in dynamic environments. In addition, this work only considers one aspect of being gentle---impact. Our approach could be used to train policies while minimizing other sources of wear and tear, for instance total force (rather than the increase in force), or the torques exerted by a robot's motors (which would reduce energy consumption as well ). Additionally, we note that although we use a multimodal robot environment---integrating tactile and proprioceptive sensors---we have not incorporated vision, which would provide an additional observation to support tactile and force predictions. Future work will seek to establish the value of contact-focused curiosity across this broader multimodal landscape.

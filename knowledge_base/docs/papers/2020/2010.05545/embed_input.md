@@ -22,11 +22,7 @@ In this paper we make an attempt to understand these questions better. In partic
 
 <!-- chunk {"id": "body-0006", "role": "body", "section": "Introduction", "weight": 1.5} -->
 
-Using our approach we make a number of observations regarding the questions 1)-3) posed above:\
-1. The literature on model-free algorithms in continuous control has underestimated their data efficiency. Through additional updates of the policy and value-function (additional compute), we can achieve significant improvements.\
-2. At the expense of additional compute a learned predictive model (of rewards and values) can be used during learning for model-based policy optimization; providing a stronger policy improvement operator than a model-free algorithm.\
-3. The approximate model can also be used for local policy improvement at action selection time. This leads to better decision making which consequently improves the data that is collected. Compared to model use during learning, any model bias does not directly affect the parametric policy and the approach provides a further advantage in data efficiency.\
-4. Finally, when an accurate environment model is available, we find that local policy improvement during acting can greatly improve learning speed (in wall-clock time) compared to state-of-the art distributed RL, thereby giving a positive answer to Question 2.
+Using our approach we make a number of observations regarding the questions 1)-3) posed above:\1. The literature on model-free algorithms in continuous control has underestimated their data efficiency. Through additional updates of the policy and value-function (additional compute), we can achieve significant improvements.\2. At the expense of additional compute a learned predictive model (of rewards and values) can be used during learning for model-based policy optimization; providing a stronger policy improvement operator than a model-free algorithm.\3. The approximate model can also be used for local policy improvement at action selection time. This leads to better decision making which consequently improves the data that is collected. Compared to model use during learning, any model bias does not directly affect the parametric policy and the approach provides a further advantage in data efficiency.\4. Finally, when an accurate environment model is available, we find that local policy improvement during acting can greatly improve learning speed (in wall-clock time) compared to state-of-the art distributed RL, thereby giving a positive answer to Question 2.
 
 <!-- chunk {"id": "body-0007", "role": "body", "section": "KL regularized Reinforcement Learning", "weight": 1.0} -->
 
@@ -38,195 +34,156 @@ We will also make use of the Kullback-Leibler divergence at state $s_{t}$ which 
 
 <!-- chunk {"id": "body-0009", "role": "body", "section": "The KL regularized objective", "weight": 1.0} -->
 
-The starting point for our algorithm is the KL-regularized expected reward objective
+It arises naturally in the control as inference framework, and is closely related to the objective of maximum entropy RL where the relative entropy (KL) is replaced by a simple entropy term. Broadly speaking, existing algorithms optimizing this objective can be grouped into two classes: those that optimize $\mathcal{J}$ only with respect to $\mu$, and those that optimize $\mathcal{J}$ with respect to both $\mu$ and $\pi$; typically in an alternating fashion. While the former solve a regularized objective in which expected reward and closeness to the "reference distribution" $\pi$ are traded-off against each other, the latter can converge to the optimum of the expected reward objective and are also referred to as EM policy search algorithms.
 
 <!-- chunk {"id": "body-0010", "role": "body", "section": "The KL regularized objective", "weight": 1.0} -->
 
-It arises naturally in the control as inference framework, and is closely related to the objective of maximum entropy RL where the relative entropy (KL) is replaced by a simple entropy term. Broadly speaking, existing algorithms optimizing this objective can be grouped into two classes: those that optimize $\mathcal{J}$ only with respect to $\mu$, and those that optimize $\mathcal{J}$ with respect to both $\mu$ and $\pi$; typically in an alternating fashion. While the former solve a regularized objective in which expected reward and closeness to the "reference distribution" $\pi$ are traded-off against each other, the latter can converge to the optimum of the expected reward objective and are also referred to as EM policy search algorithms.
-
-<!-- chunk {"id": "body-0011", "role": "body", "section": "The KL regularized objective", "weight": 1.0} -->
-
 Here, we consider the alternating optimization of $\mathcal{J}$ wrt. $\mu$ and $\pi$. The optimization occurs iteratively, repeating the following two steps (referred to as E-and M-step respectively, in analogy to the EM algorithm for statistical inference): E-step Optimization of $\mu^{(i)} = {{\arg{\max_{\mu}\mathcal{J}}}{(\mu,\pi^{(i)})}}$ given a fixed $\pi^{(i)}$. M-step Optimization of $\mathcal{J}$ with respect to $\pi$ given $\mu^{(i)}$; which amounts to minimizing the average $KL$.
+
+<!-- chunk {"id": "body-0011", "role": "body", "section": "KL regularized K-step Improvement", "weight": 1.0} -->
+
+We make several observations about $\mathcal{J}$ -- from which we will then derive a model based policy optimization scheme: A relation to the RL objective. When $\pi = \mu$ then ${{\mathcal{J}{(\pi,\pi)}} = {\mathbb{E}_{\tau \sim \rho_{\pi}}\left\lbrack {\sum_{t}{\gamma^{t}r_{t}}} \right\rbrack}},$ since the KL term vanishes.
 
 <!-- chunk {"id": "body-0012", "role": "body", "section": "KL regularized K-step Improvement", "weight": 1.0} -->
 
 a \middle| s \right.)}{\exp{({{Q_{\pi}^{\pi}(s,a)}/\alpha})}}}$ we have ${\mathcal{J}{(\mu_{1},\pi)}} \geq {\mathcal{J}{(\pi,\pi)}}$. We can think of $\mu_{1}$ as picking the action that is soft-optimal under the assumption that at the next time step we resort to acting according to the current policy $\pi$. $\mu_{1}$ thus amounts to a local improvement over $\pi$, and we refer to it below as one-step improved. This insight is exploited e.g. in the algorithm of Abdolmaleki et al., which iterates three steps estimating $Q_{\pi}^{\pi}$, optimizing for $\mu_{1}$, and moving $\pi$ towards $\mu_{1}$; corresponding to a policy iteration scheme that repeatedly performs one-step improvements of the policy.
 
-<!-- chunk {"id": "body-0013", "role": "body", "section": "KL regularized K-step Improvement", "weight": 1.0} -->
-
-From one-step to K-step policy improvement.
-
-<!-- chunk {"id": "body-0014", "role": "body", "section": "KL regularized K-step Improvement", "weight": 1.0} -->
-
-where ${{s_{1} = s},{a_{1} = a}},$ and using the short-hand notation $r_{t} = {r{(s_{t},a_{t})}}$, ${KL}_{t} = {KL}{\lbrack\mu{( \cdot |s_{t})} \parallel \pi{( \cdot |s_{t})}\rbrack}$. The solution to this optimization corresponds to the policy that acts soft-optimally for the next $K$ steps, and subsequently resorts to acting according to $\pi$; and it bears resemblance to the $K$-step greedy policy defined in albeit for a regularized objective.
-
-<!-- chunk {"id": "body-0015", "role": "body", "section": "Observation", "weight": 1.0} -->
-
-Thus, to sample from $\mu_{K}^{\ast}{( \cdot |s)}$ we simply sample $M$ actions from $\pi{( \cdot |s)}$ and importance weight with the exponentiated soft-Q values $Q_{\pi}^{\ast_{K}}{(s,a)}$, which is possible both for discrete and continuous actions without discretization.
-
-<!-- chunk {"id": "body-0016", "role": "body", "section": "Observation", "weight": 1.0} -->
+<!-- chunk {"id": "body-0013", "role": "body", "section": "Observation", "weight": 1.0} -->
 
 A number of different schemes can be used to estimate $\mu_{1:K}$. If $\mu$ is parametric we can directly follow the gradient of $\mathcal{J}^{K}{(\mu_{1:K},\pi)}$ with respect to $\mu_{1:K}$ resulting in a K-step KL regularized policy gradient, as described in more detail in the supplementary. Alternatively we can attempt to directly estimate $Q_{\pi}^{\ast_{K}}$ using the recursive form of Equation, from which $\mu_{K}^{\ast}$ follows immediately as above.
 
-<!-- chunk {"id": "body-0017", "role": "body", "section": "Observation", "weight": 1.0} -->
+<!-- chunk {"id": "body-0014", "role": "body", "section": "Observation", "weight": 1.0} -->
 
-This choice allows us to instantiate a family of policy iteration schemes in which we alternate between estimating $\mu_{1:K}^{\ast}$ for the current $\pi$ and updating $\pi$ towards $\mu_{K}^{\ast}$: i) perform an E-Step by locally estimating $\mu_{1:K}^{(i)} \approx \mu_{1:K}^{\ast}$ for reference policy $\pi = \pi^{(i)}$ according to the recursion in Eq.;
+This choice allows us to instantiate a family of policy iteration schemes in which we alternate between estimating $\mu_{1:K}^{\ast}$ for the current $\pi$ and updating $\pi$ towards $\mu_{K}^{\ast}$: i) perform an E-Step by locally estimating $\mu_{1:K}^{(i)} \approx \mu_{1:K}^{\ast}$ for reference policy $\pi = \pi^{(i)}$ according to the recursion in Eq.; ii) perform an M-Step by minimizing ${\min_{\pi}\mathcal{J}^{K}}{(\mu_{K}^{(i)},\pi)}$ which amounts to fitting $\pi^{({i + 1})}$ to samples from $\mu_{K}^{(i)}$: and we fit a parametric approximation to $Q_{\pi^{({i +
 
-<!-- chunk {"id": "body-0018", "role": "body", "section": "Observation", "weight": 1.0} -->
-
-and we fit a parametric approximation to $Q_{\pi^{({i + 1})}}^{\pi^{({i + 1})}}$ for bootstrapping in the next E-step.
-
-<!-- chunk {"id": "body-0019", "role": "body", "section": "Observation", "weight": 1.0} -->
+<!-- chunk {"id": "body-0015", "role": "body", "section": "Observation", "weight": 1.0} -->
 
 For such a policy iteration scheme to be effective, a lightweight estimate of $\mu_{K}^{\ast}$ is desirable. In a model free setting this is largely impractical for $K > 1$ since a Monte-Carlo estimator of Eq. may be very hard to construct (it would at least require priviliged access to the environment; i.e. the ability to reset to any given state to perform the required K-step rollouts). For $K = 1$ we recover the method from Abdolmaleki et al. which uses a parametric $Q_{\pi}^{\pi}$ to construct a Monte Carlo estimate of $\mu_{1}$ in the E-step.
 
-<!-- chunk {"id": "body-0020", "role": "body", "section": "Observation", "weight": 1.0} -->
+<!-- chunk {"id": "body-0016", "role": "body", "section": "Observation", "weight": 1.0} -->
 
 In the case where a model of the environment is available, or can be learned, sample based estimation of $Q_{\pi}^{\ast_{K}}$ from Eq. becomes practical -- as we will show below. The only caveat in this case is that the naive approach would require the evaluation of a full tree of trajectories (up to depth K).
 
-<!-- chunk {"id": "body-0021", "role": "body", "section": "Policy improvement with TreePI", "weight": 1.0} -->
+<!-- chunk {"id": "body-0017", "role": "body", "section": "Policy improvement with TreePI", "weight": 1.0} -->
 
 In this section we propose an algorithm for approximately sampling from $\mu_{K}^{\ast}$ that removes the, impractical, requirement of building a full tree up to depth K.
 
-<!-- chunk {"id": "body-0022", "role": "body", "section": "Policy improvement with TreePI", "weight": 1.0} -->
+<!-- chunk {"id": "body-0018", "role": "body", "section": "Policy improvement with TreePI", "weight": 1.0} -->
 
 We assume deterministic system dynamics and the availability of a model $s_{t + 1} = {f{(s_{t},a_{t})}}$. In this case we can obtain a particle approximation to $\mu_{K}^{\ast}$ using a form of self-normalized importance sampling that bears similarity to MCTS. We first describe the procedure in its exact form and then a practical, approximate algorithm.
 
-<!-- chunk {"id": "body-0023", "role": "body", "section": "Policy improvement with TreePI", "weight": 1.0} -->
+<!-- chunk {"id": "body-0019", "role": "body", "section": "Policy improvement with TreePI", "weight": 1.0} -->
 
 Practical algorithm. Building the full tree of depth $K$, with branching factor $M$, would be computationally expensive. Instead, we build the tree greedily, following the procedure in Algorithm 1. Rather than expanding all $M$ actions it samples from the current approximation to $\mu_{K}$. Intuitively, the procedure consists of two interleaved steps: 1) forward rollouts starting in $s_{t}$ using the model $f$ and our current best guess ${\hat{\mu}}_{1:K}$ for the locally improved policy, 2) soft-value backups to update our current best estimate of ${{\hat{Q}}^{K}{\lbrack s_{t},a\rbrack}} \approx {Q_{\pi}^{\mu_{K}}{(s_{t},a)}}$ -- which in turn results in a better estimate ${\hat{\mu}}_{1:K}$. These steps are repeated until $N$ total rollouts have been performed.
 
-<!-- chunk {"id": "body-0024", "role": "body", "section": "Policy improvement with TreePI", "weight": 1.0} -->
+<!-- chunk {"id": "body-0020", "role": "body", "section": "Policy improvement with TreePI", "weight": 1.0} -->
 
 We note that, the algorithm only requires sampling from the current policy $\pi$ and thus works for both continuous and discrete action spaces. Although for $N < M^{K}$ we cannot guarantee that the MC estimate $w^{j} = {{\exp{\hat{Q}}^{K}}{(s,a^{j})}}$ of ${\exp Q_{\pi}^{\ast_{K}}}{(s,a)}$ (with $j = {1\ldotsM}$) is unbiased, it is easy to ensure that it will be after $N = M^{K}$ rollouts (by preventing fully expanded subtrees from being revisited). We note that this analysis relies on the environment being deterministic, in the stochastic case the log-sum-exp calculation introduces an optimism bias.
 
-<!-- chunk {"id": "body-0025", "role": "body", "section": "Policy improvement with TreePI", "weight": 1.0} -->
+<!-- chunk {"id": "body-0021", "role": "body", "section": "Policy improvement with TreePI", "weight": 1.0} -->
 
-Input: state st, policy π(i), approximate value function Q̂π(i)π(i), branching factor M, number of rollouts N, maximum depth K, multiplier α
-Output: Importance weights wK1: M and corresponding samples at1: M such that ${\sum_{j = 1}^{M}{w_{k}^{j}{\log\pi_{\theta}}{(\left. a^{j} \middle| s_{t} \right.)}}} \approx {\mathbb{E}_{a \sim \mu_{K}^{(i)}{( \cdot |s_{t})}}{\lbrack{{\log\pi_{\theta}}{(\left.
+Input: state st, policy π(i), approximate value function Q̂π(i)π(i), branching factor M, number of rollouts N, maximum depth K, multiplier α Output: Importance weights wK1: M and corresponding samples at1: M such that ${\sum_{j = 1}^{M}{w_{k}^{j}{\log\pi_{\theta}}{(\left. a^{j} \middle| s_{t} \right.)}}} \approx {\mathbb{E}_{a \sim \mu_{K}^{(i)}{(\cdot |s_{t})}}{\lbrack{{\log\pi_{\theta}}{(\left.
 
-<!-- chunk {"id": "body-0026", "role": "body", "section": "Policy improvement with TreePI", "weight": 1.0} -->
+<!-- chunk {"id": "body-0022", "role": "body", "section": "Policy improvement with TreePI", "weight": 1.0} -->
 
-a^{j} \middle| s_{t} \right.)}}\rbrack}}$
-sprev = None; a = None; s = st; d = 0
-// fetch transition from tree
-// resample actions according to Eq.
-a ∼ Categorical (a1: M, prob=wd1: M/∑jwdj)
-// remember state and perform transition
-// Insert new transition into tree
-T[d][s] = Node(sprev,a,{at1, …, atM}∼π(i)(⋅|s))
-while s not None do
-$V = {\alpha{\log\frac{1}{M}}{\sum_{j = 1}^{M}{\exp{({{Q^{d}{\lbrack{f{(s,a^{j})}},a^{j}\rbrack}}/\alpha})}}}}$
-Algorithm 1 Tree Policy Improvement (TreePI)
+a^{j} \middle| s_{t} \right.)}}\rbrack}}$ sprev = None; a = None; s = st; d = 0 // fetch transition from tree // resample actions according to Eq. a ∼ Categorical (a1: M, prob = wd1: M/∑jwdj) // remember state and perform transition // Insert new transition into tree T[d][s] = Node(sprev, a, {at1, …, atM} ∼ π(i)(⋅|s)) while s not None do $V = {\alpha{\log\frac{1}{M}}{\sum_{j = 1}^{M}{\exp{({{Q^{d}{\lbrack{f{(s,a^{j})}},a^{j}\rbrack}}/\alpha})}}}}$ Algorithm 1 Tree Policy Improvement (TreePI)
 
-<!-- chunk {"id": "body-0027", "role": "body", "section": "Learning parametric estimators", "weight": 1.0} -->
+<!-- chunk {"id": "body-0023", "role": "body", "section": "Learning parametric estimators", "weight": 1.0} -->
 
 In the general RL setting it is not always reasonable to assume knowledge of the environment model $f$. For the K-step policy improvement operator from Section 4 to be applicable in these settings a model has to be learned jointly with a parametric policy and Q-function estimator. In these cases, and to allow for seamless transition from the model-free to model-based setting, we learn a predictive model of future rewards and Q-values. This bears some similarity to recent work; although we here learn Q-predictions in an off-policy manner. We focus on assessing the difference between search-based policy improvement and model-free learning only. We hence do not aim to model future observations to prevent corroboration of our experimental results with issues due to modelling high-dimensional physical systems (e.g. predicting the dynamics of a humanoid walking). On the other hand, it is possible that in some domains learning an observation model could lead to further improvement; both for the model-free and search based instances, as argued in some recent works.
 
-<!-- chunk {"id": "body-0028", "role": "body", "section": "Learning parametric estimators", "weight": 1.0} -->
-
-with $\phi_{r},\phi_{Q},\theta$ in the above denoting the parameters of the learned reward predictor, Q-value function and policy respectively. Note that the above slightly abuses notation, using $s_{t}$ to refer to the latent states, to simplify the presentation; and we assume $s_{1} = {f_{\text{enc}}{(o_{1})}}$. We use a target network (with parameters $\phi_{Q}^{\prime}$ that are copied every periodically from $\phi_{Q}$) to stabilize the TD loss $\mathcal{L}_{Q}$. Further, $R$ denotes an additional regularization term that prevents over-fitting of the policy $\pi_{\theta}$ to the M samples. This can be crucial for avoiding collapse of the policy distribution in the low sample and small temperature regime (i.e. small $M = 20$, small $\alpha$) that we typically find ourselves.
-
-<!-- chunk {"id": "body-0029", "role": "body", "section": "Learning parametric estimators", "weight": 1.0} -->
-
-While the form of regularization can be chosen freely, recent work in RL has found KL regularization via a trust-region constraint to be particularly effective. We thus let $R{(\pi_{\theta},\pi^{(i)},s_{t})} = \eta{(KL{\lbrack\pi^{(i)}{( \cdot |s_{t})} \parallel \pi_{\theta}{( \cdot |s_{t})}\rbrack} - \epsilon_{\text{KL}})}$, set $\epsilon_{\text{KL}} = 0.005$ to a small value and optimize for the Lagrangian multiplier $\eta$ together with other parameters via gradient descent / ascent, solving: $\arg{\max_{\eta}{\min_{\phi,\theta}L}}$.
-
-<!-- chunk {"id": "body-0030", "role": "body", "section": "Learning parametric estimators", "weight": 1.0} -->
-
-Finally, after $500$ steps we set $\pi^{({i + 1})} = \pi_{\theta}$ and start the next round of optimization -- i.e. we perform partial optimization for computational efficiency. A listing of the procedure is given in Algorithm 1 in the supplementary material.
-
-<!-- chunk {"id": "body-0031", "role": "body", "section": "Experiments", "weight": 1.0} -->
+<!-- chunk {"id": "body-0024", "role": "body", "section": "Experiments", "weight": 1.0} -->
 
 To understand when and how TreePI can improve performance we consider several experimental scenarios. We start with experiments on the DeepMind control suite which explore the utility of our algorithm in combination with a learned model as described in Section 5. We focus on data efficiency and compare to several strong off-policy baselines for learning from scratch.
 
-<!-- chunk {"id": "body-0032", "role": "body", "section": "Experiments", "weight": 1.0} -->
+<!-- chunk {"id": "body-0025", "role": "body", "section": "Experiments", "weight": 1.0} -->
 
 In a second set of experiments, we attempt to disentangle the effects of search from the problem of learning predictive models. We assume access to the true model $f$ of the environment; inserting true states in the calculation of Eq. 6 and replacing the learned reward $r_{\phi_{r}}$ with the true reward function $r$. The focus here is on the best use of a fixed compute budget to achieve fast learning.
 
-<!-- chunk {"id": "body-0033", "role": "body", "section": "Experimental Setup", "weight": 1.0} -->
+<!-- chunk {"id": "body-0026", "role": "body", "section": "Experimental Setup", "weight": 1.0} -->
 
 We experiment with four domains from the DeepMind control suite: i) the 'Cartpole (swingup)' task, where the control is one-dimensional and the goal is to swing-up and balance a pole attached to a cart, ii) the 'Finger (hard)' task where the goal is to spin a rotating object to a target orientation with a two-joint robot, iii) the 'Humanoid (stand)' task where a humanoid with 21 degrees of freedom should stand up from a randomly initialized position, iv) The 'Walker-2d (run)' task where a simpler, two-dimensional, body should run as fast as possible.
 
-<!-- chunk {"id": "body-0034", "role": "body", "section": "Model setup and Baselines", "weight": 1.0} -->
+<!-- chunk {"id": "body-0027", "role": "body", "section": "Model setup and Baselines", "weight": 1.0} -->
 
 We use feed-forward neural networks to represent the different components $f_{\phi_{\text{enc}}}$, $f_{\phi_{\text{trans}}}$, $r_{\phi_{r}}$, ${\hat{Q}}_{\phi_{Q}}$, $\pi_{\theta}$ in TreePI. Full details on the network setup and hyperparameters are given in the supplementary material. The reward, Q and policy networks $r_{\phi_{r}},{\hat{Q}}_{\phi_{Q}},\pi_{\theta}$ operate on the shared representation obtained from $f_{\phi_{\text{enc}}}$ and $f_{\phi_{\text{trans}}}$; and we use a network predicting mean and variance of a Gaussian distribution as the policy $\pi_{\theta}$. The hyperparameters for all methods were tuned based on initial experiments on the Walker-2D domain and then fixed for the remaining experiments.
 
-<!-- chunk {"id": "body-0035", "role": "body", "section": "Model setup and Baselines", "weight": 1.0} -->
+<!-- chunk {"id": "body-0028", "role": "body", "section": "Model setup and Baselines", "weight": 1.0} -->
 
 If not otherwise noted we set $M = 20$, $K = 10$ and $N = 200$ in the experiments for TreePI. We use two versions of TreePI: (a) we execute the current policy $\pi$ at action selection time (and hence only perform search when updating the policy) denoted by TreePI/$\pi$; and (b) at action selection time, we perform an additional search to draw a sample from ${\hat{\mu}}_{K}$ for the current state (cf. Eq ), denoted by TreePI/search.
 
-<!-- chunk {"id": "body-0036", "role": "body", "section": "Model setup and Baselines", "weight": 1.0} -->
+<!-- chunk {"id": "body-0029", "role": "body", "section": "Model setup and Baselines", "weight": 1.0} -->
 
 We consider two sets of off-policy RL baselines to disentangle improvements due to the network (and additional predictive losses) from improvements due to the policy optimization procedure itself. First, we compare to two state-of-the-art RL algorithms: MPO and SAC. We align their network architecture with the TreePI setup to the extent possible (using separate policy and Q-function networks; see the supplementary) and run them using the same software infrastructure to minimize differences due to tooling. Second, we compare to a variant of MPO that performs standard model-free learning but uses the same network architecture and additional predictive losses for reward, Q-function and policy as TreePI. This baseline (MPO+Predictive) uses the model merely to provide auxiliary losses and not for policy improvement.
 
-<!-- chunk {"id": "body-0037", "role": "body", "section": "Results", "weight": 1.0} -->
+<!-- chunk {"id": "body-0030", "role": "body", "section": "Results", "weight": 1.0} -->
 
 The main results are depicted in Figure 1. First, we observe that simply adding a predictive model of rewards and values to a standard off-policy learner (MPO+Predictive) results in improved data-efficiency in the Cartpole and Finger domain when compared to well tuned versions of state-of-the-art agents (SAC, MPO). Second, TreePI with $K = 10$ (TreePI/Search) results in improved data-efficiency in three of the four domains; remarkably achieving near optimal performance in all domains in less than 2000 episodes.
 
-<!-- chunk {"id": "body-0038", "role": "body", "section": "Results", "weight": 1.0} -->
+<!-- chunk {"id": "body-0031", "role": "body", "section": "Results", "weight": 1.0} -->
 
 To analyze this improvement further, we test how much TreePI gains from the model-based search and how much from the fact that it uses additional compute (via model rollouts). To isolate these effects, we varied the number of Policy and Q-function updates performed per environment step for different methods. Results are presented in Figure 2, where we plot the performance against updates per environment step; displayed at a specific time during training (150 episodes). In addition we also plot the performance for TreePI/$\pi$ -- i.e. using TreePI but executing $\pi$, thus no search during action selection. All methods gain in data-efficiency as the number of updates -- and thus the use of compute -- grows up to 10. Additional updates result in premature convergence of the policy (overfitting), reducing performance -- and also resulting in sub-optimal behavior at convergence; not shown in the plot. Interestingly, MPO+Predictive gains in data-efficiency at a larger rate with more updates, almost catching up to TreePI/$\pi$ at 10 updates per step.
 
-<!-- chunk {"id": "body-0039", "role": "body", "section": "Results", "weight": 1.0} -->
+<!-- chunk {"id": "body-0032", "role": "body", "section": "Results", "weight": 1.0} -->
 
 To better appreciate this result we also plot MPO+Predictive in Figure 1 which obtains performance much closer to TreePI. In addition, running TreePI with a depth of $K = 1$ and executing $\pi$ (TreePI/$\pi$ Figure 1) recovers MPO+Predictive as expected (except for differences in setting $\alpha$, see supplementary). Thus, even though some of the improvement can be attributed to TreePI being a better policy improvement operator -- it is consistently better than MPO at lower numbers of updates -- spending more compute on policy updates can partially alleviate this difference. Some of the data-efficiency gains attributed to model-based methods in the literature may thus be obtained in a model-free setting; a result similar to recent observations for RL in discrete domains.
 
-<!-- chunk {"id": "body-0040", "role": "body", "section": "Results", "weight": 1.0} -->
+<!-- chunk {"id": "body-0033", "role": "body", "section": "Results", "weight": 1.0} -->
 
 Nonetheless, additional search at action selection time (TreePI/search) still results in an improvement over all other algorithms; even at a high number of updates per step. This, to some extent, supports the hypothesis that fast adaptation during action selection combined with 'slower' learning can result in effective policy improvement -- which underlies both the traditional paradigm of model predictive control and the more recent ideas of Expert-Iteration and AlphaZero / MuZero for discrete search in games.
 
-<!-- chunk {"id": "body-0041", "role": "body", "section": "Results", "weight": 1.0} -->
+<!-- chunk {"id": "body-0034", "role": "body", "section": "Results", "weight": 1.0} -->
 
 We speculate that the advantage of additional search at action selection time is that it temporarily shifts the action distribution towards a better policy but does not change the policy parameters. This benefit remains even when more gradient descent steps on the policy parameters would lead to overfitting. The ability to replan after every step given the true environment states also mitigates the effect of model error. To lend further support to this finding we tested a different mechanism to temporarily change the policy: we paired TreePI with a policy gradient based update, instead of search, at action selection time -- taking 10 gradient steps w.r.t. the policy parameters based on 100 K-step rollouts each. This is similar to a recent exploration on replacing search with policy gradients in discrete domains presented. This change results in almost the same improvement (TreePI/PG in Figure 2) over TreePI/$\pi$. Fully characterizing this phenomenon is an interesting direction for future work.
 
-<!-- chunk {"id": "body-0042", "role": "body", "section": "Humanoid Domains with a Known Model", "weight": 1.0} -->
+<!-- chunk {"id": "body-0035", "role": "body", "section": "Humanoid Domains with a Known Model", "weight": 1.0} -->
 
 For the experiments with a known environment model and reward we consider more challenging domains and attempt to answer the question: can TreePI help us to allocate computational budget more efficiently to 'solve' them faster?
 
-<!-- chunk {"id": "body-0043", "role": "body", "section": "Experimental setup", "weight": 1.0} -->
+<!-- chunk {"id": "body-0036", "role": "body", "section": "Experimental setup", "weight": 1.0} -->
 
 We consider three difficult, high-dimensional domains, using humanoid bodies. First, we perform experiments with the 'Humanoid (run)' task from the Control suite (see above). Second, we consider the problem of reproducing highly agile motion-capture data with the the complex humanoid body of Merel et al.. Deep RL approaches are currently popular for producing controllers that track motion-capture data, but the training process can be quite slow. Earlier research has used model-based search to control humanoids and match reference movements. Our approach is able to interpolate between model-free deep RL and sample-based planning. Concretely, we evaluate a setup similar to Peng et al.; Merel et al. and train a policy to reproduce a cartwheel and backflip motion from the CMU Motion Capture Database^11^1 (see the supplement for a full description of the task). We note that this task is non-trivial since the simulation is physically accurate and the humanoid's actuation, weight and size are different from the people that executed the recorded motion (in fact, exact replication of the reference motion may not be possible).
 
-<!-- chunk {"id": "body-0044", "role": "body", "section": "Experimental setup", "weight": 1.0} -->
+<!-- chunk {"id": "body-0037", "role": "body", "section": "Experimental setup", "weight": 1.0} -->
 
 We use a fast, distributed, implementation of TreePI (with the search written in C++) and compare to high-performance distributed model-free RL algorithms. We use a distributed actor-learner setup analogous to Espeholt et al.. To keep the comparison as fair as possible, we restrict TreePI to 16 asynchronous actors using 32 threads for expanding the tree. We use up to 6000 actors for the RL algorithms, at which point they send 100x more data back to the learner and perform 10-50x more total environment interactions than TreePI (counting all transitions within the search) at 10x the compute cost. We set the branching factor to $M = 50$, and the depth to $K = 10$ and experiment with varying $N$ for TreePI, $\alpha = 0.1$ was used throughout. We use both an off-policy algorithm MPO as well as an on-policy algorithm PPO as baselines. We keep network architectures as similar as possible. Full details of the experimental setup are given in the supplemental material. For TreePI search on the learner could become a computational bottleneck.
 
-<!-- chunk {"id": "body-0045", "role": "body", "section": "Experimental setup", "weight": 1.0} -->
+<!-- chunk {"id": "body-0038", "role": "body", "section": "Experimental setup", "weight": 1.0} -->
 
 Fortunately, with a larger number of actors that all perform search to choose high-quality actions, this data is of sufficient quality so that we can simply maintain a small replay buffer (containing 100k time-steps) and train the policy to match actors action choices directly. We thus adjust policy learning to simply maximize the likelihood of actions sampled from this buffer. That is, we change the policy loss in Equation to $L_{\pi_{\theta}} = {{{\log\pi}{(\left. a_{t} \middle| s_{t} \right.)}} + {R{(\pi_{\theta},\pi^{(i)},s_{t})}}}$ for ${a_{t},s_{t}} \in \tau$. The rest of the losses are kept unchanged.
 
-<!-- chunk {"id": "body-0046", "role": "body", "section": "Results", "weight": 1.0} -->
+<!-- chunk {"id": "body-0039", "role": "body", "section": "Results", "weight": 1.0} -->
 
 The performance in terms of wall-clock time after 3h/6h and 48h is presented in Figure 4. We can observe that TreePI in combination with the true environment model results in significantly faster convergence than any of the model-free algorithms. In addition, as we vary $N$ (the number of rollouts) we observe that for few rollouts TreePI behaves similar to a standard RL algorithm. As $N$ increases the tree search starts to find significantly improved policies, resulting in faster convergence. Interestingly, the RL methods (which do not make use of an environment model) fail to reach a similar speed-up even when thousands of actors are used. We speculate that for RL algorithms with an increasing number of actors the policy improvement step (which happens only on the learner) becomes a bottleneck. In contrast, TreePI off-loads this step to the actors. With knowledge of the true model actors can locally improve the policy and produce high-quality actions to be consumed by the learner. Note that at the end of learning the high-performing policy will have been distilled into a network and can be executed without reliance on the model.
 
-<!-- chunk {"id": "body-0047", "role": "body", "section": "Results", "weight": 1.0} -->
+<!-- chunk {"id": "body-0040", "role": "body", "section": "Results", "weight": 1.0} -->
 
 The training speed-up can thus be interesting in situations where a simulation of the environment is available at training time.
 
-<!-- chunk {"id": "body-0048", "role": "body", "section": "Discussion and Related work", "weight": 1.5} -->
+<!-- chunk {"id": "body-0041", "role": "body", "section": "Discussion and Related work", "weight": 1.5} -->
 
 Policy optimization schemes based on the KL regularized objective have a long history in the RL and optimal control literature -- see e.g. Kappen; Toussaint & Storkey; Todorov; Rawlik et al. for different perspectives on this objective. A number of different approaches have been considered for its optimization. These include both policy iteration schemes similar to the ones considered in this paper as well as algorithms that optimize the regularized objective that we consider in the E-step, often via some form of regularized policy gradient. Recently, algorithms in this class have regained considerable attention, including both model-free and model-based approaches. In contrast to our work, however, most model-based approaches make use of local dynamics models combined with known reward functions.
 
-<!-- chunk {"id": "body-0049", "role": "body", "section": "Discussion and Related work", "weight": 1.5} -->
+<!-- chunk {"id": "body-0042", "role": "body", "section": "Discussion and Related work", "weight": 1.5} -->
 
 Among model-based control for high-dimensional continuous action spaces work by Levine & Koltun; Montgomery & Levine; Chebotar et al. bears similarity to our work in that they alternate between policy optimization and network fitting, while, for instance, Byravan et al.; Hafner et al. directly use the model to compute model-based policy gradients. Most similar to our work are recent model-based algorithms derived from the perspective of information theoretic optimal control. These optimize for the same objective as our approach but make different assumptions. Piché et al. perform planning with a learned model via a form of sequential importance sampling for action selection -- using an separate procedure to optimze a proposal policy. Bhardwaj et al. use a simulation model to construct K-optimal targets for learning the soft-Q function, as well as during execution for action selection. Lowrey et al. rely on the true system dynamics and a learned value function to optimize action sequences during execution. We further expand on the relation to these approaches in the supplementary material.
 
-<!-- chunk {"id": "body-0050", "role": "body", "section": "Discussion and Related work", "weight": 1.5} -->
+<!-- chunk {"id": "body-0043", "role": "body", "section": "Discussion and Related work", "weight": 1.5} -->
 
 Monte Carlo tree search is a well studied family of planning approaches for model-based control. MCTS in combination with learned policies and value functions have recently been successful in challenging problems with discrete action spaces, both with ground-truth as well as with learned models. There have also been some attempts applying MCTS to problems with continuous action spaces mostly through an application of the idea of progressive widening to continuous action spaces. The starting point for our approach, an extension of known regularized policy iteration algorithms to a framework that allows multi-step updates, is quite different; with our tree search effectively being motivated as an approximation to a MC estimate of the soft-Q value. In light of our positive results it is of course entirely conceivable that other forms of search (perhaps with a clever discretization) will yield similar or even greater benefits. Exploring such possibilities, and potentially uncovering connections is an exciting direction for future work.
 
-<!-- chunk {"id": "body-0051", "role": "body", "section": "Discussion and Related work", "weight": 1.5} -->
+<!-- chunk {"id": "body-0044", "role": "body", "section": "Discussion and Related work", "weight": 1.5} -->
 
 While there has been considerable work on adopting ideas from the probabilistic inference literature to RL, the flow of ideas in the opposite direction has been more limited. One pertinent example is the work by Buesing et al. who adapt tree search to perform approximate inference discrete distributions, resulting in a search tree with similar soft-backups to the ones explored in this work.
 
-<!-- chunk {"id": "body-0052", "role": "body", "section": "Conclusion", "weight": 1.5} -->
+<!-- chunk {"id": "body-0045", "role": "body", "section": "Conclusion", "weight": 1.5} -->
 
 We presented a framework for local optimization of the KL-regularized RL objective that allows us to interpolate between model-free and model-based solutions. We explored different algorithm variants and design choices, disentangling benefits of using a model for action selection and policy learning.
 
-<!-- chunk {"id": "body-0053", "role": "body", "section": "Conclusion", "weight": 1.5} -->
+<!-- chunk {"id": "body-0046", "role": "body", "section": "Conclusion", "weight": 1.5} -->
 
 Experimentally we show that with a learned model our algorithm achieves a notable improvement in data efficiency compared to state-of-the art model-free approaches. Where a the system model is known (e.g. when working with physical simulations) our algorithm allows us to balance computation effectively and can achieve a better computational trade off than conventional high-throughput model-free setups.
 
-<!-- chunk {"id": "body-0054", "role": "body", "section": "Conclusion", "weight": 1.5} -->
+<!-- chunk {"id": "body-0047", "role": "body", "section": "Conclusion", "weight": 1.5} -->
 
 Much remains to be done: we have only sampled a small number of design choices within the presented framework, and we expect that the benefits we have observed might transfer to related algorithms. We hope that the perspective of this work will inspire others to investigate other algorithms that flexibly blend the use of model-based and model-free approaches.

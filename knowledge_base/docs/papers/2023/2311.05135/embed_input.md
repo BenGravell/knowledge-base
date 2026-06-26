@@ -76,256 +76,224 @@ Trajectory generation problems, in the form of Eq., and specifically the spacecr
 
 <!-- chunk {"id": "body-0019", "role": "body", "section": "Problem Formulation: Powered Descent Guidance", "weight": 1.0} -->
 
-In the context of the spacecraft guidance problem, Eq. becomes a semi-infinite optimization problem, as described in Eqs.
+| | $\min\limits_{\mathbf{x}}\mspace{21mu}$ | $J{({\mathbf{x}})}$ | | \(1\) | In the context of the spacecraft guidance problem, Eq. becomes a semi-infinite optimization problem, as described in Eqs. (2a)-(2d): The structure of Eqs. (2a) - (2d) includes ODE constraints (Eq. (2b)), inequality constraints (Eq. (2c)), and boundary constraints (Eq. (2d)) and is infinite-dimensional; the input trajectory has an infinite number of design parameters due to the continuity of time. To implement this problem for real-time computation on flight-grade processors, it is formulated as a convex parameter optimization problem by numerical optimization and often solved by primal-dual interior point methods (IPM) or first-order methods.
 
-<!-- chunk {"id": "body-0020", "role": "body", "section": "Problem Formulation: Powered Descent Guidance", "weight": 1.0} -->
+<!-- chunk {"id": "body-0020", "role": "body", "section": "The 3 Degree of Freedom Fuel-Optimal Powered Descent Guidance Problem", "weight": 1.0} -->
 
-The structure of Eqs. (2a) - (2d) includes ODE constraints (Eq. (2b)), inequality constraints (Eq. (2c)), and boundary constraints (Eq. (2d)) and is infinite-dimensional; the input trajectory has an infinite number of design parameters due to the continuity of time. To implement this problem for real-time computation on flight-grade processors, it is formulated as a convex parameter optimization problem by numerical optimization and often solved by primal-dual interior point methods (IPM) or first-order methods.
+The goal of powered descent guidance (PDG) is to find a sequence of thrust commands that guide the spacecraft from its current state to a desired state. Since the mass of fuel, or wet mass, often represents the majority of the vehicle's mass, and human-level missions come with a significant increase in fuel storage requirements, the objective is often minimizing the fuel usage over time, otherwise known as the fuel-optimal PDG problem. When modeled in 3 DoF, the PDG problem formulation treats the vehicle as a point mass (an assumption which holds when the attitude can be controlled in an inner loop faster than the outer translation control loop). The formulation of the 3 DoF fuel-optimal PDG problem is described in Eqs. (3a)-(3k): The translational dynamics constraints (Eqs. (3b)-(3d)) correspond to double integrator dynamics with variable mass viewed in the planet's rotating frame. Eq. (3e) denotes the upper and lower bounds on the rocket engine's thrust vector.
 
 <!-- chunk {"id": "body-0021", "role": "body", "section": "The 3 Degree of Freedom Fuel-Optimal Powered Descent Guidance Problem", "weight": 1.0} -->
 
-The goal of powered descent guidance (PDG) is to find a sequence of thrust commands that guide the spacecraft from its current state to a desired state. Since the mass of fuel, or wet mass, often represents the majority of the vehicle's mass, and human-level missions come with a significant increase in fuel storage requirements, the objective is often minimizing the fuel usage over time, otherwise known as the fuel-optimal PDG problem. When modeled in 3 DoF, the PDG problem formulation treats the vehicle as a point mass (an assumption which holds when the attitude can be controlled in an inner loop faster than the outer translation control loop). The formulation of the 3 DoF fuel-optimal PDG problem is described in Eqs.
+The tilt angle constraint, which keeps the spacecraft within $\gamma_{p}$ of the vertical, is defined in Eq. (3f). An affine glideslope constraint is applied in Eq. (3g). Where the glideslope constraint prevents the computed trajectory from going subsurface, the maximum velocity is constrained in Eq. (3h), and Eq. (3i) constrains the final mass to be greater than or equal to the dry mass such that only the wet mass is used for fuel consumption calculations. Finally, the constraints in Eqs. (3j)-(3k) define the initial and final boundary conditions for the spacecraft's state. To formulate this problem as a free final time problem, a line search, or other search method is often used to find a feasible and fuel-optimal final time.
 
-<!-- chunk {"id": "body-0022", "role": "body", "section": "The 3 Degree of Freedom Fuel-Optimal Powered Descent Guidance Problem", "weight": 1.0} -->
+<!-- chunk {"id": "body-0022", "role": "body", "section": "The Lossless Convexification (LCvx) Algorithm", "weight": 1.0} -->
 
-The translational dynamics constraints (Eqs. (3b)-(3d)) correspond to double integrator dynamics with variable mass viewed in the planet's rotating frame. Eq. (3e) denotes the upper and lower bounds on the rocket engine's thrust vector. The tilt angle constraint, which keeps the spacecraft within $\gamma_{p}$ of the vertical, is defined in Eq. (3f). An affine glideslope constraint is applied in Eq. (3g). Where the glideslope constraint prevents the computed trajectory from going subsurface, the maximum velocity is constrained in Eq. (3h), and Eq. (3i) constrains the final mass to be greater than or equal to the dry mass such that only the wet mass is used for fuel consumption calculations. Finally, the constraints in Eqs. (3j)-(3k) define the initial and final boundary conditions for the spacecraft's state. To formulate this problem as a free final time problem, a line search, or other search method is often used to find a feasible and fuel-optimal final time.
+For a full derivation of LCvx for this problem see. The LCvx second-order cone program (SOCP) is defined in Eqs. (4a Algorithm ‣ 3 Problem Formulation: Powered Descent Guidance ‣ Improving Computational Efficiency for Powered Descent Guidance via Transformer-based Tight Constraint Prediction"))-(4n Algorithm ‣ 3 Problem Formulation: Powered Descent Guidance ‣ Improving Computational Efficiency for Powered Descent Guidance via Transformer-based Tight Constraint Prediction")): Equations (4a Algorithm ‣ 3 Problem Formulation: Powered Descent Guidance ‣ Improving Computational Efficiency for Powered Descent Guidance via Transformer-based Tight Constraint Prediction"))-(4n Algorithm ‣ 3 Problem Formulation: Powered Descent Guidance ‣ Improving Computational Efficiency for Powered Descent Guidance via Transformer-based Tight Constraint Prediction")) map to the original non-convex formulation through the process of lossless convexification. A slack variable is introduced to remove the nonconvex lower bound in Eq. (3e). Then the variables $\xi$, $u$, and $z$ are used to approximate nonlinear functions of mass.
 
 <!-- chunk {"id": "body-0023", "role": "body", "section": "The Lossless Convexification (LCvx) Algorithm", "weight": 1.0} -->
 
-For a full derivation of LCvx for this problem see. The LCvx second-order cone program (SOCP) is defined in Eqs.
+A new objective function, Eq. (4a Algorithm ‣ 3 Problem Formulation: Powered Descent Guidance ‣ Improving Computational Efficiency for Powered Descent Guidance via Transformer-based Tight Constraint Prediction")), maximizes final mass, which is equivalent to minimizing fuel consumption. A Taylor series approximation is applied to Eq. (3e) to transform the convex exponential cone constraint into a second order cone. An additional constraint, Eq. (4l Algorithm ‣ 3 Problem Formulation: Powered Descent Guidance ‣ Improving Computational Efficiency for Powered Descent Guidance via Transformer-based Tight Constraint Prediction")), is then added to ensure the maximum fuel rate is not exceeded.
 
 <!-- chunk {"id": "body-0024", "role": "body", "section": "The Lossless Convexification (LCvx) Algorithm", "weight": 1.0} -->
 
-Equations (4a Algorithm ‣ 3 Problem Formulation: Powered Descent Guidance ‣ Improving Computational Efficiency for Powered Descent Guidance via Transformer-based Tight Constraint Prediction"))-(4n Algorithm ‣ 3 Problem Formulation: Powered Descent Guidance ‣ Improving Computational Efficiency for Powered Descent Guidance via Transformer-based Tight Constraint Prediction")) map to the original non-convex formulation through the process of lossless convexification. A slack variable is introduced to remove the nonconvex lower bound in Eq. (3e). Then the variables $\xi$, $u$, and $z$ are used to approximate nonlinear functions of mass. A new objective function, Eq. (4a Algorithm ‣ 3 Problem Formulation: Powered Descent Guidance ‣ Improving Computational Efficiency for Powered Descent Guidance via Transformer-based Tight Constraint Prediction")), maximizes final mass, which is equivalent to minimizing fuel consumption. A Taylor series approximation is applied to Eq. (3e) to transform the convex exponential cone constraint into a second order cone.
+Since all constraints represent conservative estimates of the original nonconvex constraints, generated solutions will not be infeasible for the original problem. To ensure the final solution found by the optimization problem is globally optimal the following assumptions must hold: For the state $x = (r,v) \in {\mathbb{R}}^{6}$, the state-space matrices, ${A = \begin{bmatrix} {- {\omega^{\times}\omega^{\times}}} & {- {2\omega^{\times}}} \end{bmatrix}},{B = \begin{bmatrix} \end{bmatrix}}$, must be unconditionally controllable.
 
 <!-- chunk {"id": "body-0025", "role": "body", "section": "The Lossless Convexification (LCvx) Algorithm", "weight": 1.0} -->
 
-An additional constraint, Eq. (4l Algorithm ‣ 3 Problem Formulation: Powered Descent Guidance ‣ Improving Computational Efficiency for Powered Descent Guidance via Transformer-based Tight Constraint Prediction")), is then added to ensure the maximum fuel rate is not exceeded.
+The planet does not rotate about the local vertical of the landing frame (${\omega^{\times}\hat{e_{z}}} \neq 0$).
 
 <!-- chunk {"id": "body-0026", "role": "body", "section": "The Lossless Convexification (LCvx) Algorithm", "weight": 1.0} -->
 
-Since all constraints represent conservative estimates of the original nonconvex constraints, generated solutions will not be infeasible for the original problem.
+The glideslope constraint is only instantaneously active.
 
 <!-- chunk {"id": "body-0027", "role": "body", "section": "The Lossless Convexification (LCvx) Algorithm", "weight": 1.0} -->
 
-The planet does not rotate about the local vertical of the landing frame (${\omega^{\times}\hat{e_{z}}} \neq 0$).
+The maximum velocity bound is activated at most a discrete number of times.
 
 <!-- chunk {"id": "body-0028", "role": "body", "section": "The Lossless Convexification (LCvx) Algorithm", "weight": 1.0} -->
 
-The glideslope constraint is only instantaneously active.
-
-<!-- chunk {"id": "body-0029", "role": "body", "section": "The Lossless Convexification (LCvx) Algorithm", "weight": 1.0} -->
-
-The maximum velocity bound is activated at most a discrete number of times.
-
-<!-- chunk {"id": "body-0030", "role": "body", "section": "The Lossless Convexification (LCvx) Algorithm", "weight": 1.0} -->
-
 LCvx is used as the test case for T-PDG in Section 5 since G-FOLD (Guidance for Fuel Optimal Large Diverts), the algorithm in which LCvx is based upon, is one of the only constraint-satisfying, fuel-optimal, autonomous algorithms that has the potential to scale to to the required 10 km range for powered descent diverts.
 
-<!-- chunk {"id": "body-0031", "role": "body", "section": "Identifying Optimal Strategies for Solving the Powered Descent Guidance Problem", "weight": 1.0} -->
+<!-- chunk {"id": "body-0029", "role": "body", "section": "Identifying Optimal Strategies for Solving the Powered Descent Guidance Problem", "weight": 1.0} -->
 
 By formulating the powered descent guidance problem into a parametric optimization problem, the parameter vector $\theta$, drawn from a representative set of parameters, $\Theta \subseteq {\mathbb{R}}^{p}$, is mapped to an optimal set of tight constraints. The tight constraints are defined as the set of constraints that are satisfied as equalities at optimality. If the optimization problem is non-degenerate, the tight constraints serve as support constraints; removal of any tight constraint would result in a decrease in the objective function value for minimization problems. In both convex and nonconvex optimization problems, the globally optimal solution can occur either on the tight constraint boundaries or within the interior of the feasible set. However, a key difference arises with nonconvex problems, as they may have multiple local optima, each potentially defined by a different set of tight constraints. This complexity requires additional caution: the solutions provided in the parameters and optimal strategy dataset may only be locally optimal and may not necessarily define the global optimum. In this work, we consider only strictly convex problems to eliminate the need for multiple supervision labels for the dataset.
 
-<!-- chunk {"id": "body-0032", "role": "body", "section": "Identifying Optimal Strategies for Solving the Powered Descent Guidance Problem", "weight": 1.0} -->
+<!-- chunk {"id": "body-0030", "role": "body", "section": "Identifying Optimal Strategies for Solving the Powered Descent Guidance Problem", "weight": 1.0} -->
 
 While more thought is required to identify a global optimum, or a sufficient local optimum, in nonconvex problems, the methods in this work serve to significantly reduce large optimization problems of either case. Since discretized constrained powered descent guidance problems often have the number of constraints dependent on the number of discretization nodes, methods for tight constraint prediction have the potential to significantly reduce problem size. By defining a reduced problem with only the constraints that the optimal solution pushes against, the optimization algorithm does not have to expend resources checking and managing a large number of constraints that are not critical to finding the optimal solution. In this work, the set of tight constraints is represented as an array of length M, the number of inequality constraints in the constrained optimization problem, where each value in the array is either equal to 1 if the constraint is tight at the optimal solution or 0 otherwise.
 
-<!-- chunk {"id": "body-0033", "role": "body", "section": "Identifying Optimal Strategies for Solving the Powered Descent Guidance Problem", "weight": 1.0} -->
+<!-- chunk {"id": "body-0031", "role": "body", "section": "Identifying Optimal Strategies for Solving the Powered Descent Guidance Problem", "weight": 1.0} -->
 
 Often time-dependent direct optimization problems have either a fixed-final time or they require an additional embedded optimization problem to determine the optimal, or even a feasible, final time. This is also true for powered descent guidance problems, such as the 3 DoF fuel-optimal guidance problem in Equations (4a Algorithm ‣ 3 Problem Formulation: Powered Descent Guidance ‣ Improving Computational Efficiency for Powered Descent Guidance via Transformer-based Tight Constraint Prediction"))-(4n Algorithm ‣ 3 Problem Formulation: Powered Descent Guidance ‣ Improving Computational Efficiency for Powered Descent Guidance via Transformer-based Tight Constraint Prediction")) in Section 3. As with tight constraints, the optimal final time for an optimization problem can also be formulated as the solution to a parametric optimization problem.
 
-<!-- chunk {"id": "body-0034", "role": "body", "section": "Identifying Optimal Strategies for Solving the Powered Descent Guidance Problem", "weight": 1.0} -->
+<!-- chunk {"id": "body-0032", "role": "body", "section": "Identifying Optimal Strategies for Solving the Powered Descent Guidance Problem", "weight": 1.0} -->
 
 In the time-dependent optimization problems considered in this study, both the tight constraints and the optimal final time are derived from the same parameter vector, $\theta$, which is drawn from a representative set of parameters, $\Theta \subseteq {\mathbb{R}}^{p}$. This relationship can be described by the mapping $\theta\rightarrow{({\tau{(\theta)}},{t_{f}^{*}{(\theta)}})}$, which we define as the optimal strategy.
 
-<!-- chunk {"id": "body-0035", "role": "body", "section": "Identifying Optimal Strategies for Solving the Powered Descent Guidance Problem", "weight": 1.0} -->
+<!-- chunk {"id": "body-0033", "role": "body", "section": "Identifying Optimal Strategies for Solving the Powered Descent Guidance Problem", "weight": 1.0} -->
 
 For the 3 DoF fuel-optimal guidance problem formulated in Equations (4a Algorithm ‣ 3 Problem Formulation: Powered Descent Guidance ‣ Improving Computational Efficiency for Powered Descent Guidance via Transformer-based Tight Constraint Prediction"))-(4n Algorithm ‣ 3 Problem Formulation: Powered Descent Guidance ‣ Improving Computational Efficiency for Powered Descent Guidance via Transformer-based Tight Constraint Prediction")) in Section 3, the parameter set is defined as $\theta = {\{\phi,\gamma_{gs},\gamma_{p},r_{0},v_{0}\}}$ (representing engine angle, glideslope angle, pointing angle, initial position, and initial velocity).
 
+<!-- chunk {"id": "body-0034", "role": "body", "section": "Identifying Optimal Strategies for Solving the Powered Descent Guidance Problem", "weight": 1.0} -->
+
+The strategy for this problem is represented by a binary vector corresponding to the inequality constraints (4e Algorithm ‣ 3 Problem Formulation: Powered Descent Guidance ‣ Improving Computational Efficiency for Powered Descent Guidance via Transformer-based Tight Constraint Prediction"))-(4l Algorithm ‣ 3 Problem Formulation: Powered Descent Guidance ‣ Improving Computational Efficiency for Powered Descent Guidance via Transformer-based Tight Constraint Prediction")), $\tau{(\theta)}$, in addition to a floating point value that represents the final time, $t_{f}^{*}$. In the constraint strategy vector, a value of 1 indicates an active constraint, while a value of 0 indicates an inactive constraint at the optimal solution. Given the strategy, a generalized discretized version of Eqs. (2a) - (2d) are reduced to Eqs. (5a ‣ Improving Computational Efficiency for Powered Descent Guidance via Transformer-based Tight Constraint Prediction")) - (5d ‣ Improving Computational Efficiency for Powered Descent Guidance via Transformer-based Tight Constraint Prediction")): Where inequality constraints are selectively enforced based on whether they are identified as tight constraints, ensuring computational resources are focused on the constraints which directly influence the optimal solution.
+
+<!-- chunk {"id": "body-0035", "role": "body", "section": "Identifying Optimal Strategies for Solving the Powered Descent Guidance Problem", "weight": 1.0} -->
+
+Furthermore, the inequality constraints are not changed to equality constraints when identified as tight since this alters the constraint type; for example, a second-order cone (SOC) constraint would generally become nonconvex if changed to an equality constraint. While the original problem may have over 12N+5 constraints (assuming three dimensional equations of motion, one inequality constraint, and five boundary constraints as in Section 3.2 Algorithm ‣ 3 Problem Formulation: Powered Descent Guidance ‣ Improving Computational Efficiency for Powered Descent Guidance via Transformer-based Tight Constraint Prediction")), the optimal strategy formulation could reduce the number of constraints down to only 3N+5. For the $N = 50$ discretization nodes used in our application problem (Section 5), the 605 total constraints could be reduced down to only 155 constraints.
+
 <!-- chunk {"id": "body-0036", "role": "body", "section": "Identifying Optimal Strategies for Solving the Powered Descent Guidance Problem", "weight": 1.0} -->
-
-The strategy for this problem is represented by a binary vector corresponding to the inequality constraints (4e Algorithm ‣ 3 Problem Formulation: Powered Descent Guidance ‣ Improving Computational Efficiency for Powered Descent Guidance via Transformer-based Tight Constraint Prediction"))-(4l Algorithm ‣ 3 Problem Formulation: Powered Descent Guidance ‣ Improving Computational Efficiency for Powered Descent Guidance via Transformer-based Tight Constraint Prediction")), $\tau{(\theta)}$, in addition to a floating point value that represents the final time, $t_{f}^{*}$. In the constraint strategy vector, a value of 1 indicates an active constraint, while a value of 0 indicates an inactive constraint at the optimal solution. Given the strategy, a generalized discretized version of Eqs. (2a) - (2d) are reduced to Eqs.
-
-<!-- chunk {"id": "body-0037", "role": "body", "section": "Identifying Optimal Strategies for Solving the Powered Descent Guidance Problem", "weight": 1.0} -->
-
-Where inequality constraints are selectively enforced based on whether they are identified as tight constraints, ensuring computational resources are focused on the constraints which directly influence the optimal solution. Furthermore, the inequality constraints are not changed to equality constraints when identified as tight since this alters the constraint type; for example, a second-order cone (SOC) constraint would generally become nonconvex if changed to an equality constraint. While the original problem may have over 12N+5 constraints (assuming three dimensional equations of motion, one inequality constraint, and five boundary constraints as in Section 3.2 Algorithm ‣ 3 Problem Formulation: Powered Descent Guidance ‣ Improving Computational Efficiency for Powered Descent Guidance via Transformer-based Tight Constraint Prediction")), the optimal strategy formulation could reduce the number of constraints down to only 3N+5. For the $N = 50$ discretization nodes used in our application problem (Section 5), the 605 total constraints could be reduced down to only 155 constraints.
-
-<!-- chunk {"id": "body-0038", "role": "body", "section": "Identifying Optimal Strategies for Solving the Powered Descent Guidance Problem", "weight": 1.0} -->
 
 While OCTs and feedforward NNs have been used previously to determine the map between problem parameters and optimal strategies, they were generally less accurate for time-dependent optimal control problems. Instead we use transformer NNs in this work for strategy prediction, due to their improvements over LSTMs for computationally efficiency and their success in time-dependent forecasting problems. Additionally, for ease of loss function computation and separability, individual mappings for the tight constraints and the optimal final time identification are trained separately by two transformer NNs.
 
-<!-- chunk {"id": "body-0039", "role": "body", "section": "Identifying Optimal Strategies for Solving the Powered Descent Guidance Problem", "weight": 1.0} -->
+<!-- chunk {"id": "body-0037", "role": "body", "section": "Identifying Optimal Strategies for Solving the Powered Descent Guidance Problem", "weight": 1.0} -->
 
 In the following sections, the sampling strategy used to generate a dataset to train the transformer NNs is discussed, the NN architecture is illustrated, the process used for training, validation, and testing is reviewed, and finally, the interpretability of T-PDG is assessed.
 
-<!-- chunk {"id": "body-0040", "role": "body", "section": "Data Sampling Strategy", "weight": 1.0} -->
+<!-- chunk {"id": "body-0038", "role": "body", "section": "Data Sampling Strategy", "weight": 1.0} -->
 
 In order to quickly generate a dataset of relevant parameters and optimal strategy outputs for a general optimization problem, a parallel processing-based sampling algorithm was developed (Algorithm 1 ‣ Improving Computational Efficiency for Powered Descent Guidance via Transformer-based Tight Constraint Prediction")). For each variable in $\theta$, a uniform sphere of a selected radius is generated around an initial point. Different radius values are defined for angle parameters, position vectors, and velocity vectors within $\theta$. Points are randomly selected from the sphere to generate a new $\theta$ and this $\theta$ is passed through the optimization solver. The parameter vector $\theta$,the solution's tight constraints, and $t_{f}$ are stored in an array if the solution is feasible. To determine when there are sufficient samples generated for training, a Good-Turing estimator implementation was explored to generate the probability of unseen strategies yet to be explored in the data set.
 
-<!-- chunk {"id": "body-0041", "role": "body", "section": "Data Sampling Strategy", "weight": 1.0} -->
+<!-- chunk {"id": "body-0039", "role": "body", "section": "Data Sampling Strategy", "weight": 1.0} -->
 
 However, due to the nature of how the tight constraints are generated in a series of zeros and ones, it is very rare to have an exact strategy repeated for trajectories with different initial conditions; just one time step difference in the activation of a tight constraint creates a new strategy. Instead, the algorithm generates a data set of a fixed size and multiple ranges of radii are chosen to sufficiently cover the set of trajectory conditions for training. Based on how large the radii selected are, a set of 100,000 $\theta$ values yields a data set of 50,000 to 80,000 feasible trajectories. Multiple radii are sampled to generate a data set of 300,000 tight constraints for training and testing. The sampling algorithm, programmed in Julia, efficiently leverages parallel computation across 48 cores. As a result, it can process a large dataset of 100,000 data points in just 30 minutes.
 
-<!-- chunk {"id": "body-0042", "role": "body", "section": "Data Sampling Strategy", "weight": 1.0} -->
+<!-- chunk {"id": "body-0040", "role": "body", "section": "Data Sampling Strategy", "weight": 1.0} -->
 
-1:procedure Sample(θ0, radius, N=Number of samples)
-2: Initialize an empty list solutions
-3: for i ← 1 to N do ⊳ Sample N points
-4: Get a random θ from a uniform distribution in the range r around θ0
-5: Generate solution of optimal trajectories of θ
-6: solution ← f(θ) ⊳ Function to generate solution tight constraints
-7: if solution is feasible then
-8: Append (θ,solution) to solutions
-Algorithm 1 Uniform Sphere Sampling
+1:procedure Sample(θ0, radius, N=Number of samples) 2: Initialize an empty list solutions 3: for i ← 1 to N do ⊳ Sample N points 4: Get a random θ from a uniform distribution in the range r around θ0 5: Generate solution of optimal trajectories of θ 6: solution ← f(θ) ⊳ Function to generate solution tight constraints 7: if solution is feasible then 8: Append (θ, solution) to solutions Algorithm 1 Uniform Sphere Sampling
 
-<!-- chunk {"id": "body-0043", "role": "body", "section": "Transformer Model Structure", "weight": 1.0} -->
+<!-- chunk {"id": "body-0041", "role": "body", "section": "Transformer Model Structure", "weight": 1.0} -->
 
 The model structure for T-PDG is considered for the following prediction problem: given a set of parametric inputs for a constrained optimization problem, $(\theta_{1},\ldots,\theta_{L})$, we would like to predict the set of tight constraints, ${\tau{(\theta_{1})}},\ldots,{\tau{(\theta_{L})}}$, where each $\tau{(\theta_{i})}$ is an 1 x M matrix (M is the number of inequality constraints in the original problem), and the optimal final times, ${t_{f}^{*}{(\theta_{1})}},\ldots,{t_{f}^{*}{(\theta_{L})}}$. Figure 2 ‣ Improving Computational Efficiency for Powered Descent Guidance via Transformer-based Tight Constraint Prediction") illustrates the architecture for the constraint prediction and final time prediction NNs.
 
-<!-- chunk {"id": "body-0044", "role": "body", "section": "Transformer Model Structure", "weight": 1.0} -->
+<!-- chunk {"id": "body-0042", "role": "body", "section": "Transformer Model Structure", "weight": 1.0} -->
 
 Simple linear encoder and decoder layers are used to transfer the input data into a higher dimensional embedding space and the output into a lower dimensional output space. Then a learned position encoding is applied to preserve the temporal order of the input data. From the position encoder, a transformer encoder with number of heads, $h$, uses multi-head attention to transform the data into query matrices, $Q_{h}^{(i)}$, key matrices, $K_{h}^{(i)}$, and value matrices, $V_{h}^{(i)}$. Finally, the attention output is generated by scaled production, as shown in Eq. 6 ‣ Improving Computational Efficiency for Powered Descent Guidance via Transformer-based Tight Constraint Prediction").
 
-<!-- chunk {"id": "body-0045", "role": "body", "section": "Transformer Model Structure", "weight": 1.0} -->
+<!-- chunk {"id": "body-0043", "role": "body", "section": "Transformer Model Structure", "weight": 1.0} -->
 
 Additional linear layers, dropout, and LayerNorm layers are also present in the transformer encoder layer. The full model was designed in PyTorch using torch.nn. The implemented tight constraints and optimal final time NNs for the 3-DoF PDG application (Section 5) both have $1 \times 9$-dimensional inputs which include the 3-dimensional initial velocity, 3-dimensional initial position, pointing angle, engine angle, and glideslope angle. Note that the final position and velocity are kept at zero since this application is a powered descent landing problem and reference frames can be adjusted accordingly for a varying final position. Additional parameters for the problem can be included and would only result in a larger input size and a potentially larger required neural network architecture. Furthermore, planetary and spacecraft design parameters were kept constant to represent the chosen mission design. Since state and constraint parameters may change during operation, these variables were chosen as the parameters for the parametric optimization problem.
 
-<!-- chunk {"id": "body-0046", "role": "body", "section": "Real-Time Transformer-based Powered Descent Guidance (T-PDG) Algorithm", "weight": 1.0} -->
+<!-- chunk {"id": "body-0044", "role": "body", "section": "Real-Time Transformer-based Powered Descent Guidance (T-PDG) Algorithm", "weight": 1.0} -->
 
 Algorithm 2 Algorithm ‣ 4 Transformer-based Powered Descent Guidance (T-PDG) ‣ Improving Computational Efficiency for Powered Descent Guidance via Transformer-based Tight Constraint Prediction") describes the procedure for applying the transformer NNs for problem reduction in real-time. First, the NN models for predicting tight constraints and optimal final time are called to generate the strategy. Using the strategy, the solver is called to find the corresponding solution and cost, as determined by the problem's cost function. To ensure this returned solution is feasible, it is run as an initial guess on the full-problem solver. Finally, depending on the feasibility of the returned solution, it is either returned or the full problem is solved without the predicted optimal strategy to guarantee that a feasible solution is returned. By implementing this feasibility check, T-PDG is guaranteed to find an optimal solution for any set of parameters which result in a feasible solution for the full problem.
 
-<!-- chunk {"id": "body-0047", "role": "body", "section": "Real-Time Transformer-based Powered Descent Guidance (T-PDG) Algorithm", "weight": 1.0} -->
+<!-- chunk {"id": "body-0045", "role": "body", "section": "Real-Time Transformer-based Powered Descent Guidance (T-PDG) Algorithm", "weight": 1.0} -->
 
-2: strategy ← NN-Prediction(tight_constraints_model,final_time_model,θ) ⊳ Predict the optimal strategy
-3: (soln,cost) ← Reduced-Solve(θ,strategy) ⊳ Solve the strategy-reduced optimization problem
-5: (soln,cost) ← Feasibility-Check(θ,tf*,soln) ⊳ Check feasibility of the reduced problem solution
-7: (soln,cost) ← Full-Solve(θ) ⊳ Solve the full optimization problem if infeasible
-10: (soln,cost) ← Full-Solve(θ)
+2: strategy ← NN-Prediction(tight_constraints_model, final_time_model, θ) ⊳ Predict the optimal strategy 3: (soln, cost) ← Reduced-Solve(θ, strategy) ⊳ Solve the strategy-reduced optimization problem 5: (soln, cost) ← Feasibility-Check(θ, tf*, soln) ⊳ Check feasibility of the reduced problem solution 7: (soln, cost) ← Full-Solve(θ) ⊳ Solve the full optimization problem if infeasible 10: (soln, cost) ← Full-Solve(θ)
 
-<!-- chunk {"id": "body-0048", "role": "body", "section": "Training, Validation, and Testing", "weight": 1.0} -->
+<!-- chunk {"id": "body-0046", "role": "body", "section": "Training, Validation, and Testing", "weight": 1.0} -->
 
 After completing the sampling step, all sampled data is split into 80% training and validation data and 20% test data for both constraints prediction and optimal final time prediction. Then mean and standard deviation of the training sets are computed and the train and test datasets are standardized by subtracting the mean and dividing by the standard deviation. For the training process, K-fold cross-validation, with K=2, was employed to split the training processing into training and validation steps. In each iteration of the validation process, one part is used for training the model and the other for testing its performance. This approach enhances the network's ability to generalize to new, unseen data, compared to using a fixed single train-test split. Mean squared error (MSE) loss was used for the training loss function for both NNs and a learning rate scheduler was employed for the final time prediction NN to improve training convergence.
 
-<!-- chunk {"id": "body-0049", "role": "body", "section": "Interpretability and Generalizability", "weight": 1.0} -->
+<!-- chunk {"id": "body-0047", "role": "body", "section": "Interpretability and Generalizability", "weight": 1.0} -->
 
 As noted in Bertsimas and Stellato, the identification and prediction of optimal strategies for constrained optimization problems not only allow for efficient solution recovery but also provide interpretability and intuition behind the optimal solutions; researchers are able to better understand how problem parameters affect optimal control decisions. Specifically for transformer NNs, the attention mechanism present in the transformer encoder provides a source of interpretability for the embedding space.
 
-<!-- chunk {"id": "body-0050", "role": "body", "section": "Interpretability and Generalizability", "weight": 1.0} -->
+<!-- chunk {"id": "body-0048", "role": "body", "section": "Interpretability and Generalizability", "weight": 1.0} -->
 
 As an analogy, consider the domain of explicit Model Predictive Control (MPC). In explicit MPC, the control problem is solved offline, and the solution space is divided into different regions or 'polytopes'. Each polytope corresponds to a specific set of conditions or parameters within the system. Within each of these polytopes, a specific control law is activated based on the current state of the system. This separation into polytopes serves to provide a clear, interpretable map of how different parameter states lead to different control actions. Comparatively, for transformer NNs, the attention mechanism present in the transformer encoder provides a source of interpretability for the embedding space. By employing dimensionality reduction techniques like t-Distributed Stochastic Neighbor Embedding (t-SNE), high-dimensional representations learned by transformers can be projected down into two or three-dimensional spaces. This process is analogous to visualizing the MPC's polytope activations, where each cluster or pattern in the t-SNE plot can be viewed as a 'region' or 'polytope' of operation with similar characteristics in terms of the number of active constraints or the optimal final time value.
 
-<!-- chunk {"id": "body-0051", "role": "body", "section": "Interpretability and Generalizability", "weight": 1.0} -->
+<!-- chunk {"id": "body-0049", "role": "body", "section": "Interpretability and Generalizability", "weight": 1.0} -->
 
 Furthermore, the generalizability of the T-PDG algorithm can be assessed by comparing the t-SNE embeddings of both the training and testing datasets. If the structure of these embeddings is similar, it indicates effective learning and application of the algorithm, consistent to how a well-generalized MPC controller would frequently apply the correct control laws across various regions in its operational space.
 
-<!-- chunk {"id": "body-0052", "role": "body", "section": "Interpretability and Generalizability", "weight": 1.0} -->
+<!-- chunk {"id": "body-0050", "role": "body", "section": "Interpretability and Generalizability", "weight": 1.0} -->
 
 In the field of powered descent guidance, Malyuta et al. suggest that a deeper undiscovered underlying theory for how and why problems can be losslessly convexified exists due to the fact that arbitrarily small perturbations of the dynamics can recover LCvx. The development of methods which result in transparent parameter to optimal strategy mappings enable the potential discovery of this theory, as well as the design of a wider range of generalizable global optimization algorithms.
 
-<!-- chunk {"id": "body-0053", "role": "body", "section": "Problem Setup and Parameters", "weight": 1.0} -->
+<!-- chunk {"id": "body-0051", "role": "body", "section": "Problem Setup and Parameters", "weight": 1.0} -->
 
 To analyze the performance of T-PDG, the algorithm was trained on data from the LCvx Mars rocket landing problem implementation for 50 discretization nodes, $N = 50$, from the SCP Toolbox, which uses the ECOS solver^77^7 in Julia. Since well-known results for this test case are already recorded, they can be easily used to determine the effect T-PDG has on both convergence and efficiency. Table 4 shows the planetary and spacecraft parameters as described in Malyuta et al..
 
-<!-- chunk {"id": "body-0054", "role": "body", "section": "Problem Setup and Parameters", "weight": 1.0} -->
+<!-- chunk {"id": "body-0052", "role": "body", "section": "Problem Setup and Parameters", "weight": 1.0} -->
 
 The sampled trajectory and the range of values included in the training, validation, and test datasets are detailed in Table 5. The entire dataset comprises 242,293 samples, which encompass the sampled problem parameters, tight constraints, and optimal final times. These parameters are designer-specified and, in this application, they are chosen to be $\theta = {\phi,\gamma_{gs},\gamma_{p},r_{0},v_{0}}$, representing the engine angle, glideslope angle, pointing angle, initial position, and initial velocity, respectively. These parameters are particularly relevant as they may vary between the parachute phase and the powered descent initiation. The final state is maintained constant, as a change in the reference frame can be used to represent any desired configuration.
 
-<!-- chunk {"id": "body-0055", "role": "body", "section": "Problem Setup and Parameters", "weight": 1.0} -->
+<!-- chunk {"id": "body-0053", "role": "body", "section": "Problem Setup and Parameters", "weight": 1.0} -->
 
 Furthermore, the strategy for the Transformer-based Powered Descent Guidance (T-PDG) is depicted as a binary vector $\tau{(\theta)}$, corresponding to the inequality constraints (4e Algorithm ‣ 3 Problem Formulation: Powered Descent Guidance ‣ Improving Computational Efficiency for Powered Descent Guidance via Transformer-based Tight Constraint Prediction"))-(4l Algorithm ‣ 3 Problem Formulation: Powered Descent Guidance ‣ Improving Computational Efficiency for Powered Descent Guidance via Transformer-based Tight Constraint Prediction")). This vector is complemented by a floating-point value representing the optimal final time, $t_{f}^{*}$.
 
-<!-- chunk {"id": "body-0056", "role": "body", "section": "Problem Setup and Parameters", "weight": 1.0} -->
+<!-- chunk {"id": "body-0054", "role": "body", "section": "Problem Setup and Parameters", "weight": 1.0} -->
 
-Max physical thrust of single engine (Tmax)
+Latitude of landing site (θ) Mars sidereal (Tsidereal_mars) Dry Mass (mdry) Wet Mass (mwet) Number of engines (neng) Max physical thrust of single engine (Tmax) Max allowed velocity (vmax) Min allowed thrust of single engine (T1) Max allowed thrust of single engine (T2) Min allowed thrust of all engines (ρmin) Max allowed thrust of all engines (ρmax) Fuel consumption rate (α) Number of discretization points (N) Table 4: Algorithm Settings Table 5: Sampled Dataset The NNs for tight constraint prediction and final time prediction both used the transformer architecture shown in Figure 2 ‣ Improving Computational Efficiency for Powered Descent Guidance via Transformer-based Tight Constraint Prediction") from Section 4 ‣ Improving Computational Efficiency for Powered Descent Guidance via Transformer-based Tight Constraint Prediction"). Since predicting a ${{1 \times 8}N} - 3$-dimensional array for constraint prediction is a larger problem than predicting a scalar final time, the constraint prediction NN utilized 384-dimensional layers, two heads, and four layers.
 
-<!-- chunk {"id": "body-0057", "role": "body", "section": "Problem Setup and Parameters", "weight": 1.0} -->
+<!-- chunk {"id": "body-0055", "role": "body", "section": "Problem Setup and Parameters", "weight": 1.0} -->
 
-Min allowed thrust of single engine (T1)
+The final time NN was designed to be much smaller, with 64-dimensional layers, one head, and two layers. Both NNs had a dropout rate of 0.1 to reduce overfitting to the training data.
 
-<!-- chunk {"id": "body-0058", "role": "body", "section": "Problem Setup and Parameters", "weight": 1.0} -->
+<!-- chunk {"id": "body-0056", "role": "body", "section": "Results and Analysis", "weight": 1.0} -->
 
-Max allowed thrust of single engine (T2)
+For training the constraint prediction NN, the learning rate was set to a constant 0.001. Since convergence for training of the time prediction NN was more parameter-sensitive, the initial learning rate was set at 0.01 and was divided by 4000 until 4000 warm-up steps were reached. After which, $0.01$( current_step - warmup_steps${}_{}^{- 0.5})$ is used for the learning rate. Only one epoch was used for training since both the models converge in less than one epoch. Less than 130,000 samples, at a batch size of 320, were required for the optimal final time prediction NN training to converge. Additionally, only 10,000 samples, at a batch size of 128, were required to train the tight constraint prediction NN. Table 6 includes the training and validation MSE at the second fold of training, as well as the accuracy of each NN on the test dataset.
 
-<!-- chunk {"id": "body-0059", "role": "body", "section": "Problem Setup and Parameters", "weight": 1.0} -->
-
-Min allowed thrust of all engines (ρmin)
-
-<!-- chunk {"id": "body-0060", "role": "body", "section": "Problem Setup and Parameters", "weight": 1.0} -->
-
-Max allowed thrust of all engines (ρmax)
-
-<!-- chunk {"id": "body-0061", "role": "body", "section": "Problem Setup and Parameters", "weight": 1.0} -->
-
-The NNs for tight constraint prediction and final time prediction both used the transformer architecture shown in Figure 2 ‣ Improving Computational Efficiency for Powered Descent Guidance via Transformer-based Tight Constraint Prediction") from Section 4 ‣ Improving Computational Efficiency for Powered Descent Guidance via Transformer-based Tight Constraint Prediction"). Since predicting a ${{1 \times 8}N} - 3$-dimensional array for constraint prediction is a larger problem than predicting a scalar final time, the constraint prediction NN utilized 384-dimensional layers, two heads, and four layers. The final time NN was designed to be much smaller, with 64-dimensional layers, one head, and two layers. Both NNs had a dropout rate of 0.1 to reduce overfitting to the training data.
-
-<!-- chunk {"id": "body-0062", "role": "body", "section": "Results and Analysis", "weight": 1.0} -->
-
-For training the constraint prediction NN, the learning rate was set to a constant 0.001. Since convergence for training of the time prediction NN was more parameter-sensitive, the initial learning rate was set at 0.01 and was divided by 4000 until 4000 warm-up steps were reached. After which, $0.01$( current_step - warmup_steps${}_{}^{- 0.5}{}$ is used for the learning rate. Only one epoch was used for training since both the models converge in less than one epoch. Less than 130,000 samples, at a batch size of 320, were required for the optimal final time prediction NN training to converge. Additionally, only 10,000 samples, at a batch size of 128, were required to train the tight constraint prediction NN. Table 6 includes the training and validation MSE at the second fold of training, as well as the accuracy of each NN on the test dataset.
-
-<!-- chunk {"id": "body-0063", "role": "body", "section": "Results and Analysis", "weight": 1.0} -->
+<!-- chunk {"id": "body-0057", "role": "body", "section": "Results and Analysis", "weight": 1.0} -->
 
 Due to the the different formats of the tight constraints output and the final time output, MSE is used for final time prediction accuracy and binary accuracy, determined by the number of correct labels divided by the total number of labels, is used for the tight constraints NN.
 
-<!-- chunk {"id": "body-0064", "role": "body", "section": "Results and Analysis", "weight": 1.0} -->
+<!-- chunk {"id": "body-0058", "role": "body", "section": "Results and Analysis", "weight": 1.0} -->
 
-The results obtained by applying T-PDG, from Algorithm 2 Algorithm ‣ 4 Transformer-based Powered Descent Guidance (T-PDG) ‣ Improving Computational Efficiency for Powered Descent Guidance via Transformer-based Tight Constraint Prediction"), to LCvx, using 775 samples from the test dataset, are shown in Table 7. Both the computation time and feasibility metrics were analyzed for each portion of the T-PDG algorithm and the LCvx algorithm. Note that even for a less than 100% feasibility in the feasibility check, T-PDG is still 100% feasible since the full-problem is solved when this occurs.
+Test (MSE / Binary Accuracy) Table 6: Training and Testing of T-PDG The results obtained by applying T-PDG, from Algorithm 2 Algorithm ‣ 4 Transformer-based Powered Descent Guidance (T-PDG) ‣ Improving Computational Efficiency for Powered Descent Guidance via Transformer-based Tight Constraint Prediction"), to LCvx, using 775 samples from the test dataset, are shown in Table 7. Both the computation time and feasibility metrics were analyzed for each portion of the T-PDG algorithm and the LCvx algorithm. Note that even for a less than 100% feasibility in the feasibility check, T-PDG is still 100% feasible since the full-problem is solved when this occurs.
 
-<!-- chunk {"id": "body-0065", "role": "body", "section": "Results and Analysis", "weight": 1.0} -->
+<!-- chunk {"id": "body-0059", "role": "body", "section": "Results and Analysis", "weight": 1.0} -->
+
+T-PDG feasibility check Table 7: Performance Comparison of T-PDG with LCvx Figure 3 shows the sets of T-PDG-computed test trajectories as they are first generated (the lefthand side), as well as the full set of 775 test trajectories (the righthand side).
+
+<!-- chunk {"id": "body-0060", "role": "body", "section": "Results and Analysis", "weight": 1.0} -->
 
 When compared to LCvx, T-PDG reduces the mean computation time required to compute the fuel-optimal powered descent solution by 78%. With a mean computation time exceeding 1.5 seconds for LCvx, T-PDG consistently achieves computation times of less than 1 second within one standard deviation. Therefore, preliminary analysis shows T-PDG consistently meeting the \<1 second computation time requirement of flight grade processors. Since this time includes the 16% of test cases when the feasibility check is not passed and the full solution must be computed, T-PDG presents both an efficient and reliable approach for improving the computational efficiency of the powered descent guidance problem. Instances of infeasibility in T-PDG typically arise from underestimating the optimal final time for the constraint-satisfying trajectory. One possible improvement to enhance initial feasibility could involve incorporating a conservative margin in the final time prediction, though this might slightly increase fuel consumption. Additionally, when compared to the 1.2 million training samples required for the feedforward implementation of final time prediction, less than 10,000 samples were required for the final time prediction NN to converge in T-PDG.
 
-<!-- chunk {"id": "body-0066", "role": "body", "section": "Results and Analysis", "weight": 1.0} -->
+<!-- chunk {"id": "body-0061", "role": "body", "section": "Results and Analysis", "weight": 1.0} -->
 
 From this observation and the convergence of the larger constraint prediction NN after less than 130,000 samples, T-PDG appears to be quite sample efficient. Importantly, the tight constraints prediction problem, as applied to optimal control, is well-predicted by transformer NNs; the constraint prediction NN achieved over 94% accuracy when evaluated on test data for 50 time discretization nodes. T-PDG and transformer-based data-driven optimization methods provide substantial promise in the prediction of highly interpretable solutions for time-dependent optimization problems.
 
-<!-- chunk {"id": "body-0067", "role": "body", "section": "Assessment of Interpretability and Generalizability", "weight": 1.0} -->
+<!-- chunk {"id": "body-0062", "role": "body", "section": "Assessment of Interpretability and Generalizability", "weight": 1.0} -->
 
 To assess the interpretability and generalizability of each transformer model, 2D t-SNE visualization were generated using sklearn.manifold.TSNE and analyzed for 30,000 training and 30,000 test samples, each with batch size 1. The t-SNE technique, similar to visualizing explicit MPC polytope activations, reduces high-dimensional data to a more interpretable two-dimensional space. This reduction allows for an analysis of how input data cluster in relation to transformer model embeddings. The t-SNE visualization for the training dataset are shown in Figure 6 and the t-SNE visualization for the test dataset are shown in Figure 9. In these figures, 'component 1' and 'component 2' denote the two-dimensional reduced components resulting from the t-SNE process. A comparison between the training and test visualizations provides an understanding of how well the model generalizes to new, unseen data, indicated by similar clustering patterns in both sets of embeddings.
 
-<!-- chunk {"id": "body-0068", "role": "body", "section": "Assessment of Interpretability and Generalizability", "weight": 1.0} -->
+<!-- chunk {"id": "body-0063", "role": "body", "section": "Assessment of Interpretability and Generalizability", "weight": 1.0} -->
 
 The color scale in the tight constraints prediction NN represents the number of tight constraints at the optimal solution. This choice of color scale, instead of individual constraint representations, is due to the high discretization of the problem, which results in a limited repetition of strategies. The number of tight constraints still provides a general view of the optimal strategy based on how constrained each parametric problem is. The active constraints occurring most often, based on the sampled dataset, are the second-order cone constraint on thrust (Eqn. 4g Algorithm ‣ 3 Problem Formulation: Powered Descent Guidance ‣ Improving Computational Efficiency for Powered Descent Guidance via Transformer-based Tight Constraint Prediction")) and the maximum and minimum thrust bounds (Eqns. 4e Algorithm ‣ 3 Problem Formulation: Powered Descent Guidance ‣ Improving Computational Efficiency for Powered Descent Guidance via Transformer-based Tight Constraint Prediction")-4f Algorithm ‣ 3 Problem Formulation: Powered Descent Guidance ‣ Improving Computational Efficiency for Powered Descent Guidance via Transformer-based Tight Constraint Prediction")). The mass constraints (Eqns.
 
-<!-- chunk {"id": "body-0069", "role": "body", "section": "Assessment of Interpretability and Generalizability", "weight": 1.0} -->
+<!-- chunk {"id": "body-0064", "role": "body", "section": "Assessment of Interpretability and Generalizability", "weight": 1.0} -->
 
 4k Algorithm ‣ 3 Problem Formulation: Powered Descent Guidance ‣ Improving Computational Efficiency for Powered Descent Guidance via Transformer-based Tight Constraint Prediction")-4l Algorithm ‣ 3 Problem Formulation: Powered Descent Guidance ‣ Improving Computational Efficiency for Powered Descent Guidance via Transformer-based Tight Constraint Prediction")) and pointing angle constraint (Eqn. 4h Algorithm ‣ 3 Problem Formulation: Powered Descent Guidance ‣ Improving Computational Efficiency for Powered Descent Guidance via Transformer-based Tight Constraint Prediction")) are the next most often occurring tight constraint, often occurring at the start or end of a trajectory. For the optimal final time NN, the color scale corresponds to the rounded optimal final time value.
 
-<!-- chunk {"id": "body-0070", "role": "body", "section": "Assessment of Interpretability and Generalizability", "weight": 1.0} -->
+<!-- chunk {"id": "body-0065", "role": "body", "section": "Assessment of Interpretability and Generalizability", "weight": 1.0} -->
 
 In observing both the training (Figure 6) and test datasets (Figure 9), similar structures are evident not only between these datasets but also between the tight constraints and final time transformers. Each t-SNE projection displays a two-lobe formation, indicating distinct or predominant divisions within the dataset. In the tight constraints NN, one lobe is characterized by a near absence of active constraints, depicted in dark purple. In the final time NN, the corresponding dark purple lobe in the final time NN represents data with very short optimal final times (less than 55 seconds). These lobes are distinctly separated from other data regions in the embedding space, highlighting a clear classification by both NNs of problems with fewer constraints and shorter final times. The second lobe in the tight constraints NN predominantly features medium to highly constrained samples, shown in shades of blue, green, and yellow. These samples appear to be regularly spaced in both the training dataset and test dataset. These samples are regularly spaced in both the training and test datasets, suggesting that medium to highly-constrained problems are not distinctly separated in the embedding space.
 
-<!-- chunk {"id": "body-0071", "role": "body", "section": "Assessment of Interpretability and Generalizability", "weight": 1.0} -->
+<!-- chunk {"id": "body-0066", "role": "body", "section": "Assessment of Interpretability and Generalizability", "weight": 1.0} -->
 
 However, this pattern's consistency across both the training and test datasets implies that this lack of distinct separation may not adversely impact the generalizability of the tight constraints NN. Since the coloring only indicates the total number of active constraints and not the type or exact values of the active constraints, this other embedding space lobe cannot be fully interpreted in terms of its separability for medium to highly constrained problems. In the final time NN, the second lobe exhibits more defined structures. Here, samples with longer optimal final times (light green to yellow) cluster towards the center, while those with medium to lower final times (dark purple to blue) are found around the lobe's edges. Since this phenomenon occurs in both the training and test datasets, generalizability of the final time NN remains likely high.
 
-<!-- chunk {"id": "body-0072", "role": "body", "section": "Assessment of Interpretability and Generalizability", "weight": 1.0} -->
+<!-- chunk {"id": "body-0067", "role": "body", "section": "Assessment of Interpretability and Generalizability", "weight": 1.0} -->
 
 Overall, the t-SNE visualizations demonstrate matching structures in the embedding spaces of training and test datasets. Notably, the dual-lobe structure is a common feature in both the tight constraints and optimal final time NNs, suggesting a coherent and interpretable pattern in the model's learning and prediction process.
 
-<!-- chunk {"id": "body-0073", "role": "body", "section": "Future Directions", "weight": 1.0} -->
+<!-- chunk {"id": "body-0068", "role": "body", "section": "Future Directions", "weight": 1.0} -->
 
-Transfer learning: We believe that there is significant potential in using a pre-trained transformer on a simpler convex problem, such as LCvx, then fine-tuning it for more complex nonconvex optimization problems. This transfer learning approach could boost the learning efficiency and performance of T-PDG, especially when the training data for the complex problem is scarce or hard to collect. Furthermore, a fine-tuned T-PDG may be used for new mission designs or changes to the chosen set of parameters for the parametric optimization problem. Previous applications of pre-trained transformer architectures in long-term forecasting have been shown to maintain low MSE when transferred between other datasets. This indicates T-PDG's potential to adapt well to transfer learning approaches to further improve generalizability.
+While the results obtained for T-PDG are promising for improving both computational efficiency and interpretability of the powered descent guidance problem, several future directions can be explored further: Transfer learning: We believe that there is significant potential in using a pre-trained transformer on a simpler convex problem, such as LCvx, then fine-tuning it for more complex nonconvex optimization problems. This transfer learning approach could boost the learning efficiency and performance of T-PDG, especially when the training data for the complex problem is scarce or hard to collect. Furthermore, a fine-tuned T-PDG may be used for new mission designs or changes to the chosen set of parameters for the parametric optimization problem. Previous applications of pre-trained transformer architectures in long-term forecasting have been shown to maintain low MSE when transferred between other datasets. This indicates T-PDG's potential to adapt well to transfer learning approaches to further improve generalizability.
 
-<!-- chunk {"id": "body-0074", "role": "body", "section": "Future Directions", "weight": 1.0} -->
+<!-- chunk {"id": "body-0069", "role": "body", "section": "Future Directions", "weight": 1.0} -->
 
 Multi-task learning: While the constraints prediction and final time prediction NNs were trained separately to ensure that the loss function was not dominated by one task, they could potentially be trained together in a multi-task learning setup. This could enforce a shared representation learning which could potentially increase the performance of each task. From the t-SNE plots in Figure 6 and Figure 9, similar structures appear in the embedding space for both NNs, indicating a similar representation for both tasks.
 
-<!-- chunk {"id": "body-0075", "role": "body", "section": "Future Directions", "weight": 1.0} -->
+<!-- chunk {"id": "body-0070", "role": "body", "section": "Future Directions", "weight": 1.0} -->
 
 Active learning: An active learning approach could be adopted to iteratively add more complex samples to the training set. This can help in learning a more robust and generalized model. Since multiple similar powered descent guidance problems are often solved during analysis and operation, active learning frameworks provide the potential to incorporate these new samples into the current learned representation.
 
-<!-- chunk {"id": "body-0076", "role": "body", "section": "Future Directions", "weight": 1.0} -->
+<!-- chunk {"id": "body-0071", "role": "body", "section": "Future Directions", "weight": 1.0} -->
 
 Extended application: The current study only considers a LCvx Mars rocket landing problem, but T-PDG could be applied to other powered descent guidance problems, as well as to ascents, aborts, and nonconvex optimization problems.
 
-<!-- chunk {"id": "body-0077", "role": "body", "section": "Future Directions", "weight": 1.0} -->
+<!-- chunk {"id": "body-0072", "role": "body", "section": "Future Directions", "weight": 1.0} -->
 
 In-depth interpretability study: Although we offer an interpretability analysis based on t-SNE visualization, further t-SNE analyses could be conducted to better understand the type of constraints activated within each cluster. Discoveries in explainable tight constraint prediction may also contribute to uncovering foundational theories in optimization for powered descent guidance.
 
-<!-- chunk {"id": "body-0078", "role": "body", "section": "Conclusion", "weight": 1.5} -->
+<!-- chunk {"id": "body-0073", "role": "body", "section": "Conclusion", "weight": 1.5} -->
 
 This work presents T-PDG, a transformer-based approach to predict the solution of LCvx problems for real-time powered descent guidance. By leveraging the attention mechanism of transformer neural networks, T-PDG enables the millisecond-level prediction of optimal strategies which reduce the average runtime of the LCvx from over 1.5 seconds to under 500 milliseconds. Moreover, T-PDG ensures the feasibility of the final solution through a feasibility check and worst-case full solve. T-PDG was applied to a Mars rocket landing problem, offering a 78% reduction in computation time, when compared to the LCvx algorithm, while retaining 100% feasibility. In addition, the transformer-based approach exhibits promising interpretability and generalizability, as illustrated by the t-SNE visualizations of the models' embedding space. The algorithm is generalizable to any optimization problem in which a feasible solution exists and no custom codes were required to improve computational efficiency. T-PDG represents a near-term implementable algorithm capable of enabling real-time trajectory generation on flight-grade processors.
 
-<!-- chunk {"id": "body-0079", "role": "body", "section": "Conclusion", "weight": 1.5} -->
+<!-- chunk {"id": "body-0074", "role": "body", "section": "Conclusion", "weight": 1.5} -->
 
 Future work will focus on extending the application of T-PDG to more complex scenarios, including nonconvex problems in 6 DoF with nonlinear drag and gravity terms.

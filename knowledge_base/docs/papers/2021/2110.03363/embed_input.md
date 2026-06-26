@@ -54,29 +54,19 @@ We consider control obtained by model-based planning that refines initial action
 
 <!-- chunk {"id": "body-0014", "role": "body", "section": "Model predictive control (MPC) for behavior generation", "weight": 1.0} -->
 
-Given: Randomly initialized proposal πθ, (pre-trained or random) model mϕ, random critic Qψ, optionally (pre-trained or random) task-agnostic proposal ρω. // Modules to be learned
-Given: Known reward r, planning probability pp l a n, replay buffer ℬ, MPO loss weight α, BC loss weight β, learning rates &amp; optimizers (ADAM) for the different modules. // Known modules and parameters
+Given: Randomly initialized proposal πθ, (pre-trained or random) model mϕ, random critic Qψ, optionally (pre-trained or random) task-agnostic proposal ρω. // Modules to be learned Given: Known reward r, planning probability pp l a n, replay buffer ℬ, MPO loss weight α, BC loss weight β, learning rates & optimizers (ADAM) for the different modules. // Known modules and parameters // MPC loop – Asynchronously on the actors Initialize ENV and observe state s0. while episode is not terminated do // Choose between planner and proposal action depending on pp l a n // Use mixture of (pre-trained) task-agnostic proposal (ρω) and learned proposal (πθ) as proposal for proposal transfer exps (Sec. 5.4). Use pre-trained model for model transfer exps (Sec. 5.3).
 
 <!-- chunk {"id": "body-0015", "role": "body", "section": "Model predictive control (MPC) for behavior generation", "weight": 1.0} -->
 
-// MPC loop – Asynchronously on the actors
-Initialize ENV and observe state s0. while episode is not terminated do
-// Choose between planner and proposal action depending on pp l a n
-// Use mixture of (pre-trained) task-agnostic proposal (ρω) and learned proposal (πθ) as proposal for proposal transfer exps (Sec. 5.4). Use pre-trained model for model transfer exps (Sec. 5.3).
+$a_{t} \sim \left\{ \begin{array}{llc} {\text{PLANNER}{(s_{t},\pi_{\theta},m_{\phi},r,V_{\psi})}} & {{\text{if~}x} \leq p_{plan}} & \\{\pi_{\theta}{(s_{t})}} & \text{otherwise.} & \end{array} \right.$ where x ∼ U Step ENV(st, at) → (st + 1, rt) and write transition to replay buffer ℬ // Asynchronously on the learner Sample batch B of trajectories, each of sequence length T from the replay buffer ℬ Update action-value function Qψ based on B using Retrace.
 
 <!-- chunk {"id": "body-0016", "role": "body", "section": "Model predictive control (MPC) for behavior generation", "weight": 1.0} -->
 
-// Asynchronously on the learner
-Sample batch B of trajectories, each of sequence length T from the replay buffer ℬ
-Update action-value function Qψ based on B using Retrace.
-Update model mϕ based on B using multi-step loss in Equation 20 (Sec. 4.2)
-Update proposal πθ based on B using Equation 4 (Sec. 4.3)
-Optionally, for from-scratch experiments, update task-agnostic proposal ρω using behavioural cloning (Equation 1) on transitions in B.
-Algorithm 1 Agent combining MPC with model-free RL
+Update model mϕ based on B using multi-step loss in Equation 20 (Sec. 4.2) Update proposal πθ based on B using Equation 4 (Sec. 4.3) Optionally, for from-scratch experiments, update task-agnostic proposal ρω using behavioural cloning (Equation 1) on transitions in B. Algorithm 1 Agent combining MPC with model-free RL The PLANNER subroutine takes in the current state $s_{t}$, the proposal $\pi_{\theta}$ (with parameters $\theta$), a model $m_{\phi}$ (with parameters $\phi$) that predicts next state $s_{t + 1}$ given current state $s_{t}$ and action $a_{t}$, the known reward function $r{(s_{t},a_{t},s_{t + 1})}$. Optionally, a learned state-value function $V_{\psi}{(s)}$ (with parameters $\psi$) that predicts the expected return from state $s$ can be provided.
 
 <!-- chunk {"id": "body-0017", "role": "body", "section": "Model predictive control (MPC) for behavior generation", "weight": 1.0} -->
 
-The PLANNER subroutine takes in the current state $s_{t}$, the proposal $\pi_{\theta}$ (with parameters $\theta$), a model $m_{\phi}$ (with parameters $\phi$) that predicts next state $s_{t + 1}$ given current state $s_{t}$ and action $a_{t}$, the known reward function $r{(s_{t},a_{t},s_{t + 1})}$. Optionally, a learned state-value function $V_{\psi}{(s)}$ (with parameters $\psi$) that predicts the expected return from state $s$ can be provided. While we consider sample based planners, primarily a Sequential Monte Carlo based non-iterative planner (SMC, Alg. 2) and the Cross-Entropy Method (CEM, Alg. 3), other planners could be used. See Sec. B of the supplement for more details.
+While we consider sample based planners, primarily a Sequential Monte Carlo based non-iterative planner (SMC, Alg. 2) and the Cross-Entropy Method (CEM, Alg. 3), other planners could be used. See Sec. B of the supplement for more details.
 
 <!-- chunk {"id": "body-0018", "role": "body", "section": "Model predictive control (MPC) for behavior generation", "weight": 1.0} -->
 
@@ -108,23 +98,23 @@ And let $\mathcal{D}_{\pi_{\mathcal{B}}}$ be a dataset of states and actions col
 
 <!-- chunk {"id": "body-0025", "role": "body", "section": "Learning proposal distributions", "weight": 1.0} -->
 
-i.e. the proposal is learned by amortizing the planner via behavioral cloning of the planner actions.
+We can then improve our proposal by minimizing the KL divergence ${\mathbb{E}}_{s \in \mathcal{D}_{{\overset{\sim}{\pi}}_{\mathcal{B}}}}{\lbrack KL{({\overset{\sim}{\pi}}_{\mathcal{B}}{(\cdot |s)}|\pi_{\theta}{(\cdot |s)})}\rbrack}$ which leads to an improving average proposal over time, and is equivalent to maximizing: i.e. the proposal is learned by amortizing the planner via behavioral cloning of the planner actions.
 
 <!-- chunk {"id": "body-0026", "role": "body", "section": "Learning proposal distributions", "weight": 1.0} -->
 
-Unfortunately, in cases where the planner cannot find an improvement on the proposal (as is the case for random proposals in our experiments), the above objective may lead to premature convergence at sub-optimal behavior (see e.g. Wang & Ba ). To ameliorate this issue, we can consider hybrid updates that both amortize the planner, but also directly favor actions that lead to an improvement in terms of cumulative return via an off-policy RL policy update. We will use the MPO algorithm, although other recent RL algorithms could be used instead. More precisely, the MPO policy improvement step involves using a learned action-value function ${Q^{\pi_{\theta}}{(s,a)}} \approx {{\mathbb{E}}_{\pi_{\theta}}{\lbrack{{\left. {\sum_{t}{\gamma^{t}r_{t}{(s_{t},a_{t})}}} \middle| s_{0} \right.
+Unfortunately, in cases where the planner cannot find an improvement on the proposal (as is the case for random proposals in our experiments), the above objective may lead to premature convergence at sub-optimal behavior (see e.g. Wang & Ba). To ameliorate this issue, we can consider hybrid updates that both amortize the planner, but also directly favor actions that lead to an improvement in terms of cumulative return via an off-policy RL policy update. We will use the MPO algorithm, although other recent RL algorithms could be used instead. More precisely, the MPO policy improvement step involves using a learned action-value function ${Q^{\pi_{\theta}}{(s,a)}} \approx {{\mathbb{E}}_{\pi_{\theta}}{\lbrack{{\left. {\sum_{t}{\gamma^{t}r_{t}{(s_{t},a_{t})}}} \middle| s_{0} \right.
 
 <!-- chunk {"id": "body-0027", "role": "body", "section": "Learning proposal distributions", "weight": 1.0} -->
 
-It is known that the solution of this optimization is given in closed form as ${q{(\left. a \middle| s \right.)}} \propto {\pi_{\theta}{(\left. a \middle| s \right.)}{\exp{({{Q^{\pi_{\theta}}{(s,a)}}/\eta})}}}$, where $\eta$ is a dual variable optimized such that the KL-constraint on the policy is fulfilled.
+= s},{a_{0} = a}}\rbrack}}$, and optimizing the KL constrained RL objective: It is known that the solution of this optimization is given in closed form as ${q{(\left. a \middle| s \right.)}} \propto {\pi_{\theta}{(\left. a \middle| s \right.)}{\exp{({{Q^{\pi_{\theta}}{(s,a)}}/\eta})}}}$, where $\eta$ is a dual variable optimized such that the KL-constraint on the policy is fulfilled.
 
 <!-- chunk {"id": "body-0028", "role": "body", "section": "Learning proposal distributions", "weight": 1.0} -->
 
-where $\pi_{\theta^{\prime}}$ is the last reference policy (fixed for this optimization). In practice MPO uses an additional trust-region constraint to stabilize learning. We can combine the two objectives (Eqns. 1 and 3) for improving the proposal via a simple weighting to obtain the complete objective
+We can fit this off-policy improved policy by minimizing the KL divergence ${\mathbb{E}}_{s \in \mathcal{D}_{{\overset{\sim}{\pi}}_{\mathcal{B}}}}{\lbrack KL{(q{(\cdot |s)}|\pi_{\theta}{(\cdot |s)})}\rbrack}$ which is equivalent to maximizing the weighted log-likelihood: where $\pi_{\theta'}$ is the last reference policy (fixed for this optimization). In practice MPO uses an additional trust-region constraint to stabilize learning. We can combine the two objectives (Eqns. 1 and 3) for improving the proposal via a simple weighting to obtain the complete objective The full agent showing the actor and learner loops is shown in Alg. 1 for behavior generation ‣ 4 Method ‣ Evaluating model-based planning and planner amortization for continuous control").
 
 <!-- chunk {"id": "body-0029", "role": "body", "section": "Learning proposal distributions", "weight": 1.0} -->
 
-The full agent showing the actor and learner loops is shown in Alg. 1 for behavior generation ‣ 4 Method ‣ Evaluating model-based planning and planner amortization for continuous control"). In our experiments we compare several variants corresponding to different choices of $p_{plan}$, $\alpha$ and $\beta$.
+In our experiments we compare several variants corresponding to different choices of $p_{plan}$, $\alpha$ and $\beta$.
 
 <!-- chunk {"id": "body-0030", "role": "body", "section": "Evaluating pre-trained models and proposals", "weight": 1.0} -->
 
@@ -144,72 +134,68 @@ When planning with the pre-trained task-agnostic proposal instead, the performan
 
 <!-- chunk {"id": "body-0034", "role": "body", "section": "Leveraging MPC with a learned model and proposal", "weight": 1.0} -->
 
-Next, we evaluate different approaches to learning a proposal from scratch for MPC based on the approach discussed in Sec. 4.3.
+Next, we evaluate different approaches to learning a proposal from scratch for MPC based on the approach discussed in Sec. 4.3. In particular, we consider the following variants: MPO: MPO with a distributional critic similar to Hoffman et al.. Corresponds to ${\alpha = 1},{{\beta = 0},{p_{plan} = 0}}$ from Eqn. 4 and Alg. 1 for behavior generation ‣ 4 Method ‣ Evaluating model-based planning and planner amortization for continuous control"). MPO hyper-parameters are tuned for each task (and listed in supplement).
 
 <!-- chunk {"id": "body-0035", "role": "body", "section": "Leveraging MPC with a learned model and proposal", "weight": 1.0} -->
 
-MPO: MPO with a distributional critic similar to Hoffman et al.. Corresponds to ${\alpha = 1},{{\beta = 0},{p_{plan} = 0}}$ from Eqn. 4 and Alg. 1 for behavior generation ‣ 4 Method ‣ Evaluating model-based planning and planner amortization for continuous control"). MPO hyper-parameters are tuned for each task (and listed in supplement).
+MPC+MPO: MPC to collect data. MPO objective for learning (${\alpha = 1},{{\beta = 0},{p_{plan} = 0.5}}$).
 
 <!-- chunk {"id": "body-0036", "role": "body", "section": "Leveraging MPC with a learned model and proposal", "weight": 1.0} -->
 
-MPC+MPO: MPC to collect data. MPO objective for learning (${\alpha = 1},{{\beta = 0},{p_{plan} = 0.5}}$).
+MPO+BC: Adding MPO and BC objectives (${\alpha = 1},{{\beta > 0},{p_{plan} = 0}}$), where $\beta$ is tuned per task.
 
 <!-- chunk {"id": "body-0037", "role": "body", "section": "Leveraging MPC with a learned model and proposal", "weight": 1.0} -->
 
-MPO+BC: Adding MPO and BC objectives (${\alpha = 1},{{\beta > 0},{p_{plan} = 0}}$), where $\beta$ is tuned per task.
+MPC+MPO+BC: MPC to collect data. Combined MPO+BC objective (${\alpha = 1},{{\beta > 0},{p_{plan} = 0.5}}$).
 
 <!-- chunk {"id": "body-0038", "role": "body", "section": "Leveraging MPC with a learned model and proposal", "weight": 1.0} -->
 
-MPC+MPO+BC: MPC to collect data. Combined MPO+BC objective (${\alpha = 1},{{\beta > 0},{p_{plan} = 0.5}}$).
+The model is trained from scratch for the MPC variants (see Sec. 4.2). We choose $p_{plan} = 0.5$ for all our MPC experiments as it worked better than $p_{plan} = 1.0$, and use 250 samples and a planning horizon of 10 for SMC (see supplement for ablations). We tune the BC objective weight $\beta$ per task.
 
 <!-- chunk {"id": "body-0039", "role": "body", "section": "Leveraging MPC with a learned model and proposal", "weight": 1.0} -->
 
-The model is trained from scratch for the MPC variants (see Sec. 4.2). We choose $p_{plan} = 0.5$ for all our MPC experiments as it worked better than $p_{plan} = 1.0$, and use 250 samples and a planning horizon of 10 for SMC (see supplement for ablations). We tune the BC objective weight $\beta$ per task.
+We also tested our approach on simpler forward and backward walking tasks for both the Ant and OP3 bodies. Figure 2 (right column) shows the results from the backward walking tasks. For the Ant (top row), MPC+MPO significantly outperforms MPO early on during training but reaches similar asymptotic performance while for the OP3 (bottom row) the difference between MPO and MPC+MPO is small throughout training. Interestingly, on these simpler tasks the proposal for MPC+MPO matches the actor performance and the addition of the BC objective results only in minor performance improvements. We posit that a well-tuned implementation of the model-free MPO baseline achieves near-optimal performance on these tasks and provides a strong baseline that is hard to beat both in terms of data efficiency and performance even with the true reward function and bootstrapping with a learned critic. We present forward walking results showing similar trends in the supplement where we also describe experiment setup and hyperparameters in detail. Lastly, since the BC objective substantially improves results for both MPO and MPC+MPO we use the BC variants in all further experiments. Videos of learned behaviors can be seen at our website.
 
 <!-- chunk {"id": "body-0040", "role": "body", "section": "Leveraging MPC with a learned model and proposal", "weight": 1.0} -->
 
-We also tested our approach on simpler forward and backward walking tasks for both the Ant and OP3 bodies. Figure 2 (right column) shows the results from the backward walking tasks. For the Ant (top row), MPC+MPO significantly outperforms MPO early on during training but reaches similar asymptotic performance while for the OP3 (bottom row) the difference between MPO and MPC+MPO is small throughout training. Interestingly, on these simpler tasks the proposal for MPC+MPO matches the actor performance and the addition of the BC objective results only in minor performance improvements. We posit that a well-tuned implementation of the model-free MPO baseline achieves near-optimal performance on these tasks and provides a strong baseline that is hard to beat both in terms of data efficiency and performance even with the true reward function and bootstrapping with a learned critic. We present forward walking results showing similar trends in the supplement where we also describe experiment setup and hyperparameters in detail. Lastly, since the BC objective substantially improves results for both MPO and MPC+MPO we use the BC variants in all further experiments. Videos of learned behaviors can be seen at our website.
-
-<!-- chunk {"id": "body-0041", "role": "body", "section": "Leveraging MPC with a learned model and proposal", "weight": 1.0} -->
-
 Ablations: We additionally ran several experiments ablating our design choices. The results of these experiments can be found in the supplement. Figure 7 and Figure 8 show the results of varying $p_{plan}$ as well as the number of samples used by the planner and the planning horizon, respectively. In Figure 9 we show the effect of bootstrapping with the learned value function within MPC. Figure 14 and Figure 15 compare deterministic models with PETS-style stochastic models in our setting. Furthermore, in Figure 16 we report results using ensembles rather than a single model. Finally, Figure 17 shows results on the walker and humanoid tasks in the DeepMind Control Suite.
 
-<!-- chunk {"id": "body-0042", "role": "body", "section": "Model transfer", "weight": 1.0} -->
+<!-- chunk {"id": "body-0041", "role": "body", "section": "Model transfer", "weight": 1.0} -->
 
 In this section, we study how well models can transfer between tasks. We first explore to what extent a learned model can boost performance on a complex task. As a control experiment we transfer learned models from the OP3 GTTP task to the same task. We consider three different settings (in addition to the baseline MPO+BC) where a) no model is transferred and one is trained from scratch on the target task (MPC+MPO+BC), b) the transferred model is finetuned on the target task (MPC+MPO+BC+Finetune) and c) the transferred model is kept frozen throughout training on the target task (MPC+MPO+BC+Frozen). In this experiment (Figure 3 left column, solid lines) we find little improvements in learning speed or asymptotic performance when transferring a model vs learning from scratch. Transferring a frozen model (which can fail to generalize to out of distribution data) performs slightly worse vs finetuning the transferred model. This trend also holds in other transfer settings such as transferring models from the forward walking task to GTTP and transferring from the GTTP task to backward walking (Figure 3, center/right column, respectively, solid lines).
 
-<!-- chunk {"id": "body-0043", "role": "body", "section": "Model transfer", "weight": 1.0} -->
+<!-- chunk {"id": "body-0042", "role": "body", "section": "Model transfer", "weight": 1.0} -->
 
 While this result is perhaps surprising, it does agree with our initial investigation of planning with learned models (Table 1) where we saw poor performance on all our tasks without a good proposal for the planner to leverage. Transferring a good model still does not solve the initial exploration problem, especially on the harder tasks. Videos of learned behaviors can be seen here.
 
-<!-- chunk {"id": "body-0044", "role": "body", "section": "Proposal (and model) transfer", "weight": 1.0} -->
+<!-- chunk {"id": "body-0043", "role": "body", "section": "Proposal (and model) transfer", "weight": 1.0} -->
 
 In addition to transferring learned models across tasks we also consider transferring learned proposals. On each source task we train a proposal that is dependent only on proprioceptive information and lacks task-specific information (similar to the one used in subsection 5.1) and can thus be freely transferred across tasks. As a simple approach to transfer a pre-trained proposal we used it for action generation while keeping the learning objective unchanged. Concretely, we use a mixture of the reloaded proposal from a source task and the learned proposal on the target task as our proposal distribution ($\pi_{\theta}$) for the MPC loop in algorithm 1 for behavior generation ‣ 4 Method ‣ Evaluating model-based planning and planner amortization for continuous control"). The mixture weight of the reloaded proposal is annealed linearly from 1 to 0 in a fixed number of learning steps (tuned per task); see Sec. E.3 of the supplementary material for further details.
 
-<!-- chunk {"id": "body-0045", "role": "body", "section": "Proposal (and model) transfer", "weight": 1.0} -->
+<!-- chunk {"id": "body-0044", "role": "body", "section": "Proposal (and model) transfer", "weight": 1.0} -->
 
 Again, we first transfer the proposal trained on the GTTP task to the same task (Figure 3, left column, dashed lines). Transferring the proposal leads to faster learning for both MPO+BC and MPC+MPO+BC as well as to a smaller extent, better asymptotic performance. Transferring the model and proposal together (MPC+MPO+BC+Finetune, MPC+MPO+BC+Frozen) does not lead to any additional improvements, further strengthening our intuitions from the model transfer experiments.
 
-<!-- chunk {"id": "body-0046", "role": "body", "section": "Proposal (and model) transfer", "weight": 1.0} -->
+<!-- chunk {"id": "body-0045", "role": "body", "section": "Proposal (and model) transfer", "weight": 1.0} -->
 
 Next we transfer proposals between different source and target tasks, which yielded some nuanced insights into the need for compatibility of the tasks. Figure 3 (center column, dashed lines) shows the results when transferring a proposal from the forward walking task to the GTTP task and Figure 3 (right column, dashed lines) presents proposal transfer results from the GTTP task to backward walking. Interestingly, proposal transfer hurts both MPC+MPO+BC and MPO+BC in both these cases, especially for the high-dimensional OP3, leading to slower learning and lower final performance on both the target tasks. These results provide complementary insights regarding proposal transfer: there should be good overlap between the data distributions of the source and target tasks for proposal transfer to succeed. This is not the case in these transfer experiments; forward walking has a very narrow goal distribution compared to GTTP making the resulting proposal far too peaked, and while a proposal from the GTTP task would be quite broad (see supplementary video for some trajectory rollouts) it is highly unlikely to capture the behavior of walking backwards.
 
-<!-- chunk {"id": "body-0047", "role": "body", "section": "Proposal (and model) transfer", "weight": 1.0} -->
+<!-- chunk {"id": "body-0046", "role": "body", "section": "Proposal (and model) transfer", "weight": 1.0} -->
 
 Overall, these results provide encouragement that combining the right proposal, potentially trained on a diverse set of tasks, together with model-based planning can lead to efficient and performant learning on downstream tasks. For more transfer results and plots showing amortized policy performance see the supplement.
 
-<!-- chunk {"id": "body-0048", "role": "body", "section": "Discussion", "weight": 1.5} -->
+<!-- chunk {"id": "body-0047", "role": "body", "section": "Discussion", "weight": 1.5} -->
 
 Our initial experiments highlighted that a good dynamics model is not enough to solve challenging locomotion tasks with model predictive control when computation time is limited, especially in tasks with high task and control complexity. In such settings a good proposal is necessary to guide the planner. Motivated by this finding we study different approaches to learning proposals for MPC, considering variants that combine the learning objective from MPO, a model-free RL algorithm, together with a behavioral cloning objective for efficient planner amortization. We also evaluate transfer performance across tasks where either the proposal, learned model, or both are transferred. Overall our results show that for the locomotion domains considered in this paper, MPC with a learned model and proposal can yield modest improvements in data efficiency relative to well-tuned model-free baselines. We found that the gains are larger as task and control complexity increase. On simpler walking tasks we saw very small improvements that are further diminished if an amortized policy is desired at test time. On our most challenging task, the OP3 go to target pose task, we see both significantly faster learning speed and improved asymptotic performance.
 
-<!-- chunk {"id": "body-0049", "role": "body", "section": "Discussion", "weight": 1.5} -->
+<!-- chunk {"id": "body-0048", "role": "body", "section": "Discussion", "weight": 1.5} -->
 
 A common justification for model-based approaches is the intuition that models can more easily transfer to related tasks since the dynamics of a body are largely task independent. We attempted to validate this intuition but had difficulty achieving large gains in data efficiency even when transferring to the same task. We speculate that this finding is related to the difficulty of planning with a limited search budget in a multi-goal/multi-task setting even with a near perfect model. If the overall system is limited by the lack of a good proposal then model transfer by itself may have a negligible effect. When transferring models and proposals to new simpler tasks we also did not find substantial benefits. There are a number of other potential pitfalls in this setting in addition to the lack of a good proposal. If a proposal leads to trajectories that are inconsistent with the state distribution on which the model was trained, MPC may add little value. As we observed when transferring from the go-to-target-pose tasks to walking backwards, an unsuitable proposal may limit asymptotic performance. Additionally, on tasks with fairly narrow goal distributions a well-tuned model-free method can perform just as well as a model-based agent.
 
-<!-- chunk {"id": "body-0050", "role": "body", "section": "Discussion", "weight": 1.5} -->
+<!-- chunk {"id": "body-0049", "role": "body", "section": "Discussion", "weight": 1.5} -->
 
 This suggests tasks with multi-task/multi-goal settings provide a good test bed to showcase the strengths of model-based approaches and aid further research.
 
-<!-- chunk {"id": "body-0051", "role": "body", "section": "Discussion", "weight": 1.5} -->
+<!-- chunk {"id": "body-0050", "role": "body", "section": "Discussion", "weight": 1.5} -->
 
 On the whole, the gains from MPC with learned models in our setting are meaningful, but not so dramatic as to be a silver bullet, a finding similar to Springenberg et al.; Hamrick et al.. This paper focused on learning complex locomotion tasks from state features, using a structured dynamics model as well as focusing on MPC as the way to leverage the model. There are a number of additional settings where models can be used differently and may aid transfer. For example, in partially observed tasks with pixel observations, transferring models and representations may lead to improvements in data efficiency.

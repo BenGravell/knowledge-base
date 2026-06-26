@@ -88,39 +88,39 @@ To aid the network in this matching process, we introduce a 'correlation layer' 
 
 <!-- chunk {"id": "body-0022", "role": "body", "section": "Convolutional Networks", "weight": 1.0} -->
 
-For now we consider only a single comparison of two patches. The 'correlation' of two patches centered at $\mathbf{x}_{1}$ in the first map and $\mathbf{x}_{2}$ in the second map is then defined as
+For now we consider only a single comparison of two patches. The 'correlation' of two patches centered at $\mathbf{x}_{1}$ in the first map and $\mathbf{x}_{2}$ in the second map is then defined as for a square patch of size $K:={{2k} + 1}$. Note that Eq. 1 is identical to one step of a convolution in neural networks, but instead of convolving data with a filter, it convolves data with other data. For this reason, it has no trainable weights.
 
 <!-- chunk {"id": "body-0023", "role": "body", "section": "Convolutional Networks", "weight": 1.0} -->
 
-for a square patch of size $K:={{2k} + 1}$. Note that Eq. 1 is identical to one step of a convolution in neural networks, but instead of convolving data with a filter, it convolves data with other data. For this reason, it has no trainable weights.
+Computing $c{(\mathbf{x}_{1},\mathbf{x}_{2})}$ involves $c \cdot K^{2}$ multiplications. Comparing all patch combinations involves $w^{2} \cdot h^{2}$ such computations, yields a large result and makes efficient forward and backward passes intractable. Thus, for computational reasons we limit the maximum displacement for comparisons and also introduce striding in both feature maps.
 
 <!-- chunk {"id": "body-0024", "role": "body", "section": "Convolutional Networks", "weight": 1.0} -->
 
-Computing $c{(\mathbf{x}_{1},\mathbf{x}_{2})}$ involves $c \cdot K^{2}$ multiplications. Comparing all patch combinations involves $w^{2} \cdot h^{2}$ such computations, yields a large result and makes efficient forward and backward passes intractable. Thus, for computational reasons we limit the maximum displacement for comparisons and also introduce striding in both feature maps.
+Given a maximum displacement $d$, for each location $\mathbf{x}_{1}$ we compute correlations $c{(\mathbf{x}_{1},\mathbf{x}_{2})}$ only in a neighborhood of size $D:={{2d} + 1}$, by limiting the range of $\mathbf{x}_{2}$. We use strides $s_{1}$ and $s_{2}$, to quantize $\mathbf{x}_{1}$ globally and to quantize $\mathbf{x}_{2}$ within the neighborhood centered around $\mathbf{x}_{1}$.
 
 <!-- chunk {"id": "body-0025", "role": "body", "section": "Convolutional Networks", "weight": 1.0} -->
 
-Given a maximum displacement $d$, for each location $\mathbf{x}_{1}$ we compute correlations $c{(\mathbf{x}_{1},\mathbf{x}_{2})}$ only in a neighborhood of size $D:={{2d} + 1}$, by limiting the range of $\mathbf{x}_{2}$. We use strides $s_{1}$ and $s_{2}$, to quantize $\mathbf{x}_{1}$ globally and to quantize $\mathbf{x}_{2}$ within the neighborhood centered around $\mathbf{x}_{1}$.
-
-<!-- chunk {"id": "body-0026", "role": "body", "section": "Convolutional Networks", "weight": 1.0} -->
-
 In theory, the result produced by the correlation is four-dimensional: for every combination of two 2D positions we obtain a correlation value, i.e. the scalar product of the two vectors which contain the values of the cropped patches respectively. In practice we organize the relative displacements in channels. This means we obtain an output of size $({w \times h \times D^{2}})$. For the backward pass we implemented the derivatives with respect to each bottom blob accordingly.
 
-<!-- chunk {"id": "body-0027", "role": "body", "section": "Refinement", "weight": 1.0} -->
+<!-- chunk {"id": "body-0026", "role": "body", "section": "Refinement", "weight": 1.0} -->
 
 CNNs are good at extracting high-level abstract features of images, by interleaving convolutional layers and pooling, i.e. spatially shrinking the feature maps. Pooling is necessary to make network training computationally feasible and, more fundamentally, to allow aggregation of information over large areas of the input images. However, pooling results in reduced resolution, so in order to provide dense per-pixel predictions we need a way to refine the coarse pooled representation.
 
-<!-- chunk {"id": "body-0028", "role": "body", "section": "Refinement", "weight": 1.0} -->
+<!-- chunk {"id": "body-0027", "role": "body", "section": "Refinement", "weight": 1.0} -->
 
 Our approach to this refinement is depicted in Figure 3. The main ingredient are 'upconvolutional' layers, consisting of unpooling (extending the feature maps, as opposed to pooling) and a convolution. Such layers have been used previously. To perform the refinement, we apply the 'upconvolution' to feature maps, and concatenate it with corresponding feature maps from the 'contractive' part of the network and an upsampled coarser flow prediction (if available). This way we preserve both the high-level information passed from coarser feature maps and fine local information provided in lower layer feature maps. Each step increases the resolution twice. We repeat this $4$ times, resulting in a predicted flow for which the resolution is still $4$ times smaller than the input.
 
-<!-- chunk {"id": "body-0029", "role": "body", "section": "Refinement", "weight": 1.0} -->
+<!-- chunk {"id": "body-0028", "role": "body", "section": "Refinement", "weight": 1.0} -->
 
 We discover that further refinement from this resolution does not significantly improve the results, compared to a computationally less expensive bilinear upsampling to full image resolution. The result of this bilinear upsampling is the final flow predicted by the network.
 
+<!-- chunk {"id": "body-0029", "role": "body", "section": "Refinement", "weight": 1.0} -->
+
+In an alternative scheme, instead of bilinear upsampling we use the variational approach from without the matching term: we start at the $4$ times downsampled resolution and then use the coarse to fine scheme with $20$ iterations to bring the flow field to the full resolution. Finally, we run $5$ more iterations at the full image resolution. We additionally compute image boundaries with the approach from and respect the detected boundaries by replacing the smoothness coefficient by $\alpha = \exp{(- \lambda b{(x,y)}^{\kappa}}$), where $b{(x,y)}$ denotes the thin boundary strength resampled at the respective scale and between pixels. This upscaling method is more computationally expensive than simple bilinear upsampling, but adds the benefits of variational methods to obtain smooth and subpixel-accurate flow fields. In the following, we denote the results obtained by this variational refinement with a '+v' suffix. An example of variational refinement can be seen in Fig. 4.
+
 <!-- chunk {"id": "body-0030", "role": "body", "section": "Refinement", "weight": 1.0} -->
 
-In an alternative scheme, instead of bilinear upsampling we use the variational approach from without the matching term: we start at the $4$ times downsampled resolution and then use the coarse to fine scheme with $20$ iterations to bring the flow field to the full resolution. Finally, we run $5$ more iterations at the full image resolution. We additionally compute image boundaries with the approach from and respect the detected boundaries by replacing the smoothness coefficient by $\alpha = \exp{( - \lambda b{(x,y)}^{\kappa}}$), where $b{(x,y)}$ denotes the thin boundary strength resampled at the respective scale and between pixels. This upscaling method is more computationally expensive than simple bilinear upsampling, but adds the benefits of variational methods to obtain smooth and subpixel-accurate flow fields. In the following, we denote the results obtained by this variational refinement with a '+v' suffix. An example of variational refinement can be seen in Fig. 4.
+density per frame Table 1: Size of already available datasets and the proposed Flying Chairs dataset.
 
 <!-- chunk {"id": "body-0031", "role": "body", "section": "Training Data", "weight": 1.0} -->
 

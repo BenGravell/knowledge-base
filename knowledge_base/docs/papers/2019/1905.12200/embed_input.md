@@ -36,11 +36,11 @@ Homology is an algebraic invariant of a topological space, associating a vector 
 
 <!-- chunk {"id": "body-0009", "role": "body", "section": "Topological Preliminaries", "weight": 1.0} -->
 
-As a notational convenience, we will use the same symbol for a $k$-cell $\sigma \in \mathcal{X}$ and the associated basis vector $\sigma \in {C_{k}{(\mathcal{X})}}$. The vector spaces $C_{k}{(\mathcal{X})}$ may be over any field, but for the purposes of determining kernels and images of maps exactly finite fields are preferred -- in practice we use the finite field with two elements, ${{\mathbb{Z}}/2}{\mathbb{Z}}$. Homology in dimension $k$ is defined as the quotient vector space
+As a notational convenience, we will use the same symbol for a $k$-cell $\sigma \in \mathcal{X}$ and the associated basis vector $\sigma \in {C_{k}{(\mathcal{X})}}$. The vector spaces $C_{k}{(\mathcal{X})}$ may be over any field, but for the purposes of determining kernels and images of maps exactly finite fields are preferred -- in practice we use the finite field with two elements, ${{\mathbb{Z}}/2}{\mathbb{Z}}$. Homology in dimension $k$ is defined as the quotient vector space An element of $H_{k}{(\mathcal{X})}$ is called a homology (equivalence) class, and a choice of representative for a class is called a generator. The dimension of $H_{k}{(\mathcal{X})}$ counts the number of $k$-dimensional features of $\mathcal{X}$.
 
 <!-- chunk {"id": "body-0010", "role": "body", "section": "Topological Preliminaries", "weight": 1.0} -->
 
-An element of $H_{k}{(\mathcal{X})}$ is called a homology (equivalence) class, and a choice of representative for a class is called a generator. The dimension of $H_{k}{(\mathcal{X})}$ counts the number of $k$-dimensional features of $\mathcal{X}$. For example, $\dim{H_{0}{(\mathcal{X})}}$ counts the number of connected components, $\dim{H_{1}{(\mathcal{X})}}$ counts the number of holes, and so. Homology is homotopy invariant, meaning that continuous deformations of $\mathcal{X}$ produce the same result.
+For example, $\dim{H_{0}{(\mathcal{X})}}$ counts the number of connected components, $\dim{H_{1}{(\mathcal{X})}}$ counts the number of holes, and so. Homology is homotopy invariant, meaning that continuous deformations of $\mathcal{X}$ produce the same result.
 
 <!-- chunk {"id": "body-0011", "role": "body", "section": "Topological Preliminaries", "weight": 1.0} -->
 
@@ -64,144 +64,140 @@ As a notational convenience, we will order the indexing of points by decreasing 
 
 <!-- chunk {"id": "body-0016", "role": "body", "section": "Topological Preliminaries", "weight": 1.0} -->
 
-As persistence diagrams are a collection of points in ${\mathbb{R}}^{2}$, there are many notions of distances between diagrams and cost functions on diagrams which depend on the points. We use loss functions that can be expressed in terms of three parameters
+As persistence diagrams are a collection of points in ${\mathbb{R}}^{2}$, there are many notions of distances between diagrams and cost functions on diagrams which depend on the points. We use loss functions that can be expressed in terms of three parameters The parameters $p$ and $q$ define a polynomial function, following those introduced. We sum over lifetimes beginning with the $i_{0}$ most persistent point in the diagram. Varying $i_{0}$ for ${PD}_{k}$ varies the number of $k$-dimensional features that are not penalized. For example, if $i_{0} = 2$, with ${PD}_{0}$ we consider all but the most persistent class, promoting a one connected component. Alternatively, using $i_{0} = 2$ with ${PD}_{1}$ will promote one hole. The parameter $p$ can be increased to more strongly penalize the most persistent features, and the parameter $q$ serves to weight features that are prominent later in the filtration.
 
 <!-- chunk {"id": "body-0017", "role": "body", "section": "Topological Preliminaries", "weight": 1.0} -->
 
-The parameters $p$ and $q$ define a polynomial function, following those introduced. We sum over lifetimes beginning with the $i_{0}$ most persistent point in the diagram. Varying $i_{0}$ for ${PD}_{k}$ varies the number of $k$-dimensional features that are not penalized. For example, if $i_{0} = 2$, with ${PD}_{0}$ we consider all but the most persistent class, promoting a one connected component. Alternatively, using $i_{0} = 2$ with ${PD}_{1}$ will promote one hole. The parameter $p$ can be increased to more strongly penalize the most persistent features, and the parameter $q$ serves to weight features that are prominent later in the filtration. We also use the Wasserstein distance between diagrams -- this is defined as the optimal transport distance between the points of the two diagrams. One technicality is that the two diagrams may have different cardinalities, and points may be mapped to the diagonal -- see the supplementary material for details.
+We also use the Wasserstein distance between diagrams -- this is defined as the optimal transport distance between the points of the two diagrams. One technicality is that the two diagrams may have different cardinalities, and points may be mapped to the diagonal -- see the supplementary material for details.
 
 <!-- chunk {"id": "body-0018", "role": "body", "section": "Topological Preliminaries", "weight": 1.0} -->
 
-Differentiation: Given an input filtration $f:{\mathcal{X}\rightarrow{\mathbb{R}}}$, we can compute the gradient of a functional of a persistence diagram $\mathcal{E}{({PD}_{k})}$. The key is to note that each birth-death pair can be mapped to the cells that respectively created and destroyed the homology class, defining an inverse map
+Differentiation: Given an input filtration $f:{\mathcal{X}\rightarrow{\mathbb{R}}}$, we can compute the gradient of a functional of a persistence diagram $\mathcal{E}{({PD}_{k})}$. The key is to note that each birth-death pair can be mapped to the cells that respectively created and destroyed the homology class, defining an inverse map In the case where the ordering on cells is strict, as we previously discussed, the map is unique, and we obtain in which at most one term will have a non-zero indicator. As we will see, many filtrations do not give rise to a strict ordering, because multiple cells can appear at the same parameter value in the filtration. While the persistence diagram is still well-defined, the inverse map 2 may no longer be unique. This can be resolved by extending the total order to a strict order either deterministically or randomly -- see for a formal proof and description of how this can be done.
 
 <!-- chunk {"id": "body-0019", "role": "body", "section": "Topological Preliminaries", "weight": 1.0} -->
 
-In the case where the ordering on cells is strict, as we previously discussed, the map is unique, and we obtain
+As a result, $\partial{\mathcal{E}/{\partial\sigma}}$ should generally be considered as a subgradient, and a choice of strict ordering selects an element in the subgradient.
 
 <!-- chunk {"id": "body-0020", "role": "body", "section": "Topological Preliminaries", "weight": 1.0} -->
 
-in which at most one term will have a non-zero indicator. As we will see, many filtrations do not give rise to a strict ordering, because multiple cells can appear at the same parameter value in the filtration. While the persistence diagram is still well-defined, the inverse map 2 may no longer be unique. This can be resolved by extending the total order to a strict order either deterministically or randomly -- see for a formal proof and description of how this can be done. As a result, $\partial{\mathcal{E}/{\partial\sigma}}$ should generally be considered as a subgradient, and a choice of strict ordering selects an element in the subgradient.
+Filtrations: While general filtrations could be considered for optimization, we will focus on two different kinds of filtrations that are defined by either points or edges in a complex. For simplicity, we now use simplicial complexes, where each cell is a simplex $(v_{0},\ldots,v_{k})$, where each $(v_{j})$ is a 0-cell (point). We will use the subscript notation $\sigma_{i}$ to denote the $i$-skeleton of a simplex, which consists of the $i$-dimensional faces. For instance $\sigma_{0} = {\{{(v_{j})}\mid{v_{j} \in {(v_{0},\ldots,v_{k})} = \sigma}\}}$, and $\sigma_{1}$ consists of all $\binom{k}{2}$ pairs of 0-cells.
 
 <!-- chunk {"id": "body-0021", "role": "body", "section": "Topological Preliminaries", "weight": 1.0} -->
 
-Filtrations: While general filtrations could be considered for optimization, we will focus on two different kinds of filtrations that are defined by either points or edges in a complex. For simplicity, we now use simplicial complexes, where each cell is a simplex $(v_{0},\ldots,v_{k})$, where each $(v_{j})$ is a 0-cell (point). We will use the subscript notation $\sigma_{i}$ to denote the $i$-skeleton of a simplex, which consists of the $i$-dimensional faces. For instance $\sigma_{0} = {\{{(v_{j})}\mid{v_{j} \in {(v_{0},\ldots,v_{k})} = \sigma}\}}$, and $\sigma_{1}$ consists of all $\binom{k}{2}$ pairs of 0-cells.
+First, we consider extensions of filtrations on 0-cells, also known as lower-star filtrations. In particular for sublevel set filtrations, ${f{({(v_{0},\ldots,v_{k})})}} = {{\max_{i = {0,\ldots,k}}f}{({(v_{i})})}}$. This construction is useful for building filtrations on images, where we take $\mathcal{X}$ to be a triangulation of a rectangle with 0-cells defined by the grid of pixels on the image, and $f{({(v_{i})})}$ is the intensity of a color channel at the pixel $(v_{i})$.
 
 <!-- chunk {"id": "body-0022", "role": "body", "section": "Topological Preliminaries", "weight": 1.0} -->
 
-First, we consider extensions of filtrations on 0-cells, also known as lower-star filtrations. In particular for sublevel set filtrations, ${f{({(v_{0},\ldots,v_{k})})}} = {{\max_{i = {0,\ldots,k}}f}{({(v_{i})})}}$. This construction is useful for building filtrations on images, where we take $\mathcal{X}$ to be a triangulation of a rectangle with 0-cells defined by the grid of pixels on the image, and $f{({(v_{i})})}$ is the intensity of a color channel at the pixel $(v_{i})$.
+The second kind of filtration that we consider extends a filtration on the edges of a complex, also called a flag filtration. For sublevel set filtrations, this has the form ${f{({(v_{0},\ldots,v_{k})})}} = {{\max_{{i < j \in 0},{\ldots,k}}f}{({(v_{i},v_{j})})}}$ One example of this is based on pairwise distances of points. The Vietoris-Rips, or Rips, filtration, $\mathcal{R}_{\alpha}$, is the distance-based flag filtration on the clique complex, consisting of all $2^{n}$ possible simplices on the vertex set. Even when limiting the space to simplices below a certain dimension, the Rips filtration can become too large to compute with efficiently. A more tractable complex in low dimensional euclidean space uses the Delaunay triangulation of a point cloud as the underlying space.
 
 <!-- chunk {"id": "body-0023", "role": "body", "section": "Topological Preliminaries", "weight": 1.0} -->
 
-The second kind of filtration that we consider extends a filtration on the edges of a complex, also called a flag filtration. For sublevel set filtrations, this has the form ${f{({(v_{0},\ldots,v_{k})})}} = {{\max_{{i < j \in 0},{\ldots,k}}f}{({(v_{i},v_{j})})}}$ One example of this is based on pairwise distances of points. The Vietoris-Rips, or Rips, filtration, $\mathcal{R}_{\alpha}$, is the distance-based flag filtration on the clique complex, consisting of all $2^{n}$ possible simplices on the vertex set. Even when limiting the space to simplices below a certain dimension, the Rips filtration can become too large to compute with efficiently. A more tractable complex in low dimensional euclidean space uses the Delaunay triangulation of a point cloud as the underlying space.
+We refer to the distance-based flag filtration on this space as the weak Alpha filtration.
 
 <!-- chunk {"id": "body-0024", "role": "body", "section": "Topological Preliminaries", "weight": 1.0} -->
 
-We refer to the distance-based flag filtration on this space as the weak Alpha filtration.
+Computation: We have implemented a PyTorch extension that performs the described differentiation through persistence diagrams, supporting several standard algorithms written in C++. The actual method used to compute persistent homology is largely irrelevant for our purposes, as long as we are able to map points in the persistence diagram back to filtration values of individual cells. While our implementation does not rely on external topology libraries, many existing packages could potentially be used or modified to provide the required information. The original persistence algorithm as well as the cohomology algorithm are based on putting the boundary matrices $\partial_{k}$ in a form which reveals the birth-death pairs. The worst case complexity is known to be equivalent to matrix multiplication in the number of simplices, although sparsity of $\partial_{k}$ typically renders this bound pessimistic. There are many approaches to speeding up calculations in practice, and if only zero-dimensional homology is of interest, then the union-find algorithm typically performs faster. The dependence of number of simplices on the number of points $n$ depends on the construction.
 
 <!-- chunk {"id": "body-0025", "role": "body", "section": "Topological Preliminaries", "weight": 1.0} -->
 
-Computation: We have implemented a PyTorch extension that performs the described differentiation through persistence diagrams, supporting several standard algorithms written in C++. The actual method used to compute persistent homology is largely irrelevant for our purposes, as long as we are able to map points in the persistence diagram back to filtration values of individual cells. While our implementation does not rely on external topology libraries, many existing packages could potentially be used or modified to provide the required information. The original persistence algorithm as well as the cohomology algorithm are based on putting the boundary matrices $\partial_{k}$ in a form which reveals the birth-death pairs. The worst case complexity is known to be equivalent to matrix multiplication in the number of simplices, although sparsity of $\partial_{k}$ typically renders this bound pessimistic. There are many approaches to speeding up calculations in practice, and if only zero-dimensional homology is of interest, then the union-find algorithm typically performs faster. The dependence of number of simplices on the number of points $n$ depends on the construction.
-
-<!-- chunk {"id": "body-0026", "role": "body", "section": "Topological Preliminaries", "weight": 1.0} -->
-
 For example, the Alpha complex may have $O{(n^{d/2})}$ simplices where $d$ is the ambient dimension, whereas the Rips complex may have as many as $O{(n^{k + 1})}$ simplices where $k$ is the maximal dimension homology we consider. However, in practice, the resulting complexes are approximately linear in $n$ for small $d$ and $k$. We note that many improvements to the persistence algorithm have been made with the goal of tackling larger spaces. In contrast, we seek to compute persistence using different filtrations on the same small- to medium-sized space rapidly, which may find different optimizations beneficial, although these considerations are beyond the scope of this work.
 
-<!-- chunk {"id": "body-0027", "role": "body", "section": "Topological Noise Reduction and Regularization", "weight": 1.0} -->
+<!-- chunk {"id": "body-0026", "role": "body", "section": "Topological Noise Reduction and Regularization", "weight": 1.0} -->
 
 We first demonstrate how functions of persistence diagrams can be effectively used for both optimization of the placement of points, and optimization of functions on a space. We show how one can encourage the formation of lines, clusters, or holes in a set of points using geometric filtrations. We then show how level set filtrations can be used effectively for regularization of parameters in a model by penalizing the number number of local maxima in the parameter topology. While we see there is some benefit to regularization using an appropriate topological penalty, we do not claim superiority to other regularization schemes. Instead we wish to draw attention to the flexibility of topological penalties in both the point cloud and image settings.
 
-<!-- chunk {"id": "body-0028", "role": "body", "section": "Topological Noise Reduction and Regularization", "weight": 1.0} -->
+<!-- chunk {"id": "body-0027", "role": "body", "section": "Topological Noise Reduction and Regularization", "weight": 1.0} -->
 
 In Section 1, we reviewed several applications which use specific topological loss functions. There are many possible losses which may be considered, and here we demonstrate some behaviors that can be promoted using persistence. In Figure 1, we see how a set of 100 random points in the unit square can be moved into different configurations by taking gradients of different functions of weak Alpha persistence diagrams. In Figure 2 we see how points that are sampled from a 3D chair can be moved around using similar functions of Rips persistence diagrams. An analysis of the optimality of one choice over another in any given situation is beyond the scope of this work. We primarily wish to draw attention to the wide variety of behaviors that can be encouraged by varying the choice of function.
 
-<!-- chunk {"id": "body-0029", "role": "body", "section": "Topological Noise Reduction and Regularization", "weight": 1.0} -->
+<!-- chunk {"id": "body-0028", "role": "body", "section": "Topological Noise Reduction and Regularization", "weight": 1.0} -->
 
 Direct optimization on the filtration is not limited to geometric complexes. In Figure 3, we optimize functions on a space. As we will see in Section 3.2, limiting the number of local maxima in an image can improve the visual quality of generated digits. In this example, we perform optimization directly on the superlevel sets of a noisy image to produce a single global maximum.
 
-<!-- chunk {"id": "body-0030", "role": "body", "section": "Topological Noise Reduction and Regularization", "weight": 1.0} -->
+<!-- chunk {"id": "body-0029", "role": "body", "section": "Topological Noise Reduction and Regularization", "weight": 1.0} -->
 
 While these examples are illustrative, we wish to see how we can use topology directly in a machine learning model for the purposes of regularization, or encoding a prior on some topological structure.
 
+<!-- chunk {"id": "body-0030", "role": "body", "section": "Topological Noise Reduction and Regularization", "weight": 1.0} -->
+
+Regularization is used throughout machine learning to prevent over-fitting, or to solve ill-posed problems. In a typical problem, we observe data $\{ X_{i}\}$ and responses $\{ y_{i}\}$, and would like to fit a predictive model with parameters $\hat{\beta}$ that will allow us to make a prediction $\hat{y_{i}} = {f{(\hat{\beta};X_{i})}}$ for each observation. The quality of the model is assessed by a loss function $\ell$, such as the mean squared error. However, many models are prone to over-fitting or are ill-posed if there are more unknown parameters than observations, and adding a regularization term $P{(\beta)}$ can be beneficial. The estimated value of $\hat{\beta}$ for the model becomes where $\lambda$ is a free tuning parameter.
+
 <!-- chunk {"id": "body-0031", "role": "body", "section": "Topological Noise Reduction and Regularization", "weight": 1.0} -->
-
-Regularization is used throughout machine learning to prevent over-fitting, or to solve ill-posed problems. In a typical problem, we observe data $\{ X_{i}\}$ and responses $\{ y_{i}\}$, and would like to fit a predictive model with parameters $\hat{\beta}$ that will allow us to make a prediction $\hat{y_{i}} = {f{(\hat{\beta};X_{i})}}$ for each observation. The quality of the model is assessed by a loss function $\ell$, such as the mean squared error. However, many models are prone to over-fitting or are ill-posed if there are more unknown parameters than observations, and adding a regularization term $P{(\beta)}$ can be beneficial. The estimated value of $\hat{\beta}$ for the model becomes
-
-<!-- chunk {"id": "body-0032", "role": "body", "section": "Topological Noise Reduction and Regularization", "weight": 1.0} -->
-
-where $\lambda$ is a free tuning parameter.
-
-<!-- chunk {"id": "body-0033", "role": "body", "section": "Topological Noise Reduction and Regularization", "weight": 1.0} -->
 
 Well-known examples of regularization include $L_{1}$ regularization ${P{(\beta)}} = {\|\beta\|}_{1}$ (Lasso), which promotes sparsity, or $L_{2}$ regularization ${P{(\beta)}} = {\|\beta\|}_{2}$ (Ridge regression) which tends to keep parameters from growing excessively large. Both of these types of regularization can be viewed as making the topological statement that parameter weights should "cluster" around zero, and a similar topological penalty might simply encourage the set of all weights to form clusters by penalizing the sum of lengths of ${PD}_{0}$ from a Rips or weak Alpha filtration on the weights.
 
-<!-- chunk {"id": "body-0034", "role": "body", "section": "Topological Noise Reduction and Regularization", "weight": 1.0} -->
+<!-- chunk {"id": "body-0032", "role": "body", "section": "Topological Noise Reduction and Regularization", "weight": 1.0} -->
 
 Another class of well-known regularization schemes make an assumption about the topology of the set of parameters themselves, and penalize properties of the weights as a function on that space. Examples include penalties on a norm of a finite-difference derivative, such as total variation regularization ${P{(\beta)}} = {\|{\nabla\beta}\|}_{1}$, or penalties on the ordering of weights as seen in isotonic regression and its variants. From the topological point of view, these regularization schemes encourage $\beta$ to have fewer local maxima and minima, which might be accomplished by penalizing the sum of lengths of ${PD}_{0}$ from a level set filtration.
 
-<!-- chunk {"id": "body-0035", "role": "body", "section": "Topological Noise Reduction and Regularization", "weight": 1.0} -->
+<!-- chunk {"id": "body-0033", "role": "body", "section": "Topological Noise Reduction and Regularization", "weight": 1.0} -->
 
 In Figures 5 and 6, we compare different regularization schemes for several different linear regression problems. Examples are generated according to $y_{i} = {{X_{i}\beta_{\ast}} + \epsilon_{i}}$, with $X_{i} \sim {N{(0,I)}}$, and $\epsilon_{i} \sim {N{(0,0.05)}}$.
 
-<!-- chunk {"id": "body-0036", "role": "body", "section": "Topological Noise Reduction and Regularization", "weight": 1.0} -->
+<!-- chunk {"id": "body-0034", "role": "body", "section": "Topological Noise Reduction and Regularization", "weight": 1.0} -->
 
 $\beta_{\ast}$ is a feature vector with $p = 100$ features, and an estimate $\hat{\beta}$ is made from $n$ samples by solving Equation 4 with the mean-squared error loss ${\ell\left( y_{i},{f{(\beta;X_{i})}} \right)} = {({y_{i} - {X_{i}\beta}})}^{2}$ using different penalties, and $\lambda$ is chosen from a logarithmically spaced grid on $\lbrack 10^{- 4},10^{1}\rbrack$ via cross-validation for each penalty. We track the mean-squared prediction error for the estimate $\hat{\beta}$ as the number of samples is increased. We also compare to the ordinary least-squares solution, using the smallest 2-norm solution if the problems is under-determined $({n < p})$.
 
-<!-- chunk {"id": "body-0037", "role": "body", "section": "Topological Noise Reduction and Regularization", "weight": 1.0} -->
+<!-- chunk {"id": "body-0035", "role": "body", "section": "Topological Noise Reduction and Regularization", "weight": 1.0} -->
 
 In Figure 5, $\beta_{\ast}$ are chosen uniformly at random from three different values. On the left, those values are $\{{- 1},0,1\}$, and on the right, $\{ 1,2,3\}$. We consider $L_{1}$ and $L_{2}$ penalties, as well as two topological penalties using a weak-alpha filtration. The first is $\mathcal{E}{(1,0,2;{PD}_{0})}$, and the second is $\mathcal{E}{(1,0,4;{PD}_{0})}$. Both topological penalties are non-negative, and the first penalty is non-zero if $\beta$ takes more than a single value, and the second penalty is non-zero if $\beta$ takes more than three distinct values, explicitly encoding that we expect three clusters.
 
-<!-- chunk {"id": "body-0038", "role": "body", "section": "Topological Noise Reduction and Regularization", "weight": 1.0} -->
+<!-- chunk {"id": "body-0036", "role": "body", "section": "Topological Noise Reduction and Regularization", "weight": 1.0} -->
 
 In the case where $\beta_{\ast}$ takes values in $\{{- 1},0,1\}$, the $L_{1}$ and $L_{2}$ penalties slightly outperform ordinary least squares, because while $\beta_{\ast}$ is not truly sparse, some shrinkage seems beneficial. In the case where $\beta_{\ast}$ takes values in $\{ 1,2,3\}$, $L_{1}$ and $L_{2}$ clearly bias the estimate in an ineffective way and fail to outperform ordinary least squares. In contrast, the two topological penalties clearly do better in both cases.
 
-<!-- chunk {"id": "body-0039", "role": "body", "section": "Topological Noise Reduction and Regularization", "weight": 1.0} -->
+<!-- chunk {"id": "body-0037", "role": "body", "section": "Topological Noise Reduction and Regularization", "weight": 1.0} -->
 
 In Figure 6, the features in $\beta_{\ast}$ are chosen to have three local maxima when the features are given the line topology. On the left, $\beta_{\ast}$ consists of three piecewise-linear sawteeth, and on the right, $\beta_{\ast}$ consists of three piecewise-constant boxcars. The total variation penalty ${P{(\beta)}} = {\sum_{i = 1}^{p}{|{\beta_{i + 1} - \beta_{i}}|}}$ and a smooth variant ${P{(\beta)}} = {({\sum_{i = 1}^{p}{|{\beta_{i + 1} - \beta_{i}}|}^{2}})}^{1/2}$ are considered, as well as two topological penalties.
 
-<!-- chunk {"id": "body-0040", "role": "body", "section": "Topological Noise Reduction and Regularization", "weight": 1.0} -->
+<!-- chunk {"id": "body-0038", "role": "body", "section": "Topological Noise Reduction and Regularization", "weight": 1.0} -->
 
 The parameters of the topological penalties are identical to the previous example, but the penalties are now imposed on superlevel set diagrams of $\beta$ in order to penalize the number of local maxima in $\beta$ instead of the number of distinct values. In the boxcar problem, total variation regularization does very well, as it encourages piece-wise linear functions, and the two topological penalties perform similarly. In the sawtooth problem, total variation does not do as well because $\beta_{\ast}$ is no longer piece-wise constant, and interestingly the first topological penalty is similarly not as effective, while the second topological penalty performs well in both examples.
 
-<!-- chunk {"id": "body-0041", "role": "body", "section": "Topological Noise Reduction and Regularization", "weight": 1.0} -->
+<!-- chunk {"id": "body-0039", "role": "body", "section": "Topological Noise Reduction and Regularization", "weight": 1.0} -->
 
 Finally, Figure 7 shows a linear regression problem on a 2D image. The topological penalty incorporated information from ${PD}_{1}$ as well as ${PD}_{0}$ to promote a single maximum and a single hole. For visual comparison, we also show the resulting ordinary least squares image.
 
-<!-- chunk {"id": "body-0042", "role": "body", "section": "Topological Noise Reduction and Regularization", "weight": 1.0} -->
+<!-- chunk {"id": "body-0040", "role": "body", "section": "Topological Noise Reduction and Regularization", "weight": 1.0} -->
 
 These examples demonstrate how topological information can be incorporated effectively to add regularization or incorporate prior knowledge into problems. Furthermore, they demonstrate how topological information can be directly encoded, such as penalties on the number of clusters or number of maxima of a function, in a natural way that is difficult to accomplish with more traditional schemes.
 
-<!-- chunk {"id": "body-0043", "role": "body", "section": "Incorporating Topological Priors in Generative Models", "weight": 1.0} -->
+<!-- chunk {"id": "body-0041", "role": "body", "section": "Incorporating Topological Priors in Generative Models", "weight": 1.0} -->
 
 We now use the same topological priors to improve the quality of a deep generative neural network. We start with a Baseline-Generator, pre-trained in a GAN-setup on MNIST, and by training it for a few iterations with a topological loss, we arrive at an improved Topology-Generator. We provide comparisons with other methods applied to the Baseline-Generator.
 
-<!-- chunk {"id": "body-0044", "role": "body", "section": "Incorporating Topological Priors in Generative Models", "weight": 1.0} -->
+<!-- chunk {"id": "body-0042", "role": "body", "section": "Incorporating Topological Priors in Generative Models", "weight": 1.0} -->
 
 A GAN as in is trained on MNIST for 32,000 batch iterations with a batch size of 64 (this batch size is used throughout this section). The resulting generator (Baseline-Generator) produces reasonable output but with topological noise, see Figure 8(a). The prior used to improve the Baseline-Generator is identical with that of Figure 3: images should have 1 component in a superlevel set filtration. The loss function (topology loss) is $\mathcal{E}{(1,0,2;{PD}_{0})}$. The setup (Figure 8) is used to backpropagate to the latent space of Baseline-Generator, with the generator weights fixed, to minimize the topology loss using SGD; seen Figure 8(b) for results. ALternatively, using the same setup, the Baseline-Generator's weights are updated to minimize the topology loss; we train for 50 batch iterations to arrive at a new generator (Topology-Generator). The output can be seen in Figure 8(c).
 
-<!-- chunk {"id": "body-0045", "role": "body", "section": "Incorporating Topological Priors in Generative Models", "weight": 1.0} -->
+<!-- chunk {"id": "body-0043", "role": "body", "section": "Incorporating Topological Priors in Generative Models", "weight": 1.0} -->
 
 For further qualitative comparisons, we train the Baseline-Generator for 100 batch iterations with a discriminator between features of the 0-dim persistence on MNIST images and the generator's output.
 
-<!-- chunk {"id": "body-0046", "role": "body", "section": "Incorporating Topological Priors in Generative Models", "weight": 1.0} -->
+<!-- chunk {"id": "body-0044", "role": "body", "section": "Incorporating Topological Priors in Generative Models", "weight": 1.0} -->
 
 The output of a generator arrived at by training the Baseline-Generator in the original GAN-setup for another 60,000 batch iterations is shown in Figure 8 (e). Evidently, the topology loss allows the generator to learn in only 50 batch iterations to produce images with a single connected component and the difference is visually significant. These results are similar to using a ${PD}_{0}$-aware discriminator, suggesting that our priors were valid. Updating only the latent space produces cleaner images but they still contain some topological noise. For a closer study, consider the linear interpolation in the latent space of the Baseline-Generator and Topology-Generator in Figure 9. The two different cases behave very differently with respect to the topology. The Baseline-Generator interpolates by letting a disconnected components appear and grow. The Topology-Generator tries to interpolate by deforming the number without creating disconnected components. This might be most obvious in the interpolation from "1" to "4" (Figure 9, right hand side) where the appended structure of the "4" appears as a disconnected component in the baseline but grows out continuously from the "1" in the topology-aware case.
 
-<!-- chunk {"id": "body-0047", "role": "body", "section": "Incorporating Topological Priors in Generative Models", "weight": 1.0} -->
+<!-- chunk {"id": "body-0045", "role": "body", "section": "Incorporating Topological Priors in Generative Models", "weight": 1.0} -->
 
 We also quantitatively compare the Baseline-Generator and Topology-Generator to further investigate if any improvements have been made. We use the Minimal Matching Distance (MMD) and Coverage metric as advocated by as well as the Inception score (a convolutional neural network with 99% test accuracy on MNIST was used instead of the Inception model). MMD-Wass and COV-Wass use the same procedure as MMD-L2 and COV-L2 but instead of the L2 distance between images, the 1-Wasserstein distance between the 0-dim persistence diagrams of the images was used (see Section 2). As seen in Table 10, the Topology-Generator shows improvements for all of these metrics. The results are the average of 5 computations of each metric, with test set sizes of 1,000 for L2 and Inception, and test sets sizes of 100 for Wasserstein distance.
 
-<!-- chunk {"id": "body-0048", "role": "body", "section": "Incorporating Topological Priors in Generative Models", "weight": 1.0} -->
+<!-- chunk {"id": "body-0046", "role": "body", "section": "Incorporating Topological Priors in Generative Models", "weight": 1.0} -->
 
 We extend this superlevel set filtration to 3D data in the form of voxel grids. As before, a baseline generator is obtained by training a GAN to generate voxel shapes (chairs only) as in and its output after 1,000 epochs (or 333,000 batch iterations) can be seen in Figure 11 as the left hand members in each of the two pairs. The result of training with the topology loss (same as for images) for 20 batch iterations can be seen in Figure 11 as the right hand members in each of the two pairs. We compare some metrics in Table 10; we show the average of 5 computations of each metric, with test set sizes of 100. Note that every voxel chair in the ground truth dataset has identical ${PD}_{0}$, since each chair consists of a connected component of voxels of value 1, among voxels of value 0.
 
-<!-- chunk {"id": "body-0049", "role": "body", "section": "Topological Adversarial Attacks", "weight": 1.0} -->
+<!-- chunk {"id": "body-0047", "role": "body", "section": "Topological Adversarial Attacks", "weight": 1.0} -->
 
 Our topological layer may also be placed at the beginning of a deep network to generate features directly on the data. We can use the fact that our input layer is differentiable to perform adversarial attacks, by backpropagating from the predictions back to the input image. To the best of our knowledge, these are the first adversarial attacks conducted using persistence features. Since standard super-level set persistence is insufficient to classify MNIST digits, we include orientation information by computing the persistence homology during 8 directional sweeps. This is achieved by using the product of the image with fixed functions such as $x$, $y$, $\frac{x + y}{2},\ldots$ etc., where $x$ and $y$ are the image coordinates, as the filtration value, for each of 8 different directions, $\mathcal{E}{(p,q,1;{PD}_{k})}$ for $p$ and $q$ ranging between 0 and 4 resulting in 400 features for training the classification model. The model trained to classify the digits based on these topological features achieved 80-85 % accuracy.
 
-<!-- chunk {"id": "body-0050", "role": "body", "section": "Topological Adversarial Attacks", "weight": 1.0} -->
+<!-- chunk {"id": "body-0048", "role": "body", "section": "Topological Adversarial Attacks", "weight": 1.0} -->
 
 Next we performed gradient attack to change the classification of the digit to another target class. We observe that it is harder to train adversarial images compared to CNNs and MLPs. The results are shown in Figure 12. A red outline indicates that the attack was successful. When the attack was conducted on 1,000 images, to retarget to a random class, it had 100% success rate on MLP and CNN models and 25.2% success rate on the TopModel. When the adversarial attacks succeed, the results may offer insight on how the model classifies each digit. For example in Figure 13, the left image is the original image of the digit 4, the right was trained to be classified as an 8; note that two small holes at the top and bottom were sufficient to misclassify the digit. Several examples of the topological attacks provide similar intuition. Attacks on MLP and CNN are qualitatively different, but further work is needed to gauge the extent and utility of such distinctions.
 
-<!-- chunk {"id": "body-0051", "role": "body", "section": "Discussion", "weight": 1.5} -->
+<!-- chunk {"id": "body-0049", "role": "body", "section": "Discussion", "weight": 1.5} -->
 
 We present three novel applications using a differentiable topology layer which can be used to promote topological structure in Euclidean data, images, the weights of machine learning models, and to compare adversarial attacks. This only scratches the surface of the possible directions leveraging the differentiable properties of persistence. Without doubt such work will tackle problems beyond those we have presented here, including encouraging topological structure in intermediate activations of deep neural networks or using the layer in the middle of deep networks to extract persistence features where they may be more useful. However, many of the applications we have presented here also deserve further focus. For example, topological regularization, including the penalties we have presented, may have interesting theoretical properties, or closed form solutions. Furthermore, training autoencoders with distances between persistence features may produce stronger results than the functions considered here. Finally, it might prove useful to use topological features to train deep networks that are more robust to adversarial attacks -- however, as we show this will require additional work. Topology, in contrast to local geometry, is generally underexploited in machine learning, but changing this could benefit the discipline.
+
+<!-- chunk {"id": "body-0050", "role": "body", "section": "Discussion", "weight": 1.5} -->
+
+Acknowledgements: RBG and GC were supported by Altor Equity Partners AB through Unbox AI ([www.unboxai.org](www.unboxai.org)). BN was supported by the US Department of Energy (DE--76SF00515) while at the SLAC National Accelerator Laboratory. PS was supported by SSHRC Canada and the Alan Turing Institute - Defense and Security Programme (D015). We are grateful for Panos Achlioptas' insights on the evaluation of our generative models.

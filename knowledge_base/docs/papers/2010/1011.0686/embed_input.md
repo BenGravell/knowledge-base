@@ -80,11 +80,7 @@ We will typically use $\beta_{1} = 1$ so that we do not have to specify an initi
 
 <!-- chunk {"id": "body-0020", "role": "body", "section": "DATASET AGGREGATION", "weight": 1.0} -->
 
-Initialize π̂1 to any policy in Π.
-Sample T-step trajectories using πi.
-Get dataset 𝒟i = {(s,π* (s))} of visited states by πi and actions given by expert.
-Return best π̂i on validation.
-Algorithm 3.1 DAgger Algorithm.
+Initialize π̂1 to any policy in Π. Sample T-step trajectories using πi. Get dataset 𝒟i = {(s, π* (s))} of visited states by πi and actions given by expert. Return best π̂i on validation. Algorithm 3.1 DAgger Algorithm.
 
 <!-- chunk {"id": "body-0021", "role": "body", "section": "Finite Sample Results", "weight": 1.0} -->
 
@@ -96,84 +92,88 @@ The theoretical analysis of DAgger only relies on the no-regret property of the 
 
 <!-- chunk {"id": "body-0023", "role": "body", "section": "Online Learning", "weight": 1.0} -->
 
-In online learning, an algorithm must provide a policy $\pi_{n}$ at iteration $n$ which incurs a loss $\ell_{n}{(\pi_{n})}$. After observing this loss, the algorithm can provide a different policy $\pi_{n + 1}$ for the next iteration which will incur loss $\ell_{n + 1}{(\pi_{n + 1})}$. The loss functions $\ell_{n + 1}$ may vary in an unknown or even adversarial fashion over time.
+In online learning, an algorithm must provide a policy $\pi_{n}$ at iteration $n$ which incurs a loss $\ell_{n}{(\pi_{n})}$. After observing this loss, the algorithm can provide a different policy $\pi_{n + 1}$ for the next iteration which will incur loss $\ell_{n + 1}{(\pi_{n + 1})}$. The loss functions $\ell_{n + 1}$ may vary in an unknown or even adversarial fashion over time. A no-regret algorithm is an algorithm that produces a sequence of policies $\pi_{1},\pi_{2},\ldots,\pi_{N}$ such that the average regret with respect to the best policy in hindsight goes to 0 as $N$ goes to $\infty$: for ${\lim_{N\rightarrow\infty}\gamma_{N}} = 0$.
 
-<!-- chunk {"id": "body-0024", "role": "body", "section": "No Regret Algorithms Guarantees", "weight": 1.0} -->
+<!-- chunk {"id": "body-0024", "role": "body", "section": "Online Learning", "weight": 1.0} -->
 
-Now we show that no-regret algorithms can be used to find a policy which has good performance guarantees under its own distribution of states in our imitation learning setting. To do so, we must choose the loss functions to be the loss under the distribution of states of the current policy chosen by the online algorithm: ${\ell_{i}{(\pi)}} = {{\mathbb{E}}_{s \sim d_{\pi_{i}}}{\lbrack{\ell{(s,\pi)}}\rbrack}}$.
+Many no-regret algorithms guarantee that $\gamma_{N}$ is $\overset{\sim}{O}{(\frac{1}{N})}$ (e.g. when $\ell$ is strongly convex).
 
 <!-- chunk {"id": "body-0025", "role": "body", "section": "No Regret Algorithms Guarantees", "weight": 1.0} -->
 
+Now we show that no-regret algorithms can be used to find a policy which has good performance guarantees under its own distribution of states in our imitation learning setting. To do so, we must choose the loss functions to be the loss under the distribution of states of the current policy chosen by the online algorithm: ${\ell_{i}{(\pi)}} = {{\mathbb{E}}_{s \sim d_{\pi_{i}}}{\lbrack{\ell{(s,\pi)}}\rbrack}}$.
+
+<!-- chunk {"id": "body-0026", "role": "body", "section": "No Regret Algorithms Guarantees", "weight": 1.0} -->
+
 For our analysis of DAgger, we need to bound the total variation distance between the distribution of states encountered by ${\hat{\pi}}_{i}$ and $\pi_{i}$, which continues to call the expert.
 
-<!-- chunk {"id": "body-0026", "role": "body", "section": "Finite Sample Case", "weight": 1.0} -->
+<!-- chunk {"id": "body-0027", "role": "body", "section": "Finite Sample Case", "weight": 1.0} -->
 
 The previous results hold if the online learning algorithm observes the infinite sample loss, i.e. the loss on the true distribution of trajectories induced by the current policy $\pi_{i}$. In practice however the algorithm would only observe its loss on a small sample of trajectories at each iteration. We wish to bound the true loss under its own distribution of the best policy in the sequence as a function of the regret on the finite sample of trajectories.
 
-<!-- chunk {"id": "body-0027", "role": "body", "section": "EXPERIMENTS", "weight": 1.0} -->
+<!-- chunk {"id": "body-0028", "role": "body", "section": "EXPERIMENTS", "weight": 1.0} -->
 
 To demonstrate the efficacy and scalability of DAgger, we apply it to two challenging imitation learning problems and a sequence labeling task (handwriting recognition).
 
-<!-- chunk {"id": "body-0028", "role": "body", "section": "Super Tux Kart", "weight": 1.0} -->
+<!-- chunk {"id": "body-0029", "role": "body", "section": "Super Tux Kart", "weight": 1.0} -->
 
 Super Tux Kart is a 3D racing game similar to the popular Mario Kart. Our goal is to train the computer to steer the kart moving at fixed speed on a particular race track, based on the current game image features as input (see Figure 1). A human expert is used to provide demonstrations of the correct steering (analog joystick value in ) for each of the observed game images.
 
-<!-- chunk {"id": "body-0029", "role": "body", "section": "Super Tux Kart", "weight": 1.0} -->
+<!-- chunk {"id": "body-0030", "role": "body", "section": "Super Tux Kart", "weight": 1.0} -->
 
 For all methods, we use a linear controller as the base learner which updates the steering at 5Hz based on the vector of image features^44^4Features $x$: LAB color values of each pixel in a 25x19 resized image of the 800x600 image; output steering: $\hat{y} = {{w^{T}x} + b}$ where $w$, $b$ minimizes ridge regression objective: ${L{(w,b)}} = {{\frac{1}{n}{\sum_{i = 1}^{n}{({{{w^{T}x_{i}} + b} - y_{i}})}^{2}}} + {\frac{\lambda}{2}w^{T}w}}$, for regularizer $\lambda = 10^{- 3}$..
 
-<!-- chunk {"id": "body-0030", "role": "body", "section": "Super Tux Kart", "weight": 1.0} -->
+<!-- chunk {"id": "body-0031", "role": "body", "section": "Super Tux Kart", "weight": 1.0} -->
 
 We compare performance on a race track called Star Track. As this track floats in space, the kart can fall off the track at any point (the kart is repositioned at the center of the track when this occurs). We measure performance in terms of the average number of falls per lap. For SMILe and DAgger, we used 1 lap of training per iteration ($\sim$`<!-- -->`{=html}1000 data points) and run both methods for 20 iterations. For SMILe we choose parameter $\alpha = 0.1$ as in Ross and Bagnell, and for DAgger the parameter $\beta_{i} = {I{({i = 1})}}$ for $I$ the indicator function. Figure 2 shows 95% confidence intervals on the average falls per lap of each method after 1, 5, 10, 15 and 20 iterations as a function of the total number of training data collected.
 
-<!-- chunk {"id": "body-0031", "role": "body", "section": "Super Tux Kart", "weight": 1.0} -->
+<!-- chunk {"id": "body-0032", "role": "body", "section": "Super Tux Kart", "weight": 1.0} -->
 
 We first observe that with the baseline supervised approach where training always occurs under the expert's trajectories that performance does not improve as more data is collected. This is because most of the training laps are all very similar and do not help the learner to learn how to recover from mistakes it makes. With SMILe we obtain some improvements but the policy after 20 iterations still falls off the track about twice per lap on average. This is in part due to the stochasticity of the policy which sometimes makes bad choices of actions. For DAgger, we were able to obtain a policy that never falls off the track after 15 iterations of training. Though even after 5 iterations, the policy we obtain almost never falls off the track and is significantly outperforming both SMILe and the baseline supervised approach. Furthermore, the policy obtained by DAgger is smoother and looks qualitatively better than the policy obtained with SMILe. A video available on YouTube shows a qualitative comparison of the behavior obtained with each method.
 
-<!-- chunk {"id": "body-0032", "role": "body", "section": "Super Mario Bros", "weight": 1.0} -->
+<!-- chunk {"id": "body-0033", "role": "body", "section": "Super Mario Bros", "weight": 1.0} -->
 
 Super Mario Bros. is a platform video game where the character, Mario, must move across each stage by avoiding being hit by enemies and falling into gaps, and before running out of time. We used the simulator from a recent Mario Bros. AI competition which can randomly generate stages of varying difficulty (more difficult gaps and types of enemies). Our goal is to train the computer to play this game based on the current game image features as input (see Figure 3). Our expert in this scenario is a near-optimal planning algorithm that has full access to the game's internal state and can simulate exactly the consequence of future actions. An action consists of 4 binary variables indicating which subset of buttons we should press in $\{$left,right,jump,speed$\}$.
 
-<!-- chunk {"id": "body-0033", "role": "body", "section": "Super Mario Bros", "weight": 1.0} -->
+<!-- chunk {"id": "body-0034", "role": "body", "section": "Super Mario Bros", "weight": 1.0} -->
 
 For all methods, we use 4 independent linear SVM as the base learner which update the 4 binary actions at 5Hz based on the vector of image features^55^5For the input features $x$: each image is discretized in a grid of 22x22 cells centered around Mario; 14 binary features describe each cell (types of ground, enemies, blocks and other special items); a history of those features over the last 4 images is used, in addition to other features describing the last 6 actions and the state of Mario (small,big,fire,touches ground), for a total of 27152 binary features (very sparse). The $k^{th}$ output binary variable ${\hat{y}}_{k} = {I{({{{w_{k}^{T}x} + b_{k}} > 0})}}$, where $w_{k},b_{k}$ optimizes the SVM objective with regularizer $\lambda = 10^{- 4}$ using stochastic gradient descent..
 
-<!-- chunk {"id": "body-0034", "role": "body", "section": "Super Mario Bros", "weight": 1.0} -->
+<!-- chunk {"id": "body-0035", "role": "body", "section": "Super Mario Bros", "weight": 1.0} -->
 
 We compare performance in terms of the average distance travelled by Mario per stage before dying, running out of time or completing the stage, on randomly generated stages of difficulty 1 with a time limit of 60 seconds to complete the stage. The total distance of each stage varies but is around 4200-4300 on average, so performance can vary roughly. Stages of difficulty 1 are fairly easy for an average human player but contain most types of enemies and gaps, except with fewer enemies and gaps than stages of harder difficulties. We compare performance of DAgger, SMILe and SEARN^66^6We use the same cost-to-go approximation in Daumé III et al.; in this case SMILe and SEARN differs only in how the weights in the mixture are updated at each iteration. to the supervised approach (Sup). With each approach we collect 5000 data points per iteration (each stage is about 150 data points if run to completion) and run the methods for 20 iterations. For SMILe we choose parameter $\alpha = 0.1$ (Sm0.1) as in Ross and Bagnell.
 
-<!-- chunk {"id": "body-0035", "role": "body", "section": "Super Mario Bros", "weight": 1.0} -->
+<!-- chunk {"id": "body-0036", "role": "body", "section": "Super Mario Bros", "weight": 1.0} -->
 
 For DAgger we obtain results with different choice of the parameter $\beta_{i}$: 1) $\beta_{i} = {I{({i = 1})}}$ for $I$ the indicator function (D0); 2) $\beta_{i} = p^{i - 1}$ for all values of $p \in {\{ 0.1,0.2,\ldots,0.9\}}$. We report the best results obtained with $p = 0.5$ (D0.5). We also report the results with $p = 0.9$ (D0.9) which shows the slower convergence of using the expert more frequently at later iterations. Similarly for SEARN, we obtain results with all choice of $\alpha$ in $\{ 0.1,0.2,\ldots,1\}$. We report the best results obtained with $\alpha = 0.4$ (Se0.4). We also report results with $\alpha = 1.0$ (Se1), which shows the unstability of such a pure policy iteration approach.
 
-<!-- chunk {"id": "body-0036", "role": "body", "section": "Super Mario Bros", "weight": 1.0} -->
+<!-- chunk {"id": "body-0037", "role": "body", "section": "Super Mario Bros", "weight": 1.0} -->
 
 Figure 4 shows 95% confidence intervals on the average distance travelled per stage at each iteration as a function of the total number of training data collected.
 
-<!-- chunk {"id": "body-0037", "role": "body", "section": "Super Mario Bros", "weight": 1.0} -->
+<!-- chunk {"id": "body-0038", "role": "body", "section": "Super Mario Bros", "weight": 1.0} -->
 
 Again here we observe that with the supervised approach, performance stagnates as we collect more data from the expert demonstrations, as this does not help the particular errors the learned controller makes. In particular, a reason the supervised approach gets such a low score is that under the learned controller, Mario is often stuck at some location against an obstacle instead of jumping over it. Since the expert always jumps over obstacles at a significant distance away, the controller did not learn how to get unstuck in situations where it is right next to an obstacle. On the other hand, all the other iterative methods perform much better as they eventually learn to get unstuck in those situations by encountering them at the later iterations. Again in this experiment, DAgger outperforms SMILe, and also outperforms SEARN for all choice of $\alpha$ we considered. When using $\beta_{i} = 0.9^{i - 1}$, convergence is significantly slower could have benefited from more iterations as performance was still improving at the end of the 20 iterations. Choosing $0.5^{i - 1}$ yields slightly better performance then with the indicator function.
 
-<!-- chunk {"id": "body-0038", "role": "body", "section": "Super Mario Bros", "weight": 1.0} -->
+<!-- chunk {"id": "body-0039", "role": "body", "section": "Super Mario Bros", "weight": 1.0} -->
 
 This is potentially due to the large number of data generated where mario is stuck at the same location in the early iterations when using the indicator; whereas using the expert a small fraction of the time still allows to observe those locations but also unstucks mario and makes it collect a wider variety of useful data. A video available on YouTube also shows a qualitative comparison of the behavior obtained with each method.
 
-<!-- chunk {"id": "body-0039", "role": "body", "section": "Handwriting Recognition", "weight": 1.0} -->
+<!-- chunk {"id": "body-0040", "role": "body", "section": "Handwriting Recognition", "weight": 1.0} -->
 
 Finally, we demonstrate the efficacy of our approach on a structured prediction problem involving recognizing handwritten words given the sequence of images of each character in the word. We follow Daumé III et al. in adopting a view of structured prediction as a degenerate form of imitation learning where the system dynamics are deterministic and trivial in simply passing on earlier predictions made as inputs for future predictions. We use the dataset of Taskar et al. which has been used extensively in the literature to compare several structured prediction approaches. This dataset contains roughly 6600 words (for a total of over 52000 characters) partitioned in 10 folds. We consider the large dataset experiment which consists of training on 9 folds and testing on 1 fold and repeating this over all folds. Performance is measured in terms of the character accuracy on the test folds.
 
-<!-- chunk {"id": "body-0040", "role": "body", "section": "Handwriting Recognition", "weight": 1.0} -->
+<!-- chunk {"id": "body-0041", "role": "body", "section": "Handwriting Recognition", "weight": 1.0} -->
 
 We consider predicting the word by predicting each character in sequence in a left to right order, using the previously predicted character to help predict the next and a linear SVM^77^7Each character is 8x16 binary pixels (128 input features); 26 binary features are used to encode the previously predicted letter in the word. We train the multiclass SVM using the all-pairs reduction to binary classification., following the greedy SEARN approach in Daumé III et al.. Here we compare our method to SMILe, as well as SEARN (using the same approximations used in Daumé III et al. ). We also compare these approaches to two baseline, a non-structured approach which simply predicts each character independently and the supervised training approach where training is conducted with the previous character always correctly labeled. Again we try all choice of $\alpha \in {\{ 0.1,0.2,\ldots,1\}}$ for SEARN, and report results for $\alpha = 0.1$, $\alpha = 1$ (pure policy iteration) and the best $\alpha = 0.8$, and run all approaches for 20 iterations.
 
-<!-- chunk {"id": "body-0041", "role": "body", "section": "Handwriting Recognition", "weight": 1.0} -->
+<!-- chunk {"id": "body-0042", "role": "body", "section": "Handwriting Recognition", "weight": 1.0} -->
 
 Figure 5 shows the performance of each approach on the test folds after each iteration as a function of training data.
 
-<!-- chunk {"id": "body-0042", "role": "body", "section": "Handwriting Recognition", "weight": 1.0} -->
+<!-- chunk {"id": "body-0043", "role": "body", "section": "Handwriting Recognition", "weight": 1.0} -->
 
 The baseline result without structure achieves 82% character accuracy by just using an SVM that predicts each character independently. When adding the previous character feature, but training with always the previous character correctly labeled (supervised approach), performance increases up to 83.6%. Using DAgger increases performance further to 85.5%. Surprisingly, we observe SEARN with $\alpha = 1$, which is a pure policy iteration approach performs very well on this experiment, similarly to the best $\alpha = 0.8$ and DAgger. Because there is only a small part of the input that is influenced by the current policy (the previous predicted character feature) this makes this approach not as unstable as in general reinforcement/imitation learning problems (as we saw in the previous experiment). SEARN and SMILe with small $\alpha = 0.1$ performs similarly but significantly worse than DAgger. Note that we chose the simplest (greedy, one-pass) decoding to illustrate the benefits of the DAGGER approach with respect to existing reductions. Similar techniques can be applied to multi-pass or beam-search decoding leading to results that are competitive with the state-of-the-art.
 
-<!-- chunk {"id": "body-0043", "role": "body", "section": "FUTURE WORK", "weight": 1.5} -->
+<!-- chunk {"id": "body-0044", "role": "body", "section": "FUTURE WORK", "weight": 1.5} -->
 
 We show that by batching over iterations of interaction with a system, no-regret methods, including the presented DAgger approach can provide a learning reduction with strong performance guarantees in both imitation learning and structured prediction. In future work, we will consider more sophisticated strategies than simple greedy forward decoding for structured prediction, as well as using base classifiers that rely on Inverse Optimal Control techniques to learn a cost function for a planner to aid prediction in imitation learning. Further we believe techniques similar to those presented, by leveraging a cost-to-go estimate, may provide an understanding of the success of online methods for reinforcement learning and suggest a similar data-aggregation method that can guarantee performance in such settings.

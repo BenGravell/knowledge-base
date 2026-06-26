@@ -20,7 +20,7 @@ We describe a simulator, QuadSwarm, to facilitate research in single and multi-r
 
 <!-- chunk {"id": "body-0005", "role": "body", "section": "INTRODUCTION", "weight": 1.5} -->
 
-We evaluate the speed of QuadSwarm on a machine with AMD Ryzen 7 2700X CPU (16 CPU cores). QuadSwarm achieves $>$`<!-- -->`{=html}48,500 simulation samples per second (SPS) in an environment with a single quadrotor and $>$`<!-- -->`{=html}62,000 SPS in an environment with eight quadrotors, enabling collision simulation. In the environment with eight quadrotors, QuadSwarm receives eight samples per simulation step, which speeds up simulation even though additional computation is required for collision. We have demonstrated zero-shot transferability of RL control policies onto real hardware utilizing QuadSwarm in a single and multi-quadrotor scenarios.
+Unified Reward Func TABLE I: Features Comparing QuadSwarm with Other Simulators that Applicable for Deep RL Research
 
 <!-- chunk {"id": "body-0006", "role": "body", "section": "II-A1 AirSim and Air Learning", "weight": 1.0} -->
 
@@ -48,7 +48,7 @@ QuadSwarm is a modular quadrotor simulator that supports multiple quadrotors. Fi
 
 <!-- chunk {"id": "body-0012", "role": "body", "section": "III-A Quadrotor Dynamics", "weight": 1.0} -->
 
-where $\overset{¨}{x}$ is linear acceleration, $g$ is the gravity vector, $\mathbf{R}$ is the rotation matrix, $f$ is the total thrust force in the body frame, $m$ is the mass, ${\mathbf{ω}}_{\times}$ is the skew matrix of the $\omega$, $\mathbf{I}$ is the inertia matrix, $\tau$ is the total torque, $\tau_{p}$ is the torque along z-axis, $\tau_{th}$ is the torque produced by motor trusts.
+We use the following quadrotor dynamics: where $\overset{¨}{x}$ is linear acceleration, $g$ is the gravity vector, $\mathbf{R}$ is the rotation matrix, $f$ is the total thrust force in the body frame, $m$ is the mass, ${\mathbf{ω}}_{\times}$ is the skew matrix of the $\omega$, $\mathbf{I}$ is the inertia matrix, $\tau$ is the total torque, $\tau_{p}$ is the torque along z-axis, $\tau_{th}$ is the torque produced by motor trusts.
 
 <!-- chunk {"id": "body-0013", "role": "body", "section": "III-A Quadrotor Dynamics", "weight": 1.0} -->
 
@@ -96,11 +96,11 @@ Where $\delta_{pos}$ is the relative distance between quadrotors, $\overset{˙}{
 
 <!-- chunk {"id": "body-0024", "role": "body", "section": "III-C Observations", "weight": 1.0} -->
 
-where $\delta_{xi}$ represents the relative position between the quadrotor $i$ and its goal, $\overset{\sim}{x_{i⁢1}},\overset{\sim}{v_{i⁢1}}$ represent the relative position and relative velocity to the closest quadrotor, $\overset{\sim}{x_{i⁢K}},\overset{\sim}{v_{i⁢K}}$ represent the relative position and relative velocity to the Kth closest quadrotor. K is a hyperparameter. In the single quadrotor environment, $K$ is set to 0.
+The observations of quadrotor $i$ are: where $\delta_{xi}$ represents the relative position between the quadrotor $i$ and its goal, $\overset{\sim}{x_{i⁢1}},\overset{\sim}{v_{i⁢1}}$ represent the relative position and relative velocity to the closest quadrotor, $\overset{\sim}{x_{i⁢K}},\overset{\sim}{v_{i⁢K}}$ represent the relative position and relative velocity to the Kth closest quadrotor. K is a hyperparameter. In the single quadrotor environment, $K$ is set to 0.
 
 <!-- chunk {"id": "body-0025", "role": "body", "section": "III-C Observations", "weight": 1.0} -->
 
-where $U$ represents the uniform distribution, $\mathcal{N}$ represents the Gaussian distribution, $\epsilon_{x}$ is the position noise, $\epsilon_{v}$ is the linear velocity noise, $\epsilon_{\omega}$ is the angular velocity noise.
+To increase zero-shot sim-to-real transfer ability, we add sensor noise to the observations: where $U$ represents the uniform distribution, $\mathcal{N}$ represents the Gaussian distribution, $\epsilon_{x}$ is the position noise, $\epsilon_{v}$ is the linear velocity noise, $\epsilon_{\omega}$ is the angular velocity noise.
 
 <!-- chunk {"id": "body-0026", "role": "body", "section": "III-D Training Scenarios", "weight": 1.0} -->
 
@@ -112,60 +112,48 @@ Uniformly sample a geometric formation from the pool and randomly place it in th
 
 <!-- chunk {"id": "body-0028", "role": "body", "section": "III-D2 Dynamic formations", "weight": 1.0} -->
 
-Change the positions and/or the geometric formation of goals after a random period of time within an episode.
+Change the positions and/or the geometric formation of goals after a random period of time within an episode. There are four variants: Dynamic goals: regenerate the positions and the geometric formation of goals after a random period of time.
 
 <!-- chunk {"id": "body-0029", "role": "body", "section": "III-D2 Dynamic formations", "weight": 1.0} -->
 
-Dynamic goals: regenerate the positions and the geometric formation of goals after a random period of time.
+Swap goals: keep the geometric formation but shuffle the positions of goals after a random period of time.
 
 <!-- chunk {"id": "body-0030", "role": "body", "section": "III-D2 Dynamic formations", "weight": 1.0} -->
 
-Swap goals: keep the geometric formation but shuffle the positions of goals after a random period of time.
+Shrink $\&$ Expand: keep the geometric formation of goals, but change the formation size over time.
 
 <!-- chunk {"id": "body-0031", "role": "body", "section": "III-D2 Dynamic formations", "weight": 1.0} -->
 
-Shrink $\&$ Expand: keep the geometric formation of goals, but change the formation size over time.
-
-<!-- chunk {"id": "body-0032", "role": "body", "section": "III-D2 Dynamic formations", "weight": 1.0} -->
-
 Swarm-vs-Swarm: split quadrotors into two groups, and fix the formation center of each group. After a random period of time, resample the formation shape and swap the goals of the two groups.
 
-<!-- chunk {"id": "body-0033", "role": "body", "section": "III-D3 Evader Pursuit", "weight": 1.0} -->
+<!-- chunk {"id": "body-0032", "role": "body", "section": "III-D3 Evader Pursuit", "weight": 1.0} -->
 
 Quadrotor(s) pursue one moving goal. We parameterize the trajectories in two ways - using a 3D Lissajous curve, and randomly sampled consecutive points connected by Bezier splines, respectively.
 
+<!-- chunk {"id": "body-0033", "role": "body", "section": "III-E Reward Components", "weight": 1.0} -->
+
+We provide diverse reward components in the simulator. There are two groups of reward components. One is based on the quadrotor's state, and the other is based on the interactions with other objects. All $\alpha$ below are constants. where reward components based on the distance to the goal, linear velocity, the normal vector in the z-axis, angular velocity, actions, change of actions, rotation, and yaw.
+
 <!-- chunk {"id": "body-0034", "role": "body", "section": "III-E Reward Components", "weight": 1.0} -->
-
-We provide diverse reward components in the simulator. There are two groups of reward components. One is based on the quadrotor's state, and the other is based on the interactions with other objects. All $\alpha$ below are constants.
-
-<!-- chunk {"id": "body-0035", "role": "body", "section": "III-E Reward Components", "weight": 1.0} -->
-
-where reward components based on the distance to the goal, linear velocity, the normal vector in the z-axis, angular velocity, actions, change of actions, rotation, and yaw.
-
-<!-- chunk {"id": "body-0036", "role": "body", "section": "III-E Reward Components", "weight": 1.0} -->
 
 Interaction with Other Objects: We use a weighted combination of indicator functions for the conditions when the quadrotor hits the floor, stays on the floor, hits a wall, hits the ceiling, or hits other quadrotors. We also use a weighted combination of the relative distance between quadrotors for the condition when quadrotors are close to each other.
 
-<!-- chunk {"id": "body-0037", "role": "body", "section": "III-F Reinforcement Learning Library Interface", "weight": 1.0} -->
+<!-- chunk {"id": "body-0035", "role": "body", "section": "III-F Reinforcement Learning Library Interface", "weight": 1.0} -->
 
 We integrate Sample Factory, a fast RL library, with QuadSwarm to decrease the wall-clock training time. Sample Factory supports synchronous and asynchronous modes of policy proximal optimization (PPO) algorithms. For multi-agent RL, it currently supports Independent PPO.
 
-<!-- chunk {"id": "body-0038", "role": "body", "section": "Simulation Speed", "weight": 1.0} -->
+<!-- chunk {"id": "body-0036", "role": "body", "section": "Simulation Speed", "weight": 1.0} -->
 
 To balance speed, readability, and flexibility, we decide to: $(i)$ use Python to implement the minimum requirements of physics simulation and rendering, $({ii})$ use Numba, a just-in-time compiler that is able to translate Python and NumPy code into machine code to speed up physics simulations, and $({iii})$ decouple rendering from physics simulations.
 
-<!-- chunk {"id": "body-0039", "role": "body", "section": "Simulation Speed", "weight": 1.0} -->
-
-We evaluate simulation speed on a machine with AMD Ryzen 7 2700X CPU (16 CPU cores). To fairly compare QuadSwarm with gym-pybullet-drones, we set both simulators with 100 Hz control frequency, 200 Hz simulation frequency, and 15 seconds episode duration time. In an environment with multiple quadrotors, each quadrotor has the same observation space, thus QuadSwarm receives multiple samples per simulation step.
-
-<!-- chunk {"id": "body-0040", "role": "body", "section": "Simulation Speed", "weight": 1.0} -->
+<!-- chunk {"id": "body-0037", "role": "body", "section": "Simulation Speed", "weight": 1.0} -->
 
 Fig. 3 shows the simulation speed comparison between gym-pybullet-drones and QuadSwarm. In a single quadrotor setting, QuadSwarm approaches 48,589 SPS - $\sim$`<!-- -->`{=html}2.2x faster than gym-pybullet-drones. With multiple quadrotors and collision simulation, QuadSwarm approaches the fastest simulation speed, 62,042 SPS, when the number of quadrotors is eight - $\sim$`<!-- -->`{=html}2.0x faster than gym-pybullet-drones.
 
-<!-- chunk {"id": "body-0041", "role": "body", "section": "Examples", "weight": 1.0} -->
+<!-- chunk {"id": "body-0038", "role": "body", "section": "Examples", "weight": 1.0} -->
 
 We used QuadSwarm as the main simulation platform in two projects that demonstrated the transfer of learned control policies on single and multiple quadrotors. For a single quadrotor, we show how to learn a policy to stabilize multiple different quadrotors with domain randomization. For multiple quadrotors, we show how to learn a policy to control up to 128 quadrotors to approach their goals while avoiding collisions in diverse scenarios.
 
-<!-- chunk {"id": "body-0042", "role": "body", "section": "Conclusions", "weight": 1.0} -->
+<!-- chunk {"id": "body-0039", "role": "body", "section": "Conclusions", "weight": 1.0} -->
 
 We describe QuadSwarm, a simulator for Deep RL research on single and multi-quadrotor control policies and their sim2real transfer to real hardware. We demonstrate how QuadSwarm integrates five key ingredients: $(i)$ a reasonable physics model of Crazyflie 2.x, with domain randomization to account for unmodeled effects; $({ii})$ per-rotor thrust control; $({iii})$ fast, high parallelization, and scaling with additional compute; $({iv})$ a diverse collection of learning scenarios for single and multi-quadrotor teams; $(v)$ 100$\%$ written in Python. Our experiments suggest that QuadSwarm can be used to create robust quadrotor policies that successfully deploy to real hardware and that it is a useful and promising tool that will accelerate research in robust single and multi-quadrotor control policies for agile flight. We are working on extending QuadSwarm to support multiple obstacles, providing more accurate aerodynamic effects, and integrating with additional Deep RL libraries, such as PyMARL2.

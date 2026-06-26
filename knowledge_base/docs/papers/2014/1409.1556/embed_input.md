@@ -52,7 +52,7 @@ The ConvNet configurations, evaluated in this paper, are outlined in Table 1, on
 
 <!-- chunk {"id": "body-0013", "role": "body", "section": "Configurations", "weight": 1.0} -->
 
-In Table 2 we report the number of parameters for each configuration. In spite of a large depth, the number of weights in our nets is not greater than the number of weights in a more shallow net with larger conv. layer widths and receptive fields (144M weights in ).
+In Table 2 we report the number of parameters for each configuration. In spite of a large depth, the number of weights in our nets is not greater than the number of weights in a more shallow net with larger conv. layer widths and receptive fields (144M weights in). input (224 × 224 RGB image) Table 1: ConvNet configurations (shown in columns). The depth of the configurations increases from the left (A) to the right (E), as more layers are added (the added layers are shown in bold). The convolutional layer parameters are denoted as “conv⟨receptive field size⟩-⟨number of channels⟩”. The ReLU activation function is not shown for brevity.
 
 <!-- chunk {"id": "body-0014", "role": "body", "section": "Discussion", "weight": 1.5} -->
 
@@ -156,10 +156,7 @@ Finally, scale jittering at training time ($S \in {\lbrack 256;512\rbrack}$) lea
 
 <!-- chunk {"id": "body-0039", "role": "body", "section": "Single Scale Evaluation", "weight": 1.0} -->
 
-ConvNet config. (Table 1)
-smallest image side
-top-1 val. error (%)
-top-5 val. error (%)
+ConvNet config. (Table 1) smallest image side top-1 val. error (%) top-5 val. error (%) Table 3: ConvNet performance at a single test scale.
 
 <!-- chunk {"id": "body-0040", "role": "body", "section": "Multi-Scale Evaluation", "weight": 1.0} -->
 
@@ -171,10 +168,7 @@ The results, presented in Table 4, indicate that scale jittering at test time le
 
 <!-- chunk {"id": "body-0042", "role": "body", "section": "Multi-Scale Evaluation", "weight": 1.0} -->
 
-ConvNet config. (Table 1)
-smallest image side
-top-1 val. error (%)
-top-5 val. error (%)
+ConvNet config. (Table 1) smallest image side top-1 val. error (%) top-5 val. error (%) Table 4: ConvNet performance at multiple test scales.
 
 <!-- chunk {"id": "body-0043", "role": "body", "section": "Multi-crop evaluation", "weight": 1.0} -->
 
@@ -182,9 +176,7 @@ In Table 5 we compare dense ConvNet evaluation with mult-crop evaluation (see Se
 
 <!-- chunk {"id": "body-0044", "role": "body", "section": "Multi-crop evaluation", "weight": 1.0} -->
 
-ConvNet config. (Table 1)
-top-1 val. error (%)
-top-5 val. error (%)
+ConvNet config. (Table 1) top-1 val. error (%) top-5 val. error (%) Table 5: ConvNet evaluation techniques comparison. In all experiments the training scale S was sampled, and three test scales Q were considered: {256, 384, 512}.
 
 <!-- chunk {"id": "body-0045", "role": "body", "section": "ConvNet Fusion", "weight": 1.0} -->
 
@@ -194,32 +186,34 @@ Up until now, we evaluated the performance of individual ConvNet models. In this
 
 The results are shown in Table 6. By the time of ILSVRC submission we had only trained the single-scale networks, as well as a multi-scale model D (by fine-tuning only the fully-connected layers rather than all layers). The resulting ensemble of 7 networks has $7.3\%$ ILSVRC test error. After the submission, we considered an ensemble of only two best-performing multi-scale models (configurations D and E), which reduced the test error to $7.0\%$ using dense evaluation and $6.8\%$ using combined dense and multi-crop evaluation. For reference, our best-performing single model achieves $7.1\%$ error (model E, Table 5).
 
-<!-- chunk {"id": "body-0047", "role": "body", "section": "Comparison with the State of the Art", "weight": 1.0} -->
+<!-- chunk {"id": "body-0047", "role": "body", "section": "ConvNet Fusion", "weight": 1.0} -->
 
-Finally, we compare our results with the state of the art in Table 7. In the classification task of ILSVRC-2014 challenge, our "VGG" team secured the 2nd place with $7.3\%$ test error using an ensemble of 7 models. After the submission, we decreased the error rate to $6.8\%$ using an ensemble of 2 models.
+Combined ConvNet models \pbox11cm (D//256,384,512), (E//256,384,512), dense eval.
 
 <!-- chunk {"id": "body-0048", "role": "body", "section": "Comparison with the State of the Art", "weight": 1.0} -->
 
-As can be seen from Table 7, our very deep ConvNets significantly outperform the previous generation of models, which achieved the best results in the ILSVRC-2012 and ILSVRC-2013 competitions. Our result is also competitive with respect to the classification task winner (GoogLeNet with $6.7\%$ error) and substantially outperforms the ILSVRC-2013 winning submission Clarifai, which achieved $11.2\%$ with outside training data and $11.7\%$ without it. This is remarkable, considering that our best result is achieved by combining just two models -- significantly less than used in most ILSVRC submissions. In terms of the single-net performance, our architecture achieves the best result ($7.0\%$ test error), outperforming a single GoogLeNet by $0.9\%$. Notably, we did not depart from the classical ConvNet architecture of LeCun et al., but improved it by substantially increasing the depth.
+Finally, we compare our results with the state of the art in Table 7. In the classification task of ILSVRC-2014 challenge, our "VGG" team secured the 2nd place with $7.3\%$ test error using an ensemble of 7 models. After the submission, we decreased the error rate to $6.8\%$ using an ensemble of 2 models.
 
 <!-- chunk {"id": "body-0049", "role": "body", "section": "Comparison with the State of the Art", "weight": 1.0} -->
 
-top-1 val. error (%)
-top-5 val. error (%)
-top-5 test error (%)
+As can be seen from Table 7, our very deep ConvNets significantly outperform the previous generation of models, which achieved the best results in the ILSVRC-2012 and ILSVRC-2013 competitions. Our result is also competitive with respect to the classification task winner (GoogLeNet with $6.7\%$ error) and substantially outperforms the ILSVRC-2013 winning submission Clarifai, which achieved $11.2\%$ with outside training data and $11.7\%$ without it. This is remarkable, considering that our best result is achieved by combining just two models -- significantly less than used in most ILSVRC submissions. In terms of the single-net performance, our architecture achieves the best result ($7.0\%$ test error), outperforming a single GoogLeNet by $0.9\%$. Notably, we did not depart from the classical ConvNet architecture of LeCun et al., but improved it by substantially increasing the depth. top-1 val. error (%) top-5 val.
 
 <!-- chunk {"id": "body-0050", "role": "body", "section": "Comparison with the State of the Art", "weight": 1.0} -->
 
-VGG (2 nets, multi-crop &amp; dense eval.)
+error (%) top-5 test error (%) VGG (2 nets, multi-crop & dense eval.)
 
 <!-- chunk {"id": "body-0051", "role": "body", "section": "Comparison with the State of the Art", "weight": 1.0} -->
 
-VGG (1 net, multi-crop &amp; dense eval.)
+VGG (1 net, multi-crop & dense eval.)
 
 <!-- chunk {"id": "body-0052", "role": "body", "section": "Comparison with the State of the Art", "weight": 1.0} -->
 
 VGG (ILSVRC submission, 7 nets, dense eval.)
 
-<!-- chunk {"id": "body-0053", "role": "body", "section": "Conclusion", "weight": 1.5} -->
+<!-- chunk {"id": "body-0053", "role": "body", "section": "Comparison with the State of the Art", "weight": 1.0} -->
+
+Clarifai (multiple nets) Zeiler & Fergus (6 nets) Zeiler & Fergus (1 net) Table 7: Comparison with the state of the art in ILSVRC classification. Our method is denoted as “VGG”. Only the results obtained without outside training data are reported.
+
+<!-- chunk {"id": "body-0054", "role": "body", "section": "Conclusion", "weight": 1.5} -->
 
 In this work we evaluated very deep convolutional networks (up to 19 weight layers) for large-scale image classification. It was demonstrated that the representation depth is beneficial for the classification accuracy, and that state-of-the-art performance on the ImageNet challenge dataset can be achieved using a conventional ConvNet architecture with substantially increased depth. In the appendix, we also show that our models generalise well to a wide range of tasks and datasets, matching or outperforming more complex recognition pipelines built around less deep image representations. Our results yet again confirm the importance of depth in visual representations.

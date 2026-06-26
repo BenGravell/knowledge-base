@@ -72,144 +72,104 @@ The action-value functions are then represented as a linear combination between 
 
 <!-- chunk {"id": "body-0018", "role": "body", "section": "Linear Value Function Frameworks", "weight": 1.0} -->
 
-We define the space of parameters $\theta$ inducing uniformly bounded action-value functions
+We define the space of parameters $\theta$ inducing uniformly bounded action-value functions We will later require the constant $D \in {\mathbb{R}}$ to be chosen to satisfy Asm. 1. ‣ 5 Main Result: Regret Upper Bound ‣ Learning Near Optimal Policies with Low Inherent Bellman Error"). For instance, $D = 1$ requires the value function to be in $\lbrack{- 1},{+ 1}\rbrack$ and complies with the assumption.
 
 <!-- chunk {"id": "body-0019", "role": "body", "section": "Linear Value Function Frameworks", "weight": 1.0} -->
 
-We will later require the constant $D \in {\mathbb{R}}$ to be chosen to satisfy Asm. 1. ‣ 5 Main Result: Regret Upper Bound ‣ Learning Near Optimal Policies with Low Inherent Bellman Error"). For instance, $D = 1$ requires the value function to be in $\lbrack{- 1},{+ 1}\rbrack$ and complies with the assumption.
+Each parameter $\theta$ identifies an (action) value function and the associated functional spaces Inherent Bellman error. The value iteration algorithm can be used to compute an optimal policy and it smoothly extends to linear approximators. The procedure repeatedly applies the Bellman operator $\mathcal{T}_{t}$ to an action-value function^11^1One can reason with either the value function $V$ or the action-value function $Q$. $Q_{t} \in \mathcal{Q}_{t}$ and projects the computed point $\mathcal{T}_{t}Q_{t}$ back to $\mathcal{Q}_{t + 1}$ using a (e.g., least-squares) projection operator $\Pi_{t}$. The projection error is precisely the inherent Bellman error, which can be thought of as how close the space $\mathcal{Q}_{t}$ is w.r.t. the Bellman operator $\mathcal{T}_{t}$.
 
-<!-- chunk {"id": "body-0020", "role": "body", "section": "Linear Value Function Frameworks", "weight": 1.0} -->
+<!-- chunk {"id": "body-0020", "role": "body", "section": "Algorithm", "weight": 1.0} -->
 
-Each parameter $\theta$ identifies an (action) value function
+We consider the standard online learning protocol in finite-horizon problems, where at each episode $k$, the learner executes a policy $\pi_{k}$, records the samples in the trajectory, updates the policy and reiterates over the next episode. We first recall the standard LSVI. At the beginning of episode $k$, consider timestep $t$ and assume the next-step parameter is fixed and equal to $\theta_{t + 1}$. The objective function of the regularized least-square is where ${\{\phi_{ti}\}}_{i = {1,\ldots,{k - 1}}}$ are the features observed at timestep $t$ in state $s_{ti}$ and $r_{ti}$ are the corresponding rewards.
 
-<!-- chunk {"id": "body-0021", "role": "body", "section": "Linear Value Function Frameworks", "weight": 1.0} -->
-
-and the associated functional spaces
-
-<!-- chunk {"id": "body-0022", "role": "body", "section": "Linear Value Function Frameworks", "weight": 1.0} -->
-
-Inherent Bellman error. The value iteration algorithm can be used to compute an optimal policy and it smoothly extends to linear approximators. The procedure repeatedly applies the Bellman operator $\mathcal{T}_{t}$ to an action-value function^11^1One can reason with either the value function $V$ or the action-value function $Q$. $Q_{t} \in \mathcal{Q}_{t}$ and projects the computed point $\mathcal{T}_{t}Q_{t}$ back to $\mathcal{Q}_{t + 1}$ using a (e.g., least-squares) projection operator $\Pi_{t}$. The projection error is precisely the inherent Bellman error, which can be thought of as how close the space $\mathcal{Q}_{t}$ is w.r.t. the Bellman operator $\mathcal{T}_{t}$.
-
-<!-- chunk {"id": "body-0023", "role": "body", "section": "Algorithm", "weight": 1.0} -->
-
-We consider the standard online learning protocol in finite-horizon problems, where at each episode $k$, the learner executes a policy $\pi_{k}$, records the samples in the trajectory, updates the policy and reiterates over the next episode. We first recall the standard LSVI. At the beginning of episode $k$, consider timestep $t$ and assume the next-step parameter is fixed and equal to $\theta_{t + 1}$. The objective function of the regularized least-square is
-
-<!-- chunk {"id": "body-0024", "role": "body", "section": "Algorithm", "weight": 1.0} -->
-
-where ${\{\phi_{ti}\}}_{i = {1,\ldots,{k - 1}}}$ are the features observed at timestep $t$ in state $s_{ti}$ and $r_{ti}$ are the corresponding rewards. For any $\lambda > 0$ the prior display has a closed-form solution
-
-<!-- chunk {"id": "body-0025", "role": "body", "section": "Algorithm", "weight": 1.0} -->
+<!-- chunk {"id": "body-0021", "role": "body", "section": "Algorithm", "weight": 1.0} -->
 
 We introduce an optimistic variant of LSVI, where the optimistic parameters are chosen by solving a global optimization problem across the whole horizon $H$. At each episode, Eleanor (in Alg. 1) solves the following problem.
 
-<!-- chunk {"id": "body-0026", "role": "body", "section": "Assumption 1 (Main Assumption)", "weight": 1.0} -->
+<!-- chunk {"id": "body-0022", "role": "body", "section": "Assumption 1 (Main Assumption)", "weight": 1.0} -->
 
-The first condition is a condition on the scaling of the problem and the bound on the feature norm is without loss of generality. The sub-Gaussianity is standard already for linear bandits. In particular, if the reward are in $\lbrack 0,1\rbrack$ and $D = 1$ in eq. 1, which gives ${\overline{V}{( \cdot )}} \in {\lbrack{- 1},1\rbrack}$, then this condition is automatically satisfied. Finally, the bound on the parameter limits the bias introduced by regularization which scales with the norm of the parameter, but a psedoinverse computation would relax this requirement.
+In particular, if the reward are in $\lbrack 0,1\rbrack$ and $D = 1$ in eq. 1, which gives ${\overline{V}{(\cdot)}} \in {\lbrack{- 1},1\rbrack}$, then this condition is automatically satisfied. Finally, the bound on the parameter limits the bias introduced by regularization which scales with the norm of the parameter, but a psedoinverse computation would relax this requirement.
 
-<!-- chunk {"id": "body-0027", "role": "body", "section": "Assumption 1 (Main Assumption)", "weight": 1.0} -->
+<!-- chunk {"id": "body-0023", "role": "body", "section": "Assumption 1 (Main Assumption)", "weight": 1.0} -->
 
 After rescaling, however, our assumptions are much weaker the the usual setting that requires ${r_{t}{( \cdot, \cdot )}} \in {\lbrack 0,1\rbrack}$ and ${V_{t}^{\pi}{( \cdot )}} \in {\lbrack 0,H\rbrack}$ since we allow the reward to be of the same order as the value function after rescaling and even be negative. This is a harder setting.
 
-<!-- chunk {"id": "body-0028", "role": "body", "section": "Assumption 1 (Main Assumption)", "weight": 1.0} -->
+<!-- chunk {"id": "body-0024", "role": "body", "section": "Assumption 1 (Main Assumption)", "weight": 1.0} -->
 
-\[Main Result\]thmMainResult Under assumption 1.
+\[Main Result\]thmMainResult Under assumption 1. ‣ 5 Main Result: Regret Upper Bound ‣ Learning Near Optimal Policies with Low Inherent Bellman Error") with $\lambda = 1$, with probability at least $1 - \delta$ jointly over all episodes it holds that the regret of Eleanor is bounded: There are no additional "lower order" terms in the above display, although the $\overset{\sim}{O}{(\cdot)}$ notation hides, as usual, logarithms of $d_{t},H,K,{1/\delta}$.
 
-<!-- chunk {"id": "body-0029", "role": "body", "section": "Assumption 1 (Main Assumption)", "weight": 1.0} -->
-
-There are no additional "lower order" terms in the above display, although the $\overset{\sim}{O}{( \cdot )}$ notation hides, as usual, logarithms of $d_{t},H,K,{1/\delta}$.
-
-<!-- chunk {"id": "body-0030", "role": "body", "section": "Assumption 1 (Main Assumption)", "weight": 1.0} -->
+<!-- chunk {"id": "body-0025", "role": "body", "section": "Assumption 1 (Main Assumption)", "weight": 1.0} -->
 
 Care must be taken when comparing across settings with different scaling. In particular, *rescaling the problem* (i.e., the reward function) *by $H$* increases the sub-Gaussian norm of the rewards and transitions, and the value of the inherent Bellman error alike, yielding *an extra $H$ factor in the regret bound*. For example, in the setting that the rewards are bounded in $\lbrack 0,1\rbrack$ and the value function is in $\lbrack 0,H\rbrack$ with $d_{1} = \cdots = d_{H}\overset{def}{=}d$ and $\mathcal{I} = 0$ for simplicity, the above regret bound reduces (with $T = {KH}$) to $\overset{\sim}{O}{({dH^{\frac{3}{2}}\sqrt{T}})}$.
 
-<!-- chunk {"id": "body-0031", "role": "body", "section": "Assumption 1 (Main Assumption)", "weight": 1.0} -->
+<!-- chunk {"id": "body-0026", "role": "body", "section": "Assumption 1 (Main Assumption)", "weight": 1.0} -->
 
 Low-rank MDPs As explained in definition 1, our result applies to low-rank MDPs; surprisingly, this shows that at least $\sqrt{d}$ improvement is possible in the main rate compared to the best-known $\overset{\sim}{O}{({{({dH})}^{3/2}\sqrt{T}})}$ of upper bound despite Eleanor is not specifically tailored to handle low-rank MDPs. This is possible because Eleanor looks for optimistic solutions directly in the $\theta$ parameter space instead of perturbing the value function by an exploration bonus as. When the value function is perturbed by a bonus, it grows in complexity as it departs from the linear space; this requires an additional union bound over a more complicated value function class and ultimately loses a $\sqrt{d}$ factor. Finally, the inherent Bellman error covers the notion of approximate low-rank MDPs, and on the misspecification regret term we save a $\sqrt{d}$ factor as well thanks to a more careful projection argument in lemma 8.
 
-<!-- chunk {"id": "body-0032", "role": "body", "section": "Assumption 1 (Main Assumption)", "weight": 1.0} -->
+<!-- chunk {"id": "body-0027", "role": "body", "section": "Assumption 1 (Main Assumption)", "weight": 1.0} -->
 
 ‣ C.6 Projection Bound ‣ Appendix C Eleanor ‣ Learning Near Optimal Policies with Low Inherent Bellman Error").
 
-<!-- chunk {"id": "body-0033", "role": "body", "section": "Contextual Misspecified Linear Bandits", "weight": 1.0} -->
+<!-- chunk {"id": "body-0028", "role": "body", "section": "Contextual Misspecified Linear Bandits", "weight": 1.0} -->
 
 Our framework reduces to bandits with linear approximators when $H = 1$ (we drop the time subscript $t$ in this case): Eleanor can handle *contextual misspecified linear bandits*, where contextual refers to allowing the action set to change as the feature extractor can be a function of the context. It follows from the definition that the inherent Bellman error is the reward function misspecification in this case.
 
-<!-- chunk {"id": "body-0034", "role": "body", "section": "Lower Bounds", "weight": 1.0} -->
+<!-- chunk {"id": "body-0029", "role": "body", "section": "Lower Bounds", "weight": 1.0} -->
 
 In terms of statistical rate, Eleanor is unimprovable due to a lower bound directly borrowed from the bandit literature.
 
-<!-- chunk {"id": "body-0035", "role": "body", "section": "Propagation of errors", "weight": 1.0} -->
+<!-- chunk {"id": "body-0030", "role": "body", "section": "Propagation of errors", "weight": 1.0} -->
 
 This representational constraint unfortunately rules out adding exploration bonuses as in prior low-rank work as well as in tabular MDPs; their addition can have the backup $\mathcal{T}_{t}{\overline{Q}}_{t + 1}$ leave the linear space (which is equivalent to having large $\mathcal{I}$) and can lead to divergence of the repeated least-square procedure.
 
-<!-- chunk {"id": "body-0036", "role": "body", "section": "Propagation of errors", "weight": 1.0} -->
+<!-- chunk {"id": "body-0031", "role": "body", "section": "Propagation of errors", "weight": 1.0} -->
 
-We discuss the main error terms below.
+Inherent Bellman error Cauchy-Schwartz and a projection argument (lemma 8. ‣ C.6 Projection Bound ‣ Appendix C Eleanor ‣ Learning Near Optimal Policies with Low Inherent Bellman Error")) gives: The inability to correctly represent the application of the Bellman operator could be exploited adversarially to introduce an error that grows with $\sqrt{k}$ (where $k$ is the number of episodes). On average, however, the $\Sigma_{tk}^{- 1}$-norm of those features that are selected shrinks as ${\|{\phi_{t}{(s,a)}}\|}_{\Sigma_{tk}^{- 1}} \approx \sqrt{d_{t}/k}$. While the agent can select a $(s,a)$ pair where the product ${\|{\phi_{t}{(s,a)}}\|}_{\Sigma_{tk}^{- 1}}\sqrt{k}\mathcal{I}$ can be large, this cannot happen for too long.
 
-<!-- chunk {"id": "body-0037", "role": "body", "section": "Propagation of errors", "weight": 1.0} -->
+<!-- chunk {"id": "body-0032", "role": "body", "section": "Propagation of errors", "weight": 1.0} -->
 
-Inherent Bellman error Cauchy-Schwartz and a projection argument (lemma 8. ‣ C.6
+Intuitively, a large prediction error is made only on features that are significantly different from those seen in the past, but trying those features reveals the correct prediction, which decreases the prediction error for that direction in the future.
 
-<!-- chunk {"id": "body-0038", "role": "body", "section": "Propagation of errors", "weight": 1.0} -->
+<!-- chunk {"id": "body-0033", "role": "body", "section": "Propagation of errors", "weight": 1.0} -->
 
-The inability to correctly represent the application of the Bellman operator could be exploited adversarially to introduce an error that grows with $\sqrt{k}$ (where $k$ is the number of episodes). On average, however, the $\Sigma_{tk}^{- 1}$-norm of those features that are selected shrinks as ${\|{\phi_{t}{(s,a)}}\|}_{\Sigma_{tk}^{- 1}} \approx \sqrt{d_{t}/k}$. While the agent can select a $(s,a)$ pair where the product ${\|{\phi_{t}{(s,a)}}\|}_{\Sigma_{tk}^{- 1}}\sqrt{k}\mathcal{I}$ can be large, this cannot happen for too long. Intuitively, a large prediction error is made only on features that are significantly different from those seen in the past, but trying those features reveals the correct prediction, which decreases the prediction error for that direction in the future.
+Noise error and covering argument Cauchy-Schwartz again gives where $\beta_{tk}$ follows from the self normalizing bound of modified to cover the functional space $\mathcal{V}_{t}$. The covering argument is necessary since the noise depends on ${\overline{V}}_{t + 1}$ which is itself random. More precisely, we can write $\sqrt{\beta_{tk}} \lessapprox \sqrt{{\ln{\det{(\Sigma_{tk})}^{\frac{1}{2}}}} + {\ln\mathcal{N}}}$, where $\mathcal{N}$ is the covering number to $\epsilon$ accuracy of $\mathcal{V}_{t + 1}$.
 
-<!-- chunk {"id": "body-0039", "role": "body", "section": "Propagation of errors", "weight": 1.0} -->
-
-Noise error and covering argument Cauchy-Schwartz again gives
-
-<!-- chunk {"id": "body-0040", "role": "body", "section": "Propagation of errors", "weight": 1.0} -->
-
-where $\beta_{tk}$ follows from the self normalizing bound of modified to cover the functional space $\mathcal{V}_{t}$. The covering argument is necessary since the noise depends on ${\overline{V}}_{t + 1}$ which is itself random. More precisely, we can write $\sqrt{\beta_{tk}} \lessapprox \sqrt{{\ln{\det{(\Sigma_{tk})}^{\frac{1}{2}}}} + {\ln\mathcal{N}}}$, where $\mathcal{N}$ is the covering number to $\epsilon$ accuracy of $\mathcal{V}_{t + 1}$.
-
-<!-- chunk {"id": "body-0041", "role": "body", "section": "Propagation of errors", "weight": 1.0} -->
+<!-- chunk {"id": "body-0034", "role": "body", "section": "Propagation of errors", "weight": 1.0} -->
 
 Therefore, despite having an additional union bound compared to because of the moving target ${\overline{V}}_{t + 1}$, our confidence intervals are of the same order of magnitude.
 
-<!-- chunk {"id": "body-0042", "role": "body", "section": "Propagation of errors", "weight": 1.0} -->
+<!-- chunk {"id": "body-0035", "role": "body", "section": "Propagation of errors", "weight": 1.0} -->
 
 This is the place where a $\sqrt{d_{t}}$ can be saved compared to for example, which need to do a union bound over a more complicated function class because of the exploration bonuses.
 
-<!-- chunk {"id": "body-0043", "role": "body", "section": "Propagation of errors", "weight": 1.0} -->
+<!-- chunk {"id": "body-0036", "role": "body", "section": "Propagation of errors", "weight": 1.0} -->
 
-It remains to define $\alpha_{tk}$, which controls the size of optimization parameters, justifying eq. 6.
+Final expression Adding $\phi_{t}{(s,a)}^{\top}{\overline{\xi}}_{t}$ to both sides of eq. 8 and using the bounds just derived gives ${|{\left({{\overline{Q}}_{t} - {\mathcal{T}_{t}{\overline{Q}}_{t + 1}}} \right){(s,a)}}|} =$ It remains to define $\alpha_{tk}$, which controls the size of optimization parameters, justifying eq. 6.
 
-<!-- chunk {"id": "body-0044", "role": "body", "section": "Feasibility, best approximator and optimism", "weight": 1.0} -->
+<!-- chunk {"id": "body-0037", "role": "body", "section": "Feasibility, best approximator and optimism", "weight": 1.0} -->
 
 A key point of optimistic approaches for exploration is to overestimate the value of policies by assigning them a statistically plausible return, and play the policy with the highest such value.
 
-<!-- chunk {"id": "body-0045", "role": "body", "section": "Feasibility, best approximator and optimism", "weight": 1.0} -->
+<!-- chunk {"id": "body-0038", "role": "body", "section": "Feasibility, best approximator and optimism", "weight": 1.0} -->
 
 Since the optimal value function is an upper bound to the value of all policies, technically an optimistic learner is only required to identify a policy with value at least as high as $V_{1}^{\star}$ while satisfying some confidence intervals. To show it possible to achieve this with our formulation, we will find a feasible solution to the program of definition 2. ‣ 4 Algorithm ‣ Learning Near Optimal Policies with Low Inherent Bellman Error") that is "close" to $V^{\star}$. In general $V_{t}^{\star} \notin \mathcal{V}_{t}$, and so we need to define the "best" approximator in $\mathcal{V}_{t}$ for $V_{t}^{\star}$. We denote its parameter with $\theta_{t}^{\star} \in \mathcal{B}_{t}$, inductively defined (see def. 4.
 
-<!-- chunk {"id": "body-0046", "role": "body", "section": "Feasibility, best approximator and optimism", "weight": 1.0} -->
+<!-- chunk {"id": "body-0039", "role": "body", "section": "Feasibility, best approximator and optimism", "weight": 1.0} -->
 
-‣ C.3 Best Approximant and its Properties ‣ Appendix C Eleanor ‣ Learning Near Optimal Policies with Low Inherent Bellman Error") in appendix) as the parameter one obtains by applying the *exact* Bellman operator and then by minimizing the $\infty$ norm of the Bellman residual: $\theta_{t}^{\star}\overset{def}{=}$
+‣ C.3 Best Approximant and its Properties ‣ Appendix C Eleanor ‣ Learning Near Optimal Policies with Low Inherent Bellman Error") in appendix) as the parameter one obtains by applying the *exact* Bellman operator and then by minimizing the $\infty$ norm of the Bellman residual: $\theta_{t}^{\star}\overset{def}{=}$ If $\mathcal{I} = 0$ then ${\phi_{t}{(s,a)}^{\top}\theta_{t}^{\star}} = {Q_{t}^{\star}{(s,a)}}$ inductively follows.
 
-<!-- chunk {"id": "body-0047", "role": "body", "section": "Feasibility, best approximator and optimism", "weight": 1.0} -->
+<!-- chunk {"id": "body-0040", "role": "body", "section": "Feasibility, best approximator and optimism", "weight": 1.0} -->
 
-Computation of $\alpha_{tk}$ Under an inductive argument, assume the program of definition 2. ‣ 4 Algorithm ‣ Learning Near Optimal Policies with Low Inherent Bellman Error") admits a partial solution ${\overline{\xi}}_{t + 1},\ldots,{\overline{\xi}}_{H}$ that satisfies ${{\overline{\theta}}_{t + 1} = {\theta_{t + 1}^{\star},\ldots}},{{\overline{\theta}}_{H} = \theta_{H}^{\star}}$ (the parameters for timesteps less than $t + 1$ have not been decided yet).
+Computation of $\alpha_{tk}$ Under an inductive argument, assume the program of definition 2. ‣ 4 Algorithm ‣ Learning Near Optimal Policies with Low Inherent Bellman Error") admits a partial solution ${\overline{\xi}}_{t + 1},\ldots,{\overline{\xi}}_{H}$ that satisfies ${{\overline{\theta}}_{t + 1} = {\theta_{t + 1}^{\star},\ldots}},{{\overline{\theta}}_{H} = \theta_{H}^{\star}}$ (the parameters for timesteps less than $t + 1$ have not been decided yet). and adding $\phi_{t}{(s,a)}^{\top}{\overline{\xi}}_{t}$ back to eq.
 
-<!-- chunk {"id": "body-0048", "role": "body", "section": "Feasibility, best approximator and optimism", "weight": 1.0} -->
+<!-- chunk {"id": "body-0041", "role": "body", "section": "Feasibility, best approximator and optimism", "weight": 1.0} -->
 
-Comparing with eq. 10 we can claim ${\overline{\theta}}_{t} = \theta_{t}^{\star}$, completing the induction. Thus, the best approximator defined through $\theta_{t}^{\star}$ is a feasible solution to the program of definition 2. ‣ 4 Algorithm ‣ Learning Near Optimal Policies with Low Inherent Bellman Error").
+8 evaluated with ${\overline{Q}}_{t + 1} = {Q_{t + 1}{(\theta_{t + 1}^{\star})}}$ can "undo" the effect of noise and approximation error at timestep $t$, producing (recall ${\overline{\theta}}_{t} = {{\hat{\theta}}_{t} + {\overline{\xi}}_{t}}$) Comparing with eq. 10 we can claim ${\overline{\theta}}_{t} = \theta_{t}^{\star}$, completing the induction. Thus, the best approximator defined through $\theta_{t}^{\star}$ is a feasible solution to the program of definition 2. ‣ 4 Algorithm ‣ Learning Near Optimal Policies with Low Inherent Bellman Error").
 
-<!-- chunk {"id": "body-0049", "role": "body", "section": "Feasibility, best approximator and optimism", "weight": 1.0} -->
+<!-- chunk {"id": "body-0042", "role": "body", "section": "Feasibility, best approximator and optimism", "weight": 1.0} -->
 
-As we'll see in a second, this near-optimism is enough to obtain a solid regret bound. Finally, eq.
+The corresponding value function $V_{t}{(\theta_{t}^{\star})}$ can make an error of size $\mathcal{I}$ in representing the Bellman backup, and this accumulates linearly, and hence Eleanor is ultimately nearly-optimistic: As we'll see in a second, this near-optimism is enough to obtain a solid regret bound. Finally, eq. 11 gives: which matches eq. 6 after adding the regularization term.
 
-<!-- chunk {"id": "body-0050", "role": "body", "section": "Feasibility, best approximator and optimism", "weight": 1.0} -->
-
-which matches eq. 6 after adding the regularization term.
-
-<!-- chunk {"id": "body-0051", "role": "body", "section": "Regret Bound", "weight": 1.0} -->
-
-Finally, we can present the regret bound, which now follows similarly to prior analyses for model free algorithms (e.g., ).
-
-<!-- chunk {"id": "body-0052", "role": "body", "section": "Regret Bound", "weight": 1.0} -->
-
-The first term inside the parenthesis can be bounded by eq. 12; we can expand the second term using eq. 9 where $\pi_{k}$ is the agent's policy in episode $k$ and $a_{tk} = {\pi_{tk}{(s_{tk})}}$ for short. For a generic timestep $t$ we obtain
-
-<!-- chunk {"id": "body-0053", "role": "body", "section": "Conclusion", "weight": 1.5} -->
+<!-- chunk {"id": "body-0043", "role": "body", "section": "Conclusion", "weight": 1.5} -->
 
 We have introduced an algorithm for online exploration with linear approximators under the notion of low-inherent Bellman error with an optimal regret bound with regards to statistical rates and the lack of closedness of the Bellman operator. The construction reveals that a shift to global optimization might be unavoidable with more general linear approximators than prior low-rank work, making computational tractability harder to achieve. A core idea is that by working directly in the parameter space we enable a linear propagation of the errors (as opposed to exponential) and we limit the complexity of the value function class, which can serve as inspiration to improve the statistical efficiency for other algorithms as well. Finally, a noteworthy contribution is our analysis for misspecified contextual linear bandit, which explains that a simple modification of a mainstream algorithm is sufficient to handle such setting.

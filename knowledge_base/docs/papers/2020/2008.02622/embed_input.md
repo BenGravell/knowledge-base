@@ -32,11 +32,11 @@ Reinforcement learning aims to approximately solve MDP models and find a decisio
 
 <!-- chunk {"id": "body-0008", "role": "body", "section": "Abstract", "weight": 1.5} -->
 
-In addition to the aforementioned model conventions, it is often mentioned that the decision-making policy is $\mathcal{F}_{t}$-measurable, that we deal with a filtered probability space, or that the expected value is conditional on a filtration; this notion of 'filtration' originates from the field of measure theory. Particularly for RL researchers from more applied backgrounds, the implications of a filtered probability space might not be eminent. When looking up the corresponding textbook definition of filtrations (see, e.g.,
+In addition to the aforementioned model conventions, it is often mentioned that the decision-making policy is $\mathcal{F}_{t}$-measurable, that we deal with a filtered probability space, or that the expected value is conditional on a filtration; this notion of 'filtration' originates from the field of measure theory. Particularly for RL researchers from more applied backgrounds, the implications of a filtered probability space might not be eminent. When looking up the corresponding textbook definition of filtrations (see, e.g.,), you will probably find something like this: > Let $(W_{1},W_{2},\ldots,W_{T})$ be the sequence of information variables defined over $\mathcal{T}$, containing an ordered set of exogenous information $W_{t}$.
 
 <!-- chunk {"id": "body-0009", "role": "body", "section": "Abstract", "weight": 1.5} -->
 
-> Let $(W_{1},W_{2},\ldots,W_{T})$ be the sequence of information variables defined over $\mathcal{T}$, containing an ordered set of exogenous information $W_{t}$. Let $\omega \in \Omega$ be a sample sequence of an event realization ${W_{1} = \omega_{1}},{{W_{2} = {\omega_{2},\ldots}},{W_{T} = \omega_{T}}}$. Furthermore, let $\mathcal{F}$ be the $\sigma$-algebra on $\Omega$, capturing all possible events included in $\Omega$. The set $\mathcal{F}$ is composed of all countable unions and complements of the elements defined in $\Omega$. Let ${\mathbb{P}}^{\Omega}$ be a probability measure on $(\Omega,\mathcal{F})$.
+Let $\omega \in \Omega$ be a sample sequence of an event realization ${W_{1} = \omega_{1}},{{W_{2} = {\omega_{2},\ldots}},{W_{T} = \omega_{T}}}$. Furthermore, let $\mathcal{F}$ be the $\sigma$-algebra on $\Omega$, capturing all possible events included in $\Omega$. The set $\mathcal{F}$ is composed of all countable unions and complements of the elements defined in $\Omega$. Let ${\mathbb{P}}^{\Omega}$ be a probability measure on $(\Omega,\mathcal{F})$.
 
 <!-- chunk {"id": "body-0010", "role": "body", "section": "Abstract", "weight": 1.5} -->
 
@@ -76,7 +76,7 @@ Note that if the price went up, we know our sample path $\omega$ will be in $A_{
 
 <!-- chunk {"id": "body-0019", "role": "body", "section": "Abstract", "weight": 1.5} -->
 
-For $\mathcal{F}_{0}$, it is eminent that any $\omega$ must belong to $\Omega$ and not to $\varnothing$. We have not observed any information that allows for a more accurate classification. For $\mathcal{F}_{1}$, we can define two more sets to which $\omega$ may belong. Due to observing the first price change, we are now able to assign $\omega$ to $A_{u}$ or $A_{d}$; we may state that these sets are 'resolved'. When moving to $\mathcal{F}_{2}$, things get slightly more involved. Whenever we have resolved a set, we have also resolved its complement.
+Having defined the events, we can define the corresponding filtrations for $t = {0,1,2,3}$: For $\mathcal{F}_{0}$, it is eminent that any $\omega$ must belong to $\Omega$ and not to $\varnothing$. We have not observed any information that allows for a more accurate classification. For $\mathcal{F}_{1}$, we can define two more sets to which $\omega$ may belong. Due to observing the first price change, we are now able to assign $\omega$ to $A_{u}$ or $A_{d}$; we may state that these sets are 'resolved'. When moving to $\mathcal{F}_{2}$, things get slightly more involved. Whenever we have resolved a set, we have also resolved its complement.
 
 <!-- chunk {"id": "body-0020", "role": "body", "section": "Abstract", "weight": 1.5} -->
 
@@ -84,11 +84,11 @@ In $\mathcal{F}_{1}$ we had $A_{u}^{C} = A_{d}$ and vice versa, but for $\mathca
 
 <!-- chunk {"id": "body-0021", "role": "body", "section": "Abstract", "weight": 1.5} -->
 
-From this example it can be seen that $\mathcal{F}_{t} \subseteq \mathcal{F}_{t + 1}$ indeed holds. The filtration at time $t$ embeds all event sets that can be distinguished up until that point, based on the possible realizations of the random variables $W_{1},\ldots,W_{t}$. We further illustrate this result with some figures.
+From this example it can be seen that $\mathcal{F}_{t} \subseteq \mathcal{F}_{t + 1}$ indeed holds. The filtration at time $t$ embeds all event sets that can be distinguished up until that point, based on the possible realizations of the random variables $W_{1},\ldots,W_{t}$. We further illustrate this result with some figures. Figure 2 visualizes the event sets $A_{u}$ and $A_{d}$: Figure 2: Intuitive visualization of ℱ1. The colors red and blue indicate the event sets Au and Ad after observing one stock price movement.
 
 <!-- chunk {"id": "body-0022", "role": "body", "section": "Abstract", "weight": 1.5} -->
 
-The filtration $\mathcal{F}_{2}$ encapsulates $\mathcal{F}_{1}$ and also takes into account the return information revealed at $t = 2$.
+The filtration $\mathcal{F}_{2}$ encapsulates $\mathcal{F}_{1}$ and also takes into account the return information revealed at $t = 2$. Thus, we now has event sets $A_{uu}$, $A_{ud}$, $A_{du}$ and $A_{dd}$, illustrated by the distinct colors in Figure 3: Figure 3: Intuitive visualization of ℱ2. The colors red, green, orange and blue indicate event sets Au u, Au d, Ad u, Ad d respectively. Note that this filtration is more fine-grained than ℱ1.
 
 <!-- chunk {"id": "body-0023", "role": "body", "section": "Abstract", "weight": 1.5} -->
 
@@ -96,28 +96,20 @@ This tiny lattice example extends to all problems with discrete outcome spaces $
 
 <!-- chunk {"id": "body-0024", "role": "body", "section": "Abstract", "weight": 1.5} -->
 
-On the real line, we often use the Borel $\sigma$-algebra, which contains all open intervals, their unions and their complements. For instance, on a domain ${{\lbrack{S - d},{S + u}\rbrack} \cup {\mathbb{R}}} = {\lbrack 329,335\rbrack}$ we could define a Borel $\sigma$-algebra $\mathcal{B}{\lbrack 329,335\rbrack}$. Such algebras may contain intervals^11^1As individual points have a probability of 0 occurring, open and closed sets have the same probability. such as
+On the real line, we often use the Borel $\sigma$-algebra, which contains all open intervals, their unions and their complements. For instance, on a domain ${{\lbrack{S - d},{S + u}\rbrack} \cup {\mathbb{R}}} = {\lbrack 329,335\rbrack}$ we could define a Borel $\sigma$-algebra $\mathcal{B}{\lbrack 329,335\rbrack}$. Such algebras may contain intervals^11^1As individual points have a probability of 0 occurring, open and closed sets have the same probability. such as as well as all their unions and complements. The complement of $\lbrack 330.3,331.9)$ would be Furthermore, we can construct a plethora of unions such as Although we can think of infinitely many events, we may assign a positive probability to each of them and verify whether or not the price path is in the interval.
 
 <!-- chunk {"id": "body-0025", "role": "body", "section": "Abstract", "weight": 1.5} -->
 
-as well as all their unions and complements. The complement of $\lbrack 330.3,331.9)$ would be
+If we start with price $S_{0}$, the price at $t = 1$ falls within $\lbrack{S_{0} - d},{S_{0} + u}\rbrack$, at $t = 2$ it falls within $\lbrack{S_{0} - {2d}},{S_{0} + {2u}}\rbrack$, etc. Thus, the outcome space may be visualized as a cone shape that contains all possible price paths. As time passes, we can define increasingly narrow boundaries, although within these boundaries we can define an infinite number of open intervals (and their complements and unions). Figure 4 illustrates two possible event sets corresponding to a simulated price path $\omega$ in continuous space.
 
 <!-- chunk {"id": "body-0026", "role": "body", "section": "Abstract", "weight": 1.5} -->
 
-Furthermore, we can construct a plethora of unions such as
+To wrap up, we revisit the use of filtrations in a reinforcement learning context. In each learning episode, we construct a sample path $\omega$ that is typically randomly drawn from the outcome space. If we define a decision $x_{t}{(\omega)}$ based on the outcome space, we would already know all information, including events revealed at ${t + 1},\ldots,T$. In our stock price example, we would know exactly when to buy or sell, having perfect insight into the price movements up to $T$. However, if we impose that $x_{t}{(\omega)}$ is $\mathcal{F}_{t}$-measurable, decisions can only be made based on the information up till time $t$, such that realizations of $W_{t + 1},\ldots,W_{T}$ are not taken into account when making a decision at $t$. This way, the notion of filtrations elegantly resolves the issue of prematurely revealing future information to the decision maker.
 
 <!-- chunk {"id": "body-0027", "role": "body", "section": "Abstract", "weight": 1.5} -->
 
-Although we can think of infinitely many events, we may assign a positive probability to each of them and verify whether or not the price path is in the interval. If we start with price $S_{0}$, the price at $t = 1$ falls within $\lbrack{S_{0} - d},{S_{0} + u}\rbrack$, at $t = 2$ it falls within $\lbrack{S_{0} - {2d}},{S_{0} + {2u}}\rbrack$, etc. Thus, the outcome space may be visualized as a cone shape that contains all possible price paths. As time passes, we can define increasingly narrow boundaries, although within these boundaries we can define an infinite number of open intervals (and their complements and unions). Figure 4 illustrates two possible event sets corresponding to a simulated price path $\omega$ in continuous space.
-
-<!-- chunk {"id": "body-0028", "role": "body", "section": "Abstract", "weight": 1.5} -->
-
-To wrap up, we revisit the use of filtrations in a reinforcement learning context. In each learning episode, we construct a sample path $\omega$ that is typically randomly drawn from the outcome space. If we define a decision $x_{t}{(\omega)}$ based on the outcome space, we would already know all information, including events revealed at ${t + 1},\ldots,T$. In our stock price example, we would know exactly when to buy or sell, having perfect insight into the price movements up to $T$. However, if we impose that $x_{t}{(\omega)}$ is $\mathcal{F}_{t}$-measurable, decisions can only be made based on the information up till time $t$, such that realizations of $W_{t + 1},\ldots,W_{T}$ are not taken into account when making a decision at $t$. This way, the notion of filtrations elegantly resolves the issue of prematurely revealing future information to the decision maker.
-
-<!-- chunk {"id": "body-0029", "role": "body", "section": "Abstract", "weight": 1.5} -->
-
 Recall that in RL, we aim to find a decision-making policy $\pi:{S_{t}\mapsto x_{t}}$. The state $S_{t}$ can be computed based on the initial state $S_{0}$, the decisions made, and the information sequence ${W_{1} = {\omega_{1},\ldots}},{W_{t} = \omega_{t}}$. However, as the Markovian property holds (remind that decisions only depend on the current state of the system, not on information from the past), we need solely our current state $S_{t}$ to make a decision, not the entire information sequence leading to that state. In case of our stock price example, decisions whether to sell or buy only depend on the current stock price, which implicitly embeds all price fluctuations of the past. Hence, when stripping our MDP model to the minimum information that is strictly necessary to make a decision, the notion of filtrations is redundant.
 
-<!-- chunk {"id": "body-0030", "role": "body", "section": "Abstract", "weight": 1.5} -->
+<!-- chunk {"id": "body-0028", "role": "body", "section": "Abstract", "weight": 1.5} -->
 
 Nevertheless, filtrations are generic and broadly applicable, which is why many authors opt to use filtration concept in the formal definition of their MDPs. Ultimately, it boils down to convention and background. Whether utilizing the concept or not, for anyone active in the RL domain it is useful to have at least an intuitive understanding of the concept of filtrations.

@@ -20,7 +20,7 @@ We introduce the nuPlan dataset and simulation framework for autonomous vehicle 
 
 <!-- chunk {"id": "body-0005", "role": "body", "section": "Introduction", "weight": 1.5} -->
 
-We release the largest dataset for autonomous driving to date, with a total of 1282h from 4 cities. We also publish an unprecedented 128h of sensor data.
+We make the following contributions: We release the largest dataset for autonomous driving to date, with a total of 1282h from 4 cities. We also publish an unprecedented 128h of sensor data.
 
 <!-- chunk {"id": "body-0006", "role": "body", "section": "Introduction", "weight": 1.5} -->
 
@@ -28,7 +28,7 @@ We develop techniques to auto-label the dataset with accurate object tracks, tra
 
 <!-- chunk {"id": "body-0007", "role": "body", "section": "Introduction", "weight": 1.5} -->
 
-We publish our closed-loop simulation and evaluation framework and compare the performance of traditional and learning-based planners to identify gaps.
+We publish our closed-loop simulation and evaluation framework (Fig. 1) and compare the performance of traditional and learning-based planners to identify gaps.
 
 <!-- chunk {"id": "body-0008", "role": "body", "section": "II-A Datasets", "weight": 1.0} -->
 
@@ -76,7 +76,7 @@ We collected data from 4 cities (Boston, Pittsburgh, Las Vegas, and Singapore) t
 
 <!-- chunk {"id": "body-0019", "role": "body", "section": "III-A Data collection", "weight": 1.0} -->
 
-Manual driving. We use Chrysler Pacifica Plug-in Hybrid Electric Vehicles (PHEV) to drive in these cities. See Fig. for the sensor setup. Our vehicle operators (VOs) are instructed to use a natural driving style and drive safely. Since our focus is on planning, it is crucial that we drive manually, while most other datasets use a combination of manual and automated driving, which may lead the planner to imitate less desirable driving behavior. The VOs drive from a predefined starting point to a goal using a known route. For example, we drive between various hotels and casinos on the Las Vegas strip, which are typical routes for our robotaxi and are known and mapped beforehand.
+Manual driving. We use Chrysler Pacifica Plug-in Hybrid Electric Vehicles (PHEV) to drive in these cities. See Fig. 2 for the sensor setup. Our vehicle operators (VOs) are instructed to use a natural driving style and drive safely. Since our focus is on planning, it is crucial that we drive manually, while most other datasets use a combination of manual and automated driving, which may lead the planner to imitate less desirable driving behavior. The VOs drive from a predefined starting point to a goal using a known route. For example, we drive between various hotels and casinos on the Las Vegas strip, which are typical routes for our robotaxi and are known and mapped beforehand.
 
 <!-- chunk {"id": "body-0020", "role": "body", "section": "III-A Data collection", "weight": 1.0} -->
 
@@ -84,7 +84,7 @@ Sensor data. Sensor data include lidar point clouds and camera images. Due to th
 
 <!-- chunk {"id": "body-0021", "role": "body", "section": "III-A Data collection", "weight": 1.0} -->
 
-Maps. Similar to nuScenes, nuPlan provides detailed human-annotated 2D high-definition semantic maps of the driving locations. We release rasterized and vectorized maps. While rasterized maps are useful for simplicity and efficient lookup, vectorized maps provide more precise geometric information and metadata. Examples of semantic map layers are lanes, car parks, crosswalks and stop lines.
+Maps. Similar to nuScenes, nuPlan provides detailed human-annotated 2D high-definition semantic maps of the driving locations. We release rasterized and vectorized maps. While rasterized maps are useful for simplicity and efficient lookup, vectorized maps provide more precise geometric information and metadata. Examples of semantic map layers are lanes, car parks, crosswalks and stop lines (see Fig. 4).
 
 <!-- chunk {"id": "body-0022", "role": "body", "section": "III-B Auto-labeling", "weight": 1.0} -->
 
@@ -112,7 +112,7 @@ Scenario mining. Traditional approaches to evaluate planning performance are dom
 
 <!-- chunk {"id": "body-0028", "role": "body", "section": "Simulation", "weight": 1.0} -->
 
-nuPlan provides a simulation framework that is modular and flexible to work with different datasets and setups. The simulation is initialized with the real-world observations captured in the dataset, namely raw sensor data or object tracks. Given these environment observations, an agent model can be used to predict the future trajectories of all agents. Observations and agent trajectories are passed to a planner that predicts the best route for the ego vehicle given the other agents' routes. Finally, a controller converts the intended route into a feasible trajectory. The simulation can either playback the actions recorded in the dataset (open-loop) or allow the simulation to deviate from the recording by incorporating the ego's actions (closed-loop). Below are the simulation components in detail.
+nuPlan provides a simulation framework (Fig. 1) that is modular and flexible to work with different datasets and setups. The simulation is initialized with the real-world observations captured in the dataset, namely raw sensor data or object tracks. Given these environment observations, an agent model can be used to predict the future trajectories of all agents. Observations and agent trajectories are passed to a planner that predicts the best route for the ego vehicle given the other agents' routes. Finally, a controller converts the intended route into a feasible trajectory. The simulation can either playback the actions recorded in the dataset (open-loop) or allow the simulation to deviate from the recording by incorporating the ego's actions (closed-loop). Below are the simulation components in detail.
 
 <!-- chunk {"id": "body-0029", "role": "body", "section": "IV-A Agents", "weight": 1.0} -->
 
@@ -148,68 +148,64 @@ The final score of a planner is computed by averaging the scores for its generat
 
 <!-- chunk {"id": "body-0037", "role": "body", "section": "IV-C Evaluation", "weight": 1.0} -->
 
-The rest of the metrics are weighted according to their importance (See Tab.
+The rest of the metrics are weighted according to their importance (See Tab. II) and then averaged to compute the scenario score as: We define the score for each challenge (open-loop, closed-loop non-reactive, and closed-loop reactive) as the average scenario score across all scenarios for that challenge.
 
 <!-- chunk {"id": "body-0038", "role": "body", "section": "IV-C Evaluation", "weight": 1.0} -->
 
-We define the score for each challenge (open-loop, closed-loop non-reactive, and closed-loop reactive) as the average scenario score across all scenarios for that challenge.
+AHE and FHE within bound ADE and FDE within bound Drivable area compliance Driving direction compliance TTC within bound Progress along route ratio Speed limit compliance TABLE II: Planner metrics their and weights
 
-<!-- chunk {"id": "body-0039", "role": "body", "section": "IV-C Evaluation", "weight": 1.0} -->
-
-AHE and FHE within bound
-
-<!-- chunk {"id": "body-0040", "role": "body", "section": "IV-C Evaluation", "weight": 1.0} -->
-
-ADE and FDE within bound
-
-<!-- chunk {"id": "body-0041", "role": "body", "section": "Experiments", "weight": 1.0} -->
+<!-- chunk {"id": "body-0039", "role": "body", "section": "Experiments", "weight": 1.0} -->
 
 Here we present a number of planning baselines and their results when evaluated on the nuPlan benchmark. We analyze how the planning performance is impacted by lower quality perception inputs, as well as how it generalizes to other cities. Finally, we discuss the new state-of-the-art set by the submissions to the first nuPlan challenge.
 
-<!-- chunk {"id": "body-0042", "role": "body", "section": "V-A Planning baselines", "weight": 1.0} -->
+<!-- chunk {"id": "body-0040", "role": "body", "section": "V-A Planning baselines", "weight": 1.0} -->
 
 We implement several planning methods that are representative of the literature.
 
-<!-- chunk {"id": "body-0043", "role": "body", "section": "Simple Planner", "weight": 1.0} -->
+<!-- chunk {"id": "body-0041", "role": "body", "section": "Simple Planner", "weight": 1.0} -->
 
 The Simple planner has little planning capability. The planner plans a straight line at a constant speed. The only logic of this planner is to decelerate if the current velocity exceeds the max velocity.
 
-<!-- chunk {"id": "body-0044", "role": "body", "section": "Planner", "weight": 1.0} -->
+<!-- chunk {"id": "body-0042", "role": "body", "section": "Planner", "weight": 1.0} -->
 
 The Intelligent Driver Model (IDM) planner is essentially an Adaptive Cruise Control (ACC) policy. The planner consists of two parts: path planning and longitudinal control. The path planning component is a breadth-first search algorithm. It finds a center-line path toward the mission goal extracted from the underlying map structure. The longitudinal control follows the IDM policy. The policy describes how fast the planner should go based on the distance between itself and the closest leading agent.
 
-<!-- chunk {"id": "body-0045", "role": "body", "section": "Raster ML planner", "weight": 1.0} -->
+<!-- chunk {"id": "body-0043", "role": "body", "section": "Raster ML planner", "weight": 1.0} -->
 
 Similar to the encoder, the raster planner uses ResNet-50 as the backbone to encode features from an ego-centric multi-channel raster representing the ego, the agents and the map. The model directly outputs the final ego trajectory. The planner does not perform any post-processing on the predicted ego trajectory.
 
-<!-- chunk {"id": "body-0046", "role": "body", "section": "UrbanDriver ML Planner", "weight": 1.0} -->
+<!-- chunk {"id": "body-0044", "role": "body", "section": "UrbanDriver ML Planner", "weight": 1.0} -->
 
-We adopted an open-loop training variant of the UrbanDriver model as a representative machine learning planner baseline. The model processes vectorized agents and map inputs into local feature descriptors that are passed to a global attention mechanism for yielding a predicted ego trajectory. We train the model using imitation learning to match expert trajectories available in the nuPlan dataset. Data augmentation is additionally performed on the agents and expert trajectory provided during training to mitigate data distribution drift encountered during closed-loop simulation. This version was used for the challenge. We also implemented a multi-step prediction baseline variant as discussed and originally proposed to further address the distribution shift, for the experiments in this work but do not open-source this implementation.
+We adopted an open-loop training variant of the UrbanDriver model as a representative machine learning planner baseline. The model processes vectorized agents and map inputs into local feature descriptors that are passed to a global attention mechanism for yielding a predicted ego trajectory. We train the model using imitation learning to match expert trajectories available in the nuPlan dataset. Data augmentation is additionally performed on the agents and expert trajectory provided during training to mitigate data distribution drift encountered during closed-loop simulation. This version was used for the challenge. We also implemented a multi-step prediction baseline variant as discussed in and originally proposed in to further address the distribution shift, for the experiments in this work but do not open-source this implementation.
 
-<!-- chunk {"id": "body-0047", "role": "body", "section": "V-B Main results", "weight": 1.0} -->
+<!-- chunk {"id": "body-0045", "role": "body", "section": "V-B Main results", "weight": 1.0} -->
 
 Tab. III shows the planning results for the proposed baselines in each of the three challenge setups. Supervised learning-based planners excel in an open-loop setting. This is unsurprising as the task is akin to the traditional motion forecasting challenge. This suggests that an ML planner can choose to make similar decisions to a human driver in open-loop settings. However, ML planners still struggle to overcome the distribution shift in closed-loop. A closed-loop scenario can develop into a new situation that was never present in the training dataset. Even techniques such as data augmentation and closed-loop training fail to overcome this domain gap. This is evident in both the literature and our experiments. Rule-based planners, on the other hand, face no such issues. Policies like IDM can produce decent driving behavior. This is confirmed by the metrics as it achieved the highest scores for closed-loop. It should be noted though that the reactive agents are also modelled with a similar IDM. The use of similar assumptions on the vehicle behavior may result in giving the IDM planner an unfair advantage over other planners in closed-loop evaluation.
 
-<!-- chunk {"id": "body-0048", "role": "body", "section": "V-B Main results", "weight": 1.0} -->
+<!-- chunk {"id": "body-0046", "role": "body", "section": "V-B Main results", "weight": 1.0} -->
 
 It is evident that sufficiently sophisticated rule-based planners still outperform purely learned planners in closed-loop settings.
 
-<!-- chunk {"id": "body-0049", "role": "body", "section": "V-C Perturbation", "weight": 1.0} -->
+<!-- chunk {"id": "body-0047", "role": "body", "section": "V-C Perturbation", "weight": 1.0} -->
 
 As the nuPlan dataset is created with offline perception, to capture the original probability distribution of data collected online, we injected uniform noise on the detections. Noise was added in the dimensions and the pose of the detected agents, with variance extracted by comparing offline and online detections. The scores of planners under nominal and noise-injected simulations in closed-loop reactive mode are presented in Tab. IV. A version of UrbanDriver trained on the perturbed data is called UrbanDriverOnline, which shows a performance deterioration compared to the nominal model on both nominal and injected data. This indicates the value of high-quality offline annotations in the dataset and the learning pipeline.
 
-<!-- chunk {"id": "body-0050", "role": "body", "section": "V-D Generalization", "weight": 1.0} -->
+<!-- chunk {"id": "body-0048", "role": "body", "section": "V-D Generalization", "weight": 1.0} -->
 
 The location generalization experiment is shown in Tab. V. The experiment aims to test a model's generalization capabilities. The UrbanDriver model was trained purely on data from Las Vegas. The model was tested separately on scenarios from Singapore, Boston, Pittsburgh, and Las Vegas. The open-loop performance dropped by 53.8%, while closed-loop non-reactive and closed-loop reactive performance dropped by 35.1% and 41.5% respectively. The worst-performing location is Singapore. This can be explained by the left-hand traffic, while the model was trained on right-hand traffic. One insight is that the correlation between the model's open-loop and closed-loop performance is relatively weak. The difference between open and closed-loop scores across Singapore, Boston, and Pittsburgh is only 16.3%, while for Las Vegas it is more than double at 37.3%. This indicates that a good motion forecasting model does not translate to closed-loop capabilities. Thus a major challenge is to overcome the domain gap between open-loop and closed-loop before tackling larger generalization problems.
 
-<!-- chunk {"id": "body-0051", "role": "body", "section": "V-E nuPlan challenge", "weight": 1.0} -->
+<!-- chunk {"id": "body-0049", "role": "body", "section": "V-E nuPlan challenge", "weight": 1.0} -->
 
 In the nuPlan motion planning challenge contestants create a planner to traverse a set of diverse and challenging scenarios across all four cities. Tab. VI shows the Overall Score, which is the average across Open-loop, Closed-loop Non-reactive, and Closed-loop Reactive challenges of the top four planners. In the open-loop challenge, planners that incorporated supervised learned methods scored relatively well. In the closed-loop challenges, planners employed a combination of learned and handcrafted components. A common theme was the use of a learned model to first predict the ego's planned trajectory. uses a raster-based model that outputs a spatial-temporal heatmap for the ego and an occupancy map for the surrounding agents. are vector-based using transformers as a backbone. Once the trajectory is obtained, the planner has a further refinement stage used to ensure kinematic feasibility and collision avoidance. The highest-scoring planner in closed-loop was mostly rule-based. It generates a handful of trajectories by perturbing the center line laterally at different velocities. Trajectories are selected with a heuristic that considers factors such as collision, drivable areas, traffic laws, and comfort.
 
-<!-- chunk {"id": "body-0052", "role": "body", "section": "V-E nuPlan challenge", "weight": 1.0} -->
+<!-- chunk {"id": "body-0050", "role": "body", "section": "V-E nuPlan challenge", "weight": 1.0} -->
 
 An ML-generated trajectory is fused to correct the long-term planned horizon. This limited the influence of the learned model. We draw two conclusions from the challenge results. First, ML-based methods require additional post-processing for closed-loop driving. Second, hybrid methods appear to be the most effective approach, combining traditional and data-driven methods.
 
-<!-- chunk {"id": "body-0053", "role": "body", "section": "Conclusion", "weight": 1.5} -->
+<!-- chunk {"id": "body-0051", "role": "body", "section": "V-E nuPlan challenge", "weight": 1.0} -->
+
+ML + hierarchical game theory TABLE VI: nuPlan Challenge Leaderboard
+
+<!-- chunk {"id": "body-0052", "role": "body", "section": "Conclusion", "weight": 1.5} -->
 
 We presented nuPlan, the first real-world driving benchmark and the largest existing labeled autonomous driving dataset. The dataset consists of 1282 hours of diverse driving scenarios across 4 cities as well as an unprecedented 128 hours of raw sensor data and is accompanied by an evaluation framework powered by a closed-loop simulator; the dataset and the evaluation framework are publicly available. We investigated the state of current rule-based and learned-based planners by evaluating multiple approaches on the nuPlan dataset across challenging driving scenarios. The first public nuPlan challenge demonstrated that rule-based planners outperform purely ML-based ones, but hybrid planners with learned-based components show the most promise in handling difficult scenarios. In the future, we plan to mine for richer long-tail driving scenarios, design scenario-based metrics, provide ML-based planning and agent baselines and explore end-to-end planner training directly from sensor data.

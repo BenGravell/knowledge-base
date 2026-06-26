@@ -24,91 +24,91 @@ The connection between the geometry of the loss landscape---in particular, the f
 
 <!-- chunk {"id": "body-0006", "role": "body", "section": "Introduction", "weight": 1.5} -->
 
-We present here a new efficient, scalable, and effective approach to improving model generalization ability that directly leverages the geometry of the loss landscape and its connection to generalization, and is powerfully complementary to existing techniques.
+We present here a new efficient, scalable, and effective approach to improving model generalization ability that directly leverages the geometry of the loss landscape and its connection to generalization, and is powerfully complementary to existing techniques. In particular, we make the following contributions: We introduce Sharpness-Aware Minimization (SAM), a novel procedure that improves model generalization by simultaneously minimizing loss value and loss sharpness. SAM functions by seeking parameters that lie in neighborhoods having uniformly low loss value (rather than parameters that only themselves have low loss value, as illustrated in the middle and righthand images of Figure 1), and can be implemented efficiently and easily.
 
 <!-- chunk {"id": "body-0007", "role": "body", "section": "Introduction", "weight": 1.5} -->
 
-We introduce Sharpness-Aware Minimization (SAM), a novel procedure that improves model generalization by simultaneously minimizing loss value and loss sharpness. SAM functions by seeking parameters that lie in neighborhoods having uniformly low loss value (rather than parameters that only themselves have low loss value, as illustrated in the middle and righthand images of Figure 1), and can be implemented efficiently and easily.
+We show via a rigorous empirical study that using SAM improves model generalization ability across a range of widely studied computer vision tasks (e.g., CIFAR-{10, 100}, ImageNet, finetuning tasks) and models, as summarized in the lefthand plot of Figure 1. For example, applying SAM yields novel state-of-the-art performance for a number of already-intensely-studied tasks, such as ImageNet, CIFAR-{10, 100}, SVHN, Fashion-MNIST, and the standard set of image classification finetuning tasks (e.g., Flowers, Stanford Cars, Oxford Pets, etc).
 
 <!-- chunk {"id": "body-0008", "role": "body", "section": "Introduction", "weight": 1.5} -->
 
-We show via a rigorous empirical study that using SAM improves model generalization ability across a range of widely studied computer vision tasks (e.g., CIFAR-{10, 100}, ImageNet, finetuning tasks) and models, as summarized in the lefthand plot of Figure 1. For example, applying SAM yields novel state-of-the-art performance for a number of already-intensely-studied tasks, such as ImageNet, CIFAR-{10, 100}, SVHN, Fashion-MNIST, and the standard set of image classification finetuning tasks (e.g., Flowers, Stanford Cars, Oxford Pets, etc).
+We show that SAM furthermore provides robustness to label noise on par with that provided by state-of-the-art procedures that specifically target learning with noisy labels.
 
 <!-- chunk {"id": "body-0009", "role": "body", "section": "Introduction", "weight": 1.5} -->
 
-We show that SAM furthermore provides robustness to label noise on par with that provided by state-of-the-art procedures that specifically target learning with noisy labels.
+Through the lens provided by SAM, we further elucidate the connection between loss sharpness and generalization by surfacing a promising new notion of sharpness, which we term m-sharpness.
 
 <!-- chunk {"id": "body-0010", "role": "body", "section": "Introduction", "weight": 1.5} -->
 
-Through the lens provided by SAM, we further elucidate the connection between loss sharpness and generalization by surfacing a promising new notion of sharpness, which we term m-sharpness.
-
-<!-- chunk {"id": "body-0011", "role": "body", "section": "Introduction", "weight": 1.5} -->
-
 Section 2 below derives the SAM procedure and presents the resulting algorithm in full detail. Section 3 evaluates SAM empirically, and Section 4 further analyzes the connection between loss sharpness and generalization through the lens of SAM. Finally, we conclude with an overview of related work and a discussion of conclusions and future work in Sections 5 and 6, respectively.
 
-<!-- chunk {"id": "body-0012", "role": "body", "section": "Sharpness-Aware Minimization (SAM)", "weight": 1.0} -->
+<!-- chunk {"id": "body-0011", "role": "body", "section": "Sharpness-Aware Minimization (SAM)", "weight": 1.0} -->
 
 Utilizing $L_{\mathcal{S}}{({\mathbf{w}})}$ as an estimate of $L_{\mathcal{D}}{({\mathbf{w}})}$ motivates the standard approach of selecting parameters $\mathbf{w}$ by solving ${\min_{\mathbf{w}}L_{\mathcal{S}}}{({\mathbf{w}})}$ (possibly in conjunction with a regularizer on $\mathbf{w}$) using an optimization procedure such as SGD or Adam. Unfortunately, however, for modern overparameterized models such as deep neural networks, typical optimization approaches can easily result in suboptimal performance at test time.
 
-<!-- chunk {"id": "body-0013", "role": "body", "section": "Sharpness-Aware Minimization (SAM)", "weight": 1.0} -->
+<!-- chunk {"id": "body-0012", "role": "body", "section": "Sharpness-Aware Minimization (SAM)", "weight": 1.0} -->
 
 In particular, for modern models, $L_{\mathcal{S}}{({\mathbf{w}})}$ is typically non-convex in $\mathbf{w}$, with multiple local and even global minima that may yield similar values of $L_{\mathcal{S}}{({\mathbf{w}})}$ while having significantly different generalization performance (i.e., significantly different values of $L_{\mathcal{D}}{({\mathbf{w}})}$).
 
-<!-- chunk {"id": "body-0014", "role": "body", "section": "Sharpness-Aware Minimization (SAM)", "weight": 1.0} -->
+<!-- chunk {"id": "body-0013", "role": "body", "section": "Sharpness-Aware Minimization (SAM)", "weight": 1.0} -->
 
 Motivated by the connection between sharpness of the loss landscape and generalization, we propose a different approach: rather than seeking out parameter values $\mathbf{w}$ that simply have low training loss value $L_{\mathcal{S}}{({\mathbf{w}})}$, we seek out parameter values whose entire neighborhoods have uniformly low training loss value (equivalently, neighborhoods having both low loss and low curvature).
 
-<!-- chunk {"id": "body-0015", "role": "body", "section": "Empirical Evaluation", "weight": 1.0} -->
+<!-- chunk {"id": "body-0014", "role": "body", "section": "Empirical Evaluation", "weight": 1.0} -->
 
 In order to assess SAM's efficacy, we apply it to a range of different tasks, including image classification from scratch (including on CIFAR-10, CIFAR-100, and ImageNet), finetuning pretrained models, and learning with noisy labels. In all cases, we measure the benefit of using SAM by simply replacing the optimization procedure used to train existing models with SAM, and computing the resulting effect on model generalization. As seen below, SAM materially improves generalization performance in the vast majority of these cases.
 
+<!-- chunk {"id": "body-0015", "role": "body", "section": "Image Classification From Scratch", "weight": 1.0} -->
+
+We first evaluate SAM's impact on generalization for today's state-of-the-art models on CIFAR-10 and CIFAR-100 (without pretraining): WideResNets with ShakeShake regularization and PyramidNet with ShakeDrop regularization. Note that some of these models have already been heavily tuned in prior work and include carefully chosen regularization schemes to prevent overfitting; therefore, significantly improving their generalization is quite non-trivial. We have ensured that our implementations' generalization performance in the absence of SAM matches or exceeds that reported in prior work All results use basic data augmentations (horizontal flip, padding by four pixels, and random crop). We also evaluate in the setting of more advanced data augmentation methods such as cutout regularization and AutoAugment, which are utilized by prior work to achieve state-of-the-art results.
+
 <!-- chunk {"id": "body-0016", "role": "body", "section": "Image Classification From Scratch", "weight": 1.0} -->
-
-We first evaluate SAM's impact on generalization for today's state-of-the-art models on CIFAR-10 and CIFAR-100 (without pretraining): WideResNets with ShakeShake regularization and PyramidNet with ShakeDrop regularization. Note that some of these models have already been heavily tuned in prior work and include carefully chosen regularization schemes to prevent overfitting; therefore, significantly improving their generalization is quite non-trivial. We have ensured that our implementations' generalization performance in the absence of SAM matches or exceeds that reported in prior work
-
-<!-- chunk {"id": "body-0017", "role": "body", "section": "Image Classification From Scratch", "weight": 1.0} -->
-
-All results use basic data augmentations (horizontal flip, padding by four pixels, and random crop). We also evaluate in the setting of more advanced data augmentation methods such as cutout regularization and AutoAugment, which are utilized by prior work to achieve state-of-the-art results.
-
-<!-- chunk {"id": "body-0018", "role": "body", "section": "Image Classification From Scratch", "weight": 1.0} -->
 
 SAM has a single hyperparameter $\rho$ (the neighborhood size), which we tune via a grid search over $\{ 0.01,0.02,0.05,0.1,0.2,0.5\}$ using 10% of the training set as a validation set^33^3We found $\rho = 0.05$ to be a solid default value, and we report in appendix C.3 the scores for all our experiments, obtained with $\rho = 0.05$ without further tuning.. Please see appendix C.1 for the values of all hyperparameters and additional training details.
 
-<!-- chunk {"id": "body-0019", "role": "body", "section": "Image Classification From Scratch", "weight": 1.0} -->
+<!-- chunk {"id": "body-0017", "role": "body", "section": "Image Classification From Scratch", "weight": 1.0} -->
 
 As each SAM weight update requires two backpropagation operations (one to compute $\hat{\mathbf{\epsilon}}{({\mathbf{w}})}$ and another to compute the final gradient), we allow each non-SAM training run to execute twice as many epochs as each SAM training run, and we report the best score achieved by each non-SAM training run across either the standard epoch count or the doubled epoch count^44^4Training for longer generally did not improve accuracy significantly, except for the models previously trained for only 200 epochs and for the largest, most regularized model (PyramidNet + ShakeDrop).. We run five independent replicas of each experimental condition for which we report results (each with independent weight initialization and data shuffling), reporting the resulting mean error (or accuracy) on the test set, and the associated 95% confidence interval.
 
-<!-- chunk {"id": "body-0020", "role": "body", "section": "Image Classification From Scratch", "weight": 1.0} -->
+<!-- chunk {"id": "body-0018", "role": "body", "section": "Image Classification From Scratch", "weight": 1.0} -->
 
 Our implementations utilize JAX, and we train all models on a single host having 8 NVidia V100 GPUs^55^5Because SAM's performance is amplified by not syncing the perturbations, data parallelism is highly recommended to leverage SAM's full potential (see Section 4 for more details).. To compute the SAM update when parallelizing across multiple accelerators, we divide each data batch evenly among the accelerators, independently compute the SAM gradient on each accelerator, and average the resulting sub-batch SAM gradients to obtain the final SAM update.
 
-<!-- chunk {"id": "body-0021", "role": "body", "section": "Image Classification From Scratch", "weight": 1.0} -->
+<!-- chunk {"id": "body-0019", "role": "body", "section": "Image Classification From Scratch", "weight": 1.0} -->
 
 As seen in Table 1, SAM improves generalization across all settings evaluated for CIFAR-10 and CIFAR-100. For example, SAM enables a simple WideResNet to attain 1.6% test error, versus 2.2% error without SAM. Such gains have previously been attainable only by using more complex model architectures (e.g., PyramidNet) and regularization schemes (e.g., Shake-Shake, ShakeDrop); SAM provides an easily-implemented, model-independent alternative. Furthermore, SAM delivers improvements even when applied atop complex architectures that already use sophisticated regularization: for instance, applying SAM to a PyramidNet with ShakeDrop regularization yields 10.3% error on CIFAR-100, which is, to our knowledge, a new state-of-the-art on this dataset without the use of additional data.
 
-<!-- chunk {"id": "body-0022", "role": "body", "section": "Image Classification From Scratch", "weight": 1.0} -->
+<!-- chunk {"id": "body-0020", "role": "body", "section": "Image Classification From Scratch", "weight": 1.0} -->
 
 Beyond CIFAR-{10, 100}, we have also evaluated SAM on the SVHN and Fashion-MNIST datasets. Once again, SAM enables a simple WideResNet to achieve accuracy at or above the state-of-the-art for these datasets: 0.99% error for SVHN, and 3.59% for Fashion-MNIST. Details are available in appendix B.1.
 
-<!-- chunk {"id": "body-0023", "role": "body", "section": "Image Classification From Scratch", "weight": 1.0} -->
+<!-- chunk {"id": "body-0021", "role": "body", "section": "Image Classification From Scratch", "weight": 1.0} -->
 
 To assess SAM's performance at larger scale, we apply it to ResNets of different depths trained on ImageNet. In this setting, following prior work, we resize and crop images to 224-pixel resolution, normalize them, and use batch size 4096, initial learning rate 1.0, cosine learning rate schedule, SGD optimizer with momentum 0.9, label smoothing of 0.1, and weight decay 0.0001. When applying SAM, we use $\rho = 0.05$ (determined via a grid search on ResNet-50 trained for 100 epochs). We train all models on ImageNet for up to 400 epochs using a Google Cloud TPUv3 and report top-1 and top-5 test error rates for each experimental condition (mean and 95% confidence interval across 5 independent runs).
 
-<!-- chunk {"id": "body-0024", "role": "body", "section": "Image Classification From Scratch", "weight": 1.0} -->
+<!-- chunk {"id": "body-0022", "role": "body", "section": "Image Classification From Scratch", "weight": 1.0} -->
 
 As seen in Table 2, SAM again consistently improves performance, for example improving the ImageNet top-1 error rate of ResNet-152 from 20.3% to 18.4%. Furthermore, note that SAM enables increasing the number of training epochs while continuing to improve accuracy without overfitting. In contrast, the standard training procedure (without SAM) generally significantly overfits as training extends from 200 to 400 epochs.
 
-<!-- chunk {"id": "body-0025", "role": "body", "section": "Finetuning", "weight": 1.0} -->
+<!-- chunk {"id": "body-0023", "role": "body", "section": "Image Classification From Scratch", "weight": 1.0} -->
+
+Standard Training (No SAM) Table 2: Test error rates for ResNets trained on ImageNet, with and without SAM.
+
+<!-- chunk {"id": "body-0024", "role": "body", "section": "Finetuning", "weight": 1.0} -->
 
 Transfer learning by pretraining a model on a large related dataset and then finetuning on a smaller target dataset of interest has emerged as a powerful and widely used technique for producing high-quality models for a variety of different tasks. We show here that SAM once again offers considerable benefits in this setting, even when finetuning extremely large, state-of-the-art, already high-performing models.
 
-<!-- chunk {"id": "body-0026", "role": "body", "section": "Finetuning", "weight": 1.0} -->
+<!-- chunk {"id": "body-0025", "role": "body", "section": "Finetuning", "weight": 1.0} -->
 
 In particular, we apply SAM to finetuning EfficentNet-b7 (pretrained on ImageNet) and EfficientNet-L2 (pretrained on ImageNet plus unlabeled JFT; input resolution 475). We initialize these models to publicly available checkpoints^66^6 trained with RandAugment (84.7% accuracy on ImageNet) and NoisyStudent (88.2% accuracy on ImageNet), respectively. We finetune these models on each of several target datasets by training each model starting from the aforementioned checkpoint; please see the appendix for details of the hyperparameters used. We report the mean and 95% confidence interval of top-1 test error over 5 independent runs for each dataset.
 
-<!-- chunk {"id": "body-0027", "role": "body", "section": "Finetuning", "weight": 1.0} -->
+<!-- chunk {"id": "body-0026", "role": "body", "section": "Finetuning", "weight": 1.0} -->
 
 As seen in Table 3, SAM uniformly improves performance relative to finetuning without SAM. Furthermore, in many cases, SAM yields novel state-of-the-art performance, including 0.30% error on CIFAR-10, 3.92% error on CIFAR-100, and 11.39% error on ImageNet.
+
+<!-- chunk {"id": "body-0027", "role": "body", "section": "Finetuning", "weight": 1.0} -->
+
+Oxford_IIIT_Pets Table 3: Top-1 error rates for finetuning EfficientNet-b7 (left; ImageNet pretraining only) and EfficientNet-L2 (right; pretraining on ImageNet plus additional data, such as JFT) on various downstream tasks. Previous state-of-the-art (SOTA) includes EfficientNet (EffNet), Gpipe, DAT, BiT-M/L, KDforAA, TBMSL-Net, and ViT.
 
 <!-- chunk {"id": "body-0028", "role": "body", "section": "Robustness to Label Noise", "weight": 1.0} -->
 

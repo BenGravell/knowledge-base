@@ -68,44 +68,40 @@ Given the random walk policy $\pi_{RW}$, we have a transition matrix under this 
 
 <!-- chunk {"id": "body-0017", "role": "body", "section": "Covering Length Bound", "weight": 1.0} -->
 
-This eigenvector $\phi$ is also the stationary state distribution under the random walk policy.
+This eigenvector $\phi$ is also the stationary state distribution under the random walk policy. We follow the definition of graph Laplacian for a directed graph $G$ proposed by Chung: where $\Phi$ is a diagonal matrix with entries ${\Phi{(s,s)}} = {\phi{(s)}}$. Usually the graph Laplacian is only defined on undirected graph, and the intuition in is that take the average of transition matrix $P$ and its transpose to define an undirected graph, then normalized the transition matrix, to introduce the Laplacian for weighted directed graph. The smallest eigenvalue of Laplacian $\mathcal{L}$ is zero. Let $\lambda$ be the smallest non-zero eigenvalue. In the following theorem, we will bound the covering time of random walk policy by the eigenvalues of $\mathcal{L}$ and the stationary distribution $\phi$.
 
-<!-- chunk {"id": "body-0018", "role": "body", "section": "Covering Length Bound", "weight": 1.0} -->
-
-where $\Phi$ is a diagonal matrix with entries ${\Phi{(s,s)}} = {\phi{(s)}}$. Usually the graph Laplacian is only defined on undirected graph, and the intuition in is that take the average of transition matrix $P$ and its transpose to define an undirected graph, then normalized the transition matrix, to introduce the Laplacian for weighted directed graph. The smallest eigenvalue of Laplacian $\mathcal{L}$ is zero. Let $\lambda$ be the smallest non-zero eigenvalue. In the following theorem, we will bound the covering time of random walk policy by the eigenvalues of $\mathcal{L}$ and the stationary distribution $\phi$.
-
-<!-- chunk {"id": "body-0019", "role": "body", "section": "Theoretical Bounds and Links to Empirical Results", "weight": 1.0} -->
+<!-- chunk {"id": "body-0018", "role": "body", "section": "Theoretical Bounds and Links to Empirical Results", "weight": 1.0} -->
 
 Our investigation was inspired by the recent empirical successes of deep reinforcement learning which relied on simple exploration mechanisms, and we hope that our theoretical analysis will both predict the hardness of domains that have been specifically constructed to require strategic exploration, as well add further insight into the hardness of other domains. In this section, we illustrate how our approach can explain some of the ease of exploration in some popular domains, as well as the hardness of exploration in others.
 
-<!-- chunk {"id": "body-0020", "role": "body", "section": "Theoretical Bounds and Links to Empirical Results", "weight": 1.0} -->
+<!-- chunk {"id": "body-0019", "role": "body", "section": "Theoretical Bounds and Links to Empirical Results", "weight": 1.0} -->
 
 Grid World: Grid world is a group of navigation domains where we need to control an agent to walk in a grid world, collect reward, avoid walls and holes. Most grid worlds with deterministic or other typical action settings have locally symmetric actions. Under this condition, random walk over the grid world is equivalent to a random walk on an undirected graph. Thus ${1/\phi_{\min}} = {O{({SA})}}$ and it is a polynomial function of MDP parameters.
 
-<!-- chunk {"id": "body-0021", "role": "body", "section": "Theoretical Bounds and Links to Empirical Results", "weight": 1.0} -->
+<!-- chunk {"id": "body-0020", "role": "body", "section": "Theoretical Bounds and Links to Empirical Results", "weight": 1.0} -->
 
 Taxi: Taxi is a 5x5 gridworld. A passenger starts at one of the 4 locations marked in a grid world, and its destination is randomly chosen from one of the 4 locations. The taxi starts randomly on any square, and the goal is to pickup or dropoff the passenger. This domain, as well as the two room example we discussed previously, are widely used testing domains in the hierarchical RL literature, since options/modular policy are expected to achieve more efficient exploration than primitive actions. It is also equivalent with undirected graphs following from the property of locally symmetric actions, if picking up/dropping off are not invertible actions. In that case, our bounds implies that random walk could learn the optimal value function of these domains efficiently.
 
-<!-- chunk {"id": "body-0022", "role": "body", "section": "Theoretical Bounds and Links to Empirical Results", "weight": 1.0} -->
+<!-- chunk {"id": "body-0021", "role": "body", "section": "Theoretical Bounds and Links to Empirical Results", "weight": 1.0} -->
 
 Pong: Pong is one of the Atari games that is relatively easy for DQN with $e$-greedy. In this domain, one plays pong with a computer player by moving the padder in $y$ axis, hitting the ball back. Interestingly, we can approximately view Pong as satisfying the property of locally symmetric actions by considering a state abstraction. In Pong, the angle of reflection is a bijection function of the hitting position on the paddle, not of angle of incidence, which implies that we could achieve any possible reflection angle in the possible angle domain by proper action. Consider a game state abstraction that consists only of the last ball incidence angle $\theta$ to the agent's paddle. That means, we view all frames after the ball leaves paddle until another hitting as the same state. This makes several notable simplifications, ignoring: the ball's velocity, boundary^22^2Actually the boundary case could be treated by mirror reflection transformation. We would view the whole game as a mirror version of playing in the extended space, after hitting the boundary..
 
-<!-- chunk {"id": "body-0023", "role": "body", "section": "Theoretical Bounds and Links to Empirical Results", "weight": 1.0} -->
+<!-- chunk {"id": "body-0022", "role": "body", "section": "Theoretical Bounds and Links to Empirical Results", "weight": 1.0} -->
 
 Since we are playing in a boundless field, it is reasonable to view balls with different $y$ coordinates of hitting position as the same state. For simplicity we also assume the agent's opponent executes a deterministic policy that only depends on incidence angle, so that the mapping from incidence angle to reflection angle is a bijection, denoted as $f$.
 
+<!-- chunk {"id": "body-0023", "role": "body", "section": "Theoretical Bounds and Links to Empirical Results", "weight": 1.0} -->
+
+Under these settings, we can show Pong has the locally symmetric actions. For any state $\theta_{1}$, if we execute an action $a_{1}$ so that the reflection angle is $\theta_{1}^{'}$, then the next state, which is the angle after the computer opponent takes an action would be $\theta_{2} = {f{(\theta_{1}^{'})}}$. For this state, there exist an action $a_{2}$ such that the reflection angle is $f^{- 1}{(\theta_{1})}$. Since the mapping from action to reflection angle and $f$ are both bijection, the mapping between $a_{1}$ and $a_{2}$ is also bijection. Thus we could say random walk in a proper abstracted state space of Pong is equivalent with random walk on an undirected graph, and then yields polynomial sample complexity. That may intuitively explain the success of $e$-greedy in this domain.
+
 <!-- chunk {"id": "body-0024", "role": "body", "section": "Theoretical Bounds and Links to Empirical Results", "weight": 1.0} -->
-
-Under these settings, we can show Pong has the locally symmetric actions. For any state $\theta_{1}$, if we execute an action $a_{1}$ so that the reflection angle is $\theta_{1}^{^{\prime}}$, then the next state, which is the angle after the computer opponent takes an action would be $\theta_{2} = {f{(\theta_{1}^{^{\prime}})}}$. For this state, there exist an action $a_{2}$ such that the reflection angle is $f^{- 1}{(\theta_{1})}$. Since the mapping from action to reflection angle and $f$ are both bijection, the mapping between $a_{1}$ and $a_{2}$ is also bijection. Thus we could say random walk in a proper abstracted state space of Pong is equivalent with random walk on an undirected graph, and then yields polynomial sample complexity. That may intuitively explain the success of $e$-greedy in this domain.
-
-<!-- chunk {"id": "body-0025", "role": "body", "section": "Theoretical Bounds and Links to Empirical Results", "weight": 1.0} -->
 
 Chain MDP: The chain MDP has been previously introduced to motivated the need for strategic exploration. The MDP has n+1 states, the start state is the leftmost state $s_{0}$, and at each state $s_{i}$ there are 2 deterministic actions, one is going right to $s_{i + 1}$ (except the right end states $s_{n}$ which has a self loop action) and the other is going back to $s_{0}$. $Q$ learning with $e$-greedy or random walk does poorly in this example. It takes $\Theta{(2^{n})}$ samples in expectation to visit the right end state for one time, resulting in an exponential sample complexity. That matches what we can learn from our bound: The stationary distribution of random walk on state $s_{i}$ is $\Theta{(\frac{1}{2^{i}})}$, and $1/\phi_{\min}$ is $\Theta{(2^{S})}$.
 
-<!-- chunk {"id": "body-0026", "role": "body", "section": "Theoretical Bounds and Links to Empirical Results", "weight": 1.0} -->
+<!-- chunk {"id": "body-0025", "role": "body", "section": "Theoretical Bounds and Links to Empirical Results", "weight": 1.0} -->
 
 Montezuma's Revenge: Montezuma's Revenge is a relatively hard game among different Atari 2600 games for DQN with $e$-greedy exploration. This game requires the player to navigate the explorer through several rooms. The explorer may die on the way of traps are triggered. We note that Montezuma's Revenge has a mechanism which brings one back to the start point after death. At a high level, that "trapdoor" structure is captured by the chain MDP example, and will result in an exponentially small stationary distribution of the end point. Game domains, even at a high level, may have more than one chain, but $\phi_{\min}$ could still be exponential in the maximum chain length. Note that some games like Pong or Enduro also have the restart mechanism, but that restart point is distributed more uniformly over the whole state space. This breaks the chain property and will not result in an exponentially small stationary distribution.
 
-<!-- chunk {"id": "body-0027", "role": "body", "section": "Conclusion", "weight": 1.5} -->
+<!-- chunk {"id": "body-0026", "role": "body", "section": "Conclusion", "weight": 1.5} -->
 
 In this paper we present several structural properties of MDPs that give upper bound on the sample complexity of $Q$ learning with random exploration followed by exploitation. We also link these properties to some conceptual testing domains as well as empirical benchmark domains, towards understanding the recent empirical success. We hope the knowledge of these properties might help guide practitioners in selecting exploration strategy, and understanding whether and when strategic exploration is necessary.

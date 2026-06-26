@@ -58,256 +58,255 @@ Feature map visualizations of V-JEPA 2 are shown in Figure 1 and Figure 3. We ob
 
 <!-- chunk {"id": "body-0015", "role": "body", "section": "Observations and Hypothesis", "weight": 1.0} -->
 
-We hypothesize that the absence of local structure in the feature maps is due to the lack of self-supervision on patches that are not masked, i.e. the context patches. The predictor $P_{\phi}{( \cdot )}$ takes as input the concatenation of context tokens computed by $E_{\theta}{(x)}$ and a set of mask tokens $\Delta_{y}$ that specify the masked positions to predict. The predictor outputs one token for each input, i.e., for both context and masked tokens. However, the original loss from V-JEPA 2 is applied only to the masked tokens, as Equation 1 shows. Therefore, the model has no incentive to encode local information within the context tokens and can instead devote this computation to aggregating global information to minimize $\mathcal{L}_{\text{prediction}}$, similarly to register tokens.
+We hypothesize that the absence of local structure in the feature maps is due to the lack of self-supervision on patches that are not masked, i.e. the context patches. The predictor $P_{\phi}(\cdot)$ takes as input the concatenation of context tokens computed by $E_{\theta}(x)$ and a set of mask tokens $\Delta_{y}$ that specify the masked positions to predict. The predictor outputs one token for each input, i.e., for both context and masked tokens. However, the original loss from V-JEPA 2 is applied only to the masked tokens, as Equation 1 shows. Therefore, the model has no incentive to encode local information within the context tokens and can instead devote this computation to aggregating global information to minimize $\mathcal{L_{\text{prediction}}}$, similarly to register tokens.
 
 <!-- chunk {"id": "body-0016", "role": "body", "section": "Context Self-Supervision", "weight": 1.0} -->
 
-where $C$ is the set of indexed context tokens, and $\lambda_{i}$ is a patch-specific weighting parameter described in the next section. The model is trained to minimize $\mathcal{L}_{\text{predict}} + \mathcal{L}_{\text{ctx}}$. Figure 3 shows that adding $\mathcal{L}_{\text{ctx}}$ has a significant effect on the learned feature maps. With the context loss, local structure now clearly appears in the feature maps, and similar semantic parts (e.g., head of the dogs, wheel of the car) are mapped to the same PCA components. Additionally, adding $\mathcal{L}_{\text{ctx}}$ significantly improves performance on dense-prediction tasks, achieving $33.9$ mIoU on ADE20K (up from $22.2$), and $0.473$ RMSE on NYUv2 (down from $0.682$). Hence, those results validate that by explicitly supervising context tokens, the model learns features that encode coherent local structure.
+To verify this hypothesis, we propose to self-supervise both the mask and context patches and introduce a context loss $\mathcal{L}_{\text{ctx}}$, which is a weighted version of $\mathcal{L}_{\text{predict}}$ applied on the context tokens: where $C$ is the set of indexed context tokens, and $\lambda_{i}$ is a patch-specific weighting parameter described in the next section. The model is trained to minimize $\mathcal{L}_{\text{predict}}+\mathcal{L}_{\text{ctx}}$. Figure 3 shows that adding $\mathcal{L}_{\text{ctx}}$ has a significant effect on the learned feature maps. With the context loss, local structure now clearly appears in the feature maps, and similar semantic parts (e.g., head of the dogs, wheel of the car) are mapped to the same PCA components.
 
-<!-- chunk {"id": "body-0017", "role": "body", "section": "V-JEPA 2.1: Improving Dense Video SSL Features", "weight": 1.0} -->
+<!-- chunk {"id": "body-0017", "role": "body", "section": "Context Self-Supervision", "weight": 1.0} -->
 
-Building on the previous observation, we introduce V-JEPA 2.1, a self-supervised training recipe for learning representations that combine high-quality dense local features with global semantic understanding. Our key algorithmic innovations are Dense Prediction loss that applies self-supervision on both masked and unmasked tokens (Section 2.3.1) and, Deep Self-Supervision of the encoder intermediate layers via a multi-level predictor (Section 2.3.2).
+Additionally, adding $\mathcal{L}_{\text{ctx}}$ significantly improves performance on dense-prediction tasks, achieving $33.9$ mIoU on ADE20K (up from $22.2$), and $0.473$ RMSE on NYUv2 (down from $0.682$). Hence, those results validate that by explicitly supervising context tokens, the model learns features that encode coherent local structure.
 
 <!-- chunk {"id": "body-0018", "role": "body", "section": "V-JEPA 2.1: Improving Dense Video SSL Features", "weight": 1.0} -->
 
+Building on the previous observation, we introduce V-JEPA 2.1, a self-supervised training recipe for learning representations that combine high-quality dense local features with global semantic understanding. Our key algorithmic innovations are Dense Prediction loss that applies self-supervision on both masked and unmasked tokens (Section 2.3.1) and, Deep Self-Supervision of the encoder intermediate layers via a multi-level predictor (Section 2.3.2).
+
+<!-- chunk {"id": "body-0019", "role": "body", "section": "V-JEPA 2.1: Improving Dense Video SSL Features", "weight": 1.0} -->
+
 Additionally, we explore a Multi-Modal Tokenizer with modality-specific patch embeddings for images and videos (Section 2.3.4); Data Scaling through a more diverse and balanced image--video training distribution (Section 2.3.3); and Model Scaling to ViT-G (Section 2.3.5 and High-Resolution Cool-Down ‣ 2.3 V-JEPA 2.1: Improving Dense Video SSL Features ‣ 2 Methodology ‣ V-JEPA 2.1: Unlocking Dense Features in Video Self-Supervised Learning")), enabling state-of-the-art downstream performance and effective distillation to smaller models (ViT-L, ViT-B, Section 3.10).
-
-<!-- chunk {"id": "body-0019", "role": "body", "section": "VJEPA 2.1 Architecture", "weight": 1.0} -->
-
-We illustrate the V-JEPA 2.1 architecture in Figure 4. An input, either an image or a video, is projected into a sequence of embedding vectors, or tokens, using a modality-specific patch embedding. Mask corruption is then applied to the sequence by randomly dropping patch tokens. The $x$-encoder processes the remaining visible context tokens and outputs representations from multiple encoder levels in addition to the final output. The multi-level representations are then concatenated along the channel axis and fed to an MLP to reduce their dimensionality. Context tokens are concatenated, along the sequence axis, with learnable mask tokens that carry spatio-temporal positional information of the masked patches. The predictor processes the combined sequence and produces multi-level predictions for each token. Training uses two different losses: (i) an L1 loss on masked-token predictions (the original V-JEPA objective), and (ii) a distance-weighted L1 loss for context tokens. Both use the $y$-encoder outputs as targets, which process the unmasked sequence of patches from the input images or videos.
 
 <!-- chunk {"id": "body-0020", "role": "body", "section": "VJEPA 2.1 Architecture", "weight": 1.0} -->
 
+We illustrate the V-JEPA 2.1 architecture in Figure 4. An input, either an image or a video, is projected into a sequence of embedding vectors, or tokens, using a modality-specific patch embedding. Mask corruption is then applied to the sequence by randomly dropping patch tokens. The $x$-encoder processes the remaining visible context tokens and outputs representations from multiple encoder levels in addition to the final output. The multi-level representations are then concatenated along the channel axis and fed to an MLP to reduce their dimensionality. Context tokens are concatenated, along the sequence axis, with learnable mask tokens that carry spatio-temporal positional information of the masked patches. The predictor processes the combined sequence and produces multi-level predictions for each token. Training uses two different losses: (i) an L1 loss on masked-token predictions (the original V-JEPA objective), and (ii) a distance-weighted L1 loss for context tokens. Both use the $y$-encoder outputs as targets, which process the unmasked sequence of patches from the input images or videos.
+
+<!-- chunk {"id": "body-0021", "role": "body", "section": "VJEPA 2.1 Architecture", "weight": 1.0} -->
+
 Losses are applied to several intermediate representation levels in addition to the encoder output.
 
-<!-- chunk {"id": "body-0021", "role": "body", "section": "Implementation Details", "weight": 1.0} -->
+<!-- chunk {"id": "body-0022", "role": "body", "section": "Implementation Details", "weight": 1.0} -->
 
-We follow the warmup-constant learning rate schedule of V-JEPA 2 and we train models for 135,000 iterations. We maintain the teacher EMA coefficient and weight decay at fixed values. Each video sample is a clip of 16 frames at a resolution of $256 \times 256$, and each image sample has a resolution of $256 \times 256$. Additionally, in a second stage we explore the effect of applying a cool-down phase, i.e., decaying the learning rate and increasing the input images and videos resolution. We further train our models for 12,000 iterations during this cool-down phase, increasing the input resolution: video clips now have 64 frames at a resolution of $384 \times 384$, and images have a resolution of $512 \times 512$. Ablation results are reported after the first training phase, whereas final downstream tasks results use the full warmup--constant--cooldown schedule. More details and all hyper-parameters are provided in Appendix 6.
+We follow the warmup-constant learning rate schedule of V-JEPA 2 and we train models for 135,000 iterations. We maintain the teacher EMA coefficient and weight decay at fixed values. Each video sample is a clip of 16 frames at a resolution of $256\times 256$, and each image sample has a resolution of $256\times 256$. Additionally, in a second stage we explore the effect of applying a cool-down phase, i.e., decaying the learning rate and increasing the input images and videos resolution. We further train our models for 12,000 iterations during this cool-down phase, increasing the input resolution: video clips now have 64 frames at a resolution of $384\times 384$, and images have a resolution of $512\times 512$. Ablation results are reported after the first training phase, whereas final downstream tasks results use the full warmup--constant--cooldown schedule. More details and all hyper-parameters are provided in Appendix 6.
 
-<!-- chunk {"id": "body-0022", "role": "body", "section": "Empirical Evaluation", "weight": 1.0} -->
+<!-- chunk {"id": "body-0023", "role": "body", "section": "Empirical Evaluation", "weight": 1.0} -->
 
 To evaluate our design choice, we rely on a set of dense-vision tasks (ADE20K and NYUv2) using a linear probing evaluation protocol following Siméoni et al. and global recognition tasks (Something-Somethingv2 for action recognition and ImageNet for object recognition) with an attentive probing protocol following Assran et al.. We ablate the effect of each architecture component in Figure 5 and Table 2.3. In the following, we describe each component in more detail, as well as their impact on downstream performance.
 
-<!-- chunk {"id": "body-0023", "role": "body", "section": "Dense Prediction Loss", "weight": 1.0} -->
-
-We propose applying our self-supervised loss to both masked and visible patches by minimizing $\mathcal{L}_{\text{dense}} = {\mathcal{L}_{\text{predict}} + \mathcal{L}_{\text{ctx}}}$, where $\mathcal{L}_{\text{predict}}$ is defined in Eq. 1 and $\mathcal{L}_{\text{ctx}}$ is defined in Eq. 2. Naive application of $\mathcal{L}_{\text{ctx}}$ loss leads to poor performance on global semantic tasks, as the system can potentially find trivial solutions, such as copying the context features. We therefore explore various weighting coefficients $\lambda_{i}$ in Eq. 2. Table 2.3 presents an ablation on various weighting schemes.
-
 <!-- chunk {"id": "body-0024", "role": "body", "section": "Dense Prediction Loss", "weight": 1.0} -->
 
-First, we experiment with fixed values and set all $\lambda_{i}$ to a constant $\lambda$ and try values in the range $\lambda = {\lbrack 0.0,0.05,0.2,0.5,1.0\rbrack}$. We observe that as we increase $\lambda$, the performance in semantic segmentation in the dataset increases significantly up to certain point, but at the cost of the performance in action recognition in the SSv2 dataset decreases. We then introduce a progressive warm-up of $\lambda$ to restore action-recognition performance, with a schedule from epochs 50--100. We found empirically that it greatly stabilizes training. Following, we introduce a dynamic weighting scheme where $\mathcal{L}_{\text{ctx}}$ for a given patch $i$ is weighted by the inverse square root of its minimum spatio-temporal distance to any masked token in the video sequence: i.e. setting
+We propose applying our self-supervised loss to both masked and visible patches by minimizing $\mathcal{L_{\text{dense}}}=\mathcal{L}_{\text{predict}}+\mathcal{L}_{\text{ctx}}$, where $\mathcal{L}_{\text{predict}}$ is defined in Eq. 1 and $\mathcal{L}_{\text{ctx}}$ is defined in Eq. 2. Naive application of $\mathcal{L}_{\text{ctx}}$ loss leads to poor performance on global semantic tasks, as the system can potentially find trivial solutions, such as copying the context features. We therefore explore various weighting coefficients $\lambda_{i}$ in Eq. 2. Table 2.3 presents an ablation on various weighting schemes.
 
 <!-- chunk {"id": "body-0025", "role": "body", "section": "Dense Prediction Loss", "weight": 1.0} -->
 
-in $\mathcal{L}_{\text{ctx}}$ in Eq. 2, where $\text{d}_{\text{min}}$ is the distance, in number of blocks, between a context token and its closest mask token. This weighting emphasizes patches near masked regions by enforcing local continuity between masked and context areas, yielding a good trade-off between segmentation and action recognition performance.
+First, we experiment with fixed values and set all $\lambda_{i}$ to a constant $\lambda$ and try values in the range $\lambda=[0.0,0.05,0.2,0.5,1.0]$. We observe that as we increase $\lambda$, the performance in semantic segmentation in the dataset increases significantly up to certain point, but at the cost of the performance in action recognition in the SSv2 dataset decreases. We then introduce a progressive warm-up of $\lambda$ to restore action-recognition performance, with a schedule from epochs 50--100. We found empirically that it greatly stabilizes training.
 
 <!-- chunk {"id": "body-0026", "role": "body", "section": "Dense Prediction Loss", "weight": 1.0} -->
 
+Following, we introduce a dynamic weighting scheme where $\mathcal{L}_{\text{ctx}}$ for a given patch $i$ is weighted by the inverse square root of its minimum spatio-temporal distance to any masked token in the video sequence: i.e. setting in $\mathcal{L}_{\text{ctx}}$ in Eq. 2, where $\text{d}_{\text{min}}$ is the distance, in number of blocks, between a context token and its closest mask token. This weighting emphasizes patches near masked regions by enforcing local continuity between masked and context areas, yielding a good trade-off between segmentation and action recognition performance.
+
+<!-- chunk {"id": "body-0027", "role": "body", "section": "Dense Prediction Loss", "weight": 1.0} -->
+
 Introducing our novel context loss $\mathcal{L}_{ctx}$ with our weighted scheme improves the performance on dense vision tasks (22.2 $\rightarrow$ 33.9 mIoU, 0.682 $\rightarrow$ 0.473 RMSE on NYUv2). Qualitatively, this loss smooths the feature maps by removing noisy artifacts, as shown in Figure 3. However, Table 2.3 shows that there is still a degradation in video understanding (72.8 $\rightarrow$ 62.5 on SSv2) and image classification (82.2 $\rightarrow$ 72.6 on IN1K).
-
-<!-- chunk {"id": "body-0027", "role": "body", "section": "Deep Self-Supervision", "weight": 1.0} -->
-
-We self-supervise the encoder representation not only at the output but also at multiple intermediate levels. We first concatenate, along the channel dimension, the outputs of three intermediate $x$-encoder blocks, in addition to the output layer. Then, a lightweight MLP fuses these multi-level representations and reduces their dimensionality before feeding them into the predictor. The predictor processes the fused multi-level sequence of context and mask tokens and produces four outputs corresponding to the four encoder layers. Both the prediction loss and the context loss are then applied at each one of these four levels.
 
 <!-- chunk {"id": "body-0028", "role": "body", "section": "Deep Self-Supervision", "weight": 1.0} -->
 
+We self-supervise the encoder representation not only at the output but also at multiple intermediate levels. We first concatenate, along the channel dimension, the outputs of three intermediate $x$-encoder blocks, in addition to the output layer. Then, a lightweight MLP fuses these multi-level representations and reduces their dimensionality before feeding them into the predictor. The predictor processes the fused multi-level sequence of context and mask tokens and produces four outputs corresponding to the four encoder layers. Both the prediction loss and the context loss are then applied at each one of these four levels.
+
+<!-- chunk {"id": "body-0029", "role": "body", "section": "Deep Self-Supervision", "weight": 1.0} -->
+
 Deep Self-Supervision leads to significant improvement on downstream performance for both global and dense tasks, as shows Figure 5. Furthermore, it allows local information to flow towards the final layers, effectively removing the need for intermediate layers in dense downstream tasks as we show in Appendix 9.1. Deep Self-Supervision allows to recover the global understanding capabilities of V-JEPA 2 (72.0 on SSv2, 80.8 on IN1K) while improving on dense tasks with the context loss (38.6 mIoU on ADE20K, 0.463 RMSE on NYU).
-
-<!-- chunk {"id": "body-0029", "role": "body", "section": "Scaling Image Data", "weight": 1.0} -->
-
-DINOv2 introduced a cluster-based retrieval strategy to select images from a large pool of raw internet data, resulting in a curated set of 142 million images, referred to as the LVD-142M dataset. Using a similar approach, V-JEPA 2 collected and curated video scenes from YT1B videos, combined with other publicly available video datasets, yielding a large-scale collection of 19 million video samples from the internet, corresponding to $1.6$ million hours. Both works demonstrated the positive effect of data scaling for SSL pretraining.
 
 <!-- chunk {"id": "body-0030", "role": "body", "section": "Scaling Image Data", "weight": 1.0} -->
 
-Building on these insights, we construct our VisionMix163M Dataset, combining large-scale curated sources from these two prior works. As we show in Table LABEL:tab:\_datasets, we replace the 1M-image ImageNet subset from VJEPA-2 pretraining data with LVD-142M, providing a broader and more diverse appearance distribution. Since this extensive image collection already covers many static visual concepts, we shift the video sampling strategy towards more dynamic, motion-rich content, increasing the SSv2 sampling weight from 0.056 to 0.170. We also found beneficial to increase the contribution of YT-1B from 0.188 to 0.720, which contains much more heterogeneous video samples.
+DINOv2 introduced a cluster-based retrieval strategy to select images from a large pool of raw internet data, resulting in a curated set of 142 million images, referred to as the LVD-142M dataset. Using a similar approach, V-JEPA 2 collected and curated video scenes from YT1B videos, combined with other publicly available video datasets, yielding a large-scale collection of 19 million video samples from the internet, corresponding to $1.6$ million hours. Both works demonstrated the positive effect of data scaling for SSL pretraining.
 
 <!-- chunk {"id": "body-0031", "role": "body", "section": "Scaling Image Data", "weight": 1.0} -->
 
+Building on these insights, we construct our VisionMix163M Dataset, combining large-scale curated sources from these two prior works. As we show in Table LABEL:tab:\_datasets, we replace the 1M-image ImageNet subset from VJEPA-2 pretraining data with LVD-142M, providing a broader and more diverse appearance distribution. Since this extensive image collection already covers many static visual concepts, we shift the video sampling strategy towards more dynamic, motion-rich content, increasing the SSv2 sampling weight from 0.056 to 0.170. We also found beneficial to increase the contribution of YT-1B from 0.188 to 0.720, which contains much more heterogeneous video samples.
+
+<!-- chunk {"id": "body-0032", "role": "body", "section": "Scaling Image Data", "weight": 1.0} -->
+
 Rather than mixing images and videos within the same training batch, we leverage distributed training by assigning separate workers to each modality. After each iteration, gradients from video-only and image-only nodes are aggregated before updating the model. The image/video ratio is controlled through per-modality batch sizes. Empirically, we found optimal performance with 128 video clips (16 frames each) and 2,304 images per global batch. As we report in Table 2.3, the improvement of training on a more diverse and extend database is beneficial in all tasks (72.1 $\rightarrow$ 72.6 on SSv2, 80.8 $\rightarrow$ 81.6 on ImageNet, 38.6 $\rightarrow$ 40.8 on ADE20K, 0.463 $\rightarrow$ 0.418 RMSE on NYUv2).
-
-<!-- chunk {"id": "body-0032", "role": "body", "section": "Multi-Modal Tokenizer", "weight": 1.0} -->
-
-Previous work exploring joint training on image and video, such as V-JEPA 2, was suboptimal: it employed a single 3D convolution as the patch-embedding layer. Images were duplicated temporally and treated as a 16-frame static video, which significantly increased their computational cost and introduced an incorrect representational bias (i.e., images were interpreted as static videos). Instead, we introduce a multi-modal tokenizer, which applies a 3D convolution of $16 \times 16 \times 2$ for processing videos and a 2D convolution of $16 \times 16$ for images. We also add a modality-learnable token to both the encoder and the predictor inputs, which explicitly encodes whether the input comes from the image or video pathway. These learnable tokens condition the processing on the input modality, helping the model disentangle stronger static appearance cues in images and temporal motion information in videos.
 
 <!-- chunk {"id": "body-0033", "role": "body", "section": "Multi-Modal Tokenizer", "weight": 1.0} -->
 
+Previous work exploring joint training on image and video, such as V-JEPA 2, was suboptimal: it employed a single 3D convolution as the patch-embedding layer. Images were duplicated temporally and treated as a 16-frame static video, which significantly increased their computational cost and introduced an incorrect representational bias (i.e., images were interpreted as static videos). Instead, we introduce a multi-modal tokenizer, which applies a 3D convolution of $16\times 16\times 2$ for processing videos and a 2D convolution of $16\times 16$ for images. We also add a modality-learnable token to both the encoder and the predictor inputs, which explicitly encodes whether the input comes from the image or video pathway. These learnable tokens condition the processing on the input modality, helping the model disentangle stronger static appearance cues in images and temporal motion information in videos.
+
+<!-- chunk {"id": "body-0034", "role": "body", "section": "Multi-Modal Tokenizer", "weight": 1.0} -->
+
 This design allows each modality to be processed in its native form, eliminating the need for temporal duplication of images and improving computational efficiency. Additionally, we observe that using the Multi-Modal Tokenizer has a positive effect on dense-task performance: it improves mIoU on ADE20K from $40.8$ to $41.4$, while performance on action or object recognition remains stable.
-
-<!-- chunk {"id": "body-0034", "role": "body", "section": "Scaling Model Size to ViT-G (2B) and High-Resolution Cool-Down", "weight": 1.0} -->
-
-Next, we explore the effect of model scaling and high-resolution cooldown. Scaling the V-JEPA encoder from a ViT-L with 300 million parameters to a ViT-G with 2 billion parameters leads to significant improvements on all downstream tasks (72.6 $\rightarrow$ 76.1 on SSv2, 81.6 $\rightarrow$ 84.8 accuracy on ImageNet, 41.4 $\rightarrow$ 47.1 mIoU on ADE20K, 0.415 $\rightarrow$ 0.365 RMSE on NYUv2).
 
 <!-- chunk {"id": "body-0035", "role": "body", "section": "Scaling Model Size to ViT-G (2B) and High-Resolution Cool-Down", "weight": 1.0} -->
 
-Additionally, introducing a cool-down phase for the learning rate, during which we increase both the spatial resolution of images (from $256 \times 256$ to $512 \times 512$) and the spatio-temporal resolution of videos (from 16 frames at $256 \times 256$ to 64 frames at $384 \times 384$), further improves performance on all tasks. This achieves an accuracy of $77.7$ on SSv2, $85.5$ on ImageNet, an mIoU of $47.9$ on ADE20K, and an RMSE of $0.307$ on NYUv2, resulting in our best performing model. The benefits of a cool-down training phase are particularly strong in depth estimation (0.365 $\rightarrow 0.307$ RMSE on NYUv2).
+Next, we explore the effect of model scaling and high-resolution cooldown. Scaling the V-JEPA encoder from a ViT-L with 300 million parameters to a ViT-G with 2 billion parameters leads to significant improvements on all downstream tasks (72.6 $\rightarrow$ 76.1 on SSv2, 81.6 $\rightarrow$ 84.8 accuracy on ImageNet, 41.4 $\rightarrow$ 47.1 mIoU on ADE20K, 0.415 $\rightarrow$ 0.365 RMSE on NYUv2).
 
-<!-- chunk {"id": "body-0036", "role": "body", "section": "Model Distillation", "weight": 1.0} -->
+<!-- chunk {"id": "body-0036", "role": "body", "section": "Scaling Model Size to ViT-G (2B) and High-Resolution Cool-Down", "weight": 1.0} -->
 
-We scaled the size of the model not only to achieve top-tier performance but also to enable effective compression of the model through distillation Hinton et al.. We distill our ViT-G (2B) model into smaller variants (ViT-B, 80M; ViT-L, 300M). The distillation protocol is adapted from our pretraining recipe, with key differences: i) we replace the Exponential-Moving-Average (EMA) of the target encoder by a frozen teacher model, ii) we keep an EMA copy of the student encoder, that is not used in the loss, but serves as the final model, iii) the distillation loss is identical to our pretraining loss, except it is only computed on the last layer of the teacher encoder, and it does not use deep self-supervision, iv) we use a predictor with only 12 blocks and a final linear layer matching the teacher embedding dimension. All other hyper-parameters---including masking ratios, cool-down schedules, learning rates, and data augmentations---remain identical to the original pretraining recipe.
+Additionally, introducing a cool-down phase for the learning rate, during which we increase both the spatial resolution of images (from $256\times 256$ to $512\times 512$) and the spatio-temporal resolution of videos (from 16 frames at $256\times 256$ to 64 frames at $384\times 384$), further improves performance on all tasks. This achieves an accuracy of $77.7$ on SSv2, $85.5$ on ImageNet, an mIoU of $47.9$ on ADE20K, and an RMSE of $0.307$ on NYUv2, resulting in our best performing model. The benefits of a cool-down training phase are particularly strong in depth estimation (0.365 $\rightarrow 0.307$ RMSE on NYUv2).
 
 <!-- chunk {"id": "body-0037", "role": "body", "section": "Model Distillation", "weight": 1.0} -->
 
+We scaled the size of the model not only to achieve top-tier performance but also to enable effective compression of the model through distillation Hinton et al.. We distill our ViT-G (2B) model into smaller variants (ViT-B, 80M; ViT-L, 300M). The distillation protocol is adapted from our pretraining recipe, with key differences: i) we replace the Exponential-Moving-Average (EMA) of the target encoder by a frozen teacher model, ii) we keep an EMA copy of the student encoder, that is not used in the loss, but serves as the final model, iii) the distillation loss is identical to our pretraining loss, except it is only computed on the last layer of the teacher encoder, and it does not use deep self-supervision, iv) we use a predictor with only 12 blocks and a final linear layer matching the teacher embedding dimension. All other hyper-parameters---including masking ratios, cool-down schedules, learning rates, and data augmentations---remain identical to the original pretraining recipe.
+
+<!-- chunk {"id": "body-0038", "role": "body", "section": "Model Distillation", "weight": 1.0} -->
+
 We provide more details on the distillation protocol in Appendix 7.
-
-<!-- chunk {"id": "body-0038", "role": "body", "section": "Results", "weight": 1.0} -->
-
-In this section, we evaluate the performance of V-JEPA 2.1 on a large variety of downstream tasks. Throughout the experiments, we employ V-JEPA 2.1 as a frozen encoder, demonstrating the versatility of its features. We first demonstrate the predictive capabilities of V-JEPA 2.1 in two forecasting tasks: short-term object interaction anticipation (Section 3.1) and action anticipation (Section 3.2). We then demonstrate that can leverage V-JEPA 2.1 to learn an action-condition world model and performs robot manipulation (Section 3.3) and navigation tasks (Section 3.4) in zero-shot setup. Then, we evaluate the quality of the learned dense features by assessing the V-JEPA 2.1 performance on single-image depth estimation and semantic segmentation (Section 3.5). Following, we analyze the temporal consistency of V-JEPA 2.1 representations through the video object segmentation task (Section 3.5). We also analyze V-JEPA 2.1 global understanding on two high-level understanding tasks: probe-based video classification and image classification (Section 3.7).
 
 <!-- chunk {"id": "body-0039", "role": "body", "section": "Results", "weight": 1.0} -->
 
+In this section, we evaluate the performance of V-JEPA 2.1 on a large variety of downstream tasks. Throughout the experiments, we employ V-JEPA 2.1 as a frozen encoder, demonstrating the versatility of its features. We first demonstrate the predictive capabilities of V-JEPA 2.1 in two forecasting tasks: short-term object interaction anticipation (Section 3.1) and action anticipation (Section 3.2). We then demonstrate that can leverage V-JEPA 2.1 to learn an action-condition world model and performs robot manipulation (Section 3.3) and navigation tasks (Section 3.4) in zero-shot setup. Then, we evaluate the quality of the learned dense features by assessing the V-JEPA 2.1 performance on single-image depth estimation and semantic segmentation (Section 3.5). Following, we analyze the temporal consistency of V-JEPA 2.1 representations through the video object segmentation task (Section 3.5). We also analyze V-JEPA 2.1 global understanding on two high-level understanding tasks: probe-based video classification and image classification (Section 3.7).
+
+<!-- chunk {"id": "body-0040", "role": "body", "section": "Results", "weight": 1.0} -->
+
 Finally, we present results for our smaller distilled models (Section 3.10). We provide more details on the experimental setup and all pretraining hyper-parameters in Appendices 6 and 8.
-
-<!-- chunk {"id": "body-0040", "role": "body", "section": "Short-Term Object Interaction Anticipation", "weight": 1.0} -->
-
-Encoders using our same protocol
 
 <!-- chunk {"id": "body-0041", "role": "body", "section": "Short-Term Object Interaction Anticipation", "weight": 1.0} -->
 
+Results Reported in the Literature Encoders using our same protocol Table 4: Short-Term Object Interaction Anticipation on Ego4D. Following Grauman et al., we report different Top-5 Average Precision (AP) and mean Average Precision (mAP) metrics, where the winning score is the mAP All. We compare results reported in the literature with different frozen SSL encoders (DINOv2, DINOv2, V-JEPA 2 and our V-JEPA 2.1) extended with an attentive-based predicted head. V-JEPA 2.1 obtains the state-of-the-art due to its high-quality dense features and predictive capabilities.
+
+<!-- chunk {"id": "body-0042", "role": "body", "section": "Short-Term Object Interaction Anticipation", "weight": 1.0} -->
+
 Short-Term object-interaction Anticipation (STA) consists in predicting future object interaction in a ego-centric scenario, predicting the next active object bounding box $b$, the object noun category $N$ the action verb $V$ and the time until contact ($\delta$). This formulation evaluates fine-grained 2D localization, semantic understanding of objects, temporal reasoning over video dynamics, and the ability to forecast user intentions. Using the Ego-4D STA benchmark, we show that V-JEPA 2.1 outperforms previous state-of-the-art performance by a significant margin due to its high-quality dense features and predictive capabilities.
-
-<!-- chunk {"id": "body-0042", "role": "body", "section": "Task", "weight": 1.0} -->
-
-We evaluate V-JEPA 2.1 on the STA v2 split of Ego4D, which comprises 243 hours of annotated video clips spanning 128 noun and 81 verb categories, with a total of 98,276 training and 47,395 validation samples. We compare against state-of-the-art methods, and we further asses the performance of DINOv2 and DINOv3 image encoders using our proposed attentive probe. Following the evaluation protocol of Grauman et al., we report Top-5 Average Precision (AP) and Top-5 mean Average Precision (mAP) metrics. As in standard mAP, predictions are matched to ground-truth boxes using IoU \> 0.5 and additional class-specific criteria. For instance, the Top-5 mAP All variant requires a correct noun, correct verb, IoU above 0.5, and a time-to-contact $\delta$ prediction within a 0.25-second tolerance.
 
 <!-- chunk {"id": "body-0043", "role": "body", "section": "Task", "weight": 1.0} -->
 
+We evaluate V-JEPA 2.1 on the STA v2 split of Ego4D, which comprises 243 hours of annotated video clips spanning 128 noun and 81 verb categories, with a total of 98,276 training and 47,395 validation samples. We compare against state-of-the-art methods, and we further asses the performance of DINOv2 and DINOv3 image encoders using our proposed attentive probe. Following the evaluation protocol of Grauman et al., we report Top-5 Average Precision (AP) and Top-5 mean Average Precision (mAP) metrics. As in standard mAP, predictions are matched to ground-truth boxes using IoU \> 0.5 and additional class-specific criteria. For instance, the Top-5 mAP All variant requires a correct noun, correct verb, IoU above 0.5, and a time-to-contact $\delta$ prediction within a 0.25-second tolerance.
+
+<!-- chunk {"id": "body-0044", "role": "body", "section": "Task", "weight": 1.0} -->
+
 To address the inherently multi-modal nature of future anticipation---where multiple plausible next-active objects may exist---the metric discounts up to four highest-scoring false positives per example, thereby avoiding penalties for plausible but unannotated predictions. Additionally, we report individual metrics to evaluate the temporal ($\delta$), spatial (bounding boxes), and semantic (noun and verb) dimensions of the task.
-
-<!-- chunk {"id": "body-0044", "role": "body", "section": "Evaluation protocol", "weight": 1.0} -->
-
-The model receives as input a low-resolution video clip (384 px, 8 frames spanning 0.5 seconds) and a high-resolution image (1080 px) corresponding to the last frame of the clip. Using the frozen encoder of V-JEPA 2.1, we extract last-level features independently from both inputs using the respective patchifier (a 2D convolution for the high-resolution image and a 3D convolution for the video) and adding the corresponding modality embedding. For the video features, we train a four-layer attentive probe, followed by the frame-guided temporal pooling module from Mur-Labadia et al.. This module aggregates the 3D video tokens into a 2D representation that is spatially aligned with the spatial reference of the last frame. The pooled video features are then summed to the image features, and the resulting fused representation is rescaled into four multiscale feature maps, which serve as input to the detection head. To ensure a fair comparison with state-of-the-art methods, we adopt the same detection head utilized in these approaches.
 
 <!-- chunk {"id": "body-0045", "role": "body", "section": "Evaluation protocol", "weight": 1.0} -->
 
+The model receives as input a low-resolution video clip (384 px, 8 frames spanning 0.5 seconds) and a high-resolution image (1080 px) corresponding to the last frame of the clip. Using the frozen encoder of V-JEPA 2.1, we extract last-level features independently from both inputs using the respective patchifier (a 2D convolution for the high-resolution image and a 3D convolution for the video) and adding the corresponding modality embedding. For the video features, we train a four-layer attentive probe, followed by the frame-guided temporal pooling module from Mur-Labadia et al.. This module aggregates the 3D video tokens into a 2D representation that is spatially aligned with the spatial reference of the last frame. The pooled video features are then summed to the image features, and the resulting fused representation is rescaled into four multiscale feature maps, which serve as input to the detection head. To ensure a fair comparison with state-of-the-art methods, we adopt the same detection head utilized in these approaches.
+
+<!-- chunk {"id": "body-0046", "role": "body", "section": "Evaluation protocol", "weight": 1.0} -->
+
 This head extends Faster R-CNN by adding linear layers to additionally predict the verb category and the time to contact.
 
-<!-- chunk {"id": "body-0046", "role": "body", "section": "Results", "weight": 1.0} -->
+<!-- chunk {"id": "body-0047", "role": "body", "section": "Results", "weight": 1.0} -->
 
 Table 4 presents a comparison with state-of-the-art methods on the Short Term Anticipation task. V-JEPA 2.1 demonstrates achieves the absolute state-of-the-art performance with an overall mAP of 7.71. This represents a relative improvement of approximately 35$\%$ over the previous best method, which introduces task-specific training components. As it is shown by the individual metrics, this gain is primarily driven by improved understanding of the next action 25.8 AP~b+V~ and the time to contact 20.20 AP~b+$\delta$~, 12.9 mAP ~b+$\delta$~. Furthermore, the high-quality V-JEPA 2.1 dense features enable the precise 2D detection of the next-active object bounding boxes, achieving 50.7 AP and surpassing DINOv3 ViT-7B in this category. Qualitative results are shown in Figure 7. V-JEPA 2.1 predicts plausible short-term interactions, with accurate bounding box localization, robust understanding of object categories, and plausible inference of the user next action intentions.
 
-<!-- chunk {"id": "body-0047", "role": "body", "section": "Action Anticipation", "weight": 1.0} -->
+<!-- chunk {"id": "body-0048", "role": "body", "section": "Action Anticipation", "weight": 1.0} -->
 
 Action anticipation consists in predicting the future action given a contextual video clip leading up to some time before the action. Using the Epic-Kitchens-100 (EK100) benchmark, we show that V-JEPA 2.1 outperforms the action anticipation performance of V-JEPA 2, and sets a new state-of-the-art for the task.
 
-<!-- chunk {"id": "body-0048", "role": "body", "section": "Task", "weight": 1.0} -->
+<!-- chunk {"id": "body-0049", "role": "body", "section": "Task", "weight": 1.0} -->
 
 The EK100 dataset is comprised of 100 hours of cooking activities recorded from an egocentric perspective across 45 kitchen environments. Each video in EK100 is annotated with action segments, which include a start timestamp, an end timestamp, and an action label. There are 3,568 unique action labels, each consisting of a verb and a noun category, with a total of 97 verb categories and 300 noun categories. The EK100 action anticipation task involves predicting noun, verb, and action (i.e., predicting verb and noun jointly) from a video clip, referred to as context, that occurs before the start timestamp of an action segment. The interval between the end of the context and the beginning of the action segment is the anticipation time, which is set to 1 second by default. Given that different future actions may be possible from a given context, mean-class recall-at-5 is used as the metric to measure performance.
 
-<!-- chunk {"id": "body-0049", "role": "body", "section": "Evaluation protocol", "weight": 1.0} -->
+<!-- chunk {"id": "body-0050", "role": "body", "section": "Evaluation protocol", "weight": 1.0} -->
 
 We employ the same protocol as V-JEPA 2 and use an attentive probe trained on top of the frozen V-JEPA 2.1 encoder and predictor to anticipate future actions. Specifically, we sample a video clip that ends 1 second before an action starts. This video context is fed to the encoder. The predictor takes the encoder representation, along with the mask tokens corresponding to the frame 1 second into the future, and predicts the representation of the future video frame. The outputs of the predictor and encoder are concatenated along the token dimension and fed to an attentive probe with a similar architecture to those used in our probe-based video classification protocol, with the difference being that the anticipation probe's final cross-attention layer learns three query tokens (as opposed to one), and each query output is fed to a different linear classifier to predict the action category, the verb category, and the noun category respectively. A focal loss is applied to each classifier independently and then summed before back-propagating through the shared attention blocks of the probe.
 
-<!-- chunk {"id": "body-0050", "role": "body", "section": "Results", "weight": 1.0} -->
+<!-- chunk {"id": "body-0051", "role": "body", "section": "Results", "weight": 1.0} -->
 
-Table 5 summarizes the results on the validation set of the EK100 action anticipation benchmark. We compare V-JEPA 2.1 ViT-g 1B and ViT-G 2B encoders with V-JEPA 2 ViT-g 1B encoder. Both leverage 32 frames with 8 frames per second at resolution 384 × 384 as video context. V-JEPA 2.1 is comparable to V-JEPA 2 on the same 1B model size, but show scaling of the performance to the 2B models size, setting a new absolute state-of-the-art performance at 40.8 Action Recall@5, corresponding to a $+ {2.8\%}$ improvement.
-
-<!-- chunk {"id": "body-0051", "role": "body", "section": "Robotic Arm Planning", "weight": 1.0} -->
-
-Next, we evaluate V-JEPA 2.1 for robot manipulation. To that end, we train a frame-causal action-conditioned predictor, following the protocol of Assran et al.. In particular, we use the public codebase from Assran et al. and modify it to compute features using our V-JEPA 2.1 video encoder; the predictor is an identical 24-layer transformer network containing approximately 300M parameters, and is trained on the Droid raw dataset using both a teacher-forcing and two-step rollout loss. The model is then deployed in our lab, zero-shot, on a table-top Franka Panda robot arm with a parallel-jaw gripper, and evaluated on reach, grasp, and pick-and-place tasks with visual goal specification via model-predictive control. We use the same exact task configuration files provided in Assran et al., and similar planning hyper-parameters.
+Table 5 summarizes the results on the validation set of the EK100 action anticipation benchmark. We compare V-JEPA 2.1 ViT-g 1B and ViT-G 2B encoders with V-JEPA 2 ViT-g 1B encoder. Both leverage 32 frames with 8 frames per second at resolution 384 × 384 as video context. V-JEPA 2.1 is comparable to V-JEPA 2 on the same 1B model size, but show scaling of the performance to the 2B models size, setting a new absolute state-of-the-art performance at 40.8 Action Recall@5, corresponding to a $+2.8\%$ improvement.
 
 <!-- chunk {"id": "body-0052", "role": "body", "section": "Robotic Arm Planning", "weight": 1.0} -->
 
-#Samples
-Pick-&amp;-Place
+Next, we evaluate V-JEPA 2.1 for robot manipulation. To that end, we train a frame-causal action-conditioned predictor, following the protocol of Assran et al.. In particular, we use the public codebase from Assran et al. and modify it to compute features using our V-JEPA 2.1 video encoder; the predictor is an identical 24-layer transformer network containing approximately 300M parameters, and is trained on the Droid raw dataset using both a teacher-forcing and two-step rollout loss. The model is then deployed in our lab, zero-shot, on a table-top Franka Panda robot arm with a parallel-jaw gripper, and evaluated on reach, grasp, and pick-and-place tasks with visual goal specification via model-predictive control. We use the same exact task configuration files provided in Assran et al., and similar planning hyper-parameters.
 
 <!-- chunk {"id": "body-0053", "role": "body", "section": "Robotic Arm Planning", "weight": 1.0} -->
 
+#Samples
+
+<!-- chunk {"id": "body-0054", "role": "body", "section": "Robotic Arm Planning", "weight": 1.0} -->
+
 Success rates are reported in Table 6. VJEPA 2.1 exhibits an improved depth understanding, leading to a 10% improvement in the success rate of Grasp compared to VJEPA 2 (cf. Figure 8). Moreover, we find that the VJEPA 2.1 model unlocks the benefit of planning with slightly longer rollouts, perhaps due to the improvement in dense features afforded by our model. In particular, by reducing the number of CEM samples and planning over 8 steps, we observe an additional improvement in the success rate on Grasp. By contrast, we actually observe a degradation in the success rate of VJEPA 2 when planning over longer horizons. Qualitatively, we further observe that task failures using the VJEPA 2.1 model on Pick-and-Place and Grasp are a result of poor planning over gripper actions, as opposed to failures in spatial understanding; e.g., closing the gripper too soon such that you cannot grasp the object, or slightly opening the gripper while in transit leading to the object being dropped.
-
-<!-- chunk {"id": "body-0054", "role": "body", "section": "Navigation Planning", "weight": 1.0} -->
-
-Next, we evaluate the utility of V-JEPA 2.1 representations for short-term robotic navigation. Specifically, given an agent's most recent observation and a goal location specified by an image, we predict a 2-second navigation trajectory toward the goal. We adopt the navigation planning setup of NWM and train a latent world model on top of the V-JEPA 2.1 representations. We find that V-JEPA 2.1 enables more accurate planning while achieving $10 \times$ faster planning speed than the previously used SD-VAE. Results are reported in Table 7, with qualitative examples shown in Figure 9.
 
 <!-- chunk {"id": "body-0055", "role": "body", "section": "Navigation Planning", "weight": 1.0} -->
 
-We train a Conditional Diffusion Transformer (CDiT) on top of the V-JEPA 2.1 representations, similarly to NWM. Our initial experiments indicate that directly training a diffusion model in the high-dimensional embedding space of the V-JEPA 2.1 is challenging: because the representations are high-dimensional (at least $80 \times$ larger than those of an SD-VAE), injecting noise in arbitrary directions can easily push samples off the data manifold. To improve robustness, we introduce two modifications. First, we train the model to predict a clean representation rather than noise. Second, we use DDIM sampling, which is less stochastic than DDPM and empirically improves stability.
+Next, we evaluate the utility of V-JEPA 2.1 representations for short-term robotic navigation. Specifically, given an agent's most recent observation and a goal location specified by an image, we predict a 2-second navigation trajectory toward the goal. We adopt the navigation planning setup of NWM and train a latent world model on top of the V-JEPA 2.1 representations. We find that V-JEPA 2.1 enables more accurate planning while achieving $10\times$ faster planning speed than the previously used SD-VAE. Results are reported in Table 7, with qualitative examples shown in Figure 9.
 
 <!-- chunk {"id": "body-0056", "role": "body", "section": "Navigation Planning", "weight": 1.0} -->
 
-For planning, given an initial context embedding and a goal, we use the Cross-Entropy Method to sample $N = 480$ candidate trajectories of length $2$ seconds at $4$ FPS. We select the best candidate by simulating it in the world model and choosing the trajectory that minimizes the distance to the goal embedding. To simplify the search, we plan in a reduced 3-DoF action space (translation and yaw rotation). With V-JEPA 2.1, we require only $8$ denoising steps, compared to the optimal SD-VAE setting which requires at least $128$ steps. This yields lower Absolute Trajectory Error (ATE) and Relative Trajectory Error (RTE) on the validation set while reducing planning time by $10 \times$.
+We train a Conditional Diffusion Transformer (CDiT) on top of the V-JEPA 2.1 representations, similarly to NWM. Our initial experiments indicate that directly training a diffusion model in the high-dimensional embedding space of the V-JEPA 2.1 is challenging: because the representations are high-dimensional (at least $80\times$ larger than those of an SD-VAE), injecting noise in arbitrary directions can easily push samples off the data manifold. To improve robustness, we introduce two modifications. First, we train the model to predict a clean representation rather than noise. Second, we use DDIM sampling, which is less stochastic than DDPM and empirically improves stability.
 
-<!-- chunk {"id": "body-0057", "role": "body", "section": "Depth Estimation and Semantic Segmentation", "weight": 1.0} -->
+<!-- chunk {"id": "body-0057", "role": "body", "section": "Navigation Planning", "weight": 1.0} -->
+
+For planning, given an initial context embedding and a goal, we use the Cross-Entropy Method to sample $N=480$ candidate trajectories of length $2$ seconds at $4$ FPS. We select the best candidate by simulating it in the world model and choosing the trajectory that minimizes the distance to the goal embedding. To simplify the search, we plan in a reduced 3-DoF action space (translation and yaw rotation). With V-JEPA 2.1, we require only $8$ denoising steps, compared to the optimal SD-VAE setting which requires at least $128$ steps. This yields lower Absolute Trajectory Error (ATE) and Relative Trajectory Error (RTE) on the validation set while reducing planning time by $10\times$.
+
+<!-- chunk {"id": "body-0058", "role": "body", "section": "Navigation Planning", "weight": 1.0} -->
+
+Models less than 2B parameters Table 8: Performance on dense visual tasks. We report the Root Mean Squared Error (RMSE) for depth estimation (NYUv2, KITTI), mean Intersection-over-Union (mIoU) for semantic segmentation (ADE20K, Cityscapes,), and the 𝒥&ℱ-Mean for video object segmentation (DAVIS, YouTube-VOS). Following Siméoni et al., ADE20K and are evaluated at an input resolution of 448 × 448 for models with patch size 14 and 512 × 512 for those with patch size 16. Cityscapes, NYUv2, and KITTI use their default evaluation resolutions. For DAVIS and YouTube-VOS, we evaluate with the shorter image side set to 480 px (patch size 16) or 420 px (patch size 14). V-JEPA 2.1 VIT G demonstrates strong performance on dense vision tasks. Notably, it achieves state-of-art performances on NYUv2 depth estimation, outperforming a DINOv3 backbone with 7 billion parameters.
+
+<!-- chunk {"id": "body-0059", "role": "body", "section": "Depth Estimation and Semantic Segmentation", "weight": 1.0} -->
 
 We evaluate the quality of the learned representations on semantic segmentation and depth estimation, two tasks that require fine-grained understanding of the image spatial structure.
 
-<!-- chunk {"id": "body-0058", "role": "body", "section": "Task", "weight": 1.0} -->
+<!-- chunk {"id": "body-0060", "role": "body", "section": "Task", "weight": 1.0} -->
 
-Semantic segmentation probes the model's ability to capture category-level semantics and object boundaries. We evaluate our model on PASCAL, ADE20K, and Cityscapes, reporting the mean Intersection over Union (mIoU). As in Siméoni et al., the input resolution of the images is adapted to 1024 patch tokens (${i.e}.$, $512 \times 512$ for patch size 16, $448 \times 448$ for patch size 14). On the other hand, depth estimation evaluates the model's understanding of the scene's geometric structure. For this task, we use the NYUv2 and KITTI benchmarks and report the Root Mean Squared Error (RMSE).
+Semantic segmentation probes the model's ability to capture category-level semantics and object boundaries. We evaluate our model on PASCAL, ADE20K, and Cityscapes, reporting the mean Intersection over Union (mIoU). As in Siméoni et al., the input resolution of the images is adapted to 1024 patch tokens ($i.e.$, $512\times 512$ for patch size 16, $448\times 448$ for patch size 14). On the other hand, depth estimation evaluates the model's understanding of the scene's geometric structure. For this task, we use the NYUv2 and KITTI benchmarks and report the Root Mean Squared Error (RMSE).
 
-<!-- chunk {"id": "body-0059", "role": "body", "section": "Evaluation protocol", "weight": 1.0} -->
+<!-- chunk {"id": "body-0061", "role": "body", "section": "Evaluation protocol", "weight": 1.0} -->
 
 Following the protocol of DINOv3, we train a dense linear projection on top of the frozen final-layer features of the V-JEPA 2.1 encoder using the image patchifier. Importantly, we do not utilize intermediate layers from the encoder. As V-JEPA 2.1 adopts a 3D RoPe for positional encoding, the frequencies are interpolated according to the image resolution.
 
-<!-- chunk {"id": "body-0060", "role": "body", "section": "Results", "weight": 1.0} -->
+<!-- chunk {"id": "body-0062", "role": "body", "section": "Results", "weight": 1.0} -->
 
 Table 8 summarizes the performance of V-JEPA 2.1 and other visual encoders on depth estimation and single-image semantic segmentation. V-JEPA 2.1 ViT-G achieves state-of-the-art results on linear-probe monocular depth estimation, reaching 0.307 RMSE on NYUv2 and strong performance on KITTI with 2.461 RMSE, performing best across models that have less than 2 billion parameter. On NYUv2, V-JEPA 2.1 surpasses prior image encoders, including DINOv3 ViT-7B (0.309 RMSE on NYU) and PE~spatial~-G (0.362 RMSE on NYU), and it represents a significant improvement over video encoders such as InternVideo2-1B (0.471 RMSE) and V-JEPA 2 (0.642 RMSE). Figure 10 provides a qualitative comparison of the depth maps predicted by V-JEPA 2 and V-JEPA 2.1. While V-JEPA 2 captures the overall scene geometry, the inconsistencies of its local features lead to noisy depth maps.
 
-<!-- chunk {"id": "body-0061", "role": "body", "section": "Results", "weight": 1.0} -->
+<!-- chunk {"id": "body-0063", "role": "body", "section": "Results", "weight": 1.0} -->
 
 In contrast, our novel V-JEPA 2.1 produces sharper and more coherent depth maps with well-defined object boundaries. We also visualize a more detailed qualitative comparative with DINOv3 ViT-H+ in Figure 12.
 
-<!-- chunk {"id": "body-0062", "role": "body", "section": "Results", "weight": 1.0} -->
+<!-- chunk {"id": "body-0064", "role": "body", "section": "Results", "weight": 1.0} -->
 
 In semantic segmentation, V-JEPA 2.1 is also highly competitive with the state-of-the-art models, obtaining 85.0 mIoU, 73.5 mIoU on Cityscapes and 47.9 mIoU on ADE20K. Compared with its previous version V-JEPA 2, the gains are remarkable across all datasets: +23.4 points in ADE20K, +27.6 on Cityscapes, and + 20.7; showing the benefits of explicitly supervising the context tokens and incorporating the multi-level predictor.
 
-<!-- chunk {"id": "body-0063", "role": "body", "section": "Results", "weight": 1.0} -->
+<!-- chunk {"id": "body-0065", "role": "body", "section": "Results", "weight": 1.0} -->
 
 Performance on ADE20K and Cityscapes remains slightly behind the best image encoders. These datasets contain numerous object classes spanning large scale variations, with cluttered scene layouts that impose strict demands on fine-grained segmentation. We hypothesize that VisionMix contains comparatively fewer highly cluttered scenes, limiting exposure to the level of granularity required by such benchmarks. Figure 11 illustrates segmentation predictions on Cityscapes and. V-JEPA 2.1 yields detailed and spatially accurate masks, capturing multi-scale structures and fine object contours with high fidelity, showing competitive performance with state-of-the-art methods such as DINOv3 ViT-H+.
 
-<!-- chunk {"id": "body-0064", "role": "body", "section": "Video Object Segmentation", "weight": 1.0} -->
+<!-- chunk {"id": "body-0066", "role": "body", "section": "Video Object Segmentation", "weight": 1.0} -->
 
 We evaluate V-JEPA 2.1 on Video Object Segmentation (VOS) to assess the temporal consistency of its learned features.
 
-<!-- chunk {"id": "body-0065", "role": "body", "section": "Task", "weight": 1.0} -->
+<!-- chunk {"id": "body-0067", "role": "body", "section": "Task", "weight": 1.0} -->
 
 Video Object Segmentation consists, given the ground-truth object mask in the first frame, propagating this mask accurately across all subsequent frames. This task evaluates the model's ability to preserve long-range correspondences while remaining robust to camera motion, object deformation, and visual distractions. We evaluate on DAVIS 2017 and YouTube-VOS datasets, reporting the standard $\mathcal{J}\&\mathcal{F}$-mean metric that jointly measures the region similarity and contour accuracy.
 
-<!-- chunk {"id": "body-0066", "role": "body", "section": "Evaluation protocol", "weight": 1.0} -->
+<!-- chunk {"id": "body-0068", "role": "body", "section": "Evaluation protocol", "weight": 1.0} -->
 
 We adopt a non-parametric label propagation approach that matches local patch features across frames using cosine similarity in the embedding space. This procedure introduces no learnable parameters, making it a direct probe of the representation's temporal stability. Following Siméoni et al., input videos are resized to produce a consistent number of patch tokens (short side of 420 px for patch size 14, and 480 px for patch size 16). On the training split of each dataset, we conduct a systematic search of the best hyper-parameters: maximum context length, neighborhood mask size, number of top-$K$ nearest neighbors, and the temperature parameter used in similarity computation. The best configuration in DAVIS-S (15 context frames, circle mask of size 12, top-5 neighbors and temperature = 0.2), was applied to all the validation sets.
 
-<!-- chunk {"id": "body-0067", "role": "body", "section": "Results", "weight": 1.0} -->
+<!-- chunk {"id": "body-0069", "role": "body", "section": "Results", "weight": 1.0} -->
 
 V-JEPA 2.1 achieves 69.0 $\mathcal{J}\&\mathcal{F}$ on DAVIS-17 and 72.7 $\mathcal{J}\&\mathcal{F}$ on YouTube-VOS datasets, obtaining the second best performance and surpassing all prior encoders except DINOv3, which attains a slightly higher score. These results highlight the temporal consistency of the V-JEPA 2.1 features, which enable stable object tracking despite significant appearance changes across frames. Figure 13 illustrates two qualitative examples: even under fast motion and substantial visual variations, V-JEPA 2.1 maintains consistent object segmentation masks throughout the sequence.
 
-<!-- chunk {"id": "body-0068", "role": "body", "section": "Video and Image Classification", "weight": 1.0} -->
-
-Image Encoders Evaluated Using the Same Protocol
-
-<!-- chunk {"id": "body-0069", "role": "body", "section": "Video and Image Classification", "weight": 1.0} -->
-
-Video Encoders Evaluated Using the Same Protocol
-
 <!-- chunk {"id": "body-0070", "role": "body", "section": "Video and Image Classification", "weight": 1.0} -->
+
+Results Reported in the Literature Image Encoders Evaluated Using the Same Protocol Video Encoders Evaluated Using the Same Protocol Table 9: Performance on global tasks. We report Top-1 classification accuracy on action recognition benchmarks (SSv2, Diving-48, and K400) and image classification (IN1K). Our protocol uses a resolution of 256 × 256 by default, and 384 × 384 for V-JEPA 2 ViT-g and V-JEPA 2.1; and uses 16 × 2 × 3 inputs for SSv2 (16-frame clips, 2 temporal crops, 3 spatial crops), 16 × 8 × 3 for K400, and 32 × 4 × 3 for Diving-48. V-JEPA 2.1 VIT-G achieves state-of-art performance on the SSv2 action recognition asks while being competitive on appearance understanding tasks.
+
+<!-- chunk {"id": "body-0071", "role": "body", "section": "Video and Image Classification", "weight": 1.0} -->
 
 Real-world video reasoning requires recognizing static visual cues (i.e, objects, textures, scene layouts) as well as dynamic patterns (i.e, gestures, hand-object interactions, camera motion, long-term temporal evolution). To capture this dual nature, we evaluate the representations learned during pretraining on four complementary classification datasets. Something-Something v2 and Diving-48 assess motion-centric understanding, as their labels require modeling multi-frame dynamics to correctly identify the action. In contrast, Kinetics-400 and ImageNet-1K primarily measure appearance-based recognition, since many of their classes can be predicted from a single frame, even when the label describes an action.
 
-<!-- chunk {"id": "body-0071", "role": "body", "section": "Task", "weight": 1.0} -->
+<!-- chunk {"id": "body-0072", "role": "body", "section": "Task", "weight": 1.0} -->
 
 We compare the video classification performance of V-JEPA 2.1 against a broad set of visual encoders. For image-based self-supervised models, we include DINOv2 with registers and the more recent DINOv3, both representing state-of-the-art in image-only pretraining. We further evaluate against leading image--text contrastive approaches, including SigLIP2 and the Perception Encoder PE~core~G. For video models, we benchmark against the previous V-JEPA and V-JEPA 2, as well as InternVideo2s2-1B, a state-of-the-art video encoder trained primarily through vision--text contrastive objectives.
 
-<!-- chunk {"id": "body-0072", "role": "body", "section": "Task", "weight": 1.0} -->
+<!-- chunk {"id": "body-0073", "role": "body", "section": "Task", "weight": 1.0} -->
 
 In addition, we report comparisons with results available in the literature for VideoMAEv2, InternVideo2-1B, VideoPrism, and DINOv3. Note that these models are evaluated under similar frozen-probe protocols, but their attentive heads differ from ours. For instance, DINOv3 augments its probe with explicit spatial and temporal positional embeddings and applies a 3D factorized RoPE across its attention blocks. In contrast, our V-JEPA 2.1 encoder already encodes spatio--temporal structure in its features, allowing our probe to operate without such additional components.
 
-<!-- chunk {"id": "body-0073", "role": "body", "section": "Evaluation protocol", "weight": 1.0} -->
+<!-- chunk {"id": "body-0074", "role": "body", "section": "Evaluation protocol", "weight": 1.0} -->
 
 Following the protocol proposed by Assran et al., we train a 4-layers attentive probe on top of the frozen encoder features using the respective training data from each task. The attentive probe consists of four transformer blocks followed by a final cross-attention mechanism that employs a learnable query token. At inference, we sampled several clips with a fixed number of frames from the video, and we averaged the classification logits across clips.
 
-<!-- chunk {"id": "body-0074", "role": "body", "section": "Results", "weight": 1.0} -->
+<!-- chunk {"id": "body-0075", "role": "body", "section": "Results", "weight": 1.0} -->
 
 Table 9 summarizes the global video understanding performance of V-JEPA 2.1, previous V-JEPA models, and other strong visual encoders. V-JEPA 2.1 ViT-G achieves a top-1 accuracy of 77.7 on SSv2, setting a new absolute state-of-the-art on the task compared to 77.5 for InternVideo2 full fine-tuning, 77.3 for V-JEPA 2, 70.1 for DINOv3 ViT-7B and 69.7 for InternVideo2 using the same protocol, demonstrating a strong understanding of video dynamics. Our model is also highly-competitive in appearance-based tasks, reaching 87.7 on K400 and 85.5 on IN1K. These results show that properly designing the loss over context tokens, together with deep self-supervision, enables fine-grained dense features that also capture strong global scene understanding. We also observe consistent improvements with model scaling from ViT-g to ViT-G with an average improvement of +0.6 points.
 
-<!-- chunk {"id": "body-0075", "role": "body", "section": "Video Question Answering", "weight": 1.0} -->
+<!-- chunk {"id": "body-0076", "role": "body", "section": "Video Question Answering", "weight": 1.0} -->
 
 In this section, we evaluate V-JEPA 2.1 on Video Question Answering (VidQA), by training a Video Large Language Model (VidLLM) using V-JEPA 2.1 encoder and Llama 3.1 8B LLM as the backbone, following the recipe proposed by Assran et al..
 
-<!-- chunk {"id": "body-0076", "role": "body", "section": "Video Question Answering", "weight": 1.0} -->
-
-≤ 8 B Video Language Models Results Reported in the Literature
-
 <!-- chunk {"id": "body-0077", "role": "body", "section": "Video Question Answering", "weight": 1.0} -->
 
-Models trained in this paper using filtered Perception LM data
+Params Enc / LLM ≤ 8B Video Language Models Results Reported in the Literature Models trained in this paper using filtered Perception LM data Table 10: VideoQA results. We report the performance of VJEPA 2.1 trained with Llama 3.1 8B backbone on several popular temporal video understanding datasets. We train on a modified subset of the PerceptionLM data, and compare to VJEPA 2 by training it on the same data regime. VJEPA 2.1 achieves comparatively better performance than VJEPA 2 on several video understanding tasks which require both rich visual information and temporal understanding. For PerceptionTest, we report the validation accuracy, as the test server to compute the test accuracy (indicated by *) is no longer active.
 
 <!-- chunk {"id": "body-0078", "role": "body", "section": "Task", "weight": 1.0} -->
 

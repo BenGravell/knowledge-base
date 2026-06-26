@@ -24,11 +24,11 @@ Although trajectory planning and control have been among the most extensively st
 
 <!-- chunk {"id": "body-0006", "role": "body", "section": "Introduction", "weight": 1.5} -->
 
-In this paper, we focus on the interplay between trajectory generation and feedback control. Rather than imposing such a layered architecture on the control stack, we show that it can be *derived* via a suitable relaxation of a global nonlinear optimal control problem that jointly encodes both the trajectory generation and feedback control problems. Crucially, the resulting trajectory generation optimization problem is dynamics-aware, in that it is modified with a *tracking penalty regularizer* that encodes the dynamic feasibility of a generated trajectory. While this tracking penalty does not in general admit a closed-form expression, we show that it can be interpreted as a cost-to-go. Hence, it can be learned from system roll-outs for any feedback control policy by leveraging tools from the learning literature. Finally we evaluate our framework using unicycle and quadrotor control, and compare our approach in simulation to standard approaches to quadrotor trajectory generation. Our extensive experiments demonstrate that our data-driven dynamics-aware framework allows for faster computation of trajectories that can be tracked accurately in both simulation and hardware.
+In this paper, we focus on the interplay between trajectory generation and feedback control. Rather than imposing such a layered architecture on the control stack, we show that it can be *derived* via a suitable relaxation of a global nonlinear optimal control problem that jointly encodes both the trajectory generation and feedback control problems. Crucially, the resulting trajectory generation optimization problem is dynamics-aware, in that it is modified with a *tracking penalty regularizer* that encodes the dynamic feasibility of a generated trajectory. While this tracking penalty does not in general admit a closed-form expression, we show that it can be interpreted as a cost-to-go. Hence, it can be learned from system roll-outs for any feedback control policy by leveraging tools from the learning literature. Finally we evaluate our framework using unicycle and quadrotor control, and compare our approach in simulation to standard approaches to quadrotor trajectory generation. Our extensive experiments demonstrate that our data-driven dynamics-aware framework allows for faster computation of trajectories that can be tracked accurately in both simulation and hardware. Our contributions are as follows: We derive a layered control architecture composed of a dynamics-aware trajectory generator top layer, and a feedback control low layer.
 
 <!-- chunk {"id": "body-0007", "role": "body", "section": "Introduction", "weight": 1.5} -->
 
-We derive a layered control architecture composed of a dynamics-aware trajectory generator top layer, and a feedback control low layer. In contrast to existing work, our trajectory generation problem is naturally dynamics-aware, and includes a tracking penalty regularizer that encodes the ability of the low-layer feedback control policy to track a given reference trajectory.
+In contrast to existing work, our trajectory generation problem is naturally dynamics-aware, and includes a tracking penalty regularizer that encodes the ability of the low-layer feedback control policy to track a given reference trajectory.
 
 <!-- chunk {"id": "body-0008", "role": "body", "section": "Introduction", "weight": 1.5} -->
 
@@ -60,196 +60,160 @@ In general, trajectory generation for quadrotors is a computationally challengin
 
 <!-- chunk {"id": "body-0015", "role": "body", "section": "Problem Formulation", "weight": 1.0} -->
 
-We consider a finite-horizon, discrete-time nonlinear dynamical system
+We consider a finite-horizon, discrete-time nonlinear dynamical system with state $x_{t} \in \mathcal{X} \subseteq {\mathbb{R}}^{n}$ and control input $u_{t} \in \mathcal{U} \subseteq {\mathbb{R}}^{k}$ at time $t$. Our task is to solve the following constrained optimal control problem (OCP): where $\mathcal{C}:{\mathcal{X}^{N + 1}\rightarrow{\mathbb{R}}}$ is a trajectory cost function, $D_{0},D_{1},\ldots.,D_{N - 1} \in {\mathbb{R}}^{l \times k}$ are matrices that penalize control effort, and $\mathcal{R}$ defines the feaible region of $x_{0:N}$.
 
 <!-- chunk {"id": "body-0016", "role": "body", "section": "Problem Formulation", "weight": 1.0} -->
 
-where $\mathcal{C}:{\mathcal{X}^{N + 1}\rightarrow{\mathbb{R}}}$ is a trajectory cost function, $D_{0},D_{1},\ldots.,D_{N - 1} \in {\mathbb{R}}^{l \times k}$ are matrices that penalize control effort, and $\mathcal{R}$ defines the feaible region of $x_{0:N}$.
+OCPs of the form are an essential component of MPC schemes for robotic applications. In such settings, the trajectory cost function $\mathcal{C}$ is typically chosen to e.g., capture high-level task objectives or reward smooth trajectories, whereas the state constraint $\mathcal{R}$ is often used to encode e.g., obstacle avoidance, waypoint constraints, or other mission-specific requirements. In the generality stated above, the OCP is difficult to solve exactly except in the simplest of cases. Under suitable regularity assumptions, good heuristics exist for finding an approximate solution. However, due to their computational complexity, these heuristics typically lead to the solve time being unacceptably large for applications with fast dynamics such as quadrotor control.
 
 <!-- chunk {"id": "body-0017", "role": "body", "section": "Problem Formulation", "weight": 1.0} -->
 
-OCPs of the form are an essential component of MPC schemes for robotic applications. In such settings, the trajectory cost function $\mathcal{C}$ is typically chosen to e.g., capture high-level task objectives or reward smooth trajectories, whereas the state constraint $\mathcal{R}$ is often used to encode e.g., obstacle avoidance, waypoint constraints, or other mission-specific requirements. In the generality stated above, the OCP is difficult to solve exactly except in the simplest of cases. Under suitable regularity assumptions, good heuristics exist for finding an approximate solution. However, due to their computational complexity, these heuristics typically lead to the solve time being unacceptably large for applications with fast dynamics such as quadrotor control.
+A number of works in the robotics literature approach the computational complexity by using a *layered control architecture* to decompose OCP into tractable subproblems. For example, a two-layer approach would solve a reference trajectory generation problem at the *top planning layer* using simplified dynamics (typically at a slower frequency). This reference trajectory would then be sent to the *low tracking layer* where a feedback control policy, operating in real time, attempts to follow the reference trajectory.
 
 <!-- chunk {"id": "body-0018", "role": "body", "section": "Problem Formulation", "weight": 1.0} -->
 
-A number of works in the robotics literature approach the computational complexity by using a *layered control architecture* to decompose OCP into tractable subproblems. For example, a two-layer approach would solve a reference trajectory generation problem at the *top planning layer* using simplified dynamics (typically at a slower frequency). This reference trajectory would then be sent to the *low tracking layer* where a feedback control policy, operating in real time, attempts to follow the reference trajectory.
-
-<!-- chunk {"id": "body-0019", "role": "body", "section": "Problem Formulation", "weight": 1.0} -->
-
 While conceptually appealing, the above approach has several shortcomings. The critical one is the lack of guarantees that the generated reference trajectories can be adequately tracked by the feedback control policy. This could be due to unmodelled dynamics, saturation limits, etc., of the hardware in use for control. In this paper, we address this shortcoming by *deriving* a layered architecture via a relaxation of the original OCP, that naturally leads to a *closed-loop dynamics-aware* trajectory generation problem.
 
-<!-- chunk {"id": "body-0020", "role": "body", "section": "Layering as Optimal Control Decomposition", "weight": 1.0} -->
+<!-- chunk {"id": "body-0019", "role": "body", "section": "Layering as Optimal Control Decomposition", "weight": 1.0} -->
 
 We show how a suitable relaxation of the OCP naturally results in a layered control architecture. Such an optimization decomposition approach to layered control was first introduced in for linear-quadratic control. In this section, we extend it to general nonlinear systems.
 
+<!-- chunk {"id": "body-0020", "role": "body", "section": "An augmented Lagrangian relaxation", "weight": 1.0} -->
+
+We first introduce a redundant reference trajectory variable $r_{0:N}$ constrained to equal the state trajectory, i.e., satisfying $x_{0:N} = r_{0:N}$, to the OCP: | | $\underset{r_{0:N},x_{0:N},u_{0:{N-1}}}{minimize}$ | ${\mathcal{C}{(r_{0:N})}} + {\sum\limits_{t = 0}^{N - 1}{\parallel{D_{t}u_{t}}\parallel}_{2}^{2}}$ | | \(3\) | We then relax this redundant equality constraint to a soft-constraint in the objective function, resulting in the augmented Lagrangian reformulation: where the weight $\rho > 0$ specifies the soft-penalty associated with the constraint $r_{0:N} = x_{0:N}$. Furthermore, we have strategically grouped terms to highlight the nested structure of the resulting optimization problem.
+
 <!-- chunk {"id": "body-0021", "role": "body", "section": "An augmented Lagrangian relaxation", "weight": 1.0} -->
 
-We first introduce a redundant reference trajectory variable $r_{0:N}$ constrained to equal the state trajectory, i.e.,
+Immediately, problem admits a layered interpretation: the inner minimization over state and input trajectories $x_{0:N}$ and $u_{0:{N - 1}}$ is a traditional feedback control problem, seeking to optimally track the reference trajectory $r_{0:N}$. The outer optimization over the trajectory $r_{0:N}$ seeks to optimally "plan" a reference trajectory for the inner minimization to follow.
 
 <!-- chunk {"id": "body-0022", "role": "body", "section": "An augmented Lagrangian relaxation", "weight": 1.0} -->
 
-where the weight $\rho > 0$ specifies the soft-penalty associated with the constraint $r_{0:N} = x_{0:N}$. Furthermore, we have strategically grouped terms to highlight the nested structure of the resulting optimization problem. Immediately, problem admits a layered interpretation: the inner minimization over state and input trajectories $x_{0:N}$ and $u_{0:{N - 1}}$ is a traditional feedback control problem, seeking to optimally track the reference trajectory $r_{0:N}$. The outer optimization over the trajectory $r_{0:N}$ seeks to optimally "plan" a reference trajectory for the inner minimization to follow. To further highlight the layered nature of the resulting relaxation, we define the tracking penalty
+| ${\text{dynamics (}\text{)}}.$ | | | The tracking penalty $g_{\rho}^{track}{(x_{0},r_{0:N})}$ captures how well a given trajectory $r_{0:N}$ can be tracked by a low layer control sequence $u_{0:{N - 1}}$ given the initial condition $x_{0}$, and is naturally interpreted as the cost-to-go associated with an augmented system (see §4.2). We observe that the optimal control problem defining the tracking cost is a standard nonlinear reference tracking problem with quadratic cost, and can be approximately solved using tools from nonlinear feedback control. We therefore let $\pi{(x_{t},r_{0:N})}$ denote the feedback control policy which (approximately) solves problem, and use $g_{\rho,\pi}^{track}{(x_{0},r_{0:N})}$ to denote the resulting cost-to-go that it induces.
 
 <!-- chunk {"id": "body-0023", "role": "body", "section": "An augmented Lagrangian relaxation", "weight": 1.0} -->
 
-The tracking penalty $g_{\rho}^{track}{(x_{0},r_{0:N})}$ captures how well a given trajectory $r_{0:N}$ can be tracked by a low layer control sequence $u_{0:{N - 1}}$ given the initial condition $x_{0}$, and is naturally interpreted as the cost-to-go associated with an augmented system (see §4.2). We observe that the optimal control problem defining the tracking cost is a standard nonlinear reference tracking problem with quadratic cost, and can be approximately solved using tools from nonlinear feedback control. We therefore let $\pi{(x_{t},r_{0:N})}$ denote the feedback control policy which (approximately) solves problem, and use $g_{\rho,\pi}^{track}{(x_{0},r_{0:N})}$ to denote the resulting cost-to-go that it induces.
+While a closed-form expression for the tracking penalty $g_{\rho,\pi}^{track}{(x_{0},r_{0:N})}$ is only available in special cases, e.g., see for the linear quadratic control case, we show in §4.2 that it can be learned from data.
 
 <!-- chunk {"id": "body-0024", "role": "body", "section": "An augmented Lagrangian relaxation", "weight": 1.0} -->
 
-While a closed-form expression for the tracking penalty $g_{\rho,\pi}^{track}{(x_{0},r_{0:N})}$ is only available in special cases, e.g., see for the linear quadratic control case, we show in §4.2 that it can be learned from data.
+Assuming that an accurate estimate of the tracking penalty can be obtained, the OCP can now be reduced to the *static* optimization problem (i.e., without any constraints enforcing the dynamics): | | $\underset{r_{0:N}}{minimize}$ | ${\mathcal{C}{(r_{0:N})}} + {g_{\rho,\pi}^{track}{(x_{0},r_{0:N})}}$ | | \(6\) | We may view as a family of trajectory optimization problems parametrized by $\rho$. In the limit as $\left. \rho\nearrow\infty \right.$, optimal trajectories prioritize the reference tracking performance. On the other hand, in the limit as $\left. \rho\searrow 0 \right.$, the optimal trajectories minimize the $\mathcal{C}$ cost oblivious to the dynamics constraints.
 
-<!-- chunk {"id": "body-0025", "role": "body", "section": "An augmented Lagrangian relaxation", "weight": 1.0} -->
-
-Assuming that an accurate estimate of the tracking penalty can be obtained, the OCP can now be reduced to the *static* optimization problem (i.e.,
-
-<!-- chunk {"id": "body-0026", "role": "body", "section": "An augmented Lagrangian relaxation", "weight": 1.0} -->
-
-We may view as a family of trajectory optimization problems parametrized by $\rho$. In the limit as $\left. \rho\nearrow\infty \right.$, optimal trajectories prioritize the reference tracking performance. On the other hand, in the limit as $\left. \rho\searrow 0 \right.$, the optimal trajectories minimize the $\mathcal{C}$ cost oblivious to the dynamics constraints.
-
-<!-- chunk {"id": "body-0027", "role": "body", "section": "Learning the tracking penalty through policy evaluation", "weight": 1.0} -->
+<!-- chunk {"id": "body-0025", "role": "body", "section": "Learning the tracking penalty through policy evaluation", "weight": 1.0} -->
 
 Computing the tracking penalty $g_{\rho}^{track}$ for general nonlinear dynamics and experimental hardware platforms with black-box feedback control policies is intractable. We therefore propose a supervised learning approach to learning the tracking penalty from data as shown in Figure 1.
 
-<!-- chunk {"id": "body-0028", "role": "body", "section": "Learning the tracking penalty through policy evaluation", "weight": 1.0} -->
+<!-- chunk {"id": "body-0026", "role": "body", "section": "Learning the tracking penalty through policy evaluation", "weight": 1.0} -->
 
-Here $Z \in {\{ 0,1\}}^{{{Nn} \times N}n}$ is the block-upshift operator, i.e., a block matrix with $I_{n}$ along the first block super-diagonal, and zero elsewhere. The state $\mu_{t}^{x} = x_{t}$ evolves in exactly the same way as in the true dynamics, whereas the reference trajectory $\mu_{t}^{r}:=r_{t:{t + N}}$ is shifted forward in time via ${Z\mu_{t}^{r}} = r_{{t + 1}:{t + 1 + N}}$. Fixing policy $\pi{(\mu_{t})}$, we define the policy dependent tracking cost
+Fixing policy $\pi{(\mu_{t})}$, we define the policy dependent tracking cost We note that this corresponds exactly to the objective function defining the tracking penalty evaluated under the control sequence ${u_{t} = {\pi{(\mu_{t})}}}.$ As such, the policy dependent tracking cost $g_{\rho,\pi}^{track}{(x_{0},r_{0:N})}$ is naturally viewed as an upper-bound to the true optimal tracking cost, where the sub-optimality is dependent on the quality of the chosen policy $\pi$. In particular, we have that $g_{\rho,\pi^{\star}}^{track} = g_{\rho}^{track}$ for any optimal policy $\pi^{\star}$ that solves the optimal control problem.
 
-<!-- chunk {"id": "body-0029", "role": "body", "section": "Learning the tracking penalty through policy evaluation", "weight": 1.0} -->
-
-We note that this corresponds exactly to the objective function defining the tracking penalty evaluated under the control sequence ${u_{t} = {\pi{(\mu_{t})}}}.$ As such, the policy dependent tracking cost $g_{\rho,\pi}^{track}{(x_{0},r_{0:N})}$ is naturally viewed as an upper-bound to the true optimal tracking cost, where the sub-optimality is dependent on the quality of the chosen policy $\pi$. In particular, we have that $g_{\rho,\pi^{\star}}^{track} = g_{\rho}^{track}$ for any optimal policy $\pi^{\star}$ that solves the optimal control problem.
-
-<!-- chunk {"id": "body-0030", "role": "body", "section": "Learning the tracking penalty through policy evaluation", "weight": 1.0} -->
+<!-- chunk {"id": "body-0027", "role": "body", "section": "Learning the tracking penalty through policy evaluation", "weight": 1.0} -->
 
 Noting that the policy dependent tracking penalty is defined in terms of stage-wise costs, we can interpret $g_{\rho,\pi}^{track}{(x_{0},r_{0:N})}$ as a cost-to-go function associated with the Markov Decision Process defined by the cost, dynamics, and policy $\pi$.
 
-<!-- chunk {"id": "body-0031", "role": "body", "section": "Learning the tracking penalty through policy evaluation", "weight": 1.0} -->
+<!-- chunk {"id": "body-0028", "role": "body", "section": "Learning the tracking penalty through policy evaluation", "weight": 1.0} -->
 
 We therefore use Monte Carlo sampling to generate a set of $\mathcal{T}$ trajectories of horizon length $N$ given by ${(x_{0:N}^{(i)},u_{0:{N - 1}}^{(i)},r_{0:N}^{(i)})}_{i = 1}^{\mathcal{T}}$, where $x_{0:N}^{(i)}$ and $u_{0:{N - 1}}^{(i)}$ are the $i$-th state and input trajectories collected from applying feedback control policy $\pi$ to track reference trajectories $r^{(i)}$. We also compute the associated tracking cost labels $y^{(i)}:={g_{\rho,\pi}^{track}{(x_{0}^{(i)},r_{0:N}^{(i)})}}$.
 
-<!-- chunk {"id": "body-0032", "role": "body", "section": "Learning the tracking penalty through policy evaluation", "weight": 1.0} -->
+<!-- chunk {"id": "body-0029", "role": "body", "section": "Learning the tracking penalty through policy evaluation", "weight": 1.0} -->
 
-We then used supervised learning to approximate the policy dependent tracking penalty by solving the following supervised learning problem
+We then used supervised learning to approximate the policy dependent tracking penalty by solving the following supervised learning problem over a suitable function class $\mathcal{G}$, e.g., feedforward neural networks, see §5 for more details.
 
-<!-- chunk {"id": "body-0033", "role": "body", "section": "Learning the tracking penalty through policy evaluation", "weight": 1.0} -->
-
-over a suitable function class $\mathcal{G}$, e.g., feedforward neural networks, see §5 for more details.
-
-<!-- chunk {"id": "body-0034", "role": "body", "section": "Dynamics-Aware Trajectory Generation for Under-Actuated Robotic Systems", "weight": 1.0} -->
+<!-- chunk {"id": "body-0030", "role": "body", "section": "Dynamics-Aware Trajectory Generation for Under-Actuated Robotic Systems", "weight": 1.0} -->
 
 We showed the flexibility of our framework by applying it to both a unicycle and a quadrotor control problem. For each platform, we formulated a global planning and control problem, which is then subsequently relaxed according to the methods proposed in §4 to yield a dynamics-aware planning problem and a feedback control layer. We now evaluate our methods experimentally and demonstrate their effectiveness in simulation and in real-world experiments.
 
-<!-- chunk {"id": "body-0035", "role": "body", "section": "Unicycle Control", "weight": 1.0} -->
+<!-- chunk {"id": "body-0031", "role": "body", "section": "Unicycle Control", "weight": 1.0} -->
 
-We consider the continuous time unicycle dynamics
+We consider the continuous time unicycle dynamics where ${(x_{1},x_{2})} \in {\mathbb{R}}^{2}$ are the system's Cartesian coordinates, $\theta$ is the heading angle, and $v$, $\omega$ are the instantaneous linear and angular velocities, respectively. Letting $x = {(x_{1},x_{2},\theta)}$ and $u = {(v,\omega)}$, we can compactly write the dynamics as $\overset{˙}{x} = {g^{cts}{(x)}u}$, for suitably defined ${g{(x)}} \in {\mathbb{R}}^{3 \times 2}$.
 
-<!-- chunk {"id": "body-0036", "role": "body", "section": "Unicycle Control", "weight": 1.0} -->
+<!-- chunk {"id": "body-0032", "role": "body", "section": "Unicycle Control", "weight": 1.0} -->
 
-where ${(x_{1},x_{2})} \in {\mathbb{R}}^{2}$ are the system's Cartesian coordinates, $\theta$ is the heading angle, and $v$, $\omega$ are the instantaneous linear and angular velocities, respectively. Letting $x = {(x_{1},x_{2},\theta)}$ and $u = {(v,\omega)}$, we can compactly write the dynamics as $\overset{˙}{x} = {g^{cts}{(x)}u}$, for suitably defined ${g{(x)}} \in {\mathbb{R}}^{3 \times 2}$. Letting $x_{t + 1} = {f_{uni}{(x_{t},u_{t})}}$ be the rk4 discretization of these continuous dynamics, we can then pose the global problem
+Letting $x_{t + 1} = {f_{uni}{(x_{t},u_{t})}}$ be the rk4 discretization of these continuous dynamics, we can then pose the global problem where $w_{\tau}$ such that $\tau \in \mathcal{T}_{w} \subseteq {\{ 0,\ldots,N\}}$ are waypoints that the unicycle should traverse at time $\tau$, and $R > 0$ is a positive definite control cost matrix.
 
-<!-- chunk {"id": "body-0037", "role": "body", "section": "Unicycle Control", "weight": 1.0} -->
+<!-- chunk {"id": "body-0033", "role": "body", "section": "Unicycle Control", "weight": 1.0} -->
 
-where $w_{\tau}$ such that $\tau \in \mathcal{T}_{w} \subseteq {\{ 0,\ldots,N\}}$ are waypoints that the unicycle should traverse at time $\tau$, and $R > 0$ is a positive definite control cost matrix.
+To instantiate the layering framework proposed in §4, we fix a low layer continuous time feedback control policy as We then define a new control input, ${\Deltar} = \overset{˙}{r}$, to obtain the continuous time closed-loop dynamics Letting ${\overline{x}:={(x,r)}},$ we compactly rewrite the continuous time closed-loop dynamics as for an appropriately defined $f_{\pi,{uni}}^{cts}$. Finally, we obtain the discrete time dynamics $f_{\pi,{uni}}{({\overline{x}}_{t},{\Deltar_{t}})}$ used in the experiments below via a rk4 discretization of the continuous time dynamics.
 
-<!-- chunk {"id": "body-0038", "role": "body", "section": "Unicycle Control", "weight": 1.0} -->
+<!-- chunk {"id": "body-0034", "role": "body", "section": "Unicycle Control", "weight": 1.0} -->
 
-To instantiate the layering framework proposed in §4, we fix a low layer continuous time feedback control policy as
+Given the fixed closed-loop dynamics using the policy $\pi_{uni}$, the dynamics-aware trajectory generation problem is then given by where $g_{\rho,\pi_{uni}}^{track}{(x_{0},r_{0:N})}$ is the policy dependent tracking penalty induced by the closed-loop dynamics ${\overline{x}}_{t + 1} = {f_{\pi,{uni}}{({\overline{x}}_{t},{\Deltar_{t}})}}$.
 
-<!-- chunk {"id": "body-0039", "role": "body", "section": "Unicycle Control", "weight": 1.0} -->
+<!-- chunk {"id": "body-0035", "role": "body", "section": "Data collection", "weight": 1.0} -->
 
-We then define a new control input, ${\Deltar} = \overset{˙}{r}$, to obtain the continuous time closed-loop dynamics
+In order to estimate the policy dependent tracking penalty $g_{\rho,\pi_{uni}}^{track}{(x_{0},r_{0:N})}$, we sample reference trajectories and roll them out on the closed-loop system. In order to appropriately shape the landscape of the learned penalty, we sample both easy and difficult to track reference trajectories. Towards that end, we generate *easy to track* reference trajectories by using Iterative LQR (ilqr) to approximately solve the finite horizon constrained optimal control problem where $R_{w}$ is a positive definite matrix penalizing variations in the reference trajectory. Additionally, we also generate state independent polynomial reference trajectories that are oblivious to the low layer closed-loop dynamics of the system and only satisfy the initial and terminal state constraints. This strikes a balance between having low cost but hard to compute ilqr trajectories and high cost but easy to compute polynomial trajectories. At inference, we solve a constrained optimization by applying gradient descent on the dynamics-aware trajectory generation problem.
 
-<!-- chunk {"id": "body-0040", "role": "body", "section": "Unicycle Control", "weight": 1.0} -->
-
-Letting ${\overline{x}:={(x,r)}},$ we compactly rewrite the continuous time closed-loop dynamics as
-
-<!-- chunk {"id": "body-0041", "role": "body", "section": "Unicycle Control", "weight": 1.0} -->
-
-for an appropriately defined $f_{\pi,{uni}}^{cts}$. Finally, we obtain the discrete time dynamics $f_{\pi,{uni}}{({\overline{x}}_{t},{\Deltar_{t}})}$ used in the experiments below via a rk4 discretization of the continuous time dynamics.
-
-<!-- chunk {"id": "body-0042", "role": "body", "section": "Unicycle Control", "weight": 1.0} -->
-
-Given the fixed closed-loop dynamics using the policy $\pi_{uni}$, the dynamics-aware trajectory generation problem is then given by
-
-<!-- chunk {"id": "body-0043", "role": "body", "section": "Data collection", "weight": 1.0} -->
-
-In order to estimate the policy dependent tracking penalty $g_{\rho,\pi_{uni}}^{track}{(x_{0},r_{0:N})}$, we sample reference trajectories and roll them out on the closed-loop system. In order to appropriately shape the landscape of the learned penalty, we sample both easy and difficult to track reference trajectories. Towards that end, we generate *easy to track* reference trajectories by using Iterative LQR (ilqr) to approximately solve the finite horizon constrained optimal control problem
-
-<!-- chunk {"id": "body-0044", "role": "body", "section": "Data collection", "weight": 1.0} -->
-
-where $R_{w}$ is a positive definite matrix penalizing variations in the reference trajectory. Additionally, we also generate state independent polynomial reference trajectories that are oblivious to the low layer closed-loop dynamics of the system and only satisfy the initial and terminal state constraints. This strikes a balance between having low cost but hard to compute ilqr trajectories and high cost but easy to compute polynomial trajectories. At inference, we solve a constrained optimization by applying gradient descent on the dynamics-aware trajectory generation problem.
-
-<!-- chunk {"id": "body-0045", "role": "body", "section": "Data collection", "weight": 1.0} -->
+<!-- chunk {"id": "body-0036", "role": "body", "section": "Data collection", "weight": 1.0} -->
 
 We generate $500$ trajectories by sampling initial and goal locations from a uniform distribution over ${\lbrack 0,2\rbrack}^{2}$ and ${\lbrack 1,3\rbrack}^{2}$, respectively. Between each initial location and goal, we sample one waypoint by choosing a convex combination of the two points. The heading angles for the initial state is sampled at random from a uniform distribution on the interval $\lbrack 0,\pi\rbrack$ and the goal heading angles are set to 0. As described in Section 5.1, we run the constrained ilqr algorithm on the closed loop dynamics until convergence enforcing the initial and terminal state constraints. Additionally, we augment the training dataset with $500$ polynomial reference trajectories with randomly sampled initial, waypoint and goal conditions from the fixed intervals mentioned above. In this way, we include both easy to track trajectories (generated by ilqr) and difficult to track trajectories (polynomial) in order to appropriately shape the optimization landscape of the learned tracking penalty.
 
-<!-- chunk {"id": "body-0046", "role": "body", "section": "Data collection", "weight": 1.0} -->
+<!-- chunk {"id": "body-0037", "role": "body", "section": "Data collection", "weight": 1.0} -->
 
 For testing, we generate $50$ trajectories with one or two waypoints each from the fixed intervals using the polynomial reference generation method described above.
 
-<!-- chunk {"id": "body-0047", "role": "body", "section": "Training", "weight": 1.0} -->
+<!-- chunk {"id": "body-0038", "role": "body", "section": "Training", "weight": 1.0} -->
 
 We train a multi-layer perceptron network with $3$ hidden layers of $\{ 1000,500,200\}$ neurons, respectively, with Exponential Linear Unit (ELU) activation functions. ---see Network Parameterization and Training for more details. We train a separate network for each value of $\rho$ using a batch size of $64$, learning rate $10^{- 4}$ and run for $2500$ epochs. The entire network is setup using the optimized JAX, Optax and Flax libraries. The loss function is optimized using stochastic gradient descent (SGD) with momentum set to $0.9$. At test time, i.e., when we compute trajectories to be tracked by the low-level controller, we freeze the weights of the network and run projected gradient descent (PGD) using jaxopt to locally solve the dynamics-aware trajectory planning problem. We set the maximum number of iterations for projected gradient descent to $50$.
 
-<!-- chunk {"id": "body-0048", "role": "body", "section": "Results", "weight": 1.0} -->
+<!-- chunk {"id": "body-0039", "role": "body", "section": "Results", "weight": 1.0} -->
 
 We provide two types of evaluations on the learned policy dependent tracking penalty. First, we evaluate the network predictions for different values of relaxation weight $\rho$ on a test dataset consisting of $50$ trajectories generated independently and in an identical way to the training dataset. Next, we plot the relative tracking cost in Figure 2, where we compute the ratio of the tracking errors incurred by the trajectories returned by the dynamics-aware problem to those incurred by polynomial interpolating (i.e., not dynamics-aware) trajectories---we emphasize these tracking costs are computed via rollouts of the actual closed-loop system on the trajectories. The lower the value of the relative cost, the more significant the tracking performance gain obtained from using our approach. Our results indicate that for appropriately chosen tracking weight $\rho > 0$ the trajectories generated using our method are on average easier to track than polynomial interpolating trajectories.
 
-<!-- chunk {"id": "body-0049", "role": "body", "section": "Results", "weight": 1.0} -->
+<!-- chunk {"id": "body-0040", "role": "body", "section": "Results", "weight": 1.0} -->
 
 In Figure 3, we show the performance of our network ($\rho = 0.1$) in planning reference trajectories that are of lower tracking cost (from the closed-loop dynamics simulation) with each gradient step. We also evaluated the average run time of our approach on $200$ trajectories and found that our algorithm is almost twice as fast as compared to the run time of the ilqr algorithm. Our network on average takes $6.9 \pm 0.7$ seconds to converge compared to ilqr which takes $11.4 \pm 0.5$ seconds. We conjecture that the results can be further improved by using convex parameterizations for the tracking penalty, such as input-convex-neural-networks (ICNN): we leave exploring this direction to future work. We also note that the approach is sensitive to the number of gradient steps based on the choice of $\rho$.
 
-<!-- chunk {"id": "body-0050", "role": "body", "section": "Quadrotor Control", "weight": 1.0} -->
+<!-- chunk {"id": "body-0041", "role": "body", "section": "Quadrotor Control", "weight": 1.0} -->
 
-We consider the waypoint following problem where one is given a sequence of times ${(\tau_{i})}_{i = 0}^{W} \in {{\lbrack 0,T\rbrack} \cap {\mathbb{Z}}}$ and waypoints $\mathcal{W} = {\{{(p_{i},\psi_{i})}\}}_{i = 0}^{W} \subseteq {{\mathbb{R}}^{3} \times S^{1}}$, each specifying the desired position and yaw angle of the quadrotor. The goal is to generate a trajectory that passes through the waypoints at corresponding times. These conditions can be formulated in the OCP problem by encoding the state constraints
+We consider the waypoint following problem where one is given a sequence of times ${(\tau_{i})}_{i = 0}^{W} \in {{\lbrack 0,T\rbrack} \cap {\mathbb{Z}}}$ and waypoints $\mathcal{W} = {\{{(p_{i},\psi_{i})}\}}_{i = 0}^{W} \subseteq {{\mathbb{R}}^{3} \times S^{1}}$, each specifying the desired position and yaw angle of the quadrotor. The goal is to generate a trajectory that passes through the waypoints at corresponding times. These conditions can be formulated in the OCP problem by encoding the state constraints within the constraint set $\mathcal{R}$.
 
-<!-- chunk {"id": "body-0051", "role": "body", "section": "Quadrotor Control", "weight": 1.0} -->
+<!-- chunk {"id": "body-0042", "role": "body", "section": "Quadrotor Control", "weight": 1.0} -->
 
-within the constraint set $\mathcal{R}$.
+We consider a discrete time dynamical system $x_{t + 1} = {f_{q}{(x_{t},u_{t})}}$ obtained by numerically integrating (using the Runge-Kutta scheme) a quadrotor with the following equations of motion: Here, the state $x$ of the agent consists of its position ($p \in {\mathbb{R}}^{3}$), velocity ($v \in {\mathbb{R}}^{3}$), and orientation ($R \in {SO{}}$) with respect to the world frame, while the control input $u = {(c,\omega)}$ consist of total thrust, $c \in {\mathbb{R}}$, and angular velocity, $\omega \in {\mathbb{R}}^{3}$.
 
-<!-- chunk {"id": "body-0052", "role": "body", "section": "Quadrotor Control", "weight": 1.0} -->
+<!-- chunk {"id": "body-0043", "role": "body", "section": "Quadrotor Control", "weight": 1.0} -->
 
-Here, the state $x$ of the agent consists of its position ($p \in {\mathbb{R}}^{3}$), velocity ($v \in {\mathbb{R}}^{3}$), and orientation ($R \in {SO{}}$) with respect to the world frame, while the control input $u = {(c,\omega)}$ consist of total thrust, $c \in {\mathbb{R}}$, and angular velocity, $\omega \in {\mathbb{R}}^{3}$.
+We can then pose the global problem that seeks to find a dynamically feasible *minimium jerk* trajectory that passes through all of the waypoints: To instantiate the layering framework proposed in §4, we fix a tracking control policy $\pi_{q}{(x_{t},r_{t:{t + N}})}$ for the given dynamics $f_{q}{(x_{t},u_{t})}$, and a way to collect data on this tracking policy. In the experiments that follow, we use an SE geometric controller, but any tracking controller, e.g., a PID, or even an RL-based controller, can be equally accommodated by our framework.
 
-<!-- chunk {"id": "body-0053", "role": "body", "section": "Quadrotor Control", "weight": 1.0} -->
-
-To instantiate the layering framework proposed in §4, we fix a tracking control policy $\pi_{q}{(x_{t},r_{t:{t + N}})}$ for the given dynamics $f_{q}{(x_{t},u_{t})}$, and a way to collect data on this tracking policy. In the experiments that follow, we use an SE geometric controller, but any tracking controller, e.g., a PID, or even an RL-based controller, can be equally accommodated by our framework. Fixing the policy $\pi_{q}$, we can define the resulting closed-loop dynamics $x_{t + 1} = {f_{\pi,q}{(x_{t},r_{t:{t + N}})}}$ and corresponding policy dependent tracking penalty $g_{\rho,\pi_{q}}^{track}{(x_{0},r_{0:N})}$ as.
-
-<!-- chunk {"id": "body-0054", "role": "body", "section": "Quadrotor Control", "weight": 1.0} -->
+<!-- chunk {"id": "body-0044", "role": "body", "section": "Quadrotor Control", "weight": 1.0} -->
 
 We now describe how to use the penalty $g_{\rho,\pi_{q}}^{track}{(x_{0},r_{0:N})}$ to generate dynamics-aware trajectories that interpolate the waypoints $(p_{i},\psi_{i})$. First, we note that from differential flatness, it suffices for us to generate trajectories for $x,y,z$, and $\psi$. We take the widely-adopted approach of parameterizing trajectories as piecewise polynomials of order $k_{r}$ that smoothly interpolates between waypoints. Specifically, each segment is parametrized by a polynomial where $c_{i,k}^{j}$ denotes the $k$-th coefficient of polynomial $i$ for the dimension $j \in {\{ x,y,z,\psi\}}$.
 
-<!-- chunk {"id": "body-0055", "role": "body", "section": "Quadrotor Control", "weight": 1.0} -->
+<!-- chunk {"id": "body-0045", "role": "body", "section": "Quadrotor Control", "weight": 1.0} -->
 
-where $r_{0:N}$ is a linear map of the polynomial coefficients.
+With this parameterization, we can now recast the dynamics-aware trajectory generation problem as one in the coefficients of the polynomial: where $r_{0:N}$ is a linear map of the polynomial coefficients.
 
-<!-- chunk {"id": "body-0056", "role": "body", "section": "Data Collection", "weight": 1.0} -->
+<!-- chunk {"id": "body-0046", "role": "body", "section": "Data Collection", "weight": 1.0} -->
 
 We generate $125$ trajectories by sampling the $x,y,z,\psi$ amplitudes of the Lissajous curves from a uniform distribution on the intervals ${\lbrack{- 0.65},0.65\rbrack},{\lbrack{- 0.55},0.55\rbrack},{\lbrack{- 0.55},0.55\rbrack},{\lbrack{- {0.6\pi}},{0.6\pi}\rbrack}$, respectively.
 
-<!-- chunk {"id": "body-0057", "role": "body", "section": "Data Collection", "weight": 1.0} -->
+<!-- chunk {"id": "body-0047", "role": "body", "section": "Data Collection", "weight": 1.0} -->
 
-where the time period of each trajectory is $3s$ and each second is discretized into 100 time steps. The discretization interval is selected based on the frequency of the feedback layer $SE{}$ tracking controller, and $N = 300$ is our planning horizon. We generate piece-wise polynomial reference trajectories $r_{t} \in {\mathbb{R}}^{4}$ denoting $x,y,z$ positions and $\psi$, for each segment between waypoints by minimizing the sum of squares of jerk and yaw angular velocity. We forward simulate the tracking controller using a state-of-the-art real-time quadrotor physics simulator on the ROS platform to record the system rollouts.
+We select $5$ equally spaced waypoints on the Lissajous curves, parametrized by the following equations: | | ${x_{n} = {A_{x}\left({1 - {\cos\frac{2\pin}{T}}} \right)}},{y_{n} = {A_{y}\left({\sin\frac{2\pin}{T}} \right)}}$ | | \(17\) | | | ${z_{n} = {A_{z}\left({\sin\frac{2\pin}{T}} \right)}},{\psi_{n} = {A_{\psi}\left({\sin\frac{2\pin}{T}} \right)}}$ | | | where the time period of each trajectory is $3s$ and each second is discretized into 100 time steps. The discretization interval is selected based on the frequency of the feedback layer $SE{}$ tracking controller, and $N = 300$ is our planning horizon.
 
-<!-- chunk {"id": "body-0058", "role": "body", "section": "Training", "weight": 1.0} -->
+<!-- chunk {"id": "body-0048", "role": "body", "section": "Data Collection", "weight": 1.0} -->
+
+We generate piece-wise polynomial reference trajectories $r_{t} \in {\mathbb{R}}^{4}$ denoting $x,y,z$ positions and $\psi$, for each segment between waypoints by minimizing the sum of squares of jerk and yaw angular velocity. We forward simulate the tracking controller using a state-of-the-art real-time quadrotor physics simulator on the ROS platform to record the system rollouts.
+
+<!-- chunk {"id": "body-0049", "role": "body", "section": "Training", "weight": 1.0} -->
 
 We train a multi-layer perceptron composed of 3 hidden layers with $\{ 500,400,200\}$ neurons, respectively, and ELU activation functions. ---see Network Parameterization and Training for more details. Similar to the unicycle setup, we train a separate neural network for each value of $\rho$ using a batch size of 64, learning rate $10^{- 3}$, and run for $2000$ epochs. The network implementation uses Optax, Flax, and JAX libraries for optimization and the loss function used is SGD with momentum set to be $0.9$. At test time, we use the 'L-BFGS-B' solver from jaxopt to locally solve the dynamics-aware trajectory planning problem where the objective function represents a trade-off between satisfying waypoints and the tracking cost of the $SE{}$ geometric controller. We do no additional training for the hardware experiments.
 
-<!-- chunk {"id": "body-0059", "role": "body", "section": "Results", "weight": 1.0} -->
+<!-- chunk {"id": "body-0050", "role": "body", "section": "Results", "weight": 1.0} -->
 
 We evaluate the policy-dependent tracking penalty on trajectories generated independently and in an identical way to the training dataset, however, we allow for replanning after every $300$ time steps. We compare the tracking performance of our dynamics-aware framework with two trajectory generation methods, the standard minimum-jerk based planner satisfying constraints described in equations and polynomial trajectories that satisfy waypoint constraints but no smoothness constraints. Figure 5 shows the full path of the trajectory in blue, the replanned trajectories for every $300$ time steps in green and the red arrows correspond to the odometry states from the simulator. On the top left are results from using the minimum jerk planner, the bottom left shows the polynomial trajectories without smoothness constraints and on the right we show our dynamics-aware planner that solves the trajectory generation. Our planner is able to recover trajectories of low tracking cost by replanning with the learned tracking penalty every $300$ time steps.
 
-<!-- chunk {"id": "body-0060", "role": "body", "section": "Results", "weight": 1.0} -->
+<!-- chunk {"id": "body-0051", "role": "body", "section": "Results", "weight": 1.0} -->
 
 We also evaluate the tracking cost from the $SE{}$ dynamics for different values of $\rho$, as shown in Figure 4. We observe that the learned tracking penalty faithfully approximates the tracking cost function of the low layer $SE{}$ feedback controller and that the dynamics-aware trajectories synthesized using the learned tracking penalty achieve a significant reduction in the tracking cost for every tracking weight value $\rho > 0$ that we tested. Finally, as shown in Figure 6, we demonstrate our dynamics-aware trajectories on the Qualcomm-Snapdragon based hardware platform to show that our method handles the sim-to-real gap without any additional training.
 
-<!-- chunk {"id": "body-0061", "role": "body", "section": "Hardware", "weight": 1.0} -->
+<!-- chunk {"id": "body-0052", "role": "body", "section": "Hardware", "weight": 1.0} -->
 
 We use the hummingbird quadrotor platform running a VOXL Flight - PX4 Autonomy controller with on-board visual inertial odometry and inertial measurement unit (IMU) sensors for localization. We treat the quadrotor system as a remote work station and establish a communication interface using the ROS platform from a laptop to transmit the position commands for the low layer $SE{}$ feedback controller. The position commands are $14$-dimensional vectors composed of position, velocity, acceleration, jerk, yaw angles and yaw angular speed computed using $x,y,z,\psi$ references. We generate trajectories online using our dynamics-aware planner and transmit the commands over WiFi to the quadrotor for execution and record the reference trajectory and the odometry states from each run. We plot the $x,y,z$ co-ordinates of the reference trajectories and odometry measurements across time as shown in Figure 6. We note that our dynamics-aware framework is able to generate trajectories that are safe to be deployed and tracked by the $SE{}$ controller even without enforcing smoothness constraints.
 
-<!-- chunk {"id": "body-0062", "role": "body", "section": "Hardware", "weight": 1.0} -->
+<!-- chunk {"id": "body-0053", "role": "body", "section": "Hardware", "weight": 1.0} -->
 
 In future work, we would like to eliminate latencies arising from communicating the commands over a network and aim towards running the dynamics-aware framework using the limited onboard compute of the quadrotor platform.
 
-<!-- chunk {"id": "body-0063", "role": "body", "section": "Conclusion", "weight": 1.5} -->
+<!-- chunk {"id": "body-0054", "role": "body", "section": "Conclusion", "weight": 1.5} -->
 
 We showed that the familiar two layer architecture composed of a trajectory planning layer and a low-layer tracking controller can be derived via a suitable relaxation of a global optimization problem. The result of this relaxation is a regularized trajectory planning problem, wherein the original state objective function is augmented with a tracking penalty which captures the low layer closed-loop system's ability to track a given reference trajectory. We further observed that this penalty can be interpreted as the cost-to-go of an augmented system, and showed how it could be learned from data. We demonstrated our results on waypoint tracking problems for a unicycle system and a quadrotor system in simulation and hardware. In both cases, our method yielded significantly easier to track trajectories than simple polynomial interpolations between waypoints. Future work will look to develop more systematic approaches to collecting trajectory data for training the tracking penalty, and to derive statistical guarantees for the learned tracking penalty.

@@ -12,8 +12,7 @@ We present Orbit, a unified and modular framework for robot learning powered by 
 
 <!-- chunk {"id": "body-0003", "role": "body", "section": "Introduction", "weight": 1.5} -->
 
-ThreeDWorld supports simulation of rigid bodies and deformable bodies based on whether PhysX 4 or FleX/Obi is enabled respectively. Thus, it is limited in simulating interactions between rigid and deformable bodies.
-ManiSkill2 supports a Warp-based Material Point Method (MPM) solver that helps simulate cutting and plastic deformations of soft objects. Currently, this feature is under development for Orbit.
+PhysX 4/FleX/Obi ThreeDWorld supports simulation of rigid bodies and deformable bodies based on whether PhysX 4 or FleX/Obi is enabled respectively. Thus, it is limited in simulating interactions between rigid and deformable bodies. ManiSkill2 supports a Warp-based Material Point Method (MPM) solver that helps simulate cutting and plastic deformations of soft objects. Currently, this feature is under development for Orbit.
 
 <!-- chunk {"id": "body-0004", "role": "body", "section": "Introduction", "weight": 1.5} -->
 
@@ -25,7 +24,7 @@ This work presents Orbit, an open-source framework for robotics research that ex
 
 <!-- chunk {"id": "body-0006", "role": "body", "section": "Introduction", "weight": 1.5} -->
 
-We design a unified and modular open-source framework for fast and flexible development, that leverages the latest advances in simulators for photo-realistic scenes and high-fidelity physics.
+Our main contributions are as follows: We design a unified and modular open-source framework for fast and flexible development, that leverages the latest advances in simulators for photo-realistic scenes and high-fidelity physics.
 
 <!-- chunk {"id": "body-0007", "role": "body", "section": "Introduction", "weight": 1.5} -->
 
@@ -73,7 +72,7 @@ Robots are a crucial component of the world since they serve as the embodiment f
 
 <!-- chunk {"id": "body-0018", "role": "body", "section": "World", "weight": 1.0} -->
 
-This can help facilitate the sim-to-real transfer of control policies on hardware (Sec. V-D). To apply actions on the robot, the joint-level controller processes input commands through actuator models before applying the desired joint position, velocity, or torque commands to the simulator. Currently, we include actuator models for Direct Control (DC) motors and Series Elastic Actuators (SEA). However, it is easy for users to integrate the actuator model for their robot into Orbit after identifying its dynamics characteristics.
+This can help facilitate the sim-to-real transfer of control policies on hardware (Sec. V-D). To apply actions on the robot, the joint-level controller processes input commands through actuator models before applying the desired joint position, velocity, or torque commands to the simulator (as shown in Fig. 2). Currently, we include actuator models for Direct Control (DC) motors and Series Elastic Actuators (SEA). However, it is easy for users to integrate the actuator model for their robot into Orbit after identifying its dynamics characteristics.
 
 <!-- chunk {"id": "body-0019", "role": "body", "section": "World", "weight": 1.0} -->
 
@@ -125,7 +124,7 @@ With Orbit, we include GPU-based implementations for differential IK, operationa
 
 <!-- chunk {"id": "body-0031", "role": "body", "section": "Rigid- and Deformable-body Tasks", "weight": 1.0} -->
 
-Orbit includes a suite of tasks for deformable and rigid object manipulation, as well as legged robot control and in-hand manipulation. These tasks serve not only as benchmarks for robotics research but also as examples for users to design new tasks easily. While some of these tasks have existed in prior works, we enhance them using the framework's interfaces to simplify switching between different robots, objects, motion generators, observations, and domain randomization. We also extend manipulation tasks for fixed-arm robots to mobile manipulators. Currently, the tasks mainly focus on a diverse set of skills such as grasping, screwing, stacking, pushing/pulling, pouring, folding, and walking. A complete and growing list of environments is available on our website.
+Orbit includes a suite of tasks for deformable and rigid object manipulation, as well as legged robot control and in-hand manipulation. These tasks serve not only as benchmarks for robotics research but also as examples for users to design new tasks easily. While some of these tasks have existed in prior works, we enhance them using the framework's interfaces to simplify switching between different robots, objects, motion generators, observations, and domain randomization. We also extend manipulation tasks for fixed-arm robots to mobile manipulators. Currently, the tasks mainly focus on a diverse set of skills such as grasping, screwing, stacking, pushing/pulling, pouring, folding, and walking (shown in Fig. 4). A complete and growing list of environments is available on our website.
 
 <!-- chunk {"id": "body-0032", "role": "body", "section": "Exemplar Workflows with Orbit", "weight": 1.0} -->
 
@@ -137,7 +136,7 @@ Since the framework primarily stores data as tensors, the data needs to be forma
 
 <!-- chunk {"id": "body-0034", "role": "body", "section": "V-A Reinforcement Learning", "weight": 1.0} -->
 
-In Fig., we show the training of Franka-Reach and Franka-Cabinet-Opening with PPO using different RL frameworks and action spaces. Although we ensure the same parameter settings for PPO in the frameworks, we notice a difference in their performance and training time due to implementation differences. Since RSL-rl and rl-games are optimized for GPU, we observe a training speed of 50,000-75,000 frames per second (FPS) with 2048 environments, while with stable-baselines3, we receive 6,000-18,000 FPS.
+In Fig. 5, we show the training of Franka-Reach and Franka-Cabinet-Opening with PPO using different RL frameworks and action spaces. Although we ensure the same parameter settings for PPO in the frameworks, we notice a difference in their performance and training time due to implementation differences. Since RSL-rl and rl-games are optimized for GPU, we observe a training speed of 50,000-75,000 frames per second (FPS) with 2048 environments, while with stable-baselines3, we receive 6,000-18,000 FPS.
 
 <!-- chunk {"id": "body-0035", "role": "body", "section": "V-B Teleoperation and Imitation Learning", "weight": 1.0} -->
 
@@ -145,72 +144,76 @@ Many manipulation tasks are computationally expensive or beyond the reach of cur
 
 <!-- chunk {"id": "body-0036", "role": "body", "section": "V-B Teleoperation and Imitation Learning", "weight": 1.0} -->
 
+Avg. Traj. Len TABLE II: Showcase of collecting demonstrations using teleoperation and performing imitation learning with them. We evaluate the trained policies for Franka-LiftCube in the same setting (No Change), changing initial states (I), goal states (G), and changing both initial and goal states (Both). The success rate and trajectory lengths are reported over 100 trials.
+
+<!-- chunk {"id": "body-0037", "role": "body", "section": "V-B Teleoperation and Imitation Learning", "weight": 1.0} -->
+
 As an example, we show LfD for the Franka-LiftCube task. For each of the four settings of initial and desired object positions (fixed or random start and desired positions), we collect 2000 trajectories. Using these demonstrations, we train policies using Behavior Cloning (BC) and BC with an RNN policy (BC-RNN), and show their performance in Table II.
 
-<!-- chunk {"id": "body-0037", "role": "body", "section": "V-C Motion planning", "weight": 1.0} -->
+<!-- chunk {"id": "body-0038", "role": "body", "section": "V-C Motion planning", "weight": 1.0} -->
 
 Motion planning is one of the well-studied domains in robotics. The traditional Sense-Model-Plan-Act (SMPA) methodology decomposes the complex problem of reasoning and control into possible sub-components. Orbit supports doing this both procedurally and interactively via the GUI.
 
-<!-- chunk {"id": "body-0038", "role": "body", "section": "Hand-crafted policies", "weight": 1.0} -->
+<!-- chunk {"id": "body-0039", "role": "body", "section": "Hand-crafted policies", "weight": 1.0} -->
 
-We create a state machine for a given task to perform sequential planning as a separate node in the agent. It provides the goal states for reaching a target object, closing the gripper, interacting with the object, and maneuvering to the next target position. We demonstrate this paradigm for several tasks in Fig.. These hand-crafted policies can also be utilized for collecting expert demonstrations for challenging tasks such as cloth manipulation.
+We create a state machine for a given task to perform sequential planning as a separate node in the agent. It provides the goal states for reaching a target object, closing the gripper, interacting with the object, and maneuvering to the next target position. We demonstrate this paradigm for several tasks in Fig. 4. These hand-crafted policies can also be utilized for collecting expert demonstrations for challenging tasks such as cloth manipulation.
 
-<!-- chunk {"id": "body-0039", "role": "body", "section": "Interactive motion planning", "weight": 1.0} -->
+<!-- chunk {"id": "body-0040", "role": "body", "section": "Interactive motion planning", "weight": 1.0} -->
 
-We define a system of nodes for grasp generation, teleoperation, task-space control, and motion previewing. Through the GUI, the user can select an object to grasp and view the possible grasp poses and the robot motion sequences generated using the RMP controller. After confirming the grasp pose, the robot executes the motion and lifts the object. Following this, the user obtains teleoperation control of the robot.
+We define a system of nodes for grasp generation, teleoperation, task-space control, and motion previewing (shown in Fig. 6). Through the GUI, the user can select an object to grasp and view the possible grasp poses and the robot motion sequences generated using the RMP controller. After confirming the grasp pose, the robot executes the motion and lifts the object. Following this, the user obtains teleoperation control of the robot.
 
-<!-- chunk {"id": "body-0040", "role": "body", "section": "V-D Deployment on real robot", "weight": 1.0} -->
+<!-- chunk {"id": "body-0041", "role": "body", "section": "V-D Deployment on real robot", "weight": 1.0} -->
 
 Deploying an agent on a real robot faces various challenges, such as dealing with real-time control and safety constraints. Different data transport layers, such as ROSTCP or ZeroMQ (ZMQ), exist for connecting a robotic stack to a real platform. We showcase how these mechanisms can be used with Orbit to run policies on a real robot.
 
-<!-- chunk {"id": "body-0041", "role": "body", "section": "Using ZMQ", "weight": 1.0} -->
-
-To maintain lightweight and efficient communication, we use ZMQ to send joint commands from Orbit to a computer running the real-time kernel for Franka Emika robot. To abide by the real-time safety constraints, we use a quintic interpolator to upsample the 60 Hz joint commands from the simulator to 1000 Hz for execution on the robot.
-
 <!-- chunk {"id": "body-0042", "role": "body", "section": "Using ZMQ", "weight": 1.0} -->
+
+To maintain lightweight and efficient communication, we use ZMQ to send joint commands from Orbit to a computer running the real-time kernel for Franka Emika robot. To abide by the real-time safety constraints, we use a quintic interpolator to upsample the 60 Hz joint commands from the simulator to 1000 Hz for execution on the robot (shown in Fig. 7).
+
+<!-- chunk {"id": "body-0043", "role": "body", "section": "Using ZMQ", "weight": 1.0} -->
 
 We run experiments on two configurations of the Franka robot: one with the Franka Emika hand and the other with an Allegro hand. For each configuration, we showcase three tasks: 1) teleoperation using a Spacemouse device, 2) deployment of a state machine and 3) waypoint tracking with obstacle avoidance. The modular nature of the agent makes it easy to switch between different control architectures for each task while using the same interface for the real robot.
 
-<!-- chunk {"id": "body-0043", "role": "body", "section": "Using ROS", "weight": 1.0} -->
+<!-- chunk {"id": "body-0044", "role": "body", "section": "Using ROS", "weight": 1.0} -->
 
 A variety of existing robots come with their ROS software stack. In this demonstration, we focus on how policies trained using Orbit can be exported and deployed on a robotic platform, particularly for the quadrupedal robot from ANYbotics, ANYmal-D.
 
-<!-- chunk {"id": "body-0044", "role": "body", "section": "Using ROS", "weight": 1.0} -->
+<!-- chunk {"id": "body-0045", "role": "body", "section": "Using ROS", "weight": 1.0} -->
 
-We train a locomotion policy entirely in simulation using an actuator network for the legged base. To make the policy robust, we randomize the base mass ($22 \pm 5$ kg) and add simulated random pushes. We use the contact reporter to obtain the contact forces and use them in reward design. The learned policy is deployed on the robot using the ANYmal ROS stack,. This sim-to-real transfer indicates the viability of the simulated contact dynamics and its suitability for contact-rich tasks in Orbit.
-
-<!-- chunk {"id": "body-0045", "role": "body", "section": "Evaluation of simulation accuracy", "weight": 1.0} -->
-
-Quantitatively measuring the accuracy of physics solvers is an arduous task due to the large variations and unknown mechanics of the real world. Thus, prior frameworks resort to qualitatively comparing the simulation to the physical world by rolling out the same action sequences. While Sec. V-D follows a similar practice to show realism in the rigid body simulation, we discuss the accuracy of deformable body simulation through a controlled experiment.
+We train a locomotion policy entirely in simulation using an actuator network for the legged base. To make the policy robust, we randomize the base mass ($22 \pm 5$ kg) and add simulated random pushes. We use the contact reporter to obtain the contact forces and use them in reward design. The learned policy is deployed on the robot using the ANYmal ROS stack, (Fig. 8). This sim-to-real transfer indicates the viability of the simulated contact dynamics and its suitability for contact-rich tasks in Orbit.
 
 <!-- chunk {"id": "body-0046", "role": "body", "section": "Evaluation of simulation accuracy", "weight": 1.0} -->
 
-We consider a clamped beam made of highly deformable silicone elastomer. Following the setup used, we attach motion capture markers to the beam to collect deformation data under gravity's effect. In the simulation, we create a similar scenario by attaching a soft beam to a rigid wall and setting the same material properties (Young's modulus, density, and incompressibility) as the physical beam. As shown in Fig., we observe that the damped oscillations in the simulated data follow closely to the collected real-world data. This showcases the solver's accuracy and indicates its potential for sim-to-real deformable body manipulation.
+Quantitatively measuring the accuracy of physics solvers is an arduous task due to the large variations and unknown mechanics of the real world. Thus, prior frameworks resort to qualitatively comparing the simulation to the physical world by rolling out the same action sequences. While Sec. V-D follows a similar practice to show realism in the rigid body simulation, we discuss the accuracy of deformable body simulation through a controlled experiment.
 
-<!-- chunk {"id": "body-0047", "role": "body", "section": "Comparison of simulation throughput", "weight": 1.0} -->
+<!-- chunk {"id": "body-0047", "role": "body", "section": "Evaluation of simulation accuracy", "weight": 1.0} -->
 
-We compare the throughput of the tasks in Orbit with those in other frameworks for rigid (robosuite, Maniskill2, IsaacGymEnvs) and deformable body interactions (DEDO). To ensure a fair comparison, we adapt the environments to have the same action space, simulation frequency, and control decimation. The evaluation is performed on a workstation with a 16-core AMD Ryzen 5950X, 64 GB RAM, and NVIDIA 3090RTX.
+We consider a clamped beam made of highly deformable silicone elastomer. Following the setup used, we attach motion capture markers to the beam to collect deformation data under gravity's effect. In the simulation, we create a similar scenario by attaching a soft beam to a rigid wall and setting the same material properties (Young's modulus, density, and incompressibility) as the physical beam. As shown in Fig. 9, we observe that the damped oscillations in the simulated data follow closely to the collected real-world data. This showcases the solver's accuracy and indicates its potential for sim-to-real deformable body manipulation.
 
 <!-- chunk {"id": "body-0048", "role": "body", "section": "Comparison of simulation throughput", "weight": 1.0} -->
 
-Frameworks that rely on CPU-vectorization show an increase in throughput with the number of environments. However, at around 200-300 environments, their programs crash due to insufficient memory. In contrast, GPU-based parallelization scales better to a larger number of environments and achieves a throughput of $\sim 10$x faster for rigid body environments and $\sim 3$x faster for deformable body environments. For the cloth task, we also examine the impact of using meshes of different resolutions on the throughput. We observe that a higher mesh resolution produces more accurate simulation but requires more computation time. To address this challenge, we intend to provide best practices for tuning the simulation and various sim-ready assets.
+We compare the throughput of the tasks in Orbit with those in other frameworks for rigid (robosuite, Maniskill2, IsaacGymEnvs) and deformable body interactions (DEDO). To ensure a fair comparison, we adapt the environments to have the same action space, simulation frequency, and control decimation. The evaluation is performed on a workstation with a 16-core AMD Ryzen 5950X, 64 GB RAM, and NVIDIA 3090RTX.
 
-<!-- chunk {"id": "body-0049", "role": "body", "section": "Discussion", "weight": 1.5} -->
+<!-- chunk {"id": "body-0049", "role": "body", "section": "Comparison of simulation throughput", "weight": 1.0} -->
 
-In this paper, we proposed Orbit: an interactive and intuitive framework to simplify environment designing, enable easy task specifications, and lower the entry barrier into robotics and robot learning. Orbit exploits the latest state-of-the-art simulation capabilities through Isaac Sim and extends them further to incorporate different actuator and sensor noise models into the simulation, and advance sensors, actuators, and motion generators at varying operating frequencies. It readily comes with different robotic platforms, sensors, CPU and GPU-based motion generators, and benchmark tasks that aim to provide a batteries-included experience for roboticists. The breadth of environments and robotic paradigms possible, as demonstrated in part in Sec. IV and Sec. V, make Orbit useful for a broad set of research questions in robotics. Through experiments, we show a significant throughput improvement on tasks designed in Orbit with respect to those in other frameworks, and its potential to facilitate sim-to-real transfer.
+Frameworks that rely on CPU-vectorization show an increase in throughput with the number of environments. However, at around 200-300 environments, their programs crash due to insufficient memory. In contrast, GPU-based parallelization scales better to a larger number of environments and achieves a throughput of $\sim 10$x faster for rigid body environments (Fig. 3) and $\sim 3$x faster for deformable body environments (Fig. 11). For the cloth task, we also examine the impact of using meshes of different resolutions on the throughput. We observe that a higher mesh resolution produces more accurate simulation but requires more computation time. To address this challenge, we intend to provide best practices for tuning the simulation and various sim-ready assets.
 
 <!-- chunk {"id": "body-0050", "role": "body", "section": "Discussion", "weight": 1.5} -->
 
+In this paper, we proposed Orbit: an interactive and intuitive framework to simplify environment designing, enable easy task specifications, and lower the entry barrier into robotics and robot learning. Orbit exploits the latest state-of-the-art simulation capabilities through Isaac Sim and extends them further to incorporate different actuator and sensor noise models into the simulation, and advance sensors, actuators, and motion generators at varying operating frequencies. It readily comes with different robotic platforms, sensors, CPU and GPU-based motion generators, and benchmark tasks that aim to provide a batteries-included experience for roboticists. The breadth of environments and robotic paradigms possible, as demonstrated in part in Sec. IV and Sec. V, make Orbit useful for a broad set of research questions in robotics. Through experiments, we show a significant throughput improvement on tasks designed in Orbit with respect to those in other frameworks, and its potential to facilitate sim-to-real transfer.
+
+<!-- chunk {"id": "body-0051", "role": "body", "section": "Discussion", "weight": 1.5} -->
+
 By open-sourcing this framework^44^4 Nvidia Isaac Sim is free with an individual license. Orbit is open-sourced on GitHub and available at we aim to reduce the overhead for developing new applications and provide a unified platform for robot learning research. As we continue to enhance and incorporate more features into the framework, we encourage researchers to contribute to transforming it into a comprehensive solution for robotics research.
-
-<!-- chunk {"id": "body-0051", "role": "body", "section": "Future Work", "weight": 1.5} -->
-
-Orbit can notably simulate physics at up to 125,000 FPS; however, camera rendering is currently bottlenecked to a total of 270 FPS for ten cameras rendering $640 \times 480$ images on an RTX 3090. While this number is comparable to other frameworks, we are actively improving the rendering speed through GPU-based acceleration.
 
 <!-- chunk {"id": "body-0052", "role": "body", "section": "Future Work", "weight": 1.5} -->
 
-While our experiments demonstrate the effectiveness of rigid-contact modeling and FEM for soft bodies, quantitatively studying the fidelity of the entire simulator (such as rendering, sensors, and physics) remains an area for future exploration. It is important to note that robotics research, particularly in deformable-body manipulation, has infrequently used sim-to-real due to difficulties in achieving fast and accurate simulation and realistic rendering. We believe that Orbit can help address these challenges and facilitate answering open research questions in these fields.
+Orbit can notably simulate physics at up to 125,000 FPS; however, camera rendering is currently bottlenecked to a total of 270 FPS for ten cameras rendering $640 \times 480$ images on an RTX 3090. While this number is comparable to other frameworks, we are actively improving the rendering speed through GPU-based acceleration.
 
 <!-- chunk {"id": "body-0053", "role": "body", "section": "Future Work", "weight": 1.5} -->
+
+While our experiments demonstrate the effectiveness of rigid-contact modeling and FEM for soft bodies, quantitatively studying the fidelity of the entire simulator (such as rendering, sensors, and physics) remains an area for future exploration. It is important to note that robotics research, particularly in deformable-body manipulation, has infrequently used sim-to-real due to difficulties in achieving fast and accurate simulation and realistic rendering. We believe that Orbit can help address these challenges and facilitate answering open research questions in these fields.
+
+<!-- chunk {"id": "body-0054", "role": "body", "section": "Future Work", "weight": 1.5} -->
 
 Further enhancements to the framework include integrating tactile sensors and 6-axis force-torque sensors. Additionally, we plan to add support for loading assets directly in their native formats (such as URDF and OBJ) instead of USDs to make the framework more versatile and user-friendly.

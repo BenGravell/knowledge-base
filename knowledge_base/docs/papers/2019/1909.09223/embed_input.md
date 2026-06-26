@@ -44,23 +44,23 @@ The code architecture and unified API is best expressed in Figure 1, providing a
 
 <!-- chunk {"id": "body-0011", "role": "body", "section": "Explainable Boosting Machine", "weight": 1.0} -->
 
-As part of the framework, InterpretML also includes a new interpretability algorithm -- the Explainable Boosting Machine (EBM). EBM is a glassbox model, designed to have accuracy comparable to state-of-the-art machine learning methods like Random Forest and Boosted Trees, while being highly intelligibile and explainable.
+As part of the framework, InterpretML also includes a new interpretability algorithm -- the Explainable Boosting Machine (EBM). EBM is a glassbox model, designed to have accuracy comparable to state-of-the-art machine learning methods like Random Forest and Boosted Trees, while being highly intelligibile and explainable. EBM is a generalized additive model (GAM) of the form: where g is the link function that adapts the GAM to different settings such as regression or classification. EBM has a few major improvements over traditional GAMs. First, EBM learns each feature function f~j~ using modern machine learning techniques such as bagging and gradient boosting. The boosting procedure is carefully restricted to train on one feature at a time in round-robin fashion using a very low learning rate so that feature order does not matter. It round-robin cycles through features to mitigate the effects of co-linearity and to learn the best feature function f~j~ for each feature to show how each feature contributes to the model's prediction for the problem. Second, EBM can automatically detect and include pairwise interaction terms of the form: which further increases accuracy while maintaining intelligibility.
 
 <!-- chunk {"id": "body-0012", "role": "body", "section": "Explainable Boosting Machine", "weight": 1.0} -->
 
-where g is the link function that adapts the GAM to different settings such as regression or classification. EBM has a few major improvements over traditional GAMs. First, EBM learns each feature function f~j~ using modern machine learning techniques such as bagging and gradient boosting. The boosting procedure is carefully restricted to train on one feature at a time in round-robin fashion using a very low learning rate so that feature order does not matter. It round-robin cycles through features to mitigate the effects of co-linearity and to learn the best feature function f~j~ for each feature to show how each feature contributes to the model's prediction for the problem.
+EBM is a fast implementation of the GA^2^M algorithm, written in C++ and Python. The implementation is parallelizable, and takes advantage of joblib to provide multi-core and multi-machine parallelization. The algorithmic details for the training procedure, selection of pairwise interaction terms, and case studies can be found.
 
 <!-- chunk {"id": "body-0013", "role": "body", "section": "Explainable Boosting Machine", "weight": 1.0} -->
 
-which further increases accuracy while maintaining intelligibility. EBM is a fast implementation of the GA^2^M algorithm, written in C++ and Python. The implementation is parallelizable, and takes advantage of joblib to provide multi-core and multi-machine parallelization. The algorithmic details for the training procedure, selection of pairwise interaction terms, and case studies can be found.
+EBMs are highly intelligible, because the contribution of each feature to a final prediction can be visualized and understood by plotting f~j~. Because EBM is an additive model, each feature contributes to predictions in a modular way that makes it easy to reason about the contribution of each feature to the prediction.
 
 <!-- chunk {"id": "body-0014", "role": "body", "section": "Explainable Boosting Machine", "weight": 1.0} -->
 
-EBMs are highly intelligible, because the contribution of each feature to a final prediction can be visualized and understood by plotting f~j~. Because EBM is an additive model, each feature contributes to predictions in a modular way that makes it easy to reason about the contribution of each feature to the prediction.
+To make individual predictions, each function f~j~ acts as a lookup table per feature, and returns a term contribution. These term contributions are simply added up, and passed through the link function g to compute the final prediction. Because of the modularity (additivity), term contributions can be sorted and visualized to show which features had the most impact on any individual prediction.
 
 <!-- chunk {"id": "body-0015", "role": "body", "section": "Explainable Boosting Machine", "weight": 1.0} -->
 
-To make individual predictions, each function f~j~ acts as a lookup table per feature, and returns a term contribution. These term contributions are simply added up, and passed through the link function g to compute the final prediction. Because of the modularity (additivity), term contributions can be sorted and visualized to show which features had the most impact on any individual prediction.
+Classification Performance (AUROC) Figure 3: Classification performance for models across datasets (rows, columns).
 
 <!-- chunk {"id": "body-0016", "role": "body", "section": "Explainable Boosting Machine", "weight": 1.0} -->
 

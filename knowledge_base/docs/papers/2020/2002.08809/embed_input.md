@@ -36,7 +36,7 @@ Authors are required to use the ICLR LaTeX style files obtainable at the ICLR we
 
 <!-- chunk {"id": "body-0009", "role": "body", "section": "Retrieval of style files", "weight": 1.0} -->
 
-The file `iclr2021_conference.pdf` contains these instructions and illustrates the various formatting requirements your ICLR paper must satisfy. Submissions must be made using LaTeX and the style files `iclr2021_conference.sty` and `iclr2021_conference.bst` (to be used with LaTeX2e). The file `iclr2021_conference.tex` may be used as a "shell" for writing your paper. All you have to do is replace the author, title, abstract, and text of the paper with your own.
+The style files for ICLR and other conference information are available online: The file `iclr2021_conference.pdf` contains these instructions and illustrates the various formatting requirements your ICLR paper must satisfy. Submissions must be made using LaTeX and the style files `iclr2021_conference.sty` and `iclr2021_conference.bst` (to be used with LaTeX2e). The file `iclr2021_conference.tex` may be used as a "shell" for writing your paper. All you have to do is replace the author, title, abstract, and text of the paper with your own.
 
 <!-- chunk {"id": "body-0010", "role": "body", "section": "Retrieval of style files", "weight": 1.0} -->
 
@@ -80,7 +80,7 @@ These instructions apply to everyone, regardless of the formatter being used.
 
 <!-- chunk {"id": "body-0020", "role": "body", "section": "Citations within the text", "weight": 1.0} -->
 
-Citations within the text should be based on the natbib package and include the authors' last names and year (with the "et al." construct for more than two authors). When the authors or the publication are included in the sentence, the citation should not be in parenthesis using `\citet{}` (as in "See for more information."). Otherwise, the citation should be in parenthesis using `\citep{}` (as in "Deep learning shows promise to make progress towards AI (Bengio+chapter2007).").
+Citations within the text should be based on the natbib package and include the authors' last names and year (with the "et al." construct for more than two authors). When the authors or the publication are included in the sentence, the citation should not be in parenthesis using `` (as in "See for more information."). Otherwise, the citation should be in parenthesis using `` (as in "Deep learning shows promise to make progress towards AI (Bengio+chapter2007).").
 
 <!-- chunk {"id": "body-0021", "role": "body", "section": "Citations within the text", "weight": 1.0} -->
 
@@ -112,51 +112,36 @@ Place one line space before the table title, one line space after the table titl
 
 <!-- chunk {"id": "body-0028", "role": "body", "section": "Tables", "weight": 1.0} -->
 
-Cell body (contains cell nucleus)
+Cell body (contains cell nucleus) Table 1: Sample table title
 
 <!-- chunk {"id": "body-0029", "role": "body", "section": "Default Notation", "weight": 1.0} -->
 
 In an attempt to encourage standardized notation, we have included the notation file from the textbook, Deep Learning goodfellow2016deep available at Use of this style is not required and can be disabled by commenting out math_commands.tex.
 
-<!-- chunk {"id": "body-0030", "role": "body", "section": "Final instructions", "weight": 1.0} -->
+<!-- chunk {"id": "body-0030", "role": "body", "section": "Default Notation", "weight": 1.0} -->
+
+Numbers and Arrays Sets and Graphs Probability and Information Theory
+
+<!-- chunk {"id": "body-0031", "role": "body", "section": "Final instructions", "weight": 1.0} -->
 
 Do not change any aspects of the formatting parameters in the style files. In particular, do not modify the width or length of the rectangle the text should fit into, and do not change font sizes (except perhaps in the References section; see below). Please note that pages should be numbered.
 
-<!-- chunk {"id": "body-0031", "role": "body", "section": "Preparing PostScript or PDF files", "weight": 1.0} -->
+<!-- chunk {"id": "body-0032", "role": "body", "section": "Preparing PostScript or PDF files", "weight": 1.0} -->
 
 Please prepare PostScript or PDF files with paper size "US Letter", and not, for example, "A4". The -t letter option on dvips will produce US Letter files.
 
-<!-- chunk {"id": "body-0032", "role": "body", "section": "Preparing PostScript or PDF files", "weight": 1.0} -->
+<!-- chunk {"id": "body-0033", "role": "body", "section": "Preparing PostScript or PDF files", "weight": 1.0} -->
 
 Consider directly generating PDF files using `pdflatex` (especially if you are a MiKTeX user). PDF figures must be substituted for EPS figures, however.
 
-<!-- chunk {"id": "body-0033", "role": "body", "section": "Preparing PostScript or PDF files", "weight": 1.0} -->
+<!-- chunk {"id": "body-0034", "role": "body", "section": "Preparing PostScript or PDF files", "weight": 1.0} -->
 
-dvips mypaper.dvi -t letter -Ppdf -G0 -o mypaper.ps
-ps2pdf mypaper.ps mypaper.pdf
-
-<!-- chunk {"id": "body-0034", "role": "body", "section": "Margins in LaTeX", "weight": 1.0} -->
-
-Most of the margin problems come from figures positioned by hand using `\special` or other commands. We suggest using the command `\includegraphics` from the graphicx package. Always specify the figure width as a multiple of the line width as in the example below using.eps graphics
+Otherwise, please generate your PostScript and PDF files with the following commands: dvips mypaper.dvi -t letter -Ppdf -G0 -o mypaper.ps ps2pdf mypaper.ps mypaper.pdf
 
 <!-- chunk {"id": "body-0035", "role": "body", "section": "Margins in LaTeX", "weight": 1.0} -->
 
-\usepackage[dvips]{graphicx}...
-\includegraphics[width=0.8\linewidth]{myfile.eps}
+Most of the margin problems come from figures positioned by hand using `\special` or other commands. We suggest using the command `\includegraphics` from the graphicx package. Always specify the figure width as a multiple of the line width as in the example below using.eps graphics \usepackage[dvips]{graphicx}... \includegraphics[width=0.8\linewidth]{myfile.eps} \usepackage[pdftex]{graphicx}... \includegraphics[width=0.8\linewidth]{myfile.pdf}.pdf graphics. See section 4.4 in the graphics bundle documentation A number of width problems arise when LaTeX cannot properly hyphenate a line. Please give LaTeX hyphenation hints using the `\-` command.
 
-<!-- chunk {"id": "body-0036", "role": "body", "section": "Margins in LaTeX", "weight": 1.0} -->
-
-\usepackage[pdftex]{graphicx}...
-\includegraphics[width=0.8\linewidth]{myfile.pdf}
-
-<!-- chunk {"id": "body-0037", "role": "body", "section": "Margins in LaTeX", "weight": 1.0} -->
-
-.pdf graphics. See section 4.4 in the graphics bundle documentation
-
-<!-- chunk {"id": "body-0038", "role": "body", "section": "Margins in LaTeX", "weight": 1.0} -->
-
-A number of width problems arise when LaTeX cannot properly hyphenate a line. Please give LaTeX hyphenation hints using the `\-` command.
-
-<!-- chunk {"id": "body-0039", "role": "body", "section": "Author Contributions", "weight": 1.0} -->
+<!-- chunk {"id": "body-0036", "role": "body", "section": "Author Contributions", "weight": 1.0} -->
 
 If you'd like to, you may include a section for author contributions as is done in many journals. This is optional and at the discretion of the authors.

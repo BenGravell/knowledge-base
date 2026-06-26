@@ -54,18 +54,11 @@ In contrast to the common practice for GAN training, we found that updating the 
 
 <!-- chunk {"id": "body-0014", "role": "body", "section": "Methods", "weight": 1.0} -->
 
-Input: Set of demonstration observations {ztd, ctd}t = 1 … Td
-Randomly initialize policy (πθ) and discriminator (Dϕ)
-// Perform N training iterations of policy &amp; discriminator updating
-Execute policy rollouts to collect Tg timestep observations, {ztg, ctg}t = 1 … Tg
-Compute rewards {rt = −log (1−Dϕ (ztg,ctg))}t = 1 … Tg
-// Perform M discriminator updates steps
-ℓ (ϕ) = ∑t = 1 … Tglog (1−Dϕ (ztg,ctg)) − ∑t = 1 … Tdlog (Dϕ (ztd,ctd))
-Update ϕ by a gradient method w.r.t. ℓ (ϕ)
+Input: Set of demonstration observations {ztd, ctd}t = 1 … Td Randomly initialize policy (πθ) and discriminator (Dϕ) // Perform N training iterations of policy & discriminator updating Execute policy rollouts to collect Tg timestep observations, {ztg, ctg}t = 1 … Tg Compute rewards {rt = −log (1 − Dϕ (ztg, ctg))}t = 1 … Tg // Perform M discriminator updates steps ℓ (ϕ) = ∑t = 1 … Tglog (1 − Dϕ (ztg, ctg)) − ∑t = 1 … Tdlog (Dϕ (ztd, ctd)) Update ϕ by a gradient method w.r.t. ℓ (ϕ) Simulation: All simulations make use of the physics engine MuJoCo. In this paper, we consider four *bodies*: a bipedal walker, restricted to lateral movement in a vertical plane; two-link and three-link planar arms; and a custom humanoid body introduced below. Bodies consist of mass-bearing segments (*geoms*), which are connected by *joints*.
 
 <!-- chunk {"id": "body-0015", "role": "body", "section": "Methods", "weight": 1.0} -->
 
-Simulation: All simulations make use of the physics engine MuJoCo. In this paper, we consider four *bodies*: a bipedal walker, restricted to lateral movement in a vertical plane; two-link and three-link planar arms; and a custom humanoid body introduced below. Bodies consist of mass-bearing segments (*geoms*), which are connected by *joints*. The *root* of a body translates and rotates freely and is not actuated. All other joints are torque-actuated, and it is the role of the *policy* (or controller) to determine what torques to generate.
+The *root* of a body translates and rotates freely and is not actuated. All other joints are torque-actuated, and it is the role of the *policy* (or controller) to determine what torques to generate.
 
 <!-- chunk {"id": "body-0016", "role": "body", "section": "Methods", "weight": 1.0} -->
 

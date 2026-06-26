@@ -24,7 +24,7 @@ Apart from category recognition, another natural and challenging task for recogn
 
 <!-- chunk {"id": "body-0006", "role": "body", "section": "Introduction", "weight": 1.5} -->
 
-(b) Data-driven visualization: For each neuron, we average the top 100 training examples with highest responses (&gt;0.99) and crop the volume inside the receptive field. The averaged result is visualized by transparency in 3D (Gray) and by the average surface obtained from zero-crossing (Red). 3D ShapeNets are able to capture complex structures in 3D space, from low-level surfaces and corners at L1, to objects parts at L2 and L3, and whole objects at L4 and above.
+(b) Data-driven visualization: For each neuron, we average the top 100 training examples with highest responses (>0.99) and crop the volume inside the receptive field. The averaged result is visualized by transparency in 3D (Gray) and by the average surface obtained from zero-crossing (Red). 3D ShapeNets are able to capture complex structures in 3D space, from low-level surfaces and corners at L1, to objects parts at L2 and L3, and whole objects at L4 and above.
 
 <!-- chunk {"id": "body-0007", "role": "body", "section": "Introduction", "weight": 1.5} -->
 
@@ -32,12 +32,11 @@ In this paper, we study generic shape representation for both object category re
 
 <!-- chunk {"id": "body-0008", "role": "body", "section": "Introduction", "weight": 1.5} -->
 
-To this end, we propose 3D ShapeNets to represent a geometric 3D shape as a probabilistic distribution of binary variables on a 3D voxel grid. Our model uses a powerful Convolutional Deep Belief Network (Figure 2) to learn the complex joint distribution of all 3D voxels in a data-driven manner. To train this 3D deep learning model, we construct ModelNet, a large-scale object dataset of 3D computer graphics CAD models. We demonstrate the strength of our model at capturing complex object shapes by drawing samples from the model. We show that our model can recognize objects in single-view 2.5D depth images and hallucinate the missing parts of depth maps. Extensive experiments suggest that our model also generalizes well to real world data from the NYU depth dataset, significantly outperforming existing approaches on single-view 2.5D object recognition. Further it is also effective for next-best-view prediction in view planning for active object recognition.
+To this end, we propose 3D ShapeNets to represent a geometric 3D shape as a probabilistic distribution of binary variables on a 3D voxel grid. Our model uses a powerful Convolutional Deep Belief Network (Figure 2) to learn the complex joint distribution of all 3D voxels in a data-driven manner. To train this 3D deep learning model, we construct ModelNet, a large-scale object dataset of 3D computer graphics CAD models. We demonstrate the strength of our model at capturing complex object shapes by drawing samples from the model. We show that our model can recognize objects in single-view 2.5D depth images and hallucinate the missing parts of depth maps. Extensive experiments suggest that our model also generalizes well to real world data from the NYU depth dataset, significantly outperforming existing approaches on single-view 2.5D object recognition. Further it is also effective for next-best-view prediction in view planning for active object recognition. object depth & point cloud volumetric representation recognition & completion Figure 3: View-based 2.5D Object Recognition. Illustrates that a depth map is taken from a physical object in the 3D world. Shows the depth image captured from the back of the chair.
 
 <!-- chunk {"id": "body-0009", "role": "body", "section": "Introduction", "weight": 1.5} -->
 
-object depth &amp; point cloud volumetric representation recognition &amp; completion
-Figure 3: View-based 2.5D Object Recognition. Illustrates that a depth map is taken from a physical object in the 3D world. Shows the depth image captured from the back of the chair. A slice is used for visualization. Shows the profile of the slice and different types of voxels. The surface voxels of the chair xo are in red, and the occluded voxels xu are in blue. Shows the recognition and shape completion result, conditioned on the observed free space and surface.
+A slice is used for visualization. Shows the profile of the slice and different types of voxels. The surface voxels of the chair xo are in red, and the occluded voxels xu are in blue. Shows the recognition and shape completion result, conditioned on the observed free space and surface.
 
 <!-- chunk {"id": "body-0010", "role": "body", "section": "3D ShapeNets", "weight": 1.0} -->
 
@@ -49,7 +48,7 @@ To represent the probability distribution of these binary variables for 3D shape
 
 <!-- chunk {"id": "body-0012", "role": "body", "section": "3D ShapeNets", "weight": 1.0} -->
 
-where $v_{l}$ denotes each visible unit, $h_{j}^{f}$ denotes each hidden unit in a feature channel $f$, and $W^{f}$ denotes the convolutional filter. The "$\ast$" sign represents the convolution operation. In this energy definition, each visible unit $v_{l}$ is associated with a unique bias term $b_{l}$ to facilitate reconstruction, and all hidden units $\{ h_{j}^{f}\}$ in the same convolution channel share the same bias term $c^{f}$. Similar to, we also allow for a convolution stride.
+The energy, $E$, of a convolutional layer in our model can be computed as: where $v_{l}$ denotes each visible unit, $h_{j}^{f}$ denotes each hidden unit in a feature channel $f$, and $W^{f}$ denotes the convolutional filter. The "$\ast$" sign represents the convolution operation. In this energy definition, each visible unit $v_{l}$ is associated with a unique bias term $b_{l}$ to facilitate reconstruction, and all hidden units $\{ h_{j}^{f}\}$ in the same convolution channel share the same bias term $c^{f}$. Similar to, we also allow for a convolution stride.
 
 <!-- chunk {"id": "body-0013", "role": "body", "section": "3D ShapeNets", "weight": 1.0} -->
 
@@ -89,81 +88,76 @@ The inputs to our next-best-view system are observed voxels $\mathbf{x}_{o}$ of 
 
 <!-- chunk {"id": "body-0022", "role": "body", "section": "Next-Best-View Prediction", "weight": 1.0} -->
 
-When the camera is moved to another view $\mathbf{V}^{i}$, some of the previously unobserved voxels $\mathbf{x}_{u}$ may become observed based on its actual shape. Different views $\mathbf{V}^{i}$ will result in different visibility of these unobserved voxels $\mathbf{x}_{u}$. A view with the potential to see distinctive parts of objects (e.g. arms of chairs) may be a better next view. However, since the actual shape is partially unknown^22^2If the 3D shape is fully observed, adding more views will not help to reduce the recognition uncertainty in any algorithm purely based on 3D shapes, including our 3D ShapeNets., we will hallucinate that region from our model. As shown in Figure 4, conditioning on $\mathbf{x}_{o} = x_{o}$, we can sample many shapes to generate hypotheses of the actual shape, and then render each hypothesis to obtain the depth maps observed from different views, $\mathbf{V}^{i}$.
+The original recognition uncertainty, $H$, is given by the entropy of $y$ conditioned on the observed $\mathbf{x}_{o}$: where the conditional probability $p{({\left. y \middle| \mathbf{x}_{o} \right. = x_{o}})}$ can be approximated as before by sampling from $p{({{y,\left. \mathbf{x}_{u} \middle| \mathbf{x}_{o} \right.} = x_{o}})}$ and marginalizing $\mathbf{x}_{u}$.
 
 <!-- chunk {"id": "body-0023", "role": "body", "section": "Next-Best-View Prediction", "weight": 1.0} -->
 
-In this way, we can simulate the new depth maps for different views on different samples and compute the potential reduction in recognition uncertainty.
+When the camera is moved to another view $\mathbf{V}^{i}$, some of the previously unobserved voxels $\mathbf{x}_{u}$ may become observed based on its actual shape. Different views $\mathbf{V}^{i}$ will result in different visibility of these unobserved voxels $\mathbf{x}_{u}$. A view with the potential to see distinctive parts of objects (e.g. arms of chairs) may be a better next view. However, since the actual shape is partially unknown^22^2If the 3D shape is fully observed, adding more views will not help to reduce the recognition uncertainty in any algorithm purely based on 3D shapes, including our 3D ShapeNets., we will hallucinate that region from our model. As shown in Figure 4, conditioning on $\mathbf{x}_{o} = x_{o}$, we can sample many shapes to generate hypotheses of the actual shape, and then render each hypothesis to obtain the depth maps observed from different views, $\mathbf{V}^{i}$.
 
 <!-- chunk {"id": "body-0024", "role": "body", "section": "Next-Best-View Prediction", "weight": 1.0} -->
 
-Mathematically, let $\mathbf{x}_{n}^{i} = {{\text{Render}{(\mathbf{x}_{u},\mathbf{x}_{o},\mathbf{V}^{i})}} \smallsetminus \mathbf{x}_{o}}$ denote the new observed voxels (both free space and surface) in the next view $\mathbf{V}^{i}$. We have $\mathbf{x}_{n}^{i} \subseteq \mathbf{x}_{u}$, and they are unknown variables that will be marginalized in the following equation. Then the potential recognition uncertainty for $\mathbf{V}^{i}$ is measured by this conditional entropy,
+In this way, we can simulate the new depth maps for different views on different samples and compute the potential reduction in recognition uncertainty.
 
 <!-- chunk {"id": "body-0025", "role": "body", "section": "Next-Best-View Prediction", "weight": 1.0} -->
 
-According to information theory, the reduction of entropy ${H - H_{i}} = {I{({{y;\left. \mathbf{x}_{n}^{i} \middle| \mathbf{x}_{o} \right.} = x_{o}})}} \geq 0$ is the mutual information between $y$ and $\mathbf{x}_{n}^{i}$ conditioned on $\mathbf{x}_{o}$. This meets our intuition that observing more data will always potentially reduce the uncertainty. With this definition, our view planning algorithm is to simply choose the view that maximizes this mutual information,
+According to information theory, the reduction of entropy ${H - H_{i}} = {I{({{y;\left. \mathbf{x}_{n}^{i} \middle| \mathbf{x}_{o} \right.} = x_{o}})}} \geq 0$ is the mutual information between $y$ and $\mathbf{x}_{n}^{i}$ conditioned on $\mathbf{x}_{o}$. This meets our intuition that observing more data will always potentially reduce the uncertainty. With this definition, our view planning algorithm is to simply choose the view that maximizes this mutual information, Our view planning scheme can naturally be extended to a sequence of view planning steps. After deciding the best candidate to move for the first frame, we physically move the camera there and capture the other object surface from that view. The object surfaces from all previous views are merged together as our new observation $\mathbf{x}_{o}$, allowing us to run our view planning scheme again.
 
-<!-- chunk {"id": "body-0026", "role": "body", "section": "Next-Best-View Prediction", "weight": 1.0} -->
-
-Our view planning scheme can naturally be extended to a sequence of view planning steps. After deciding the best candidate to move for the first frame, we physically move the camera there and capture the other object surface from that view. The object surfaces from all previous views are merged together as our new observation $\mathbf{x}_{o}$, allowing us to run our view planning scheme again.
-
-<!-- chunk {"id": "body-0027", "role": "body", "section": "ModelNet: A Large-scale 3D CAD Dataset", "weight": 1.0} -->
+<!-- chunk {"id": "body-0026", "role": "body", "section": "ModelNet: A Large-scale 3D CAD Dataset", "weight": 1.0} -->
 
 Training a deep 3D shape representation that captures intra-class variance requires a large collection of 3D shapes. Previous CAD datasets (e.g., ) are limited both in the variety of categories and the number of examples per category. Therefore, we construct ModelNet, a large-scale 3D CAD model dataset.
 
-<!-- chunk {"id": "body-0028", "role": "body", "section": "ModelNet: A Large-scale 3D CAD Dataset", "weight": 1.0} -->
+<!-- chunk {"id": "body-0027", "role": "body", "section": "ModelNet: A Large-scale 3D CAD Dataset", "weight": 1.0} -->
 
 To construct ModelNet, we downloaded 3D CAD models from 3D Warehouse, and Yobi3D search engine indexing 261 CAD model websites. We query common object categories from the SUN database that contain no less than 20 object instances per category, removing those with too few search results, resulting in a total of 660 categories. We also include models from the Princeton Shape Benchmark. After downloading, we remove mis-categorized models using Amazon Mechanical Turk. Turkers are shown a sequence of thumbnails of the models and answer "Yes" or "No" as to whether the category label matches the model. The authors then manually checked each 3D model and removed irrelevant objects from each CAD model (e.g, floor, thumbnail image, person standing next to the object, etc) so that each mesh model contains only one object belonging to the labeled category. We also discarded unrealistic (overly simplified models or those only containing images of the object) and duplicate models. Compared to, which consists of 6670 models in 161 categories, our new dataset is 22 times larger containing 151,128 3D CAD models belonging to 660 unique object categories. Examples of major categories and dataset statistics are shown in Figure 5.
 
-<!-- chunk {"id": "body-0029", "role": "body", "section": "Experiments", "weight": 1.0} -->
+<!-- chunk {"id": "body-0028", "role": "body", "section": "Experiments", "weight": 1.0} -->
 
 We choose 40 common object categories from ModelNet with 100 unique CAD models per category. We then augment the data by rotating each model every 30 degrees along the gravity direction (i.e., 12 poses per model) resulting in models in arbitrary poses. Pre-training and fine-tuning each took about two days on a desktop with one Intel XEON E5-2690 CPU and one NVIDIA K40c GPU. Figure 6 shows some shapes sampled from our trained model.
 
-<!-- chunk {"id": "body-0030", "role": "body", "section": "3D Shape Classification and Retrieval", "weight": 1.0} -->
+<!-- chunk {"id": "body-0029", "role": "body", "section": "3D Shape Classification and Retrieval", "weight": 1.0} -->
 
 Deep learning has been widely used as a feature extraction technique. Here, we are also interested in how well the features learned from 3D ShapeNets compare with other state-of-the-art 3D mesh features. We discriminatively fine-tune 3D ShapeNets by replacing the top layer with class labels and use the 5th layer as features. For comparison, we choose Light Field descriptor (LFD, 4,700 dimensions) and Spherical Harmonic descriptor (SPH, 544 dimensions), which performed best among all descriptors.
 
-<!-- chunk {"id": "body-0031", "role": "body", "section": "3D Shape Classification and Retrieval", "weight": 1.0} -->
+<!-- chunk {"id": "body-0030", "role": "body", "section": "3D Shape Classification and Retrieval", "weight": 1.0} -->
 
 We conduct 3D classification and retrieval experiments to evaluate our features. Of the 48,000 CAD models (with rotation enlargement), 38,400 are used for training and 9,600 for testing. We also report a smaller scale result on a 10-category subset (corresponding to NYU RGB-D dataset ) of the 40-category data. For classification, we train a linear SVM to classify meshes using each of the features mentioned above, and use average category accuracy to evaluate the performance.
 
-<!-- chunk {"id": "body-0032", "role": "body", "section": "3D Shape Classification and Retrieval", "weight": 1.0} -->
+<!-- chunk {"id": "body-0031", "role": "body", "section": "3D Shape Classification and Retrieval", "weight": 1.0} -->
 
 For retrieval, we use $L2$ distance to measure the similarity of the shapes between each pair of testing samples. Given a query from the test set, a ranked list of the remaining test data is returned according to the similarity measure^33^3For our feature and SPH we use the $L2$ norm, and for LFD we use the distance measure.. We evaluate retrieval algorithms using two metrics: mean area under precision-recall curve (AUC) for all the testing queries^44^4We interpolate each precision-recall curve.; mean average precision (MAP) where AP is defined as the average precision each time a positive sample is returned.
 
-<!-- chunk {"id": "body-0033", "role": "body", "section": "3D Shape Classification and Retrieval", "weight": 1.0} -->
+<!-- chunk {"id": "body-0032", "role": "body", "section": "3D Shape Classification and Retrieval", "weight": 1.0} -->
 
 We summarize the results in Table 1 and Figure 7. Since both of the baseline mesh features (LFD and SPH) are rotation invariant, from the performance we have achieved, we believe 3D ShapeNets must have learned this invariance during feature learning. Despite using a significantly lower resolution mesh as compared to the baseline descriptors, 3D ShapeNets outperforms them by a large margin. This demonstrates that our 3D deep learning model can learn better features from 3D data automatically.
 
-<!-- chunk {"id": "body-0034", "role": "body", "section": "View-based 2.5D Recognition", "weight": 1.0} -->
+<!-- chunk {"id": "body-0033", "role": "body", "section": "View-based 2.5D Recognition", "weight": 1.0} -->
 
 To evaluate 3D ShapeNets for 2.5D depth-based object recognition task, we set up an experiment on the NYU RGB-D dataset with Kinect depth maps. We select 10 object categories from ModelNet that overlap with the NYU dataset. This results in 4,899 unique CAD models for training 3D ShapeNets.
 
-<!-- chunk {"id": "body-0035", "role": "body", "section": "View-based 2.5D Recognition", "weight": 1.0} -->
+<!-- chunk {"id": "body-0034", "role": "body", "section": "View-based 2.5D Recognition", "weight": 1.0} -->
 
 We create each testing example by cropping the 3D point cloud from the 3D bounding boxes. The segmentation mask is used to remove outlier depth in the bounding box. Then we directly apply our model trained on CAD models to the NYU dataset. This is absolutely non-trivial because the statistics of real world depth are significantly different from the synthetic CAD models used for training. In Figure 9, we visualize the successful recognitions and reconstructions. Note that 3D ShapeNets is even able to partially reconstruct the "monitor" despite the bad scanning caused by the reflection problem. To further boost recognition performance, we discriminatively fine-tune our model on the NYU dataset using back propagation. By simply assigning invisible voxels as 0 (i.e. considering occluded voxels as free space and only representing the shape as the voxels on the 3D surface) and rotating training examples every 30 degrees, fine-tuning works reasonably well in practice.
 
-<!-- chunk {"id": "body-0036", "role": "body", "section": "View-based 2.5D Recognition", "weight": 1.0} -->
+<!-- chunk {"id": "body-0035", "role": "body", "section": "View-based 2.5D Recognition", "weight": 1.0} -->
 
 As a baseline approach, we use $k$-nearest-neighbor matching in our low resolution voxel space. Testing depth maps are converted to voxel representation and compared with each of the training samples. As a more sophisticated high resolution baseline, we match the testing point cloud to each of our 3D mesh models using Iterated Closest Point method and use the top 10 matches to vote for the labels. We also compare our result with which is the state-of-the-art deep learning model applied to RGB-D data. To train and test their model, 2D bounding boxes are obtained by projecting the 3D bounding box to the image plane, and object segmentations are also used to extract features. 1,390 instances are used to train the algorithm of and perform our discriminative fine-tuning, while the remaining 495 instances are used for testing all five methods. Table 3 summarizes the recognition results. Using only depth without color, our fine-tuned 3D ShapeNets outperforms all other approaches with or without color by a significant margin.
 
-<!-- chunk {"id": "body-0037", "role": "body", "section": "View-based 2.5D Recognition", "weight": 1.0} -->
+<!-- chunk {"id": "body-0036", "role": "body", "section": "View-based 2.5D Recognition", "weight": 1.0} -->
 
-Input GT 3D ShapeNets Completion Result NN
-Figure 8: Shape Completion. From left to right: input depth map from a single view, ground truth shape, shape completion result (4 cols), nearest neighbor result (1 col).
+Input GT 3D ShapeNets Completion Result NN Figure 8: Shape Completion. From left to right: input depth map from a single view, ground truth shape, shape completion result (4 cols), nearest neighbor result (1 col).
 
-<!-- chunk {"id": "body-0038", "role": "body", "section": "Next-Best-View Prediction", "weight": 1.0} -->
+<!-- chunk {"id": "body-0037", "role": "body", "section": "Next-Best-View Prediction", "weight": 1.0} -->
 
 For our view planning strategy, computation of the term $p{({\left. \mathbf{x}_{n}^{i} \middle| \mathbf{x}_{o} \right. = x_{o}})}$ is critical. When the observation $\mathbf{x}_{o}$ is ambiguous, samples drawn from $p{({\left. \mathbf{x}_{n}^{i} \middle| \mathbf{x}_{o} \right. = x_{o}})}$ should come from a variety of different categories. When the observation is rich, samples should be limited to very few categories. Since $\mathbf{x}_{n}^{i}$ is the surface of the completions, we could just test the shape completion performance $p{({\left. \mathbf{x}_{u} \middle| \mathbf{x}_{o} \right. = x_{o}})}$. In Figure 8, our results give reasonable shapes across different categories.
 
-<!-- chunk {"id": "body-0039", "role": "body", "section": "Next-Best-View Prediction", "weight": 1.0} -->
+<!-- chunk {"id": "body-0038", "role": "body", "section": "Next-Best-View Prediction", "weight": 1.0} -->
 
 We also match the nearest neighbor in the training set to show that our algorithm is not just memorizing the shape and it can generalize well.
 
-<!-- chunk {"id": "body-0040", "role": "body", "section": "Next-Best-View Prediction", "weight": 1.0} -->
+<!-- chunk {"id": "body-0039", "role": "body", "section": "Next-Best-View Prediction", "weight": 1.0} -->
 
 To evaluate our view planning strategy, we use CAD models from the test set to create synthetic renderings of depth maps. We evaluate the accuracy by running our 3D ShapeNets model on the integration depth maps of both the first view and the selected second view. A good view-planning strategy should result in a better recognition accuracy. Note that next-best-view selection is always coupled with the recognition algorithm. We prepare three baseline methods for comparison: random selection among the candidate views; choose the view with the highest new visibility (yellow voxels, NBV for reconstruction); choose the view which is farthest away from the previous view (based on camera center distance). In our experiment, we generate 8 view candidates randomly distributed on the sphere of the object, pointing to the region near the object center and, we randomly choose 200 test examples (20 per category) from our testing set. Table 3 reports the recognition accuracy of different view planning strategies with the same recognition 3D ShapeNets. We observe that our entropy based method outperforms all other strategies.
 
-<!-- chunk {"id": "body-0041", "role": "body", "section": "Conclusion", "weight": 1.5} -->
+<!-- chunk {"id": "body-0040", "role": "body", "section": "Conclusion", "weight": 1.5} -->
 
 To study 3D shape representation for objects, we propose a convolutional deep belief network to represent a geometric 3D shape as a probability distribution of binary variables on a 3D voxel grid. Our model can jointly recognize and reconstruct objects from a single-view 2.5D depth map (e.g. from popular RGB-D sensors). To train this 3D deep learning model, we construct ModelNet, a large-scale 3D CAD model dataset. Our model significantly outperforms existing approaches on a variety of recognition tasks, and it is also a promising approach for next-best-view planning. All source code and data set are available at our project website.

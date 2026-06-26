@@ -118,144 +118,140 @@ The encoder network has $C = 64$ output features. The car and pedestrian/cyclist
 
 <!-- chunk {"id": "body-0030", "role": "body", "section": "Loss", "weight": 1.0} -->
 
-We use the same loss functions introduced in SECOND. Ground truth boxes and anchors are defined by $(x,y,z,w,l,h,\theta)$.
+We use the same loss functions introduced in SECOND. Ground truth boxes and anchors are defined by $(x,y,z,w,l,h,\theta)$. The localization regression residuals between ground truth and anchors are defined: where $x^{gt}$ and $x^{a}$ are respectively the ground truth and anchor boxes and $d^{a} = \sqrt{{(w^{a})}^{2} + {(l^{a})}^{2}}$. The total localization loss is: Since the angle localization loss cannot distinguish flipped boxes, we use a softmax classification loss on the discretized directions, $\mathcal{L}_{dir}$, which enables the network to learn the heading.
 
 <!-- chunk {"id": "body-0031", "role": "body", "section": "Loss", "weight": 1.0} -->
 
-Since the angle localization loss cannot distinguish flipped boxes, we use a softmax classification loss on the discretized directions, $\mathcal{L}_{dir}$, which enables the network to learn the heading.
+For the object classification loss, we use the focal loss: where $p^{a}$ is the class probability of an anchor. We use the original paper settings of $\alpha = 0.25$ and $\gamma = 2$. The total loss is therefore: where $N_{pos}$ is the number of positive anchors and $\beta_{loc} = 2$, $\beta_{cls} = 1$, and $\beta_{dir} = 0.2$.
 
 <!-- chunk {"id": "body-0032", "role": "body", "section": "Loss", "weight": 1.0} -->
 
-where $p^{a}$ is the class probability of an anchor. We use the original paper settings of $\alpha = 0.25$ and $\gamma = 2$.
-
-<!-- chunk {"id": "body-0033", "role": "body", "section": "Loss", "weight": 1.0} -->
-
 To optimize the loss function we use the Adam optimizer with an initial learning rate of $2 \ast 10^{- 4}$ and decay the learning rate by a factor of $0.8$ every $15$ epochs and train for $160$ epochs. We use a batch size of 2 for validation set and 4 for our test submission.
 
-<!-- chunk {"id": "body-0034", "role": "body", "section": "Experimental setup", "weight": 1.0} -->
+<!-- chunk {"id": "body-0033", "role": "body", "section": "Experimental setup", "weight": 1.0} -->
 
 In this section we present our experimental setup, including dataset, experimental settings and data augmentation.
 
-<!-- chunk {"id": "body-0035", "role": "body", "section": "Dataset", "weight": 1.0} -->
+<!-- chunk {"id": "body-0034", "role": "body", "section": "Dataset", "weight": 1.0} -->
 
 All experiments use the KITTI object detection benchmark dataset, which consists of samples that have both lidar point clouds and images. We only train on lidar point clouds, but compare with fusion methods that use both lidar and images. The samples are originally divided into 7481 training and 7518 testing samples. For experimental studies we split the official training into 3712 training samples and 3769 validation samples, while for our test submission we created a minival set of 784 samples from the validation set and trained on the remaining 6733 samples. The KITTI benchmark requires detections of cars, pedestrians, and cyclists. Since the ground truth objects were only annotated if they are visible in the image, we follow the standard convention of only using lidar points that project into the image. Following the standard literature practice on KITTI, we train one network for cars and one network for both pedestrians and cyclists.
 
-<!-- chunk {"id": "body-0036", "role": "body", "section": "Settings", "weight": 1.0} -->
+<!-- chunk {"id": "body-0035", "role": "body", "section": "Settings", "weight": 1.0} -->
 
 Unless explicitly varied in an experimental study, we use an xy resolution: 0.16 m, max number of pillars ($P$): 12000, and max number of points per pillar ($N$): 100.
 
-<!-- chunk {"id": "body-0037", "role": "body", "section": "Settings", "weight": 1.0} -->
+<!-- chunk {"id": "body-0036", "role": "body", "section": "Settings", "weight": 1.0} -->
 
 We use the same anchors and matching strategy as. Each class anchor is described by a width, length, height, and z center, and is applied at two orientations: 0 and 90 degrees. Anchors are matched to ground truth using the 2D IoU with the following rules. A positive match is either the highest with a ground truth box, or above the positive match threshold, while a negative match is below the negative threshold. All other anchors are ignored in the loss.
 
-<!-- chunk {"id": "body-0038", "role": "body", "section": "Settings", "weight": 1.0} -->
+<!-- chunk {"id": "body-0037", "role": "body", "section": "Settings", "weight": 1.0} -->
 
 At inference time we apply axis aligned non maximum suppression (NMS) with an overlap threshold of $0.5$ IoU. This provides similar performance compared to rotational NMS, but is much faster.
 
-<!-- chunk {"id": "body-0039", "role": "body", "section": "Car", "weight": 1.0} -->
+<!-- chunk {"id": "body-0038", "role": "body", "section": "Car", "weight": 1.0} -->
 
 The x, y, z range is \[(0, 70.4), (-40, 40), (-3, 1)\] meters respectively. The car anchor has width, length, and height of (1.6, 3.9, 1.5) m with a z center of -1 m. Matching uses positive and negative thresholds of 0.6 and 0.45.
 
-<!-- chunk {"id": "body-0040", "role": "body", "section": "Pedestrian & Cyclist", "weight": 1.0} -->
+<!-- chunk {"id": "body-0039", "role": "body", "section": "Pedestrian & Cyclist", "weight": 1.0} -->
 
 The x, y, z range of \[, (-20, 20), (-2.5, 0.5)\] meters respectively. The pedestrian anchor has width, length, and height of (0.6, 0.8, 1.73) meters with a z center of -0.6 meters, while the cyclist anchor has width, length, and height of (0.6, 1.76, 1.73) meters with a z center of -0.6 meters. Matching uses positive and negative thresholds of 0.5 and 0.35.
 
-<!-- chunk {"id": "body-0041", "role": "body", "section": "Data Augmentation", "weight": 1.0} -->
+<!-- chunk {"id": "body-0040", "role": "body", "section": "Data Augmentation", "weight": 1.0} -->
 
 Data augmentation is critical for good performance on the KITTI benchmark.
 
-<!-- chunk {"id": "body-0042", "role": "body", "section": "Data Augmentation", "weight": 1.0} -->
+<!-- chunk {"id": "body-0041", "role": "body", "section": "Data Augmentation", "weight": 1.0} -->
 
 First, following SECOND, we create a lookup table of the ground truth 3D boxes for all classes and the associated point clouds that falls inside these 3D boxes. Then for each sample, we randomly select $15,0,8$ ground truth samples for cars, pedestrians, and cyclists respectively and place them into the current point cloud. We found these settings to perform better than the proposed settings.
 
-<!-- chunk {"id": "body-0043", "role": "body", "section": "Data Augmentation", "weight": 1.0} -->
+<!-- chunk {"id": "body-0042", "role": "body", "section": "Data Augmentation", "weight": 1.0} -->
 
 Next, all ground truth boxes are individually augmented. Each box is rotated (uniformly drawn from $\lbrack{- {\pi/20}},{\pi/20}\rbrack$) and translated (x, y, and z independently drawn from $\mathcal{N}{(0,0.25)}$) to further enrich the training set.
 
-<!-- chunk {"id": "body-0044", "role": "body", "section": "Data Augmentation", "weight": 1.0} -->
+<!-- chunk {"id": "body-0043", "role": "body", "section": "Data Augmentation", "weight": 1.0} -->
 
 Finally, we perform two sets of global augmentations that are jointly applied to the point cloud and all boxes. First, we apply random mirroring flip along the x axis, then a global rotation and scaling. Finally, we apply a global translation with x, y, z drawn from $\mathcal{N}{(0,0.2)}$ to simulate localization noise.
 
-<!-- chunk {"id": "body-0045", "role": "body", "section": "Results", "weight": 1.0} -->
+<!-- chunk {"id": "body-0044", "role": "body", "section": "Results", "weight": 1.0} -->
 
 In this section we present results of our PointPillars method and compare to the literature.
 
-<!-- chunk {"id": "body-0046", "role": "body", "section": "Quantitative Analysis", "weight": 1.0} -->
+<!-- chunk {"id": "body-0045", "role": "body", "section": "Quantitative Analysis", "weight": 1.0} -->
 
 All detection results are measured using the official KITTI evaluation detection metrics which are: bird's eye view (BEV), 3D, 2D, and average orientation similarity (AOS). The 2D detection is done in the image plane and average orientation similarity assesses the average orientation (measured in BEV) similarity for 2D detections. The KITTI dataset is stratified into easy, moderate, and hard difficulties, and the official KITTI leaderboard is ranked by performance on moderate.
 
-<!-- chunk {"id": "body-0047", "role": "body", "section": "Quantitative Analysis", "weight": 1.0} -->
+<!-- chunk {"id": "body-0046", "role": "body", "section": "Quantitative Analysis", "weight": 1.0} -->
 
 As shown in Table 1 and Table 2, PointPillars outperforms all published methods with respect to mean average precision (mAP). Compared to lidar-only methods, PointPillars achieves better results across all classes and difficulty strata except for the easy car stratum. It also outperforms fusion based methods on cars and cyclists.
 
-<!-- chunk {"id": "body-0048", "role": "body", "section": "Quantitative Analysis", "weight": 1.0} -->
+<!-- chunk {"id": "body-0047", "role": "body", "section": "Quantitative Analysis", "weight": 1.0} -->
 
 While PointPillars predicts 3D oriented boxes, the BEV and 3D metrics do not take orientation into account. Orientation is evaluated using AOS, which requires projecting the 3D box into the image, performing 2D detection matching, and then assessing the orientation of these matches. The performance of PointPillars on AOS significantly exceeds in all strata as compared to the only two 3D detection methods that predict oriented boxes (Table 3). In general, image only methods perform best on 2D detection since the 3D projection of boxes into the image can result in loose boxes depending on the 3D pose. Despite this, PointPillars moderate cyclist AOS of 68.16 outperforms the best image based method.
 
-<!-- chunk {"id": "body-0049", "role": "body", "section": "Quantitative Analysis", "weight": 1.0} -->
+<!-- chunk {"id": "body-0048", "role": "body", "section": "Quantitative Analysis", "weight": 1.0} -->
 
 For comparison to other methods on val, we note that our network achieved BEV AP of ($87.98$, $63.55$, $69.71$) and 3D AP of ($77.98$, $57.86$, $66.02$) for the moderate strata of cars, pedestrians, and cyclists respectively.
 
-<!-- chunk {"id": "body-0050", "role": "body", "section": "Qualitative Analysis", "weight": 1.0} -->
+<!-- chunk {"id": "body-0049", "role": "body", "section": "Qualitative Analysis", "weight": 1.0} -->
 
 We provide qualitative results in Figure 3 and 4. While we only train on lidar point clouds, for ease of interpretation we visualize the 3D bounding box predictions from the BEV and image perspective. Figure 3 shows our detection results, with tight oriented 3D bounding boxes. The predictions for cars are particularly accurate and common failure modes include false negatives on difficult samples (partially occluded or faraway objects) or false positives on similar classes (vans or trams). Detecting pedestrians and cyclists is more challenging and leads to some interesting failure modes. Pedestrians and cyclists are commonly misclassified as each other (see Figure 4a for a standard example and Figure 4d for the combination of pedestrian and table classified as a cyclist). Additionally, pedestrians are easily confused with narrow vertical features of the environment such as poles or tree trunks (see Figure 4b). In some cases we correctly detect objects that are missing in the ground truth annotations (see Figure 4c).
 
-<!-- chunk {"id": "body-0051", "role": "body", "section": "Realtime Inference", "weight": 1.0} -->
+<!-- chunk {"id": "body-0050", "role": "body", "section": "Realtime Inference", "weight": 1.0} -->
 
 As indicated by our results (Table 1 and Figure 5), PointPillars represent a significant improvement in terms of inference runtime. In this section we break down our runtime and consider the different design choices that enabled this speedup. We focus on the car network, but the pedestrian and bicycle network runs at a similar speed since the smaller range cancels the effect of the backbone operating at lower strides. All runtimes are measured on a desktop with an Intel i7 CPU and a 1080ti GPU.
 
-<!-- chunk {"id": "body-0052", "role": "body", "section": "Realtime Inference", "weight": 1.0} -->
+<!-- chunk {"id": "body-0051", "role": "body", "section": "Realtime Inference", "weight": 1.0} -->
 
 The main inference steps are as follows. First, the point cloud is loaded and filtered based on range and visibility in the images ($1.4ms$). Then, the points are organized in pillars and decorated ($2.7ms$). Next, the PointPillar tensor is uploaded to the GPU ($2.9ms$), encoded ($1.3ms$), scattered to the pseudo-image ($0.1ms$), and processed by the backbone and detection heads ($7.7ms$). Finally NMS is applied on the CPU ($0.1ms$) for a total runtime of $16.2ms$.
 
-<!-- chunk {"id": "body-0053", "role": "body", "section": "Encoding", "weight": 1.0} -->
+<!-- chunk {"id": "body-0052", "role": "body", "section": "Encoding", "weight": 1.0} -->
 
 The key design to enable this runtime is the PointPilar encoding. For example, at $1.3ms$ it is 2 orders of magnitude faster than the VoxelNet encoder ($190ms$). Recently, SECOND proposed a faster sparse version of the VoxelNet encoder for a total network runtime of $50ms$. They did not provide a runtime analysis, but since the rest of their architecture is similar to ours, it suggests that the encoder is still significantly slower; in their open source implementation^11^1 the encoder requires $48ms$.
 
-<!-- chunk {"id": "body-0054", "role": "body", "section": "Slimmer Design", "weight": 1.0} -->
+<!-- chunk {"id": "body-0053", "role": "body", "section": "Slimmer Design", "weight": 1.0} -->
 
 We opt for a single PointNet in our encoder, compared to 2 sequential PointNets suggested. This reduced our runtime by $2.5ms$ in our PyTorch runtime. The number of dimensions of the first block were also lowered $64$ to match the encoder output size, which reduced the runtime by $4.5ms$. Finally, we saved another $3.9ms$ by cutting the output dimensions of the upsampled feature layers by half to $128$. Neither of these changes affected detection performance.
 
-<!-- chunk {"id": "body-0055", "role": "body", "section": "TensorRT", "weight": 1.0} -->
+<!-- chunk {"id": "body-0054", "role": "body", "section": "TensorRT", "weight": 1.0} -->
 
 While all our experiments were performed in PyTorch, the final GPU kernels for encoding, backbone and detection head were built using NVIDIA TensorRT, which is a library for optimized GPU inference. Switching to TensorRT gave a $45.5\%$ speedup from the PyTorch pipeline which runs at $42.4Hz$.
 
-<!-- chunk {"id": "body-0056", "role": "body", "section": "The Need for Speed", "weight": 1.0} -->
+<!-- chunk {"id": "body-0055", "role": "body", "section": "The Need for Speed", "weight": 1.0} -->
 
 As seen in Figure 5, PointPillars can achieve $105Hz$ with limited loss of accuracy. While it could be argued that such runtime is excessive since a lidar typically operates at $20Hz$, there are two key things to keep in mind. First, due to an artifact of the KITTI ground truth annotations, only lidar points which projected into the front image are utilized, which is only $\sim {10\%}$ of the entire point cloud. However, an operational AV needs to view the full environment and process the complete point cloud, significantly increasing all aspects of the runtime. Second, timing measurements in the literature are typically done on a high-power desktop GPU. However, an operational AV may instead use embedded GPUs or embedded compute which may not have the same throughput.
 
-<!-- chunk {"id": "body-0057", "role": "body", "section": "Ablation Studies", "weight": 1.0} -->
+<!-- chunk {"id": "body-0056", "role": "body", "section": "Ablation Studies", "weight": 1.0} -->
 
 In this section we provide ablation studies and discuss our design choices compared to the recent literature.
 
-<!-- chunk {"id": "body-0058", "role": "body", "section": "Spatial Resolution", "weight": 1.0} -->
+<!-- chunk {"id": "body-0057", "role": "body", "section": "Spatial Resolution", "weight": 1.0} -->
 
 A trade-off between speed and accuracy can be achieved by varying the size of the spatial binning. Smaller pillars allow finer localization and lead to more features, while larger pillars are faster due to fewer non-empty pillars (speeding up the encoder) and a smaller pseudo-image (speeding up the CNN backbone). To quantify this effect we performed a sweep across grid sizes. From Figure 5 it is clear that the larger bin sizes lead to faster networks; at $0.28^{2}$ we achieve $105Hz$ at similar performance to previous methods. The decrease in performance was mainly due to the pedestrian and cyclist classes, while car performance was stable across the bin sizes.
 
-<!-- chunk {"id": "body-0059", "role": "body", "section": "Per Box Data Augmentation", "weight": 1.0} -->
+<!-- chunk {"id": "body-0058", "role": "body", "section": "Per Box Data Augmentation", "weight": 1.0} -->
 
 Both VoxelNet and SECOND recommend extensive per box augmentation. However, in our experiments, minimal box augmentation worked better. In particular, the detection performance for pedestrians degraded significantly with more box augmentation. Our hypothesis is that the introduction of ground truth sampling mitigates the need for extensive per box augmentation.
 
-<!-- chunk {"id": "body-0060", "role": "body", "section": "Point Decorations", "weight": 1.0} -->
+<!-- chunk {"id": "body-0059", "role": "body", "section": "Point Decorations", "weight": 1.0} -->
 
 During the lidar point decoration step, we perform the VoxelNet decorations plus two additional decorations: $x_{p}$ and $y_{p}$ which are the $x$ and $y$ offset from the pillar $x,y$ center. These extra decorations added 0.5 mAP to final detection performance and provided more reproducible experiments.
 
-<!-- chunk {"id": "body-0061", "role": "body", "section": "Encoding", "weight": 1.0} -->
+<!-- chunk {"id": "body-0060", "role": "body", "section": "Encoding", "weight": 1.0} -->
 
 To assess the impact of the proposed PointPillar encoding in isolation, we implemented several encoders in the official codebase of SECOND. For details on each encoding, we refer to the original papers.
 
-<!-- chunk {"id": "body-0062", "role": "body", "section": "Encoding", "weight": 1.0} -->
+<!-- chunk {"id": "body-0061", "role": "body", "section": "Encoding", "weight": 1.0} -->
 
 As shown in Table 4, learning the feature encoding is strictly superior to fixed encoders across all resolution. This is expected as most successful deep learning architectures are trained end-to-end. Further, the differences increase with larger bin sizes where the lack of expressive power of the fixed encoders are accentuated due to a larger point cloud in each pillar. Among the learned encoders VoxelNet is marginally stronger than PointPillars. However, this is not a fair comparison, since the VoxelNet encoder is orders of magnitude slower and has orders of magnitude more parameters. When the comparison is made for a similar *inference time*, it is clear that PointPillars offers a better operating point (Figure 5).
 
-<!-- chunk {"id": "body-0063", "role": "body", "section": "Encoding", "weight": 1.0} -->
+<!-- chunk {"id": "body-0062", "role": "body", "section": "Encoding", "weight": 1.0} -->
 
 There are a few curious aspects of Table 4. First, despite notes in the original papers that their encoder only works on cars, we found that the MV3D and PIXOR encoders can learn pedestrians and cyclists quite well. Second, our implementations beat the respective published results by a large margin ($1 - 10$ mAP). While this is not an apples to apples comparison since we only used the respective *encoders* and not the full network architectures, the performance difference is noteworthy. We see several potential reasons. For VoxelNet and SECOND we suspect the boost in performance comes from improved data augmentation hyperparameters as discussed in Section 7.2. Among the fixed encoders, roughly half the performance increase can be explained by the introduction of ground truth database sampling, which we found to boost the mAP by around $3\%$ mAP.
 
-<!-- chunk {"id": "body-0064", "role": "body", "section": "Encoding", "weight": 1.0} -->
+<!-- chunk {"id": "body-0063", "role": "body", "section": "Encoding", "weight": 1.0} -->
 
 The remaining differences are likely due to a combination of multiple hyperparameters including network design (number of layers, type of layers, whether to use a feature pyramid); anchor box design (or lack thereof ); localization loss with respect to 3D and angle; classification loss; optimizer choices (SGD vs Adam, batch size); and more. However, a more careful study is needed to isolate each cause and effect.
 
-<!-- chunk {"id": "body-0065", "role": "body", "section": "Conclusion", "weight": 1.5} -->
+<!-- chunk {"id": "body-0064", "role": "body", "section": "Conclusion", "weight": 1.5} -->
 
 In this paper, we introduce PointPillars, a novel deep network and encoder that can be trained end-to-end on lidar point clouds. We demonstrate that on the KITTI challenge, PointPillars dominates all existing methods by offering higher detection performance (mAP on both BEV and 3D) at a faster speed. Our results suggests that PointPillars offers the best architecture so far for 3D object detection from lidar.

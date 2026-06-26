@@ -12,7 +12,7 @@ This article investigates the robustness of gradient descent algorithms under pe
 
 <!-- chunk {"id": "body-0003", "role": "body", "section": "Introduction", "weight": 1.5} -->
 
-Gradient-based optimization algorithms are a cornerstone of machine learning's success, as they efficiently navigate high-dimensional variable spaces to identify suitable extrema for objective function optimization. For instance, gradient descent and adaptive moment estimation (Adam) are among the most widely used first-order gradient-based optimizers in deep learning. Consequently, the convergence analysis of gradient descent algorithms is crucial for understanding and improving their performance. While such analyses typically assume exact gradient information, in practice, gradient computations are often subject to perturbations. These perturbations can arise from round-off errors in arithmetic operations, noisy measurements, inaccurate gradient formulas, or approximations in solving auxiliary problems required for gradient computation (see \[, Chapter 4\] and \[, p. 38\] for details). Under such conditions, gradient descent algorithms may exhibit oscillatory behavior near the optimum or, in severe cases, diverge to infinity. Therefore, beyond ensuring convergence in noise-free scenarios, a robust optimization algorithm should degrade gracefully in the presence of perturbations. To this end, both the convergence property and robustness of gradient descent algorithms should be jointly considered in their analysis and design.
+Gradient-based optimization algorithms are a cornerstone of machine learning's success, as they efficiently navigate high-dimensional variable spaces to identify suitable extrema for objective function optimization. For instance, gradient descent and adaptive moment estimation (Adam) are among the most widely used first-order gradient-based optimizers in deep learning. Consequently, the convergence analysis of gradient descent algorithms is crucial for understanding and improving their performance. While such analyses typically assume exact gradient information, in practice, gradient computations are often subject to perturbations. These perturbations can arise from round-off errors in arithmetic operations, noisy measurements, inaccurate gradient formulas, or approximations in solving auxiliary problems required for gradient computation (see \[48, Chapter 4\] and \[5, p. 38\] for details). Under such conditions, gradient descent algorithms may exhibit oscillatory behavior near the optimum or, in severe cases, diverge to infinity. Therefore, beyond ensuring convergence in noise-free scenarios, a robust optimization algorithm should degrade gracefully in the presence of perturbations. To this end, both the convergence property and robustness of gradient descent algorithms should be jointly considered in their analysis and design.
 
 <!-- chunk {"id": "body-0004", "role": "body", "section": "Introduction", "weight": 1.5} -->
 
@@ -20,7 +20,7 @@ A solution to better understanding optimization is to consider gradient-based al
 
 <!-- chunk {"id": "body-0005", "role": "body", "section": "Introduction", "weight": 1.5} -->
 
-In, ISS was applied to analyze the robustness of a bilevel optimization algorithm concerning errors arising from incomplete computation in the inner loop. Similarly, ISS has been employed for robustness analysis of extremum-seeking methods, as demonstrated and. Moreover, the work leveraged ISS to address the output regulation problem for tracking a gradient flow in systems subject to disturbances at the plant level.
+In, ISS was applied to analyze the robustness of a bilevel optimization algorithm concerning errors arising from incomplete computation in the inner loop. Similarly, ISS has been employed for robustness analysis of extremum-seeking methods, as demonstrated in and. Moreover, the work in leveraged ISS to address the output regulation problem for tracking a gradient flow in systems subject to disturbances at the plant level.
 
 <!-- chunk {"id": "body-0006", "role": "body", "section": "Introduction", "weight": 1.5} -->
 
@@ -44,7 +44,7 @@ If the $\mathcal{K}$-PL condition is further strengthened to a $\mathcal{K}_{\in
 
 <!-- chunk {"id": "body-0011", "role": "body", "section": "Introduction", "weight": 1.5} -->
 
-A direct application of the newly developed $\mathcal{K}$-PL condition lies in the robustness analysis of reinforcement learning (RL) algorithms for the linear quadratic regulator (LQR). Policy optimization (PO) stands out as an effective approach for developing RL algorithms \[, Chapter 13\], as it parametrizes the policy with universal approximators and updates its parameters directly via gradient descent. Examples of PO-based methods include REINFORCE, actor-critic algorithm, trust region policy optimization (TRPO), proximal policy optimization (PPO), and deterministic policy gradient (DPG). The LQR, first introduced by Kalman, is a theoretically elegant control method that has seen widespread use in various engineering applications. In LQR, the objective function is defined as a cumulative quadratic function of the state and control input, while the controller itself is a linear function of the state. Because both the gradient and the optimum of the LQR problem can be explicitly computed when the system matrices are known, the performance of a PO algorithm can be analyzed by comparing its solutions with the optimal solution.
+A direct application of the newly developed $\mathcal{K}$-PL condition lies in the robustness analysis of reinforcement learning (RL) algorithms for the linear quadratic regulator (LQR). Policy optimization (PO) stands out as an effective approach for developing RL algorithms \[58, Chapter 13\], as it parametrizes the policy with universal approximators and updates its parameters directly via gradient descent. Examples of PO-based methods include REINFORCE, actor-critic algorithm, trust region policy optimization (TRPO), proximal policy optimization (PPO), and deterministic policy gradient (DPG). The LQR, first introduced by Kalman, is a theoretically elegant control method that has seen widespread use in various engineering applications. In LQR, the objective function is defined as a cumulative quadratic function of the state and control input, while the controller itself is a linear function of the state. Because both the gradient and the optimum of the LQR problem can be explicitly computed when the system matrices are known, the performance of a PO algorithm can be analyzed by comparing its solutions with the optimal solution.
 
 <!-- chunk {"id": "body-0012", "role": "body", "section": "Introduction", "weight": 1.5} -->
 
@@ -80,55 +80,55 @@ Several established facts are introduced next to support the development of the 
 
 <!-- chunk {"id": "body-0020", "role": "body", "section": "Small-Disturbance Input-to-State Stability", "weight": 1.0} -->
 
+In this section, we investigate the dependence of state trajectories on the magnitude of the disturbances for the discrete-time nonlinear system: where ${\chi{(k)}} \in \mathcal{S}$ denotes the state evolving in an open subset $\mathcal{S} \subset {\mathbb{R}}^{n}$ which is homeomorphic to ${\mathbb{R}}^{n}$, $w \in \ell_{\infty}^{m}$ denotes the disturbance, and $f:{{\mathcal{S} \times {\mathbb{R}}^{m}}\rightarrow\mathcal{S}}$ is a continuous function. Assume that $\chi^{\ast} \in \mathcal{S}$ is the equilibrium of the unforced system, that is $\chi^{\ast} = {f{(\chi^{\ast},0)}}$.
+
+<!-- chunk {"id": "body-0021", "role": "body", "section": "Small-Disturbance Input-to-State Stability", "weight": 1.0} -->
+
+Denote by $\chi{(\cdot,\xi,w)}$ the trajectory of system with the initial state ${\chi{}} = \xi$ and disturbance $w \in \ell_{\infty}^{m}$.
+
+<!-- chunk {"id": "body-0022", "role": "body", "section": "Small-Disturbance Input-to-State Stability", "weight": 1.0} -->
+
 Since system is defined in an open subset $\mathcal{S}$, instead of ${\mathbb{R}}^{n}$, a size function is introduced to assist in stability analysis and serves as a barrier function preventing escape from $\mathcal{S}$.
 
-<!-- chunk {"id": "body-0021", "role": "body", "section": "Remark 13", "weight": 1.0} -->
+<!-- chunk {"id": "body-0023", "role": "body", "section": "Remark 13", "weight": 1.0} -->
 
 An equivalent property holds if the function $\alpha_{2}$ in is only required to be continuous and positive definite.
 
-<!-- chunk {"id": "body-0022", "role": "body", "section": "Remark 13", "weight": 1.0} -->
+<!-- chunk {"id": "body-0024", "role": "body", "section": "Remark 13", "weight": 1.0} -->
 
 The following remark provides a "dissipation" type of characterization for the small-disturbance ISS property.
 
-<!-- chunk {"id": "body-0023", "role": "body", "section": "Remark 14", "weight": 1.0} -->
+<!-- chunk {"id": "body-0025", "role": "body", "section": "Remark 14", "weight": 1.0} -->
 
-A size function $\mathcal{V}$ for $(\mathcal{S},\chi^{\ast})$ is a small-disturbance ISS-Lyapunov function for system if and only if there exist a $\mathcal{K}_{\infty}$-function $\alpha_{2}$, some $d > 0$ (possibly $\infty$), and a $\mathcal{K}_{\lbrack 0,d)}$-function $\alpha_{3}$ such that
+A size function $\mathcal{V}$ for $(\mathcal{S},\chi^{\ast})$ is a small-disturbance ISS-Lyapunov function for system if and only if there exist a $\mathcal{K}_{\infty}$-function $\alpha_{2}$, some $d > 0$ (possibly $\infty$), and a $\mathcal{K}_{\lbrack 0,d)}$-function $\alpha_{3}$ such that for all $\mu \in {\mathbb{R}}^{m}$ bounded by $d$, i.e., ${\parallel\mu\parallel} < d$.
 
-<!-- chunk {"id": "body-0024", "role": "body", "section": "Remark 14", "weight": 1.0} -->
+<!-- chunk {"id": "body-0026", "role": "body", "section": "Remark 14", "weight": 1.0} -->
 
 As in classic Lyapunov stability theory, we can show that small-disturbance ISS is equivalent to the existence of a small-disturbance ISS-Lyapunov function.
 
-<!-- chunk {"id": "body-0025", "role": "body", "section": "Remark 16", "weight": 1.0} -->
+<!-- chunk {"id": "body-0027", "role": "body", "section": "Remark 16", "weight": 1.0} -->
 
 If $f{( \cdot,0)}$ is a diffeomorphism and the domain of asymptotic stability of $\chi^{\ast}$ is $\mathcal{S}$, then $\mathcal{S}$ is diffeomorphic to ${\mathbb{R}}^{n}$.
 
-<!-- chunk {"id": "body-0026", "role": "body", "section": "Robustness Analysis of Perturbed Gradient Descent", "weight": 1.0} -->
+<!-- chunk {"id": "body-0028", "role": "body", "section": "Robustness Analysis of Perturbed Gradient Descent", "weight": 1.0} -->
 
-where $\mathcal{Z}$ is an admissible set, defined as an open subset of ${\mathbb{R}}^{n}$ that is homeomorphic to ${\mathbb{R}}^{n}$, and $\mathcal{J}:{\mathcal{Z}\rightarrow{\mathbb{R}}}$ is an objective function with a unique global minimizer $z^{\ast}$.
+This section applies the concept of small-disturbance ISS to analyze the gradient descent algorithm for solving the constrained nonlinear program: where $\mathcal{Z}$ is an admissible set, defined as an open subset of ${\mathbb{R}}^{n}$ that is homeomorphic to ${\mathbb{R}}^{n}$, and $\mathcal{J}:{\mathcal{Z}\rightarrow{\mathbb{R}}}$ is an objective function with a unique global minimizer $z^{\ast}$.
 
-<!-- chunk {"id": "body-0027", "role": "body", "section": "Remark 21", "weight": 1.0} -->
+<!-- chunk {"id": "body-0029", "role": "body", "section": "Remark 21", "weight": 1.0} -->
 
-The gradient dominance condition proposed in Definition, i.e. the $\mathcal{K}$-PL condition, can be viewed as a nonlinear generalization of the well-known PL condition. If the classical PL condition holds, meaning ${\alpha_{5}{(r)}} = {c\sqrt{r}}$ for all $r \geq 0$ and some $c > 0$, the perturbed gradient descent algorithm in is exponentially ISS.
+The gradient dominance condition proposed in Definition 17, i.e. the $\mathcal{K}$-PL condition, can be viewed as a nonlinear generalization of the well-known PL condition. If the classical PL condition holds, meaning ${\alpha_{5}{(r)}} = {c\sqrt{r}}$ for all $r \geq 0$ and some $c > 0$, the perturbed gradient descent algorithm in is exponentially ISS.
 
-<!-- chunk {"id": "body-0028", "role": "body", "section": "Remark 21", "weight": 1.0} -->
+<!-- chunk {"id": "body-0030", "role": "body", "section": "Remark 21", "weight": 1.0} -->
 
 We present several examples of objective functions for which the robustness of the associated gradient descent algorithms is analyzed using the proposed framework.
 
-<!-- chunk {"id": "body-0029", "role": "body", "section": "Example 22", "weight": 1.0} -->
-
-The function $\mathcal{J}{(z)}$ is a size function and ${\nabla\mathcal{J}}{(z)}$ is Lipschitz continuous over any sublevel sets. Consequently, if the step size satisfies $0 < {\eta{(k)}} \leq \frac{1}{L{({\mathcal{J}{({z{(k)}})}})}}$, then the perturbed gradient descent algorithm in is small-disturbance ISS.
-
-<!-- chunk {"id": "body-0030", "role": "body", "section": "Application to LQR Problem", "weight": 1.0} -->
+<!-- chunk {"id": "body-0031", "role": "body", "section": "Application to LQR Problem", "weight": 1.0} -->
 
 In this section, we utilize the tool of small-disturbance ISS to analyze the robustness of the gradient descent algorithms in solving the LQR problem. Some preliminaries on the LQR are introduced in the next subsection.
 
-<!-- chunk {"id": "body-0031", "role": "body", "section": "Small-Disturbance ISS of Standard Gradient Descent", "weight": 1.0} -->
-
-This subsection applies the concept of small-disturbance ISS to analyze the robustness of the standard gradient descent method for the LQR problem,
-
 <!-- chunk {"id": "body-0032", "role": "body", "section": "Small-Disturbance ISS of Standard Gradient Descent", "weight": 1.0} -->
 
-where ${P{(k)}} = P_{K{(k)}}$, ${Y{(k)}} = Y_{K{(k)}}$, and $W \in \ell_{\infty}^{m \times n}$ is the perturbation to the gradient descent algorithm. The perturbation $W$ can represent gradient estimation errors in the context of data-driven control. When the system matrices are unknown, gradient estimation can be achieved through the finite-difference method or approximate dynamic programming, both of which introduce errors due to measurement noise, system process noise, and even potential malicious attacks on the algorithm. The following lemma is introduced to ensure that $\mathcal{J}_{2}{(K)}$ satisfy the $\mathcal{K}$-PL condition in Definition, which is critical to the robustness analysis.
+This subsection applies the concept of small-disturbance ISS to analyze the robustness of the standard gradient descent method for the LQR problem, where ${P{(k)}} = P_{K{(k)}}$, ${Y{(k)}} = Y_{K{(k)}}$, and $W \in \ell_{\infty}^{m \times n}$ is the perturbation to the gradient descent algorithm. The perturbation $W$ can represent gradient estimation errors in the context of data-driven control. When the system matrices are unknown, gradient estimation can be achieved through the finite-difference method or approximate dynamic programming, both of which introduce errors due to measurement noise, system process noise, and even potential malicious attacks on the algorithm. The following lemma is introduced to ensure that $\mathcal{J}_{2}{(K)}$ satisfy the $\mathcal{K}$-PL condition in Definition 17, which is critical to the robustness analysis.
 
 <!-- chunk {"id": "body-0033", "role": "body", "section": "Remark 29", "weight": 1.0} -->
 
@@ -140,72 +140,52 @@ With the established Lipschitz continuity and the $\mathcal{K}$-PL condition for
 
 <!-- chunk {"id": "body-0035", "role": "body", "section": "Small-Disturbance ISS of Natural Gradient Descent", "weight": 1.0} -->
 
-This subsection analyzes the robustness of the natural gradient descent algorithm, developed by leveraging the Riemannian geometry of the objective function $\mathcal{J}_{2}{(K)}$. By subtracting from and completing the squares, the Lyapunov equation
+This subsection analyzes the robustness of the natural gradient descent algorithm, developed by leveraging the Riemannian geometry of the objective function $\mathcal{J}_{2}{(K)}$. By subtracting from and completing the squares, the Lyapunov equation | | & {{+ {{({K - K^{\ast}})}^{\top}R{({K - K^{\ast}})}}} = 0} | | | can be obtained. Applying Corollary 8 to, the LQR cost can be expressed as a quadratic function over the Riemannian metric $(\mathcal{G},{\langle \cdot, \cdot \rangle}_{Y_{K}})$, that is, The standard gradient descent in follows the steepest descent direction under the standard Euclidean metric $(\mathcal{G},{\langle \cdot, \cdot \rangle}_{I_{n}})$. However, this ad hoc choice of metric may not be appropriate.
 
 <!-- chunk {"id": "body-0036", "role": "body", "section": "Small-Disturbance ISS of Natural Gradient Descent", "weight": 1.0} -->
 
-can be obtained. Applying Corollary to, the LQR cost can be expressed as a quadratic function over the Riemannian metric $(\mathcal{G},{\langle \cdot, \cdot \rangle}_{Y_{K}})$, that is,
+As seen in the expression for ${\nabla\mathcal{J}_{2}}{(K)}$, the magnitude of the gradient depends on $Y_{K}$, which can diverge as $K\rightarrow{\partial\mathcal{G}}$ but vanishes as ${\parallel K\parallel}_{F}\rightarrow\infty$ (see Example 31). The non-isotropic property induced by the improper choice of the Euclidean metric may degrade the convergence rate. As pointed out by Amari, the choice of a metric should be based on the manifold that the optimization parameters lie. Over the Riemannian manifold $(\mathcal{G},{\langle \cdot, \cdot \rangle}_{Y_{K}})$ and according to, the steepest-descent direction can be derived as In practice, the accurate gradient is not accessible and should be estimated through sampling and experiments.
 
 <!-- chunk {"id": "body-0037", "role": "body", "section": "Small-Disturbance ISS of Natural Gradient Descent", "weight": 1.0} -->
 
-The standard gradient descent in follows the steepest descent direction under the standard Euclidean metric $(\mathcal{G},{\langle \cdot, \cdot \rangle}_{I_{n}})$. However, this ad hoc choice of metric may not be appropriate. As seen in the expression for ${\nabla\mathcal{J}_{2}}{(K)}$, the magnitude of the gradient depends on $Y_{K}$, which can diverge as $K\rightarrow{\partial\mathcal{G}}$ but vanishes as ${\parallel K\parallel}_{F}\rightarrow\infty$. The non-isotropic property induced by the improper choice of the Euclidean metric may degrade the convergence rate. As pointed out by Amari, the choice of a metric should be based on the manifold that the optimization parameters lie.
+The perturbed natural gradient descent algorithm is where ${P{(k)}} = P_{K{(k)}}$, $W \in \ell_{\infty}^{m \times n}$ denotes the perturbation and ${\eta{(k)}} > 0$ is the step size to be determined later.
 
 <!-- chunk {"id": "body-0038", "role": "body", "section": "Small-Disturbance ISS of Natural Gradient Descent", "weight": 1.0} -->
 
-Over the Riemannian manifold $(\mathcal{G},{\langle \cdot, \cdot \rangle}_{Y_{K}})$ and according to, the steepest-descent direction can be derived as
-
-<!-- chunk {"id": "body-0039", "role": "body", "section": "Small-Disturbance ISS of Natural Gradient Descent", "weight": 1.0} -->
-
-In practice, the accurate gradient is not accessible and should be estimated through sampling and experiments. The perturbed natural gradient descent algorithm is
-
-<!-- chunk {"id": "body-0040", "role": "body", "section": "Small-Disturbance ISS of Natural Gradient Descent", "weight": 1.0} -->
-
 The following example illustrates the advantage of natural gradient descent over standard gradient descent in terms of convergence rate.
+
+<!-- chunk {"id": "body-0039", "role": "body", "section": "Example 31", "weight": 1.0} -->
+
+As $K\rightarrow\infty$, the standard gradient ${\nabla\mathcal{J}_{2}}{(K)}$ saturates, while the natural gradient ${grad}\left({\mathcal{J}_{2}{(K)}} \right)$ remains unbounded. This distinction allows the natural gradient to achieve faster convergence, particularly when $K$ is far from the optimum. Under standard gradient descent with the update rule it can be shown that where ${m_{1}{(K,\eta)}} = \frac{{({{2K} - \eta})}{({K + 1})}^{2}}{{{4K^{4}} - {2\eta K^{3}}} + {2\eta K}}$.
+
+<!-- chunk {"id": "body-0040", "role": "body", "section": "Example 31", "weight": 1.0} -->
+
+In comparison, under natural gradient descent with the update rule it can be verified that where ${m_{2}{(K,\eta)}} = \frac{{({1 - \eta})}{({K + 1})}^{2}}{{{({1 - \eta})}K^{2}} + \eta}$. Since ${\lim_{K\rightarrow\infty}{m_{1}{(K,\eta)}}} = 0$ while ${\lim_{K\rightarrow\infty}{m_{2}{(K,\eta)}}} = 1$, the convergence rate of natural gradient descent is faster than that of standard gradient descent when $K$ is far from the optimum.
 
 <!-- chunk {"id": "body-0041", "role": "body", "section": "Example 31", "weight": 1.0} -->
 
-As $K\rightarrow\infty$, the standard gradient ${\nabla\mathcal{J}_{2}}{(K)}$ saturates, while the natural gradient ${grad}\left( {\mathcal{J}_{2}{(K)}} \right)$ remains unbounded. This distinction allows the natural gradient to achieve faster convergence, particularly when $K$ is far from the optimum. Under standard gradient descent with the update rule
-
-<!-- chunk {"id": "body-0042", "role": "body", "section": "Example 31", "weight": 1.0} -->
-
 The following two lemmas are introduced to assist in the development of the small-disturbance ISS property of natural gradient descent.
 
-<!-- chunk {"id": "body-0043", "role": "body", "section": "Small-Disturbance ISS of the Gauss-Newton Method", "weight": 1.0} -->
+<!-- chunk {"id": "body-0042", "role": "body", "section": "Small-Disturbance ISS of the Gauss-Newton Method", "weight": 1.0} -->
 
-This subsection analyzes the robustness of Gauss-Newton method for solving the policy optimization problem of the LQR presented. The action of the Hessian on ${dK} \in {\mathbb{R}}^{m \times n}$ can be reformulated based on as
+Therefore, in the vicinity of $K^{\ast}$, the last two terms in become negligible, allowing us to approximate the Hessian as This approximation of the Hessian is derived based on arguments similar to those used in the Gauss-Newton method \[43, Section 10.3\]. Hence, the update direction of Gauss-Newton method is $- {({K - {R^{- 1}B^{\top}P_{K}}})}$, which is obtained by solving $dK$ from Under the perturbation, the Gauss-Newton algorithm is
 
-<!-- chunk {"id": "body-0044", "role": "body", "section": "Small-Disturbance ISS of the Gauss-Newton Method", "weight": 1.0} -->
-
-When $K = K^{\ast}$, we have ${{RK^{\ast}} - {B^{\top}P^{\ast}}} = 0$, and it follows from that ${dP_{K}} = 0$ for all ${dK} \in {\mathbb{R}}^{m \times n}$. Therefore, in the vicinity of $K^{\ast}$, the last two terms in become negligible, allowing us to approximate the Hessian as
-
-<!-- chunk {"id": "body-0045", "role": "body", "section": "Small-Disturbance ISS of the Gauss-Newton Method", "weight": 1.0} -->
-
-This approximation of the Hessian is derived based on arguments similar to those used in the Gauss-Newton method \[, Section 10.3\]. Hence, the update direction of Gauss-Newton method is $- {({K - {R^{- 1}B^{\top}P_{K}}})}$, which is obtained by solving $dK$ from
-
-<!-- chunk {"id": "body-0046", "role": "body", "section": "Small-Disturbance ISS of the Gauss-Newton Method", "weight": 1.0} -->
-
-Under the perturbation, the Gauss-Newton algorithm is
-
-<!-- chunk {"id": "body-0047", "role": "body", "section": "Remark 35", "weight": 1.0} -->
+<!-- chunk {"id": "body-0043", "role": "body", "section": "Remark 35", "weight": 1.0} -->
 
 The Gauss-Newton method in is derived based on the policy optimization of the LQR cost $\mathcal{J}_{2}{(K)}$.
 
-<!-- chunk {"id": "body-0048", "role": "body", "section": "Remark 35", "weight": 1.0} -->
+<!-- chunk {"id": "body-0044", "role": "body", "section": "Remark 35", "weight": 1.0} -->
 
-Indeed, the action of the gradient of the Riccati operator $\mathcal{R}{(X)}$ on ${dX} \in {\mathbb{S}}^{n}$ is given by
+The update in can also be interpreted as an application of the classical Newton's method to solve the nonlinear algebraic Riccati equation (ARE): Indeed, the action of the gradient of the Riccati operator $\mathcal{R}{(X)}$ on ${dX} \in {\mathbb{S}}^{n}$ is given by | | {{\nabla\mathcal{R}}{(X)}{\lbrack{dX}\rbrack}} & {= {{({A - {BR^{- 1}B^{\top}X}})}^{\top}dX}} \\ | | | According to Newton's method, at the $({k + 1})$^th^ iteration, $X{({k + 1})}$ is updated as where $N{(k)}$, the Newton's updated direction, is the solution of
 
-<!-- chunk {"id": "body-0049", "role": "body", "section": "Remark 35", "weight": 1.0} -->
+<!-- chunk {"id": "body-0045", "role": "body", "section": "Remark 35", "weight": 1.0} -->
 
-According to Newton's method, at the $({k + 1})$^th^ iteration, $X{({k + 1})}$ is updated as
+With these definitions, can be reformulated as | | & {{{({A - {B\overline{K}{(k)}}})}^{\top}\overline{P}{(k)}} + {\overline{P}{(k)}{({A - {B\overline{K}{(k)}}})}}} \\ | | | | | & {{{{+ Q} + {\overline{K}{(k)}^{\top}R\overline{K}{(k)}}} = 0}.} | | | In addition, considering and the relation ${N{(k)}} = {{\overline{P}{(k)}} - {X{(k)}}}$, the recursive formula of $\overline{K}{(k)}$ becomes Hence, is equivalent to without perturbation, which implies that the Gauss-Newton method in coincides with Newton's method in for solving the ARE.
 
-<!-- chunk {"id": "body-0050", "role": "body", "section": "Remark 35", "weight": 1.0} -->
+<!-- chunk {"id": "body-0046", "role": "body", "section": "Remark 35", "weight": 1.0} -->
 
-In addition, considering and the relation ${N{(k)}} = {{\overline{P}{(k)}} - {X{(k)}}}$, the recursive formula of $\overline{K}{(k)}$ becomes
+This interpretation establishes a connection between the Gauss-Newton method for policy optimization and the classical Newton's method for solving the ARE. The following theorem shows the small-disturbance ISS property of the Gauss-Newton method.
 
-<!-- chunk {"id": "body-0051", "role": "body", "section": "Remark 35", "weight": 1.0} -->
-
-Hence, is equivalent to without perturbation, which implies that the Gauss-Newton method in coincides with Newton's method in for solving the ARE. This interpretation establishes a connection between the Gauss-Newton method for policy optimization and the classical Newton's method for solving the ARE. The following theorem shows the small-disturbance ISS property of the Gauss-Newton method.
-
-<!-- chunk {"id": "body-0052", "role": "body", "section": "Conclusions", "weight": 1.0} -->
+<!-- chunk {"id": "body-0047", "role": "body", "section": "Conclusions", "weight": 1.0} -->
 
 This article introduces the concept of small-disturbance ISS as a unified framework for analyzing the robustness of gradient descent algorithms. Small-disturbance ISS provided a systematic approach to quantify the transient behavior, convergence speed, and robustness of gradient descent algorithms under perturbations. By generalizing the classical linear PL condition to a nonlinear version, referred to as the $\mathcal{K}$-PL condition, we show that gradient descent algorithms are small-disturbance ISS, provided the objective function satisfies the $\mathcal{K}$-PL condition. As a direct application to LQR, we demonstrate that three popular policy gradient algorithms in RL--standard policy gradient, natural policy gradient, and Gauss-Newton method--are all small-disturbance ISS.

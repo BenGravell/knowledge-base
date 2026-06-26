@@ -20,7 +20,7 @@ Adaptive choices of step sizes allow optimization algorithms to accelerate quick
 
 <!-- chunk {"id": "body-0005", "role": "body", "section": "Introduction", "weight": 1.5} -->
 
-Although this class of algorithms is not optimal in all settings (i.e. the aforementioned accelerations can be applied), it is fundamental, and we may ask what are optimal known rates along with the optimal step size choices are for this particular algorithm. Here, Table 1 shows the best known rates for gradient descent in the standard regimes: general convex (non-smooth with bounded sub-gradients); $\beta$-smooth; $\alpha$-strongly-convex; and $\beta$-smooth&$\alpha$-strongly convex (see for more details).
+Let us examine this question of parameter free, adaptive learning rates for one of the most standard algorithms, namely the gradient descent method: Although this class of algorithms is not optimal in all settings (i.e. the aforementioned accelerations can be applied), it is fundamental, and we may ask what are optimal known rates along with the optimal step size choices are for this particular algorithm. Here, Table 1 shows the best known rates for gradient descent in the standard regimes: general convex (non-smooth with bounded sub-gradients); $\beta$-smooth; $\alpha$-strongly-convex; and $\beta$-smooth&$\alpha$-strongly convex (see for more details).
 
 <!-- chunk {"id": "body-0006", "role": "body", "section": "Introduction", "weight": 1.5} -->
 
@@ -28,28 +28,16 @@ From a practical perspective these step size settings are unfortunately disparat
 
 <!-- chunk {"id": "body-0007", "role": "body", "section": "Introduction", "weight": 1.5} -->
 
-This work: We show that a single (and simple) choice of a step size schedule gives, simultaneously, the optimal convergence (among the class of gradient descent algorithms) in all these regimes, without knowing these parameters in advance. Perhaps surprisingly, this choice is that prescribed, who argued that this choice was optimal for the non-smooth, convex case (marked as "convex" in Table 1, see also ).
+This work: We show that a single (and simple) choice of a step size schedule gives, simultaneously, the optimal convergence (among the class of gradient descent algorithms) in all these regimes, without knowing these parameters in advance. Perhaps surprisingly, this choice is that prescribed, who argued that this choice was optimal for the non-smooth, convex case (marked as "convex" in Table 1, see also). $e^{- {\frac{\beta}{\alpha}T}}$ Table 1: Standard convergence rates of gradient descent in convex optimization problems. Error denotes f (xt) − f (x⋆) of a first order methods as a function of the number of iterations. Step Size is the standard learning rate schedule used to obtain this rate. Dependence on other parameters, namely the Lipchitz constant and initial distance to the objective, is omitted.
 
 <!-- chunk {"id": "body-0008", "role": "body", "section": "Convexity Preliminaries", "weight": 1.0} -->
 
-We consider the minimization of a continuous convex function over Euclidean space $f:{{\mathbb{R}}^{d}\mapsto{\mathbb{R}}}$ by an iterative gradient-based method.
+The following are basic properties for $\alpha$-strongly-convex functions and/or $\beta$-smooth functions (proved for completeness in Lemma 4): The following standard lemma is at the heart of much of the analysis of first order convex optimization.
 
-<!-- chunk {"id": "body-0009", "role": "body", "section": "Convexity Preliminaries", "weight": 1.0} -->
+<!-- chunk {"id": "body-0009", "role": "body", "section": "Main Results", "weight": 1.0} -->
 
-The following standard lemma is at the heart of much of the analysis of first order convex optimization.
+argued that, in a sense, the optimal step size choice of $\eta_{t}$ should decrease the upper bound on $d_{t + 1}^{2}$ as fast as possible. This choice is: which leads to a decrease of $d_{t}^{2}$: Note that this choice utilizes knowledge of $f{(\mathbf{x}^{\star})}$, since $h_{t} = {{f{(\mathbf{x}_{t})}} - {f{(\mathbf{x}^{\star})}}}$. showed that this choice was optimal for non-smooth convex optimization (i.e. for bounded gradients). Our first result shows that this step size schedule (which knows $f{(\mathbf{x}^{\star})}$) achieves the min of the best known bounds in all the standard parameter regimes (among the class of projected gradient descent algorithms).
 
-<!-- chunk {"id": "body-0010", "role": "body", "section": "Main Results", "weight": 1.0} -->
-
-argued that, in a sense, the optimal step size choice of $\eta_{t}$ should decrease the upper bound on $d_{t + 1}^{2}$ as fast as possible.
-
-<!-- chunk {"id": "body-0011", "role": "body", "section": "Main Results", "weight": 1.0} -->
-
-showed that this choice was optimal for non-smooth convex optimization (i.e. for bounded gradients). Our first result shows that this step size schedule (which knows $f{(\mathbf{x}^{\star})}$) achieves the min of the best known bounds in all the standard parameter regimes (among the class of projected gradient descent algorithms).
-
-<!-- chunk {"id": "body-0012", "role": "body", "section": "Analysis: the exact case", "weight": 1.0} -->
-
-Theorem 1 directly follows from the following lemma.
-
-<!-- chunk {"id": "body-0013", "role": "body", "section": "Analysis: the adaptive case", "weight": 1.0} -->
+<!-- chunk {"id": "body-0010", "role": "body", "section": "Analysis: the adaptive case", "weight": 1.0} -->
 
 The proof of Theorem 2 rests on the following lemma which shows that, given a lower bound on the objective, the subroutine in Algorithm 3 either returns a near-optimal point with desired precision or a tighter lower bound.

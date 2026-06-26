@@ -12,11 +12,11 @@ We introduce CVXPYgen, a tool for generating custom C code, suitable for embedde
 
 <!-- chunk {"id": "body-0003", "role": "body", "section": "Introduction", "weight": 1.5} -->
 
-Convex optimization is used in many domains, including signal and image processing, control, and finance, to mention just a few. A (parametrized) convex optimization problem can be written as
+Convex optimization is used in many domains, including signal and image processing, control, and finance, to mention just a few. A (parametrized) convex optimization problem can be written as where $x \in \mathbf{R}^{n}$ is the optimization variable, $f_{0}$ is the objective function to be minimized, $f_{1},\ldots,f_{p}$ are the inequality constraint functions, and ${g_{1}\ldots},g_{r}$ are the equality constraint functions. We require that $f_{0},\ldots,f_{p}$ are convex functions, and $g_{1},\ldots,g_{r}$ are affine functions. The parameter $\theta \in \mathbf{R}^{d}$ specifies data that can change, but is constant and given when we solve an instance of the problem. We refer to the parametrized problem as a *problem family*; when we specify a fixed value of $\theta$, we refer to it as a *problem instance*.
 
 <!-- chunk {"id": "body-0004", "role": "body", "section": "Introduction", "weight": 1.5} -->
 
-where $x \in \mathbf{R}^{n}$ is the optimization variable, $f_{0}$ is the objective function to be minimized, $f_{1},\ldots,f_{p}$ are the inequality constraint functions, and ${g_{1}\ldots},g_{r}$ are the equality constraint functions. We require that $f_{0},\ldots,f_{p}$ are convex functions, and $g_{1},\ldots,g_{r}$ are affine functions. The parameter $\theta \in \mathbf{R}^{d}$ specifies data that can change, but is constant and given when we solve an instance of the problem. We refer to the parametrized problem as a *problem family*; when we specify a fixed value of $\theta$, we refer to it as a *problem instance*. We let $x^{\star}$ denote an optimal point for the problem, assuming it exists.
+We let $x^{\star}$ denote an optimal point for the problem, assuming it exists.
 
 <!-- chunk {"id": "body-0005", "role": "body", "section": "Introduction", "weight": 1.5} -->
 
@@ -80,95 +80,72 @@ CVXPYgen is based on the open-source Python-embedded DSL CVXPY. CVXPY handles ma
 
 <!-- chunk {"id": "body-0020", "role": "body", "section": "CVXPYgen", "weight": 1.0} -->
 
-In DCP, parameters are treated as constants, optionally with specified sign, and there are no restrictions about how these constants appear in the expressions defining the problem family. The recently developed concept of disciplined parametrized programming (DPP) puts additional restrictions on how parameters can enter a problem description. If a problem family description is DPP-compliant, then canonicalization and retrieval can be represented as *affine* mappings. Thus DPP-compliant problems are reducible to ASA-form, which stands for *Affine-Solve-Affine*. This is the key property we exploit in CVXPYgen. More about the DCP and DPP rules can be found in the aforementioned papers, or at
+In DCP, parameters are treated as constants, optionally with specified sign, and there are no restrictions about how these constants appear in the expressions defining the problem family. The recently developed concept of disciplined parametrized programming (DPP) puts additional restrictions on how parameters can enter a problem description. If a problem family description is DPP-compliant, then canonicalization and retrieval can be represented as *affine* mappings. Thus DPP-compliant problems are reducible to ASA-form, which stands for *Affine-Solve-Affine*. This is the key property we exploit in CVXPYgen. More about the DCP and DPP rules can be found in the aforementioned papers, or at After CVXPY has reduced the DPP-compliant problem to ASA-form, CVXPYgen extracts a sparse matrix $C$ that canonicalizes the user-defined parameters $\theta$ to the parameters $\overset{\sim}{\theta}$ appearing in the standard form solver: CVXPYgen analyzes $C$ to determine the user-defined parameters (*i.e.*, components of $\theta$) that every standardized form parameter depends.
 
 <!-- chunk {"id": "body-0021", "role": "body", "section": "CVXPYgen", "weight": 1.0} -->
 
-CVXPYgen analyzes $C$ to determine the user-defined parameters (*i.e.*, components of $\theta$) that every standardized form parameter depends. This information is used when generating the custom solver, where only slices of the above mapping are computed if not all user-defined parameters are updated between solves. In addition, it is very useful to know the set of updated canonical parameters when using the OSQP solver or SCS, as detailed below.
+This information is used when generating the custom solver, where only slices of the above mapping are computed if not all user-defined parameters are updated between solves. In addition, it is very useful to know the set of updated canonical parameters when using the OSQP solver or SCS, as detailed below.
 
 <!-- chunk {"id": "body-0022", "role": "body", "section": "CVXPYgen", "weight": 1.0} -->
 
-In a similar way the retrieval of the solution $x^{\star}$ for the original problem from a solution ${\overset{\sim}{x}}^{\star}$ of the canonicalized problem is an affine mapping,
+In a similar way the retrieval of the solution $x^{\star}$ for the original problem from a solution ${\overset{\sim}{x}}^{\star}$ of the canonicalized problem is an affine mapping, where $R$ is a sparse matrix. Typically $R$ is a selector matrix, with only one nonzero entry in each row, equal to one, in which case this step can be handled via simple pointers in C.
 
 <!-- chunk {"id": "body-0023", "role": "body", "section": "CVXPYgen", "weight": 1.0} -->
 
-where $R$ is a sparse matrix. Typically $R$ is a selector matrix, with only one nonzero entry in each row, equal to one, in which case this step can be handled via simple pointers in C.
+CVXPYgen generates allocation-, library-, and division-free C code for the canonicalization and retrieval steps, which in essence are nothing more than sparse matrix-vector multiplication, with some logic that exploits pointers or partial updates. Sparse matrices are stored in compressed sparse column format and dense matrices are stored as vectors via column-major flattening.
 
 <!-- chunk {"id": "body-0024", "role": "body", "section": "CVXPYgen", "weight": 1.0} -->
 
-CVXPYgen generates allocation-, library-, and division-free C code for the canonicalization and retrieval steps, which in essence are nothing more than sparse matrix-vector multiplication, with some logic that exploits pointers or partial updates. Sparse matrices are stored in compressed sparse column format and dense matrices are stored as vectors via column-major flattening.
+Any solver can be used to solve the canonicalized problem, which provides the final link: where $\mathcal{S}$ denotes the mapping from the canonicalized parameters to a solution of the canonicalized problem. (We assume here that the problem instance is feasible, and that when there are multiple solutions, we simply pick one.) If available, CVXPYgen uses the canonical solver's code generation method to produce C code for canonical solving. As of now, only OSQP provides this functionality. Otherwise, the solver's C code is simply copied, possibly modified for use in embedded applications.
 
 <!-- chunk {"id": "body-0025", "role": "body", "section": "CVXPYgen", "weight": 1.0} -->
 
-where $\mathcal{S}$ denotes the mapping from the canonicalized parameters to a solution of the canonicalized problem. (We assume here that the problem instance is feasible, and that when there are multiple solutions, we simply pick one.) If available, CVXPYgen uses the canonical solver's code generation method to produce C code for canonical solving. As of now, only OSQP provides this functionality. Otherwise, the solver's C code is simply copied, possibly modified for use in embedded applications.
+OSQP and SCS provide a set of C functions for updating their parameters. This way, when only canonical vector parameters are updated, the factorization of the linear system involved in the OSQP or SCS algorithms can be cached and re-used, which can lead to substantial speed up and division-free code. In the same way as only the parts of $\overset{\sim}{\theta}$ are re-canonicalized that depend on the updated parts of $\theta$, only the OSQP or SCS update functions associated with these parameters are called before the canonicalized problem is solved.
 
 <!-- chunk {"id": "body-0026", "role": "body", "section": "CVXPYgen", "weight": 1.0} -->
 
-OSQP and SCS provide a set of C functions for updating their parameters. This way, when only canonical vector parameters are updated, the factorization of the linear system involved in the OSQP or SCS algorithms can be cached and re-used, which can lead to substantial speed up and division-free code. In the same way as only the parts of $\overset{\sim}{\theta}$ are re-canonicalized that depend on the updated parts of $\theta$, only the OSQP or SCS update functions associated with these parameters are called before the canonicalized problem is solved.
-
-<!-- chunk {"id": "body-0027", "role": "body", "section": "CVXPYgen", "weight": 1.0} -->
-
 The code and the full documentation for CVXPYgen with its generated solvers are available at
+
+<!-- chunk {"id": "body-0027", "role": "body", "section": "Simple example", "weight": 1.0} -->
+
+We consider the nonnegative least squares problem where $x \in \mathbf{R}^{n}$ is the variable and $G \in \mathbf{R}^{m \times n}$, $h \in \mathbf{R}^{m}$ are parameters, so $\theta = {(G,h)}$. We will canonicalize this to the standard form accepted by OSQP, where $\overset{\sim}{x} \in \mathbf{R}^{\overset{\sim}{n}}$ is the canonical variable and all other symbols are canonical parameters, *i.e.*, $\overset{\sim}{\theta} = {(P,q,A,l,u)}$. (In this form, entries of $l$ can be $- \infty$, and entries of $u$ can be $+ \infty$.)
 
 <!-- chunk {"id": "body-0028", "role": "body", "section": "Simple example", "weight": 1.0} -->
 
-We consider the nonnegative least squares problem
+The naïve canonicalization of to takes $\overset{\sim}{x} = x$ and In this canonicalization, $\overset{\sim}{\theta}$ is not an affine function of $\theta$, since some entries of $\overset{\sim}{\theta}$ are products of entries of $\theta$.
 
 <!-- chunk {"id": "body-0029", "role": "body", "section": "Simple example", "weight": 1.0} -->
 
-where $x \in \mathbf{R}^{n}$ is the variable and $G \in \mathbf{R}^{m \times n}$, $h \in \mathbf{R}^{m}$ are parameters, so $\theta = {(G,h)}$. We will canonicalize this to the standard form accepted by OSQP,
+The canonicalization that uses DPP first expresses problem as with variable $\overset{\sim}{x} = {({\overset{\sim}{x}}_{1},{\overset{\sim}{x}}_{2})}$, where ${\overset{\sim}{x}}_{1} = x$ and ${\overset{\sim}{x}}_{2} \in \mathbf{R}^{m}$. We can express this as with parameters where the second part of $u$ has $\infty$ in every entry, *i.e.*, there is no upper bound on the second part of $A\overset{\sim}{x}$. In this canonicalization, $\overset{\sim}{\theta}$ is indeed an affine function of $\theta$.
 
 <!-- chunk {"id": "body-0030", "role": "body", "section": "Simple example", "weight": 1.0} -->
 
-where $\overset{\sim}{x} \in \mathbf{R}^{\overset{\sim}{n}}$ is the canonical variable and all other symbols are canonical parameters, *i.e.*, $\overset{\sim}{\theta} = {(P,q,A,l,u)}$. (In this form, entries of $l$ can be $- \infty$, and entries of $u$ can be $+ \infty$.)
+2from cvxpygen import cpg 8p=cp.Problem(cp.Minimize(cp.sum_squares(G@x-h)), 11cpg.generate_code(p) Figure 2: Code generation for example. We assume that the dimensions m and n have been previously defined.
 
 <!-- chunk {"id": "body-0031", "role": "body", "section": "Simple example", "weight": 1.0} -->
 
-The naïve canonicalization of to takes $\overset{\sim}{x} = x$ and
-
-<!-- chunk {"id": "body-0032", "role": "body", "section": "Simple example", "weight": 1.0} -->
-
-In this canonicalization, $\overset{\sim}{\theta}$ is not an affine function of $\theta$, since some entries of $\overset{\sim}{\theta}$ are products of entries of $\theta$.
-
-<!-- chunk {"id": "body-0033", "role": "body", "section": "Simple example", "weight": 1.0} -->
-
-The canonicalization that uses DPP first expresses problem as
-
-<!-- chunk {"id": "body-0034", "role": "body", "section": "Simple example", "weight": 1.0} -->
-
-where the second part of $u$ has $\infty$ in every entry, *i.e.*, there is no upper bound on the second part of $A\overset{\sim}{x}$. In this canonicalization, $\overset{\sim}{\theta}$ is indeed an affine function of $\theta$. The retrieval map has the simple (linear) form $x^{\star} = {{\lbrack{I0}\rbrack}{\overset{\sim}{x}}^{\star}}$.
-
-<!-- chunk {"id": "body-0035", "role": "body", "section": "Simple example", "weight": 1.0} -->
-
-2from cvxpygen import cpg
-8p=cp.Problem(cp.Minimize(cp.sum_squares(G@x-h)),
-11cpg.generate_code(p)
-Figure 2: Code generation for example. We assume that the dimensions m and n have been previously defined.
-
-<!-- chunk {"id": "body-0036", "role": "body", "section": "Simple example", "weight": 1.0} -->
-
 We generate code for this problem as shown in figure 2. The problem is modeled with CVXPY in lines 5--9. The actual code generation is done in line 11. The variable and parameters are named in lines 5--7 via their name attributes. These names are used for C variable and function naming.
 
-<!-- chunk {"id": "body-0037", "role": "body", "section": "Comparison to CVXGEN", "weight": 1.0} -->
+<!-- chunk {"id": "body-0032", "role": "body", "section": "Comparison to CVXGEN", "weight": 1.0} -->
 
 We compare CVXPYgen to CVXGEN for a model predictive control (MPC) problem family, described in Appendix A. In particular, we compare solve times of the C interface and executable sizes. The MPC problems are parametrized by their horizon length $H \in \left\{ 6,12,18,30,60 \right\}$; the number of variables is around $10H$. Figure 3 shows the resulting solve times averaged over 100 simulation steps. CVXGEN is not able to generate code for $H > 18$. Together with the automatically chosen OSQP solver, CVXPYgen outperforms CVXGEN for all problem sizes.
 
-<!-- chunk {"id": "body-0038", "role": "body", "section": "Comparison to CVXGEN", "weight": 1.0} -->
+<!-- chunk {"id": "body-0033", "role": "body", "section": "Comparison to CVXGEN", "weight": 1.0} -->
 
 The bottom of figure 3 presents the example executable sizes for CVXGEN and CVXPYgen, respectively. For all values of $H$, the executables corresponding to CVXPYgen are considerably smaller.
 
-<!-- chunk {"id": "body-0039", "role": "body", "section": "Comparison to CVXGEN", "weight": 1.0} -->
+<!-- chunk {"id": "body-0034", "role": "body", "section": "Comparison to CVXGEN", "weight": 1.0} -->
 
 The execution times cited above are on a MacBook Pro 2.3GHz Intel i5. We have also used these generated solvers to control the position of a custom-built 14-by-14 cm quadcopter. The generated code was compiled in a robot operating system (ROS) node, and run on the drone's Intel Atom x5-Z8350 processor, at 30 Hz. We provide a video of the quadcopter following a circle trajectory at
 
-<!-- chunk {"id": "body-0040", "role": "body", "section": "Comparison to CVXPY", "weight": 1.0} -->
+<!-- chunk {"id": "body-0035", "role": "body", "section": "Comparison to CVXPY", "weight": 1.0} -->
 
 Here we compare CVXPYgen to CVXPY, for a (financial) portfolio optimization problem family, described in Appendix B. This family of problems is parametrized by the number of assets in the portfolio $N \in {\{ 10,20,40,60,100\}}$. The number of variables in these problems is around $2N$. Figure 4 gives the results for 500 solves, a two year back-test using historical data. We see that the average solver speed is about 6 times faster with CVXPYgen, for $N = 10$, with the ratio dropping to 2.5 for $N = 100$. The execution times are measured on the same MacBook described in the previous section.
 
-<!-- chunk {"id": "body-0041", "role": "body", "section": "Comparison to CVXPY", "weight": 1.0} -->
+<!-- chunk {"id": "body-0036", "role": "body", "section": "Comparison to CVXPY", "weight": 1.0} -->
 
 An interesting metric is the break-even point, which is the number of instances that need to be solved before CVXPYgen is faster than CVXPY, when we include the code generation and compilation time. This number is around 5000, and not too dependent on $N$. A typical back-test might involve daily trading, with around 250 trading days in each year, over 4 years, with hundreds of different hyper-parameter values, which gives on the order of 100,000 solves, well above this break-even point.
 
-<!-- chunk {"id": "body-0042", "role": "body", "section": "Conclusion", "weight": 1.5} -->
+<!-- chunk {"id": "body-0037", "role": "body", "section": "Conclusion", "weight": 1.5} -->
 
 We have described CVXPYgen, a tool for generating custom C code that solves instances of a family of convex optimization problems specified within CVXPY. This gives a seemless path from prototyping an application using Python and CVXPY, to a final embedded implementation in C. In addition to CVXPYgen supporting a wider variety of problems (such as SOCPs) than the state-of-the-art code generator CVXGEN, numerical experiments show that it outperforms CVXGEN in terms of allowable problem size, compiled code size, and solve times. For applications running on general purpose machines, we obtain a significant speedup over CVXPY when many problem instances are to be solved.

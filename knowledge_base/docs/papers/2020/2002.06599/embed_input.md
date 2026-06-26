@@ -146,18 +146,7 @@ Let $A$ be a set and let $B$, $C$ be subsets of $A$. The notation $B\overset{+}{
 
 <!-- chunk {"id": "body-0037", "role": "body", "section": "III-A Notation", "weight": 1.0} -->
 
-1 initialize search, queue, and approximation
-2 update the heuristic
-4 get and remove the best edge from the queue
-5 if the edge can possibly improve the solution
-6 if the edge is valid
-7 compute the true cost of the edge
-8 update the search tree with the edge
-11 update the heuristic
-15 update the approximation
-16 update the heuristic
-17 populate the queue
-Algorithm 1 Concept of BIT* with changes for AIT*
+1 initialize search, queue, and approximation 2 update the heuristic 4 get and remove the best edge from the queue 5 if the edge can possibly improve the solution 6 if the edge is valid 7 compute the true cost of the edge 8 update the search tree with the edge 11 update the heuristic 15 update the approximation 16 update the heuristic 17 populate the queue Algorithm 1 Concept of BIT* with changes for AIT*
 
 <!-- chunk {"id": "body-0038", "role": "body", "section": "III-B Approximation", "weight": 1.0} -->
 
@@ -165,152 +154,132 @@ AIT\* samples batches of states to build a discrete approximation of the state s
 
 <!-- chunk {"id": "body-0039", "role": "body", "section": "III-B Approximation", "weight": 1.0} -->
 
-States that are within a radius, $r$, of each other are treated as neighbors (Alg. 4 ‣ Adaptively Informed Trees (AIT*): Fast Asymptotically Optimal Path Planning through Adaptive Heuristics"), line 4 ‣ Adaptively Informed Trees (AIT*): Fast Asymptotically Optimal Path Planning through Adaptive Heuristics")). Graph complexity is limited as states are sampled by decreasing this radius as, using the measure of the informed set, as,
+States that are within a radius, $r$, of each other are treated as neighbors (Alg. 4 ‣ Adaptively Informed Trees (AIT*): Fast Asymptotically Optimal Path Planning through Adaptive Heuristics"), line 4 ‣ Adaptively Informed Trees (AIT*): Fast Asymptotically Optimal Path Planning through Adaptive Heuristics")). Graph complexity is limited as states are sampled by decreasing this radius as, using the measure of the informed set, as, where $q$ is the number of sampled states in the informed set, $\eta > 1$ is a tuning parameter, and $\lambda{(X_{\hat{f}})}$ and $\zeta_{n}$ are the Lebesgue measures of the informed set and an $n$-dimensional unit ball, respectively. Faster-decreasing radii are provided in but are not used in AIT\* for fairer comparison to existing algorithms as they are presented in the literature.
 
 <!-- chunk {"id": "body-0040", "role": "body", "section": "III-B Approximation", "weight": 1.0} -->
 
-where $q$ is the number of sampled states in the informed set, $\eta > 1$ is a tuning parameter, and $\lambda{(X_{\hat{f}})}$ and $\zeta_{n}$ are the Lebesgue measures of the informed set and an $n$-dimensional unit ball, respectively. Faster-decreasing radii are provided in but are not used in AIT\* for fairer comparison to existing algorithms as they are presented in the literature.
+AIT\* always includes the existing connections in both the forward and the reverse search trees in its approximation (Alg. 4 ‣ Adaptively Informed Trees (AIT*): Fast Asymptotically Optimal Path Planning through Adaptive Heuristics"), lines 4 ‣ Adaptively Informed Trees (AIT*): Fast Asymptotically Optimal Path Planning through Adaptive Heuristics"), 4 ‣ Adaptively Informed Trees (AIT*): Fast Asymptotically Optimal Path Planning through Adaptive Heuristics")), and removes invalid edges, regardless of the distance (Alg. 5 ‣ Adaptively Informed Trees (AIT*): Fast Asymptotically Optimal Path Planning through Adaptive Heuristics"), line 5 ‣ Adaptively Informed Trees (AIT*): Fast Asymptotically Optimal Path Planning through Adaptive Heuristics"); Alg.
 
 <!-- chunk {"id": "body-0041", "role": "body", "section": "III-B Approximation", "weight": 1.0} -->
 
-AIT\* always includes the existing connections in both the forward and the reverse search trees in its approximation (Alg. 4 ‣ Adaptively Informed Trees (AIT*): Fast Asymptotically Optimal Path Planning through Adaptive Heuristics"), lines 4 ‣ Adaptively Informed Trees (AIT*): Fast Asymptotically Optimal Path Planning through Adaptive Heuristics"), 4 ‣ Adaptively Informed Trees (AIT*): Fast Asymptotically Optimal Path Planning through Adaptive Heuristics")), and removes invalid edges, regardless of the distance (Alg. 5 ‣ Adaptively Informed Trees (AIT*): Fast Asymptotically Optimal Path Planning through Adaptive Heuristics"), line 5 ‣ Adaptively Informed Trees (AIT*): Fast Asymptotically Optimal Path Planning through Adaptive Heuristics"); Alg.
-
-<!-- chunk {"id": "body-0042", "role": "body", "section": "III-B Approximation", "weight": 1.0} -->
-
 4 ‣ Adaptively Informed Trees (AIT*): Fast Asymptotically Optimal Path Planning through Adaptive Heuristics"), line 4 ‣ Adaptively Informed Trees (AIT*): Fast Asymptotically Optimal Path Planning through Adaptive Heuristics")).
+
+<!-- chunk {"id": "body-0042", "role": "body", "section": "III-C Reverse Search", "weight": 1.0} -->
+
+AIT\* estimates a heuristic specific to the current approximation by performing a lazy reverse search with LPA\* (Alg. 5 ‣ Adaptively Informed Trees (AIT*): Fast Asymptotically Optimal Path Planning through Adaptive Heuristics") and Alg. 6 ‣ Adaptively Informed Trees (AIT*): Fast Asymptotically Optimal Path Planning through Adaptive Heuristics")). This search uses a vertex-queue, $\mathcal{Q}_{R}$, which sorts states according to a lexicographical key, where ${\hat{h}}_{con}\lbrack\mathbf{x}\rbrack$ denotes the cost-to-go of $\mathbf{x}$ when it was last connected to the reverse tree and ${\hat{h}}_{\exp}\lbrack\mathbf{x}\rbrack$ denotes the cost-to-go of $\mathbf{x}$ when it was last expanded in the reverse search.
 
 <!-- chunk {"id": "body-0043", "role": "body", "section": "III-C Reverse Search", "weight": 1.0} -->
 
-AIT\* estimates a heuristic specific to the current approximation by performing a lazy reverse search with LPA\* (Alg. 5 ‣ Adaptively Informed Trees (AIT*): Fast Asymptotically Optimal Path Planning through Adaptive Heuristics") and Alg. 6 ‣ Adaptively Informed Trees (AIT*): Fast Asymptotically Optimal Path Planning through Adaptive Heuristics")). This search uses a vertex-queue, $\mathcal{Q}_{R}$, which sorts states according to a lexicographical key,
+These are the $g$ and $v$ values in a forward LPA\* search.
 
 <!-- chunk {"id": "body-0044", "role": "body", "section": "III-C Reverse Search", "weight": 1.0} -->
 
-where ${\hat{h}}_{con}\lbrack\mathbf{x}\rbrack$ denotes the cost-to-go of $\mathbf{x}$ when it was last connected to the reverse tree and ${\hat{h}}_{\exp}\lbrack\mathbf{x}\rbrack$ denotes the cost-to-go of $\mathbf{x}$ when it was last expanded in the reverse search. These are the $g$ and $v$ values in a forward LPA\* search.
+If Algorithm 5 ‣ Adaptively Informed Trees (AIT*): Fast Asymptotically Optimal Path Planning through Adaptive Heuristics") is called without an argument (Alg. 2 ‣ Adaptively Informed Trees (AIT*): Fast Asymptotically Optimal Path Planning through Adaptive Heuristics"), lines 2 ‣ Adaptively Informed Trees (AIT*): Fast Asymptotically Optimal Path Planning through Adaptive Heuristics"), 2 ‣ Adaptively Informed Trees (AIT*): Fast Asymptotically Optimal Path Planning through Adaptive Heuristics")), it sets the ${\hat{h}}_{con}$ and ${\hat{h}}_{\exp}$ values of all states except the goals to infinity and inserts the goal states into the queue (Alg.
 
 <!-- chunk {"id": "body-0045", "role": "body", "section": "III-C Reverse Search", "weight": 1.0} -->
 
-If Algorithm 5 ‣ Adaptively Informed Trees (AIT*): Fast Asymptotically Optimal Path Planning through Adaptive Heuristics") is called without an argument (Alg. 2 ‣ Adaptively Informed Trees (AIT*): Fast Asymptotically Optimal Path Planning through Adaptive Heuristics"), lines 2 ‣ Adaptively Informed Trees (AIT*): Fast Asymptotically Optimal Path Planning through Adaptive Heuristics"), 2 ‣ Adaptively Informed Trees (AIT*): Fast Asymptotically Optimal Path Planning through Adaptive Heuristics")), it sets the ${\hat{h}}_{con}$ and ${\hat{h}}_{\exp}$ values of all states except the goals to infinity and inserts the goal states into the queue (Alg.
+5 ‣ Adaptively Informed Trees (AIT*): Fast Asymptotically Optimal Path Planning through Adaptive Heuristics"), lines 5 ‣ Adaptively Informed Trees (AIT*): Fast Asymptotically Optimal Path Planning through Adaptive Heuristics")--5 ‣ Adaptively Informed Trees (AIT*): Fast Asymptotically Optimal Path Planning through Adaptive Heuristics")). This restarts LPA\*, which is more efficient than repairing the search when large changes in the graph are expected. LPA\*'s initial search is equivalent to A\* and results in a consistent and admissible estimate of the heuristic in the current approximation.
 
 <!-- chunk {"id": "body-0046", "role": "body", "section": "III-C Reverse Search", "weight": 1.0} -->
 
-5 ‣ Adaptively Informed Trees (AIT*): Fast Asymptotically Optimal Path Planning through Adaptive Heuristics"), lines 5 ‣ Adaptively Informed Trees (AIT*): Fast Asymptotically Optimal Path Planning through Adaptive Heuristics")--5 ‣ Adaptively Informed Trees (AIT*): Fast Asymptotically Optimal Path Planning through Adaptive Heuristics")). This restarts LPA\*, which is more efficient than repairing the search when large changes in the graph are expected. LPA\*'s initial search is equivalent to A\* and results in a consistent and admissible estimate of the heuristic in the current approximation.
+If Algorithm 5 ‣ Adaptively Informed Trees (AIT*): Fast Asymptotically Optimal Path Planning through Adaptive Heuristics") is called with an invalid edge (Alg. 2 ‣ Adaptively Informed Trees (AIT*): Fast Asymptotically Optimal Path Planning through Adaptive Heuristics"), line 2 ‣ Adaptively Informed Trees (AIT*): Fast Asymptotically Optimal Path Planning through Adaptive Heuristics")), then it adds the edge to the set of invalid edges, $E_{invalid}$, and updates the cost-to-go of the parent state (Alg. 5 ‣ Adaptively Informed Trees (AIT*): Fast Asymptotically Optimal Path Planning through Adaptive Heuristics"), lines 5 ‣ Adaptively Informed Trees (AIT*): Fast Asymptotically Optimal Path Planning through Adaptive Heuristics"), 5 ‣ Adaptively Informed Trees (AIT*): Fast Asymptotically Optimal Path Planning through Adaptive Heuristics")).
 
 <!-- chunk {"id": "body-0047", "role": "body", "section": "III-C Reverse Search", "weight": 1.0} -->
 
-If Algorithm 5 ‣ Adaptively Informed Trees (AIT*): Fast Asymptotically Optimal Path Planning through Adaptive Heuristics") is called with an invalid edge (Alg. 2 ‣ Adaptively Informed Trees (AIT*): Fast Asymptotically Optimal Path Planning through Adaptive Heuristics"), line 2 ‣ Adaptively Informed Trees (AIT*): Fast Asymptotically Optimal Path Planning through Adaptive Heuristics")), then it adds the edge to the set of invalid edges, $E_{invalid}$, and updates the cost-to-go of the parent state (Alg. 5 ‣ Adaptively Informed Trees (AIT*): Fast Asymptotically Optimal Path Planning through Adaptive Heuristics"), lines 5 ‣ Adaptively Informed Trees (AIT*): Fast Asymptotically Optimal Path Planning through Adaptive Heuristics"), 5 ‣ Adaptively Informed Trees (AIT*): Fast Asymptotically Optimal Path Planning through Adaptive Heuristics")).
-
-<!-- chunk {"id": "body-0048", "role": "body", "section": "III-C Reverse Search", "weight": 1.0} -->
-
 LPA\* then repairs the reverse search tree and increases the cost-to-go values, ${\hat{h}}_{con}$, as necessary. This results in an updated heuristic which is still admissible for the current approximation and can be used by the forward search. Full details of LPA\* are available.
+
+<!-- chunk {"id": "body-0048", "role": "body", "section": "III-D Forward Search", "weight": 1.0} -->
+
+The forward search of AIT\* uses an edge-queue, $\mathcal{Q}_{F}$, which sorts edges according to a lexicographical key, where the cost-to-go values from the reverse search are used as heuristic for the forward search, i.e., ${\hat{h}(\mathbf{x})}:={{\hat{h}}_{con}\lbrack\mathbf{x}\rbrack}$.
 
 <!-- chunk {"id": "body-0049", "role": "body", "section": "III-D Forward Search", "weight": 1.0} -->
 
-The forward search of AIT\* uses an edge-queue, $\mathcal{Q}_{F}$, which sorts edges according to a lexicographical key,
+5 for all xgoal ∈ Xgoal do 11 $E_{invalid}\overset{+}{\leftarrow}\left(\mathbf{x}_{p},\mathbf{x}_{c} \right)$ 14while minx ∈ 𝒬R{R (x)} < R (xinit) 15 or ĥexp [xinit] < ĥcon [xinit] 16 or 𝒬F contains an edge with an unprocessed vertex do Algorithm 5 update_heuristic ((xp, xc)) 2 xp ← arg min xi ∈ neighbors (x){ĥexp [xi] + ĉ (xi, x)} 6 $\mathcal{Q}_{R}\overset{+}{\leftarrow}\mathbf{x}$ 9 $\mathcal{Q}_{R}\overset{-}{\leftarrow}\mathbf{x}$ Algorithm 6 update_state (x) An iteration begins by getting the best edge from the queue and checking whether it can possibly improve the current solution (Alg.
 
 <!-- chunk {"id": "body-0050", "role": "body", "section": "III-D Forward Search", "weight": 1.0} -->
 
-where the cost-to-go values from the reverse search are used as heuristic for the forward search, i.e., ${\hat{h}(\mathbf{x})}:={{\hat{h}}_{con}\lbrack\mathbf{x}\rbrack}$.
+2 ‣ Adaptively Informed Trees (AIT*): Fast Asymptotically Optimal Path Planning through Adaptive Heuristics"), line 2 ‣ Adaptively Informed Trees (AIT*): Fast Asymptotically Optimal Path Planning through Adaptive Heuristics")). If it can and is already part of the forward tree, its child state is expanded (Alg. 2 ‣ Adaptively Informed Trees (AIT*): Fast Asymptotically Optimal Path Planning through Adaptive Heuristics"), line 2 ‣ Adaptively Informed Trees (AIT*): Fast Asymptotically Optimal Path Planning through Adaptive Heuristics")).
 
 <!-- chunk {"id": "body-0051", "role": "body", "section": "III-D Forward Search", "weight": 1.0} -->
 
-5 for all xgoal ∈ Xgoal do
-11 $E_{invalid}\overset{+}{\leftarrow}\left( \mathbf{x}_{p},\mathbf{x}_{c} \right)$
-14while minx ∈ 𝒬R{R (x)} &lt; R (xinit)
-15 or ĥexp [xinit] &lt; ĥcon [xinit]
-16 or 𝒬F contains an edge with an unprocessed vertex do
-Algorithm 5 update_heuristic ((xp,xc))
+If it is not in the forward tree but can possibly improve it (Alg. 2 ‣ Adaptively Informed Trees (AIT*): Fast Asymptotically Optimal Path Planning through Adaptive Heuristics"), line 2 ‣ Adaptively Informed Trees (AIT*): Fast Asymptotically Optimal Path Planning through Adaptive Heuristics")), then the edge is checked for validity (Alg. 2 ‣ Adaptively Informed Trees (AIT*): Fast Asymptotically Optimal Path Planning through Adaptive Heuristics"), line 2 ‣ Adaptively Informed Trees (AIT*): Fast Asymptotically Optimal Path Planning through Adaptive Heuristics")). If the edge is invalid, then the heuristic is updated by the reverse search (Alg.
 
 <!-- chunk {"id": "body-0052", "role": "body", "section": "III-D Forward Search", "weight": 1.0} -->
 
-2 xp ← arg min xi ∈ neighbors (x){ĥexp [xi]+ĉ (xi,x)}
-6 $\mathcal{Q}_{R}\overset{+}{\leftarrow}\mathbf{x}$
-9 $\mathcal{Q}_{R}\overset{-}{\leftarrow}\mathbf{x}$
-Algorithm 6 update_state (x)
+2 ‣ Adaptively Informed Trees (AIT*): Fast Asymptotically Optimal Path Planning through Adaptive Heuristics"), line 2 ‣ Adaptively Informed Trees (AIT*): Fast Asymptotically Optimal Path Planning through Adaptive Heuristics"); Alg 5 ‣ Adaptively Informed Trees (AIT*): Fast Asymptotically Optimal Path Planning through Adaptive Heuristics")). If the edge is valid, then it is completely evaluated. The search then checks whether it can actually improve the current solution and the forward tree (Alg. 2 ‣ Adaptively Informed Trees (AIT*): Fast Asymptotically Optimal Path Planning through Adaptive Heuristics"), lines 2 ‣ Adaptively Informed Trees (AIT*): Fast Asymptotically Optimal Path Planning through Adaptive Heuristics"), 2 ‣ Adaptively Informed Trees (AIT*): Fast Asymptotically Optimal Path Planning through Adaptive Heuristics")).
 
 <!-- chunk {"id": "body-0053", "role": "body", "section": "III-D Forward Search", "weight": 1.0} -->
 
-An iteration begins by getting the best edge from the queue and checking whether it can possibly improve the current solution (Alg. 2 ‣ Adaptively Informed Trees (AIT*): Fast Asymptotically Optimal Path Planning through Adaptive Heuristics"), line 2 ‣ Adaptively Informed Trees (AIT*): Fast Asymptotically Optimal Path Planning through Adaptive Heuristics")). If it can and is already part of the forward tree, its child state is expanded (Alg. 2 ‣ Adaptively Informed Trees (AIT*): Fast Asymptotically Optimal Path Planning through Adaptive Heuristics"), line 2 ‣ Adaptively Informed Trees (AIT*): Fast Asymptotically Optimal Path Planning through Adaptive Heuristics")).
+The child state of a new edge that can improve the current solution and the forward tree is added to the tree if it is not already in the tree (Alg. 2 ‣ Adaptively Informed Trees (AIT*): Fast Asymptotically Optimal Path Planning through Adaptive Heuristics"), line 2 ‣ Adaptively Informed Trees (AIT*): Fast Asymptotically Optimal Path Planning through Adaptive Heuristics")). If it is, then the new edge is a rewiring and the old edge is removed (Alg. 2 ‣ Adaptively Informed Trees (AIT*): Fast Asymptotically Optimal Path Planning through Adaptive Heuristics"), line 2 ‣ Adaptively Informed Trees (AIT*): Fast Asymptotically Optimal Path Planning through Adaptive Heuristics")). The new edge is added to the tree and its child state is expanded in both cases (Alg.
 
 <!-- chunk {"id": "body-0054", "role": "body", "section": "III-D Forward Search", "weight": 1.0} -->
 
-If it is not in the forward tree but can possibly improve it (Alg. 2 ‣ Adaptively Informed Trees (AIT*): Fast Asymptotically Optimal Path Planning through Adaptive Heuristics"), line 2 ‣ Adaptively Informed Trees (AIT*): Fast Asymptotically Optimal Path Planning through Adaptive Heuristics")), then the edge is checked for validity (Alg. 2 ‣ Adaptively Informed Trees (AIT*): Fast Asymptotically Optimal Path Planning through Adaptive Heuristics"), line 2 ‣ Adaptively Informed Trees (AIT*): Fast Asymptotically Optimal Path Planning through Adaptive Heuristics")). If the edge is invalid, then the heuristic is updated by the reverse search (Alg.
+2 ‣ Adaptively Informed Trees (AIT*): Fast Asymptotically Optimal Path Planning through Adaptive Heuristics"), lines 2 ‣ Adaptively Informed Trees (AIT*): Fast Asymptotically Optimal Path Planning through Adaptive Heuristics"), 2 ‣ Adaptively Informed Trees (AIT*): Fast Asymptotically Optimal Path Planning through Adaptive Heuristics")).
 
 <!-- chunk {"id": "body-0055", "role": "body", "section": "III-D Forward Search", "weight": 1.0} -->
 
-2 ‣ Adaptively Informed Trees (AIT*): Fast Asymptotically Optimal Path Planning through Adaptive Heuristics"), line 2 ‣ Adaptively Informed Trees (AIT*): Fast Asymptotically Optimal Path Planning through Adaptive Heuristics"); Alg 5 ‣ Adaptively Informed Trees (AIT*): Fast Asymptotically Optimal Path Planning through Adaptive Heuristics")). If the edge is valid, then it is completely evaluated. The search then checks whether it can actually improve the current solution and the forward tree (Alg. 2 ‣ Adaptively Informed Trees (AIT*): Fast Asymptotically Optimal Path Planning through Adaptive Heuristics"), lines 2 ‣ Adaptively Informed Trees (AIT*): Fast Asymptotically Optimal Path Planning through Adaptive Heuristics"), 2 ‣ Adaptively Informed Trees (AIT*): Fast Asymptotically Optimal Path Planning through Adaptive Heuristics")).
+The iteration finishes by updating the current solution cost (Alg. 2 ‣ Adaptively Informed Trees (AIT*): Fast Asymptotically Optimal Path Planning through Adaptive Heuristics"), line 2 ‣ Adaptively Informed Trees (AIT*): Fast Asymptotically Optimal Path Planning through Adaptive Heuristics")). In practice this is done efficiently by only checking the goal states in the forward search tree.
 
 <!-- chunk {"id": "body-0056", "role": "body", "section": "III-D Forward Search", "weight": 1.0} -->
 
-The child state of a new edge that can improve the current solution and the forward tree is added to the tree if it is not already in the tree (Alg. 2 ‣ Adaptively Informed Trees (AIT*): Fast Asymptotically Optimal Path Planning through Adaptive Heuristics"), line 2 ‣ Adaptively Informed Trees (AIT*): Fast Asymptotically Optimal Path Planning through Adaptive Heuristics")). If it is, then the new edge is a rewiring and the old edge is removed (Alg. 2 ‣ Adaptively Informed Trees (AIT*): Fast Asymptotically Optimal Path Planning through Adaptive Heuristics"), line 2 ‣ Adaptively Informed Trees (AIT*): Fast Asymptotically Optimal Path Planning through Adaptive Heuristics")). The new edge is added to the tree and its child state is expanded in both cases (Alg.
-
-<!-- chunk {"id": "body-0057", "role": "body", "section": "III-D Forward Search", "weight": 1.0} -->
-
-2 ‣ Adaptively Informed Trees (AIT*): Fast Asymptotically Optimal Path Planning through Adaptive Heuristics"), lines 2 ‣ Adaptively Informed Trees (AIT*): Fast Asymptotically Optimal Path Planning through Adaptive Heuristics"), 2 ‣ Adaptively Informed Trees (AIT*): Fast Asymptotically Optimal Path Planning through Adaptive Heuristics")).
-
-<!-- chunk {"id": "body-0058", "role": "body", "section": "III-D Forward Search", "weight": 1.0} -->
-
-The iteration finishes by updating the current solution cost (Alg. 2 ‣ Adaptively Informed Trees (AIT*): Fast Asymptotically Optimal Path Planning through Adaptive Heuristics"), line 2 ‣ Adaptively Informed Trees (AIT*): Fast Asymptotically Optimal Path Planning through Adaptive Heuristics")). In practice this is done efficiently by only checking the goal states in the forward search tree.
-
-<!-- chunk {"id": "body-0059", "role": "body", "section": "III-D Forward Search", "weight": 1.0} -->
-
 If the forward search processes an edge that can not possibly improve the current solution, then a new search on a refined approximation is started (Alg. 2 ‣ Adaptively Informed Trees (AIT*): Fast Asymptotically Optimal Path Planning through Adaptive Heuristics"), lines 2 ‣ Adaptively Informed Trees (AIT*): Fast Asymptotically Optimal Path Planning through Adaptive Heuristics"), 2 ‣ Adaptively Informed Trees (AIT*): Fast Asymptotically Optimal Path Planning through Adaptive Heuristics")--2 ‣ Adaptively Informed Trees (AIT*): Fast Asymptotically Optimal Path Planning through Adaptive Heuristics")).
 
-<!-- chunk {"id": "body-0060", "role": "body", "section": "Experimental Results", "weight": 1.0} -->
+<!-- chunk {"id": "body-0057", "role": "body", "section": "Experimental Results", "weight": 1.0} -->
 
 AIT\* was compared against the Open Motion Planning Library (OMPL) implementations of RRT-Connect, RRT\*, RRT^\#^, and BIT\* on simulated problems^11^1The performances were measured with OMPL v1.4.1 on a laptop with 16 GB of RAM and an Intel i7-4910MQ processor running Ubuntu 18.04.. RRT\* and RRT^\#^ used a goal bias of 5% and RRT^\#^ used rejection sampling. All RRT-based algorithms used maximum edge lengths of 0.5, 1.25, and 3.0 in ${\mathbb{R}}^{4},{\mathbb{R}}^{8}$, and ${\mathbb{R}}^{16}$, respectively. BIT\* and AIT\* sampled 100 states per batch regardless of dimension and used the Euclidean norm for all a priori heuristics. The RGG constant $\eta$ was 1.001 for all planners.
 
-<!-- chunk {"id": "body-0061", "role": "body", "section": "IV-A Abstract Problems", "weight": 1.0} -->
+<!-- chunk {"id": "body-0058", "role": "body", "section": "IV-A Abstract Problems", "weight": 1.0} -->
 
 The planners were tested on two abstract problems with different obstacle configurations in ${\mathbb{R}}^{4},{\mathbb{R}}^{8}$, and ${\mathbb{R}}^{16}$ (Fig. 3: Fast Asymptotically Optimal Path Planning through Adaptive Heuristics")). Each planner was run 100 times with different random seeds on each instantiation. Planners were given one second to solve problems in ${\mathbb{R}}^{4}$, ten seconds in ${\mathbb{R}}^{8}$, and 100 seconds in ${\mathbb{R}}^{16}$. The collision detection resolution was set to $10^{- 6}$ to make evaluating edge costs computationally expensive. The optimization objective was path length. Figure 4: Fast Asymptotically Optimal Path Planning through Adaptive Heuristics") shows the achieved preformances of all tested planners on all problems.
 
-<!-- chunk {"id": "body-0062", "role": "body", "section": "IV-A Abstract Problems", "weight": 1.0} -->
+<!-- chunk {"id": "body-0059", "role": "body", "section": "IV-A Abstract Problems", "weight": 1.0} -->
 
 One abstract problem consisted of a wall with a narrow gap, such that in all dimensions only two homotopy classes exist (Fig. 3: Fast Asymptotically Optimal Path Planning through Adaptive Heuristics")). This shows AIT\*'s performance on a problem containing a hard-to-find optimal homotopy class (Figs. 4: Fast Asymptotically Optimal Path Planning through Adaptive Heuristics")--4: Fast Asymptotically Optimal Path Planning through Adaptive Heuristics")).
 
-<!-- chunk {"id": "body-0063", "role": "body", "section": "IV-A Abstract Problems", "weight": 1.0} -->
+<!-- chunk {"id": "body-0060", "role": "body", "section": "IV-A Abstract Problems", "weight": 1.0} -->
 
 The other abstract problem consisted of a hollow, axis-aligned hyperrectangle enclosing the goal state configured such that even in higher dimensions the goal can only be reached through the face of the hyperrectangle farthest from the start state (Fig. 3: Fast Asymptotically Optimal Path Planning through Adaptive Heuristics")). This problem is challenging for AIT\* because there are many invalid edges close to the root of the reverse search tree which means that often large parts of it must be repaired (Figs. 4: Fast Asymptotically Optimal Path Planning through Adaptive Heuristics")--4: Fast Asymptotically Optimal Path Planning through Adaptive Heuristics")).
 
-<!-- chunk {"id": "body-0064", "role": "body", "section": "IV-B Planning for Axel", "weight": 1.0} -->
+<!-- chunk {"id": "body-0061", "role": "body", "section": "IV-B Planning for Axel", "weight": 1.0} -->
 
 The benefits of AIT\*'s asymmetric bidirectional search were also tested on simulated planning problems for NASA/JPL-Caltech's Axel Rover System (Fig. 1: Fast Asymptotically Optimal Path Planning through Adaptive Heuristics")), which is specialized for challenging terrain. These problems require sequences of ${SE}{}$ poses settled on the surface manifold of the terrain. This makes edge evaluations expensive, as every state along an edge has to be projected onto the manifold.
 
-<!-- chunk {"id": "body-0065", "role": "body", "section": "IV-B Planning for Axel", "weight": 1.0} -->
+<!-- chunk {"id": "body-0062", "role": "body", "section": "IV-B Planning for Axel", "weight": 1.0} -->
 
 BIT\* and AIT\* were run 100 times to plan a path down a steep slope with a line-of-sight distance of 30.97 meters between the start and goal positions (Fig. 5: Fast Asymptotically Optimal Path Planning through Adaptive Heuristics")). The linear and angular collision detection resolutions were set to 2 cm and 0.1 rad, respectively. BIT\* and AIT\* optimized for path length and roll. Figure 5: Fast Asymptotically Optimal Path Planning through Adaptive Heuristics") shows the achieved performances.
 
-<!-- chunk {"id": "body-0066", "role": "body", "section": "Discussion & Future Work", "weight": 1.5} -->
+<!-- chunk {"id": "body-0063", "role": "body", "section": "Discussion & Future Work", "weight": 1.5} -->
 
 AIT\* was designed for planning problems with expensive edge evaluations. These often occur when the search has to consider dynamic constraints (e.g., two-point boundary value problems) or complex robot and obstacle interactions (e.g., difficult collision detection) for each edge, as found on NASA/JPL-Caltech's Axel. In future work, Axel will consider tether-terrain interaction and physics-based stability checks based on the anchor history of the tether, which will further increase the edge evaluation cost.
 
-<!-- chunk {"id": "body-0067", "role": "body", "section": "Discussion & Future Work", "weight": 1.5} -->
+<!-- chunk {"id": "body-0064", "role": "body", "section": "Discussion & Future Work", "weight": 1.5} -->
 
 These expensive edge evaluations were simulated in the abstract problems by increasing the collision detection resolution, providing a simple way to increase the edge evaluation cost and evaluate AIT\* on illustrative obstacle configurations.
 
-<!-- chunk {"id": "body-0068", "role": "body", "section": "Discussion & Future Work", "weight": 1.5} -->
+<!-- chunk {"id": "body-0065", "role": "body", "section": "Discussion & Future Work", "weight": 1.5} -->
 
 The adaptive heuristic of AIT\* is less effective when the lazy reverse search connects many states through invalid edges, especially if these edges are near the root of the reverse search tree. This was illustrated with the goal enclosure experiment (Fig. 3: Fast Asymptotically Optimal Path Planning through Adaptive Heuristics")). Future work could use sparse collision detection on the reverse search to mitigate this problem.
 
-<!-- chunk {"id": "body-0069", "role": "body", "section": "Discussion & Future Work", "weight": 1.5} -->
+<!-- chunk {"id": "body-0066", "role": "body", "section": "Discussion & Future Work", "weight": 1.5} -->
 
 The reverse search of AIT\* could also be used to estimate the search effort instead of the solution cost. The forward search could then be replaced with an anytime search that explicitly tries to minimize the time to the next solution, similar to, which could speed up initial solution times.
 
-<!-- chunk {"id": "body-0070", "role": "body", "section": "Discussion & Future Work", "weight": 1.5} -->
+<!-- chunk {"id": "body-0067", "role": "body", "section": "Discussion & Future Work", "weight": 1.5} -->
 
 Another way to speed up initial solution times of AIT\* would be to inflate the heuristic term in the key of the forward queue, as in Advanced BIT\* (ABIT\*).
 
-<!-- chunk {"id": "body-0071", "role": "body", "section": "Conclusion", "weight": 1.5} -->
+<!-- chunk {"id": "body-0068", "role": "body", "section": "Conclusion", "weight": 1.5} -->
 
 Informed sampling-based algorithms use heuristic knowledge about a problem domain to improve their performance. Heuristics that are applicable to all problems in a domain are often simple to define and inexpensive to evaluate but seldom accurate for a specific problem instance. Problem-specific heuristics can be very accurate but the computational cost to estimate and/or evaluate them can often outweigh the improved search efficiency.
 
-<!-- chunk {"id": "body-0072", "role": "body", "section": "Conclusion", "weight": 1.5} -->
+<!-- chunk {"id": "body-0069", "role": "body", "section": "Conclusion", "weight": 1.5} -->
 
 This paper presents AIT\*, an almost-surely asymptotically optimal sampling-based planner that simultaneously estimates and exploits an accurate heuristic specific to each problem instance. AIT\* uses an asymmetric bidirectional search to efficiently share information between the individual searches. The computationally inexpensive reverse search informs the expensive forward search by providing accurate heuristics specific to the current approximation of each problem instance. The forward search informs the reverse search by providing information about invalid edges, which results in ever more accurate heuristics. This is done efficiently by using LPA\* as the reverse search algorithm.
 
-<!-- chunk {"id": "body-0073", "role": "body", "section": "Conclusion", "weight": 1.5} -->
+<!-- chunk {"id": "body-0070", "role": "body", "section": "Conclusion", "weight": 1.5} -->
 
 This approach is promising for path planning problems with expensive edge evaluations, such as those posed by NASA/JPL-Caltech's Axel. AIT\* outperforms existing sampling-based algorithms on the tested abstract problems by finding an initial solution quickly and converging to the optimum in an anytime manner. These problems show the robustness of AIT\* with respect to expensive edge evaluations and encourage more thorough evaluations of states which could be used in more advanced optimization objectives.
 
-<!-- chunk {"id": "body-0074", "role": "body", "section": "Conclusion", "weight": 1.5} -->
+<!-- chunk {"id": "body-0071", "role": "body", "section": "Conclusion", "weight": 1.5} -->
 
 Information on the OMPL implementation of AIT\* is available at

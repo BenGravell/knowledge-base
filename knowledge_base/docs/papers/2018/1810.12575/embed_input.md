@@ -26,101 +26,101 @@ The main technical challenge is imposed by the non-differentiability of the KNN 
 
 Moreover, for the task of correspondence classification, we obtain significant improvements by simply augmenting a recent neural network baseline with our $\text{N}^{3}$ block, showing its effectiveness on set-valued data.
 
-<!-- chunk {"id": "body-0007", "role": "body", "section": "Differentiable *k*-Nearest Neighbors", "weight": 1.0} -->
+<!-- chunk {"id": "body-0007", "role": "body", "section": "Introduction", "weight": 1.5} -->
 
-We first detail our continuous and differentiable relaxation of the $k$-nearest neighbors (KNN) selection rule. Here, we will make few assumptions on the data to derive a very general result that can be used with many kinds of data, including text or sets. In the next section, we will then define a non-local neural network layer based on our relaxation. Let us start by precisely defining KNN selection. Assume that we are given a query item $q$, a database of candidate items ${(x_{i})}_{i \in I}$ with indices $I = {\{ 1,\ldots,M\}}$ for matching, and a distance metric $d{( \cdot, \cdot )}$ between pairs of items. Assuming that $q$ is not in the database, $d$ yields a ranking of the database items according to the distance to the query.
+(a) Query and database Figure 1: Illustration of nearest neighbors selection as paths on the simplex. The traditional KNN rule (1(b)) selects corners of the simplex deterministically based on the distance of the database items xi to the query item q (1(a)). Stochastic neighbors selection (1(c)) performs a random walk on the corners, while our proposed continuous nearest neighbors selection (1(d)) relaxes the weights of the database items into the interior of the simplex and computes a deterministic path. Depending on the temperature parameter this path can interpolate between a more uniform weighting (red) and the original KNN selection (blue).
 
 <!-- chunk {"id": "body-0008", "role": "body", "section": "Differentiable *k*-Nearest Neighbors", "weight": 1.0} -->
 
-The KNN of $q$ are then given by the set of the first $k$ items *w. r. t.* the permutation $\pi_{q}$
+We first detail our continuous and differentiable relaxation of the $k$-nearest neighbors (KNN) selection rule. Here, we will make few assumptions on the data to derive a very general result that can be used with many kinds of data, including text or sets. In the next section, we will then define a non-local neural network layer based on our relaxation. Let us start by precisely defining KNN selection. Assume that we are given a query item $q$, a database of candidate items ${(x_{i})}_{i \in I}$ with indices $I = {\{ 1,\ldots,M\}}$ for matching, and a distance metric $d{(\cdot, \cdot)}$ between pairs of items. Assuming that $q$ is not in the database, $d$ yields a ranking of the database items according to the distance to the query. Let $\pi_{q}:{I\rightarrow I}$ be a permutation that sorts the database items by increasing distance to $q$: The KNN of $q$ are then given by the set of the first $k$ items *w.
 
 <!-- chunk {"id": "body-0009", "role": "body", "section": "Differentiable *k*-Nearest Neighbors", "weight": 1.0} -->
 
-The KNN selection rule is deterministic but not differentiable. This effectively hinders to derive gradients *w. r. t.* the distances $d{( \cdot, \cdot )}$. We will alleviate this problem in two steps. First, we interpret the deterministic KNN rule as a limit of a parametric family of discrete stochastic sampling processes. Second, we derive continuous relaxations for the discrete variables, thus allowing to backpropagate gradients through the neighborhood selection while still preserving the KNN rule as a limit case.
+r. t.* the permutation $\pi_{q}$ The KNN selection rule is deterministic but not differentiable. This effectively hinders to derive gradients *w. r. t.* the distances $d{(\cdot, \cdot)}$. We will alleviate this problem in two steps. First, we interpret the deterministic KNN rule as a limit of a parametric family of discrete stochastic sampling processes. Second, we derive continuous relaxations for the discrete variables, thus allowing to backpropagate gradients through the neighborhood selection while still preserving the KNN rule as a limit case.
 
 <!-- chunk {"id": "body-0010", "role": "body", "section": "Differentiable *k*-Nearest Neighbors", "weight": 1.0} -->
 
-KNN rule as limit distribution. We proceed by interpreting the KNN selection rule as the limit distribution of $k$ categorical distributions that are constructed as follows. As in Neighborhood Component Analysis, let $\text{Cat}{(\left. w^{1} \middle| {\alpha^{1},t} \right.)}$ be a categorical distribution over the indices $I$ of the database items, obtained by deriving logits $\alpha_{i}^{1}$ from the negative distances to the query item $d{(q,x_{i})}$, scaled with a temperature parameter $t$.
+KNN rule as limit distribution. We proceed by interpreting the KNN selection rule as the limit distribution of $k$ categorical distributions that are constructed as follows. As in Neighborhood Component Analysis, let $\text{Cat}{(\left. w^{1} \middle| {\alpha^{1},t} \right.)}$ be a categorical distribution over the indices $I$ of the database items, obtained by deriving logits $\alpha_{i}^{1}$ from the negative distances to the query item $d{(q,x_{i})}$, scaled with a temperature parameter $t$. The probability of $w^{1}$ taking a value $i \in I$ is given: Here, we treat $w^{1}$ as a one-hot coded vector and denote with $w^{1} = i$ that the $i$-th entry is set to one while the others are zero. In the limit of $t\rightarrow 0$, $\text{Cat}{(\left.
 
 <!-- chunk {"id": "body-0011", "role": "body", "section": "Differentiable *k*-Nearest Neighbors", "weight": 1.0} -->
 
-Here, we treat $w^{1}$ as a one-hot coded vector and denote with $w^{1} = i$ that the $i$-th entry is set to one while the others are zero. In the limit of $t\rightarrow 0$, $\text{Cat}{(\left. w^{1} \middle| {\alpha^{1},t} \right.)}$ will converge to a deterministic ("Dirac delta") distribution centered at the index of the database item with smallest distance to $q$. Thus we can regard sampling from $\text{Cat}{(\left. w^{1} \middle| {\alpha^{1},t} \right.)}$ as a stochastic relaxation of 1-NN. We now generalize this to arbitrary $k$ by proposing an iterative scheme to construct further conditional distributions $\text{Cat}{(\left. w^{j + 1} \middle| {\alpha^{j + 1},t} \right.)}$.
+w^{1} \middle| {\alpha^{1},t} \right.)}$ will converge to a deterministic ("Dirac delta") distribution centered at the index of the database item with smallest distance to $q$. Thus we can regard sampling from $\text{Cat}{(\left. w^{1} \middle| {\alpha^{1},t} \right.)}$ as a stochastic relaxation of 1-NN. We now generalize this to arbitrary $k$ by proposing an iterative scheme to construct further conditional distributions $\text{Cat}{(\left. w^{j + 1} \middle| {\alpha^{j + 1},t} \right.)}$.
 
 <!-- chunk {"id": "body-0012", "role": "body", "section": "Differentiable *k*-Nearest Neighbors", "weight": 1.0} -->
 
-From the index vectors $w^{j}$, we can define the *stochastic nearest neighbors* $\{ X^{1},\ldots,X^{k}\}$ of $q$ using
+Specifically, we compute $\alpha^{j + 1}$ by setting the $w^{j}$-th entry of $\alpha^{j}$ to negative infinity, thus ensuring that this index cannot be sampled again: The updated logits are used to define a new categorical distribution for the next index to be sampled: From the index vectors $w^{j}$, we can define the *stochastic nearest neighbors* $\{ X^{1},\ldots,X^{k}\}$ of $q$ using When the temperature parameter $t$ approaches zero, the distribution over the $\{ X^{1},\ldots,X^{k}\}$ will be a deterministic distribution centered on the $k$ nearest neighbors of $q$. Using these stochastic nearest neighbors directly within a deep neural network is problematic, since gradient estimators for expectations over discrete variables are known to suffer from high variance. Hence, in the following we consider a continuous deterministic relaxation of the discrete random variables.
 
 <!-- chunk {"id": "body-0013", "role": "body", "section": "Differentiable *k*-Nearest Neighbors", "weight": 1.0} -->
 
-When the temperature parameter $t$ approaches zero, the distribution over the $\{ X^{1},\ldots,X^{k}\}$ will be a deterministic distribution centered on the $k$ nearest neighbors of $q$. Using these stochastic nearest neighbors directly within a deep neural network is problematic, since gradient estimators for expectations over discrete variables are known to suffer from high variance. Hence, in the following we consider a continuous deterministic relaxation of the discrete random variables.
+Continuous deterministic relaxation. Our basic idea is to replace the one-hot coded weight vectors with their continuous expectations. This will yield a deterministic and continuous relaxation of the stochastic nearest neighbors that still converges to the hard KNN selection rule in the limit case of $t\rightarrow 0$.
 
 <!-- chunk {"id": "body-0014", "role": "body", "section": "Differentiable *k*-Nearest Neighbors", "weight": 1.0} -->
 
-Continuous deterministic relaxation. Our basic idea is to replace the one-hot coded weight vectors with their continuous expectations. This will yield a deterministic and continuous relaxation of the stochastic nearest neighbors that still converges to the hard KNN selection rule in the limit case of $t\rightarrow 0$. Concretely, the expectation ${\overline{w}}^{1}$ of the first index vector $w^{1}$ is given by
+Concretely, the expectation ${\overline{w}}^{1}$ of the first index vector $w^{1}$ is given by We can now relax the update of the logits (Eq. 5) by using the expected weight vector instead of the discrete sample as The updated logits are then used in turn to calculate the expectation over the next index vector: Analogously to Eq. 7, we define *continuous nearest neighbors* $\{{\overline{X}}^{1},\ldots,{\overline{X}}^{k}\}$ of $q$ using the ${\overline{w}}^{j}$ as In the limit of $t\rightarrow 0$, the expectation ${\overline{w}}^{1}$ of the first sampled index vector will approach a one-hot encoding of the index of the closest neighbor.
 
 <!-- chunk {"id": "body-0015", "role": "body", "section": "Differentiable *k*-Nearest Neighbors", "weight": 1.0} -->
 
-We can now relax the update of the logits (Eq. 5) by using the expected weight vector instead of the discrete sample as
+As a consequence, the logit update in Eq. 9 will also converge to the hard update from Eq. 5. By induction it follows that the other ${\overline{w}}^{j}$ will converge to a one-hot encoding of the closest indices of the $j$-th nearest neighbor. In summary, this means that our continuous deterministic relaxation still contains the hard KNN selection rule as a limit case.
 
 <!-- chunk {"id": "body-0016", "role": "body", "section": "Differentiable *k*-Nearest Neighbors", "weight": 1.0} -->
 
-In the limit of $t\rightarrow 0$, the expectation ${\overline{w}}^{1}$ of the first sampled index vector will approach a one-hot encoding of the index of the closest neighbor. As a consequence, the logit update in Eq. 9 will also converge to the hard update from Eq. 5. By induction it follows that the other ${\overline{w}}^{j}$ will converge to a one-hot encoding of the closest indices of the $j$-th nearest neighbor. In summary, this means that our continuous deterministic relaxation still contains the hard KNN selection rule as a limit case.
+Discussion. Figure 1 shows the relation between the deterministic KNN selection, stochastic nearest neighbors, and our proposed continuous nearest neighbors. Note that the continuous nearest neighbors are differentiable *w. r. t.* the pairwise distances as well as the temperature $t$. This allows making the temperature a trainable parameter. Moreover, the temperature can depend on the query item $q$, thus allowing to learn for which query items it is beneficial to average more uniformly across the database items, *i. e.* by choosing a high temperature, and for which query items the continuous nearest neighbors should be close to the discrete nearest neighbors, *i. e.* by choosing a low temperature. Both cases have their justification. A more uniform averaging effectively allows to aggregate information from many neighbors at once. On the other hand, the more distinct neighbors obtained with a low temperature allow to first non-linearly process the information before eventually fusing it.
 
 <!-- chunk {"id": "body-0017", "role": "body", "section": "Differentiable *k*-Nearest Neighbors", "weight": 1.0} -->
 
-Discussion. Figure 1 shows the relation between the deterministic KNN selection, stochastic nearest neighbors, and our proposed continuous nearest neighbors. Note that the continuous nearest neighbors are differentiable *w. r. t.* the pairwise distances as well as the temperature $t$. This allows making the temperature a trainable parameter. Moreover, the temperature can depend on the query item $q$, thus allowing to learn for which query items it is beneficial to average more uniformly across the database items, *i. e.* by choosing a high temperature, and for which query items the continuous nearest neighbors should be close to the discrete nearest neighbors, *i. e.* by choosing a low temperature. Both cases have their justification. A more uniform averaging effectively allows to aggregate information from many neighbors at once. On the other hand, the more distinct neighbors obtained with a low temperature allow to first non-linearly process the information before eventually fusing it.
-
-<!-- chunk {"id": "body-0018", "role": "body", "section": "Differentiable *k*-Nearest Neighbors", "weight": 1.0} -->
-
 From Eq. 11 it becomes apparent that the continuous nearest neighbors effectively take $k$ weighted averages over the database items. Thus, prior work such as non-local networks, differentiable relaxations of the KNN classifier, or soft attention-based architectures can be realized as a special case of our architecture with $k = 1$. We also experimented with a continuous relaxation of the stochastic nearest neighbors based on approximating the discrete distributions with Concrete distributions. This results in a stochastic sampling of weighted averages as opposed to our deterministic nearest neighbors. For the dense prediction tasks considered in our experiments, we found the deterministic variant to give significantly better results, see Sec. 5.1.
 
-<!-- chunk {"id": "body-0019", "role": "body", "section": "Neural Nearest Neighbors Block", "weight": 1.0} -->
+<!-- chunk {"id": "body-0018", "role": "body", "section": "Neural Nearest Neighbors Block", "weight": 1.0} -->
 
 In the previous section we made no assumptions about the source of query and database items. Here, we propose a new network block, called *neural nearest neighbors block* ($\text{N}^{3}$ block, Fig. 2(a)), which integrates our continuous and differentiable nearest neighbors selection into feed-forward neural networks based on the concept of *self-similarity*, *i. e.* query set and database are derived from the same features (*e. g.*, feature patches of an intermediate layer within a CNN). An $\text{N}^{3}$ block consists of two important parts. First, an embedding network takes the input and produces a feature embedding as well as temperature parameters. These are used in a second step to compute continuous nearest neighbors feature volumes that are aggregated with the input. We interleave $\text{N}^{3}$ blocks with existing local processing networks to form neural nearest neighbors networks ($\text{N}^{3}$Net) as shown in Fig. 2(b).
 
-<!-- chunk {"id": "body-0020", "role": "body", "section": "Neural Nearest Neighbors Block", "weight": 1.0} -->
+<!-- chunk {"id": "body-0019", "role": "body", "section": "Neural Nearest Neighbors Block", "weight": 1.0} -->
 
 In the following, we take a closer look at the components of an $\text{N}^{3}$ block and their design choices.
 
-<!-- chunk {"id": "body-0021", "role": "body", "section": "Neural Nearest Neighbors Block", "weight": 1.0} -->
+<!-- chunk {"id": "body-0020", "role": "body", "section": "Neural Nearest Neighbors Block", "weight": 1.0} -->
 
 Embedding network. A first branch of the embedding network calculates a feature embedding $E = {f_{\text{E}}{(Y)}}$. For image data, we use CNNs to parameterize $f_{\text{E}}$; for set input we use multi-layer perceptrons. The pairwise distance matrix $D$ can now be obtained by $D_{ij} = {d{(E_{i},E_{j})}}$, where $E_{i}$ denotes the embedding of the $i$-th item and $d$ is a differentiable distance function. We found that the Euclidean distance works well for the tasks that we consider. In practice, for each query item, we confine the set of potential neighbors to a subset of all items, *e. g.* all image patches in a certain local region. This allows our $\text{N}^{3}$ block to scale linearly in the number of items instead of quadratically.
 
-<!-- chunk {"id": "body-0022", "role": "body", "section": "Neural Nearest Neighbors Block", "weight": 1.0} -->
+<!-- chunk {"id": "body-0021", "role": "body", "section": "Neural Nearest Neighbors Block", "weight": 1.0} -->
 
 Another network branch computes a tensor $T = {f_{\text{T}}{(Y)}}$ containing the temperature $t$ for each item. Note that $f_{\text{E}}$ and $f_{\text{T}}$ can potentially share weights to some degree. We opted for treating them as separate networks as this allows for an easier implementation.
 
+<!-- chunk {"id": "body-0022", "role": "body", "section": "Neural Nearest Neighbors Block", "weight": 1.0} -->
+
+Continuous nearest neighbors selection. From the distance matrix $D$ and the temperature tensor $T$, we compute $k$ continuous nearest neighbors feature volumes $N_{1},\ldots,N_{k}$ from the input features $Y$ by applying Eqs. 8, 9, 10 and 11 to each item. Since $Y$ and each $N_{i}$ have equal dimensionality, we could use any element-wise operation to aggregate the original features $Y$ and the neighbors. However, a reduction at this stage would mean a very early fusion of features. Hence, we instead simply concatenate $Y$ and the $N_{i}$ along the feature dimension, which allows further network layers to learn how to fuse the information effectively in a non-linear way. $\text{N}^{3}$ block for image data. The $\text{N}^{3}$ block described above is very generic and not limited to a certain input domain. We now describe minor technical modifications when applying the $\text{N}^{3}$ block to image data.
+
 <!-- chunk {"id": "body-0023", "role": "body", "section": "Neural Nearest Neighbors Block", "weight": 1.0} -->
 
-Continuous nearest neighbors selection. From the distance matrix $D$ and the temperature tensor $T$, we compute $k$ continuous nearest neighbors feature volumes $N_{1},\ldots,N_{k}$ from the input features $Y$ by applying Eqs. 8, 9, 10 and 11 to each item. Since $Y$ and each $N_{i}$ have equal dimensionality, we could use any element-wise operation to aggregate the original features $Y$ and the neighbors. However, a reduction at this stage would mean a very early fusion of features. Hence, we instead simply concatenate $Y$ and the $N_{i}$ along the feature dimension, which allows further network layers to learn how to fuse the information effectively in a non-linear way.
+Traditionally, non-local methods in image processing have been applied at the patch-level, *i. e.* the items to be matched consist of image patches instead of pixels. This has the advantage of using a broader local context for matching and aggregation. We follow this reasoning and first apply a strided im2col operation on $E$ before calculating pairwise distances. The temperature parameter for each patch is obtained by taking the corresponding center pixel in $T$. Each nearest neighbor volume $N_{i}$ is converted from the patch domain to the image domain by applying a col2im operation, where we average contributions of different patches to the same pixel.
 
-<!-- chunk {"id": "body-0024", "role": "body", "section": "Neural Nearest Neighbors Block", "weight": 1.0} -->
-
-$\text{N}^{3}$ block for image data. The $\text{N}^{3}$ block described above is very generic and not limited to a certain input domain. We now describe minor technical modifications when applying the $\text{N}^{3}$ block to image data. Traditionally, non-local methods in image processing have been applied at the patch-level, *i. e.* the items to be matched consist of image patches instead of pixels. This has the advantage of using a broader local context for matching and aggregation. We follow this reasoning and first apply a strided im2col operation on $E$ before calculating pairwise distances. The temperature parameter for each patch is obtained by taking the corresponding center pixel in $T$. Each nearest neighbor volume $N_{i}$ is converted from the patch domain to the image domain by applying a col2im operation, where we average contributions of different patches to the same pixel.
-
-<!-- chunk {"id": "body-0025", "role": "body", "section": "Experiments", "weight": 1.0} -->
+<!-- chunk {"id": "body-0024", "role": "body", "section": "Experiments", "weight": 1.0} -->
 
 We now analyze the properties of our novel $\text{N}^{3}$Net and show its benefits over state-of-the-art baselines. We use image denoising as our main test bed as non-local methods have been well studied there. Moreover, we evaluate on single image super-resolution and correspondence classification.
 
+<!-- chunk {"id": "body-0025", "role": "body", "section": "Experiments", "weight": 1.0} -->
+
+Gaussian image denoising. We consider the task of denoising a noisy image $\mathbf{D}$, which arises by corrupting a clean image $\mathbf{C}$ with additive white Gaussian noise of standard deviation $\sigma$: Our baseline architecture is the DnCNN model of Zhang *et al.*, consisting of $16$ blocks, each with a sequence of a $3 \times 3$ convolutional layer with $64$ feature maps, batch normalization, and a ReLU activation function. In the end, a final $3 \times 3$ convolution is applied, the output of which is added back to the input through a global skip connection.
+
 <!-- chunk {"id": "body-0026", "role": "body", "section": "Experiments", "weight": 1.0} -->
-
-Our baseline architecture is the DnCNN model of Zhang *et al.*, consisting of $16$ blocks, each with a sequence of a $3 \times 3$ convolutional layer with $64$ feature maps, batch normalization, and a ReLU activation function. In the end, a final $3 \times 3$ convolution is applied, the output of which is added back to the input through a global skip connection.
-
-<!-- chunk {"id": "body-0027", "role": "body", "section": "Experiments", "weight": 1.0} -->
 
 We use the DnCNN architecture to create our $\text{N}^{3}$Net for image denoising. Specifically, we use three DnCNNs with six blocks each, *cf.* Fig. 2(b). The first two blocks output $8$ feature maps, which are fed into a subsequent $\text{N}^{3}$ block that computes $7$ neighbor volumes. The concatenated output again has a depth of $64$ feature channels, matching the depth of the other intermediate blocks. The $\text{N}^{3}$ blocks extract $10 \times 10$ patches with a stride of $5$. Patches are matched to other patches in a $80 \times 80$ region, yielding a total of $224$ candidate patches for matching each query patch. More details on the architecture can be found in the supplemental material.
 
-<!-- chunk {"id": "body-0028", "role": "body", "section": "Experiments", "weight": 1.0} -->
+<!-- chunk {"id": "body-0027", "role": "body", "section": "Experiments", "weight": 1.0} -->
 
 Training details. We follow the protocol of Zhang *et al.* and use the 400 images in the train and test split of the BSD500 dataset for training. Note that these images are strictly separate from the validation images. For each epoch, we randomly crop $512$ patches of size $80 \times 80$ from each training image. We use horizontal and vertical flipping as well as random rotations $\in {\{{0{^\circ}},{90{^\circ}},{180{^\circ}},{270{^\circ}}\}}$ as further data augmentation. In total, we train for $50$ epochs with a batch size of $32$, using the Adam optimizer with default parameters ${\beta_{1} = 0.9},{\beta_{2} = 0.999}$ to minimize the squared error. The learning rate is initially set to $10^{- 3}$ and exponentially decreased to $10^{- 8}$ over the course of training.
 
-<!-- chunk {"id": "body-0029", "role": "body", "section": "Experiments", "weight": 1.0} -->
+<!-- chunk {"id": "body-0028", "role": "body", "section": "Experiments", "weight": 1.0} -->
 
 Following the publicly available implementation of DnCNN, we apply a weight decay with strength $10^{- 4}$ to the weights of the convolution layers and the scaling of batch normalization layers.
 
-<!-- chunk {"id": "body-0030", "role": "body", "section": "Experiments", "weight": 1.0} -->
+<!-- chunk {"id": "body-0029", "role": "body", "section": "Experiments", "weight": 1.0} -->
 
 We evaluate our full model on three different datasets: *(i)* a set of twelve commonly used benchmark images, *(ii)* the 68 images subset of the BSD500 validation set, and *(iii)* the Urban100 dataset, which contains images of urban scenes where repetitive patterns are abundant.
+
+<!-- chunk {"id": "body-0030", "role": "body", "section": "Experiments", "weight": 1.0} -->
+
+3 × DnCNN (d = 6), KNN block (k = 7) 3 × DnCNN (d = 6), KNN block (k = 7) 3 × DnCNN (d = 6), Concrete block (k = 7) Table 1: PSNR and SSIM on Urban100 for different architectures on gray-scale image denoising (σ = 25).
 
 <!-- chunk {"id": "body-0031", "role": "body", "section": "Ablation study", "weight": 1.0} -->
 
@@ -156,7 +156,7 @@ To further demonstrate the merits of our approach, we applied the same $\text{N}
 
 <!-- chunk {"id": "body-0039", "role": "body", "section": "Real image denoising", "weight": 1.0} -->
 
-where $Y{( \cdot )}$ computes luminance values from RGB, the exponentiation with $f_{e}$ aims at undoing compression of high image intensities, and scaling with $f_{c}$ aims at undoing the effect of white balancing. Further training details can be found in the supplemental material.
+Before adding synthetic noise, we transform the clean RGB images $\mathbf{Y}_{\text{RGB}}$ to $\mathbf{Y}_{\text{RAW}}$ such that they more closely resemble images with raw intensity values: where $Y{(\cdot)}$ computes luminance values from RGB, the exponentiation with $f_{e}$ aims at undoing compression of high image intensities, and scaling with $f_{c}$ aims at undoing the effect of white balancing. Further training details can be found in the supplemental material.
 
 <!-- chunk {"id": "body-0040", "role": "body", "section": "Real image denoising", "weight": 1.0} -->
 

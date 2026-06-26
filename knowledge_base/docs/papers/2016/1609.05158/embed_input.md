@@ -44,7 +44,7 @@ In this paper, contrary to previous works, we propose to increase the resolution
 
 <!-- chunk {"id": "body-0011", "role": "body", "section": "Motivations and contributions", "weight": 1.0} -->
 
-In our network, upscaling is handled by the last layer of the network. This means each LR image is directly fed to the network and feature extraction occurs through nonlinear convolutions in LR space. Due to the reduced input resolution, we can effectively use a smaller filter size to integrate the same information while maintaining a given contextual area. The resolution and filter size reduction lower the computational and memory complexity substantially enough to allow super-resolution of high definition (HD) videos in real-time as shown in Sec. 3.5.
+The advantages of these contributions are two fold: In our network, upscaling is handled by the last layer of the network. This means each LR image is directly fed to the network and feature extraction occurs through nonlinear convolutions in LR space. Due to the reduced input resolution, we can effectively use a smaller filter size to integrate the same information while maintaining a given contextual area. The resolution and filter size reduction lower the computational and memory complexity substantially enough to allow super-resolution of high definition (HD) videos in real-time as shown in Sec. 3.5.
 
 <!-- chunk {"id": "body-0012", "role": "body", "section": "Motivations and contributions", "weight": 1.0} -->
 
@@ -64,7 +64,7 @@ To solve the SISR problem, the SRCNN proposed in recovers from an upscaled and i
 
 <!-- chunk {"id": "body-0016", "role": "body", "section": "Method", "weight": 1.0} -->
 
-Where ${W_{l},b_{l},l} \in {(1,{L - 1})}$ are learnable network weights and biases respectively. $W_{l}$ is a 2D convolution tensor of size $n_{l - 1} \times n_{l} \times k_{l} \times k_{l}$, where $n_{l}$ is the number of features at layer $l$, $n_{0} = C$, and $k_{l}$ is the filter size at layer $l$. The biases $b_{l}$ are vectors of length $n_{l}$. The nonlinearity function (or activation function) $\phi$ is applied element-wise and is fixed. The last layer $f^{L}$ has to convert the LR feature maps to a HR image $\mathbf{I}^{SR}$.
+For a network composed of $L$ layers, the first $L - 1$ layers can be described as follows: Where ${W_{l},b_{l},l} \in {(1,{L - 1})}$ are learnable network weights and biases respectively. $W_{l}$ is a 2D convolution tensor of size $n_{l - 1} \times n_{l} \times k_{l} \times k_{l}$, where $n_{l}$ is the number of features at layer $l$, $n_{0} = C$, and $k_{l}$ is the filter size at layer $l$. The biases $b_{l}$ are vectors of length $n_{l}$. The nonlinearity function (or activation function) $\phi$ is applied element-wise and is fixed. The last layer $f^{L}$ has to convert the LR feature maps to a HR image $\mathbf{I}^{SR}$.
 
 <!-- chunk {"id": "body-0017", "role": "body", "section": "Deconvolution layer", "weight": 1.0} -->
 
@@ -80,15 +80,15 @@ Alternatively, a convolution with stride of $\frac{1}{r}$ in the LR space with a
 
 <!-- chunk {"id": "body-0020", "role": "body", "section": "Efficient sub-pixel convolution layer", "weight": 1.0} -->
 
-where $\mathcal{P}\mathcal{S}$ is an periodic shuffling operator that rearranges the elements of a ${H \times W \times C} \cdot r^{2}$ tensor to a tensor of shape ${{{rH} \times r}W} \times C$. The effects of this operation are illustrated in Fig. 1. Mathematically, this operation can be described in the following way
+In this paper, we propose an effective way to implement the above operation when ${\text{mod}\left(k_{s},r \right)} = 0$: where $\mathcal{P}\mathcal{S}$ is an periodic shuffling operator that rearranges the elements of a ${H \times W \times C} \cdot r^{2}$ tensor to a tensor of shape ${{{rH} \times r}W} \times C$. The effects of this operation are illustrated in Fig. 1. Mathematically, this operation can be described in the following way The convolution operator $W_{L}$ thus has shape ${{n_{L - 1} \times r^{2}}C} \times k_{L} \times k_{L}$. Note that we do not apply nonlinearity to the outputs of the convolution at the last layer.
 
 <!-- chunk {"id": "body-0021", "role": "body", "section": "Efficient sub-pixel convolution layer", "weight": 1.0} -->
 
-The convolution operator $W_{L}$ thus has shape ${{n_{L - 1} \times r^{2}}C} \times k_{L} \times k_{L}$. Note that we do not apply nonlinearity to the outputs of the convolution at the last layer. It is easy to see that when $k_{L} = \frac{k_{s}}{r}$ and ${\text{mod}\left( k_{s},r \right)} = 0$ it is equivalent to sub-pixel convolution in the LR space with the filter $W_{s}$. We will refer to our new layer as the sub-pixel convolution layer and our network as efficient sub-pixel convolutional neural network (ESPCN). This last layer produces a HR image from LR feature maps directly with one upscaling filter for each feature map as shown in Fig. 4.
+It is easy to see that when $k_{L} = \frac{k_{s}}{r}$ and ${\text{mod}\left(k_{s},r \right)} = 0$ it is equivalent to sub-pixel convolution in the LR space with the filter $W_{s}$. We will refer to our new layer as the sub-pixel convolution layer and our network as efficient sub-pixel convolutional neural network (ESPCN). This last layer produces a HR image from LR feature maps directly with one upscaling filter for each feature map as shown in Fig. 4.
 
 <!-- chunk {"id": "body-0022", "role": "body", "section": "Efficient sub-pixel convolution layer", "weight": 1.0} -->
 
-It is noticeable that the implementation of the above periodic shuffling can be avoided in training time. Instead of shuffling the output as part of the layer, we can pre-shuffle the training data to match the output of the layer before $\mathcal{P}\mathcal{S}$. Thus our proposed layer is $log_{2}r^{2}$ times faster compared to deconvolution layer in training and $r^{2}$ times faster compared to implementations using various forms of upscaling before convolution.
+Given a training set consisting of HR image examples ${\mathbf{I}_{n}^{HR},n} = {1\ldotsN}$, we generate the corresponding LR images ${\mathbf{I}_{n}^{LR},n} = {1\ldotsN}$, and calculate the pixel-wise mean squared error (MSE) of the reconstruction as an objective function to train the network: It is noticeable that the implementation of the above periodic shuffling can be avoided in training time. Instead of shuffling the output as part of the layer, we can pre-shuffle the training data to match the output of the layer before $\mathcal{P}\mathcal{S}$. Thus our proposed layer is $log_{2}r^{2}$ times faster compared to deconvolution layer in training and $r^{2}$ times faster compared to implementations using various forms of upscaling before convolution.
 
 <!-- chunk {"id": "body-0023", "role": "body", "section": "Experiments", "weight": 1.0} -->
 
@@ -134,26 +134,22 @@ In this section, we show ESPCN trained on ImageNet compared to results from SRCN
 
 Our results shown in Tab. 2 are significantly better than the SRCNN 9-5-5 ImageNet model, whilst being close to, and in some cases out-performing, the TNRD. Although TNRD uses a single bicubic interpolation to upscale the input image to HR space, it possibly benefits from a trainable nonlinearity function. This trainable nonlinearity function is not exclusive from our network and will be interesting to explore in the future. Visual comparison of the super-resolved images is given in Fig. 5 and Fig. 6, the CNN methods create a much sharper and higher contrast images, ESPCN provides noticeably improvement over SRCNN.
 
-<!-- chunk {"id": "body-0034", "role": "body", "section": "Video super-resolution results", "weight": 1.0} -->
-
-In this section, we compare the ESPCN trained models against single frame bicubic interpolation and SRCNN on two popular video benchmarks. One big advantage of our network is its speed. This makes it an ideal candidate for video SR which allows us to super-resolve the videos frame by frame. Our results shown in Tab. 3 and Tab. 4 are better than the SRCNN 9-5-5 ImageNet model. The improvement is more significant than the results on the image data, this maybe due to differences between datasets. Similar disparity can be observed in different categories of the image benchmark as Set5 vs SuperTexture.
-
-<!-- chunk {"id": "body-0035", "role": "body", "section": "Run time evaluations", "weight": 1.0} -->
+<!-- chunk {"id": "body-0034", "role": "body", "section": "Run time evaluations", "weight": 1.0} -->
 
 In this section, we evaluated our best model's run time on ^44^4It should be noted our results outperform all other algorithms in accuracy on the larger BSD datasets. However, the use of on a single CPU core is selected here in order to allow a straight-forward comparison with results from previous published results. with an upscale factor of 3. We evaluate the run time of other methods from the Matlab codes provided by and. For methods which use convolutions including our own, a python/theano implementation is used to improve the efficiency based on the Matlab codes provided. The results are presented in Fig. 2. Our model runs a magnitude faster than the fastest methods published so far. Compared to SRCNN 9-5-5 ImageNet model, the number of convolution required to super-resolve one image is $r \times r$ times smaller and the number of total parameters of the model is $2.5$ times smaller. The total complexity of the super-resolution operation is thus $2.5 \times r \times r$ times lower.
 
-<!-- chunk {"id": "body-0036", "role": "body", "section": "Run time evaluations", "weight": 1.0} -->
+<!-- chunk {"id": "body-0035", "role": "body", "section": "Run time evaluations", "weight": 1.0} -->
 
 We have achieved a stunning average speed of $4.7ms$ for super-resolving one single image from on a K2 GPU. Utilising the amazing speed of the network, it will be interesting to explore ensemble prediction using independently trained models as discussed in to achieve better SR performance in the future.
 
-<!-- chunk {"id": "body-0037", "role": "body", "section": "Run time evaluations", "weight": 1.0} -->
+<!-- chunk {"id": "body-0036", "role": "body", "section": "Run time evaluations", "weight": 1.0} -->
 
 We also evaluated run time of 1080 HD video super-resolution using videos from the Xiph and the Ultra Video Group database. With upscale factor of 3, SRCNN 9-5-5 ImageNet model takes 0.435s per frame whilst our ESPCN model takes only 0.038s per frame. With upscale factor of 4, SRCNN 9-5-5 ImageNet model takes 0.434s per frame whilst our ESPCN model takes only 0.029s per frame.
 
-<!-- chunk {"id": "body-0038", "role": "body", "section": "Conclusion", "weight": 1.5} -->
+<!-- chunk {"id": "body-0037", "role": "body", "section": "Conclusion", "weight": 1.5} -->
 
 In this paper, we demonstrate that a non-adaptive upscaling at the first layer provides worse results than an adaptive upscaling for SISR and requires more computational complexity. To address the problem, we propose to perform the feature extraction stages in the LR space instead of HR space. To do that we propose a novel sub-pixel convolution layer which is capable of super-resolving LR data into HR space with very little additional computational cost compared to a deconvolution layer at training time. Evaluation performed on an extended bench mark data set with upscaling factor of 4 shows that we have a significant speed ($> 10 \times$) and performance (+0.15dB on Images and +0.39dB on videos) boost compared to the previous CNN approach with more parameters (5-3-3 vs 9-5-5). This makes our model the first CNN model that is capable of SR HD videos in real time on a single GPU.
 
-<!-- chunk {"id": "body-0039", "role": "body", "section": "Future work", "weight": 1.5} -->
+<!-- chunk {"id": "body-0038", "role": "body", "section": "Future work", "weight": 1.5} -->
 
 A reasonable assumption when processing video information is that most of a scene's content is shared by neighbouring video frames. Exceptions to this assumption are scene changes and objects sporadically appearing or disappearing from the scene. This creates additional data-implicit redundancy that can be exploited for video super-resolution as has been shown. Spatio-temporal networks are popular as they fully utilise the temporal information from videos for human action recognition. In the future, we will investigate extending our ESPCN network into a spatio-temporal network to super-resolve one frame from multiple neighbouring frames using 3D convolutions.

@@ -32,15 +32,15 @@ A different approach is represented by risk-sensitive control that incorporates 
 
 <!-- chunk {"id": "body-0008", "role": "body", "section": "Literature review", "weight": 1.0} -->
 
-Distributional robust control (DRC) is an alternative paradigm that is gaining momentum. The DRC problem seeks a control policy that minimizes the expected cost under the worst-case noise distribution in an ambiguity set, i.e., a set of probability distributions among which we can reasonably expect to find the true noise distribution. DRC robustifies against model misspecifications in the space of probabilities. Different types of ambiguity sets have been proposed in the literature based on moment constraints, total variation distance, Wasserstein distance (or, more broadly, optimal transport distances), and $\phi -$divergences.
+Distributional robust control (DRC) is an alternative paradigm that is gaining momentum. The DRC problem seeks a control policy that minimizes the expected cost under the worst-case noise distribution in an ambiguity set, i.e., a set of probability distributions among which we can reasonably expect to find the true noise distribution. DRC robustifies against model misspecifications in the space of probabilities. Different types of ambiguity sets have been proposed in the literature based on moment constraints, total variation distance, Wasserstein distance (or, more broadly, optimal transport distances), and $\phi-$divergences.
 
 <!-- chunk {"id": "body-0009", "role": "body", "section": "Literature review", "weight": 1.0} -->
 
-In a DR-LQG problem similar to the one considered here is solved by considering ambiguity sets defined on the basis of the Wasserstein distance. Compared to, (i) we motivate the choice of the KL distance by providing interesting connections with system identification and risk measure theory, (ii) we prove optimality of the linear policies for the DR-LQG problem with KL ambiguity sets, and (iii) we provide a novel best response algorithm that exploits the availability of closed-form expressions for the best responses, unlike the gradient-based method suggested that relies on automatic differentiation.
+In a DR-LQG problem similar to the one considered here is solved by considering ambiguity sets defined on the basis of the Wasserstein distance. Compared to, (i) we motivate the choice of the KL distance by providing interesting connections with system identification and risk measure theory, (ii) we prove optimality of the linear policies for the DR-LQG problem with KL ambiguity sets, and (iii) we provide a novel best response algorithm that exploits the availability of closed-form expressions for the best responses, unlike the gradient-based method suggested in that relies on automatic differentiation.
 
 <!-- chunk {"id": "body-0010", "role": "body", "section": "Literature review", "weight": 1.0} -->
 
-The dynamic-programming based recursion for decision-dependent ambiguity sets, is related to the approaches and. These works address a regularized relaxed problem with a fixed penalty value in the objective function; hence, there are no guarantees that the worst-case distribution, against which the controller is hedging, belongs to the specified ambiguity set. On the contrary, our formulation addresses the exact constrained formulation. Additionally, and distributed uncertainty modeling is not considered. Finally, and the problem is solved by neglecting a crucial non-linear dependence in the optimality equations; we tackle this problem by linearizing this dependence (instead of disregarding it) with obvious advantages in terms of performances, as demonstrated in the numerical section.
+The dynamic-programming based recursion for decision-dependent ambiguity sets, is related to the approaches in and. These works address a regularized relaxed problem with a fixed penalty value in the objective function; hence, there are no guarantees that the worst-case distribution, against which the controller is hedging, belongs to the specified ambiguity set. On the contrary, our formulation addresses the exact constrained formulation. Additionally, in and distributed uncertainty modeling is not considered. Finally, in and the problem is solved by neglecting a crucial non-linear dependence in the optimality equations; we tackle this problem by linearizing this dependence (instead of disregarding it) with obvious advantages in terms of performances, as demonstrated in the numerical section.
 
 <!-- chunk {"id": "body-0011", "role": "body", "section": "Outline", "weight": 1.0} -->
 
@@ -48,7 +48,7 @@ In Section II we present the necessary background, while in Section III we descr
 
 <!-- chunk {"id": "body-0012", "role": "body", "section": "Relative entropy ambiguity sets", "weight": 1.0} -->
 
-We do not differentiate between ${\mathbb{P}}_{i}$ and its density $p_{i}{(x)}$ in the following, when clear from the context.
+Given any two probability distributions $\mathbb{P}_{1},\mathbb{P}_{2}\in\mathcal{P}(\mathbb{R}^{n})$, a KL-ambiguity set of radius $\rho>0$ centered at $\mathbb{P}_{1}$ is where $R(\mathbb{P}_{2}||\mathbb{P}_{1})$ is the KL divergence from distribution $\mathbb{P}_{2}$ to the centre $\mathbb{P}_{1}$. For $\mathbb{P}_{1},\mathbb{P}_{2}$ admitting densities $p_{1}(x),p_{2}(x)$, respectively, then We do not differentiate between $\mathbb{P}_{i}$ and its density $p_{i}(x)$ in the following, when clear from the context.
 
 <!-- chunk {"id": "body-0013", "role": "body", "section": "Convex optimization", "weight": 1.0} -->
 
@@ -56,188 +56,152 @@ Finally, we recall some results from convex optimization.
 
 <!-- chunk {"id": "body-0014", "role": "body", "section": "Problem setup", "weight": 1.0} -->
 
-Consider a discrete-time stochastic linear system
+Consider a discrete-time stochastic linear system where $x_{t}\in\mathbb{R}^{n},u_{t}\in\mathbb{R}^{m},y_{t}\in\mathbb{R}^{p}$ are the system state, input and output, respectively, and $A\in\mathbb{R}^{n\times n},B\in\mathbb{R}^{n\times m},C\in\mathbb{R}^{p\times n}$ are the corresponding system matrices, that we assume to be time-invariant to streamline the presentation^11^1The theory remains valid in the case of time-dependant parameters..
 
 <!-- chunk {"id": "body-0015", "role": "body", "section": "Problem setup", "weight": 1.0} -->
 
-where $\mathcal{B}$ is an ambiguity set is defined as
+Further, for $t\geq 0$, let $\mathcal{F}_{t}=\sigma(y_{0:t})$ be the $\sigma$-algebra generated by all observations up to time $t$, and let $\mathcal{F}_{-1}$ be the trivial $\sigma$-algebra. We restrict attention to inputs $u_{t}$ that are $\mathcal{F}_{t}$-measurable with respect to the observations up to time $t$ and assume that there exists a measurable function $\pi_{t}$ such that $u_{t}=\pi_{t}(y_{0:t})$. The control policy $\pi\triangleq\{\pi_{t}\}_{t=0}^{T-1}\in\mathcal{U}_{\mathbf{y}}$ is the collection of all such functions.
 
 <!-- chunk {"id": "body-0016", "role": "body", "section": "Problem setup", "weight": 1.0} -->
 
-for user-defined ${\rho_{x_{0}},\rho_{w_{t}},\rho_{v_{t}}} \geq 0$. Note that by construction all exogenous random variables $x_{0},w_{0},\ldots,w_{T - 1},v_{0},\ldots,v_{T - 1}$ are mutually independent under every distribution in $\mathcal{B}$. The restriction to zero-mean distributions, both in the nominal and in the perturbed distributions, is done to simplify the presentation; the results can be extended to the case of non-zero mean distributions with minor modifications. Note also that the DR-LQG problem constitutes a zero-sum game between the control policy and a fictitious adversary that selects $\mathcal{B}$.
+We depart from the standard LQG framework, and assume that $\mathbb{P}$ is unknown.
 
-<!-- chunk {"id": "body-0017", "role": "body", "section": "III-A On the choice of the KL-divergence", "weight": 1.0} -->
+<!-- chunk {"id": "body-0017", "role": "body", "section": "Problem setup", "weight": 1.0} -->
 
-We briefly review some benefits of the use of KL divergence to define ambiguity sets.
+For $Q,Q_{T}\in\mathbb{S}_{+}^{n}$ and $R\in\mathbb{S}_{++}^{m}$, our aim is to solve the following minimax problem: where $\mathcal{B}$ is an ambiguity set is defined as for user-defined $\rho_{x_{0}},\rho_{w_{t}},\rho_{v_{t}}\geq 0$. Note that by construction all exogenous random variables $x_{0},w_{0},\ldots,w_{T-1},v_{0},\ldots,v_{T-1}$ are mutually independent under every distribution in $\mathcal{B}$. The restriction to zero-mean distributions, both in the nominal and in the perturbed distributions, is done to simplify the presentation; the results can be extended to the case of non-zero mean distributions with minor modifications.
 
-<!-- chunk {"id": "body-0018", "role": "body", "section": "III-A On the choice of the KL-divergence", "weight": 1.0} -->
+<!-- chunk {"id": "body-0018", "role": "body", "section": "Problem setup", "weight": 1.0} -->
 
-Connection with system identification. Consider the problem of estimating the parameters $\theta = {(A,B,C)}$ of a linear system of the form from noisy input-output data $\{{(u_{t},y_{t})}\}$. One of the most widely used paradigms to accomplish this task is maximum likelihood estimation (MLE), where the log-likelihood $\mathcal{L}{(\theta)}$ is maximized with respect to $\theta$. provides an attractive interpretation of the MLE problem as the search for a model that minimizes the KL-divergence to the true system. Building on this interpretation, we can directly employ $\mathcal{L}{(\theta^{\star})}$ to provide a meaningful estimate of the size of the KL ambiguity sets.
+Note also that the DR-LQG problem constitutes a zero-sum game between the control policy and a fictitious adversary that selects $\mathcal{B}$.
 
 <!-- chunk {"id": "body-0019", "role": "body", "section": "III-A On the choice of the KL-divergence", "weight": 1.0} -->
 
-Connection with risk measures. For $p \in {\lbrack 1,\infty)}$, let $\mathcal{L}_{p}{(\Omega,\mathcal{F},{\mathbb{P}})}$ be the space of random variables $\xi:{\Omega\rightarrow{\mathbb{R}}}$ with finite $p -$th moment with respect to the measure $\mathbb{P}$. Then, a risk measure $\rho{(\xi)}$ with $\rho:{{\mathcal{L}_{p}{(\Omega,\mathcal{F},{\mathbb{P}})}}\rightarrow{{\mathbb{R}} \cup {\{\infty\}}}}$ is a mapping that maps $\xi$ to the extended real line, quantifying its \"riskiness\".
+We briefly review some benefits of the use of KL divergence to define ambiguity sets.
 
 <!-- chunk {"id": "body-0020", "role": "body", "section": "III-A On the choice of the KL-divergence", "weight": 1.0} -->
 
-Originating in economics, risk measures are now popular in the control community to allow for a systematic approach to risk assessment (e.g., for safety-critical systems). Among them, the class of coherent risk measures is the most widespread thanks to their appealing properties \[, Chapter 6, p.231\]. Exploiting the Fenchel-Moreau theorem, it is possible to show that any coherent risk measure can be written as
+Connection with system identification. Consider the problem of estimating the parameters $\theta=(A,B,C)$ of a linear system of the form from noisy input-output data $\{(u_{t},y_{t})\}$. One of the most widely used paradigms to accomplish this task is maximum likelihood estimation (MLE), where the log-likelihood $\mathcal{L}(\theta)$ is maximized with respect to $\theta$. provides an attractive interpretation of the MLE problem as the search for a model that minimizes the KL-divergence to the true system. Building on this interpretation, we can directly employ $\mathcal{L}(\theta^{\star})$ to provide a meaningful estimate of the size of the KL ambiguity sets.
 
 <!-- chunk {"id": "body-0021", "role": "body", "section": "III-A On the choice of the KL-divergence", "weight": 1.0} -->
 
-where $\mathcal{A}$ is a set of probability density functions, and the measure $\mathbb{Q}$ is such that ${\mathbb{Q}}\operatorname{<<}{\mathbb{P}}$. This provides a clear connection with distributionally robust optimization with KL-based ambiguity sets.
+Connection with risk measures. For $p\in1,\infty)$, let $\mathcal{L}_{p}(\Omega,\mathcal{F},\mathbb{P})$ be the space of random variables $\xi:\Omega\rightarrow\mathbb{R}$ with finite $p-$th moment with respect to the measure $\mathbb{P}$. Then, a risk measure $\rho(\xi)$ with $\rho:\mathcal{L}_{p}(\Omega,\mathcal{F},\mathbb{P})\rightarrow{\mathbb{R}}\cup\{\infty\}$ is a mapping that maps $\xi$ to the extended real line, quantifying its \"riskiness\". Originating in economics, risk measures are now popular in the control community to allow for a systematic approach to risk assessment (e.g., for safety-critical systems) \[.
 
-<!-- chunk {"id": "body-0022", "role": "body", "section": "Example 1 (Conditional Value at Risk)", "weight": 1.0} -->
+<!-- chunk {"id": "body-0022", "role": "body", "section": "III-A On the choice of the KL-divergence", "weight": 1.0} -->
 
-The CVaR of level $\beta \in {}$ can be described as in
+Among them, the class of coherent risk measures is the most widespread thanks to their appealing properties \[21, Chapter 6, p.231\]. Exploiting the Fenchel-Moreau theorem, it is possible to show that any coherent risk measure can be written as where $\mathcal{A}$ is a set of probability density functions, and the measure $\mathbb{Q}$ is such that $\mathbb{Q}<<\mathbb{P}$. This provides a clear connection with distributionally robust optimization with KL-based ambiguity sets.
 
 <!-- chunk {"id": "body-0023", "role": "body", "section": "Example 1 (Conditional Value at Risk)", "weight": 1.0} -->
 
-since ${\int{q{(x)}{dx}}} = 1$. Consider now the LQG functional, and assume that instead of the expectation we want to consider the CVaR as we are interested in accounting for the tail-risk. Then, the cost functional becomes
+The CVaR of level $\beta\in$ can be described as in with Let $p(x),q(x)$ be the densities of $\mathbb{P},\mathbb{Q}$. We have: since $\int q(x)dx=1$. Consider now the LQG functional, and assume that instead of the expectation we want to consider the CVaR as we are interested in accounting for the tail-risk.
 
 <!-- chunk {"id": "body-0024", "role": "body", "section": "Example 1 (Conditional Value at Risk)", "weight": 1.0} -->
 
-where for the second line we borrow the stacked notation from the upcoming Section IV, and the system evolves as. For $\xi = {{\mathbf{u}^{\top}{\mathbf{R}\mathbf{u}}} + {\mathbf{x}^{\top}{\mathbf{Q}\mathbf{x}}}}$, we then conclude that $\sup_{{\mathbb{Q}} \in \mathcal{B}_{\rho}}{{\mathbb{E}}_{\mathbb{Q}}{\lbrack\xi\rbrack}}$, with $\rho = {\log\left( \frac{1}{\beta} \right)}$, represents a conservative approximation of ). While solving ) is challenging, we will show that can be solved effectively, thus paving the way for novel risk-aware formulations as. $\bigtriangleup$
+For $\xi=\mathbf{u}^{\top}\mathbf{R}\mathbf{u}+\mathbf{x}^{\top}\mathbf{Q}\mathbf{x}$, we then conclude that $\sup_{\mathbb{Q}\in\mathcal{B}_{\rho}}\mathbb{E}_{\mathbb{Q}}[\xi]$, with $\rho=\textstyle\log\left(\textstyle\frac{1}{\beta}\right)$, represents a conservative approximation of (7. ‣ III-A On the choice of the KL-divergence ‣ III Problem setup ‣ Distributionally Robust LQG with Kullback-Leibler Ambiguity Sets")). While solving (7. ‣ III-A On the choice of the KL-divergence ‣ III Problem setup ‣ Distributionally Robust LQG with Kullback-Leibler Ambiguity Sets")) is challenging, we will show that can be solved effectively, thus paving the way for novel risk-aware formulations as.
 
 <!-- chunk {"id": "body-0025", "role": "body", "section": "IV-A Problem re-parametrization", "weight": 1.0} -->
 
-As pointed out, in the LQG formulation the inputs are subject to a cyclic dependence, which makes the analysis of hard. To break this dependency, we proceed as and introduce a \"fictitious\" noise-free system
+As pointed out, in the LQG formulation the inputs are subject to a cyclic dependence, which makes the analysis of hard. To break this dependency, we proceed as in and introduce a \"fictitious\" noise-free system with states $\hat{x}_{t}\in\mathbb{R}^{n}$ and outputs $\hat{y}_{t}\in\mathbb{R}^{p}$, initialized with $\hat{x}_{0}=0$ and subject to the same inputs $u_{t}$ as the original system. We define the purified observation at time $t$ as $\eta_{t}=y_{t}-\hat{y}_{t}$ and use $\bm{\eta}=\left(\eta_{0},\ldots,\eta_{T-1}\right)$ to denote the sequence of purified observations.
 
 <!-- chunk {"id": "body-0026", "role": "body", "section": "IV-A Problem re-parametrization", "weight": 1.0} -->
 
-In the remainder, we will then focus without loss of generality on the re-parametrized problem $(P)$.
+Note that since the inputs $u_{t}$ are causal, we can compute $\hat{x}_{t}$ and $\hat{y}_{t}$ from $y_{0},\ldots,y_{t}$. Thus, $\eta_{t}$ can be represented as a function of $y_{0},\ldots,y_{t}$. Conversely, $y_{t}$ can also be represented as a function of $\eta_{0},\ldots,\eta_{t}$. Moreover, any measurable function of $y_{0},\ldots,y_{t}$ can be expressed as a measurable function of $\eta_{0},\ldots,\eta_{t}$ and viceversa \[24, Proposition II.1\].
 
-<!-- chunk {"id": "body-0027", "role": "body", "section": "IV-B Analysis of the upper bound", "weight": 1.0} -->
-
-where $\overset{\sim}{\mathcal{B}}$ is an ambiguity set (to be defined next) such that $\mathcal{B} \subseteq \overset{\sim}{\mathcal{B}}$, and $\mathcal{U}_{\mathbf{η}}^{\text{lin}}$ denotes the class of affine policies of the form $\mathbf{u} = {{\mathbf{U}{\mathbf{η}}} + \mathbf{q}}$ with $\mathbf{U} \in {\mathbb{R}}^{{{mT} \times p}T}$ being block lower triangular to enforce causality and $\mathbf{q} \in {\mathbb{R}}^{mT}$. Clearly, $(U)$ is an upper bound to $(P)$ since we are simultaneously restricting the feasible space of the controller, while enlarging the one of the adversary. We begin by defining $\overset{\sim}{\mathcal{B}}$.
-
-<!-- chunk {"id": "body-0028", "role": "body", "section": "IV-C Analysis of the lower bound", "weight": 1.0} -->
-
-Note that $\mathcal{G}$ only contains Gaussian distributions, hence $\mathcal{G} \subseteq \mathcal{B}$ and $(L)$ is a lower bound for $(P)$. Moreover, notice that for any ${\mathbb{P}} \in \mathcal{G}$, from classical LQG theory, the optimal policy is affine in the observations so we can rewrite $(L)$ as
-
-<!-- chunk {"id": "body-0029", "role": "body", "section": "IV-C Analysis of the lower bound", "weight": 1.0} -->
-
-Invoking, the lower bound $(L)$ becomes
-
-<!-- chunk {"id": "body-0030", "role": "body", "section": "IV-D Optimality of linear policies", "weight": 1.0} -->
+<!-- chunk {"id": "body-0027", "role": "body", "section": "IV-D Optimality of linear policies", "weight": 1.0} -->
 
 The analysis of the upper and lower bounds culminates with the following result, which represents our first contribution.
 
-<!-- chunk {"id": "body-0031", "role": "body", "section": "Computational framework for the DR-LQG", "weight": 1.0} -->
+<!-- chunk {"id": "body-0028", "role": "body", "section": "Computational framework for the DR-LQG", "weight": 1.0} -->
 
-In search of methods for computing the optimal $u^{\star}$ and ${\mathbb{P}}^{\star}$, we start by showing that problem $(L)$ admits a Nash equilibrium. Then we devise a best response algorithm that provably converges to te set of saddle points of. Note that from the structure of (U) and (L), we directly infer that $\mathbf{q}^{\star} = \mathbf{0}$ when the nominal distribution is zero-mean. To simplify the results presentation, we will drop $\mathbf{q}$ in the remainder. All our results can be easily extended to the case of non-zero mean distributions, e.g., $\mathbf{q}^{\star} \neq \mathbf{0}$ with minor modifications.
+In search of methods for computing the optimal $u^{\star}$ and $\mathbb{P}^{\star}$, we start by showing that problem $(L)$ admits a Nash equilibrium. Then we devise a best response algorithm that provably converges to te set of saddle points of. Note that from the structure of (U) and (L), we directly infer that $\mathbf{q}^{\star}=\mathbf{0}$ when the nominal distribution is zero-mean. To simplify the results presentation, we will drop $\mathbf{q}$ in the remainder. All our results can be easily extended to the case of non-zero mean distributions, e.g., $\mathbf{q}^{\star}\neq\mathbf{0}$ with minor modifications.
 
-<!-- chunk {"id": "body-0032", "role": "body", "section": "V-A Existence of a Nash equilibrium", "weight": 1.0} -->
+<!-- chunk {"id": "body-0029", "role": "body", "section": "V-B Regularized best response scheme", "weight": 1.0} -->
 
-Consider problem and its dual
+Let us introduce the best response (BR) correspondences Before proceeding, we show that (18a) is equivalently obtained by restricting $\mathbf{U}$ to live in a compact set ${\mathcal{S}}\subseteq\mathbb{R}^{mT\times pT}$.
 
-<!-- chunk {"id": "body-0033", "role": "body", "section": "V-A Existence of a Nash equilibrium", "weight": 1.0} -->
-
-The next result shows that strong duality among the two problems holds.
-
-<!-- chunk {"id": "body-0034", "role": "body", "section": "V-B Regularized best response scheme", "weight": 1.0} -->
-
-Let us introduce the best response (BR) correspondences
-
-<!-- chunk {"id": "body-0035", "role": "body", "section": "V-B Regularized best response scheme", "weight": 1.0} -->
-
-Before proceeding, we show that (18a) is equivalently obtained by restricting $\mathbf{U}$ to live in a compact set $\mathcal{S} \subseteq {\mathbb{R}}^{{{mT} \times p}T}$.
-
-<!-- chunk {"id": "body-0036", "role": "body", "section": "DR-LQG with endogenous ambiguity sets", "weight": 1.0} -->
+<!-- chunk {"id": "body-0030", "role": "body", "section": "DR-LQG with endogenous ambiguity sets", "weight": 1.0} -->
 
 The problem formulation considered up to here assumes exogenous disturbances resulting in ambiguity sets that are defined a priori, i.e., before the control task, and are not influenced by the controller's actions. In this section, we extend the results to the case where the ambiguity sets are endogenously determined by the controller's actions.
 
-<!-- chunk {"id": "body-0037", "role": "body", "section": "DR-LQG with endogenous ambiguity sets", "weight": 1.0} -->
+<!-- chunk {"id": "body-0031", "role": "body", "section": "DR-LQG with endogenous ambiguity sets", "weight": 1.0} -->
 
-Consider the standard Linear Fractional Transformation (LFT) model in Fig.: the source of uncertainty in the system dynamics, represented by the uncertainty operator $\Delta$ that is assumed to be unknown but of bounded magnitude, might depend on the system states and inputs. Consequently, to adequately represent the distributional ambiguity affecting the system, we shall resort to a state and decision-dependent ambiguity set of the form
+Consider the standard Linear Fractional Transformation (LFT) model in Fig. 1: the source of uncertainty in the system dynamics, represented by the uncertainty operator $\Delta$ that is assumed to be unknown but of bounded magnitude, might depend on the system states and inputs. Consequently, to adequately represent the distributional ambiguity affecting the system, we shall resort to a state and decision-dependent ambiguity set of the form for a nominal Gaussian distribution $\mathbb{Q}_{t}$, with $z_{t}=E_{1}x_{t}+E_{2}u_{t}$ where $E_{1}\in\operatorname{\mathbb{R}}^{q\times n}$ and $E_{2}\in\operatorname{\mathbb{R}}^{q\times m}.$ For simplicity, we assume that $E_{1}^{\top}E_{2}=0.$ Figure 1: LFT uncertain model. It separates the nominal dynamics from the uncertainty, represented by the operator Δ in a feedback interconnection.
 
-<!-- chunk {"id": "body-0038", "role": "body", "section": "DR-LQG with endogenous ambiguity sets", "weight": 1.0} -->
+<!-- chunk {"id": "body-0032", "role": "body", "section": "DR-LQG with endogenous ambiguity sets", "weight": 1.0} -->
 
-While the theoretical analysis of Section IV carries over, the convergence of the best response dynamics in is no longer guaranteed, since the endogenous disturbance introduces a coupling among the feasible sets of the players. Thus, Theorem does no longer necessarily hold.
+By suitably selecting the admissible structure and magnitude of Δ, the LFT model can represent various sources of uncertainty.
 
-<!-- chunk {"id": "body-0039", "role": "body", "section": "DR-LQG with endogenous ambiguity sets", "weight": 1.0} -->
+<!-- chunk {"id": "body-0033", "role": "body", "section": "DR-LQG with endogenous ambiguity sets", "weight": 1.0} -->
+
+While the theoretical analysis of Section IV carries over, the convergence of the best response dynamics in is no longer guaranteed, since the endogenous disturbance introduces a coupling among the feasible sets of the players. Thus, Theorem 7 does no longer necessarily hold.
+
+<!-- chunk {"id": "body-0034", "role": "body", "section": "DR-LQG with endogenous ambiguity sets", "weight": 1.0} -->
 
 To overcome this issue, we devise a different approximated scheme that retain convergence guarantees despite the additional complexity introduced by the endogenous ambiguity sets. Differently from the previous sections, this approximated scheme is grounded on standard tools from dynamic programming. In this sense, the approach used here is therefore more closely related to.
 
-<!-- chunk {"id": "body-0040", "role": "body", "section": "VI-A Relaxed problem", "weight": 1.0} -->
+<!-- chunk {"id": "body-0035", "role": "body", "section": "VI-A Relaxed problem", "weight": 1.0} -->
 
-To simplify the derivation, in this section we only consider distributional ambiguity on the process noise $w_{t}$, while ${\mathbb{P}}_{x_{0}},{\mathbb{P}}_{v_{t}}$ are assumed to be known and equal to the their nominal distributions, i.e., we set ${\rho_{x_{0}} = \rho_{v_{t}} = 0},{\forall t}$. Let us denote the information collected up to time $t$ as
+To simplify the derivation, in this section we only consider distributional ambiguity on the process noise $w_{t}$, while $\mathbb{P}_{x_{0}},\mathbb{P}_{v_{t}}$ are assumed to be known and equal to the their nominal distributions, i.e., we set $\rho_{x_{0}}=\rho_{v_{t}}=0,\>\forall\>t$. Let us denote the information collected up to time $t$ as with $I_{0}=y_{0}$, and we call it the information vector. When a new control action is computed, the information vector is updated as $I_{t+1}=(I_{t},y_{t+1},u_{t}).$ It is well-known in stochastic optimal control theory that $I_{t}$ serves as sufficient statistics.
 
-<!-- chunk {"id": "body-0041", "role": "body", "section": "VI-A Relaxed problem", "weight": 1.0} -->
+<!-- chunk {"id": "body-0036", "role": "body", "section": "VI-A Relaxed problem", "weight": 1.0} -->
 
-with $I_{0} = y_{0}$, and we call it the information vector. When a new control action is computed, the information vector is updated as ${I_{t + 1} = {(I_{t},y_{t + 1},u_{t})}}.$ It is well-known in stochastic optimal control theory that $I_{t}$ serves as sufficient statistics.
+We begin by focusing on a relaxed version of Problem where, instead of constraining the adversary to select a distribution from the ambiguity sets $\color[rgb]{0,0,0}\definecolor[named]{pgfstrokecolor}{rgb}{0,0,0}\pgfsys@color@gray@stroke{0}\pgfsys@color@gray@fill{0}\{\mathcal{B}_{t}(x_{t},u_{t})\}_{t=0}^{T-1}$, we simply penalize the deviation of the distributions $\mathbb{P}_{w_{t}}$ from their nominal ones. In other words, we focus on the relaxed regularized problem. Let us use for brevity $R(\mathbb{P}||\mathbb{Q}_{t})\equiv\mathcal{R}_{t}$.
 
-<!-- chunk {"id": "body-0042", "role": "body", "section": "VI-A Relaxed problem", "weight": 1.0} -->
+<!-- chunk {"id": "body-0037", "role": "body", "section": "VI-A Relaxed problem", "weight": 1.0} -->
 
-We begin by focusing on a relaxed version of Problem where, instead of constraining the adversary to select a distribution from the ambiguity sets ${\{{\mathcal{B}_{t}{(x_{t},u_{t})}}\}}_{t = 0}^{T - 1}$, we simply penalize the deviation of the distributions ${\mathbb{P}}_{w_{t}}$ from their nominal ones. In other words, we focus on the relaxed regularized problem. Let us use for brevity $R{({\mathbb{P}}||{\mathbb{Q}}_{t})} \equiv \mathcal{R}_{t}$. The relaxed problem reads
+The relaxed problem reads where $J^{\tau}(\pi,\gamma)$ is defined as for fixed $\{\tau_{t}\}_{t=0}^{N}$ with $\tau_{t}\in\mathbb{R}_{+}$. We address by resorting to the dynamic programming technique. To this end, we derive the following instrumental result.
 
-<!-- chunk {"id": "body-0043", "role": "body", "section": "VI-A Relaxed problem", "weight": 1.0} -->
+<!-- chunk {"id": "body-0038", "role": "body", "section": "Remark 1 (On approximating $r_{t}(\\Sigma_{t})$)", "weight": 1.0} -->
 
-for fixed ${\{\tau_{t}\}}_{t = 0}^{N}$ with $\tau_{t} \in {\mathbb{R}}_{+}$. We address by resorting to the dynamic programming technique. To this end, we derive the following instrumental result.
+The non-linear dependence of $r_{t}$ on $\Sigma_{t}$ is also present in other distributionally robust control formulations, such as the data-driven Wasserstein-based approach discussed. In the search for closed-form recursions, disregard such dependence. Conversely, we account for it via a suitable approximation, while retaining tractability. For completeness, we show the benefits of our formulation compared to the one in in Appendix E on a simplified setting amenable to both algorithms. Finally, we notice that other linear approximation of $r_{t}(\Sigma_{t})$ are possible; for example, one can consider $\bar{\bar{r}}_{t}(X)=\frac{1}{2}\Tr(S_{t+1}AXA^{\top})$.
 
-<!-- chunk {"id": "body-0044", "role": "body", "section": "Remark 1 (On approximating $r_{t}{(\\Sigma_{t})}$)", "weight": 1.0} -->
+<!-- chunk {"id": "body-0039", "role": "body", "section": "VI-B Constrained problem", "weight": 1.0} -->
 
-The non-linear dependence of $r_{t}$ on $\Sigma_{t}$ is also present in other distributionally robust control formulations, such as the data-driven Wasserstein-based approach discussed. In the search for closed-form recursions, disregard such dependence. Conversely, we account for it via a suitable approximation, while retaining tractability. For completeness, we show the benefits of our formulation compared to the one in in Appendix E on a simplified setting amenable to both algorithms. Finally, we notice that other linear approximation of $r_{t}{(\Sigma_{t})}$ are possible; for example, one can consider ${{\overline{\overline{r}}}_{t}{(X)}} = {\frac{1}{2}{{Tr}\left( {S_{t + 1}AXA^{\top}} \right)}}$.
+Next, we extend the results of Subsection VI-A to the constrained minimax Problem 24 resorting to the Lagrange duality theory. Let $\tau=(\tau_{0},\ldots,\tau_{T-1})$ be the Lagrangian multipliers vector; the dual problem associated to is^44^4Contrary to Subsection VI-A, we will consider optimizing over $\tau$, hence we use the notation $\mathcal{V}_{t}(I_{t},\tau)$ to emphasize such dependence. where the equivalence follows. We consider the linearized dual problem with $\bar{\operatorname{\mathcal{V}}}_{0}(I_{0},\tau)$ defined.
 
-<!-- chunk {"id": "body-0045", "role": "body", "section": "VI-B Constrained problem", "weight": 1.0} -->
+<!-- chunk {"id": "body-0040", "role": "body", "section": "VI-B Constrained problem", "weight": 1.0} -->
 
-Next, we extend the results of Subsection VI-A to the constrained minimax Problem resorting to the Lagrange duality theory. Let $\tau = {(\tau_{0},\ldots,\tau_{T - 1})}$ be the Lagrangian multipliers vector; the dual problem associated to is^44^4Contrary to Subsection VI-A, we will consider optimizing over $\tau$, hence we use the notation $\mathcal{V}_{t}{(I_{t},\tau)}$ to emphasize such dependence.
+Consider the coordinate gradient descent scheme, where at each iteration $t\in\mathbb{N}$ we update each $i$-th component of the vector $\tau$ sequentially^55^5One might also randomly select the order of the updates at each iteration $t$ rather than considering a cyclic pattern. Randomized updates might enhance numerical stability. for $i=\{0,\ldots,T-1\}$ by solving the one-dimensional subproblem The overall procedure to solve is summarized in Algorithm 1. We get the following result.
 
-<!-- chunk {"id": "body-0046", "role": "body", "section": "VI-B Constrained problem", "weight": 1.0} -->
+<!-- chunk {"id": "body-0041", "role": "body", "section": "VII-A Example 1", "weight": 1.0} -->
 
-where the equivalence follows. We consider the linearized dual problem
+We consider a linear model with We set the radii to be $\rho_{x_{0}}=\rho_{w_{t}}=\rho_{v_{t}}=1$ and the nominal covariances to $\hat{W}_{t}=0.001I_{2}$, $\hat{V}_{t}=0.001$ for all times $t$, and $W_{-1}=0_{2}$. We set $Q=I_{2},Q_{t}=10I_{2},R=0.1$, $T=20$, and $\hat{x_{0}}=^{\top}$. We implement the iterative best response dynamics in in Python 3.8.6 using the Scipy package and the ODE solver. Fig. 2 shows the empirical convergence behavior of the best response dynamics, confirming the exponential convergence rate from Theorem 7.
 
-<!-- chunk {"id": "body-0047", "role": "body", "section": "VI-B Constrained problem", "weight": 1.0} -->
+<!-- chunk {"id": "body-0042", "role": "body", "section": "VII-A Example 1", "weight": 1.0} -->
 
-Consider the coordinate gradient descent scheme, where at each iteration $t \in {\mathbb{N}}$ we update each $i$-th component of the vector $\tau$ sequentially^55^5One might also randomly select the order of the updates at each iteration $t$ rather than considering a cyclic pattern. Randomized updates might enhance numerical stability. for $i = {\{ 0,\ldots,{T - 1}\}}$ by solving the one-dimensional subproblem
+The DR-LQG controller was benchmarked against a standard LQG based on the nominal distributions. We carried out 5000 Montecarlo simulations with exogenous disturbances distributed according to the true distributions $\mathbb{P}_{x_{0}},\mathbb{P}_{w_{t}},\mathbb{P}_{v_{t}}$ selected randomly from the ambiguity sets. The DR-LQG controller led to an average cost across the Montecarlo run of 0.6287 and a standard deviation of 0.7125, while the standard LQG led to an average cost of 0.6587 and a standard deviation of 0.7588. The results confirm the effectiveness of the proposed approach to provide robustification against distributional ambiguity.
 
-<!-- chunk {"id": "body-0048", "role": "body", "section": "VI-B Constrained problem", "weight": 1.0} -->
+<!-- chunk {"id": "body-0043", "role": "body", "section": "VII-B Example 2", "weight": 1.0} -->
 
-The overall procedure to solve is summarized in Algorithm 1. We get the following result.
+We show the benefits of our DR-LQG controller with endogenous ambiguity sets.
 
-<!-- chunk {"id": "body-0049", "role": "body", "section": "VII-A Example 1", "weight": 1.0} -->
+<!-- chunk {"id": "body-0044", "role": "body", "section": "VII-B Example 2", "weight": 1.0} -->
 
-We set the radii to be $\rho_{x_{0}} = \rho_{w_{t}} = \rho_{v_{t}} = 1$ and the nominal covariances to ${\hat{W}}_{t} = {0.001I_{2}}$, ${\hat{V}}_{t} = 0.001$ for all times $t$, and $W_{- 1} = 0_{2}$. We set ${Q = I_{2}},{{Q_{t} = {10I_{2}}},{R = 0.1}}$, $T = 20$, and $\hat{x_{0}} = {\lbrack 0,0\rbrack}^{\top}$. We implement the iterative best response dynamics in in Python 3.8.6 using the Scipy package and the ODE solver. Fig. shows the empirical convergence behavior of the best response dynamics, confirming the exponential convergence rate from Theorem.
+Consider the linear model with We assume that, for all $t$, $w_{t}$ follows a Gaussian distribution with zero-mean and nominal covariance while $v_{t}$ follows a zero-mean Gaussian distribution with covariance $\hat{V}_{t}=I.$ We set $\hat{x}_{0}=[0.1\;\;0.1]^{\top},W_{-1}=10^{-4}I_{2}.$ We consider a horizon $T=50$ and use the cost matrices and $R=10^{-3}I.$ We assume that the matrix $A$ contains some uncertainty and that the real underlying system evolves with a dynamics matrix $\tilde{A}=A+\Delta A$ where The coefficients $a$ and $b$ are unknown parameters with $|a|\leq a_{M}:=0.047$ and $|b|\leq b_{M}:=0.03.$ In other words, the real underlying system evolves according to the dynamics
 
-<!-- chunk {"id": "body-0050", "role": "body", "section": "VII-A Example 1", "weight": 1.0} -->
+<!-- chunk {"id": "body-0045", "role": "body", "section": "VII-B Example 2", "weight": 1.0} -->
 
-The DR-LQG controller was benchmarked against a standard LQG based on the nominal distributions. We carried out 5000 Montecarlo simulations with exogenous disturbances distributed according to the true distributions ${\mathbb{P}}_{x_{0}},{\mathbb{P}}_{w_{t}},{\mathbb{P}}_{v_{t}}$ selected randomly from the ambiguity sets. The DR-LQG controller led to an average cost across the Montecarlo run of 0.6287 and a standard deviation of 0.7125, while the standard LQG led to an average cost of 0.6587 and a standard deviation of 0.7588. The results confirm the effectiveness of the proposed approach to provide robustification against distributional ambiguity.
+Additionally, we consider the DRC controller with a single relative-entropy constraint (D-LQG), using $\rho=\sum_{t=0}^{T-1}\rho_{t}.$ We consider two scenarios: (i) Nominal scenario, with $\Delta A=0$; (ii) Perturbed scenario, with $a=0.03$ and $b=0.02.$ The results of the simulations are summarized in Figg. 3 and 4. The standard LQG technique is not able to stabilize the system in the perturbed scenario, causing the cost index to increase dramatically. The D-LQG controller with a single constraint has not a satisfactory behaviour: this is due to the fact that the maximizing player is allowed to allocate most of the mismatch budget to few (or even one) time intervals. On the other hands, D^2^O-LQG control in able to trade off optimality and robustness. In the nominal scenario the average closed-loop cost is slightly larger than the pure LQG optimum.
 
-<!-- chunk {"id": "body-0051", "role": "body", "section": "VII-B Example 2", "weight": 1.0} -->
+<!-- chunk {"id": "body-0046", "role": "body", "section": "VII-B Example 2", "weight": 1.0} -->
 
-We show the benefits of our DR-LQG controller with endogenous ambiguity sets. Consider the linear model with
+This cost remains almost constant when $\Delta A\neq 0,$ giving evidence to the robustness properties of the control system.
 
-<!-- chunk {"id": "body-0052", "role": "body", "section": "VII-B Example 2", "weight": 1.0} -->
+<!-- chunk {"id": "body-0047", "role": "body", "section": "VII-C Example 3", "weight": 1.0} -->
 
-We assume that, for all $t$, $w_{t}$ follows a Gaussian distribution with zero-mean and nominal covariance
+In the last example, we aim to show that the scheme proposed in Section VI outperforms the one in based on the Wasserstein distance. As does not directly handle decision-dependent ambiguity sets, we consider a simplified setting with exogenous uncertainty and adapt the recursions in Proposition accordingly by setting $E_{1}=E_{2}=0$. We consider a building temperature control problem using a state-space model borrowed from and affected by uncertainty in the ambient temperature $T^{a}_{t}\sim\mathcal{N}(\bar{T}^{a}_{t}+\hat{\mu}_{t},\hat{W}_{t})$^66^6The recursions in this case are slightly different; but can be easilly derived using the same reasoning as in Proposition 8..
 
-<!-- chunk {"id": "body-0053", "role": "body", "section": "VII-B Example 2", "weight": 1.0} -->
+<!-- chunk {"id": "body-0048", "role": "body", "section": "VII-C Example 3", "weight": 1.0} -->
 
-and ${R = {10^{- 3}I}}.$ We assume that the matrix $A$ contains some uncertainty and that the real underlying system evolves with a dynamics matrix $\overset{\sim}{A} = {A + {\DeltaA}}$ where
+The control problem seeks to regulate the rooms temperature to a reference $r=21^{\circ}$C at the minimum power consumption via the stage cost $\|x_{t}-r\|_{Q}^{2}+\|u_{t}\|_{R}^{2}$.
 
-<!-- chunk {"id": "body-0054", "role": "body", "section": "VII-B Example 2", "weight": 1.0} -->
+<!-- chunk {"id": "body-0049", "role": "body", "section": "VII-C Example 3", "weight": 1.0} -->
 
-and ${\rho_{t} = 10^{- 5}}.$ We compare our controller, which we term D^2^O-LQG controller, with the standard LQG controller. Additionally, we consider the DRC controller with a single relative-entropy constraint (D-LQG), using ${\rho = {\sum_{t = 0}^{T - 1}\rho_{t}}}.$ We consider two scenarios: (i) Nominal scenario, with ${\DeltaA} = 0$; (ii) Perturbed scenario, with $a = 0.03$ and ${b = 0.02}.$ The results of the simulations are summarized in Figg. and. The standard LQG technique is not able to stabilize the system in the perturbed scenario, causing the cost index to increase dramatically. The D-LQG controller with a single constraint has not a satisfactory behaviour: this is due to the fact that the maximizing player is allowed to allocate most of the mismatch budget to few (or even one) time intervals.
+For the sake of the simulation, we set the uncertainty budget $\rho_{t}$ a-posteriori based on the knowledge of the true process noise distribution, considering $d_{t}=1.1\mathcal{R}_{t}$ where $\mathcal{R}_{t}$ is the relative entropy between the nominal and the true distribution at time $t$. We compare the proposed D^2^O-LQG controller with the standard LQG controller and the DRC controller with a constant distributional ambiguity budget $\theta$ per each time step proposed in ^77^7We use the public code from the authors accessible at (W-DRC). As before, we set $\theta=\frac{1}{N}\sum_{t=0}^{N-1}(1.1d^{\text{W}}_{t})$, where $d^{\text{W}}_{t}$ is the a-posteriori Wasserstein distance between the true and the nominal distribution.
 
-<!-- chunk {"id": "body-0055", "role": "body", "section": "VII-B Example 2", "weight": 1.0} -->
+<!-- chunk {"id": "body-0050", "role": "body", "section": "VII-C Example 3", "weight": 1.0} -->
 
-On the other hands, D^2^O-LQG control in able to trade off optimality and robustness. In the nominal scenario the average closed-loop cost is slightly larger than the pure LQG optimum. This cost remains almost constant when ${{\DeltaA} \neq 0},$ giving evidence to the robustness properties of the control system.
+Results are summarized in Fig. 5. Again, the standard LQG controller does not offer any robustness against model misspecification; thus, its performance rapidly deteriorates in the presence of distributional ambiguity. On the other hand, while the W-DRC controller from offers a degree of robustness, its practical performance is hindered by the requirement for the same ambiguity set size (e.g., the same $\theta$) throughout the entire control task.
 
-<!-- chunk {"id": "body-0056", "role": "body", "section": "VII-C Example 3", "weight": 1.0} -->
-
-In the last example, we aim to show that the scheme proposed in Section VI outperforms the one based on the Wasserstein distance. As does not directly handle decision-dependent ambiguity sets, we consider a simplified setting with exogenous uncertainty and adapt the recursions in Proposition accordingly by setting $E_{1} = E_{2} = 0$. We consider a building temperature control problem using a state-space model borrowed and affected by uncertainty in the ambient temperature $T_{t}^{a} \sim {\mathcal{N}{({{\overline{T}}_{t}^{a} + {\hat{\mu}}_{t}},{\hat{W}}_{t})}}$^66^6The recursions in this case are slightly different; but can be easilly derived using the same reasoning as in Proposition..
-
-<!-- chunk {"id": "body-0057", "role": "body", "section": "VII-C Example 3", "weight": 1.0} -->
-
-To fit the building temperature control problem into the presented framework, we define the error state $e_{t} = {x_{t} - r}$ and consider the error dynamics
-
-<!-- chunk {"id": "body-0058", "role": "body", "section": "VII-C Example 3", "weight": 1.0} -->
-
-For the sake of the simulation, we set the uncertainty budget $\rho_{t}$ a-posteriori based on the knowledge of the true process noise distribution, considering $d_{t} = {1.1\mathcal{R}_{t}}$ where $\mathcal{R}_{t}$ is the relative entropy between the nominal and the true distribution at time $t$. We compare the proposed D^2^O-LQG controller with the standard LQG controller and the DRC controller with a constant distributional ambiguity budget $\theta$ per each time step proposed ^77^7We use the public code from the authors accessible at (W-DRC). As before, we set $\theta = {\frac{1}{N}{\sum_{t = 0}^{N - 1}{({1.1d_{t}^{\text{W}}})}}}$, where $d_{t}^{\text{W}}$ is the a-posteriori Wasserstein distance between the true and the nominal distribution. Results are summarized in Fig..
-
-<!-- chunk {"id": "body-0059", "role": "body", "section": "VII-C Example 3", "weight": 1.0} -->
-
-Again, the standard LQG controller does not offer any robustness against model misspecification; thus, its performance rapidly deteriorates in the presence of distributional ambiguity. On the other hand, while the W-DRC controller offers a degree of robustness, its practical performance is hindered by the requirement for the same ambiguity set size (e.g., the same $\theta$) throughout the entire control task.
-
-<!-- chunk {"id": "body-0060", "role": "body", "section": "Conclusions", "weight": 1.0} -->
+<!-- chunk {"id": "body-0051", "role": "body", "section": "Conclusions", "weight": 1.0} -->
 
 For discrete-time stochastic linear systems, we propose an output feedback controller capable of robustifying the standard LQG approach against distributional ambiguity affecting both process and measurement noise by relying on KL ambiguity sets. Our analysis shows that linear policies are still optimal despite the added complexity; moreover, the worst-case distribution is still a Gaussian. These insights led us to design an iterated best response dyanmics scheme that provably convergences to the set of saddle points and admits closed-form expressions. Further, we consider the case of decision-dependent ambiguity sets to capture model perturbations. For this setting, we devise a tailored approximated recursive scheme based on dynamic programming and coordinate gradient descent.

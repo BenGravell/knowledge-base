@@ -34,27 +34,27 @@ We consider a special case of constrained Markov decision processes (CMDP), wher
 
 <!-- chunk {"id": "body-0009", "role": "body", "section": "Definitions", "weight": 1.0} -->
 
-Based on that, we also define a set of safety signals ${\overline{\mathcal{C}} = {\{{\overline{c}}_{i}:{\mathcal{S}\rightarrow{{\mathbb{R}} \mid i} \in {\lbrack K\rbrack}}\}}}.$ These are per-state observations of the immediate-constraint values, which we introduce for later ease of notation. To illustrate, if $c_{1}{(s,a)}$ is the temperature in a datacenter to be sensed after choosing $a$ in $s$, ${\overline{c}}_{1}{(s^{\prime})}$ is the same temperature sensed in $s^{\prime}$ after transitioning to it. In the type of systems tackled in this work, $P$ is deterministic and determines $f$ s.t. $s^{\prime} = {f{(s,a)}}$.
+Based on that, we also define a set of safety signals ${\overline{\mathcal{C}} = {\{{\overline{c}}_{i}:{\mathcal{S}\rightarrow{{\mathbb{R}} \mid i} \in {\lbrack K\rbrack}}\}}}.$ These are per-state observations of the immediate-constraint values, which we introduce for later ease of notation. To illustrate, if $c_{1}{(s,a)}$ is the temperature in a datacenter to be sensed after choosing $a$ in $s$, ${\overline{c}}_{1}{(s')}$ is the same temperature sensed in $s'$ after transitioning to it. In the type of systems tackled in this work, $P$ is deterministic and determines $f$ s.t. $s' = {f{(s,a)}}$.
 
 <!-- chunk {"id": "body-0010", "role": "body", "section": "Definitions", "weight": 1.0} -->
 
-Thus, we have ${{{\overline{c}}_{i}{(s^{\prime})}} \triangleq {c_{i}{(s,a)}}}.$ For a general non-deterministic transition kernel, ${\overline{c}}_{i}{(s^{\prime})}$ can be defined as the expectation over $s^{\prime} \sim P{( \cdot |s,a)}.$ Lastly, let policy $\mu:{\mathcal{S}\rightarrow\mathcal{A}}$ be a stationary mapping from states to actions.
+Thus, we have ${{{\overline{c}}_{i}{(s')}} \triangleq {c_{i}{(s,a)}}}.$ For a general non-deterministic transition kernel, ${\overline{c}}_{i}{(s')}$ can be defined as the expectation over $s' \sim P{( \cdot |s,a)}.$ Lastly, let policy $\mu:{\mathcal{S}\rightarrow\mathcal{A}}$ be a stationary mapping from states to actions.
 
 <!-- chunk {"id": "body-0011", "role": "body", "section": "State-wise Constrained Policy Optimization", "weight": 1.0} -->
 
+We study safe exploration in the context of policy optimization, where at each state, all safety signals ${\overline{c}}_{i}{(\cdot)}$ are upper bounded by corresponding constants $C_{i} \in {\mathbb{R}}$: where $\mu_{\theta}$ is a parametrized policy.
+
+<!-- chunk {"id": "body-0012", "role": "body", "section": "State-wise Constrained Policy Optimization", "weight": 1.0} -->
+
 We stress that our goal is to ensure state-wise constraints not only for the solution of, but also for its optimization process. This goal might be intractable in general since for an arbitrary MDP some actions can have a long-term effect in terms of possible state paths. However, for the types of physical systems we consider it is indeed plausible that safety constraints can be ensured by adjusting the action in a single (or few) time step(s). In the context of our real-world use-cases, cooling system dynamics are governed by factors such as the first-order heat-transfer differential equation, and the second-order Newton differential equation that governs the water mass transfer. The latter also governs the movement of a robotic arm or a vehicle on which one applies forces. In these types of control problems, it is feasible to satisfy state-wise constraints even in the presence of inertia given reasonable slack in the choice of $C_{i}$. We expand on this further and provide evidence in Section 7.
-
-<!-- chunk {"id": "body-0012", "role": "body", "section": "Linear Safety-Signal Model", "weight": 1.0} -->
-
-Solving is a difficult task, even for the types of systems listed above. A major contributor to this challenge is the RL agent's intrinsic need to explore for finding new and improved actions. Without prior knowledge on its environment, an RL agent initialized with a random policy cannot ensure per-state constraint satisfaction during the initial training stages. This statement also holds when the reward is carefully shaped to penalize undesired states: for an RL agent to learn to avoid undesired behavior it will have to violate the constraints enough times for the negative effect to propagate in our dynamic programming scheme.
 
 <!-- chunk {"id": "body-0013", "role": "body", "section": "Linear Safety-Signal Model", "weight": 1.0} -->
 
-In this work, we thus incorporate some basic form of prior knowledge, based on single-step dynamics. Single-step transition data in logs is rather common, and, as explained before, more realistic compared to also knowing behavior policies. We do not attempt to learn the full transition model, but solely the immediate-constraint functions ${c_{i}{(s,a)}}.$ While it is attractive to simply approximate them with NNs that take $(s,a)$ as inputs, we choose a more elegant approach that comes with significant advantages listed in Subsection 6.1.
+Solving is a difficult task, even for the types of systems listed above. A major contributor to this challenge is the RL agent's intrinsic need to explore for finding new and improved actions. Without prior knowledge on its environment, an RL agent initialized with a random policy cannot ensure per-state constraint satisfaction during the initial training stages. This statement also holds when the reward is carefully shaped to penalize undesired states: for an RL agent to learn to avoid undesired behavior it will have to violate the constraints enough times for the negative effect to propagate in our dynamic programming scheme.
 
 <!-- chunk {"id": "body-0014", "role": "body", "section": "Linear Safety-Signal Model", "weight": 1.0} -->
 
-where $w_{i}$ are weights of a NN, ${g{(s;w_{i})}},$ that takes $s$ as input and outputs a vector of the same dimension as $a$. This model is a first-order approximation to $c_{i}{(s,a)}$ with respect to $a;$ i.e., an explicit representation of sensitivity of changes in the safety signal to the action using features of the state. See Fig. 1 for a visualization.
+In this work, we thus incorporate some basic form of prior knowledge, based on single-step dynamics. Single-step transition data in logs is rather common, and, as explained before, more realistic compared to also knowing behavior policies. We do not attempt to learn the full transition model, but solely the immediate-constraint functions ${c_{i}{(s,a)}}.$ While it is attractive to simply approximate them with NNs that take $(s,a)$ as inputs, we choose a more elegant approach that comes with significant advantages listed in Subsection 6.1. Namely, we perform the following linearization: where $w_{i}$ are weights of a NN, ${g{(s;w_{i})}},$ that takes $s$ as input and outputs a vector of the same dimension as $a$. This model is a first-order approximation to $c_{i}{(s,a)}$ with respect to $a;$ i.e., an explicit representation of sensitivity of changes in the safety signal to the action using features of the state. See Fig. 1 for a visualization.
 
 <!-- chunk {"id": "body-0015", "role": "body", "section": "Remark 1", "weight": 1.0} -->
 
@@ -74,152 +74,132 @@ We now show how to solve problem using the policy gradient algorithm via a simpl
 
 <!-- chunk {"id": "body-0019", "role": "body", "section": "Safety Layer via Analytical Optimization", "weight": 1.0} -->
 
-Denote by $\mu_{\theta}{(s)}$ the deterministic action selected by the deep policy network. Then, on top of the policy network we compose an additional, last layer, whose role is to solve
+Denote by $\mu_{\theta}{(s)}$ the deterministic action selected by the deep policy network. Then, on top of the policy network we compose an additional, last layer, whose role is to solve This layer, which we refer to as *safety layer*, perturbs the original action as little as possible in the Euclidean norm in order to satisfy the necessary constraints. Fig. 2 visualizes its relation to the policy network.
 
 <!-- chunk {"id": "body-0020", "role": "body", "section": "Safety Layer via Analytical Optimization", "weight": 1.0} -->
 
-This layer, which we refer to as *safety layer*, perturbs the original action as little as possible in the Euclidean norm in order to satisfy the necessary constraints. Fig. 2 visualizes its relation to the policy network.
+To solve we now substitute our linear model for ${c_{i}{(s,a)}},$ introduced in Section 5, and obtain the quadratic program Thanks to the positive-definite quadratic objective and linear constraints, we can now find the global solution to this convex problem. Generally, to solve it one can implement an in-graph iterative QP-solver such as. This would result in a method similar to the one, but with the advantage that all the physical constraint model is learned directly from data instead of being hand-designed. Alternatively, if the number of active constraints is known to be bounded by some $m \leq K$, one can exhaustively iterate on all $\binom{K}{m}$ combinations of possibly active constraints and select the optimal feasible one; this would be reasonable for a small $m$.
 
 <!-- chunk {"id": "body-0021", "role": "body", "section": "Safety Layer via Analytical Optimization", "weight": 1.0} -->
 
-To solve we now substitute our linear model for ${c_{i}{(s,a)}},$ introduced in Section 5, and obtain the quadratic program
+However, in this work, at the expense of one simplifying assumption, we gain the benefit of obtaining a closed-form analytical solution to that has a trivial three-lines-of-code software implementation. The assumption is that no more than a single constraint is active at a time. As demonstrated in our experiments, this is reasonable to assume when an agent navigates in a physical domain and avoids obstacles. As the distance from each obstacle is modeled as a separate constraint, only a single obstacle is the closest one at a time. Proximity to corners shows to pose no issues, as can be seen in the plots and videos in Section 7. Moreover, for other systems with multiple intersecting constraints, a joint model can be learned. For instance, instead of treating distances from two walls as two constraints, the minimum between them can be treated as a single constraint. In rudimentary experiments, this method produced similar results to not using it, when we grouped two constraints into one, in the first and simplest task in Section 7. However, jointly modeling the dynamics of more than a few safety signals with a single $g{( \cdot; \cdot )}$ network is a topic requiring careful attention, which we leave for future work.
 
 <!-- chunk {"id": "body-0022", "role": "body", "section": "Safety Layer via Analytical Optimization", "weight": 1.0} -->
 
-Thanks to the positive-definite quadratic objective and linear constraints, we can now find the global solution to this convex problem. Generally, to solve it one can implement an in-graph iterative QP-solver such as. This would result in a method similar to the one, but with the advantage that all the physical constraint model is learned directly from data instead of being hand-designed. Alternatively, if the number of active constraints is known to be bounded by some $m \leq K$, one can exhaustively iterate on all $\binom{K}{m}$ combinations of possibly active constraints and select the optimal feasible one; this would be reasonable for a small $m$.
-
-<!-- chunk {"id": "body-0023", "role": "body", "section": "Safety Layer via Analytical Optimization", "weight": 1.0} -->
-
-However, in this work, at the expense of one simplifying assumption, we gain the benefit of obtaining a closed-form analytical solution to that has a trivial three-lines-of-code software implementation. The assumption is that no more than a single constraint is active at a time. As demonstrated in our experiments, this is reasonable to assume when an agent navigates in a physical domain and avoids obstacles. As the distance from each obstacle is modeled as a separate constraint, only a single obstacle is the closest one at a time. Proximity to corners shows to pose no issues, as can be seen in the plots and videos in Section 7. Moreover, for other systems with multiple intersecting constraints, a joint model can be learned. For instance, instead of treating distances from two walls as two constraints, the minimum between them can be treated as a single constraint. In rudimentary experiments, this method produced similar results to not using it, when we grouped two constraints into one, in the first and simplest task in Section 7. However, jointly modeling the dynamics of more than a few safety signals with a single $g{( \cdot; \cdot )}$ network is a topic requiring careful attention, which we leave for future work.
-
-<!-- chunk {"id": "body-0024", "role": "body", "section": "Safety Layer via Analytical Optimization", "weight": 1.0} -->
-
 We now provide the closed-form solution to.
 
-<!-- chunk {"id": "body-0025", "role": "body", "section": "An Alternative: Additional Loss Term", "weight": 1.0} -->
+<!-- chunk {"id": "body-0023", "role": "body", "section": "An Alternative: Additional Loss Term", "weight": 1.0} -->
 
-To stress the prominence of our linear model in solving, we now briefly describe the drawbacks of an alternative likely choice we initially experimented: a straight-forward $(s,a)$-fed NN model for $c_{i}{(s,a)}$. In this case, an approximate solution to can be obtained by penalizing the objective for constraint violations and solving the unconstrained surrogate
+To stress the prominence of our linear model in solving, we now briefly describe the drawbacks of an alternative likely choice we initially experimented: a straight-forward $(s,a)$-fed NN model for $c_{i}{(s,a)}$. In this case, an approximate solution to can be obtained by penalizing the objective for constraint violations and solving the unconstrained surrogate where $\{{\lambda_{i} > 0}\}$ are now hyper-parameters. Problem can be solved numerically using gradient descent. However, even though from our experience this approach indeed works (corrects actions to safe ones), it is inferior to our analytic approach for several reasons: Running gradient descent with every policy query (i.e. forward propagation) requires sophisticated in-graph implementation and is computationally intensive.
 
-<!-- chunk {"id": "body-0026", "role": "body", "section": "An Alternative: Additional Loss Term", "weight": 1.0} -->
-
-where $\{{\lambda_{i} > 0}\}$ are now hyper-parameters. Problem can be solved numerically using gradient descent.
-
-<!-- chunk {"id": "body-0027", "role": "body", "section": "An Alternative: Additional Loss Term", "weight": 1.0} -->
-
-Running gradient descent with every policy query (i.e. forward propagation) requires sophisticated in-graph implementation and is computationally intensive.
-
-<!-- chunk {"id": "body-0028", "role": "body", "section": "An Alternative: Additional Loss Term", "weight": 1.0} -->
+<!-- chunk {"id": "body-0024", "role": "body", "section": "An Alternative: Additional Loss Term", "weight": 1.0} -->
 
 Since the sensitivity of $c_{i}{(s,a)}$ varies for different entries in $a$, different orders of magnitude are observed in entries of the resulting gradient ${\nabla_{a}c_{i}}{(s,a)}$. This causes numerical instabilities and long convergence times, and requires careful stepsize selection.
 
-<!-- chunk {"id": "body-0029", "role": "body", "section": "An Alternative: Additional Loss Term", "weight": 1.0} -->
+<!-- chunk {"id": "body-0025", "role": "body", "section": "An Alternative: Additional Loss Term", "weight": 1.0} -->
 
 Solutions to the non-convex are local minima, which depend on non-reliable convergence of an iterative optimization algorithm, as opposed to the closed-form global optimum we obtain.
 
-<!-- chunk {"id": "body-0030", "role": "body", "section": "An Alternative: Additional Loss Term", "weight": 1.0} -->
+<!-- chunk {"id": "body-0026", "role": "body", "section": "An Alternative: Additional Loss Term", "weight": 1.0} -->
 
 There are $K$ hyper-parameters necessitating tuning.
 
-<!-- chunk {"id": "body-0031", "role": "body", "section": "Experiments", "weight": 1.0} -->
+<!-- chunk {"id": "body-0027", "role": "body", "section": "Experiments", "weight": 1.0} -->
 
 Per each task introduced next, we run the initial pre-training phase described in Section 5. We construct $D$ with 1000 random-action episodes per task. We then add our pre-trained safety layer to the policy network. As mentioned earlier, our RL algorithm of choice for the experiments is DDPG. In this section we show that during training, DDPG never violates constraints and converges faster compared to without our addition.
 
-<!-- chunk {"id": "body-0032", "role": "body", "section": "Experiments", "weight": 1.0} -->
+<!-- chunk {"id": "body-0028", "role": "body", "section": "Experiments", "weight": 1.0} -->
 
 To mimic the physics-based use-cases described in this work, where continuous safety signals are observations of the state ought to be constrained, we set up appropriate simulation domains in Mujoco. In these domains, an object is located in some feasible bounded region. Each of the constraints, therefore, lower bounds the object's distance to each of the few boundaries. Though the lower bound on the distance is zero by the tasks' definition, in practice we set it to be some small positive value to allow slack for avoidance actions in the presence of inertia. In all simulations, the episode immediately terminates in the case of a constraint violation. These conditions comply with the ones in our real-world examples: a datacenter cooling system's maximal temperature set for the formulation and algorithm need not be the one originally defined by the datacetner operator; a lower, more conservative value can be set to allow for some slack. Episode termination corresponds to preemption, followed by a swap to some backup heuristic each time the conservative temperature cap is reached.
 
-<!-- chunk {"id": "body-0033", "role": "body", "section": "Experiments", "weight": 1.0} -->
+<!-- chunk {"id": "body-0029", "role": "body", "section": "Experiments", "weight": 1.0} -->
 
 We now introduce our two new Mujoco domains: Ball and Spaceship, consisting of two tasks each. The dynamics of Ball and Spaceship are governed by first and second order differential equations, respectively. As such, they are representative domains to the systems of interest in this paper.
 
-<!-- chunk {"id": "body-0034", "role": "body", "section": "Ball Domain", "weight": 1.0} -->
+<!-- chunk {"id": "body-0030", "role": "body", "section": "Ball Domain", "weight": 1.0} -->
 
 In the Ball domain, the goal is to bring a ball as close as possible to a changing target location, by directly setting the velocity of the ball every $4$-th time-step (it is common for the operational frequency of a typical torque controller to be less than the environment's one). Each episode lasts at most $30$ seconds, during which the target is appearing in a new, uniformly random location every $2$ seconds. Let us now define the $d$-dimensional $\lbrack a,b\rbrack$-cube ${B_{\lbrack a,b\rbrack}^{(d)} = \left.
 
-<!-- chunk {"id": "body-0035", "role": "body", "section": "Ball Domain", "weight": 1.0} -->
+<!-- chunk {"id": "body-0031", "role": "body", "section": "Ball Domain", "weight": 1.0} -->
 
 \{ x \middle| {{a \leq x_{i} \leq b},{i = {1,\ldots,d}}}\} \right.}.$ The feasible region for the ball is $B_{\lbrack 0,1\rbrack}^{(d)},$ while for the target it is $B_{\lbrack 0.2,0.8\rbrack}^{(d)}.$ If the ball steps out of $B_{\lbrack 0,1\rbrack}^{(d)},$ the episode terminates. To allow some slack in maneuvering away from the boundaries, we set $C_{i}$ in so as to constrain the ball's feasible region to effectively be $B_{\lbrack 0.1,0.9\rbrack}^{(d)}.$ This is for the safety layer to start correcting the actions once the ball steps out of the latter cube.
 
-<!-- chunk {"id": "body-0036", "role": "body", "section": "Ball Domain", "weight": 1.0} -->
+<!-- chunk {"id": "body-0032", "role": "body", "section": "Ball Domain", "weight": 1.0} -->
 
 Let the ball location, ball velocity and target location respectively be ${{x_{B},v_{B},x_{T}} \in {\mathbb{R}}^{d}}.$ Then, ${s = {(x_{B},v_{B},{x_{T} + \epsilon_{d}})}},$ where ${\epsilon_{d} \sim {\mathcal{N}{(0,{0.05 \cdot I^{d \times d}})}}};$ i.e., only a noisy estimate of the target is observed. The action $a = v_{B}$; i.e., it is to set the velocity of the ball. Actions are taken every $4$ time-steps and remain constant in between. The dynamics are governed by Newton's laws, with a small amount of damping.
 
-<!-- chunk {"id": "body-0037", "role": "body", "section": "Ball Domain", "weight": 1.0} -->
+<!-- chunk {"id": "body-0033", "role": "body", "section": "Ball Domain", "weight": 1.0} -->
 
 The reward has a maximum of $1$ when the ball is exactly at the target and quickly diminishes to $0$ away from it: ${{R{(s,a)}} = \left\lbrack {1 - {10 \cdot {\|{x_{B} - x_{T}}\|}_{2}^{2}}} \right\rbrack^{+}}.$ Lastly, $\gamma = 0.99$. Our experiments are conducted on two tasks: Ball-1D where $d = 1$, Ball-3D where ${d = 3}.$ Images of the two can be found in Fig. 3.
 
-<!-- chunk {"id": "body-0038", "role": "body", "section": "Ball Domain", "weight": 1.0} -->
+<!-- chunk {"id": "body-0034", "role": "body", "section": "Ball Domain", "weight": 1.0} -->
 
 As the ball's velocity is controlled directly, its dynamics are governed by a first-order differential equation. This domain thus represents phenomena such as heat transition and several known control tasks such as maintaining the speed of a rotating engine, whether it is a classic steam engine or cruise-control in modern vehicles.
 
-<!-- chunk {"id": "body-0039", "role": "body", "section": "Spaceship Domain", "weight": 1.0} -->
+<!-- chunk {"id": "body-0035", "role": "body", "section": "Spaceship Domain", "weight": 1.0} -->
 
 In the Spaceship domain, the goal is to bring a spaceship to a fixed target location by controlling its thrust engines. Hence, as opposed to setting velocities in the Ball domain, here we set the forces. Our first task for this domain is Spaceship-Corridor, where the safe region is bounded between two infinite parallel walls. Our second task, Spaceship-Arena, differs from the first in the shape of the safe region; it is bounded by four walls in a diamond form. Images of the two tasks are given in Fig. 4. Episodes terminate when one of the three events occur: the target is reached, the spaceship's bow touches a wall, or the time limit is reached. Time limits are $15$ seconds for Corridor and $45$ seconds for Arena. Relating to the screenshots in Fig. 4, the spaceship's initialization location is uniformly random in the lowest third part of the screen for Corridor, and the right-most third part of the screen for Arena.
 
-<!-- chunk {"id": "body-0040", "role": "body", "section": "Spaceship Domain", "weight": 1.0} -->
+<!-- chunk {"id": "body-0036", "role": "body", "section": "Spaceship Domain", "weight": 1.0} -->
 
-In this domain, the state is the spaceship's location and velocities; the action $a \in {\lbrack{- 1},1\rbrack}^{2}$ actuates two thrust engines in forward/backward and right/left directions; the transitions are governed by the rules of physics where damping is applied; the reward is sparse: 1000 points are obtained when reaching the target and 0 elsewhere; and ${\gamma = 0.99}.$ As in the Ball domain, a small gap away from each wall is incorporated in the choice of $C_{i}$. This is for the safety layer to begin correcting the actions a few time-steps before the spaceship actually reaches a wall with its bow. For both tasks, this gap is $0.05,$ where, for comparison, the distance between the walls in Corridor task is $1.$
+In this domain, the state is the spaceship's location and velocities; the action $a \in {\lbrack{- 1},1\rbrack}^{2}$ actuates two thrust engines in forward/backward and right/left directions; the transitions are governed by the rules of physics where damping is applied; the reward is sparse: 1000 points are obtained when reaching the target and 0 elsewhere; and ${\gamma = 0.99}.$ As in the Ball domain, a small gap away from each wall is incorporated in the choice of $C_{i}$. This is for the safety layer to begin correcting the actions a few time-steps before the spaceship actually reaches a wall with its bow. For both tasks, this gap is $0.05,$ where, for comparison, the distance between the walls in Corridor task is $1.$ Since the control is via forces, the spaceship's dynamics are governed by a second-order differential equation. This domain thus represents situations such as pumping masses of water for cooling, and actuating objects such as robotic arms.
 
-<!-- chunk {"id": "body-0041", "role": "body", "section": "Spaceship Domain", "weight": 1.0} -->
-
-Since the control is via forces, the spaceship's dynamics are governed by a second-order differential equation. This domain thus represents situations such as pumping masses of water for cooling, and actuating objects such as robotic arms.
-
-<!-- chunk {"id": "body-0042", "role": "body", "section": "Implementation Details", "weight": 1.0} -->
+<!-- chunk {"id": "body-0037", "role": "body", "section": "Implementation Details", "weight": 1.0} -->
 
 Per each of the four tasks above, we pre-train the safety-signal model for each of the task's constraints; i.e., we solve for each $i \in {\lbrack K\rbrack}$ using that task's data-set $D.$ In a hyper-parameter sweep, we witnessed that the ability to achieve our end-goal is relatively insensitive to the architecture of $g{( \cdot;w_{i})}$ and a simple one suffices. Namely, for achieving zero-constraint-violations after plugging $g{( \cdot;w_{i})}$ into the safety layer, a single-layered NN with $10$ hidden neurons was adequate for all tasks. For training we use Adam optimizer with a batch size of $256$. We also report that low validation errors for $g{( \cdot;w_{i})}$ don't necessarily correspond to a better safety layer; it is the exploratory nature of $D$ that matters.
 
-<!-- chunk {"id": "body-0043", "role": "body", "section": "Implementation Details", "weight": 1.0} -->
+<!-- chunk {"id": "body-0038", "role": "body", "section": "Implementation Details", "weight": 1.0} -->
 
 Specifically, we witnessed the following counter-intuitive behavior: generating $D$ with a policy that fixes a single randomly drawn action for each episode, as opposed to a random action in each step, yields better regression accuracy for $g{( \cdot;w_{i})}$ but lesser safety layer performance.
 
-<!-- chunk {"id": "body-0044", "role": "body", "section": "Implementation Details", "weight": 1.0} -->
+<!-- chunk {"id": "body-0039", "role": "body", "section": "Implementation Details", "weight": 1.0} -->
 
 Based on a hyper-parameter sweep for DDPG, for the actor and critic we use two-hidden-layer NNs of respective sizes $$ and ${}.$ The rest of the experiment parameters were taken to be as.
 
-<!-- chunk {"id": "body-0045", "role": "body", "section": "Safety Layer versus Reward Shaping", "weight": 1.0} -->
+<!-- chunk {"id": "body-0040", "role": "body", "section": "Safety Layer versus Reward Shaping", "weight": 1.0} -->
 
 Before exhibiting the performance of our safety layer, we first relate to a natural alternative approach for ensuring safety: manipulate the agent to avoid undesired areas by artificially shaping the reward. This can be done by setting the reward to large negative values in subsets of the state-space. In our case, those areas are the neighborhood of the enclosing boundaries. Therefore, for comparison, we first ran a series of such reward shaping experiments on DDPG without the safety layer. We set the penalty to be on the same scale as the original reward: $- 1$ in the Ball domain and $- 1000$ in the spaceship domain. The margin from boundaries in which the shaping occurs is a parameter $M$ which we cross-validated per each task. We experimented with values of ${M \in {\{ 0.08,0.11,0.14,0.17,0.2,0.23\}}}.$ Per each $M$, we ran DDPG, where each training episode is followed by an evaluation episode for which we count whether it terminated due to a constraint violation.
 
-<!-- chunk {"id": "body-0046", "role": "body", "section": "Safety Layer versus Reward Shaping", "weight": 1.0} -->
+<!-- chunk {"id": "body-0041", "role": "body", "section": "Safety Layer versus Reward Shaping", "weight": 1.0} -->
 
 Fig. 5 gives, per each $M,$ the median with upper and lower quantiles of accumulated constraint violations of $10$ seeds of DDPG runs. Per each task, we mark the best choice of $M$ in red.
 
-<!-- chunk {"id": "body-0047", "role": "body", "section": "Safety Layer versus Reward Shaping", "weight": 1.0} -->
+<!-- chunk {"id": "body-0042", "role": "body", "section": "Safety Layer versus Reward Shaping", "weight": 1.0} -->
 
 Fig. 5 depicts the drawbacks of reward shaping for ensuring safety. The first fault is the failure to achieve our zero-constraint-violations goal; all parameter choices resulted in significant portions of the episodes terminating due to violations. The second drawback is the difficulty of choosing the correct parameter. As seen in the figure, there is no clear trend for the dependence on $M$; each task has a different 'best value', and the plots have no structure.
 
-<!-- chunk {"id": "body-0048", "role": "body", "section": "Safety Layer versus Reward Shaping", "weight": 1.0} -->
+<!-- chunk {"id": "body-0043", "role": "body", "section": "Safety Layer versus Reward Shaping", "weight": 1.0} -->
 
 Next, we compare the performance of our safety layer to that of the best reward shaping choice, and to no reward shaping at all. Namely, we compare the following alternatives: DDPG, DDPG+reward shaping, and DDPG+safety layer. For reward shaping we use the same simulation results of the best $M$ (colored red in Fig. 5). The comparison outcomes are summarized in Fig. 6. Its top row gives the sum of discounted rewards per evaluation episode, and the bottom provides the number of constraint violations, accumulated over all evaluation episodes. The plots show medians along with upper and lower quantiles of $10$ seeds.
 
-<!-- chunk {"id": "body-0049", "role": "body", "section": "Safety Layer versus Reward Shaping", "weight": 1.0} -->
+<!-- chunk {"id": "body-0044", "role": "body", "section": "Safety Layer versus Reward Shaping", "weight": 1.0} -->
 
 The most prominent insight from Fig. 6 is that the constraints were never violated with the safety layer. This is true for all $10$ seeds of each of the four tasks. Secondly, the safety layer dramatically expedited convergence. For Spaceship, it is, in fact, the only algorithm that enabled convergence. In contrast, without the safety layer, a significant amount of episodes ended with a constraint violation and convergence was often not attained. This is due to the nature of our tasks: frequent episode terminations upon boundary crossing impede the learning process in our sparse reward environments. However, with the safety layer, these terminations never occur, allowing the agent to maneuver as if there were no boundaries. Next, the following domain-specific discussion is in order.
 
-<!-- chunk {"id": "body-0050", "role": "body", "section": "Safety Layer versus Reward Shaping", "weight": 1.0} -->
+<!-- chunk {"id": "body-0045", "role": "body", "section": "Safety Layer versus Reward Shaping", "weight": 1.0} -->
 
 In the Ball domain, since in the 1D task the target is always located in one of two possible directions, its reward is less sparse compared to 3D. This easy setup allowed DDPG to converge to a reasonable return value even without reward shaping or the safety layer; in 3D this happened only for the upper quantile of the seeds. In both tasks, an improvement was obtained with reward shaping. Nonetheless, DDPG+safety layer obtained the highest discounted return with much faster convergence. As for cumulative constraint violations, as DDPG converged slower than DDPG+reward shaping, it also stabilized later on a higher value. All the same, DDPG+safety layer accomplished our safety goal and maintained $0$ accumulated constraint violations.
 
-<!-- chunk {"id": "body-0051", "role": "body", "section": "Safety Layer versus Reward Shaping", "weight": 1.0} -->
+<!-- chunk {"id": "body-0046", "role": "body", "section": "Safety Layer versus Reward Shaping", "weight": 1.0} -->
 
 In the Spaceship domain, the reward is obtained only once at the target, and the spaceship is re-initialized away from it with each constraint violation. This setup proves fatal for DDPG, which was not able to converge to any reasonable policy in both tasks. Surprisingly, reward shaping poses no improvement but rather has an adverse effect: it resulted in highly negative episodic returns. On the other hand, DDPG+safety layer converged extremely fast to a high-performing safe policy. This behavior stems from the closed-region type of tasks; exploring while straying away from the walls allowed the spaceship to quickly meet the target and then learn how to reach it. With regards to safety, DDPG+safety layer again prevailed where DDPG and DDPG+reward shaping failed, and maintained $0$ accumulated constraint violations.
 
-<!-- chunk {"id": "body-0052", "role": "body", "section": "Videos", "weight": 1.0} -->
+<!-- chunk {"id": "body-0047", "role": "body", "section": "Videos", "weight": 1.0} -->
 
 To visualize the safety layer in action, we depict the intensity of its action correction via the magnitude of the dominant Lagrange multiplier $\lambda_{i^{\ast}}^{\ast}$ as calculated. We do so by coloring the Ball and Spaceship objects in varying shades of red. We share two videos of the colored agents showcasing the following.
 
-<!-- chunk {"id": "body-0053", "role": "body", "section": "Videos", "weight": 1.0} -->
+<!-- chunk {"id": "body-0048", "role": "body", "section": "Videos", "weight": 1.0} -->
 
 In Video 1, to track the learning process of an agent with the safety layer, we recorded several episodes during training in the Spaceship-Corridor task. These exhibit how the maneuvers produced by the safety layer to dodge the walls are gradually learned by the agent, as demonstrated by the less frequent coloring of the spaceship red. Video 1 is found in In Video 2, per each task of the four, we show episodes of i) the first DDPG iteration (initialized with a random policy) with the safety layer off; ii) the same random initial policy but with the safety layer; and iii) the final iteration of DDPG+safety layer, to demonstrate the task's goal. Video 2 is found in
 
-<!-- chunk {"id": "body-0054", "role": "body", "section": "Discussion", "weight": 1.5} -->
+<!-- chunk {"id": "body-0049", "role": "body", "section": "Discussion", "weight": 1.5} -->
 
 In this work, we proposed a state-based action correction mechanism, which accomplishes the goal of zero-constraint-violations in tasks where the agent is constrained to a confined region. This is in contrast with the standard reward shaping alternative, which has failed in achieving the above goal. The resulting gain is not only in maintaining safety but also in enhanced performance in terms of reward. This suggests our method promotes more efficient exploration -- it guides the exploratory actions in the direction of feasible policies. Since our solution is stand-alone and applied directly at the policy level, it is independent of the RL algorithm used and can be plugged into any other continuous control algorithm.
 
-<!-- chunk {"id": "body-0055", "role": "body", "section": "Discussion", "weight": 1.5} -->
+<!-- chunk {"id": "body-0050", "role": "body", "section": "Discussion", "weight": 1.5} -->
 
 Throughout this work, we relate to a preemption mechanism implemented in real-world critical systems, which halts the RL agent in borderline situations and replaces it with a safe-operation heuristic. The latter runs until the system is back to being far from operation limits. This heuristic is expected to be conservative and less efficient than the RL agent; hence, the contribution of our work can also be interpreted as in reducing operational costs by minimizing the number of times such takeovers occur.
 
-<!-- chunk {"id": "body-0056", "role": "body", "section": "Discussion", "weight": 1.5} -->
+<!-- chunk {"id": "body-0051", "role": "body", "section": "Discussion", "weight": 1.5} -->
 
 Lastly, an advantage of our approach over off-policy methods, often considered in industry, is that one does not need to know the behavior policy used to generate existing data logs. This is thanks to our single-step model, which we train on trajectories generated with random actions. These trajectories are always within operating limits (due to episode termination when the limits are crossed) and are independent of any particular policy whose long-term behavior can be elevated. Nevertheless, they carry rich information due to their exploratory nature. It is thus intriguing to study in future work additional types of pre-training data that are typical to specific real-world domains.

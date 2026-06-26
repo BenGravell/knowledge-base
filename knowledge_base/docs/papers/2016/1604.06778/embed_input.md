@@ -74,31 +74,31 @@ Most of the implemented algorithms are batch algorithms. At each iteration, $N$ 
 
 <!-- chunk {"id": "body-0019", "role": "body", "section": "Batch Algorithms", "weight": 1.0} -->
 
-Truncated Natural Policy Gradient (TNPG): Natural Policy Gradient improves upon REINFORCE by computing an ascent direction that approximately ensures a small change in the policy distribution. This direction is derived to be $I{(\theta)}^{- 1}{\nabla_{\theta}\eta}{(\pi_{\theta})}$, where $I{(\theta)}$ is the Fisher information matrix (FIM). We use the step size suggested by Peters & Schaal: $\alpha = \sqrt{\delta_{\text{KL}}\left( {{\nabla_{\theta}\eta}{(\pi_{\theta})}^{T}I{(\theta)}^{- 1}{\nabla_{\theta}\eta}{(\pi_{\theta})}} \right)^{- 1}}$. Finally, we replace ${\nabla_{\theta}\eta}{(\pi_{\theta})}$ and $I{(\theta)}$ by their empirical estimates.
+REINFORCE: This algorithm estimates the gradient of expected return ${\nabla_{\theta}\eta}{(\pi_{\theta})}$ using the likelihood ratio trick: where $R_{t}^{i} = {\sum_{t' = t}^{T}{\gamma^{t' - t}r_{t'}^{i}}}$ and $b_{t}^{i}$ is a baseline that only depends on the state $s_{t}^{i}$ to reduce variance. Hereafter, an ascent step is taken in the direction of the estimated gradient. This process continues until $\theta_{k}$ converges.
 
 <!-- chunk {"id": "body-0020", "role": "body", "section": "Batch Algorithms", "weight": 1.0} -->
 
-For neural network policies with tens of thousands of parameters or more, generic Natural Policy Gradient incurs prohibitive computation cost by forming and inverting the empirical FIM. Instead, we study Truncated Natural Policy Gradient (TNPG) in this paper, which computes the natural gradient direction without explicitly forming the matrix inverse, using a conjugate gradient algorithm that only requires computing $I{(\theta)}v$ for arbitrary vector $v$. TNPG makes it practical to apply natural gradient in policy search setting with high-dimensional parameters, and we refer the reader to Schulman et al. for more details.
+Truncated Natural Policy Gradient (TNPG): Natural Policy Gradient improves upon REINFORCE by computing an ascent direction that approximately ensures a small change in the policy distribution. This direction is derived to be $I{(\theta)}^{- 1}{\nabla_{\theta}\eta}{(\pi_{\theta})}$, where $I{(\theta)}$ is the Fisher information matrix (FIM). We use the step size suggested by Peters & Schaal: $\alpha = \sqrt{\delta_{\text{KL}}\left( {{\nabla_{\theta}\eta}{(\pi_{\theta})}^{T}I{(\theta)}^{- 1}{\nabla_{\theta}\eta}{(\pi_{\theta})}} \right)^{- 1}}$. Finally, we replace ${\nabla_{\theta}\eta}{(\pi_{\theta})}$ and $I{(\theta)}$ by their empirical estimates.
 
 <!-- chunk {"id": "body-0021", "role": "body", "section": "Batch Algorithms", "weight": 1.0} -->
 
-Reward-Weighted Regression (RWR): This algorithm formulates the policy optimization as an Expectation-Maximization problem to avoid the need to manually choose learning rate, and the method is guaranteed to converge to a locally optimal solution. At each iteration, this algorithm optimizes a lower bound of the log-expected return: $\theta = {{\arg{\max_{\theta^{\prime}}\mathcal{L}}}{(\theta^{\prime})}}$, where
+For neural network policies with tens of thousands of parameters or more, generic Natural Policy Gradient incurs prohibitive computation cost by forming and inverting the empirical FIM. Instead, we study Truncated Natural Policy Gradient (TNPG) in this paper, which computes the natural gradient direction without explicitly forming the matrix inverse, using a conjugate gradient algorithm that only requires computing $I{(\theta)}v$ for arbitrary vector $v$. TNPG makes it practical to apply natural gradient in policy search setting with high-dimensional parameters, and we refer the reader to Schulman et al. for more details.
 
 <!-- chunk {"id": "body-0022", "role": "body", "section": "Batch Algorithms", "weight": 1.0} -->
 
-Here, $\rho:{{\mathbb{R}}\rightarrow{\mathbb{R}}_{\geq 0}}$ is a function that transforms raw returns to nonnegative values. Following Deisenroth et al., we choose $\rho$ to be ${\rho{(R)}} = {R - R_{\text{min}}}$, where $R_{\text{min}}$ is the minimum return among all trajectories collected in the current iteration.
+Reward-Weighted Regression (RWR): This algorithm formulates the policy optimization as an Expectation-Maximization problem to avoid the need to manually choose learning rate, and the method is guaranteed to converge to a locally optimal solution. At each iteration, this algorithm optimizes a lower bound of the log-expected return: $\theta = {{\arg{\max_{\theta'}\mathcal{L}}}{(\theta')}}$, where Here, $\rho:{{\mathbb{R}}\rightarrow{\mathbb{R}}_{\geq 0}}$ is a function that transforms raw returns to nonnegative values. Following Deisenroth et al., we choose $\rho$ to be ${\rho{(R)}} = {R - R_{\text{min}}}$, where $R_{\text{min}}$ is the minimum return among all trajectories collected in the current iteration.
 
 <!-- chunk {"id": "body-0023", "role": "body", "section": "Batch Algorithms", "weight": 1.0} -->
 
-Relative Entropy Policy Search (REPS): This algorithm limits the loss of information per iteration and aims to ensure a smooth learning progress. At each iteration, we collect all trajectories into a dataset $\mathcal{D} = {\{{(s_{i},a_{i},r_{i},s_{i}^{\prime})}\}}_{i = 1}^{M}$, where $M$ is the total number of samples. Then, we first solve for the dual parameters ${\lbrack\eta^{\ast},\nu^{\ast}\rbrack} = {{\arg{\min_{\eta^{\prime},\nu^{\prime}}g}}{(\eta^{\prime},\nu^{\prime})}}$ s.t. $\eta > 0$, where
+Relative Entropy Policy Search (REPS): This algorithm limits the loss of information per iteration and aims to ensure a smooth learning progress. At each iteration, we collect all trajectories into a dataset $\mathcal{D} = {\{{(s_{i},a_{i},r_{i},s_{i}')}\}}_{i = 1}^{M}$, where $M$ is the total number of samples. Then, we first solve for the dual parameters ${\lbrack\eta^{\ast},\nu^{\ast}\rbrack} = {{\arg{\min_{\eta',\nu'}g}}{(\eta',\nu')}}$ s.t.
 
 <!-- chunk {"id": "body-0024", "role": "body", "section": "Batch Algorithms", "weight": 1.0} -->
 
-Trust Region Policy Optimization (TRPO): This algorithm allows more precise control on the expected policy improvement than TNPG through the introduction of a surrogate loss.
+$\eta > 0$, where Here $\delta_{\text{KL}} > 0$ controls the step size of the policy, and ${\delta_{i}{(\nu)}} = {r_{i} + {\nu^{T}{({{\phi{(s_{i}')}} - {\phi{(s_{i})}}})}}}$ is the sample Bellman error. We then solve for the new policy parameters: Trust Region Policy Optimization (TRPO): This algorithm allows more precise control on the expected policy improvement than TNPG through the introduction of a surrogate loss.
 
 <!-- chunk {"id": "body-0025", "role": "body", "section": "Batch Algorithms", "weight": 1.0} -->
 
-where $\rho_{\theta} = \rho_{\pi_{\theta}}$ is the discounted state-visitation frequencies induced by $\pi_{\theta}$, $A_{\theta_{k}}{(s,a)}$, known as the advantage function, is estimated by the empirical return minus the baseline, and $\delta_{\text{KL}}$ is a step size parameter which controls how much the policy is allowed to change per iteration. We follow the procedure described in the original paper for solving the optimization, which results in the same descent direction as TNPG with an extra line search in the objective and KL constraint.
+At each iteration, we solve the following constrained optimization problem (replacing expectations with samples): where $\rho_{\theta} = \rho_{\pi_{\theta}}$ is the discounted state-visitation frequencies induced by $\pi_{\theta}$, $A_{\theta_{k}}{(s,a)}$, known as the advantage function, is estimated by the empirical return minus the baseline, and $\delta_{\text{KL}}$ is a step size parameter which controls how much the policy is allowed to change per iteration. We follow the procedure described in the original paper for solving the optimization, which results in the same descent direction as TNPG with an extra line search in the objective and KL constraint.
 
 <!-- chunk {"id": "body-0026", "role": "body", "section": "Batch Algorithms", "weight": 1.0} -->
 
@@ -110,84 +110,88 @@ Covariance Matrix Adaption Evolution Strategy (CMA-ES): Similar to CEM, CMA-ES i
 
 <!-- chunk {"id": "body-0028", "role": "body", "section": "Online Algorithms", "weight": 1.0} -->
 
-Deep Deterministic Policy Gradient (DDPG): Compared to batch algorithms, the DDPG algorithm continuously improves the policy as it explores the environment. It applies gradient descent to the policy with minibatch data sampled from a replay pool, where the gradient is computed via
+Deep Deterministic Policy Gradient (DDPG): Compared to batch algorithms, the DDPG algorithm continuously improves the policy as it explores the environment. It applies gradient descent to the policy with minibatch data sampled from a replay pool, where the gradient is computed via where $B$ is the batch size. The critic $Q$ is trained via gradient descent on the $\ell^{2}$ loss of the Bellman error $L = {\frac{1}{B}{\sum_{i = 1}^{B}{({y_{i} - {Q_{\phi}{(s_{i},a_{i})}}})}^{2}}}$, where $y_{i} = {r_{i} + {\gammaQ_{\phi'}'{(s_{i}',{\mu_{\theta'}'{(s_{i}')}})}}}$. To improve stability of the algorithm, we use target networks for both the critic and the policy when forming the regression target $y_{i}$.
 
-<!-- chunk {"id": "body-0029", "role": "body", "section": "Recurrent Variants", "weight": 1.0} -->
+<!-- chunk {"id": "body-0029", "role": "body", "section": "Online Algorithms", "weight": 1.0} -->
+
+We refer the reader to Lillicrap et al. for a more detailed description of the algorithm.
+
+<!-- chunk {"id": "body-0030", "role": "body", "section": "Recurrent Variants", "weight": 1.0} -->
 
 We implement direct applications of the aforementioned batch-based algorithms to recurrent policies. The only modification required is to replace $\pi{(\left. a_{t}^{i} \middle| s_{t}^{i} \right.)}$ by $\pi{(\left. a_{t}^{i} \middle| {o_{1:t}^{i},a_{1:{t - 1}}^{i}} \right.)}$, where $o_{1:t}^{i}$ and $a_{1:{t - 1}}$ are the histories of past and current observations and past actions. Recurrent versions of reinforcement learning algorithms have been studied in many existing works, such as Bakker, Schäfer & Udluft, Wierstra et al., and Heess et al..
 
-<!-- chunk {"id": "body-0030", "role": "body", "section": "Experiment Setup", "weight": 1.0} -->
+<!-- chunk {"id": "body-0031", "role": "body", "section": "Experiment Setup", "weight": 1.0} -->
 
 In this section, we elaborate on the experimental setup used to generate the results.
 
-<!-- chunk {"id": "body-0031", "role": "body", "section": "Experiment Setup", "weight": 1.0} -->
-
-Performance Metrics: For each report unit (a particular algorithm running on a particular task), we define its performance as $\frac{1}{\sum_{i = 1}^{I}N_{i}}{\sum_{i = 1}^{I}{\sum_{n = 1}^{N_{i}}R_{in}}}$, where $I$ is the number of training iterations, $N_{i}$ is the number of trajectories collected in the $i$th iteration, and $R_{in}$ is the undiscounted return for the $n$th trajectory of the $i$th iteration,
-
 <!-- chunk {"id": "body-0032", "role": "body", "section": "Experiment Setup", "weight": 1.0} -->
 
-Hyperparameter Tuning: For the DDPG algorithm, we used the hyperparametes reported in Lillicrap et al.. For the other algorithms, we follow the approach, and we select two tasks in each category, on which a grid search of hyperparameters is performed. Each choice of hyperparameters is executed under five random seeds. The criterion for the best hyperparameters is defined as ${{mean}{({returns})}} - {{std}{({returns})}}$. This metric selects against large fluctuations of performance due to overly large step sizes.
+Performance Metrics: For each report unit (a particular algorithm running on a particular task), we define its performance as $\frac{1}{\sum_{i = 1}^{I}N_{i}}{\sum_{i = 1}^{I}{\sum_{n = 1}^{N_{i}}R_{in}}}$, where $I$ is the number of training iterations, $N_{i}$ is the number of trajectories collected in the $i$th iteration, and $R_{in}$ is the undiscounted return for the $n$th trajectory of the $i$th iteration, Hyperparameter Tuning: For the DDPG algorithm, we used the hyperparametes reported in Lillicrap et al.. For the other algorithms, we follow the approach, and we select two tasks in each category, on which a grid search of hyperparameters is performed. Each choice of hyperparameters is executed under five random seeds.
 
 <!-- chunk {"id": "body-0033", "role": "body", "section": "Experiment Setup", "weight": 1.0} -->
 
-For the other tasks, we try both of the best hyperparameters found in the same category, and report the better performance of the two. This gives us insights into both the maximum possible performance when extensive hyperparameter tuning is performed, and the robustness of the best hyperparameters across different tasks.
+The criterion for the best hyperparameters is defined as ${{mean}{({returns})}} - {{std}{({returns})}}$. This metric selects against large fluctuations of performance due to overly large step sizes.
 
 <!-- chunk {"id": "body-0034", "role": "body", "section": "Experiment Setup", "weight": 1.0} -->
 
-00footnotetext: aExcept for the hierarchical tasks
+For the other tasks, we try both of the best hyperparameters found in the same category, and report the better performance of the two. This gives us insights into both the maximum possible performance when extensive hyperparameter tuning is performed, and the robustness of the best hyperparameters across different tasks.
 
 <!-- chunk {"id": "body-0035", "role": "body", "section": "Experiment Setup", "weight": 1.0} -->
 
-Policy Representation: For basic, locomotion, and hierarchical tasks and for batch algorithms, we use a feed-forward neural network policy with 3 hidden layers, consisting of $100$, $50$, and $25$ hidden units with tanh nonlinearity at the first two hidden layers, which map each state to the mean of a Gaussian distribution. The log-standard deviation is parameterized by a global vector independent of the state, as done in Schulman et al.. For all partially observable tasks, we use a recurrent neural network with a single hidden layer consisting of $32$ LSTM hidden units.
+00footnotetext: aExcept for the hierarchical tasks Double Inverted Pendulum* Table 1: Performance of the implemented algorithms in terms of average return over all training iterations for five different random seeds (same across all algorithms). The results of the best-performing algorithm on each task, as well as all algorithms that have performances that are not statistically significantly different (Welch’s t-test with p < 0.05), are highlighted in boldface.a In the tasks column, the partially observable variants of the tasks are annotated as follows: LS stands for limited sensors, NO for noisy observations and delayed actions, and SI for system identifications. The notation N/A denotes that an algorithm has failed on the task at hand, e.g., CMA-ES leading to out-of-memory errors in the Full Humanoid task.
 
 <!-- chunk {"id": "body-0036", "role": "body", "section": "Experiment Setup", "weight": 1.0} -->
 
-For the DDPG algorithm which trains a deterministic policy, we follow Lillicrap et al.. For both the policy and the $Q$ function, we use the same architecture of a feed-forward neural network with 2 hidden layers, consisting of $400$ and $300$ hidden units with relu activations.
+Policy Representation: For basic, locomotion, and hierarchical tasks and for batch algorithms, we use a feed-forward neural network policy with 3 hidden layers, consisting of $100$, $50$, and $25$ hidden units with tanh nonlinearity at the first two hidden layers, which map each state to the mean of a Gaussian distribution. The log-standard deviation is parameterized by a global vector independent of the state, as done in Schulman et al.. For all partially observable tasks, we use a recurrent neural network with a single hidden layer consisting of $32$ LSTM hidden units.
 
 <!-- chunk {"id": "body-0037", "role": "body", "section": "Experiment Setup", "weight": 1.0} -->
 
+For the DDPG algorithm which trains a deterministic policy, we follow Lillicrap et al.. For both the policy and the $Q$ function, we use the same architecture of a feed-forward neural network with 2 hidden layers, consisting of $400$ and $300$ hidden units with relu activations.
+
+<!-- chunk {"id": "body-0038", "role": "body", "section": "Experiment Setup", "weight": 1.0} -->
+
 Baseline: For all gradient-based algorithms except REPS, we can subtract a baseline from the empirical return to reduce variance of the optimization. We use a linear function as the baseline with a time-varying feature vector.
-
-<!-- chunk {"id": "body-0038", "role": "body", "section": "Results and Discussion", "weight": 1.0} -->
-
-The main evaluation results are presented in Table 1. The tasks on which the grid search is performed are marked with (\*). In each entry, the pair of numbers shows the mean and standard deviation of the normalized cumulative return using the best possible hyperparameters.
 
 <!-- chunk {"id": "body-0039", "role": "body", "section": "Results and Discussion", "weight": 1.0} -->
 
-REINFORCE: Despite its simplicity, REINFORCE is an effective algorithm in optimizing deep neural network policies in most basic and locomotion tasks. Even for high-DOF tasks like Ant, REINFORCE can achieve competitive results. However we observe that REINFORCE sometimes suffers from premature convergence to local optima as noted by Peters & Schaal, which explains the performance gaps between REINFORCE and TNPG on tasks such as Walker (Figure 3). By visualizing the final policies, we can see that REINFORCE results in policies that tend to jump forward and fall over to maximize short-term return instead of acquiring a stable walking gait to maximize long-term return. In Figure 3, we can observe that even with a small learning rate, steps taken by REINFORCE can sometimes result in large changes to policy distribution, which may explain the fast convergence to local optima.
+The main evaluation results are presented in Table 1. The tasks on which the grid search is performed are marked with (\*). In each entry, the pair of numbers shows the mean and standard deviation of the normalized cumulative return using the best possible hyperparameters.
 
 <!-- chunk {"id": "body-0040", "role": "body", "section": "Results and Discussion", "weight": 1.0} -->
 
-TNPG and TRPO: Both TNPG and TRPO outperform other batch algorithms by a large margin on most tasks, confirming that constraining the change in the policy distribution results in more stable learning.
+REINFORCE: Despite its simplicity, REINFORCE is an effective algorithm in optimizing deep neural network policies in most basic and locomotion tasks. Even for high-DOF tasks like Ant, REINFORCE can achieve competitive results. However we observe that REINFORCE sometimes suffers from premature convergence to local optima as noted by Peters & Schaal, which explains the performance gaps between REINFORCE and TNPG on tasks such as Walker (Figure 3). By visualizing the final policies, we can see that REINFORCE results in policies that tend to jump forward and fall over to maximize short-term return instead of acquiring a stable walking gait to maximize long-term return. In Figure 3, we can observe that even with a small learning rate, steps taken by REINFORCE can sometimes result in large changes to policy distribution, which may explain the fast convergence to local optima.
 
 <!-- chunk {"id": "body-0041", "role": "body", "section": "Results and Discussion", "weight": 1.0} -->
 
-Compared to TNPG, TRPO offers better control over each policy update by performing a line search in the natural gradient direction to ensure an improvement in the surrogate loss function. We observe that hyperparameter grid search tends to select conservative step sizes ($\delta_{\text{KL}}$) for TNPG, which alleviates the issue of performance collapse caused by a large update to the policy. By contrast, TRPO can robustly enforce constraints with larger a $\delta_{\text{KL}}$ value and hence speeds up learning in some cases. For instance, grid search on the Swimmer task reveals that the best step size for TNPG is $\delta_{\text{KL}} = 0.05$, whereas TRPO's best step-size is larger: $\delta_{\text{KL}} = 0.1$. As shown in Figure 3, this larger step size enables slightly faster learning.
+TNPG and TRPO: Both TNPG and TRPO outperform other batch algorithms by a large margin on most tasks, confirming that constraining the change in the policy distribution results in more stable learning.
 
 <!-- chunk {"id": "body-0042", "role": "body", "section": "Results and Discussion", "weight": 1.0} -->
 
-RWR: RWR is the only gradient-based algorithm we implemented that does not require any hyperparameter tuning. It can solve some basic tasks to a satisfactory degree, but fails to solve more challenging tasks such as locomotion. We observe empirically that RWR shows fast initial improvement followed by significant slow-down, as shown in Figure 3.
+Compared to TNPG, TRPO offers better control over each policy update by performing a line search in the natural gradient direction to ensure an improvement in the surrogate loss function. We observe that hyperparameter grid search tends to select conservative step sizes ($\delta_{\text{KL}}$) for TNPG, which alleviates the issue of performance collapse caused by a large update to the policy. By contrast, TRPO can robustly enforce constraints with larger a $\delta_{\text{KL}}$ value and hence speeds up learning in some cases. For instance, grid search on the Swimmer task reveals that the best step size for TNPG is $\delta_{\text{KL}} = 0.05$, whereas TRPO's best step-size is larger: $\delta_{\text{KL}} = 0.1$. As shown in Figure 3, this larger step size enables slightly faster learning.
 
 <!-- chunk {"id": "body-0043", "role": "body", "section": "Results and Discussion", "weight": 1.0} -->
 
-REPS: Our main observation is that REPS is especially prone to early convergence to local optima in case of continuous states and actions. Its final outcome is greatly affected by the performance of the initial policy, an observation that is consistent with the original work of Peters et al.. This leads to a bad performance on average, although under particular initial settings the algorithm can perform on par with others. Moreover, the tasks presented here do not assume the existence of a stationary distribution, which is assumed in Peters et al.. In particular, for many of our tasks, transient behavior is of much greater interest than steady-state behavior, which agrees with previous observation by van Hoof et al.,
+RWR: RWR is the only gradient-based algorithm we implemented that does not require any hyperparameter tuning. It can solve some basic tasks to a satisfactory degree, but fails to solve more challenging tasks such as locomotion. We observe empirically that RWR shows fast initial improvement followed by significant slow-down, as shown in Figure 3.
 
 <!-- chunk {"id": "body-0044", "role": "body", "section": "Results and Discussion", "weight": 1.0} -->
 
-Gradient-free methods: Surprisingly, even when training deep neural network policies with thousands of parameters, CEM achieves very good performance on certain basic tasks such as Cart-Pole Balancing and Mountain Car, suggesting that the dimension of the searching parameter is not always the limiting factor of the method. However, the performance degrades quickly as the system dynamics becomes more complicated. We also observe that CEM outperforms CMA-ES, which is remarkable as CMA-ES estimates the full covariance matrix. For higher-dimensional policy parameterizations, the computational complexity and memory requirement for CMA-ES become noticeable. On tasks with high-dimensional observations, such as the Full Humanoid, the CMA-ES algorithm runs out of memory and fails to yield any results, denoted as N/A in Table 1.
+REPS: Our main observation is that REPS is especially prone to early convergence to local optima in case of continuous states and actions. Its final outcome is greatly affected by the performance of the initial policy, an observation that is consistent with the original work of Peters et al.. This leads to a bad performance on average, although under particular initial settings the algorithm can perform on par with others. Moreover, the tasks presented here do not assume the existence of a stationary distribution, which is assumed in Peters et al.. In particular, for many of our tasks, transient behavior is of much greater interest than steady-state behavior, which agrees with previous observation by van Hoof et al., Gradient-free methods: Surprisingly, even when training deep neural network policies with thousands of parameters, CEM achieves very good performance on certain basic tasks such as Cart-Pole Balancing and Mountain Car, suggesting that the dimension of the searching parameter is not always the limiting factor of the method. However, the performance degrades quickly as the system dynamics becomes more complicated. We also observe that CEM outperforms CMA-ES, which is remarkable as CMA-ES estimates the full covariance matrix.
 
 <!-- chunk {"id": "body-0045", "role": "body", "section": "Results and Discussion", "weight": 1.0} -->
 
-DDPG: Compared to batch algorithms, we found that DDPG was able to converge significantly faster on certain tasks like Half-Cheetah due to its greater sample efficiency. However, it was less stable than batch algorithms, and the performance of the policy can degrade significantly during training. We also found it to be more susceptible to scaling of the reward. In our experiment for DDPG, we rescaled the reward of all tasks by a factor of $0.1$, which seems to improve the stability.
+For higher-dimensional policy parameterizations, the computational complexity and memory requirement for CMA-ES become noticeable. On tasks with high-dimensional observations, such as the Full Humanoid, the CMA-ES algorithm runs out of memory and fails to yield any results, denoted as N/A in Table 1.
 
 <!-- chunk {"id": "body-0046", "role": "body", "section": "Results and Discussion", "weight": 1.0} -->
 
-Partially Observable Tasks: We experimentally verify that recurrent policies can find better solutions than feed-forward policies in Partially Observable Tasks but recurrent policies are also more difficult to train. As shown in Table 1, derivative-free algorithms like CEM and CMA-ES work considerably worse with recurrent policies. Also we note that the performance gap between REINFORCE and TNPG widens when they are applied to optimize recurrent policies, which can be explained by the fact that a small change in parameter space can result in a bigger change in policy distribution with recurrent policies than with feedforward policies.
+DDPG: Compared to batch algorithms, we found that DDPG was able to converge significantly faster on certain tasks like Half-Cheetah due to its greater sample efficiency. However, it was less stable than batch algorithms, and the performance of the policy can degrade significantly during training. We also found it to be more susceptible to scaling of the reward. In our experiment for DDPG, we rescaled the reward of all tasks by a factor of $0.1$, which seems to improve the stability.
 
 <!-- chunk {"id": "body-0047", "role": "body", "section": "Results and Discussion", "weight": 1.0} -->
 
+Partially Observable Tasks: We experimentally verify that recurrent policies can find better solutions than feed-forward policies in Partially Observable Tasks but recurrent policies are also more difficult to train. As shown in Table 1, derivative-free algorithms like CEM and CMA-ES work considerably worse with recurrent policies. Also we note that the performance gap between REINFORCE and TNPG widens when they are applied to optimize recurrent policies, which can be explained by the fact that a small change in parameter space can result in a bigger change in policy distribution with recurrent policies than with feedforward policies.
+
+<!-- chunk {"id": "body-0048", "role": "body", "section": "Results and Discussion", "weight": 1.0} -->
+
 Hierarchical Tasks: We observe that all of our implemented algorithms achieve poor performance on the hierarchical tasks, even with extensive hyperparameter search and $500$ iterations of training. It is an interesting direction to develop algorithms that can automatically discover and exploit the hierarchical structure in these tasks.
 
-<!-- chunk {"id": "body-0048", "role": "body", "section": "Conclusion", "weight": 1.5} -->
+<!-- chunk {"id": "body-0049", "role": "body", "section": "Conclusion", "weight": 1.5} -->
 
 In this work, a benchmark of continuous control problems for reinforcement learning is presented, covering a wide variety of challenging tasks. We implemented several reinforcement learning algorithms, and presented them in the context of general policy parameterizations. Results show that among the implemented algorithms, TNPG, TRPO, and DDPG are effective methods for training deep neural network policies. Still, the poor performance on the proposed hierarchical tasks calls for new algorithms to be developed. Implementing and evaluating existing and newly proposed algorithms will be our continued effort. By providing an open-source release of the benchmark, we encourage other researchers to evaluate their algorithms on the proposed tasks.

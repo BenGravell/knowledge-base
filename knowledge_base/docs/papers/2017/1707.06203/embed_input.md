@@ -118,11 +118,11 @@ One of the key strengths of I2As is being able to handle learned and thus potent
 
 <!-- chunk {"id": "body-0030", "role": "body", "section": "Learning with imperfect models", "weight": 1.0} -->
 
-Action $a$ is chosen with probability proportional to $\exp{({- {{({{\sum_{t = 0..T}{\gamma^{t}r_{t}^{a}}} + {V{(x_{T}^{a})}}})}/\delta}})}$, where $\delta$ is a learned temperature. This can be thought of as a form of I2A with a fixed summarizer (which computes returns), no model-free path, and very simple policy head. In this architecture, only $V,\hat{\pi}$ and $\delta$ are learned.^33^3the rollout policy is still learned by distillation from the output policy
+Action $a$ is chosen with probability proportional to $\exp{({- {{({{\sum_{t = 0..T}{\gamma^{t}r_{t}^{a}}} + {V{(x_{T}^{a})}}})}/\delta}})}$, where $\delta$ is a learned temperature. This can be thought of as a form of I2A with a fixed summarizer (which computes returns), no model-free path, and very simple policy head. In this architecture, only $V,\hat{\pi}$ and $\delta$ are learned.^33^3the rollout policy is still learned by distillation from the output policy We ran this rollout encoder-free agent on Sokoban with both the accurate and the noisy environment model. We chose the length of the rollout to be optimal for each environment model (from the same range as for I2A, i.e. from 1 to 5).
 
 <!-- chunk {"id": "body-0031", "role": "body", "section": "Learning with imperfect models", "weight": 1.0} -->
 
-We ran this rollout encoder-free agent on Sokoban with both the accurate and the noisy environment model. We chose the length of the rollout to be optimal for each environment model (from the same range as for I2A, i.e. from 1 to 5). As can be seen in Fig. 5 (right),^44^4Note: the MC curves in Fig. 5 only used a single agent rather than averages. when using the high accuracy environment model, the performance of the encoder-free agent is similar to that of the baseline standard agent. However, unlike I2A, its performance degrades catastrophically when using the poor model, showcasing the susceptibility to model misspecification.
+As can be seen in Fig. 5 (right),^44^4Note: the MC curves in Fig. 5 only used a single agent rather than averages. when using the high accuracy environment model, the performance of the encoder-free agent is similar to that of the baseline standard agent. However, unlike I2A, its performance degrades catastrophically when using the poor model, showcasing the susceptibility to model misspecification.
 
 <!-- chunk {"id": "body-0032", "role": "body", "section": "Further insights into the workings of the I2A architecture", "weight": 1.0} -->
 

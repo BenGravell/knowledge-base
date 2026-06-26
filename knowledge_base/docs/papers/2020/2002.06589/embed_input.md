@@ -82,92 +82,88 @@ ABIT\* starts by initializing the search tree with the start state as its root. 
 
 <!-- chunk {"id": "body-0021", "role": "body", "section": "III-C Approximation (Algorithm 1 ‣ Advanced BIT* (ABIT*): Sampling-Based Planning with Advanced Graph-Search Techniques\"), Lines 1 ‣ Advanced BIT* (ABIT*): Sampling-Based Planning with Advanced Graph-Search Techniques\")-1 ‣ Advanced BIT* (ABIT*): Sampling-Based Planning with Advanced Graph-Search Techniques\"))", "weight": 1.0} -->
 
-ABIT\* uses informed sampling to focus its RGG approximation on the relevant region of the state space. The accuracy of this approximation increases with the number of sampled states but so does its complexity. This complexity is reduced by pruning states that cannot improve the current solution (line 1 ‣ Advanced BIT* (ABIT*): Sampling-Based Planning with Advanced Graph-Search Techniques") and Alg. 3 ‣ III Advanced Batch Informed Trees (ABIT*) ‣ Advanced BIT* (ABIT*): Sampling-Based Planning with Advanced Graph-Search Techniques")) and shrinking the connection radius as more states are sampled. The radius, $r$, is updated as, using the measure of the informed set, as,
+ABIT\* uses informed sampling to focus its RGG approximation on the relevant region of the state space. The accuracy of this approximation increases with the number of sampled states but so does its complexity. This complexity is reduced by pruning states that cannot improve the current solution (line 1 ‣ Advanced BIT* (ABIT*): Sampling-Based Planning with Advanced Graph-Search Techniques") and Alg. 3 ‣ III Advanced Batch Informed Trees (ABIT*) ‣ Advanced BIT* (ABIT*): Sampling-Based Planning with Advanced Graph-Search Techniques")) and shrinking the connection radius as more states are sampled. The radius, $r$, is updated as, using the measure of the informed set, as, where $q$ is the number of sampled states in the informed set, $\eta > 1$ is a tuning parameter, and $n$ is the state space dimension. Faster-decreasing radii are provided in but are not used in this paper to isolate the reasons for ABIT\*'s improved performance relative to existing algorithms.
 
-<!-- chunk {"id": "body-0022", "role": "body", "section": "III-C Approximation (Algorithm 1 ‣ Advanced BIT* (ABIT*): Sampling-Based Planning with Advanced Graph-Search Techniques\"), Lines 1 ‣ Advanced BIT* (ABIT*): Sampling-Based Planning with Advanced Graph-Search Techniques\")-1 ‣ Advanced BIT* (ABIT*): Sampling-Based Planning with Advanced Graph-Search Techniques\"))", "weight": 1.0} -->
-
-where $q$ is the number of sampled states in the informed set, $\eta > 1$ is a tuning parameter, and $n$ is the state space dimension. Faster-decreasing radii are provided in but are not used in this paper to isolate the reasons for ABIT\*'s improved performance relative to existing algorithms.
-
-<!-- chunk {"id": "body-0023", "role": "body", "section": "III-D Search (Algorithm 1 ‣ Advanced BIT* (ABIT*): Sampling-Based Planning with Advanced Graph-Search Techniques\"), Lines 1 ‣ Advanced BIT* (ABIT*): Sampling-Based Planning with Advanced Graph-Search Techniques\")-1 ‣ Advanced BIT* (ABIT*): Sampling-Based Planning with Advanced Graph-Search Techniques\"))", "weight": 1.0} -->
+<!-- chunk {"id": "body-0022", "role": "body", "section": "III-D Search (Algorithm 1 ‣ Advanced BIT* (ABIT*): Sampling-Based Planning with Advanced Graph-Search Techniques\"), Lines 1 ‣ Advanced BIT* (ABIT*): Sampling-Based Planning with Advanced Graph-Search Techniques\")-1 ‣ Advanced BIT* (ABIT*): Sampling-Based Planning with Advanced Graph-Search Techniques\"))", "weight": 1.0} -->
 
 ABIT\* delays expensive computation of true edge cost (e.g., collision checks) with a lazy search similar to an edge-queue version of Anytime Truncated D\* (ATD\*). This queue is ordered lexicographically by (inflated) potential solution cost and then cost-to-come. A search iteration starts by removing the edge with the lowest queue value from the queue (line 1 ‣ Advanced BIT* (ABIT*): Sampling-Based Planning with Advanced Graph-Search Techniques")). If this edge is part of the search tree, then the child state is expanded (i.e., its outgoing edges are added to the queue) if it has not already been expanded during the current search (lines 1 ‣ Advanced BIT* (ABIT*): Sampling-Based Planning with Advanced Graph-Search Techniques")--1 ‣ Advanced BIT* (ABIT*): Sampling-Based Planning with Advanced Graph-Search Techniques") and Alg. 2 ‣ III Advanced Batch Informed Trees (ABIT*) ‣ Advanced BIT* (ABIT*): Sampling-Based Planning with Advanced Graph-Search Techniques")).
 
-<!-- chunk {"id": "body-0024", "role": "body", "section": "III-D Search (Algorithm 1 ‣ Advanced BIT* (ABIT*): Sampling-Based Planning with Advanced Graph-Search Techniques\"), Lines 1 ‣ Advanced BIT* (ABIT*): Sampling-Based Planning with Advanced Graph-Search Techniques\")-1 ‣ Advanced BIT* (ABIT*): Sampling-Based Planning with Advanced Graph-Search Techniques\"))", "weight": 1.0} -->
+<!-- chunk {"id": "body-0023", "role": "body", "section": "III-D Search (Algorithm 1 ‣ Advanced BIT* (ABIT*): Sampling-Based Planning with Advanced Graph-Search Techniques\"), Lines 1 ‣ Advanced BIT* (ABIT*): Sampling-Based Planning with Advanced Graph-Search Techniques\")-1 ‣ Advanced BIT* (ABIT*): Sampling-Based Planning with Advanced Graph-Search Techniques\"))", "weight": 1.0} -->
 
 ABIT\* otherwise checks if the new edge can possibly contribute to a solution better than the current one (lines 1 ‣ Advanced BIT* (ABIT*): Sampling-Based Planning with Advanced Graph-Search Techniques")--1 ‣ Advanced BIT* (ABIT*): Sampling-Based Planning with Advanced Graph-Search Techniques")).
 
-<!-- chunk {"id": "body-0025", "role": "body", "section": "III-D Search (Algorithm 1 ‣ Advanced BIT* (ABIT*): Sampling-Based Planning with Advanced Graph-Search Techniques\"), Lines 1 ‣ Advanced BIT* (ABIT*): Sampling-Based Planning with Advanced Graph-Search Techniques\")-1 ‣ Advanced BIT* (ABIT*): Sampling-Based Planning with Advanced Graph-Search Techniques\"))", "weight": 1.0} -->
+<!-- chunk {"id": "body-0024", "role": "body", "section": "III-D Search (Algorithm 1 ‣ Advanced BIT* (ABIT*): Sampling-Based Planning with Advanced Graph-Search Techniques\"), Lines 1 ‣ Advanced BIT* (ABIT*): Sampling-Based Planning with Advanced Graph-Search Techniques\")-1 ‣ Advanced BIT* (ABIT*): Sampling-Based Planning with Advanced Graph-Search Techniques\"))", "weight": 1.0} -->
 
 An edge that passes these checks improves the cost-to-come of the child state and possibly the current solution. If the child state is already part of the tree, adding this edge constitutes a rewiring (line 1 ‣ Advanced BIT* (ABIT*): Sampling-Based Planning with Advanced Graph-Search Techniques")). Otherwise, this state is removed from the set of unconnected states (line 1 ‣ Advanced BIT* (ABIT*): Sampling-Based Planning with Advanced Graph-Search Techniques")) and added to the search tree (line 1 ‣ Advanced BIT* (ABIT*): Sampling-Based Planning with Advanced Graph-Search Techniques")). In both cases, the edge is added to the search tree (line 1 ‣ Advanced BIT* (ABIT*): Sampling-Based Planning with Advanced Graph-Search Techniques")).
 
-<!-- chunk {"id": "body-0026", "role": "body", "section": "III-D Search (Algorithm 1 ‣ Advanced BIT* (ABIT*): Sampling-Based Planning with Advanced Graph-Search Techniques\"), Lines 1 ‣ Advanced BIT* (ABIT*): Sampling-Based Planning with Advanced Graph-Search Techniques\")-1 ‣ Advanced BIT* (ABIT*): Sampling-Based Planning with Advanced Graph-Search Techniques\"))", "weight": 1.0} -->
+<!-- chunk {"id": "body-0025", "role": "body", "section": "III-D Search (Algorithm 1 ‣ Advanced BIT* (ABIT*): Sampling-Based Planning with Advanced Graph-Search Techniques\"), Lines 1 ‣ Advanced BIT* (ABIT*): Sampling-Based Planning with Advanced Graph-Search Techniques\")-1 ‣ Advanced BIT* (ABIT*): Sampling-Based Planning with Advanced Graph-Search Techniques\"))", "weight": 1.0} -->
 
 After adding an edge, the child state is expanded unless it has already been expanded during the current search, in which case it is added to the set of inconsistent vertices (lines 1 ‣ Advanced BIT* (ABIT*): Sampling-Based Planning with Advanced Graph-Search Techniques")--1 ‣ Advanced BIT* (ABIT*): Sampling-Based Planning with Advanced Graph-Search Techniques")).
 
-<!-- chunk {"id": "body-0027", "role": "body", "section": "III-E Approximation, Inflation, and Truncation Update Policies", "weight": 1.0} -->
+<!-- chunk {"id": "body-0026", "role": "body", "section": "III-E Approximation, Inflation, and Truncation Update Policies", "weight": 1.0} -->
 
 The approximation is updated when a desired bound on the resolution optimality is achieved, which depends on the inflation and truncation factors (line 1 ‣ Advanced BIT* (ABIT*): Sampling-Based Planning with Advanced Graph-Search Techniques")). These factors are updated after each search of the current RGG (lines 1 ‣ Advanced BIT* (ABIT*): Sampling-Based Planning with Advanced Graph-Search Techniques") and 1 ‣ Advanced BIT* (ABIT*): Sampling-Based Planning with Advanced Graph-Search Techniques")). A high inflation factor biases the search towards the goal and decreases solution times but results in loose bounds on the solution quality. A low inflation factor results in a search that requires more computational effort to complete but achieves tighter bounds on the solution quality. A high truncation factor promotes exploration of the region of the state space that could potentially contain better solutions by truncating the search once a loose bound on the solution quality is achieved, which facilitates adding more samples. A low truncation factor promotes exploiting the current approximation of the state space as the search is not truncated until a tight bound on the solution quality is guaranteed.
 
-<!-- chunk {"id": "body-0028", "role": "body", "section": "III-E Approximation, Inflation, and Truncation Update Policies", "weight": 1.0} -->
+<!-- chunk {"id": "body-0027", "role": "body", "section": "III-E Approximation, Inflation, and Truncation Update Policies", "weight": 1.0} -->
 
 The update policies of these two factors are user-tuned parameters that balance exploiting the current RGG with exploring the state space. Section V: Sampling-Based Planning with Advanced Graph-Search Techniques") presents the specific policies used for the experimental results.
 
-<!-- chunk {"id": "body-0029", "role": "body", "section": "Formal Analysis", "weight": 1.0} -->
+<!-- chunk {"id": "body-0028", "role": "body", "section": "Formal Analysis", "weight": 1.0} -->
 
 This paper uses Definition 24 in as the definition of almost-sure asymptotic optimality. Note that any sampling-based planner is almost-surely asymptotically optimal if (i) its underlying graph almost-surely contains an asymptotically optimal path, and (ii) its underlying graph-search is asymptotically resolution-optimal. These conditions are sufficient but not necessary.
 
-<!-- chunk {"id": "body-0030", "role": "body", "section": "IV-A Almost-Sure Existence of an Asymptotically Optimal Path", "weight": 1.0} -->
+<!-- chunk {"id": "body-0029", "role": "body", "section": "IV-A Almost-Sure Existence of an Asymptotically Optimal Path", "weight": 1.0} -->
 
 ABIT\* uses the same increasingly dense RGG approximation as BIT\*. Since BIT\* is an almost-surely asymptotically optimal algorithm, this approximation must almost-surely contain an asymptotically optimal path.
 
-<!-- chunk {"id": "body-0031", "role": "body", "section": "IV-B Asymptotically Resolution-Optimal Search", "weight": 1.0} -->
+<!-- chunk {"id": "body-0030", "role": "body", "section": "IV-B Asymptotically Resolution-Optimal Search", "weight": 1.0} -->
 
 Theorem 1: Sampling-Based Planning with Advanced Graph-Search Techniques") states that ABIT\*'s search processes at least all of the edges processed by ATD\*, which is an anytime, incremental search algorithm that finds a solution within $\varepsilon_{trunc}\varepsilon_{infl}$ of the optimum. Since ABIT\* updates the cost-to-come of any vertex under the same condition as ATD\*, ABIT\* also finds a solution whose cost is within $\varepsilon_{trunc}\varepsilon_{infl}$ of the optimum. ABIT\* therefore asymptotically finds a resolution-optimal path when the product $\varepsilon_{trunc}\varepsilon_{infl}$ tends to one as the number of samples approaches infinity,
 
-<!-- chunk {"id": "body-0032", "role": "body", "section": "Experimental Results", "weight": 1.0} -->
+<!-- chunk {"id": "body-0031", "role": "body", "section": "Experimental Results", "weight": 1.0} -->
 
 ABIT\* was compared against the Open Motion Planning Library (OMPL) versions of RRT-Connect, RRT\*, RRT^\#^, LBT-RRT, and BIT\* on simulated problems in ${\mathbb{R}}^{4}$ and ${\mathbb{R}}^{8}$ (Fig. 2: Sampling-Based Planning with Advanced Graph-Search Techniques"))^11^1The performances were measured with OMPL v1.4.1 on a laptop with 16 GB of RAM and an Intel i7-4910MQ processor running Ubuntu 18.04.. The objective for the almost-surely asymptotically optimal planners was to minimize path length. The RGG constant $\eta$ was set to 1.1 for all planners. LBT-RRT used the default value of 0.4 as the approximation factor. RRT^\#^ sampled the entire state space.
 
-<!-- chunk {"id": "body-0033", "role": "body", "section": "Experimental Results", "weight": 1.0} -->
+<!-- chunk {"id": "body-0032", "role": "body", "section": "Experimental Results", "weight": 1.0} -->
 
 RRT-based algorithms used a goal bias of 5% and maximum edge lengths of 0.5 and 1.25 in ${\mathbb{R}}^{4}$ and ${\mathbb{R}}^{8}$, respectively. BIT\* and ABIT\* sampled 100 states per batch regardless of the state space dimension, had graph pruning turned off, and used Euclidean distance as a heuristic. ABIT\* was configured to search each RGG twice. First with a highly inflated heuristic, $\varepsilon_{infl} = 10^{6}$, and then again with a lower factor, $\varepsilon_{infl} = {1 + {10/q}}$. A single truncation factor, $\varepsilon_{trunc} = {1 + {5/q}}$ was used for all searches. All parameters were tuned to optimize planner performance on test problems.
 
-<!-- chunk {"id": "body-0034", "role": "body", "section": "V-A Experimental Problems", "weight": 1.0} -->
+<!-- chunk {"id": "body-0033", "role": "body", "section": "V-A Experimental Problems", "weight": 1.0} -->
 
 The planners were tested on two problems in ${\mathbb{R}}^{4}$ and ${\mathbb{R}}^{8}$. The first consisted of a wall with a narrow gap such that valid paths can only be in one of two homotopy classes (Fig. 2a: Sampling-Based Planning with Advanced Graph-Search Techniques")). Each planner was run 100 times for one second with different random seeds. Figures 3a and 3d show the achieved success rates and median path lengths of all tested planners.
 
-<!-- chunk {"id": "body-0035", "role": "body", "section": "V-A Experimental Problems", "weight": 1.0} -->
+<!-- chunk {"id": "body-0034", "role": "body", "section": "V-A Experimental Problems", "weight": 1.0} -->
 
 The second consisted of axis-aligned hyperrectangles of random widths placed randomly in the state space (e.g., Fig. 2b: Sampling-Based Planning with Advanced Graph-Search Techniques")). Ten different random problems were generated for each state space dimension and planners were run 100 times on each instantiation. The runtime was limited to one and 40 seconds for problems in ${\mathbb{R}}^{4}$ and ${\mathbb{R}}^{8}$, respectively. Figures 3b, 3c, 3e, and 3f show the achieved success rates and median path costs of all tested planners for the two problems that resulted in the best and worst performances of ABIT\*, as defined by its initial solution time relative to RRT-Connect.
 
-<!-- chunk {"id": "body-0036", "role": "body", "section": "V-B Planning for Axel", "weight": 1.0} -->
+<!-- chunk {"id": "body-0035", "role": "body", "section": "V-B Planning for Axel", "weight": 1.0} -->
 
 The benefits of ABIT\*'s advanced graph-search techniques were also demonstrated on real-world robotic planning problems during a week-long NASA/JPL-Caltech field test in the Mojave Desert with the Axel Rover System (Fig. 1: Sampling-Based Planning with Advanced Graph-Search Techniques")). Axel is a tethered robotic platform designed for near-vertical surfaces and other challenging or unstable terrain. The complexity of the terrain and its interaction with the tether make for challenging planning problems because state evaluations are computationally expensive. ABIT\* typically found initial solutions to these problems in under two seconds. This allowed it to spend the remaining computational time to improve this solution by repairing its search and increasing the density of its approximation. This resulted in 95.12% autonomy by distance, despite the challenging terrain.
 
-<!-- chunk {"id": "body-0037", "role": "body", "section": "Discussion & Conclusion", "weight": 1.5} -->
+<!-- chunk {"id": "body-0036", "role": "body", "section": "Discussion & Conclusion", "weight": 1.5} -->
 
 ABIT\* demonstrates that the perspective of separate approximation and search in single-query almost-surely asymptotically optimal sampling-based planning can be used to design algorithms with improved anytime performance. Figure 3: Sampling-Based Planning with Advanced Graph-Search Techniques") shows that ABIT\* outperforms other single-query, almost-surely asymptotically optimal planners by finding initial solutions quickly and converging to an optimal solution in an anytime manner without wasting computational effort. The only tested planner that finds initial solutions faster than ABIT\* is RRT-Connect, which is not an almost-surely asymptotically optimal algorithm and cannot improve its initial solution when given more computational time.
 
-<!-- chunk {"id": "body-0038", "role": "body", "section": "Discussion & Conclusion", "weight": 1.5} -->
+<!-- chunk {"id": "body-0037", "role": "body", "section": "Discussion & Conclusion", "weight": 1.5} -->
 
 ABIT\* relies on admissible heuristic estimates of edge-costs between states and the cost-to-go from states to a goal. If no heuristics are available, ABIT\* can be run with the trivial heuristic, i.e., ${{\forall\mathbf{x}_{i}},\mathbf{x}_{j}} \in X$, ${\hat{h}{(\mathbf{x}_{i})}} \equiv {\hat{c}{(\mathbf{x}_{i},\mathbf{x}_{j})}} \equiv 0$. An asymmetric bidirectional search could alternatively be used to simultaneously estimate and exploit a problem-specific heuristic, as in Adaptively Informed Trees (AIT\*).
 
-<!-- chunk {"id": "body-0039", "role": "body", "section": "Discussion & Conclusion", "weight": 1.5} -->
+<!-- chunk {"id": "body-0038", "role": "body", "section": "Discussion & Conclusion", "weight": 1.5} -->
 
 If ABIT\* is run with unit inflation and truncation factors, it can be viewed as a simplified but equally performant version of BIT\* that cascades rewirings. ABIT\* uses a single edge queue instead of BIT\*'s dual vertex and edge queues and avoids repeated collision checks by caching checked edges in an object-oriented manner instead of labelling states *old* or *new* as in BIT\*. This clarifies the conceptual ideas behind these algorithms and simplifies their implementation without adding any practically significant computational costs.
 
-<!-- chunk {"id": "body-0040", "role": "body", "section": "Discussion & Conclusion", "weight": 1.5} -->
+<!-- chunk {"id": "body-0039", "role": "body", "section": "Discussion & Conclusion", "weight": 1.5} -->
 
 This improved implementation allows ABIT\* to balance exploiting its current approximation of the state space with exploring the relevant regions of the state space. This is achieved using advanced graph-search techniques similar to anytime repairing and truncated search algorithms.
 
-<!-- chunk {"id": "body-0041", "role": "body", "section": "Discussion & Conclusion", "weight": 1.5} -->
+<!-- chunk {"id": "body-0040", "role": "body", "section": "Discussion & Conclusion", "weight": 1.5} -->
 
 An inflated heuristic biases ABIT\*'s search towards the goal and finds initial solutions quickly. Truncating the search once a sufficient bound on the solution quality of the current solution is achieved avoids wasting computational effort fully exploiting an approximation that will change. Flexible update policies of the inflation and truncation factors ensure that ABIT\* can leverage high and low inflation and truncation depending on the accuracy of its approximation. ABIT\* is not very sensitive to the exact form of these policies. Results comparable to the ones presented in this paper are achieved whenever the initial search is conducted with a very high inflation factor and both factors asymptotically tend to one as the number of sampled states approaches infinity.
 
-<!-- chunk {"id": "body-0042", "role": "body", "section": "Discussion & Conclusion", "weight": 1.5} -->
+<!-- chunk {"id": "body-0041", "role": "body", "section": "Discussion & Conclusion", "weight": 1.5} -->
 
 ABIT\* also shows the benefits of using advanced graph-search techniques in sampling-based planning on real-world path planning problems posed by Axel, a NASA/JPL-Caltech rover specialized for navigation on challenging terrain.
 
-<!-- chunk {"id": "body-0043", "role": "body", "section": "Discussion & Conclusion", "weight": 1.5} -->
+<!-- chunk {"id": "body-0042", "role": "body", "section": "Discussion & Conclusion", "weight": 1.5} -->
 
 Information on the OMPL implementation of ABIT\* is available at

@@ -22,7 +22,7 @@ Intuitively, 3D scene understanding would be easier if maps directly told us whi
 
 <!-- chunk {"id": "body-0006", "role": "body", "section": "Introduction", "weight": 1.5} -->
 
-We release a large scale 3D tracking dataset with synchronized data from LiDAR, 360^∘^ and stereo cameras sampled across two cities in varied conditions. Unlike other recent datasets, our 360^∘^ is captured at 30fps.
+Our contributions in this paper include: We release a large scale 3D tracking dataset with synchronized data from LiDAR, 360^∘^ and stereo cameras sampled across two cities in varied conditions. Unlike other recent datasets, our 360^∘^ is captured at 30fps.
 
 <!-- chunk {"id": "body-0007", "role": "body", "section": "Introduction", "weight": 1.5} -->
 
@@ -118,7 +118,7 @@ When no match can be found by Hungarian method for an object, the object pose is
 
 <!-- chunk {"id": "body-0030", "role": "body", "section": "3D Object Tracking", "weight": 1.0} -->
 
-Driveable area. Since our baseline is focused on vehicle tracking, we constrain our tracker to the driveable area as specified by the map. This driveable area covers any region where it is possible for the vehicle to drive (see Section 3.1). This constraint reduces the opportunities for false positives.
+The tracker uses the following map attributes: Driveable area. Since our baseline is focused on vehicle tracking, we constrain our tracker to the driveable area as specified by the map. This driveable area covers any region where it is possible for the vehicle to drive (see Section 3.1). This constraint reduces the opportunities for false positives.
 
 <!-- chunk {"id": "body-0031", "role": "body", "section": "3D Object Tracking", "weight": 1.0} -->
 
@@ -144,82 +144,94 @@ We compare our baseline tracker with three ablations that include: 1) using map-
 
 We have employed relatively simple baselines to track objects in 3D. We believe that our data enables new approaches to map-based and multimodal tracking research.
 
-<!-- chunk {"id": "body-0037", "role": "body", "section": "Motion Forecasting", "weight": 1.0} -->
+<!-- chunk {"id": "body-0037", "role": "body", "section": "Evaluation", "weight": 1.0} -->
 
-In this section, we describe our pipeline for motion forecasting baselines.
+(a) Without lane information (b) With lane information Figure 6: Tracking with orientation snapping. Using lane direction information helps to determine the vehicle orientation for detection and tracking.
 
 <!-- chunk {"id": "body-0038", "role": "body", "section": "Motion Forecasting", "weight": 1.0} -->
 
-1\. Preprocessing: As described in Section 3.3, we first mine for "interesting" sequences where a "focal" vehicle is observed for 5 seconds. As context, we have the centroids of all other tracked objects (including the AV itself) which are collapsed into one "other" class.
+In this section, we describe our pipeline for motion forecasting baselines.
 
 <!-- chunk {"id": "body-0039", "role": "body", "section": "Motion Forecasting", "weight": 1.0} -->
 
-Forecasting Coordinate System and Normalization. The coordinate system we used for trajectory forecasting is a top-down, bird's eye view (BEV). There are three reference coordinate frames of interest to forecasting: The raw trajectory data is stored and evaluated in the *city* coordinate system (See Section C of the Appendix). For models using lane centerlines as a reference path, we defined a *2D curvilinear coordinate system* with axes tangential and perpendicular to the lane centerline. For models without the reference path (without a map), we normalize trajectories such that the observed portion of the trajectory starts at the origin and ends somewhere on the positive x axis. If $(x_{i}^{t},y_{i}^{t})$ represent coordinates of trajectory $V_{i}$ at timestep $t$, then this normalization makes sure that $y_{i}^{T_{obs}} = 0$, where $T_{obs}$ is last observed timestep of the trajectory (Section 5.1).
+1\. Preprocessing: As described in Section 3.3, we first mine for "interesting" sequences where a "focal" vehicle is observed for 5 seconds. As context, we have the centroids of all other tracked objects (including the AV itself) which are collapsed into one "other" class.
 
 <!-- chunk {"id": "body-0040", "role": "body", "section": "Motion Forecasting", "weight": 1.0} -->
 
-We find this normalization works better than leaving trajectories in absolute map coordinates or absolute orientations.
+Forecasting Coordinate System and Normalization. The coordinate system we used for trajectory forecasting is a top-down, bird's eye view (BEV). There are three reference coordinate frames of interest to forecasting: The raw trajectory data is stored and evaluated in the *city* coordinate system (See Section C of the Appendix). For models using lane centerlines as a reference path, we defined a *2D curvilinear coordinate system* with axes tangential and perpendicular to the lane centerline. For models without the reference path (without a map), we normalize trajectories such that the observed portion of the trajectory starts at the origin and ends somewhere on the positive x axis. If $(x_{i}^{t},y_{i}^{t})$ represent coordinates of trajectory $V_{i}$ at timestep $t$, then this normalization makes sure that $y_{i}^{T_{obs}} = 0$, where $T_{obs}$ is last observed timestep of the trajectory (Section 5.1).
 
 <!-- chunk {"id": "body-0041", "role": "body", "section": "Motion Forecasting", "weight": 1.0} -->
 
-2\. Feature Engineering: We define additional features to capture social or spatial context. For social context, we use the minimum distance to the objects in front, in back, and the number of neighbors. Such heuristics are meant to capture the social interaction between vehicles. For spatial context, we use the map as a prior by computing features in the lane segment coordinate system. We compute the lane centerline corresponding to each trajectory and then map $(x_{i}^{t},y_{i}^{t})$ coordinates to the distance along the centerline $(a_{i}^{t})$ and offset from the centerline $(o_{i}^{t})$. In the subsequent sections, we denote social features and map features for trajectory $V_{i}$ at timestep $t$ by $s_{i}^{t}$ and $m_{i}^{t}$, respectively.
+We find this normalization works better than leaving trajectories in absolute map coordinates or absolute orientations.
 
 <!-- chunk {"id": "body-0042", "role": "body", "section": "Motion Forecasting", "weight": 1.0} -->
 
+2\. Feature Engineering: We define additional features to capture social or spatial context. For social context, we use the minimum distance to the objects in front, in back, and the number of neighbors. Such heuristics are meant to capture the social interaction between vehicles. For spatial context, we use the map as a prior by computing features in the lane segment coordinate system. We compute the lane centerline corresponding to each trajectory and then map $(x_{i}^{t},y_{i}^{t})$ coordinates to the distance along the centerline $(a_{i}^{t})$ and offset from the centerline $(o_{i}^{t})$. In the subsequent sections, we denote social features and map features for trajectory $V_{i}$ at timestep $t$ by $s_{i}^{t}$ and $m_{i}^{t}$, respectively.
+
+<!-- chunk {"id": "body-0043", "role": "body", "section": "Motion Forecasting", "weight": 1.0} -->
+
 3\. Prediction Algorithm: We implement Constant Velocity, Nearest Neighbor, and LSTM Encoder-Decoder based models using different combinations of features. The results are analyzed in Section 5.3.
-
-<!-- chunk {"id": "body-0043", "role": "body", "section": "Problem Description", "weight": 1.0} -->
-
-The forecasting task is framed as: given the past input coordinates of a vehicle trajectory $V_{i} = {(X_{i},Y_{i})}$ where $X_{i} = {(x_{i}^{t},y_{i}^{t})}$ for time steps $t = {\{ 1,\ldots,T_{obs}\}}$, predict the future coordinates $Y_{i} = {(x_{i}^{t},y_{i}^{t})}$ for time steps $\{{t = {T_{{obs} + 1},\ldots,T_{pred}}}\}$. For a car, 5 s is sufficient to capture the salient part of a trajectory, *e.g*. crossing an intersection. In this paper, we define the motion forecasting task as observing 20 past frames (2 s) and then predicting 30 frames (3 s) into the future.
 
 <!-- chunk {"id": "body-0044", "role": "body", "section": "Problem Description", "weight": 1.0} -->
 
+The forecasting task is framed as: given the past input coordinates of a vehicle trajectory $V_{i} = {(X_{i},Y_{i})}$ where $X_{i} = {(x_{i}^{t},y_{i}^{t})}$ for time steps $t = {\{ 1,\ldots,T_{obs}\}}$, predict the future coordinates $Y_{i} = {(x_{i}^{t},y_{i}^{t})}$ for time steps $\{{t = {T_{{obs} + 1},\ldots,T_{pred}}}\}$. For a car, 5 s is sufficient to capture the salient part of a trajectory, *e.g*. crossing an intersection. In this paper, we define the motion forecasting task as observing 20 past frames (2 s) and then predicting 30 frames (3 s) into the future.
+
+<!-- chunk {"id": "body-0045", "role": "body", "section": "Problem Description", "weight": 1.0} -->
+
 Each forecasting task can leverage the trajectories of other objects in the same sequence to capture the social context and map information for spatial context.
-
-<!-- chunk {"id": "body-0045", "role": "body", "section": "Evaluation of Multiple Forecasts", "weight": 1.0} -->
-
-Predicting the future is difficult. Often, there are several plausible future actions for a given observation. In the case of autonomous vehicles, it is important to predict *many* plausible outcomes and not simply the *most likely* outcome. While some prior works have evaluated forecasting in a deterministic, unimodal way, we believe a better approach is to follow the evaluation methods similar to DESIRE, Social GAN, R2P2 and wherein they encourage algorithms to output multiple predictions. Among the variety of metrics evaluated in was the minMSD over $K$ number of samples metric, where $K = 12$. A similar metric is used in where they allow $K$ to be up to 50. We follow the same approach and use minimum Average Displacement Error (minADE) and minimum Final Displacement Error (minFDE) over $K$ predictions as our metrics, where $K = {1,3,6,9}$. Note that minADE refers to ADE of the trajectory which has minimum FDE, and not minimum ADE, since we want to evaluate the single best forecast. That said, minADE error might not be a sufficient metric.
 
 <!-- chunk {"id": "body-0046", "role": "body", "section": "Evaluation of Multiple Forecasts", "weight": 1.0} -->
 
-As noted in and, metrics like minMSD or minFDE can only evaluate how good is the best trajectory, but not how good are all the trajectories. A model having 5 good trajectories will have the same error as the model having 1 good and 4 bad trajectories. Further, given the multimodal nature of the problem, it might not be fair to evaluate against a single ground truth. In an attempt to evaluate based on the quality of predictions, we propose another metric: Drivable Area Compliance (DAC). If a model produces $n$ possible future trajectories and $m$ of those exit the drivable area at some point, the DAC for that model would be ${({n - m})}/n$. Hence, higher DAC means better quality of forecasted trajectories. Finally, we also use Miss Rate (MR) with a threshold of 1.0 meter. It is again a metric derived from the distribution of final displacement errors.
+Predicting the future is difficult. Often, there are several plausible future actions for a given observation. In the case of autonomous vehicles, it is important to predict *many* plausible outcomes and not simply the *most likely* outcome. While some prior works have evaluated forecasting in a deterministic, unimodal way, we believe a better approach is to follow the evaluation methods similar to DESIRE, Social GAN, R2P2 and wherein they encourage algorithms to output multiple predictions. Among the variety of metrics evaluated in was the minMSD over $K$ number of samples metric, where $K = 12$. A similar metric is used in where they allow $K$ to be up to 50. We follow the same approach and use minimum Average Displacement Error (minADE) and minimum Final Displacement Error (minFDE) over $K$ predictions as our metrics, where $K = {1,3,6,9}$. Note that minADE refers to ADE of the trajectory which has minimum FDE, and not minimum ADE, since we want to evaluate the single best forecast. That said, minADE error might not be a sufficient metric.
 
 <!-- chunk {"id": "body-0047", "role": "body", "section": "Evaluation of Multiple Forecasts", "weight": 1.0} -->
 
+As noted in and, metrics like minMSD or minFDE can only evaluate how good is the best trajectory, but not how good are all the trajectories. A model having 5 good trajectories will have the same error as the model having 1 good and 4 bad trajectories. Further, given the multimodal nature of the problem, it might not be fair to evaluate against a single ground truth. In an attempt to evaluate based on the quality of predictions, we propose another metric: Drivable Area Compliance (DAC). If a model produces $n$ possible future trajectories and $m$ of those exit the drivable area at some point, the DAC for that model would be ${({n - m})}/n$. Hence, higher DAC means better quality of forecasted trajectories. Finally, we also use Miss Rate (MR) with a threshold of 1.0 meter. It is again a metric derived from the distribution of final displacement errors.
+
+<!-- chunk {"id": "body-0048", "role": "body", "section": "Evaluation of Multiple Forecasts", "weight": 1.0} -->
+
 If there are $n$ samples and $m$ of them had the last coordinate of their best trajectory more than 2.0 m away from ground truth, then miss rate is $m/n$. The map-based baselines that we report have access to a semantic vector map. As such, they can generate K different hypotheses based on the branching of the road network along a particular observed trajectory. We use centerlines as a form of hypothetical reference paths for the future. Our heuristics generate $K = 10$ centerlines. Our map gives us an easy way to produce a compact yet diverse set of forecasts. Nearest Neighbor baselines can further predict variable number of outputs by considering different number of neighbors.
-
-<!-- chunk {"id": "body-0048", "role": "body", "section": "Results", "weight": 1.0} -->
-
-In this section, we evaluate the effect of multimodal predictions, social context, and spatial context (from the vector map) to improve motion forecasting over horizons of 3 seconds into the future.
 
 <!-- chunk {"id": "body-0049", "role": "body", "section": "Results", "weight": 1.0} -->
 
-NN: Nearest Neighbor regression where trajectories are queried by $(x_{i}^{t},y_{i}^{t})$ for $t = {\{ 1,\ldots,T_{obs}\}}$. To make $K$ predictions, we performed a lookup for $K$ Nearest Neighbors.
+In this section, we evaluate the effect of multimodal predictions, social context, and spatial context (from the vector map) to improve motion forecasting over horizons of 3 seconds into the future. We evaluated the following models: Constant Velocity: Compute the mean velocity $(v_{xi},v_{yi})$ from $t = {\{ 1,\ldots,T_{obs}\}}$ and then forecast $(x_{i}^{t},y_{i}^{t})$ for $t = {\{ T_{{obs} + 1},\ldots,T_{pred}\}}$ using $(v_{xi},v_{yi})$ as the constant velocity.
 
 <!-- chunk {"id": "body-0050", "role": "body", "section": "Results", "weight": 1.0} -->
 
-NN+map(prune): This baseline builds on $NN$ and prunes the number of predicted trajectories based on how often they exit the drivable area. Accordingly, this method prefers predictions which are qualitatively good, and not just Nearest Neighbors.
+NN: Nearest Neighbor regression where trajectories are queried by $(x_{i}^{t},y_{i}^{t})$ for $t = {\{ 1,\ldots,T_{obs}\}}$. To make $K$ predictions, we performed a lookup for $K$ Nearest Neighbors.
 
 <!-- chunk {"id": "body-0051", "role": "body", "section": "Results", "weight": 1.0} -->
 
-NN+map(prior) m-G,n-C: Nearest Neighbor regression where trajectories are queried by $(a_{i}^{t},o_{i}^{t})$ for $t = {\{ 1,\ldots,T_{obs}\}}$. m-G, n-C refers to $m$ guesses (m-G) allowed along each of $n$ different centerlines (n-C). Here, $m > 1$, except when $K = 1$.
+NN+map(prune): This baseline builds on $NN$ and prunes the number of predicted trajectories based on how often they exit the drivable area. Accordingly, this method prefers predictions which are qualitatively good, and not just Nearest Neighbors.
 
 <!-- chunk {"id": "body-0052", "role": "body", "section": "Results", "weight": 1.0} -->
 
-NN+map(prior) 1-G,n-C: This is similar to the previous baseline. The only difference is that the model can make only 1 prediction along each centerline.
+NN+map(prior) m-G,n-C: Nearest Neighbor regression where trajectories are queried by $(a_{i}^{t},o_{i}^{t})$ for $t = {\{ 1,\ldots,T_{obs}\}}$. m-G, n-C refers to $m$ guesses (m-G) allowed along each of $n$ different centerlines (n-C). Here, $m > 1$, except when $K = 1$.
 
 <!-- chunk {"id": "body-0053", "role": "body", "section": "Results", "weight": 1.0} -->
 
-LSTM+map(prior) 1-G,n-C: Similar to LSTM but with input as $(a_{i}^{t},o_{i}^{t},m_{i}^{t})$ and output as $(a_{i}^{t},o_{i}^{t})$, where $m_{i}^{t}$ denotes the map features obtained from the centerlines. Distances $(a_{i}^{t},o_{i}^{t})$ are then mapped to $(x_{i}^{t},y_{i}^{t})$ for evaluation. Further, we make only one prediction along each centerline because we used a deterministic model.
+NN+map(prior) 1-G,n-C: This is similar to the previous baseline. The only difference is that the model can make only 1 prediction along each centerline.
 
 <!-- chunk {"id": "body-0054", "role": "body", "section": "Results", "weight": 1.0} -->
 
-The results of these baselines are reported in Table 4. When only 1 prediction is allowed, NN based baselines suffer from inaccurate neighbors and have poor minADE and minFDE. On the other hand, LSTM based baselines are able to at least learn the trajectory behaviors and have better results. $LSTM$ baselines with no map are able to obtain the best minADE and mindFDE for $K = 1$. Also, baselines which use map as prior have a much higher DAC. Now, as $K$ increases, $NN$ benefits from the map prior and consistently produces better predictions. When map is used for pruning, it further improves the selected trajectories and provides the best minADE and minFDE. LSTM+map(prior) 1-G,n-C outperforms NN+map(prior) 1-G,n-C highlighting the fact that LSTM does a better job generalizing to curvilinear coordinates. Further, using the map as a prior always provides better DAC, proving that our map helps in forecasting trajectories that follow basic map rules like staying in the driveable area.
+LSTM+map(prior) 1-G,n-C: Similar to LSTM but with input as $(a_{i}^{t},o_{i}^{t},m_{i}^{t})$ and output as $(a_{i}^{t},o_{i}^{t})$, where $m_{i}^{t}$ denotes the map features obtained from the centerlines. Distances $(a_{i}^{t},o_{i}^{t})$ are then mapped to $(x_{i}^{t},y_{i}^{t})$ for evaluation. Further, we make only one prediction along each centerline because we used a deterministic model.
 
 <!-- chunk {"id": "body-0055", "role": "body", "section": "Results", "weight": 1.0} -->
 
+The results of these baselines are reported in Table 4. When only 1 prediction is allowed, NN based baselines suffer from inaccurate neighbors and have poor minADE and minFDE. On the other hand, LSTM based baselines are able to at least learn the trajectory behaviors and have better results. $LSTM$ baselines with no map are able to obtain the best minADE and mindFDE for $K = 1$. Also, baselines which use map as prior have a much higher DAC. Now, as $K$ increases, $NN$ benefits from the map prior and consistently produces better predictions. When map is used for pruning, it further improves the selected trajectories and provides the best minADE and minFDE. LSTM+map(prior) 1-G,n-C outperforms NN+map(prior) 1-G,n-C highlighting the fact that LSTM does a better job generalizing to curvilinear coordinates. Further, using the map as a prior always provides better DAC, proving that our map helps in forecasting trajectories that follow basic map rules like staying in the driveable area.
+
+<!-- chunk {"id": "body-0056", "role": "body", "section": "Results", "weight": 1.0} -->
+
 Another interesting comparison is between NN+map(prior) 1-G,n-C and NN+map(prior) m-G,n-C. The former comes up with many reference paths (centerlines) and makes one prediction along each of those paths. The latter comes up with fewer reference paths but produces multiple predictions along each of those paths. The latter outperforms the former in all 3 metrics, showing the importance of predicting trajectories which follow different velocity profiles along the same reference paths. Figure 8 reports the results of an ablation study for different values of m and n. Finally, when having access to HD vector maps and being able to make multiple predictions ($K = 6)$, even a shallow model like NN+map(prior) m-G,n-C is able to outperform a deterministic deep model LSTM+social ($K = 1$) which has access to social context.
 
-<!-- chunk {"id": "body-0056", "role": "body", "section": "Discussion", "weight": 1.5} -->
+<!-- chunk {"id": "body-0057", "role": "body", "section": "Discussion", "weight": 1.5} -->
 
 Argoverse represents two large-scale datasets for autonomous driving research. The Argoverse datasets are the first such datasets with rich map information such as lane centerlines, ground height, and driveable area. We examine baseline methods for 3D tracking with map-derived context. We also mine one thousand hours of fleet logs to find diverse, real-world object trajectories which constitute our motion forecasting benchmark. We examine baseline forecasting methods and verify that map data can improve accuracy. We maintain a public leaderboard for 3D object tracking and motion forecasting. The sensor data, map data, annotations, and code which make up Argoverse are available at our website *Argoverse.org*.
+
+<!-- chunk {"id": "body-0058", "role": "body", "section": "Discussion", "weight": 1.5} -->
+
+Acknowledgements. We thank our Argo AI colleagues for their invaluable assistance in supporting Argoverse.
+
+<!-- chunk {"id": "body-0059", "role": "body", "section": "Discussion", "weight": 1.5} -->
+
+Patsorn Sangkloy is supported by a a Royal Thai Government Scholarship. James Hays receives research funding from Argo AI, which is developing products related to the research described in this paper. In addition, the author serves as a Staff Scientist to Argo AI. The terms of this arrangement have been reviewed and approved by Georgia Tech in accordance with its conflict of interest policies.

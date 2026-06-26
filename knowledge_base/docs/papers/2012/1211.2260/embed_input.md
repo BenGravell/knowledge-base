@@ -74,57 +74,50 @@ The advantage of Reward-Doubling shows up when the guess of $R$ used to tune the
 
 In order to guarantee constant origin-regret, Reward-Doubling frequently "jumps" back to playing the origin, which may be undesirable in some applications. In Section 4 we introduce Smooth-Reward-Doubling, which achieves similar guarantees without resetting to the origin.
 
-<!-- chunk {"id": "body-0019", "role": "body", "section": "Reward and Regret", "weight": 1.0} -->
+<!-- chunk {"id": "body-0019", "role": "body", "section": "Comparison of Regret Bounds", "weight": 1.0} -->
+
+${\|\mathring{x}\|}_{1}\sqrt{T}{\log\left(\frac{n{({1 + {\|\mathring{x}\|}_{1}})}\sqrt{T}}{\epsilon} \right)}$ Table 1: Worst-case regret bounds for various algorithms (up to constant factors). Exponentiated G.D. uses feasible set {x: ∥x∥1 ≤ R}, and Reward-Doubling uses $\epsilon_{i} = \frac{\epsilon}{n}$ in both cases.
+
+<!-- chunk {"id": "body-0020", "role": "body", "section": "Reward and Regret", "weight": 1.0} -->
 
 In this section we present a general result that converts lower bounds on reward into upper bounds on regret, for one-dimensional online linear optimization. In the unconstrained setting, this result will be sufficient to provide guarantees for general $n$-dimensional online convex optimization.
 
-<!-- chunk {"id": "body-0020", "role": "body", "section": "Gradient Descent with Increasing Learning Rates", "weight": 1.0} -->
+<!-- chunk {"id": "body-0021", "role": "body", "section": "Gradient Descent with Increasing Learning Rates", "weight": 1.0} -->
 
 In this section we show that allowing the learning rate of gradient descent to sometimes increase leads to novel theoretical guarantees.
 
-<!-- chunk {"id": "body-0021", "role": "body", "section": "Gradient Descent with Increasing Learning Rates", "weight": 1.0} -->
+<!-- chunk {"id": "body-0022", "role": "body", "section": "Gradient Descent with Increasing Learning Rates", "weight": 1.0} -->
 
 To build intuition, consider online linear optimization in one dimension, with gradients $g_{1},g_{2},\ldots,g_{T}$, all in $\lbrack{- 1},1\rbrack$.
 
-<!-- chunk {"id": "body-0022", "role": "body", "section": "Analysis in One Dimension", "weight": 1.0} -->
+<!-- chunk {"id": "body-0023", "role": "body", "section": "Analysis in One Dimension", "weight": 1.0} -->
 
 In this section we analyze algorithm Reward-Doubling-1D (Algorithm 1), which consists of a series of epochs. We suppose for the moment that an upper bound $\overline{H}$ on $H = {\sum_{t = 1}^{T}g_{t}^{2}}$ is known in advance. In the first epoch, we run gradient descent with a small initial learning rate $\eta = \eta_{1}$. Whenever the total reward accumulated in the current epoch reaches $\eta\overline{H}$, we double $\eta$ and start a new epoch (returning to the origin and forgetting all previous gradients except the most recent one).
 
-<!-- chunk {"id": "body-0023", "role": "body", "section": "Analysis in One Dimension", "weight": 1.0} -->
+<!-- chunk {"id": "body-0024", "role": "body", "section": "Analysis in One Dimension", "weight": 1.0} -->
 
-Parameters: maximum origin-regret ϵi for 1 ≤ i ≤ n.
-Let Ai be a copy of algorithm Reward-Doubling-1D-Guess (see Theorem 4), with parameter ϵi.
-Play xt, with xt, i selected by Ai.
-Receive gradient vector gt = −▽ ft (xt).
+Parameters: initial learning rate η1, upper bound $\overline{H} \geq {\sum_{t = 1}^{T}g_{t}^{2}}$. Play xt, and receive reward xt gt. if $Q_{i} < {\eta_{i}\overline{H}}$ then Parameters: maximum origin-regret ϵi for 1 ≤ i ≤ n. Let Ai be a copy of algorithm Reward-Doubling-1D-Guess (see Theorem 4), with parameter ϵi. Play xt, with xt, i selected by Ai. Receive gradient vector gt = −▽ ft (xt).
 
-<!-- chunk {"id": "body-0024", "role": "body", "section": "Extension to $n$ dimensions", "weight": 1.0} -->
+<!-- chunk {"id": "body-0025", "role": "body", "section": "Extension to $n$ dimensions", "weight": 1.0} -->
 
 To extend our results to general online convex optimization, it is sufficient to run a separate copy of Reward-Doubling-1D-Guess for each coordinate, as is done in Reward-Doubling (Algorithm 2). The key to the analysis of this algorithm is that overall regret is simply the sum of regret on $n$ one-dimensional subproblems which can be analyzed independently.
 
-<!-- chunk {"id": "body-0025", "role": "body", "section": "An Epoch-Free Algorithm", "weight": 1.0} -->
-
-In this section we analyze Smooth-Reward-Doubling, a simple algorithm that achieves bounds comparable to those of Theorem 4, without guessing-and-doubling. We consider only the 1-d problem, as the technique of Theorem 5 can be applied to extend to $n$ dimensions. Given a parameter $\eta > 0$, we achieve
-
 <!-- chunk {"id": "body-0026", "role": "body", "section": "An Epoch-Free Algorithm", "weight": 1.0} -->
 
-for all $T$ and $R$, which is better (by constant factors) than Theorem 4 when $g_{t} \in {\{{- 1},1\}}$ (which implies $T = H$). The bound can be worse on a problems where $H < T$.
+In this section we analyze Smooth-Reward-Doubling, a simple algorithm that achieves bounds comparable to those of Theorem 4, without guessing-and-doubling. We consider only the 1-d problem, as the technique of Theorem 5 can be applied to extend to $n$ dimensions. Given a parameter $\eta > 0$, we achieve for all $T$ and $R$, which is better (by constant factors) than Theorem 4 when $g_{t} \in {\{{- 1},1\}}$ (which implies $T = H$). The bound can be worse on a problems where $H < T$.
 
 <!-- chunk {"id": "body-0027", "role": "body", "section": "An Epoch-Free Algorithm", "weight": 1.0} -->
 
-The idea of the algorithm is to maintain the invariant that our cumulative reward, as a function of $g_{1:t}$ and $t$, satisfies ${Reward} \geq {N{(g_{1:t},t)}}$, for some fixed function $N$. Because reward changes by $g_{t}x_{t}$ on round $t$, it suffices to guarantee that for any $g \in {\lbrack{- 1},1\rbrack}$,
+The idea of the algorithm is to maintain the invariant that our cumulative reward, as a function of $g_{1:t}$ and $t$, satisfies ${Reward} \geq {N{(g_{1:t},t)}}$, for some fixed function $N$. Because reward changes by $g_{t}x_{t}$ on round $t$, it suffices to guarantee that for any $g \in {\lbrack{- 1},1\rbrack}$, where $x_{t + 1}$ is the point the algorithm plays on round $t + 1$, and we assume ${N{}} = 0$.
 
 <!-- chunk {"id": "body-0028", "role": "body", "section": "An Epoch-Free Algorithm", "weight": 1.0} -->
 
-where $x_{t + 1}$ is the point the algorithm plays on round $t + 1$, and we assume ${N{}} = 0$.
+This inequality is approximately satisfied (for small $g$) if we choose This suggests that if we want to maintain reward at least ${N{(g_{1:t},t)}} = {\frac{1}{t}{({{\exp{({{|g_{1:t}|}/\sqrt{t}})}} - 1})}}$, we should set $x_{t + 1} \approx {{{sign}{(g_{1:t})}}t^{- {3/2}}{\exp\left(\frac{|g_{1:t}|}{\sqrt{t}} \right)}}$. The following theorem (proved in the appendix) provides an inductive analysis of an algorithm of this form.
 
-<!-- chunk {"id": "body-0029", "role": "body", "section": "An Epoch-Free Algorithm", "weight": 1.0} -->
-
-This inequality is approximately satisfied (for small $g$) if we choose
-
-<!-- chunk {"id": "body-0030", "role": "body", "section": "Lower Bounds", "weight": 1.0} -->
+<!-- chunk {"id": "body-0029", "role": "body", "section": "Lower Bounds", "weight": 1.0} -->
 
 As with our previous results, it is sufficient to show a lower bound in one dimension, as it can then be replicated independently in each coordinate to obtain an $n$ dimensional bound. Note that our lower bound contains the factor $\log{({{|\mathring{x}|}\sqrt{T}})}$, which can be negative when $\mathring{x}$ is small relative to $T$, hence it is important to hold $\mathring{x}$ fixed and consider the behavior as $T\rightarrow\infty$. Here we give only a proof sketch; see Appendix A for the full proof.
 
-<!-- chunk {"id": "body-0031", "role": "body", "section": "Future Work", "weight": 1.5} -->
+<!-- chunk {"id": "body-0030", "role": "body", "section": "Future Work", "weight": 1.5} -->
 
 This work leaves open many interesting questions. It should be possible to apply our techniques to problems that do have constrained feasible sets; for example, it is natural to consider the unconstrained experts problem on the positive orthant. While we believe this extension is straightforward, handling arbitrary non-axis-aligned constraints will be more difficult. Another possibility is to develop an algorithm with bounds in terms of $H$ rather than $T$ that doesn't use a guess and double approach.

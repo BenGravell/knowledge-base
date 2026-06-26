@@ -96,7 +96,7 @@ The UAV papers identification process involves three major steps. We first use a
 
 <!-- chunk {"id": "body-0024", "role": "body", "section": "IV-B UAV Papers Identification", "weight": 1.0} -->
 
-At the second step, we design a list of keywords (Table I) to search drone papers systematically from the titles and abstracts collected in the first step. Note that we search for both the full name of each keyword (e.g., Unmanned Aerial Vehicle) and its abbreviation (i.e., UAV) with an automatic program script. The keywords include most of the words that describe a UAV. For example, the word "quadcopter" or "quadrotor" could be detected by the keyword "copter" or "rotor". As long as one of the keywords is detected, the paper will pass this automated screening process.
+At the second step, we design a list of keywords (Table I) to search drone papers systematically from the titles and abstracts collected in the first step. Note that we search for both the full name of each keyword (e.g., Unmanned Aerial Vehicle) and its abbreviation (i.e., UAV) with an automatic program script. The keywords include most of the words that describe a UAV. For example, the word "quadcopter" or "quadrotor" could be detected by the keyword "copter" or "rotor". As long as one of the keywords is detected, the paper will pass this automated screening process. micro aerial vehicle unmmaned aerial vehicle unmanned aircraft system vertical takeoff and landing MAV, UAV, UAS, VTOL TABLE I: 35 keywords used to search drone papers systematically from the collected titles and abstracts.
 
 <!-- chunk {"id": "body-0025", "role": "body", "section": "IV-B UAV Papers Identification", "weight": 1.0} -->
 
@@ -132,7 +132,7 @@ The full survey results (with all raw information) is shared and updated frequen
 
 <!-- chunk {"id": "body-0033", "role": "body", "section": "IV-C Survey Updates and Online Sharing", "weight": 1.0} -->
 
-To setup TagSpaces and download all the HTML files, refer to our website at
+To setup TagSpaces and download all the HTML files, refer to our website at Figure 4: A screenshot of TagSpaces with different categories of tags on the left hand side, list of drone papers that match the search criterion at the middle, and info of the selected paper in HTML format on the right hand side. Best viewed in color.
 
 <!-- chunk {"id": "body-0034", "role": "body", "section": "Survey Results Overview", "weight": 1.0} -->
 

@@ -108,122 +108,100 @@ We now outline the Waymax software components and interfaces. In order to suppor
 
 <!-- chunk {"id": "body-0027", "role": "body", "section": "Environment Interface", "weight": 1.0} -->
 
-Users primarily interact with Waymax as a partially-observable stochastic game. The Waymax interface follows the the Brax design to only define functionally pure initialization and transition functions. This stateless design enables efficient optimization through JAX's JIT compiler and functional libraries, and easily allows users to implement control algorithms that require backtracking, such as search.
+Users primarily interact with Waymax as a partially-observable stochastic game. The Waymax interface follows the the Brax design to only define functionally pure initialization and transition functions. This stateless design enables efficient optimization through JAX's JIT compiler and functional libraries, and easily allows users to implement control algorithms that require backtracking, such as search. In contrast with stateful simulators, such as OpenAI Gym and DM Control, Waymax users need to maintain the simulator state within a simulation loop and interact with the simulator primarily through two functions: The reset(scenario) function takes as input a raw scenario, performs any initialization necessary such as populating the simulation history, and returns the initial state object.
 
 <!-- chunk {"id": "body-0028", "role": "body", "section": "Environment Interface", "weight": 1.0} -->
 
-The reset(scenario) function takes as input a raw scenario, performs any initialization necessary such as populating the simulation history, and returns the initial state object.
-
-<!-- chunk {"id": "body-0029", "role": "body", "section": "Environment Interface", "weight": 1.0} -->
-
 The step(state, action) function takes as input the current state, the actions for all agents, and computes the successor state as well as the new observation and metrics. The actions argument is a data structure that contains a data tensor of actions for each agent, as well as a validity mask which denotes which agents the user wishes to control. step then returns these results in a new timestep object.
 
-<!-- chunk {"id": "body-0030", "role": "body", "section": "Environment Interface", "weight": 1.0} -->
+<!-- chunk {"id": "body-0029", "role": "body", "section": "Run one episode until termination", "weight": 1.0} -->
 
-## Run one episode until termination
-state = env.reset(next(dataset))
-while not done:
-action = policy(env.observe(state))
-state = env.step(state, action)
+state = env.reset(next(dataset)) while not done: action = policy(env.observe(state)) state = env.step(state, action) Using these two functions, a user can run a simple, but complete simulation of a stochastic game between multiple agents, such as in the following pseudocode example: In addition, we do provide adapters to convert the functionally pure Waymax simulator into a stateful one to support existing codebases.
 
-<!-- chunk {"id": "body-0031", "role": "body", "section": "Environment Interface", "weight": 1.0} -->
-
-In addition, we do provide adapters to convert the functionally pure Waymax simulator into a stateful one to support existing codebases.
-
-<!-- chunk {"id": "body-0032", "role": "body", "section": "Hardware Acceleration and In-graph training", "weight": 1.0} -->
+<!-- chunk {"id": "body-0030", "role": "body", "section": "Hardware Acceleration and In-graph training", "weight": 1.0} -->
 
 Waymax supports both hardware acceleration on GPUs and TPUs, as well as combining training and simulation within the same computation graph (referred to as "in-graph" training), which allows training and simulation to happen entirely on the accelerator without communication bottlenecks through the host machine. These features are possible because Waymax is written entirely using the JAX library, which converts operations into XLA, a linear algebra instruction set and optimizing compiler which supports execution on CPU, GPU, or TPU. In-graph training requires the modeling and training code to be written using an XLA-compatible frontend such as JAX, or Tensorflow. The XLA compiler can then optimize combined training and simulation program to produce a single computation graph that can be run entirely on hardware accelerators, without communication costs between the accelerator and host device.
 
-<!-- chunk {"id": "body-0033", "role": "body", "section": "Single and Multi-agent Simulation", "weight": 1.0} -->
+<!-- chunk {"id": "body-0031", "role": "body", "section": "Single and Multi-agent Simulation", "weight": 1.0} -->
 
 While the base multi-agent environment allows us to do sim-agents (multi-agent) learning similar as in Nocturne, MetaDrive, the ultimate goal of the autonomous driving problem is to train an AV planning agent. Thus, Waymax supports both multi-agent simulation that allows users to control arbitrary objects within the scenario, as well as a single-agent workflow where a single AV agent is trained using learned or rule-based models to control the other vehicles in the scene.
 
-<!-- chunk {"id": "body-0034", "role": "body", "section": "Single and Multi-agent Simulation", "weight": 1.0} -->
+<!-- chunk {"id": "body-0032", "role": "body", "section": "Single and Multi-agent Simulation", "weight": 1.0} -->
 
-While it might be possible to put multiple policies in one environment directly, it is certainly not a flexible way as it is hard to coordinate different policies or change policies.
+While it might be possible to put multiple policies in one environment directly, it is certainly not a flexible way as it is hard to coordinate different policies or change policies. Waymax provides two interfaces for different use-cases: The MultiAgentEnvironment provides an interface for multi-agent and sim-agent problems. The user provides simultaneous actions for all controlled objects in the scene, as well as a mask to indicate which objects should be controlled.
 
-<!-- chunk {"id": "body-0035", "role": "body", "section": "Single and Multi-agent Simulation", "weight": 1.0} -->
-
-The MultiAgentEnvironment provides an interface for multi-agent and sim-agent problems. The user provides simultaneous actions for all controlled objects in the scene, as well as a mask to indicate which objects should be controlled.
-
-<!-- chunk {"id": "body-0036", "role": "body", "section": "Single and Multi-agent Simulation", "weight": 1.0} -->
+<!-- chunk {"id": "body-0033", "role": "body", "section": "Single and Multi-agent Simulation", "weight": 1.0} -->
 
 The PlanningAgentEnvironment exposes an interface for controlling only the ego vehicle in the scene. All other agents are controlled by user-specified sim agents or log playback (Fig. 3).
 
-<!-- chunk {"id": "body-0037", "role": "body", "section": "Experiments", "weight": 1.0} -->
+<!-- chunk {"id": "body-0034", "role": "body", "section": "Experiments", "weight": 1.0} -->
 
 We now evaluate both Waymax as a simulator and the performance of several reference agents simulated using Waymax. We first evaluate the computational performance of Waymax in Sec. 5.1 under various configurations. Second, we perform an empirical study of several benchmark agents for planning in Sec. 5.3, where we compare the performance of several broad categories of learned planning algorithms (such as imitation learning and reinforcement learning) against both logged agents and reactive simulated agents. For the second part, our goals was to showcase potential options for using Waymax, so we opted for simple design choices and a breadth of configurations, and we expect that the performance of the baseline agents could be significantly improved in future work.
 
-<!-- chunk {"id": "body-0038", "role": "body", "section": "Runtime Benchmark", "weight": 1.0} -->
+<!-- chunk {"id": "body-0035", "role": "body", "section": "Runtime Benchmark", "weight": 1.0} -->
 
 In Tab. 2, we present the runtime performance of Waymax using a CPU (Intel Xeon W-2135@3.7GHz) and a GPU (Nvidia-V100). We evaluate the performance of both multi-agent and the single-agent environment with different batch size. All functions are jit compiled and runtime is reported in millisecond. Following WOMD, the environment controls up to 128 objects in one scene. Note that the Step function computes both the state transition and the reward. While users specify customized reward function, for this runtime evaluation, we use the negative sum of all metrics in 3.4 as the reward, which measures the effect of computing all metrics. When considering batch size 1 and using a GPU, Waymax achieves over 1000Hz for Step function and over 2000Hz if only considering the Transition. More importantly, as Waymax supports batching, Step only takes 2.86ms using a batch size of 16. Note this is much faster than running batch size one for 16 times and gives an equivalent runtime of over 5000Hz per example (i.e. closer to 500 times faster than using a CPU).
 
-<!-- chunk {"id": "body-0039", "role": "body", "section": "Runtime Benchmark", "weight": 1.0} -->
+<!-- chunk {"id": "body-0036", "role": "body", "section": "Runtime Benchmark", "weight": 1.0} -->
 
 Noticeably the Metrics function consumes more computation then the Transition function because the Off-Road metric needs to find nearby roadgraph points, which is a slow operation.
 
-<!-- chunk {"id": "body-0040", "role": "body", "section": "Rollout", "weight": 1.0} -->
+<!-- chunk {"id": "body-0037", "role": "body", "section": "Rollout", "weight": 1.0} -->
 
 We also benchmark a Rollout function which rolls out the environment given an Actor for an entire episode (i.e., 80 steps for WOD). This is especially useful to provide faster inference and evaluation. In the last column of Tab. 2, we show the runtime of Rollout with an ExpertActor that derives grouth-truth actions from logged trajectory. It is faster than running Step function 80 times. More importantly, we can see that running on GPU has a consistent 2 orders of magnitude speedup. As a point of reference, evaluating the full WOD evaluation dataset (44K scenarios) with 8-V100 machine takes less than 2min.
 
-<!-- chunk {"id": "body-0041", "role": "body", "section": "Expert", "weight": 1.0} -->
+<!-- chunk {"id": "body-0038", "role": "body", "section": "Expert", "weight": 1.0} -->
 
 We provide a number of expert agent models to provide groundtruth actions for open-loop training. Each agent uses the inverse function of the action spaces defined in Section 3.3 to fit an action to the logged trajectory. For discrete action spaces, the inverse is computed by discretizing the continuous inverse.
 
-<!-- chunk {"id": "body-0042", "role": "body", "section": "Behavior Prediction Model (Wayformer)", "weight": 1.0} -->
+<!-- chunk {"id": "body-0039", "role": "body", "section": "Behavior Prediction Model (Wayformer)", "weight": 1.0} -->
 
 As a point of reference, we adapt the state-of-the-art Wayformer behavior prediction model to the planning setting. Originally, the Wayformer predicts multiple $8$-second future trajectories given a $1$-second context history. To adapt it to the planning setting, we autoregressively feed in its predictions as the context history and choose the most likely trajectory. We found that making predictions at a lower frequency than the environment frequency improved performance, so we predict $5$-step long trajectories and only replan every $5$ steps.
 
-<!-- chunk {"id": "body-0043", "role": "body", "section": "Behavior Cloning", "weight": 1.0} -->
+<!-- chunk {"id": "body-0040", "role": "body", "section": "Behavior Cloning", "weight": 1.0} -->
 
 We re-use the encoder portion of Wayformer followed by a $4$-layer residual MLP to maximize the log likelihood of the expert actions. For continuous actions, we used a 6-component Gaussian Mixture Model. For discrete actions, we used a softmax layer to compute action probabilities.
 
-<!-- chunk {"id": "body-0044", "role": "body", "section": "Model-Free Reinforcement Learning - DQN", "weight": 1.0} -->
+<!-- chunk {"id": "body-0041", "role": "body", "section": "Model-Free Reinforcement Learning - DQN", "weight": 1.0} -->
 
 We used the Acme implementation of prioritized replay double DQN.
 
-<!-- chunk {"id": "body-0045", "role": "body", "section": "Model-Free Reinforcement Learning - DQN", "weight": 1.0} -->
+<!-- chunk {"id": "body-0042", "role": "body", "section": "Model-Free Reinforcement Learning - DQN", "weight": 1.0} -->
 
 We used the same architecture as in discrete BC for the Q-network, interpreting the logits of the model as Q-values.
 
-<!-- chunk {"id": "body-0046", "role": "body", "section": "Model-Free Reinforcement Learning - DQN", "weight": 1.0} -->
-
-Train Sim Agent
-Route Progress Ratio (%)
-
-<!-- chunk {"id": "body-0047", "role": "body", "section": "Planning Benchmark Results", "weight": 1.0} -->
+<!-- chunk {"id": "body-0043", "role": "body", "section": "Planning Benchmark Results", "weight": 1.0} -->
 
 To showcase the flexibility of our environment, we trained a number of baselines on different action spaces and algorithms as shown in Table 3 and evaluated the metrics defined in Section 3.4. We evaluated each agent against the IDM sim agent and conditioned it on the route by adding the points from all the on-route paths as an additional input group to the Wayformer encoder. These points represent the on-route subset of the roadgraph points. All agents are trained for the planning agent task and thus only provide predictions for the autonomous vehicle. See Appendix A.2 for training details.
 
-<!-- chunk {"id": "body-0048", "role": "body", "section": "Planning Benchmark Results", "weight": 1.0} -->
+<!-- chunk {"id": "body-0044", "role": "body", "section": "Planning Benchmark Results", "weight": 1.0} -->
 
 As expected, the expert agents have low off-road and collision rates. The nominal values represent noise in the bounding boxes and logged data and serve as a lower bound for performance. The expert using the discrete bicycle action space has comparable performance to the other experts, confirming that the discretization is sufficiently fine.
 
-<!-- chunk {"id": "body-0049", "role": "body", "section": "Planning Benchmark Results", "weight": 1.0} -->
+<!-- chunk {"id": "body-0045", "role": "body", "section": "Planning Benchmark Results", "weight": 1.0} -->
 
 For open-loop imitation, the discrete action space performs best, possibly because it is easier to model multi-modal behavior. Furthermore, it outperforms the adapted Wayformer model, likely due to the fact that it is trained explicitly for this task. This serves as a check that the Waymax environment is producing the correct training data.
 
-<!-- chunk {"id": "body-0050", "role": "body", "section": "Route Conditioning Ablation", "weight": 1.0} -->
+<!-- chunk {"id": "body-0046", "role": "body", "section": "Route Conditioning Ablation", "weight": 1.0} -->
 
 To showcase the utility of route conditioning, we compare the performance of route conditioned versus non-route conditioned behavior cloning agents Table 4 shows that the route conditioned agent is substantially better at following the route, while also achieving a lower off-road rate, collision rate, and log ADE. These results indicate that the route provides a strong signal for the planning task.
 
-<!-- chunk {"id": "body-0051", "role": "body", "section": "Route Conditioning Ablation", "weight": 1.0} -->
+<!-- chunk {"id": "body-0047", "role": "body", "section": "Route Conditioning Ablation", "weight": 1.0} -->
 
-Agent (Action Space)
-Route Progress Ratio (%)
+Agent (Action Space) Route Progress Ratio (%) Expert (Bicycle Discrete) BC (Bicycle Discrete) + Route Table 4: Experimental ablation comparing performance with and without route conditioning.
 
-<!-- chunk {"id": "body-0052", "role": "body", "section": "Sim Agent Ablation", "weight": 1.0} -->
+<!-- chunk {"id": "body-0048", "role": "body", "section": "Sim Agent Ablation", "weight": 1.0} -->
 
 In Table 5, we show the effect of training and evaluating an imitation agent against IDM sim agents versus playing back logged trajectories. As expected, evaluating with the IDM agent produces fewer collisions than evaluating with log playback. However, training an RL agent with IDM agents was less effective than training against logged agents. We believe this is because the RL agent tends to overfit or exploit the behavior of 'easier' IDM agents. Since IDM will stop for the SDC to avoid collisions, the RL agent does not have as much incentive to learn how to avoid collisions itself. We can see that when an IDM-trained agent is evaluated against logged agents, the collision rate is over 4x higher than when evaluated against IDM agents.
 
-<!-- chunk {"id": "body-0053", "role": "body", "section": "Conclusion", "weight": 1.5} -->
+<!-- chunk {"id": "body-0049", "role": "body", "section": "Conclusion", "weight": 1.5} -->
 
 We have presented Waymax, a multi-agent simulator for autonomous driving. Waymax provides diverse scenarios drawn from real driving data, and supports hardware acceleration and distributed training for efficient and cost-effective training of machine-learned models. It is also designed with flexibility in mind - Waymax is written as a collection of inter-operable libraries for data loading, metric computation, and simulation, which can support a wide variety of research problems that are not limited to just the planning evaluations presented in this work. We conclude by benchmarking several common approaches to planning with ablation studies over different dynamics and action representations, which provide a set of strong baselines for benchmarking future work.
 
-<!-- chunk {"id": "body-0054", "role": "body", "section": "Conclusion", "weight": 1.5} -->
+<!-- chunk {"id": "body-0050", "role": "body", "section": "Conclusion", "weight": 1.5} -->
 
 In addition to hardware acceleration, Waymax also enables the exploration of methods utilizing differentiable simulation, as the entire simulation can be assembled within a single JAX computation graph. Prior work has shown that differentiable simulation can improve the efficiency of policy optimization methods as they can rely on a "reparameterized" or pass-through gradient to reduce the variance of the gradient estimate. We believe that this is a promising line of future work to be explored.
 
-<!-- chunk {"id": "body-0055", "role": "body", "section": "Conclusion", "weight": 1.5} -->
+<!-- chunk {"id": "body-0051", "role": "body", "section": "Conclusion", "weight": 1.5} -->
 
 As mentioned previously, the problem of sim-to-real transfer is a critical issue in autonomous driving, as it is cheap and desirable to evaluate in simulation but difficult to guarantee that the same performance and level of safety will carry over to the real world. While in Waymax we have made design decisions to minimize this gap (such as using real-world data to seed scenarios), this remains an important limitation for any simulation-based framework. A fruitful line of future work is to close the gap between simulated and real-world performance, potentially using techniques such as domain randomization or combining real and synthetic data.

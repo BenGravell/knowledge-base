@@ -126,11 +126,11 @@ For the detection, the final prediction is a grid of $12 \times 39$ cells. Each 
 
 <!-- chunk {"id": "body-0032", "role": "body", "section": "Loss function", "weight": 1.0} -->
 
-where $x_{b}$, $y_{b}$ and $x_{c}$ $y_{c}$ correspond to the center coordinates of $b$ and $c$ and $w$ and $h$ denote width and hight. Note, that $w_{c}$ and $h_{c}$ are always $32$, as the cells of our model have a fixed width and height. We use L1 as our loss
+If a box $b$ is assigned to a cell $c$ the following values are stored in c: where $x_{b}$, $y_{b}$ and $x_{c}$ $y_{c}$ correspond to the center coordinates of $b$ and $c$ and $w$ and $h$ denote width and hight. Note, that $w_{c}$ and $h_{c}$ are always $32$, as the cells of our model have a fixed width and height. We use L1 as our loss where $\hat{c}$ is the prediction of a cell and $c$ its ground-truth, and $c_{p}$ denotes whether a positive label has been assigned to a cell. The $\deltac_{p}$ term ensures that the regression loss is zero if no object is present. We train the confidence labels using cross-entropy loss. The loss per cell is given as the weighted sum over the confidence and the regression loss. The loss per image is the mean over the losses of all cells. The KITTI Dataset also contains 'don't Care areas'.
 
 <!-- chunk {"id": "body-0033", "role": "body", "section": "Loss function", "weight": 1.0} -->
 
-where $\hat{c}$ is the prediction of a cell and $c$ its ground-truth, and $c_{p}$ denotes whether a positive label has been assigned to a cell. The $\deltac_{p}$ term ensures that the regression loss is zero if no object is present. We train the confidence labels using cross-entropy loss. The loss per cell is given as the weighted sum over the confidence and the regression loss. The loss per image is the mean over the losses of all cells. The KITTI Dataset also contains 'don't Care areas'. Those areas are handled by multiplying the loss of the corresponding cells with zero. We note, that our label representation is much simpler than Faster-RCNN or ReInspect. This is an additional feature of our detection system. The loss for MultiNet is given as the sum of the losses for segmentation, detection and classification.
+Those areas are handled by multiplying the loss of the corresponding cells with zero. We note, that our label representation is much simpler than Faster-RCNN or ReInspect. This is an additional feature of our detection system. The loss for MultiNet is given as the sum of the losses for segmentation, detection and classification.
 
 <!-- chunk {"id": "body-0034", "role": "body", "section": "Loss function", "weight": 1.0} -->
 
@@ -164,50 +164,62 @@ Detection performance is measured using the average precision score. For evaluat
 
 The section is structured as fellows. We first evaluate the performance of the three decoders individually. To do this we fine-tune the encoder using just one of the three losses segmentation, detection and classification and compare their performance with a variety of baseline. In the second part we compare joint training of all three decoders with individual inference and show, that the performance of joint training can keep up with the performance of individual inferences. Overall we show, that our approach is competitive with individual inference. This makes our approach very relevant. Joint training has many advantages in robotics application, such as a fast inference time.
 
-<!-- chunk {"id": "body-0042", "role": "body", "section": "Segmentation", "weight": 1.0} -->
+<!-- chunk {"id": "body-0042", "role": "body", "section": "Experimental evaluation", "weight": 1.0} -->
 
-The segmentation decoder encoder is trained using the four different encoders discussed in Section 3.1. The scores, computed on a halt-out validation set is reported in Table 1.
+VGG no RIO pool Table 3: Performance of our detection decoder.
 
 <!-- chunk {"id": "body-0043", "role": "body", "section": "Segmentation", "weight": 1.0} -->
 
-To compare my approach against the state-of-the-art we trained a segmentation network with VGG-fc7 encoder on the whole training set and submitted the results to the KITTI road leaderboard. At submission time my approach archived first place in the benchmark. Recently my approach was overtaken by newer submissions. All non-anonymous submissions to the benchmark are shown in Table 2.
+The segmentation decoder encoder is trained using the four different encoders discussed in Section 3.1. The scores, computed on a halt-out validation set is reported in Table 1.
 
 <!-- chunk {"id": "body-0044", "role": "body", "section": "Segmentation", "weight": 1.0} -->
 
+To compare my approach against the state-of-the-art we trained a segmentation network with VGG-fc7 encoder on the whole training set and submitted the results to the KITTI road leaderboard. At submission time my approach archived first place in the benchmark. Recently my approach was overtaken by newer submissions. All non-anonymous submissions to the benchmark are shown in Table 2.
+
+<!-- chunk {"id": "body-0045", "role": "body", "section": "Segmentation", "weight": 1.0} -->
+
 Qualitative results are shown in Fig. 4 both as red blue plot showing the confidence level at each pixel as well as a hard prediction using a threshold of $0.5$.
-
-<!-- chunk {"id": "body-0045", "role": "body", "section": "Detection", "weight": 1.0} -->
-
-The detection decoder is trained and evaluated on the data provided by the KITTI object benchmark. We train the detection decoder on a VGG and ResNet decoder and evaluate on a validation set. Table 3 shows the results of our decoder compared to a Faster-RCNN baseline, evaluated on the same validation set. The results show that our rescaling approach is very efficient. Training the detection decoder with rescaling is only marginality slower then training it without. However it offers a significant improvement in detection performance. Overall our approach archives is speed-up over faster-rcnn of almost a factor 2 and outperforms its detection accuracy. Qualitative results of the detection decoder can be seen in 5.
 
 <!-- chunk {"id": "body-0046", "role": "body", "section": "Detection", "weight": 1.0} -->
 
-All in all my results indicate that utilizing a rescaling layer in order to archive scale invariance is a good idea. A rescaling layer might be the key to closing the gap between proposal and non-proposal based approaches.
+The detection decoder is trained and evaluated on the data provided by the KITTI object benchmark. We train the detection decoder on a VGG and ResNet decoder and evaluate on a validation set. Table 3 shows the results of our decoder compared to a Faster-RCNN baseline, evaluated on the same validation set. The results show that our rescaling approach is very efficient. Training the detection decoder with rescaling is only marginality slower then training it without. However it offers a significant improvement in detection performance. Overall our approach archives is speed-up over faster-rcnn of almost a factor 2 and outperforms its detection accuracy. Qualitative results of the detection decoder can be seen in 5.
 
 <!-- chunk {"id": "body-0047", "role": "body", "section": "Detection", "weight": 1.0} -->
 
+All in all my results indicate that utilizing a rescaling layer in order to archive scale invariance is a good idea. A rescaling layer might be the key to closing the gap between proposal and non-proposal based approaches.
+
+<!-- chunk {"id": "body-0048", "role": "body", "section": "Detection", "weight": 1.0} -->
+
 Our detection decoder is trained and evaluated on the data provided by the KITTI object benchmark. We train our detection decoder on a VGG and ResNet decoder and evaluate on a validation set. Table 3 shows the results of our decoder compared to a Faster-RCNN baseline, evaluated on the same validation set. We report the inference speed in Table 5. We observe that our approach archives is speed-up over faster-rcnn of almost a factor 2 and outperforms its detection accuracy. This makes our decoder particularly suitable for real-time applications. Qualitative results of our detection decoder can be seen in 5.
 
-<!-- chunk {"id": "body-0048", "role": "body", "section": "Classification", "weight": 1.0} -->
+<!-- chunk {"id": "body-0049", "role": "body", "section": "Detection", "weight": 1.0} -->
+
+VGG pool5 [our] Table 6: Classification performance of our decoder compared to baseline classification.
+
+<!-- chunk {"id": "body-0050", "role": "body", "section": "Classification", "weight": 1.0} -->
 
 The classification data is not part of the official KITTI Benchmark. To evaluate the classification decoder we first need to create our own dataset. This is done using the method descriped. To obtain a meaningful task all images of one scene ether fully in the train or fully in the validation set. This is important as the images of one scene are usually visually very similar.
 
-<!-- chunk {"id": "body-0049", "role": "body", "section": "Classification", "weight": 1.0} -->
+<!-- chunk {"id": "body-0051", "role": "body", "section": "Classification", "weight": 1.0} -->
 
 We use a vanilla ResNet and VGG classification approach as baseline and compare this to a VGG and ResNet approach with my classification decoder. The differences between those two approaches are discussed in more detail in Section 3.2. The results are reported in Table 6 and Table 7. Our customised classification decoder clearly outperforms vanilla decoders, showing the effectiveness of my approach.
 
-<!-- chunk {"id": "body-0050", "role": "body", "section": "MultiNet", "weight": 1.0} -->
+<!-- chunk {"id": "body-0052", "role": "body", "section": "Classification", "weight": 1.0} -->
+
+VGG pool5 [our] Table 7: Inference speed of our classification.
+
+<!-- chunk {"id": "body-0053", "role": "body", "section": "MultiNet", "weight": 1.0} -->
 
 We ran a series of experiments comparing VGG and ResNet as encoder. Table 8 and Table 9 compare performance of VGG and ResNet. We observe, that both ResNet-based encoders are able to outperform VGG slightly. There is however a trade-off, as the VGG encoder is faster.
 
-<!-- chunk {"id": "body-0051", "role": "body", "section": "MultiNet", "weight": 1.0} -->
+<!-- chunk {"id": "body-0054", "role": "body", "section": "MultiNet", "weight": 1.0} -->
 
 The speed gap between VGG pool5 and is much larger when performing joint inference compared to the individual task. This can be explained by the fact that ResNet computes features with $2048$ channels, while VGG features have only $512$ channels. Thus, computing the fist layer of each decoder is significantly more expensive.
 
-<!-- chunk {"id": "body-0052", "role": "body", "section": "MultiNet", "weight": 1.0} -->
+<!-- chunk {"id": "body-0055", "role": "body", "section": "MultiNet", "weight": 1.0} -->
 
 Overall we conclude, that MultiNet using a VGG decoder offers a very good trade-off between performance and speed.
 
-<!-- chunk {"id": "body-0053", "role": "body", "section": "Conclusion", "weight": 1.5} -->
+<!-- chunk {"id": "body-0056", "role": "body", "section": "Conclusion", "weight": 1.5} -->
 
 In this paper we have developed a unified deep architecture which is able to jointly reason about classification, detection and semantic segmentation. Our approach is very simple, can be trained end-to-end and performs extremely well in the challenging KITTI dataset, outperforming the state-of-the-art in the road segmentation task. Our approach is also very efficient, taking $42.48\ \frac{ms}{}$ to perform all tasks. In the future we plan to exploit compression methods in order to further reduce the computational bottleneck and energy consumption of MutiNet.

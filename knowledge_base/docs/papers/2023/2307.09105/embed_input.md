@@ -44,196 +44,168 @@ A high number of samples is particularly crucial in tasks such as non-prehensile
 
 <!-- chunk {"id": "body-0011", "role": "body", "section": "I-B Contributions", "weight": 1.0} -->
 
-This paper presents a novel open-source implementation of Model Predictive Path Integral (MPPI) control with a generic physics simulator as the dynamical model. This enables the method to solve many contact-rich motion planning problems.
+This paper presents a novel open-source implementation of Model Predictive Path Integral (MPPI) control with a generic physics simulator as the dynamical model. This enables the method to solve many contact-rich motion planning problems. The two key contributions of this work are: The integration of the MPPI controller with the GPU-parallelizable simulator IsaacGym, distinguishing our approach from prior works in MPPI. Our method facilitates collision checking and contact-rich manipulation tasks leveraging the contact models and rigid body interactions included in the simulator without requiring gradients. Our solution allows smooth real-time control of real-world systems with high degrees of freedom, efficiently computing hundreds of rollouts in parallel.
 
 <!-- chunk {"id": "body-0012", "role": "body", "section": "I-B Contributions", "weight": 1.0} -->
 
-The integration of the MPPI controller with the GPU-parallelizable simulator IsaacGym, distinguishing our approach from prior works in MPPI. Our method facilitates collision checking and contact-rich manipulation tasks leveraging the contact models and rigid body interactions included in the simulator without requiring gradients. Our solution allows smooth real-time control of real-world systems with high degrees of freedom, efficiently computing hundreds of rollouts in parallel.
+A versatile method applicable to various motion planning challenges, including collision avoidance, prehensile and non-prehensile manipulation, and whole-body control with diverse robots. We provide an open-source implementation that can be readily reused and extended to heterogeneous robots and tasks.
 
 <!-- chunk {"id": "body-0013", "role": "body", "section": "I-B Contributions", "weight": 1.0} -->
 
-A versatile method applicable to various motion planning challenges, including collision avoidance, prehensile and non-prehensile manipulation, and whole-body control with diverse robots. We provide an open-source implementation that can be readily reused and extended to heterogeneous robots and tasks.
-
-<!-- chunk {"id": "body-0014", "role": "body", "section": "I-B Contributions", "weight": 1.0} -->
-
 We perform many contact-rich tasks with several robotic platforms and real-world experiments. We include omnidirectional and differential drive robots and fixed or mobile manipulators and compare against many specialized baselines.
 
-<!-- chunk {"id": "body-0015", "role": "body", "section": "Sampling-based MPC via parallelizable physics simulations", "weight": 1.0} -->
+<!-- chunk {"id": "body-0014", "role": "body", "section": "Sampling-based MPC via parallelizable physics simulations", "weight": 1.0} -->
 
 In this section we describe the integration of MPPI with IsaacGym, which enables real-time control of complex contact-rich robotic systems with minimal modeling.
 
+<!-- chunk {"id": "body-0015", "role": "body", "section": "II-A Background theory on MPPI", "weight": 1.0} -->
+
+In this section, we give an overview of the background theory of MPPI. For more theoretical insights, please refer to the original publications. MPPI is a method to solve stochastic optimal control problems for discrete-time dynamical systems such as where the nonlinear state-transition function $f$ describes how the state $x$ evolves over time $t$ with a control input $v_{t}$. MPPI samples $K$ noisy input sequences $V_{k}$. These sequences are then applied to the system to simulate $K$ state trajectories $Q_{k}$, $k \in {\lbrack 1,K\rbrack}$, over a time horizon $T$: Given the state trajectories $Q_{k}$ and a designed cost function $C$ to be minimized, the total state-cost $S_{k}$ of an input sequence $V_{k}$ is computed by functional composition $S_{k} = {C{(Q_{k})}}$.
+
 <!-- chunk {"id": "body-0016", "role": "body", "section": "II-A Background theory on MPPI", "weight": 1.0} -->
 
-In this section, we give an overview of the background theory of MPPI. For more theoretical insights, please refer to the original publications. MPPI is a method to solve stochastic optimal control problems for discrete-time dynamical systems such as
+Then, each rollout is weighted by importance sampling weights $w_{k}$, computed via an inverse exponential of $S_{k}$ with tuning parameter $\beta$, normalized by $\eta$. The minimum sampled cost $\rho = {\min_{k}S_{k}}$ is subtracted for numerical stability, leading to: The parameter $\beta$ is also known as inverse temperature. The weights are then used to compute the approximate optimal control input sequence $U^{\ast}$: 3 and 4 demonstrate the approach taken to approximate the optimal control. 4 represents a weighted average of sampled control inputs, while 3 assigns exponentially higher weights to less costly inputs. The first input $u_{0}^{\ast}$ of the sequence $U^{\ast}$ is applied to the system. Then the process is repeated.
 
-<!-- chunk {"id": "body-0017", "role": "body", "section": "II-A Background theory on MPPI", "weight": 1.0} -->
-
-where the nonlinear state-transition function $f$ describes how the state $x$ evolves over time $t$ with a control input $v_{t}$. MPPI samples $K$ noisy input sequences $V_{k}$.
-
-<!-- chunk {"id": "body-0018", "role": "body", "section": "II-A Background theory on MPPI", "weight": 1.0} -->
-
-Given the state trajectories $Q_{k}$ and a designed cost function $C$ to be minimized, the total state-cost $S_{k}$ of an input sequence $V_{k}$ is computed by functional composition $S_{k} = {C{(Q_{k})}}$. Then, each rollout is weighted by importance sampling weights $w_{k}$, computed via an inverse exponential of $S_{k}$ with tuning parameter $\beta$, normalized by $\eta$.
-
-<!-- chunk {"id": "body-0019", "role": "body", "section": "II-A Background theory on MPPI", "weight": 1.0} -->
-
-The parameter $\beta$ is also known as inverse temperature.
-
-<!-- chunk {"id": "body-0020", "role": "body", "section": "II-A Background theory on MPPI", "weight": 1.0} -->
-
-and demonstrate the approach taken to approximate the optimal control. represents a weighted average of sampled control inputs, while assigns exponentially higher weights to less costly inputs. The first input $u_{0}^{\ast}$ of the sequence $U^{\ast}$ is applied to the system. Then the process is repeated.
-
-<!-- chunk {"id": "body-0021", "role": "body", "section": "II-B Proposed algorithm", "weight": 1.0} -->
+<!-- chunk {"id": "body-0017", "role": "body", "section": "II-B Proposed algorithm", "weight": 1.0} -->
 
 We now describe how we use MPPI with IsaacGym, summarized in Algorithm 1. We initialize an input sequence $U_{init}$ as a vector of zeroes with a length of $T$, where $T$ is the time horizon in steps. We then sample $K$ sequences of additive input noise $\mathcal{E}_{k}$ for exploring the input space around $U_{init}$. The key concept is that, instead of explicitly defining a nonlinear transition function $f$, we use IsaacGym to compute the next state $x_{t + 1}$ given $x_{t}$ and control input $v_{t}$. This is done by reading the current state of the environment, resetting the state of the simulator to the observed values, and then applying the noisy control input sequence to simulate the state trajectories in IsaacGym. Note that these $K$ state trajectories can be computed independently of each other. We use this property to forward and simulate all the rollouts in parallel, leveraging the parallelization capabilities of IsaacGym.
 
-<!-- chunk {"id": "body-0022", "role": "body", "section": "II-B Proposed algorithm", "weight": 1.0} -->
+<!-- chunk {"id": "body-0018", "role": "body", "section": "II-B Proposed algorithm", "weight": 1.0} -->
 
-Instead of sampling from a Gaussian distribution, we follow the strategy of a recent paper that proposes to sample Halton Splines instead for better exploration and smoother trajectories. Similar to, we fit B-Splines to inputs sampled from a Halton sequence using standard Python modules and then we evaluate the spline at regular intervals to retrieve $\mathcal{E}_{k}$. Unlike, we do not update the variance of the sampling distribution. Instead, we keep it as a tuning parameter, constant during execution. Updating the variance as can lead to better convergence to a goal, but it also leads to stagnation of the control over time, which is harmful in the contact-rich tasks considered in this paper. Once the task begins, we reset our $K$ simulation environments on IsaacGym to the current observed world state $x$. In parallel, we can now roll out the sampled input sequences $V_{k}$ into state trajectories $Q_{k}$ using $K$ simulation environments on IsaacGym and compute their corresponding cost $S_{k}$ using the designed cost function $C$.
+Instead of sampling from a Gaussian distribution, we follow the strategy of a recent paper that proposes to sample Halton Splines instead for better exploration and smoother trajectories. Similar to, we fit B-Splines to inputs sampled from a Halton sequence using standard Python modules and then we evaluate the spline at regular intervals to retrieve $\mathcal{E}_{k}$. Unlike, we do not update the variance of the sampling distribution. Instead, we keep it as a tuning parameter, constant during execution. Updating the variance as in can lead to better convergence to a goal, but it also leads to stagnation of the control over time, which is harmful in the contact-rich tasks considered in this paper. Once the task begins, we reset our $K$ simulation environments on IsaacGym to the current observed world state $x$. In parallel, we can now roll out the sampled input sequences $V_{k}$ into state trajectories $Q_{k}$ using $K$ simulation environments on IsaacGym and compute their corresponding cost $S_{k}$ using the designed cost function $C$.
 
-<!-- chunk {"id": "body-0023", "role": "body", "section": "II-B Proposed algorithm", "weight": 1.0} -->
+<!-- chunk {"id": "body-0019", "role": "body", "section": "II-B Proposed algorithm", "weight": 1.0} -->
 
-Next, we can compute the importance sampling weights $w_{k}$ as. The normalization factor $\eta$ is a useful metric to monitor, as it indicates the number of samples assigned significant weights.
+The cost is discounted over the planning horizon $T$ by a factor $\gamma$: Next, we can compute the importance sampling weights $w_{k}$ as in 3. The normalization factor $\eta$ is a useful metric to monitor, as it indicates the number of samples assigned significant weights. We use this to tune $\beta$ for the next iteration such that $\eta$ is maintained within an upper and lower bound: Empirically, we observed in all performed tasks that setting $5 < \eta < 10$ is a good balance for smooth behavior. Finally, an approximation of the optimal control sequence $U^{\ast}$ can now be computed via a weighted average of the sampled inputs 4.
 
-<!-- chunk {"id": "body-0024", "role": "body", "section": "II-B Proposed algorithm", "weight": 1.0} -->
+<!-- chunk {"id": "body-0020", "role": "body", "section": "II-B Proposed algorithm", "weight": 1.0} -->
 
-Empirically, we observed in all performed tasks that setting $5 < \eta < 10$ is a good balance for smooth behavior. Finally, an approximation of the optimal control sequence $U^{\ast}$ can now be computed via a weighted average of the sampled inputs. $U_{init}$ is now updated with $U^{\ast}$, time-shifted backward of one timestep so that it can be used as a warm-start for the next iteration, $U_{init} = {\lbrack u_{1}^{\ast},\ldots,u_{T - 1}^{\ast},u_{T - 1}^{\ast}\rbrack} \in {\mathbb{R}}^{T}$. The second last input in the shifted sequence is propagated to the last input as well. From the sequence $U^{\ast}$, only the first input $u_{0}^{\ast}$ is applied to the system, and the next iteration starts.
+$U_{init}$ is now updated with $U^{\ast}$, time-shifted backward of one timestep so that it can be used as a warm-start for the next iteration, $U_{init} = {\lbrack u_{1}^{\ast},\ldots,u_{T - 1}^{\ast},u_{T - 1}^{\ast}\rbrack} \in {\mathbb{R}}^{T}$. The second last input in the shifted sequence is propagated to the last input as well. From the sequence $U^{\ast}$, only the first input $u_{0}^{\ast}$ is applied to the system, and the next iteration starts.
 
-<!-- chunk {"id": "body-0025", "role": "body", "section": "II-C Exploiting the physics simulator features", "weight": 1.0} -->
+<!-- chunk {"id": "body-0021", "role": "body", "section": "II-C Exploiting the physics simulator features", "weight": 1.0} -->
 
 IsaacGym provides useful information and general models that are particularly useful for robot control in contact-rich tasks. Besides being useful to simulate the physical interaction of rigid bodies, we leverage IsaacGym for collision checking and tackling model uncertainty with domain randomization.
 
-<!-- chunk {"id": "body-0026", "role": "body", "section": "II-C1 Collision checking", "weight": 1.0} -->
+<!-- chunk {"id": "body-0022", "role": "body", "section": "II-C1 Collision checking", "weight": 1.0} -->
 
 Collision checking in robotics can be challenging for a number of reasons, one of them being computational complexity. This is particularly true if the task requires continuous collision checking as the robot moves in dense environments with complex object shapes. To overcome this problem, approximations are often introduced with the convexification of the space. However, this requires several heuristics and can hinder robot motions in complex scenes.
 
-<!-- chunk {"id": "body-0027", "role": "body", "section": "II-C1 Collision checking", "weight": 1.0} -->
+<!-- chunk {"id": "body-0023", "role": "body", "section": "II-C1 Collision checking", "weight": 1.0} -->
 
-Instead, we propose to tackle the problem of collision checking by using the already available contact forces tensor from IsaacGym, which is available for each simulation step.
+Instead, we propose to tackle the problem of collision checking by using the already available contact forces tensor from IsaacGym, which is available for each simulation step. To avoid collisions, we then define a cost function proportional to the contact forces for the MPPI: where $F_{obst}$ are the contact forces exerted on the different obstacles. This allows us to perform continuous collision checking at each time step over the horizon $T$, with arbitrary complex shapes. By heavily penalizing contacts with obstacles, the robot will avoid collisions. On the other hand, by relaxing the weight $\omega_{c}$ one can allow for certain contacts required for the task, such as rolling a ball against a wall (Section III-C2).
 
-<!-- chunk {"id": "body-0028", "role": "body", "section": "II-C1 Collision checking", "weight": 1.0} -->
-
-where $F_{obst}$ are the contact forces exerted on the different obstacles. This allows us to perform continuous collision checking at each time step over the horizon $T$, with arbitrary complex shapes. By heavily penalizing contacts with obstacles, the robot will avoid collisions. On the other hand, by relaxing the weight $\omega_{c}$ one can allow for certain contacts required for the task, such as rolling a ball against a wall (Section III-C2).
-
-<!-- chunk {"id": "body-0029", "role": "body", "section": "II-C2 Tackling model uncertainty", "weight": 1.0} -->
+<!-- chunk {"id": "body-0024", "role": "body", "section": "II-C2 Tackling model uncertainty", "weight": 1.0} -->
 
 IsaacGym is designed to easily support domain randomization. We use this feature to randomize the object properties in each environment in case of contact-rich tasks, such that uncertainty is incorporated in every rollout for the MPPI. Effectively, this allows to account for uncertainty in environment perception. Specifically, starting from nominal physics properties, in every rollout objects are spawned with uncertainty on mass and friction nominal values, sampled from a uniform distribution. Additionally, the object size is also randomized with additive Gaussian noise, see Section III for experiment-specific details. Therefore, every simulation is different from the others, and all simulations are different from the world such that we can account for model mismatch. In a sense, we perform a sort of domain randomization in real-time to address the challenge of model uncertainty and imperfect perception.
 
-<!-- chunk {"id": "body-0030", "role": "body", "section": "Experiments", "weight": 1.0} -->
+<!-- chunk {"id": "body-0025", "role": "body", "section": "Experiments", "weight": 1.0} -->
 
 We perform several experiments in three different categories: 1) motion planning and collision avoidance, 2) whole-body control of high DOF systems in contact-rich settings, and 3) non-prehensile manipulation. Experiments and simulations are conducted on an Alienware Laptop with Nvidia 3070 Ti graphics card. The software implementation consists of our open-source Python package that can easily be installed, tested, and extended to new robots and tasks. In real-world tests, we used a Robot Operating System (ROS) wrapper to connect the robot to the planner and a motion capture system to determine the pose of manipulated objects. Our implementation allows for position, velocity, and torque control. In this paper, all robots are velocity-controlled except for the mobile manipulator in Section III-B, which is torque-controlled.
 
-<!-- chunk {"id": "body-0031", "role": "body", "section": "III-A Motion planning and collision avoidance", "weight": 1.0} -->
+<!-- chunk {"id": "body-0026", "role": "body", "section": "III-A Motion planning and collision avoidance", "weight": 1.0} -->
 
 We compare the performance of the proposed method in a pure local motion planning setting, i.e. no interaction with the environment. This aims to showcase the fact that our method is comparable to state-of-the-art techniques when no contact is involved. The main focus is the quantitative analysis of the method compared to two baselines, specifically optimization fabrics as presented in and a simple MPC formulation solved with ForcesPro. We make use of an already available benchmark setup, the localPlannerBench. We present results for two cases, namely a holonomic robot, and a robotic arm (Franka Emika Panda). For all experiments, we randomize five obstacles and the goal positions in $N = 100$ runs, see Fig. 2 for some examples. Solutions by the three methods are assessed using four metrics, e.g. time to reach the goal, path length, solver time, and minimum clearance.
 
-<!-- chunk {"id": "body-0032", "role": "body", "section": "III-A Motion planning and collision avoidance", "weight": 1.0} -->
+<!-- chunk {"id": "body-0027", "role": "body", "section": "III-A Motion planning and collision avoidance", "weight": 1.0} -->
 
-The compared methods show minimal differences in path length clearance for both examples (Fig. 3). However, our method consistently reaches the goal faster. This is attributed to the perfect representation of the robot's collision shapes used in our method, compared to the enclosing spheres in the ForcesPro MPC and optimization fabrics. It should be noted that our approach incurs higher computational times (Table I) due to the physics simulations performed by IsaacGym. Despite this, our method remains competitive in motion planning applications and offers significant advantages in contact-rich tasks, as demonstrated in the following sections.
+(a) Comparison with Fabrics (b) Comparison with ForcesPro MPC Figure 3: Results in pure motion planning problems for point robot with 3 DOF.
 
-<!-- chunk {"id": "body-0033", "role": "body", "section": "III-B Prehensile manipulation with whole-body control", "weight": 1.0} -->
+<!-- chunk {"id": "body-0028", "role": "body", "section": "III-A Motion planning and collision avoidance", "weight": 1.0} -->
+
+(a) Comparison with Fabrics (b) Comparison with ForcesPro MPC Figure 4: Results in pure motion planning problems for a robot manipulator with 7 DOF.
+
+<!-- chunk {"id": "body-0029", "role": "body", "section": "III-A Motion planning and collision avoidance", "weight": 1.0} -->
+
+The compared methods show minimal differences in path length clearance for both examples (Fig. 3). However, our method consistently reaches the goal faster (Fig. 3 and 4, and Table I). This is attributed to the perfect representation of the robot's collision shapes used in our method, compared to the enclosing spheres in the ForcesPro MPC and optimization fabrics. It should be noted that our approach incurs higher computational times (Table I) due to the physics simulations performed by IsaacGym. Despite this, our method remains competitive in motion planning applications and offers significant advantages in contact-rich tasks, as demonstrated in the following sections.
+
+<!-- chunk {"id": "body-0030", "role": "body", "section": "III-B Prehensile manipulation with whole-body control", "weight": 1.0} -->
 
 Our approach scales well with the complexity of the robot. In Fig. 5, the task is to relocate an object from a table to an $\lbrack x,y,z\rbrack$ location using a mobile manipulator with 12 DOF.
 
-<!-- chunk {"id": "body-0034", "role": "body", "section": "III-B Prehensile manipulation with whole-body control", "weight": 1.0} -->
+<!-- chunk {"id": "body-0031", "role": "body", "section": "III-B Prehensile manipulation with whole-body control", "weight": 1.0} -->
 
-Although this is arguably a complex task for a robot, which usually requires manual engineering of a sequence of movements, such as navigation to a specific base goal, and pre-post grasps, the solution is rather simple with our method.
+Although this is arguably a complex task for a robot, which usually requires manual engineering of a sequence of movements, such as navigation to a specific base goal, and pre-post grasps, the solution is rather simple with our method. In fact, we specify the following cost function for the task: where we consider the Euclidean distance of the end-effector to the object and the object to the goal: $C_{dist} = {{\omega_{t}{\|{p_{EE} - p_{O}}\|}} + {\omega_{O_{p}}{\|{p_{G} - p_{O}}\|}}}$. We give an incentive to keep the robot in a comfortable pose by penalizing deviations from a desired arm and gripper pose, end-effector orientation, as well as imposing a minimum end-effector height $C_{pose} = {C_{Parm} + C_{Pgrip} + C_{Oee} + C_{Hee}}$. We minimize collisions penalizing the forces on the table $C_{coll}$.
 
-<!-- chunk {"id": "body-0035", "role": "body", "section": "III-B Prehensile manipulation with whole-body control", "weight": 1.0} -->
+<!-- chunk {"id": "body-0032", "role": "body", "section": "III-B Prehensile manipulation with whole-body control", "weight": 1.0} -->
 
-where we consider the Euclidean distance of the end-effector to the object and the object to the goal: $C_{dist} = {{\omega_{t}{\|{p_{EE} - p_{O}}\|}} + {\omega_{O_{p}}{\|{p_{G} - p_{O}}\|}}}$. We give an incentive to keep the robot in a comfortable pose by penalizing deviations from a desired arm and gripper pose, end-effector orientation, as well as imposing a minimum end-effector height $C_{pose} = {C_{Parm} + C_{Pgrip} + C_{Oee} + C_{Hee}}$. We minimize collisions penalizing the forces on the table $C_{coll}$. Lastly, we penalize high arm and base velocities $C_{vel} = {C_{Varm} + C_{Vbase}}$ since, in this experiment, we torque-control the robot.
+Lastly, we penalize high arm and base velocities $C_{vel} = {C_{Varm} + C_{Vbase}}$ since, in this experiment, we torque-control the robot. By sampling all the DOF at once, including the base and the gripper, we achieve a fluid motion from start to end with no added heuristics for pick positions. We performed ten pick-and-deliver tasks, and the time taken was 15.67 $\pm$ 7.21s. The high standard deviation is because sometimes the cube falls, but the robot can recover by picking it up again from the floor.
 
-<!-- chunk {"id": "body-0036", "role": "body", "section": "III-B Prehensile manipulation with whole-body control", "weight": 1.0} -->
-
-By sampling all the DOF at once, including the base and the gripper, we achieve a fluid motion from start to end with no added heuristics for pick positions. We performed ten pick-and-deliver tasks, and the time taken was 15.67 $\pm$ 7.21s. The high standard deviation is because sometimes the cube falls, but the robot can recover by picking it up again from the floor.
-
-<!-- chunk {"id": "body-0037", "role": "body", "section": "III-B Prehensile manipulation with whole-body control", "weight": 1.0} -->
+<!-- chunk {"id": "body-0033", "role": "body", "section": "III-B Prehensile manipulation with whole-body control", "weight": 1.0} -->
 
 For smooth whole-body motions of high DOF systems like this, many samples are required. Empirically, when the number of samples exceeds 50, a GPU pipeline is computationally cheaper than a CPU and scales better. Using IsaacGym, we can compute all the 750 samples required for mobile manipulation in parallel, computing the next control input online at $25Hz$.
 
-<!-- chunk {"id": "body-0038", "role": "body", "section": "III-C Non-prehensile manipulation", "weight": 1.0} -->
+<!-- chunk {"id": "body-0034", "role": "body", "section": "III-C Non-prehensile manipulation", "weight": 1.0} -->
 
-One advantage of using a physics simulator is that one can leverage generic physics rules for contacts, thus eliminating the need for learning or engineering specialized contact models. We demonstrate this in non-prehensile manipulation tasks involving a 7-DOF arm (Fig. 6) and two different mobile robots (Fig. 7, LABEL: LABEL: and ). In Section III-C1, we apply our method to the two pushing tasks tackled, and we compare with their final results. Additionally, in Section III-C2, we demonstrate the ease of transferring our approach to different robots, including differential-drive.
+One advantage of using a physics simulator is that one can leverage generic physics rules for contacts, thus eliminating the need for learning or engineering specialized contact models. We demonstrate this in non-prehensile manipulation tasks involving a 7-DOF arm (Fig. 6) and two different mobile robots (Fig. 7, LABEL:, 8, LABEL: and 9). In Section III-C1, we apply our method to the two pushing tasks tackled, and we compare with their final results. Additionally, in Section III-C2, we demonstrate the ease of transferring our approach to different robots, including differential-drive.
+
+<!-- chunk {"id": "body-0035", "role": "body", "section": "III-C1 Comparison with baselines for pushing with a robot arm", "weight": 1.0} -->
+
+We consider two baselines for non-prehensile pushing. In the first one, tackles the problem of pushing a relatively small object to a target pose with either $0$ (Pose 1) or $90\deg$ (Pose 2). They also consider sequences of push actions starting far from the object. In the second baseline, considers 5 relatively big objects and assumes the robot's end effector is close to the object during execution. Since we do not have access to the same hardware, and the authors of the considered baselines do not provide their models and data, we only compare against their final results. We set up our simulation to match as close as possible the tasks in the baseline using the available information from the papers. Finally, we tune our method for the two tasks separately for a fair comparison with the individual baselines. The approach in utilizes an MPPI in combination with a learned model for predicting pushing effects on an object. The authors sample 2D end-effector trajectories and then rely on inverse kinematic solvers, achieving push manipulation as a sequence of disconnected pushes. In contrast, we use MPPI to sample the control input directly as joint velocities in IsaacGym.
+
+<!-- chunk {"id": "body-0036", "role": "body", "section": "III-C1 Comparison with baselines for pushing with a robot arm", "weight": 1.0} -->
+
+By doing so, we achieve smooth continuous pushes where end-effector repositioning emerges naturally, and learning is not required. The cost function to be minimized for the task is: $C_{dist}$ has the weighted distance robot-object, and object-goal: where $p_{G}$ and $\psi_{G}$ are the goal's position and orientation, while $p_{R}$ and $p_{O}$ denote the end-effector tip and block positions, respectively. The cost function $C_{pushalign}$ promotes keeping the object between the robot and the goal.
+
+<!-- chunk {"id": "body-0037", "role": "body", "section": "III-C1 Comparison with baselines for pushing with a robot arm", "weight": 1.0} -->
+
+It is computed as ${cos{(\alpha)}} + 1$, where $\alpha$ is the angle between the robot-object $({p_{R} - p_{O}})$ and goal-object $({p_{G} - p_{O}})$ vectors and $+ 1$ is added to make the cost term always non-negative: We promote the end-effector to maintain a downward orientation at height $d_{h}$ using pitch $\theta$ and roll $\phi$: The cost is minimized when the end-effector is close to the block at a certain height and orientation, and the block is between the end-effector and the goal at the desired goal pose^11^1Tuning: $\omega_{t} = 1$, $\omega_{O_{p}} = 16$, $\omega_{O_{r}} = 2$, $\omega_{ee_{h}} = 8$, $\omega_{ee_{r}} = 0.5$, $\omega_{a} =
+
+<!-- chunk {"id": "body-0038", "role": "body", "section": "III-C1 Comparison with baselines for pushing with a robot arm", "weight": 1.0} -->
+
+We perform the same task as in and compare the final results of pushing a squared object on a table surface to two poses (Pose 1 and 2) with a robot arm equipped with a stick. In Table II, we report our findings, with our method showing double the accuracy. Our approach performs continuous pushes, unlike the baseline that stops for replanning after each short push. Thus, we complete either task in approximately 8 seconds, while the baseline takes approximately 4 minutes. We used the same evaluation metric of for the final cost that is a weighted average of position and orientation errors: ${1.5{({{|{p_{G_{x}} - p_{O_{x}}}|} + {|{p_{G_{y}} - p_{O_{y}}}|}})}} + {0.01{|{\psi_{O} - \psi_{G}}|}}$. For every run, the object is also randomized in the same way as the rollouts. See the accompanying video for the actual behavior.
 
 <!-- chunk {"id": "body-0039", "role": "body", "section": "III-C1 Comparison with baselines for pushing with a robot arm", "weight": 1.0} -->
 
-We consider two baselines for non-prehensile pushing. In the first one, tackles the problem of pushing a relatively small object to a target pose with either $0$ (Pose 1) or $90\deg$ (Pose 2). They also consider sequences of push actions starting far from the object. In the second baseline, considers 5 relatively big objects and assumes the robot's end effector is close to the object during execution. Since we do not have access to the same hardware, and the authors of the considered baselines do not provide their models and data, we only compare against their final results. We set up our simulation to match as close as possible the tasks in the baseline using the available information from the papers. Finally, we tune our method for the two tasks separately for a fair comparison with the individual baselines. The approach utilizes an MPPI in combination with a learned model for predicting pushing effects on an object. The authors sample 2D end-effector trajectories and then rely on inverse kinematic solvers, achieving push manipulation as a sequence of disconnected pushes. In contrast, we use MPPI to sample the control input directly as joint velocities in IsaacGym.
+Since the trained models from are not provided, we only compare the final results, reported in Table III. Again, thanks to the continuous pushes, our method takes about 3 seconds per task, while the baseline needs about 24 seconds. We performed 10 pushes per object, totaling 150 pushes. For the non-prehensile manipulation task with the robot arm, the mass and friction of manipulated objects have 30% uncertainty, and table friction has 90% uncertainty on the nominal value, sampled uniformly. Size is randomized with zero-mean additive Gaussian noise with a 2 mm standard deviation.
 
-<!-- chunk {"id": "body-0040", "role": "body", "section": "III-C1 Comparison with baselines for pushing with a robot arm", "weight": 1.0} -->
-
-By doing so, we achieve smooth continuous pushes where end-effector repositioning emerges naturally, and learning is not required.
-
-<!-- chunk {"id": "body-0041", "role": "body", "section": "III-C1 Comparison with baselines for pushing with a robot arm", "weight": 1.0} -->
-
-where $p_{G}$ and $\psi_{G}$ are the goal's position and orientation, while $p_{R}$ and $p_{O}$ denote the end-effector tip and block positions, respectively. The cost function $C_{pushalign}$ promotes keeping the object between the robot and the goal.
-
-<!-- chunk {"id": "body-0042", "role": "body", "section": "III-C1 Comparison with baselines for pushing with a robot arm", "weight": 1.0} -->
-
-The cost is minimized when the end-effector is close to the block at a certain height and orientation, and the block is between the end-effector and the goal at the desired goal pose^11^1Tuning: $\omega_{t} = 1$, $\omega_{O_{p}} = 16$, $\omega_{O_{r}} = 2$, $\omega_{ee_{h}} = 8$, $\omega_{ee_{r}} = 0.5$, $\omega_{a} = 0.8$, ${dt} = 0.04$, $T = 8$, $K = 500$..
-
-<!-- chunk {"id": "body-0043", "role": "body", "section": "III-C1 Comparison with baselines for pushing with a robot arm", "weight": 1.0} -->
-
-We perform the same task as and compare the final results of pushing a squared object on a table surface to two poses (Pose 1 and 2) with a robot arm equipped with a stick. In Table II, we report our findings, with our method showing double the accuracy. Our approach performs continuous pushes, unlike the baseline that stops for replanning after each short push. Thus, we complete either task in approximately 8 seconds, while the baseline takes approximately 4 minutes. We used the same evaluation metric of for the final cost that is a weighted average of position and orientation errors: ${1.5{({{|{p_{G_{x}} - p_{O_{x}}}|} + {|{p_{G_{y}} - p_{O_{y}}}|}})}} + {0.01{|{\psi_{O} - \psi_{G}}|}}$. For every run, the object is also randomized in the same way as the rollouts. See the accompanying video for the actual behavior.
-
-<!-- chunk {"id": "body-0044", "role": "body", "section": "III-C1 Comparison with baselines for pushing with a robot arm", "weight": 1.0} -->
-
-We further compare our approach in terms of the success rate of non-prehensile manipulation. Particularly, we consider the same task settings, pushing 5 different objects to 3 different goal poses. To do so we simply change the objects in the simulation and slightly re-tune the MPPI^22^2Tuning: $\omega_{t} = 5$, $\omega_{O_{p}} = 25$, $\omega_{O_{r}} = 21$, $\omega_{ee_{h}} = 30$, $\omega_{ee_{r}} = 0.3$, $\omega_{a} = 45$, ${dt} = 0.04$, $T = 8$, $K = 500$..
-
-<!-- chunk {"id": "body-0045", "role": "body", "section": "III-C1 Comparison with baselines for pushing with a robot arm", "weight": 1.0} -->
-
-Since the trained models are not provided, we only compare the final results, reported in Table III. Again, thanks to the continuous pushes, our method takes about 3 seconds per task, while the baseline needs about 24 seconds. We performed 10 pushes per object, totaling 150 pushes. For the non-prehensile manipulation task with the robot arm, the mass and friction of manipulated objects have 30% uncertainty, and table friction has 90% uncertainty on the nominal value, sampled uniformly. Size is randomized with zero-mean additive Gaussian noise with a 2 mm standard deviation.
-
-<!-- chunk {"id": "body-0046", "role": "body", "section": "III-C1 Comparison with baselines for pushing with a robot arm", "weight": 1.0} -->
-
-Our method outperforms both baselines in terms of time to completion, accuracy, and success rate, except for one manipulated object. We achieve this without limiting the sampling to 2D end-effector trajectories, without needing learned models, and without requiring inverse kinematics solvers.
-
-<!-- chunk {"id": "body-0047", "role": "body", "section": "III-C2 Extension to different robots", "weight": 1.0} -->
+<!-- chunk {"id": "body-0040", "role": "body", "section": "III-C2 Extension to different robots", "weight": 1.0} -->
 
 Our method is also easily extensible to different robot platforms and objects because it does not require specialized models or controllers that are robot specific, as opposed to the baselines considered. We chose to use an omnidirectional base, and a differential drive robot, to push a box or a sphere to a goal from different initial configurations. To do so, we only need to change the environment and robot URDF in IsaacGym, and re-tune the cost function for pushing due to different hardware.
 
-<!-- chunk {"id": "body-0048", "role": "body", "section": "Omnidirectional push of a box", "weight": 1.0} -->
+<!-- chunk {"id": "body-0041", "role": "body", "section": "Omnidirectional push of a box", "weight": 1.0} -->
 
-The first task is the non-prehensile pushing of a box with an omnidirectional base, see Fig. 7. Success is defined when the box is placed at the goal within 5cm in the $x - y$ direction and within 0.17 radians in rotation. The robot cannot touch obstacles. The cost function for the MPPI is the same as, re-tuned without considering end effector height and orientation since we now operate on a plane.
+The first task is the non-prehensile pushing of a box with an omnidirectional base, see Fig. 7. Success is defined when the box is placed at the goal within 5cm in the $x - y$ direction and within 0.17 radians in rotation. The robot cannot touch obstacles. The cost function for the MPPI is the same as in 9, re-tuned without considering end effector height and orientation since we now operate on a plane.
 
-<!-- chunk {"id": "body-0049", "role": "body", "section": "Omnidirectional push of a sphere", "weight": 1.0} -->
+<!-- chunk {"id": "body-0042", "role": "body", "section": "Omnidirectional push of a sphere", "weight": 1.0} -->
 
 One can easily extend the example above to different objects with very different dynamics. We chose a sphere instead of a box, and we simply change the object spawned in the simulation. For this task, we want to put the ball in between the two walls, Fig. 8. We considered multiple runs from two different starting poses, A and B. Results are summarized in Table IV and the execution can be seen in the accompanying video.
 
-<!-- chunk {"id": "body-0050", "role": "body", "section": "Omnidirectional push of a sphere", "weight": 1.0} -->
+<!-- chunk {"id": "body-0043", "role": "body", "section": "Omnidirectional push of a sphere", "weight": 1.0} -->
 
 (a) Pushing straight to the goal on the right.
 
-<!-- chunk {"id": "body-0051", "role": "body", "section": "Omnidirectional push of a sphere", "weight": 1.0} -->
+<!-- chunk {"id": "body-0044", "role": "body", "section": "Omnidirectional push of a sphere", "weight": 1.0} -->
 
 (b) Pushing to the goal on the left with 90∘ rotation.
 
-<!-- chunk {"id": "body-0052", "role": "body", "section": "Differential drive non-prehensile pushing", "weight": 1.0} -->
+<!-- chunk {"id": "body-0045", "role": "body", "section": "Differential drive non-prehensile pushing", "weight": 1.0} -->
 
-We perform differential drive non-prehensile pushing, see Fig. 9, with the same cost function as before but re-tuned. One can change the robot for the task by changing the URDF, neglecting all the additional contact modeling required in a classical model-based MPC. The time taken to push the box to the goal was 18.31s. In the mobile non-prehensile pushing experiments, objects to manipulate are spawned with 30% uncertainty on mass and friction sampled uniformly, while object size is randomized with Gaussian noise with a standard deviation of 5mm.
+We perform differential drive non-prehensile pushing, see Fig. 9, with the same cost function as before (see 11) but re-tuned. One can change the robot for the task by changing the URDF, neglecting all the additional contact modeling required in a classical model-based MPC. The time taken to push the box to the goal was 18.31s. In the mobile non-prehensile pushing experiments, objects to manipulate are spawned with 30% uncertainty on mass and friction sampled uniformly, while object size is randomized with Gaussian noise with a standard deviation of 5mm.
 
-<!-- chunk {"id": "body-0053", "role": "body", "section": "III-D Real-world experiments", "weight": 1.0} -->
+<!-- chunk {"id": "body-0046", "role": "body", "section": "III-D Real-world experiments", "weight": 1.0} -->
 
 To demonstrate the applicability of our approach, we transfer to the real world a subset of the non-prehensile manipulation tasks previously presented in Section III-C with both the robot manipulator and the omnidirectional base. In particular, in Fig. 10, we show the results of the 7 DOF manipulator pushing a product to two different goals, similar to the simulations corresponding to Table II. As presented in Fig. 1, the samples are rolled out in $K = 500$ simulated environments in IsaacGym, which, at each timestep, are initialized to the state of the real world. Based on this, the optimal control is estimated and applied to the real system.
 
-<!-- chunk {"id": "body-0054", "role": "body", "section": "III-D Real-world experiments", "weight": 1.0} -->
+<!-- chunk {"id": "body-0047", "role": "body", "section": "III-D Real-world experiments", "weight": 1.0} -->
 
 When transferring to the real world, compared to the experiments in Section III-C1, only the cost function weights were re-tuned. The horizon, control frequency, number of samples, structure of the cost function, and randomization of the sampled environments remained unchanged.
 
-<!-- chunk {"id": "body-0055", "role": "body", "section": "III-D Real-world experiments", "weight": 1.0} -->
+<!-- chunk {"id": "body-0048", "role": "body", "section": "III-D Real-world experiments", "weight": 1.0} -->
 
 From the experimental evaluation on the real robot, we observe that the time to complete the pushing tasks and the final position errors are comparable to the results in the simulation from Table II. Importantly, these results are achieved without making assumptions on specific contact points. Thus, the robot can naturally re-position itself and change contact location autonomously. Additionally, our method allows us to sample joint velocities directly; thus, we do not restrict the sampling to 2D end-effector trajectories to be translated into joint commands, as often seen in other approaches.
 
-<!-- chunk {"id": "body-0056", "role": "body", "section": "III-D Real-world experiments", "weight": 1.0} -->
+<!-- chunk {"id": "body-0049", "role": "body", "section": "III-D Real-world experiments", "weight": 1.0} -->
 
 Lastly, to demonstrate robustness, we disturb the execution of pushing tasks by hand with the manipulator and the omnidirectional base (Fig. 11). Since we do not assume the robot to be behind the object to be pushed for successful execution, and since the planning and execution happen in real-time at $25Hz$, we can largely perturb the task and let the robot compensate.
 
-<!-- chunk {"id": "body-0057", "role": "body", "section": "Discussion", "weight": 1.5} -->
+<!-- chunk {"id": "body-0050", "role": "body", "section": "Discussion", "weight": 1.5} -->
 
 In this section, we discuss key aspects and potential future work related to our solution. First, the computational demands of planning and control with our method can be high when extending the time horizon to several seconds. To keep the time horizon limited for real-time control while preventing being trapped in local minima, future work should incorporate global planning techniques such as A\*, RRT, and Probabilistic Roadmaps (PRM) to guide the local planner. Similarly to warm starting predictive controllers, one could make use of motion libraries of previous executions or learned policies along with random rollouts, to improve the sampling efficiency and exploration. Second, in real-world scenarios, uncertainties and discrepancies between simulated and actual environments could present challenges for achieving precise movements and manipulation. We utilized randomization of object properties in the rollouts to address some uncertainties. However, online system identification to converge to the true model parameters is not performed. Enhancing the robustness of the MPPI algorithm itself by reducing model uncertainty, as demonstrated, could further improve performance. Third, tuning control algorithms for optimal performance is time-consuming. Implementing autotuning techniques can automate the process and reduce manual effort.
 
-<!-- chunk {"id": "body-0058", "role": "body", "section": "Discussion", "weight": 1.5} -->
+<!-- chunk {"id": "body-0051", "role": "body", "section": "Discussion", "weight": 1.5} -->
 
 Finally, incorporating additional sensor support, such as lidars and signed distance fields, could be beneficial.
 
-<!-- chunk {"id": "body-0059", "role": "body", "section": "Conclusions", "weight": 1.0} -->
+<!-- chunk {"id": "body-0052", "role": "body", "section": "Conclusions", "weight": 1.0} -->
 
 We presented a way to perform Model Predictive Path Integral controller (MPPI) that uses a physics simulator as the dynamic model. By leveraging the GPU-parallelizable IsaacGym simulator for parallel sampling of forward trajectories, we have eliminated the need for explicit encoding of robot dynamics, contacts, and rigid-body interactions for MPPI. This makes our method easily adaptable to different objects and robots for a wide range of contact-rich motion-planning tasks. Through a series of simulations and real-world experiments, we have demonstrated the effectiveness of this approach in various scenarios, including motion planning with collision avoidance, non-prehensile manipulation, and whole-body control. We showed how our method can compete with state-of-the-art motion planners in case of no interactions, and how it outperforms by a margin other approaches for contact-rich tasks. In addition, we provided an open-source implementation that can be used to reproduce the presented results, and that can be adapted to new tasks and robots.

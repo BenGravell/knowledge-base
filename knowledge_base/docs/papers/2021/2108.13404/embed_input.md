@@ -36,137 +36,112 @@ In this tutorial article, we review SINDy with control and demonstrate its effec
 
 <!-- chunk {"id": "body-0009", "role": "body", "section": "DATA-DRIVEN MODELS FOR MPC", "weight": 1.0} -->
 
-Here we describe data-driven control architectures that combine data-driven model discovery with advanced model-based control strategies. In this tutorial, we use the recent SINDy-MPC architecture to rapidly identify a low-order model that is used with model predictive control.
+Here we describe data-driven control architectures that combine data-driven model discovery with advanced model-based control strategies. In this tutorial, we use the recent SINDy-MPC architecture to rapidly identify a low-order model that is used with model predictive control. We consider a nonlinear dynamical system of the form: with state $\mathbf{x} \in {\mathbb{R}}^{n}$, control input $\mathbf{u} \in {\mathbb{R}}^{q}$ and dynamics ${\mathbf{f}{(\mathbf{x},\mathbf{u})}}:{{{\mathbb{R}}^{n} \times {\mathbb{R}}^{q}}\rightarrow{\mathbb{R}}^{n}}$. In this section, we describe SINDy with control and MPC. This approach will be used in the next section to provide a step-by-step tutorial and code to compute SINDy-MPC for an infectious disease control problem.
 
-<!-- chunk {"id": "body-0010", "role": "body", "section": "DATA-DRIVEN MODELS FOR MPC", "weight": 1.0} -->
+<!-- chunk {"id": "body-0010", "role": "body", "section": "II-A Sparse identification of nonlinear dynamics with control", "weight": 1.0} -->
 
-with state $\mathbf{x} \in {\mathbb{R}}^{n}$, control input $\mathbf{u} \in {\mathbb{R}}^{q}$ and dynamics ${\mathbf{f}{(\mathbf{x},\mathbf{u})}}:{{{\mathbb{R}}^{n} \times {\mathbb{R}}^{q}}\rightarrow{\mathbb{R}}^{n}}$. In this section, we describe SINDy with control and MPC. This approach will be used in the next section to provide a step-by-step tutorial and code to compute SINDy-MPC for an infectious disease control problem.
+The SINDy and SINDy with control algorithms identify a sparse nonlinear dynamical system from measurement data, based on the assumption that many systems have relatively few active terms in the dynamics. SINDy with control uses sparse regression to identify these few active terms, out of a library $\mathbf{\Theta}{(\mathbf{x},\mathbf{u})}$ of candidate linear and nonlinear model terms in the state $\mathbf{x}$ and actuation $\mathbf{u}$, that are required to approximate the function $\mathbf{f}$ in Eq.. Therefore, sparsity-promoting techniques may be used to find models that automatically balance model complexity with accuracy, resulting in parsimonious models. The SINDy with control algorithm is illustrated in figure 2 on a disease model used in the next section.
 
 <!-- chunk {"id": "body-0011", "role": "body", "section": "II-A Sparse identification of nonlinear dynamics with control", "weight": 1.0} -->
 
-The SINDy and SINDy with control algorithms identify a sparse nonlinear dynamical system from measurement data, based on the assumption that many systems have relatively few active terms in the dynamics. SINDy with control uses sparse regression to identify these few active terms, out of a library $\mathbf{\Theta}{(\mathbf{x},\mathbf{u})}$ of candidate linear and nonlinear model terms in the state $\mathbf{x}$ and actuation $\mathbf{u}$, that are required to approximate the function $\mathbf{f}$ in Eq.. Therefore, sparsity-promoting techniques may be used to find models that automatically balance model complexity with accuracy, resulting in parsimonious models. The SINDy with control algorithm is illustrated in figure 2 on a disease model used in the next section. To evaluate $\mathbf{\Theta}$, we first measure $m$ snapshots of the state $\mathbf{x}$ and the input signal $\mathbf{u}$ in time and arrange these into two matrices^11^1These matrices are the transposes of the DMD with control matrices.:
+To evaluate $\mathbf{\Theta}$, we first measure $m$ snapshots of the state $\mathbf{x}$ and the input signal $\mathbf{u}$ in time and arrange these into two matrices^11^1These matrices are the transposes of the DMD with control matrices.: After collecting the snapshots, we can evaluate the library of candidate nonlinear functions $\mathbf{\Theta}$: where $\mathbf{X} \otimes \mathbf{U}$ defines the vector of all product combinations of the components in $\mathbf{x}$ and $\mathbf{u}$. This library may include any functions that might describe the data. The choice of a suitable library is crucial. The recommended strategy is to start with a basic choice, such as low-order polynomials, and then increase the complexity and order of the library until sparse and accurate models are obtained.
 
 <!-- chunk {"id": "body-0012", "role": "body", "section": "II-A Sparse identification of nonlinear dynamics with control", "weight": 1.0} -->
 
-where $\mathbf{X} \otimes \mathbf{U}$ defines the vector of all product combinations of the components in $\mathbf{x}$ and $\mathbf{u}$. This library may include any functions that might describe the data. The choice of a suitable library is crucial. The recommended strategy is to start with a basic choice, such as low-order polynomials, and then increase the complexity and order of the library until sparse and accurate models are obtained.
+In addition to evaluating the library, we must compute the time derivatives of the state $\overset{˙}{\mathbf{X}} = \left\lbrack {{\overset{˙}{\mathbf{x}}}_{1}{\overset{˙}{\mathbf{x}}}_{2}\cdots{\overset{˙}{\mathbf{x}}}_{m}} \right\rbrack$, typically by numerical differentiation. The system in Eq. may then be written in terms of these data matrices as: Many dynamical systems have relatively few active terms in the governing equations.
 
 <!-- chunk {"id": "body-0013", "role": "body", "section": "II-A Sparse identification of nonlinear dynamics with control", "weight": 1.0} -->
 
-In addition to evaluating the library, we must compute the time derivatives of the state $\overset{˙}{\mathbf{X}} = \left\lbrack {{\overset{˙}{\mathbf{x}}}_{1}{\overset{˙}{\mathbf{x}}}_{2}\cdots{\overset{˙}{\mathbf{x}}}_{m}} \right\rbrack$, typically by numerical differentiation. The system in Eq.
+Thus, the coefficients $\mathbf{\Xi}$ are mostly sparse and we may employ sparse regression to identify the sparse matrix of coefficients $\mathbf{\Xi}$ signifying the fewest nonlinearities in our library that results in a good model fit: ${\overset{˙}{\mathbf{X}}}_{k}$ is the $k$-th row of $\overset{˙}{\mathbf{X}}$, $\xi_{k}$ is the $k$-th row of $\mathbf{\Xi}$, and $\lambda$ is the sparsity-promoting hyperparameter. The term $\parallel \cdot \parallel_{0}$ promotes sparsity in the coefficient vector $\xi_{k}$, although it is not convex. To approximately solve this optimization, we use sequential thresholded least squares (STLS).
 
 <!-- chunk {"id": "body-0014", "role": "body", "section": "II-A Sparse identification of nonlinear dynamics with control", "weight": 1.0} -->
 
-Many dynamical systems have relatively few active terms in the governing equations.
+SINDy is closely related to DMD, which extracts spatiotemporal coherent structures from high-dimensional data, along with a linear model for how their amplitudes evolve. DMD performs a similar regression to identify a linear discrete-time model $\mathbf{A}$ mapping $\mathbf{X}$ to $\mathbf{X}'$, a matrix with all columns advanced one time step: $\mathbf{X}' = {\mathbf{A}\mathbf{X}}$. If we formulate SINDy in discrete-time with linear library elements and with $\lambda = 0$, SINDy reduces to DMD. It was shown that in many cases, an identified DMD model may be sufficiently accurate to perform control, even for strongly nonlinear dynamical systems. DMD may also provide a useful model until SINDy has collected enough data to accurately characterize the dynamics. The *extended DMD* algorithm, which seeks linear models in terms of a higher-dimensional state augmented with nonlinear functions of the original variables, has also been used for MPC; these DMD-based control approaches are reviewed.
 
-<!-- chunk {"id": "body-0015", "role": "body", "section": "II-A Sparse identification of nonlinear dynamics with control", "weight": 1.0} -->
-
-${\overset{˙}{\mathbf{X}}}_{k}$ is the $k$-th row of $\overset{˙}{\mathbf{X}}$, $\xi_{k}$ is the $k$-th row of $\mathbf{\Xi}$, and $\lambda$ is the sparsity-promoting hyperparameter. The term $\parallel \cdot \parallel_{0}$ promotes sparsity in the coefficient vector $\xi_{k}$, although it is not convex. To approximately solve this optimization, we use sequential thresholded least squares (STLS).
-
-<!-- chunk {"id": "body-0016", "role": "body", "section": "II-A Sparse identification of nonlinear dynamics with control", "weight": 1.0} -->
-
-SINDy is closely related to DMD, which extracts spatiotemporal coherent structures from high-dimensional data, along with a linear model for how their amplitudes evolve. DMD performs a similar regression to identify a linear discrete-time model $\mathbf{A}$ mapping $\mathbf{X}$ to $\mathbf{X}^{\prime}$, a matrix with all columns advanced one time step: $\mathbf{X}^{\prime} = {\mathbf{A}\mathbf{X}}$. If we formulate SINDy in discrete-time with linear library elements and with $\lambda = 0$, SINDy reduces to DMD. It was shown that in many cases, an identified DMD model may be sufficiently accurate to perform control, even for strongly nonlinear dynamical systems. DMD may also provide a useful model until SINDy has collected enough data to accurately characterize the dynamics. The *extended DMD* algorithm, which seeks linear models in terms of a higher-dimensional state augmented with nonlinear functions of the original variables, has also been used for MPC; these DMD-based control approaches are reviewed.
-
-<!-- chunk {"id": "body-0017", "role": "body", "section": "II-B Model predictive control", "weight": 1.0} -->
+<!-- chunk {"id": "body-0015", "role": "body", "section": "II-B Model predictive control", "weight": 1.0} -->
 
 This tutorial explores the use of SINDy models for model predictive control. MPC is an effective model-based control, which has revolutionized the industrial control landscape. MPC enables the control of strongly nonlinear systems with constraints, time delays, non-minimum phase dynamics, and instability. These systems are difficult to control using traditional linear approaches.
 
-<!-- chunk {"id": "body-0018", "role": "body", "section": "II-B Model predictive control", "weight": 1.0} -->
+<!-- chunk {"id": "body-0016", "role": "body", "section": "II-B Model predictive control", "weight": 1.0} -->
 
 In MPC, we compute a control sequence ${\mathbf{u}{(\mathbf{x}_{j})}} = {\{\mathbf{u}_{j + 1},\ldots,\mathbf{u}_{j + m_{c}}\}}$, given the current state estimate or measurement $\mathbf{x}_{j}$, by a constrained optimization over a receding horizon $T_{c} = {m_{c}\Deltat}$, with $\Deltat$ the time step of the model and $m_{c}$ the number of time steps. At each time step, we repeat the optimization, update the control sequence over the control horizon, and apply the first control action $\mathbf{u}_{j + 1}$ to the system.
 
+<!-- chunk {"id": "body-0017", "role": "body", "section": "II-B Model predictive control", "weight": 1.0} -->
+
+The optimal control sequence $\mathbf{u}{(\mathbf{x}_{j})}$ is obtained by minimizing a cost function $J$ over a prediction horizon $T_{p} = {m_{p}\Deltat} \geq T_{c}$. The cost function is: subject to the discrete-time dynamics and constraints. The cost function $J$ penalizes deviations of the predicted state $\hat{\mathbf{x}}$ from the reference trajectory $\mathbf{r}$, the control expenditure $\mathbf{u}$, and the rate of change of the control signal $\Delta\mathbf{u}$. Each term is weighted by the matrices Q, $\text{R}_{u}$, and $\text{R}_{\Deltau}$, respectively. To enable this optimization loop to run in real-time, MPC relies on efficient models and high-performance computing.
+
+<!-- chunk {"id": "body-0018", "role": "body", "section": "II-B Model predictive control", "weight": 1.0} -->
+
+This is particularly challenging for systems where the control must rapidly respond to disturbances on short time-scales, as time delays from sensors, signal transduction, or processing can destroy the robustness of feedback control, putting limitations on the achievable performance.
+
 <!-- chunk {"id": "body-0019", "role": "body", "section": "II-B Model predictive control", "weight": 1.0} -->
-
-The optimal control sequence $\mathbf{u}{(\mathbf{x}_{j})}$ is obtained by minimizing a cost function $J$ over a prediction horizon $T_{p} = {m_{p}\Deltat} \geq T_{c}$.
-
-<!-- chunk {"id": "body-0020", "role": "body", "section": "II-B Model predictive control", "weight": 1.0} -->
-
-subject to the discrete-time dynamics and constraints. The cost function $J$ penalizes deviations of the predicted state $\hat{\mathbf{x}}$ from the reference trajectory $\mathbf{r}$, the control expenditure $\mathbf{u}$, and the rate of change of the control signal $\Delta\mathbf{u}$. Each term is weighted by the matrices Q, $\text{R}_{u}$, and $\text{R}_{\Deltau}$, respectively. To enable this optimization loop to run in real-time, MPC relies on efficient models and high-performance computing. This is particularly challenging for systems where the control must rapidly respond to disturbances on short time-scales, as time delays from sensors, signal transduction, or processing can destroy the robustness of feedback control, putting limitations on the achievable performance.
-
-<!-- chunk {"id": "body-0021", "role": "body", "section": "II-B Model predictive control", "weight": 1.0} -->
 
 The advantage of MPC lies in simple and intuitive tuning and the ability to control complex phenomena, especially with known constraints and multiple operating conditions. It also works for systems with time delays and provides the flexibility to formulate and tailor a control objective. The major challenge of MPC lies in the development of a suitable model via system identification. Nonlinear models based on machine learning are increasingly used. However, these techniques often rely on access to massive data sets, have limited ability to generalize, do not readily incorporate known physical constraints, and require expensive and time-consuming computations. Instead, Kaiser et al. showed that simple models obtained via DMD with control and SINDy with control perform nearly as well with MPC on a full nonlinear model, and may be trained in a surprisingly short amount of time.
 
-<!-- chunk {"id": "body-0022", "role": "body", "section": "TUTORIAL ON INFECTIOUS DISEASE", "weight": 1.0} -->
+<!-- chunk {"id": "body-0020", "role": "body", "section": "TUTORIAL ON INFECTIOUS DISEASE", "weight": 1.0} -->
 
 We now introduce an infectious disease control problem and demonstrate SINDy-MPC to control the spread of the disease. We present the main code snippets directly in this tutorial.
 
-<!-- chunk {"id": "body-0023", "role": "body", "section": "III-A Intervention strategy for infectious disease", "weight": 1.0} -->
+<!-- chunk {"id": "body-0021", "role": "body", "section": "III-A Intervention strategy for infectious disease", "weight": 1.0} -->
 
 We first generate the data using an SEIR (susceptible-exposed-infectious-removed) epidemic model. The SEIR model is a nonlinear system of ordinary differential equations that describes the transition dynamics between four compartments: susceptible $S{(t)}$ (individuals at risk of contracting the disease), exposed $E{(t)}$ (infected individuals but not yet infectious), infectious $I{(t)}$ (individuals capable of transmitting the disease), and removed $R{(t)}$ (recovered or dead individuals).
 
-<!-- chunk {"id": "body-0024", "role": "body", "section": "III-A Intervention strategy for infectious disease", "weight": 1.0} -->
+<!-- chunk {"id": "body-0022", "role": "body", "section": "III-A Intervention strategy for infectious disease", "weight": 1.0} -->
 
 Susceptible individuals contract the virus at a rate of $\betaI{(t)}$, with $\beta$ being the transmission rate per day. The incubation period $1/k$ determines the time to move from the exposed to the infectious compartment. The recovery period $1/\gamma$ determines the time to progress from the infectious to the recovered compartment. The basic reproduction number $R_{0} = {\beta/\gamma}$ is an important estimate of the growth of the pandemic. $R_{0}$ indicates how many infections are generated on average by an infectious individual at the start of a pandemic, when most of the individuals are susceptible. If $R_{0} \leq 1$, the infectious cases are declining and the spread of the disease eventually goes to zero.
 
-<!-- chunk {"id": "body-0025", "role": "body", "section": "III-A Intervention strategy for infectious disease", "weight": 1.0} -->
+<!-- chunk {"id": "body-0023", "role": "body", "section": "III-A Intervention strategy for infectious disease", "weight": 1.0} -->
 
 To control the spread of an infectious disease, the reproduction number may be reduced through intervention, such as restricted travel, home confinement, or social distancing. To mitigate the spread, $R_{0}$ needs to be reduced, and to suppress the spread, $R_{0}$ needs to be reduced below one. However, controlling $R_{0}$ may come at a significant social and economic cost, resulting in a challenging optimization problem to design intervention policies. An in-depth discussion of feedback control of infectious disease in the context of COVID-19 was recently reported by Stewart et al..
 
-<!-- chunk {"id": "body-0026", "role": "body", "section": "III-B SINDy-MPC", "weight": 1.0} -->
+<!-- chunk {"id": "body-0024", "role": "body", "section": "III-B SINDy-MPC", "weight": 1.0} -->
 
 In this tutorial, we use SINDy-MPC to control the spread of an arbitrary infectious disease by directly controlling the transmission rate $\beta = {u{(t)}}$. Using MPC, we can define constraints on the maximum health care capacity and tailor a control objective considering social cost and economic cost by specifying the cost function weights Q, $\text{R}_{u}$, and $\text{R}_{\Deltau}$. The main challenge of MPC is the development of an accurate and computationally efficient model. To identify the nonlinear dynamical system describing the spread of the infectious disease, we use the SINDy with control algorithm, assuming that the dynamical system has relatively few active terms. Because these models are sparse by construction, they avoid overfitting, and are more computationally efficient than many other models, so they may be used in real-time and may be identified from relatively small amounts of training data, compared with neural networks. The model training and validation, along with the performance of the models for MPC, are shown in figure 3. For comparison, SINDy-based MPC and DMD-based MPC are both presented.
 
-<!-- chunk {"id": "body-0027", "role": "body", "section": "III-B SINDy-MPC", "weight": 1.0} -->
+<!-- chunk {"id": "body-0025", "role": "body", "section": "III-B SINDy-MPC", "weight": 1.0} -->
 
 The state of our system is $\mathbf{x} = {\lbrack S,E,I,R\rbrack}$, and we assume that we can control the transmission rate $\beta$ by specific interventions, so the control input is ${u{(t)}} = {\beta{(t)}} = {\beta_{0} - {\beta_{c}{(t)}}}$. The constant parameters of the true SEIR dynamics are set to $\beta_{0} = 0.5$, $\gamma = 0.2$, and $k = 0.2$. First, we generate the training data with a discrete control input over 100 days. The control input is a pseudo-random binary signal (PRBS), which is a deterministic signal with white-noise-like properties. This represents different potential interventions with respective impact on the transmission rate. Code 1 generates the data for the forced SEIR dynamics.
 
-<!-- chunk {"id": "body-0028", "role": "body", "section": "III-B SINDy-MPC", "weight": 1.0} -->
+<!-- chunk {"id": "body-0026", "role": "body", "section": "III-B SINDy-MPC", "weight": 1.0} -->
 
-u = prbsForcing(tspan); % PRBS forcing function
-[t,x]=ode45(@(t,x) SEIR(t,x,u,p),tspan,x0);
-%% Compute true derivatives
-Code 1: Generating SEIR data.
+u = prbsForcing(tspan); % PRBS forcing function [t,x]=ode45(@(t,x) SEIR(t,x,u,p),tspan,x0);%% Compute true derivatives Code 1: Generating SEIR data.
 
-<!-- chunk {"id": "body-0029", "role": "body", "section": "III-B SINDy-MPC", "weight": 1.0} -->
+<!-- chunk {"id": "body-0027", "role": "body", "section": "III-B SINDy-MPC", "weight": 1.0} -->
 
 After collecting the data, we run the SINDy with control algorithm to identify a sparse nonlinear model. First, we build the library of candidate functions $\mathbf{\Theta}$. Here, we use polynomials up to third order. We set the sparsification hyperparameter to $\lambda = 0.1$ and run the SINDy algorithm using the sequential threshold least squares approach. Code 2 runs SINDy with the functions poolData and sparsifyDynamics that are introduced in and can be found on GitHub.
 
-<!-- chunk {"id": "body-0030", "role": "body", "section": "III-B SINDy-MPC", "weight": 1.0} -->
+<!-- chunk {"id": "body-0028", "role": "body", "section": "III-B SINDy-MPC", "weight": 1.0} -->
 
-%% Build library and compute sparse regression
-Theta = poolData(x,n,3); % Up to 3rd order polynom
-lambda = 0.1; % Sparsification hyperparameter
-Xi = sparsifyDynamics(Theta,dx,lambda,n); % STLS
-Code 2: Running SINDy with control.
+%% Build library and compute sparse regression Theta = poolData(x,n,3); % Up to 3rd order polynom lambda = 0.1; % Sparsification hyperparameter Xi = sparsifyDynamics(Theta,dx,lambda,n); % STLS Code 2: Running SINDy with control.
 
-<!-- chunk {"id": "body-0031", "role": "body", "section": "III-B SINDy-MPC", "weight": 1.0} -->
+<!-- chunk {"id": "body-0029", "role": "body", "section": "III-B SINDy-MPC", "weight": 1.0} -->
 
 The control objective is to minimize the number of infected individuals at lowest control expenditure. Additionally, given the maximum health care system capacity (e.g. number of ICU beds), we define a constraint on the number of infected individuals. Here, the reference is $\mathbf{r} = {}$ and the weight matrices are $\text{Q} = {{diag}{}}$ and $\text{R}_{u} = \text{R}_{\Deltau} = 0.1$. The control input is limited to $u = {\lbrack 0.15,0.5\rbrack}$, the control is updated once a week and the control and prediction horizon are $m_{p} = m_{c} = {14{days}}$. The constraint on the maximum number of infected individuals is set to $5\%$ of the total population. Code 3 initializes the MPC problem and runs the SINDy-MPC loop.
 
-<!-- chunk {"id": "body-0032", "role": "body", "section": "III-B SINDy-MPC", "weight": 1.0} -->
+<!-- chunk {"id": "body-0030", "role": "body", "section": "III-B SINDy-MPC", "weight": 1.0} -->
 
-pMPC = MPCparams; % define control parameters
-x = x0; uopt = pMPC.uopt0;
-%% Run nonlinear MPC with full-state feedback
-for i = 1:(pMPC.Duration/pMPC.Ts)
-% Cost and constraint function
-COST = @(u) CostFCN(u,x,pMPC,uopt);
-CONS = @(u) ConstraintFCN(u,x,pMPC);
-uopt = fmincon(COST,uopt,pMPC,CONS);
-% Apply control and step one timestep forward
-x = rk4u(@SEIR,x,uopt,pMPC.Ts,1 params);
-Code 3: Initializing and running SINDy-MPC.
+pMPC = MPCparams; % define control parameters x = x0; uopt = pMPC.uopt0;%% Run nonlinear MPC with full-state feedback for i = 1:(pMPC.Duration/pMPC.Ts)% Cost and constraint function COST = @(u) CostFCN(u,x,pMPC,uopt); CONS = @(u) ConstraintFCN(u,x,pMPC); uopt = fmincon(COST,uopt,pMPC,CONS);% Apply control and step one timestep forward x = rk4u(@SEIR,x,uopt,pMPC.Ts,1 params); Code 3: Initializing and running SINDy-MPC.
 
-<!-- chunk {"id": "body-0033", "role": "body", "section": "III-B SINDy-MPC", "weight": 1.0} -->
+<!-- chunk {"id": "body-0031", "role": "body", "section": "III-B SINDy-MPC", "weight": 1.0} -->
 
 In figure 3, the results of the MPC infectious disease intervention are shown. We use SINDy to identify nonlinear models and compare SINDy-MPC with linear DMD-MPC. On the left of figure 3 in panel a), we show the identification (training, grey background) and prediction (testing, white background) for DMD and SINDy. The control inputs are the same PRBS for SINDy and DMD, shown on the bottom. We see that the SINDy model perfectly predicts the true SEIR dynamics (we only show the infectious population for clarity). The linear DMD model is unstable, diverging after 150 days, and has low predictive performance compared to the SINDy model. We may therefore presume that the DMD model will perform poorly in MPC.
 
-<!-- chunk {"id": "body-0034", "role": "body", "section": "III-B SINDy-MPC", "weight": 1.0} -->
+<!-- chunk {"id": "body-0032", "role": "body", "section": "III-B SINDy-MPC", "weight": 1.0} -->
 
 In panel b) of figure 3, we show the performance of the SINDy-MPC and compare it with the DMD-MPC. We run both methods with and without constraining the maximum number of infectious individuals (constraint: $I \leq 0.05$, or $5\%$ of the total population). First, we observe that the SINDy-MPC without the constraint can reduce the number of infectious cases from 11.5% to 7.5%. After adding the constraint, the SINDy-${MPC}_{c}$ can successfully reduce the number of infectious cases below 5%. We observe that the DMD model under predicts the effect of actuation: the model suggests that further interventions would not reduce the number of cases significantly, and therefore keeps the control and interventions at a lower level. For the constrained case, DMD-${MPC}_{c}$ is able to reduce the cases below 5%. The strategy is more uncoordinated and at higher cost compared to the SINDy-${MPC}_{c}$.
 
-<!-- chunk {"id": "body-0035", "role": "body", "section": "III-B SINDy-MPC", "weight": 1.0} -->
+<!-- chunk {"id": "body-0033", "role": "body", "section": "III-B SINDy-MPC", "weight": 1.0} -->
 
 However, given the poor predictive accuracy of the DMD model, the DMD-MPC performs surprisingly well, at least over the first third of the spread of the disease. We can conclude that DMD models can be of great use, even if their predictive performance is poor. Additionally, these models may be trained with very little data. Therefore, they can be of use in the low-data limit until enough data is collected to identify an accurate SINDy model for control. As concluded, SINDy-MPC provides effective and efficient nonlinear control, with DMD as a stopgap until a SINDy model can be identified.
 
-<!-- chunk {"id": "body-0036", "role": "body", "section": "Discussion", "weight": 1.5} -->
+<!-- chunk {"id": "body-0034", "role": "body", "section": "Discussion", "weight": 1.5} -->
 
 In this tutorial, we explored the use of data-driven model discovery techniques to identify computationally tractable and accurate models of nonlinear systems for model-based control. In particular, we demonstrated how SINDy with control can be combined with MPC for infectious disease control. We have included example codes throughout to help clarify these concepts. Our goal in providing open-source code for this tutorial is to encourage the reader to test the assumptions, explore modifications, and adapt these algorithms to their own nonlinear control problems.
 
-<!-- chunk {"id": "body-0037", "role": "body", "section": "Discussion", "weight": 1.5} -->
+<!-- chunk {"id": "body-0035", "role": "body", "section": "Discussion", "weight": 1.5} -->
 
 We have made certain assumptions to simplify the SINDy modeling and control procedure. We encourage users to implement their own modeling assumptions: changing the numerical differentiation method (assuming we can not measure the derivatives), changing the library functions, the sparse regression algorithm, or investigating different values for the sparsity-promoting hyperparameter $\lambda$ (e.g. using information criteria such as AIC or BIC ). We also encourage the user to investigate different forcing functions and the amount of training data needed to identify models. Forcing the dynamics with single impulses and steps, phase-shifted sum of sinusoids, or other PRBS forcing, will change the condition number of the library $\mathbf{\Theta}$, and hence how accurately the model may be identified from limited or noisy data. Real-world systems will inevitably have measurement noise and disturbances, which is also important to explore. It is also interesting to compare DMD-MPC and SINDy-MPC with MPC based on a neural network. Neural networks require significantly more training data and have higher execution time compared to DMD and SINDy. However, they provide a more flexible representation of the dynamics when the model structure varies in state-space.
 
-<!-- chunk {"id": "body-0038", "role": "body", "section": "Discussion", "weight": 1.5} -->
+<!-- chunk {"id": "body-0036", "role": "body", "section": "Discussion", "weight": 1.5} -->
 
 To test this, the code may be modified so the SEIR parameters vary over the course of the spread of the disease. We also encourage the user to implement different control strategies (e.g. vaccination and quarantine control ), test different initial conditions, extend the SEIR model to consider other compartments, or completely replace the SEIR dynamics with other nonlinear dynamical systems.

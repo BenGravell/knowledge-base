@@ -20,7 +20,7 @@ While summing forecasts for the most disaggregated level (called *bottom-up*) wi
 
 <!-- chunk {"id": "body-0005", "role": "body", "section": "Introduction", "weight": 1.5} -->
 
-There is substantial interest on Hierarchical Forecasting from both industry and academia, as shown by the international forecasting competitions GEFCOM2012 and M5, and the Machine Learning (ML) community's growing interest in the topic (Rangapuram et al. Han et al. Paria et al. Olivares et al. Kamarthi et al. Panagiotelis et al., ).
+There is substantial interest on Hierarchical Forecasting from both industry and academia, as shown by the international forecasting competitions GEFCOM2012 and M5, and the Machine Learning (ML) community's growing interest in the topic.
 
 <!-- chunk {"id": "body-0006", "role": "body", "section": "Introduction", "weight": 1.5} -->
 
@@ -28,20 +28,19 @@ An enabling condition for the systematic development of useful forecasting metho
 
 <!-- chunk {"id": "body-0007", "role": "body", "section": "Introduction", "weight": 1.5} -->
 
-We introduce the open-source benchmark library HierarchicalForecastto tackle these challenges^11^1License: CC-by 4.0, see
-Code and documentation are available in Our work builds upon Python's fastest open-source ETS/ARIMA^22^2Autoregressive Integrated Moving Average (ARIMA) and Exponential Smoothing (ETS) are two of the most important univariate forecasting baseline methods. implementations and well-performing neural forecasting methods to improve the availability, utility, and adoption of hierarchical forecast reference baselines.
+We introduce the open-source benchmark library HierarchicalForecastto tackle these challenges^11^1License: CC-by 4.0, see Code and documentation are available in Our work builds upon Python's fastest open-source ETS/ARIMA^22^2Autoregressive Integrated Moving Average (ARIMA) and Exponential Smoothing (ETS) are two of the most important univariate forecasting baseline methods. implementations and well-performing neural forecasting methods to improve the availability, utility, and adoption of hierarchical forecast reference baselines.
 
 <!-- chunk {"id": "body-0008", "role": "body", "section": "Library description (/features)", "weight": 1.0} -->
 
-Minimal dependencies. Our library is built with minimal dependencies using NumPy for linear algebra and array operations, Pandas for data manipulation and sklearn for predictive modeling. We compute base forecasts using the statsforecast package, which provides the fastest implementations of AutoARIMA and AutoETS based on NumBa. This just-in-time compiler optimizes Python's NumPy code to reach execution speed attainable with native C language code.
+Compared to existing hierarchical forecasting software libraries, HierarchicalForecast has the following distinctive features: Minimal dependencies. Our library is built with minimal dependencies using NumPy for linear algebra and array operations, Pandas for data manipulation and sklearn for predictive modeling. We compute base forecasts using the statsforecast package, which provides the fastest implementations of AutoARIMA and AutoETS based on NumBa. This just-in-time compiler optimizes Python's NumPy code to reach execution speed attainable with native C language code.
 
 <!-- chunk {"id": "body-0009", "role": "body", "section": "Library description (/features)", "weight": 1.0} -->
 
-Comprehensive set of hierarchical forecasting methods. Some hierarchical forecasting Python implementations are available in the following packages: gluonts, darts, scikit-hts, sktime, and pyhts. However, as seen in Table ‣ HierarchicalForecast: A Reference Framework for Hierarchical Forecasting"), each of these libraries only hosts a subset of the State-Of-The-Art (SOTA) methods. Our library provides unified access to a comprehensive set of these methods and enables robust performance validation of the implementations to ensure the Python community's access to efficient and reliable baselines. HierarchicalForecast's curated collection of reference algorithms includes BottomUp (Orcutt et al. Dunn et al., ), TopDown (Gross and Sohl Fliedner, ), MiddleOut, MinTrace, and ERM for point forecasting, and it is the only Python library so far that includes SOTA probabilistic forecasting methods, including PERMBU, NORMALITY, and BOOTSTRAP.
+Comprehensive set of hierarchical forecasting methods. Some hierarchical forecasting Python implementations are available in the following packages: gluonts, darts, scikit-hts, sktime, and pyhts. However, as seen in Table 1 ‣ HierarchicalForecast: A Reference Framework for Hierarchical Forecasting"), each of these libraries only hosts a subset of the State-Of-The-Art (SOTA) methods. Our library provides unified access to a comprehensive set of these methods and enables robust performance validation of the implementations to ensure the Python community's access to efficient and reliable baselines. HierarchicalForecast's curated collection of reference algorithms includes BottomUp, TopDown, MiddleOut, MinTrace, and ERM for point forecasting, and it is the only Python library so far that includes SOTA probabilistic forecasting methods, including PERMBU, NORMALITY, and BOOTSTRAP.
 
 <!-- chunk {"id": "body-0010", "role": "body", "section": "Library description (/features)", "weight": 1.0} -->
 
-Forecast evaluation and visualization. Our library facilitates a complete forecast evaluation across the levels of the hierarchical structure. It includes multiple standard accuracy measures for point forecasts. Furthermore, it also includes multiple scoring rules to evaluate probabilistic forecasts, such as the multivariate logarithmic and energy scores and the univariate scaled continuous ranked probability score (sCRPS) (Gneiting Olivares et al. Makridakis et al., ). In addition to the forecast accuracy evaluation tools, the package provides specialized visualization tools.
+Forecast evaluation and visualization. Our library facilitates a complete forecast evaluation across the levels of the hierarchical structure. It includes multiple standard accuracy measures for point forecasts. Furthermore, it also includes multiple scoring rules to evaluate probabilistic forecasts, such as the multivariate logarithmic and energy scores and the univariate scaled continuous ranked probability score (sCRPS). In addition to the forecast accuracy evaluation tools, the package provides specialized visualization tools.
 
 <!-- chunk {"id": "body-0011", "role": "body", "section": "Library description (/features)", "weight": 1.0} -->
 
@@ -57,25 +56,12 @@ The code example below highlights the usability and wide rate of available recon
 
 <!-- chunk {"id": "body-0014", "role": "body", "section": "Usage Example and Benchmarks", "weight": 1.0} -->
 
-1 TopDown/PERMBU results are unavailable because, they cannot be applied to group hierarchical structures.
-2 The combinations NORMALITY-TopDown and BOOTSTRAP-TopDown are yet to be implemented, this has never been done before.
+1 TopDown/PERMBU results are unavailable because, they cannot be applied to group hierarchical structures. 2 The combinations NORMALITY-TopDown and BOOTSTRAP-TopDown are yet to be implemented, this has never been done before.
 
-<!-- chunk {"id": "body-0015", "role": "body", "section": "Usage Example and Benchmarks", "weight": 1.0} -->
-
-from statsforecast.core import StatsForecast from statsforecast.models import AutoARIMA from datasetsforecast.hierarchical import HierarchicalData from hierarchicalforecast.core import HierarchicalReconciliation from hierarchicalforecast.evaluation import HierarchicalEvaluation from hierarchicalforecast.methods import BottomUp, TopDown, MinTrace
-
-<!-- chunk {"id": "body-0016", "role": "body", "section": "Usage Example and Benchmarks", "weight": 1.0} -->
-
-\# Load Labour dataset Y_df, S_df, tags = HierarchicalData.load('./data', 'Labour') Y_df = Y_df.set_index('unique_id') \# Compute base AutoARIMA predictions and reconcile them fcst = StatsForecast(df=Y_df, models=\[AutoARIMA(season_length=12)\], freq='MS', n_jobs=-1) Y_hat_df = fcst.forecast(h=8, fitted=True) Y_fitted_df = fcst.forecast_fitted_values \# Define reconcilers reconcilers = \[BottomUp, TopDown(method='average_proportions'), MinTrace(method='ols')\] \# Reconcile hrec = HierarchicalReconciliation(reconcilers=reconcilers) Y_rec_df = hrec.reconcile(Y_hat_df, S_df, tags, Y_df=Y_fitted_df, intervals_method='bootstrap',
-
-<!-- chunk {"id": "body-0017", "role": "body", "section": "Usage Example and Benchmarks", "weight": 1.0} -->
-
-Table shows the overall average sCRPS for various HierarchicalForecast reconciliation methods, along with the measurement's 95% confidence intervals for the five datasets. These experimental results are aligned with previous studies' reports (Wickramasuriya et al. Ben Taieb and Koo Rangapuram et al. Olivares et al., ).
-
-<!-- chunk {"id": "body-0018", "role": "body", "section": "Conclusion and Plans", "weight": 1.5} -->
+<!-- chunk {"id": "body-0015", "role": "body", "section": "Conclusion and Plans", "weight": 1.5} -->
 
 We present HierarchicalForecast, a Python open-source library dedicated to hierarchical time series forecasting. The library integrates publicly available processed datasets, evaluation metrics, and a curated set of highly efficient statistical baselines. We provide examples and references to extensive experiments to show how to use the baselines and evaluate their empirical performance. This work will help the Machine Learning forecasting community by bridging the gap between statistical and econometric modeling and providing benchmark tools for developing novel hierarchical forecasting algorithms compared to the well-established methods. We intend to continue maintaining and improving the repository and promoting collaboration across the forecasting research community.
 
-<!-- chunk {"id": "body-0019", "role": "body", "section": "Acknowledments", "weight": 1.0} -->
+<!-- chunk {"id": "body-0016", "role": "body", "section": "Acknowledments", "weight": 1.0} -->
 
 This work was partially supported by the Defense Advanced Research Projects Agency (award FA8750-17-2-0130), the National Science Foundation (grant 2038612), the Space Technology Research Institutes grant from NASA's Space Technology Research Grants Program, the U.S. Department of Homeland Security (award 18DN-ARI-00031), and by the U.S. Army Contracting Command (contracts W911NF20D0002 and W911NF22F0014 delivery order #4). The Fonds de la Recherche Scientifique supported this work -- FNRS under Grant No J.0011.20. Thanks to Pedro Mercado, Syama Rangapuram, and Chirag Nagpal for the in-depth discussion and comments on the literature and library. The authors also thank Shibo Zhou and José Morales for their software contributions.

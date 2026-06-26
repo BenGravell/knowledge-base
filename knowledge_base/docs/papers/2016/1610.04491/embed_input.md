@@ -14,11 +14,11 @@ The linear bandit is the simplest generalisation of the finite-armed bandit. Let
 
 <!-- chunk {"id": "body-0004", "role": "body", "section": "INTRODUCTION", "weight": 1.5} -->
 
-The optimal action is $x^{\ast} = {\underset{x \in \mathcal{A}}{\arg\max}\left\langle x,\theta \right\rangle}$, which is not known since it depends on $\theta$. The assumption that $\mathcal{A}$ spans ${\mathbb{R}}^{d}$ is non-restrictive, since if ${span}{(\mathcal{A})}$ has rank $r < d$, then one can simply use a different basis for which all but $r$ coordinates are always zero and then drop them from the analysis. The Gaussian assumption can be relaxed to $1$-subgaussian for our upper bound, but is needed for the lower bound. Our performance measure is the expected pseudo-regret (from now on just the regret), which is given by
+The optimal action is $x^{\ast} = {\underset{x \in \mathcal{A}}{\arg\max}\left\langle x,\theta \right\rangle}$, which is not known since it depends on $\theta$. The assumption that $\mathcal{A}$ spans ${\mathbb{R}}^{d}$ is non-restrictive, since if ${span}{(\mathcal{A})}$ has rank $r < d$, then one can simply use a different basis for which all but $r$ coordinates are always zero and then drop them from the analysis. The Gaussian assumption can be relaxed to $1$-subgaussian for our upper bound, but is needed for the lower bound. Our performance measure is the expected pseudo-regret (from now on just the regret), which is given by where the expectation is taken with respect to the actions of the strategy and the noise. There are a number of algorithms designed for minimising the regret, all of which use one of two algorithmic designs.
 
 <!-- chunk {"id": "body-0005", "role": "body", "section": "INTRODUCTION", "weight": 1.5} -->
 
-where the expectation is taken with respect to the actions of the strategy and the noise. There are a number of algorithms designed for minimising the regret, all of which use one of two algorithmic designs. The first is the principle of optimism in the face of uncertainty, which was originally applied to finite-armed bandits by Agrawal; Katehakis and Robbins; Auer et al. and many others, and more recently to linear bandits. The second algorithm design is Thompson sampling, which is an old algorithm that has experienced a resurgence in popularity because of its impressive practical performance and theoretical guarantees for finite-armed bandits. Thompson sampling has also recently been applied to linear bandits with good empirical performance and near-minimax theoretical guarantees.
+The first is the principle of optimism in the face of uncertainty, which was originally applied to finite-armed bandits by Agrawal; Katehakis and Robbins; Auer et al. and many others, and more recently to linear bandits. The second algorithm design is Thompson sampling, which is an old algorithm that has experienced a resurgence in popularity because of its impressive practical performance and theoretical guarantees for finite-armed bandits. Thompson sampling has also recently been applied to linear bandits with good empirical performance and near-minimax theoretical guarantees.
 
 <!-- chunk {"id": "body-0006", "role": "body", "section": "INTRODUCTION", "weight": 1.5} -->
 
@@ -34,27 +34,27 @@ It is worth mentioning that partial monitoring (a more complicated online learni
 
 <!-- chunk {"id": "body-0009", "role": "body", "section": "LOWER BOUND", "weight": 1.0} -->
 
-We note first that the finite-armed UCB algorithm of Agrawal; Katehakis and Robbins can be used on this problem by disregarding the structure on the arms to achieve an asymptotic regret of
+We note first that the finite-armed UCB algorithm of Agrawal; Katehakis and Robbins can be used on this problem by disregarding the structure on the arms to achieve an asymptotic regret of This quantity depends *linearly* on the number of suboptimal arms, which may be very large (much larger than the dimension) and is very undesirable. Nevertheless we immediately observe that the asymptotic regret should be logarithmic. The following theorem and its corollary characterises the optimal asymptotic regret.
 
-<!-- chunk {"id": "body-0010", "role": "body", "section": "LOWER BOUND", "weight": 1.0} -->
+<!-- chunk {"id": "body-0010", "role": "body", "section": "Example 3 (Finite armed bandits)", "weight": 1.0} -->
 
-This quantity depends *linearly* on the number of suboptimal arms, which may be very large (much larger than the dimension) and is very undesirable. Nevertheless we immediately observe that the asymptotic regret should be logarithmic. The following theorem and its corollary characterises the optimal asymptotic regret.
+Suppose $k = d$ and $\mathcal{A} = \left\{ e_{1},\ldots,e_{k} \right\}$ be the standard basis vectors. Then which recovers the lower bound by Lai and Robbins.
 
-<!-- chunk {"id": "body-0011", "role": "body", "section": "Example 3 (Finite armed bandits)", "weight": 1.0} -->
-
-which recovers the lower bound by Lai and Robbins.
-
-<!-- chunk {"id": "body-0012", "role": "body", "section": "Example 4", "weight": 1.0} -->
+<!-- chunk {"id": "body-0011", "role": "body", "section": "Example 4", "weight": 1.0} -->
 
 The reason is that $x_{1}$ and $x_{3}$ are pointing in nearly the same direction, so learning the difference is very challenging. But determining which of $x_{1}$ and $x_{3}$ is optimal is easy by playing $x_{2}$. So we see that in linear bandits there is a complicated trade-off between information and regret that makes the structure of the optimal strategy more interesting than in the finite setting.
 
-<!-- chunk {"id": "body-0013", "role": "body", "section": "Example 4", "weight": 1.0} -->
+<!-- chunk {"id": "body-0012", "role": "body", "section": "Example 4", "weight": 1.0} -->
 
 The closest prior work to our lower bound is by Komiyama et al. and Agrawal et al.. The latter consider stochastic partial monitoring when the reward is part of the observation. In this setting in each round, the learner selects one of finitely many actions and receives an observation from a distribution that depends on the action chosen and an unknown parameter, but is otherwise known. While this model could cover our setting, the results in the paper are developed only for the case when the unknown parameter belongs to a finite set, an assumption that all the results of the paper heavily depend. Komiyama et al. on the other hand restricts partial monitoring to the case when the observations belong to a finite set, while the parameter belongs to the unit simplex. While this problem also has a linear structure, their results do not generalize beyond the discrete observation setting.
 
+<!-- chunk {"id": "body-0013", "role": "body", "section": "Remark 7", "weight": 1.0} -->
+
+The uniqueness assumption of the theorem can be lifted at the price of more work and by slightly changing the theorem statement. In particular, the theorem statement must be restricted to those suboptimal actions $x \in \mathcal{A}^{-}$ that can be made optimal by changing $\theta$ to $\theta'$, while none of the optimal actions ${\mathcal{A}^{\ast}{(\theta)}} = {\{{x \in \mathcal{A}}:{{\langle x,\theta\rangle} = {\max_{y \in \mathcal{A}}{\langle y,\theta\rangle}}}\}}$ are optimal.
+
 <!-- chunk {"id": "body-0014", "role": "body", "section": "Remark 7", "weight": 1.0} -->
 
-The uniqueness assumption of the theorem can be lifted at the price of more work and by slightly changing the theorem statement. In particular, the theorem statement must be restricted to those suboptimal actions $x \in \mathcal{A}^{-}$ that can be made optimal by changing $\theta$ to $\theta^{\prime}$, while none of the optimal actions ${\mathcal{A}^{\ast}{(\theta)}} = {\{{x \in \mathcal{A}}:{{\langle x,\theta\rangle} = {\max_{y \in \mathcal{A}}{\langle y,\theta\rangle}}}\}}$ are optimal.
+The choice of $\theta'$ would still be as before, except that $x^{\ast}$ is selected as the optimal action under $\theta$ that maximizes ${c{(H,\theta)}} = {\inf_{x' \in {\mathcal{A}^{\ast}{(\theta)}}}{\langle{x - x'},{x - x^{\ast}}\rangle}_{H}}$. Then, in the proof, $T_{\ast}{(n)}$ has to be redefined to be $\sum_{x \in {\mathcal{A}^{\ast}{(\theta)}}}{T_{x}{(n)}}$ (the total number of times an optimal action is chosen), and at the end one also needs to show that the chosen $H$ satisfies ${c{(H,\theta)}} > 0$.
 
 <!-- chunk {"id": "body-0015", "role": "body", "section": "Remark 7", "weight": 1.0} -->
 
@@ -74,36 +74,32 @@ We now argue that algorithms based on optimism or Thompson sampling cannot be cl
 
 <!-- chunk {"id": "body-0019", "role": "body", "section": "SUB-OPTIMALITY OF OPTIMISM AND THOMPSON SAMPLING", "weight": 1.0} -->
 
-First of all, we will assume that ${\mathbb{P}}\left( \exists t \leq n:\theta \notin \mathcal{C}_{t} \right) = O{(1/n)}$. That is, that the probability that the true parameter is ever outside the confidence set is not too large. Second, we assume that $\mathcal{C}_{t} \subseteq \mathcal{E}_{t}$ where $\mathcal{E}_{t}$ is the ellipsoid about the least squares estimator given by
+First of all, we will assume that ${\mathbb{P}}\left(\exists t \leq n:\theta \notin \mathcal{C}_{t} \right) = O{(1/n)}$. That is, that the probability that the true parameter is ever outside the confidence set is not too large. Second, we assume that $\mathcal{C}_{t} \subseteq \mathcal{E}_{t}$ where $\mathcal{E}_{t}$ is the ellipsoid about the least squares estimator given by where $\alpha$ is some constant and $\hat{\theta}{(t)}$ is the empirical estimate of $\theta$ based on the observations so far. Existing algorithms based on confidence all use such confidence sets.
 
 <!-- chunk {"id": "body-0020", "role": "body", "section": "SUB-OPTIMALITY OF OPTIMISM AND THOMPSON SAMPLING", "weight": 1.0} -->
 
-where $\alpha$ is some constant and $\hat{\theta}{(t)}$ is the empirical estimate of $\theta$ based on the observations so far. Existing algorithms based on confidence all use such confidence sets. Standard wisdom when designing optimistic algorithms is to use the smallest confidence set possible, so an alternative algorithm that used a different form of confidence set would normally be advised to use the intersection $\mathcal{C}_{t} \cap \mathcal{E}_{t}$, which remains valid with high probability by a union bound. If the optimistic algorithm is not consistent, then its regret is not logarithmic on some problem and so diverges relative to the optimal strategy. Suppose now that the algorithm is consistent. Then we design a bandit on which its asymptotic regret is worse than optimal by an arbitrarily large constant factor.
+Standard wisdom when designing optimistic algorithms is to use the smallest confidence set possible, so an alternative algorithm that used a different form of confidence set would normally be advised to use the intersection $\mathcal{C}_{t} \cap \mathcal{E}_{t}$, which remains valid with high probability by a union bound. If the optimistic algorithm is not consistent, then its regret is not logarithmic on some problem and so diverges relative to the optimal strategy. Suppose now that the algorithm is consistent. Then we design a bandit on which its asymptotic regret is worse than optimal by an arbitrarily large constant factor.
 
 <!-- chunk {"id": "body-0021", "role": "body", "section": "SUB-OPTIMALITY OF OPTIMISM AND THOMPSON SAMPLING", "weight": 1.0} -->
 
-But because $\theta \in C_{t}$, the optimistic value of the optimal action is at least ${\langle e_{1},\theta\rangle} = 1$, which means that $A_{t} \neq e_{2}$. We conclude that if $\theta \in C_{t}$ for all rounds, then the optimistic algorithm satisfies ${T_{e_{2}}{({t - 1})}} \leq {1 + {4\alpha{\log{(n)}}}}$. By the assumption that $\theta \in C_{t}$ with probability at least $1 - {1/n}$ we bound ${{\mathbb{E}}{\lbrack{T_{e_{2}}{(n)}}\rbrack}} \leq {2 + {4\alpha{\log{(n)}}}}$. By consistency of the optimistic algorithm and our lower bound (Theorem 1) we have
+By consistency of the optimistic algorithm and our lower bound (Theorem 1) we have Therefore by choosing $\varepsilon$ sufficiently small we conclude that ${\operatorname{lim\ sup}_{n\rightarrow\infty}{{{\mathbb{E}}{\lbrack{T_{x}{(n)}}\rbrack}}/{\log{(n)}}}} = {\Omega{({1/\varepsilon^{2}})}}$ and so the asymptotic regret of the optimistic algorithm is at least However, for small $\varepsilon$ the optimal regret for this problem is ${c{(\mathcal{A},\theta)}} = {128\alpha^{2}}$ and so by choosing $\varepsilon \ll \alpha$ we can see that the optimistic approach is sub-optimal by an arbitrarily large constant factor. The intuition is that the optimistic algorithms very quickly learn that $e_{2}$ is a sub-optimal arm and stop playing it.
 
 <!-- chunk {"id": "body-0022", "role": "body", "section": "SUB-OPTIMALITY OF OPTIMISM AND THOMPSON SAMPLING", "weight": 1.0} -->
 
-Therefore by choosing $\varepsilon$ sufficiently small we conclude that ${\operatorname{lim\ sup}_{n\rightarrow\infty}{{{\mathbb{E}}{\lbrack{T_{x}{(n)}}\rbrack}}/{\log{(n)}}}} = {\Omega{({1/\varepsilon^{2}})}}$ and so the asymptotic regret of the optimistic algorithm is at least
+But as it turns out, the information gained by choosing $e_{2}$ is sufficiently valuable that an optimal algorithm should use it for exploration.
 
 <!-- chunk {"id": "body-0023", "role": "body", "section": "SUB-OPTIMALITY OF OPTIMISM AND THOMPSON SAMPLING", "weight": 1.0} -->
 
-However, for small $\varepsilon$ the optimal regret for this problem is ${c{(\mathcal{A},\theta)}} = {128\alpha^{2}}$ and so by choosing $\varepsilon \ll \alpha$ we can see that the optimistic approach is sub-optimal by an arbitrarily large constant factor. The intuition is that the optimistic algorithms very quickly learn that $e_{2}$ is a sub-optimal arm and stop playing it. But as it turns out, the information gained by choosing $e_{2}$ is sufficiently valuable that an optimal algorithm should use it for exploration.
+Thompson sampling has also been proposed for the linear bandit problem. The standard approach uses a nearly flat Gaussian prior (and so posterior), which means that essentially the algorithm operates by sampling $\theta_{t}$ from $\mathcal{N}{({\hat{\mu}{(t)}},{\alphaG_{t}^{- 1}})}$ and choosing the arm $A_{t} = {\underset{x \in \mathcal{A}}{\arg\max}{\langle x,\theta_{t}\rangle}}$. Why does this approach fail? By the assumption of consistency we expect that the optimal arm will be played all but logarithmically often, which means that the posterior will concentrate quickly about the value of the optimal action so that ${\langle x^{\ast},\theta_{t}\rangle} \approx \mu^{\ast}$.
 
 <!-- chunk {"id": "body-0024", "role": "body", "section": "SUB-OPTIMALITY OF OPTIMISM AND THOMPSON SAMPLING", "weight": 1.0} -->
 
-Thompson sampling has also been proposed for the linear bandit problem. The standard approach uses a nearly flat Gaussian prior (and so posterior), which means that essentially the algorithm operates by sampling $\theta_{t}$ from $\mathcal{N}{({\hat{\mu}{(t)}},{\alphaG_{t}^{- 1}})}$ and choosing the arm $A_{t} = {\underset{x \in \mathcal{A}}{\arg\max}{\langle x,\theta_{t}\rangle}}$. Why does this approach fail? By the assumption of consistency we expect that the optimal arm will be played all but logarithmically often, which means that the posterior will concentrate quickly about the value of the optimal action so that ${\langle x^{\ast},\theta_{t}\rangle} \approx \mu^{\ast}$.
-
-<!-- chunk {"id": "body-0025", "role": "body", "section": "SUB-OPTIMALITY OF OPTIMISM AND THOMPSON SAMPLING", "weight": 1.0} -->
-
 Then using the same counter-example as for the optimistic algorithm we see that the likelihood that ${\langle{e_{2} - e_{1}},\theta_{t}\rangle} \geq 0$ is vanishingly small once ${T_{e_{2}}{({t - 1})}} = {\Omega{({\alpha{\log{(n)}}})}}$ and so Thompson sampling will also fail to sample action $e_{2}$ sufficiently often.
 
-<!-- chunk {"id": "body-0026", "role": "body", "section": "SUMMARY", "weight": 1.0} -->
+<!-- chunk {"id": "body-0025", "role": "body", "section": "SUMMARY", "weight": 1.0} -->
 
 We characterised the optimal asymptotic regret for linear bandits with Gaussian noise and finitely many actions in the sense of Lai and Robbins. The results highlight a surprising fact that all reasonable algorithms based on optimism can be arbitrarily worse than optimal. While this behaviour has been observed before in more complicated settings (notably, partial monitoring), our results are the first to illustrate this issue in a setting only barely more complicated than finite-armed bandits. Besides this we improve the self-normalised concentration guarantees by Abbasi-Yadkori et al. by a factor of $d$ asymptotically.
 
-<!-- chunk {"id": "body-0027", "role": "body", "section": "SUMMARY", "weight": 1.0} -->
+<!-- chunk {"id": "body-0026", "role": "body", "section": "SUMMARY", "weight": 1.0} -->
 
 As usual, we open more questions than we answer. While the proposed strategy is asymptotically optimal, it is also extraordinarily naive and the analysis is far from showing finite-time optimality. For this reason we think the most pressing task is to develop efficient and practical algorithms that exploit the available information in a way that Thompson sampling and optimism do not. There are two natural research directions towards this goal. The first is to push the optimisation approach used here and also by Wu et al., but applied more "smoothly" without discarding data or long phases. The second is to generalise information-theoretic ideas used (for instance) by Russo and Van Roy or Reddy et al..

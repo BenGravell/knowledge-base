@@ -106,7 +106,7 @@ Coverage and diversity. To calculate how much of a scene is covered by the agent
 
 <!-- chunk {"id": "body-0027", "role": "body", "section": "Evaluation metrics for traffic simulation", "weight": 1.0} -->
 
-where ${Wass}{( \cdot, \cdot )}$ is the Wasserstein distance and $\rho_{i}$ is the density profile for the $i$-th trial.
+For $n$ trials of the same scene, we calculate the Wasserstein distances between the ${n{({n - 1})}}/2$ pairs of density profiles and take the mean as a metric for diversity: where ${Wass}{(\cdot, \cdot)}$ is the Wasserstein distance and $\rho_{i}$ is the density profile for the $i$-th trial.
 
 <!-- chunk {"id": "body-0028", "role": "body", "section": "Evaluation metrics for traffic simulation", "weight": 1.0} -->
 
@@ -126,56 +126,52 @@ Simulation environments. As stated above, we initialize our simulation environme
 
 <!-- chunk {"id": "body-0032", "role": "body", "section": "Evaluation setup", "weight": 1.0} -->
 
-Baselines. We consider methods from both the traffic simulation and trajectory prediction literature. SimNet is a deterministic behavior-cloning model for traffic simulation. TrafficSim is an agent-centric adaptation of the original traffic simulation method in that features an isotropic Gaussian CVAE. We remove the scene consistency loss in training since we do not assume control over all agents. SocialGAN learns to generate trajectories through adversarial imitation. TPP is adapted from Trajectron++, comprised of a discrete CVAE with Gaussian trajectory decoder for each discrete mode. We also consider variants of these methods augmented with our planning-and-control module (marked with "+p"), i.e., selecting future action samples with a cost function. We also evaluate ablations of our method, BITS (max) takes the maximum-likelihood action instead of sampling and BITS (sample) samples actions for rollouts without the prediction-and-planning module described in Sec. 3.3. All methods share the same rasterized input format, ResNet-18 encoder backbone, and MLP-based trajectory decoder networks.
+Metrics. As mentioned in Sec. 3.4, designing evaluation metrics for traffic simulation is challenging as there are not single quantities that can summarize the performance of a method, and we cannot easily compare with ground truth dataset trajectories as our goal is to generate new and diverse simulation rollouts. To address this problem, we consider three types of evaluation metrics.
 
 <!-- chunk {"id": "body-0033", "role": "body", "section": "Evaluation setup", "weight": 1.0} -->
 
-Metrics. As mentioned in Sec. 3.4, designing evaluation metrics for traffic simulation is challenging as there are not single quantities that can summarize the performance of a method, and we cannot easily compare with ground truth dataset trajectories as our goal is to generate new and diverse simulation rollouts. To address this problem, we consider three types of evaluation metrics.
+*Environment metrics* measure rule violations, environment coverage, and trajectory diversity. Both coverage and diversity as described in Sec. 3.4 are calculated from 5 simulation trials with different seeds per scene. We define a critical failure as an agent colliding with other agents or driving off-road for more than 1s. Failure Rate (FR) is the average fraction of agents experiencing a critical failure in a scene. We also report raw collision rate (coll) and road departure rate (offroad).
 
 <!-- chunk {"id": "body-0034", "role": "body", "section": "Evaluation setup", "weight": 1.0} -->
 
-*Environment metrics* measure rule violations, environment coverage, and trajectory diversity. Both coverage and diversity as described in Sec. 3.4 are calculated from 5 simulation trials with different seeds per scene. We define a critical failure as an agent colliding with other agents or driving off-road for more than 1s. Failure Rate (FR) is the average fraction of agents experiencing a critical failure in a scene. We also report raw collision rate (coll) and road departure rate (offroad).
+*Dataset metrics* compare simulation and ground truth data statistics. They are computed using a normalized Wasserstein distance between the histograms of the driving profiles of the simulated and recorded trajectories. We focus on speed and jerk, commonly used as driver comfort metrics, in the main paper and include others in the Appendix. We also report scene Average Distance Error (sADE) which measures the average position differences between simulated and recorded trajectories. Note that sADE is not suitable for measuring simulation realism and is included only as a reference since it heavily penalizes alternative simulations (e.g., turning left vs. going straight).
 
 <!-- chunk {"id": "body-0035", "role": "body", "section": "Evaluation setup", "weight": 1.0} -->
 
-*Dataset metrics* compare simulation and ground truth data statistics. They are computed using a normalized Wasserstein distance between the histograms of the driving profiles of the simulated and recorded trajectories. We focus on speed and jerk, commonly used as driver comfort metrics, in the main paper and include others in the Appendix. We also report scene Average Distance Error (sADE) which measures the average position differences between simulated and recorded trajectories. Note that sADE is not suitable for measuring simulation realism and is included only as a reference since it heavily penalizes alternative simulations (e.g., turning left vs. going straight).
-
-<!-- chunk {"id": "body-0036", "role": "body", "section": "Evaluation setup", "weight": 1.0} -->
-
 Finally, *learned metrics* as described in Sec. 3.4 measure simulation realism based on a likelihood model trained from real-world driving log.
 
-<!-- chunk {"id": "body-0037", "role": "body", "section": "Main results", "weight": 1.0} -->
+<!-- chunk {"id": "body-0036", "role": "body", "section": "Main results", "weight": 1.0} -->
 
 Table 1 and Table 2 show quantitative results of closed-loop simulation on Lyft and nuScenes datasets, respectively. Fig. 2 qualitatively visualizes trajectories generated by selected methods and Fig. 3 shows a more detailed analysis on time-to-failure caused by road departure error. We make the following core observations from these results.
 
-<!-- chunk {"id": "body-0038", "role": "body", "section": "Main results", "weight": 1.0} -->
+<!-- chunk {"id": "body-0037", "role": "body", "section": "Main results", "weight": 1.0} -->
 
 Recorded driving data is noisy. As stated above, both datasets contain certain levels of labeling noise indicated by non-zero failure rates for ground truth data (labeled "Dataset\"), with higher noise in Lyft than nuScenes and a majority of errors stemming from vehicle-vehicle collisions due to imprecise bounding box labels. Our method BITS is able to achieve lower failure rates than even the recorded trajectories in both datasets.
 
-<!-- chunk {"id": "body-0039", "role": "body", "section": "Main results", "weight": 1.0} -->
+<!-- chunk {"id": "body-0038", "role": "body", "section": "Main results", "weight": 1.0} -->
 
 Sample efficiency. nuScenes contains far fewer training samples than Lyft, necessitating high sample efficiency in order for a policy to manage compounding errors over long simulations. As shown in Table 2, even without the prediction-and-planning module, both variants of BITS achieve low failure rates compared to other baselines. For a more direct analysis, we also report the mean time-to-failure in Fig. 3, observing that failure rates in nuScenes increase significantly over the course of simulation for the non-hierarchical policy baselines and remain low for BITS and its ablations.
 
-<!-- chunk {"id": "body-0040", "role": "body", "section": "Main results", "weight": 1.0} -->
+<!-- chunk {"id": "body-0039", "role": "body", "section": "Main results", "weight": 1.0} -->
 
 BITS generates diverse and stable simulations. We observe that the baseline methods exhibit trade-offs between generating diverse rollouts and overfitting to a single mode of behaviors. For example, in Lyft, TPP suffers from mode collapse which yields low failure rates at the cost of low diversity. TrafficSim achieves relatively high diversity and coverage, but also high failure rates. This observation is corroborated by the visualizations shown in Fig. 2, where all simulation trials by TPP are visually identical and resembles the ground truth (on right, titled "Dataset\"), and while the trajectories generated by TrafficSim are diverse, some suffer from collisions and road departures. In contrast, BITS simultaneously attains high diversity and coverage with a low failure rate. This contrast is more pronounced in nuScenes where the training set is small. BITS achieves a balanced performance even without the prediction-and-planning module thanks to its high sample efficiency.
 
-<!-- chunk {"id": "body-0041", "role": "body", "section": "Main results", "weight": 1.0} -->
+<!-- chunk {"id": "body-0040", "role": "body", "section": "Main results", "weight": 1.0} -->
 
 Prediction-and-planning is not always effective. The prediction-and-planning module is generally effective in reducing failure rates, with two important exceptions: when action samples are not diverse, and when all action samples lead to failure. Case is exemplified by TPP in the Lyft environment (Fig. 2), where the model's predictions overfit to a single behavior mode. Case is exemplified by SocialGAN in both datasets. While the simulations are relatively diverse, they have high failure rates, entailing poor action sample quality. The prediction-and-planning module has negligible effects on the simulation in both cases.
 
-<!-- chunk {"id": "body-0042", "role": "body", "section": "Main results", "weight": 1.0} -->
+<!-- chunk {"id": "body-0041", "role": "body", "section": "Main results", "weight": 1.0} -->
 
 Quantifying behavioral realism. As discussed above, evaluating simulation realism remains a challenging open problem because there is no single correct answer for traffic simulation. Here we consider both dataset statistics and learned metrics as a proxy for quantifying behavioral realism. For Lyft, we see that all methods achieve comparable speed and jerk statistical distances relative to the recorded trajectories. As expected, SimNet has the lowest sADE due to its behavior cloning objective. In nuScenes, BITS achieves comparable performance to SimNet in dataset metrics, showing that our method does not have to sacrifice behavioral realism for diversity and stability.
 
-<!-- chunk {"id": "body-0043", "role": "body", "section": "Main results", "weight": 1.0} -->
+<!-- chunk {"id": "body-0042", "role": "body", "section": "Main results", "weight": 1.0} -->
 
 Finally, we consider the learned metric described in Sec. 3.4. To show that this occupancy likelihood-based metric indeed captures meaningful data likelihoods, we roll out ground truth trajectories with different levels of Ornstein-Uhlenbeck noise and measure the predicted likelihood score. As shown in Fig. 3, the likelihood score decreases smoothly as the noise intensity grows, indicating that the learned metric captures the effect of disturbances well. We report the learned likelihood scores for representative baselines in Table. 3. Sensibly, we see that in both datasets the ground truth dataset trajectories have the highest likelihood scores. BITS yields comparable or higher likelihood scores than other baselines, with scores on par with ground truth dataset trajectories on nuScenes data.
 
-<!-- chunk {"id": "body-0044", "role": "body", "section": "Discussion and conclusions", "weight": 1.5} -->
+<!-- chunk {"id": "body-0043", "role": "body", "section": "Discussion and conclusions", "weight": 1.5} -->
 
 Limitations and broader impact. Our work has a few important limitations. First, despite our efforts, devising evaluation metrics for traffic simulation remains an open research problem. The proposed metrics can only serve as proxies for measuring behavior realism. In particular, the learned metric is likely biased by the model choice and the training data. Second, we do not consider traffic rules (e.g., driving on the correct side of the road, obeying traffic lights) in evaluation and will work on enriching our simulation software framework with additional environment constraints. Finally, a limitation that might have broader impact is that data-driven simulation models are inherently biased by their training data, which is often curated from a small number of geographic regions. As a result, verification pipelines built on top of such models may be limited by the scenarios that they can generate. This may cause potential safety concerns for deploying tested vehicles in regions that are less represented in the training data.
 
-<!-- chunk {"id": "body-0045", "role": "body", "section": "Discussion and conclusions", "weight": 1.5} -->
+<!-- chunk {"id": "body-0044", "role": "body", "section": "Discussion and conclusions", "weight": 1.5} -->
 
 Conclusions. In this work, we present Bi-level Imitation for Traffic Simulation (BITS), a novel data-driven traffic simulation model. BITS achieves high sample efficiency and behavioral diversity through a bi-level imitation learning formulation, generating stable long-horizon rollouts aided by a prediction-and-planning module. To facilitate evaluation and future studies in the field, we develop and open source a software tool that unifies data formats from different AV datasets and transforms scenes from existing datasets into interactive simulation environments. We compare BITS against a number of competitive baselines on two large-scale real-world AV datasets and find that BITS can generate diverse, realistic, and stable traffic simulations.

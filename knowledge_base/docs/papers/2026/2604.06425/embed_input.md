@@ -13,3 +13,519 @@ Proposes neural-computer systems that combine learned neural components with mor
 <!-- chunk {"id": "abstract-0003", "role": "abstract", "section": "Abstract", "weight": 2.0} -->
 
 We propose a new frontier: Neural Computers (NCs) that unify computation, memory, and I/O of traditional computers in a learned runtime state. Our long-term goal is the Completely Neural Computer (CNC): the mature, general-purpose realization of this emerging machine form, with stable execution, explicit reprogramming, and durable capability reuse. As an initial step, we study whether elementary NC primitives can be learned solely from collected I/O traces, without instrumented program state. Concretely, we instantiate NCs as video models that roll out screen frames from instructions, pixels, and user actions (when available) in CLI and GUI settings. We show that NCs can acquire elementary interface primitives, especially I/O alignment and short-horizon control, while routine reuse, controlled updates, and symbolic stability remain challenging. We outline a roadmap toward CNCs, to establish a new computing paradigm beyond today's agents and conventional computers.
+
+<!-- chunk {"id": "body-0004", "role": "body", "section": "Introduction", "weight": 1.5} -->
+
+Can a neural network act as a traditional computer? The Neural Computer (NC) is a neural system that unifies computation, memory, and I/O in a learned runtime state.
+
+<!-- chunk {"id": "body-0005", "role": "body", "section": "Introduction", "weight": 1.5} -->
+
+Here we instantiate NCs as video models, currently perhaps the most obvious substrate for NC prototypes, though we expect the long-term solution to require a fundamentally new neural architecture (Section 4). Our implementation draws on several technical lines. World models show that neural networks can internalize environment dynamics and support predictive imagination, while high-capacity video generators such as Veo 3.1 and Sora 2 show that such learned dynamics can be rendered into coherent frame sequences. Frontier interactive video models such as Genie 3 further extend this trajectory toward action-controllable generative environments. These lines provide practical machinery for implementing NC prototypes. NeuralOS generated next frames of graphical user interfaces (GUIs) from user actions. LLM-driven UI systems such as Imagine with Claude 1 map natural-language inputs to structured interface updates. Yet these capabilities remain split across different systems objects: conventional computers execute explicit programs, agents act through external execution environments, and most world models render or predict environment dynamics, while executable state still resides outside the model. NCs are motivated by this gap: they are not a smarter layer on top of the existing stack, but a proposal to make the model itself the running computer.
+
+<!-- chunk {"id": "body-0006", "role": "body", "section": "Introduction", "weight": 1.5} -->
+
+The immediate question in this paper is whether reasonable internal runtime states can be learned directly from raw command line interfaces (CLIs) and GUIs without privileged access to the traditional computer's internal state.
+
+<!-- chunk {"id": "body-0007", "role": "body", "section": "Introduction", "weight": 1.5} -->
+
+We study two interface-specific prototypes of this NC formulation (see Section 2). NC CLIGen models CLI interaction from text (natural language or command lines) and an initial frame, while NC GUIWorld models GUI desktop interaction from recent pixels and synchronized mouse/keyboard actions (Sections 3.1 and 3.2).
+
+<!-- chunk {"id": "body-0008", "role": "body", "section": "Introduction", "weight": 1.5} -->
+
+Neural Computer (NC) abstraction (Teaser). A neural system ( F, G ) parameterized by θ that models an interactive computer interface through a single latent runtime state h t that carries executable interface state and also acts as working memory (see Eq. (2.1)).
+
+<!-- chunk {"id": "body-0009", "role": "body", "section": "Introduction", "weight": 1.5} -->
+
+In the NC CLIGen experiments, the NC learns to render and execute basic command-line workflows. It often stays aligned with the terminal buffer and captures common 'physics' of everyday CLI use (e.g., fast scrollback, prompt wrapping, window resizing), though symbolic stability remains limited.
+
+<!-- chunk {"id": "body-0010", "role": "body", "section": "Introduction", "weight": 1.5} -->
+
+In the NC GUIWorld experiments, we evaluate standard world-model designs across data quality, cursor supervision, action injection, and action encoding, using global fidelity, post-action responsiveness, and cursor-accuracy measurements. Figure 1 summarizes this template across two interface-specific NCs trained separately without shared parameters.
+
+<!-- chunk {"id": "body-0011", "role": "body", "section": "Introduction", "weight": 1.5} -->
+
+Our experimental insights indicate that current NCs can already learn to realize elementary runtime primitives, most notably I/O alignment and short-horizon control. The long-term target is a Completely Neural Computer (CNC), the mature, general-purpose realization of this machine form: a fully learned computer whose compute, memory, and interfaces are unified in a single learned runtime substrate rather than engineered as separate modules. Our current NC prototypes are an early step toward that CNC vision. Substantial challenges remain in robust long-horizon reasoning, reliable symbolic processing, stable capability reuse, and explicit runtime governance. Section 4 outlines these open challenges and a roadmap toward CNCs.
+
+<!-- chunk {"id": "body-0012", "role": "body", "section": "Introduction", "weight": 1.5} -->
+
+Completely Neural Computer (CNC) abstraction (Section 4.2). A Neural Computer instance is complete (i.e., a CNC) if it is (i) Turing complete, (ii) universally programmable, (iii) behavior-consistent unless explicitly reprogrammed, and (iv) realizes the architectural and programming-language advantages of NCs relative to conventional computers.
+
+<!-- chunk {"id": "body-0013", "role": "body", "section": "Concretely, this work makes the following contributions", "weight": 1.0} -->
+
+- Define neural computers (NCs) and build video-based prototypes for both CLI and GUI interfaces. - Provide a data engine and alignment recipe that synchronize text, actions, and frames across the CLI and GUI settings studied in this paper.
+
+<!-- chunk {"id": "body-0014", "role": "body", "section": "Concretely, this work makes the following contributions", "weight": 1.0} -->
+
+- Identify practical design choices for NCs through extensive ablation studies. - Outline an engineering roadmap toward completely neural computers (CNCs), centered on acceptance challenges such as reuse, consistency, and runtime governance.
+
+<!-- chunk {"id": "body-0015", "role": "body", "section": "Implementation of Neural Computers", "weight": 1.0} -->
+
+We build on the Wan2.1 model, which was a state-of-the-art video generation model at the time of our experiments. We add NC-specific conditioning and action modules, together with interface-specific training recipes. Figure 1 illustrates this setup: NCs take a prompt or action stream as input and generate future interface frames in both CLI and GUI settings. In the present prototypes, these prompts and actions are logged conditioning streams, so evaluation remains open-loop rather than closed-loop interaction with a live environment. We refer to these two instantiations as CLIGen, our command-line interface (CLI) prototype (Section 3.1), and GUIWorld, our graphical user interface (GUI) prototype (Section 3.2).
+
+<!-- chunk {"id": "body-0016", "role": "body", "section": "Implementation of Neural Computers", "weight": 1.0} -->
+
+In this video-based instantiation, the NC latent runtime state h t is realized by the model's time-indexed video latents z t. Under this abstraction, the diffusion transformer acts as the state-update map: it consumes prior latents together with the current observation and conditioning inputs, and produces the updated state h t (realized as z t ). The decoder G θ parameterizes a distribution over the next frame x t +1. Auxiliary heads encode and decode conditioning streams u t, including text prompts and action traces. Structured logs such as terminal buffers are used for alignment and evaluation where available, not as privileged model-state inputs.
+
+<!-- chunk {"id": "body-0017", "role": "body", "section": "/ The CLI Video Generators", "weight": 1.0} -->
+
+CLIGen instantiates the NC abstraction in command-line interfaces. Observations x t are terminal frames rendered from the underlying text buffer. The conditioning stream u t carries a user prompt and optional metadata, and the video latent state z t implements the latent runtime state h t by tracking CLI context across frames. At inference time, the model rolls out from the prompt and first frame, updates z t, and predicts future terminal frames (Figure 3). We use two CLI datasets: CLIGen (General), which contains diverse, open-ended terminal traces, and CLIGen (Clean), which contains deterministic Dockerized traces. We train one NC CLIGen model per dataset under the same architecture.
+
+<!-- chunk {"id": "body-0018", "role": "body", "section": "Data pipeline", "weight": 1.0} -->
+
+The CLIGen (General) dataset is built from publicly available asciinema.cast trajectories 2. The asciinema stack records and replays terminal sessions with synchronized timing and ANSI-faithful decoding. We replay each session with the official tools and render it into terminal frames, preserving palette transitions, cursor state, and terminal geometry. Frames, text buffers, and keyboard-event logs share a single monotonic clock. At render time, we normalize resolution and aspect ratio and apply a filter to remove sensitive strings. We render sessions to GIF using agg and convert them to video with ff mpeg.
+
+<!-- chunk {"id": "body-0019", "role": "body", "section": "Data pipeline", "weight": 1.0} -->
+
+We segment each recording into roughly five-second clips using content-aware splits. We temporally normalize each clip to a fixed length: shorter clips repeat the final frame, and longer clips are uniformly subsampled. The resulting 823,989 video streams (approximately 1,100 hours) are resampled to 15 FPS. Underlying buffers and logs are used to generate aligned textual descriptions with Llama 3.1 70B in three styles (semantic, regular, and detailed), which serve as prompts. As shown in Figure 2 (left), this split spans diverse real-world terminal use cases 3.
+
+<!-- chunk {"id": "body-0020", "role": "body", "section": "Data pipeline", "weight": 1.0} -->
+
+3 Additional preprocessing details and a.cast example are in Sections B and C.1, with a sample overview in Table 1.
+
+<!-- chunk {"id": "body-0021", "role": "body", "section": "Data pipeline", "weight": 1.0} -->
+
+Table 1 Data samples for CLIGen (General) and CLIGen (Clean).
+
+<!-- chunk {"id": "body-0022", "role": "body", "section": "Semantic", "weight": 1.0} -->
+
+A root terminal session kicks off an AI command to make three 1024x1024 cat shots, shows quick parsing for each one, then presents pixelated cat previews with numbered links and asks whether to stash them in /root/2023\_04\_01-02\_-27\_11\_imgs.
+
+<!-- chunk {"id": "body-0023", "role": "body", "section": "Regular", "weight": 1.0} -->
+
+In a root shell at /tildelow, the user runs ai -i 3 a cute cat, watches a green progress line announcing three 1024x1024 images, sees sequential parsing messages for images 1 through 3, and ends on a preview pane with three pixelated cat thumbnails, numbered download links, and a save prompt targeting /root/2023\_04\_01-02\_27\_11\_imgs.
+
+<!-- chunk {"id": "body-0024", "role": "body", "section": "Detailed", "weight": 1.0} -->
+
+In a dark-background terminal at the root in /tildelow prompt, the user types ai -i 3 a cute cat. The screen prints Generating 3 1024x1024 images (press CTRL-C to cancel)..., shows parsing messages for images 1-3, and ends on a preview pane with three numbered thumbnails and a save prompt targeting /root/2023\_04\_01-02\_27\_11\_imgs.
+
+<!-- chunk {"id": "body-0025", "role": "body", "section": "Scriptedcaption", "weight": 1.0} -->
+
+Type python; Enter; Type values = [n*n for n in range]; Enter; Type print(values); Enter; Type exit; Enter.
+
+<!-- chunk {"id": "body-0026", "role": "body", "section": "Scriptedcaption", "weight": 1.0} -->
+
+The CLIGen (Clean) dataset is collected using the open-source vhs toolkit. It enables repeatable terminal demonstrations and integration tests through scripted execution. Deterministic scripts drive Dockerized environments to capture cleaner, better-paced traces. We authored roughly 250 k scripts. After filtering (51.21% retained), we keep two subsets. The first contains approximately 78 k regular traces (package installation, log filtering, interactive REPL usage, etc.). The second contains approximately 50 k Python math validation traces. Captions are derived directly from the raw vhs scripts for clarity. We standardize frame rendering by fixing one monospace font/size, using a consistent palette for success and error highlights, and locking resolution and theme to remove typography-related confounds. Each episode records its caption type and font settings for later slicing. Clips longer than five seconds are uniformly subsampled for training, while shorter clips repeat the final frame to normalize length 4.
+
+<!-- chunk {"id": "body-0027", "role": "body", "section": "Model architecture", "weight": 1.0} -->
+
+We treat CLI generation as text-and-image-to-video: a caption and the first terminal frame condition the rollout. The first frame is encoded by a VAE into a conditioning latent. In parallel, a CLIP image encoder extracts visual features from the same frame, and a text encoder (e.g., T5 ) embeds the caption. Following the Wan2.1 image-to-video (I2V) design, these conditioning features are concatenated with diffusion noise, projected through a zero-initialized linear layer, and processed by a DiT stack. Decoupled cross-attention injects the joint caption and first-frame context derived from the CLIP and text features. The VAE encodes and decodes terminal frames. During generation, the diffusion transformer advances the latent state z t under the original Wan2.1 I2V sampling schedule, without additional binary masks or periodic reseeding.
+
+<!-- chunk {"id": "body-0028", "role": "body", "section": "Implementation Details", "weight": 1.0} -->
+
+Training uses gradient checkpointing and applies dropout 0.1 to the prompt encoder, CLIP, and VAE modules. Optimization uses AdamW (learning rate 5 × 10 -5, weight decay 10 -2 ), bfloat16 precision, and gradient clipping at 1.0. Training NC CLIGen on CLIGen (General) requires ∼ 15,000 H100 GPU hours at batch size 1. Training on CLIGen (Clean) across both subsets requires ∼ 7,000 H100 GPU hours.
+
+<!-- chunk {"id": "body-0029", "role": "body", "section": "Evaluations", "weight": 1.0} -->
+
+Unless otherwise noted, NC in this section refers to the current video-based CLI prototype. We report six practical takeaways: 4 Additional details are provided in Sections B and C.2, with a representative data sample in Table 1.
+
+<!-- chunk {"id": "body-0030", "role": "body", "section": "Evaluations", "weight": 1.0} -->
+
+- 1 The NC maintains high-fidelity terminal rendering at practical font sizes (e.g., 13 px), preserving readable interface state. - 2 Prompt specificity is an effective control channel: detailed, literal captions improve text-to-pixel alignment. - 3 On clean but domain-specific data, global PSNR/ SSIM plateau around 25k steps (Figure 5), indicating early saturation in reconstruction metrics rather than a complete halt in learning. - 4 The NC reproduces complex terminal appearances while sustaining coherent short-horizon command rollouts under fixed conditioning. - 5 Symbolic computation remains the main bottleneck: structured arithmetic reveals reliability limits, motivating stronger symbolic or system-level conditioning. - 6 In our setting, without changing the NC backbone or adding RL, reprompting improves symbolic probes (4% → 83%; Figure 6), reinforcing the view that current models are strong renderers and conditionable interfaces rather than native reasoners (Table 6).
+
+<!-- chunk {"id": "body-0031", "role": "body", "section": "Experiment 1: The NC stays readable at practical font sizes 区", "weight": 1.0} -->
+
+The paper on NeuralOS argues that generic natural-image VAEs can perform poorly on structured computer screenshots. We test this directly by applying the Wan2.1 VAE to terminal content. In our setting, reconstruction quality is primarily governed Table 2 Reconstruction quality. by font size. At 13 px, it is high (40.77 dB PSNR, 0.989 SSIM). At 6 px, text exhibits noticeable blurring even when global PSNR / SSIM remain strong, because background regions dominate these metrics.
+
+<!-- chunk {"id": "body-0032", "role": "body", "section": "Experiment 1: The NC stays readable at practical font sizes 区", "weight": 1.0} -->
+
+However, a sweep over CLIGen (General) frames shows that this effect is confined to extreme cases (Figure 4). Very small 6 px fonts and ultra-dense text exhibit localized blurring despite high global PSNR. In contrast, the 13 px terminal font used in CLIGen remains visually sharp across panes and commands. These results indicate that the VAE is adequate for regular CLIGen usage and highlight that sensible font choices help ensure stable NC training.
+
+<!-- chunk {"id": "body-0033", "role": "body", "section": "Experiment 2: Performance plateaus early and can degrade with prolonged training", "weight": 1.0} -->
+
+On clean but domain-specific structured interfaces, global reconstruction metrics improve rapidly early and then show limited additional gains under the current training objective. In CLIGen (Clean), PSNR / SSIM plateau quickly, suggesting that further optimization becomes bottlenecked less by model capacity than by the quality and pacing of the available supervision. After the early gains, the remaining errors are often tied to artifact-prone signals (e.g., rendering glitches or rapid screen changes that disrupt temporal alignment), so additional training on the same objective can yield diminishing or even slightly unstable returns in these perceptual metrics.
+
+<!-- chunk {"id": "body-0034", "role": "body", "section": "Experiment 2: Performance plateaus early and can degrade with prolonged training", "weight": 1.0} -->
+
+Panels (a-b) illustrate the effect of training on CLIGen data. Without CLIGen fine-tuning, Wan2.1 produces garbled terminal outputs (a). After 25k steps, the model generates readable text with consistent formatting and color cues (b).
+
+<!-- chunk {"id": "body-0035", "role": "body", "section": "Experiment 3: Literal captions drive rendering accuracy", "weight": 1.0} -->
+
+Caption specificity has a strong effect on terminal rendering quality. As shown in Table 3, detailed, literal descriptions improve reconstruction fidelity. PSNR increases from 21.90 dB (semantic) to 26.89 dB (detailed), a gain of nearly 5 dB, compared to less specific, high-level semantic descriptions.
+
+<!-- chunk {"id": "body-0036", "role": "body", "section": "Experiment 3: Literal captions drive rendering accuracy", "weight": 1.0} -->
+
+The three caption tiers correspond to the same underlying terminal sequence but differ in length and granularity. Semantic captions (average 55 words) provide high-level summaries (e.g., 'a terminal session generates three cat images'). Regular captions (average 52 words) include key commands and outputs (e.g., ai -i 3 a cute cat, status messages). Detailed captions (average 76 words) transcribe screen content more exhaustively, including exact text, colors, and formatting.
+
+<!-- chunk {"id": "body-0037", "role": "body", "section": "Experiment 3: Literal captions drive rendering accuracy", "weight": 1.0} -->
+
+This progression helps explain why literal descriptions are particularly effective for terminal rendering. Unlike natural images, which are dominated by global style patterns, terminal frames are governed primarily by text placement. Detailed captions act as scaffolding-explicitly specifying which tokens appear where-thereby enabling precise textto-pixel alignment.
+
+<!-- chunk {"id": "body-0038", "role": "body", "section": "Experiment 3: Literal captions drive rendering accuracy", "weight": 1.0} -->
+
+Table 3 Caption styles versus TI2V fidelity.
+
+<!-- chunk {"id": "body-0039", "role": "body", "section": "Experiment 3: Literal captions drive rendering accuracy", "weight": 1.0} -->
+
+| Prompt style | PSNR | SSIM | Avg. words |
+
+<!-- chunk {"id": "body-0040", "role": "body", "section": "Experiment 4: Neural computers achieve accurate character-level text generation", "weight": 1.0} -->
+
+Beyond PSNR and SSIM, character-level accuracy is a more direct metric for terminal rendering. Character-level accuracy requires explicit pixel-to-text correspondence. For CLIGen (Clean), we apply Tesseract to five uniformly sampled (ground-truth, generated) frame pairs per video and normalize whitespace. We then compute two metrics (full protocol in Appendix B). Character accuracy uses the Levenshtein distance between concatenated ground-truth and generated texts. Exact-line accuracy measures the fraction of ground-truth lines whose normalized content exactly matches the prediction at the same line index.
+
+<!-- chunk {"id": "body-0041", "role": "body", "section": "Experiment 4: Neural computers achieve accurate character-level text generation", "weight": 1.0} -->
+
+Table 4 OCR accuracy versus training.
+
+<!-- chunk {"id": "body-0042", "role": "body", "section": "Experiment 4: Neural computers achieve accurate character-level text generation", "weight": 1.0} -->
+
+| Steps (k) | Char. acc. | Exact line | Table 4 shows that our models achieve substantial text rendering accuracy under this protocol. Character accuracy increases from 0.03 at initialization to 0.54 at 60k steps, with exact-line matches reaching 0.31 (0.26 by 40k). Most gains occur within the first 40k steps, followed by smaller refinements thereafter. These OCR-based metrics capture properties beyond perceptual similarity. Accurately generating terminal characters requires modeling text structure, font rendering, and spatial relationships. These are core competencies for interactive neural computer systems. This level of character-level precision is a step toward usable, not just plausible, terminal interfaces. At the same time, we interpret this result primarily as evidence of interface fidelity, while routine reuse and native symbolic computation remain separate questions.
+
+<!-- chunk {"id": "body-0043", "role": "body", "section": "Experiment 5: Does this NC instantiation show native CLI reasoning?", "weight": 1.0} -->
+
+We also probe symbolic computation with CLI arithmetic tasks. These tasks are a sharp stress test for symbolic reliability: humans answer them instantly, yet current NC instantiations often fail on seemingly simple symbolic operations.
+
+<!-- chunk {"id": "body-0044", "role": "body", "section": "Experiment 5: Does this NC instantiation show native CLI reasoning?", "weight": 1.0} -->
+
+Our arithmetic probe presents basic mathematical operations through terminal interactions. We reserve a held-out pool of 1,000 math problems and randomly sample 100 problems as the final Table 5 Arithmetic probe accuracy (100 problems sampled from a 1,000-problem held-out pool). evaluation set. Table 5 shows that current video models, including this NC instantiation, struggle on these symbolic tasks. Wan2.1 achieves 0% accuracy, our NC CLIGen model reaches 4%, and Veo3.1 manages 2%-all far below human-level performance on these fundamental tasks. These results contrast with common claims of strong symbolic reasoning in current video models. Sora2's 71% accuracy is a notable outlier and may reflect system-level advantages or additional training beyond our current setup. Overall, native symbolic reasoning remains an open challenge for current video-based NC instantiations. Accordingly, arithmetic probes in this paper serve as a targeted test of symbolic stability under the current prototype substrate.
+
+<!-- chunk {"id": "body-0045", "role": "body", "section": "Experiment 5: Does this NC instantiation show native CLI reasoning?", "weight": 1.0} -->
+
+The poor arithmetic-probe performance in Table 5 raises a key question. Does this prototype require specialized reinforcement learning to achieve reliable symbolic computation, or can stronger conditioning substantially narrow this gap?
+
+<!-- chunk {"id": "body-0046", "role": "body", "section": "Experiment 6: Does this NC instantiation require RL for symbolic probes?", "weight": 1.0} -->
+
+As shown in Figure 6, NC CLIGen accuracy on CLIGen (Clean) arithmetic tasks rises from 4% to 83% under reprompting. This suggests that system-level conditioning can be an effective first lever for improving performance on symbolic probes. It is complementary to (rather than strictly requiring) RL-based training pipelines. More generally, the success of reprompting highlights how sensitive symbolic-probe Figure 6 Reprompting boosts performance to 83%. outcomes are to the conditioning interface. Much of the apparent 'reasoning' gain can come from better specification and instruction-following rather than new native computation. For the arithmetic subset, we include the correct answer explicitly in roughly half of the training captions to encourage reliable rendering of the output string. Because reprompting can similarly provide stronger hints (or even outsource computation to an external text system), we interpret the gain primarily as evidence of steerability. It also shows faithful rendering of conditioned symbolic content. We do not treat it as a clean demonstration that the NC backbone performs arithmetic internally.
+
+<!-- chunk {"id": "body-0047", "role": "body", "section": "Experiment 6: Does this NC instantiation require RL for symbolic probes?", "weight": 1.0} -->
+
+Table 6 Hypotheses for Sora2's advantage.
+
+<!-- chunk {"id": "body-0048", "role": "body", "section": "Experiment 6: Does this NC instantiation require RL for symbolic probes?", "weight": 1.0} -->
+
+The evidence supports system-level conditioning as a practical path forward for this NC instantiation. Among the three hypotheses for improving arithmetic-probe performance-stronger base models, reinforcement learning, or enhanced conditioning-our results most strongly favor the third approach. The gain from reprompting (4% → 83%), achieved without modifying the underlying NC backbone, is substantial. It shows that measured 'reasoning' on these probes is highly sensitive to specification and conditioning. We therefore do not treat it as direct evidence of native arithmetic inside the NC backbone.
+
+<!-- chunk {"id": "body-0049", "role": "body", "section": "Experiment 6: Does this NC instantiation require RL for symbolic probes?", "weight": 1.0} -->
+
+In our setting, strategic conditioning yields larger symbolic-probe gains than the RL pipeline we tested. Evaluations should therefore distinguish native computation from conditioning-assisted performance when assessing reasoning capabilities in current video-based NC instantiations.
+
+<!-- chunk {"id": "body-0050", "role": "body", "section": "Visualizations", "weight": 1.0} -->
+
+CLIGen(General)visualizations. Qualitative samples highlight the breadth of real-world terminal dynamics captured in CLIGen (General): ANSI escape sequences that repaint regions with changing foreground/background colors, incremental command entry with syntax highlighting and cursor edits, classic shell prompts and system outputs, long-running jobs with rapidly scrolling and color-coded package logs, full-screen TUIs such as partition editors, and progress dashboards with updating bars, counts, and ETAs. These traces emphasize that 'looking correct' requires maintaining terminal geometry, palette transitions, and cursor state frame-by-frame.
+
+<!-- chunk {"id": "body-0051", "role": "body", "section": "Visualizations", "weight": 1.0} -->
+
+CLIGen (Clean) REPL visualizations. In contrast to open-world traces, CLIGen (Clean) REPL samples are scripted and temporally well-paced (Figures 16-19; additional examples are in Appendix C). Each sample includes an explicit action trace (e.g., Sleep, Type, Enter, arrow keys, Hide ) alongside rendered terminal frames, making the action-to-pixel link visually unambiguous. The key insight is that these scripted traces isolate rendering-and-control errors from semantic ambiguity: with explicit actions, failures are dominated by low-level mechanics (cursor placement, character edits, monospace alignment, line breaks, temporal consistency).
+
+<!-- chunk {"id": "body-0052", "role": "body", "section": "Visualizations", "weight": 1.0} -->
+
+CLIGen(Clean) math visualizations. Figures 20-22 compare math REPL rollouts, and Figures 23-25 show reprompting cases. Together they highlight why arithmetic probes should separate native computation from answer-conditioned rendering. All full-resolution pages are in Appendix E; below we keep clickable thumbnails at the original location for quick navigation.
+
+<!-- chunk {"id": "body-0053", "role": "body", "section": "CLIGen Visualization Thumbnails", "weight": 1.0} -->
+
+Click any thumbnail to jump to its full-resolution page in Appendix
+
+<!-- chunk {"id": "body-0054", "role": "body", "section": "CLIGen Visualization Thumbnails", "weight": 1.0} -->
+
+We also instantiate the NC abstraction in interactive graphical user interface (GUI) environments with NC GUIWorld. In this setting, fine-grained action control is essential: GUI interaction requires precise cursor tracking, timely click feedback, and robustness to rapidly changing interface states. We model each interaction as a synchronized sequence of RGB frames x t and input events u t (mouse and keyboard). The latent video state maintains interface context across frames, while temporally aligned action inputs provide control signals designed to preserve pixel-level correspondence between user actions and visual changes.
+
+<!-- chunk {"id": "body-0055", "role": "body", "section": "Data pipeline", "weight": 1.0} -->
+
+The dataset includes two styles of random interaction, which we refer to collectively as GUIWorld Random: 'Random Slow' and 'Random Fast', plus a smaller set of supervised trajectories collected with Claude CUA (Anthropic). Random Slow (approximately 1,000 hours) contains longer pauses, idle gaps, and deliberate cursor movements, which can expose cursor drift after extended inactivity. Random Fast (approx- Table 7 Cursor/action statistics.
+
+<!-- chunk {"id": "body-0056", "role": "body", "section": "Data pipeline", "weight": 1.0} -->
+
+| Split | Avg. cursor speed (px/frame) | Actions / sec | imately 400 hours) features denser cursor motion and typing bursts, stressing acceleration dynamics and hover timing. The supervised trajectories are approximately 110 hours. These goal-directed traces provide higher-signal action-response pairs without overwhelming the exploration data. Table 7 summarizes cursor and action statistics across splits; in the collected CUA trajectories, action density is lower due to latency introduced by Claude's tool API between successive steps.
+
+<!-- chunk {"id": "body-0057", "role": "body", "section": "Data pipeline", "weight": 1.0} -->
+
+For GUIWorld Random, our data-collection pipeline builds on the NeuralOS setup: data is collected inside an Ubuntu 22.04 container running XFCE4 (Arc-Dark theme, Papirus icons) on a fixed 1024 × 768 virtual display at 15 FPS, and we adopt the NeuralOS cursor-position representation, with task-specific adaptations for our setting. Within this same desktop environment, we develop a separate CUA data-collection pipeline tailored to the needs of this work. We render the display with Xvfb and interact through a VNC/noVNC stack. The desktop pins a small open-source app set to launchers. It includes Firefox ESR, GIMP, VLC, VS Code, Calculator, Terminal, the file manager, and the Mahjongg game, matching the environment shown in our recordings. Screen capture uses mss and ff mpeg with cursor overlays, and actions are replayed and logged via xdotool. We keep the recorded discontinuities and interface latency intact rather than smoothing them. In dataset packaging, we store both raw-action and meta-action views for modeling.
+
+<!-- chunk {"id": "body-0058", "role": "body", "section": "Data pipeline", "weight": 1.0} -->
+
+This lets us train either the raw-action or meta-action encoder under the same loss stack 5.
+
+<!-- chunk {"id": "body-0059", "role": "body", "section": "Model architecture", "weight": 1.0} -->
+
+The GUIWorld architecture builds on the Wan2.1 by incorporating explicit actionconditioning modules. The central challenge is to align time-stamped user actions with generated frames and inject this information at the appropriate depth within the transformer.
+
+<!-- chunk {"id": "body-0060", "role": "body", "section": "Model architecture", "weight": 1.0} -->
+
+Action features are encoded on-the-fly from frame-aligned mouse and keyboard signals (Section 3.2.1). We aggregate them into latent-aligned embeddings that summarize recent action history at each diffusion step. We evaluate two action encoders. The raw-action encoder (v1) preserves fine-grained mouse/keyboard event streams. The meta-action encoder (v2) abstracts interactions into coarse API-style categories (clicks, drags, scrolls, typing, shortcuts). Both encoders use the same temporal alignment and are evaluated as separate ablations. In our experiments, their differences in rendering fidelity and control behavior are modest 6.
+
+<!-- chunk {"id": "body-0061", "role": "body", "section": "Model architecture", "weight": 1.0} -->
+
+We inject action embeddings into the diffusion backbone in four ways (Figure 7). We study external, contextual, residual, and internal conditioning. For the injection-scheme ablation, all four modes share the same meta-action encoder and temporal alignment. They differ only in where the latent action features interact with the video latents and transformer blocks. We compare raw-action vs. meta-action encoders separately in Table 11.
+
+<!-- chunk {"id": "body-0062", "role": "body", "section": "Model architecture", "weight": 1.0} -->
+
+5 Conversion details and alignment quality appear in Appendix D.
+
+<!-- chunk {"id": "body-0063", "role": "body", "section": "Model architecture", "weight": 1.0} -->
+
+6 Appendix Table 17 summarizes the representational differences.
+
+<!-- chunk {"id": "body-0064", "role": "body", "section": "Model architecture", "weight": 1.0} -->
+
+| Mode | Injection point | Notes | External conditioning. In the external mode, action information modulates the latent video sequence before the diffusion transformer. Action features are applied as a pre-conditioning step at the model input, without introducing explicit action tokens or cross-attention inside the diffusion backbone. As a result, action information enters only through the modified input latents; the diffusion backbone never attends directly to action tokens, so any action signal must be carried implicitly in z ′ 1: T.
+
+<!-- chunk {"id": "body-0065", "role": "body", "section": "Model architecture", "weight": 1.0} -->
+
+Formally, given VAE latents z 1: T and temporally aligned action features u 1: T, an external action module applies a small stack of temporal self-attention and action cross-attention layers. This produces a residual update ∆ z 1: T (u 1: T). The modified latents are and the diffusion transformer operates solely on z ′ 1: T. The diffusion backbone remains unchanged, and action features are not exposed as explicit tokens within the transformer.
+
+<!-- chunk {"id": "body-0066", "role": "body", "section": "Model architecture", "weight": 1.0} -->
+
+Contextual conditioning. In the contextual mode, actions are represented as additional tokens and integrated directly into the transformer's self-attention. Similar token-based action representations have been explored in prior world models, including Gato and World and Human Action Models.
+
+<!-- chunk {"id": "body-0067", "role": "body", "section": "Model architecture", "weight": 1.0} -->
+
+The meta-action encoder produces latent-aligned action tokens A ∈ R L a × D. We concatenate them with visual tokens V ∈ R L v × D to form a joint sequence [ V; A ]. Each transformer block applies self-attention over this combined sequence using a structured temporal mask (Appendix Figure 12). The mask enforces causal alignment: each frame token attends only to actions within a short past window, and each action token attends only to frames after a fixed temporal lag. Through this masked joint attention, contextual conditioning fuses action and visual information within the transformer blocks.
+
+<!-- chunk {"id": "body-0068", "role": "body", "section": "Model architecture", "weight": 1.0} -->
+
+Residual conditioning. In the residual mode, the transformer block structure remains unchanged. A lightweight action module attaches to a subset of layers as an external residual branch. This follows the residual conditioning paradigm introduced by ControlNet, while remaining modular and additive to the base diffusion backbone.
+
+<!-- chunk {"id": "body-0069", "role": "body", "section": "Model architecture", "weight": 1.0} -->
+
+At each selected layer l, the transformer applies its standard sequence of self-attention, text or reference cross-attention, and feed-forward operations to produce hidden states h (l). A separate action module then takes h (l) together with a local temporal window of latent action features and mouse trajectories. It outputs a residual update ∆ h (l) (a, mouse). The updated hidden states are given by which are passed to the subsequent transformer block. In this formulation, residual conditioning injects action information through block-external residual branches. It does not modify the internal computations of the transformer blocks themselves.
+
+<!-- chunk {"id": "body-0070", "role": "body", "section": "Model architecture", "weight": 1.0} -->
+
+Internal conditioning. In the internal mode, action conditioning is incorporated directly within the transformer blocks. Related multi-stream world models have explored similar designs, including Matrix-Game-2. Each selected block augments the standard attention stack with an additional action cross-attention sub-layer. Specifically, the block applies self-attention, followed by cross-attention over text and reference features, and then a dedicated action cross-attention layer. Keys and values are derived from latent action features (and, optionally, mouse inputs).
+
+<!-- chunk {"id": "body-0071", "role": "body", "section": "Model architecture", "weight": 1.0} -->
+
+Given block input h, text or reference context c, and action latents a, the internal block computes where SA denotes self-attention and CA text and CA action denote the text and action cross-attention modules applied in sequence. As illustrated in Figure 7, action features are injected directly into the block's crossattention stage.
+
+<!-- chunk {"id": "body-0072", "role": "body", "section": "Model architecture", "weight": 1.0} -->
+
+In contrast to residual conditioning, internal conditioning integrates action information through a blockinternal attention mechanism rather than an external residual branch. This design mirrors the multi-stream injection strategy used in Matrix-Game-2 and yields the best SSIM/FVD trade-off for fine-grained GUI interaction in our ablations. In this setting, precise temporal alignment and spatial locality are critical. Each conditioning mode ( external, contextual, residual, and internal ) is trained as a separate ablation, and no combinations are used.
+
+<!-- chunk {"id": "body-0073", "role": "body", "section": "Implementation Details", "weight": 1.0} -->
+
+We train one model per injection mode ( external, contextual, residual, internal ), keeping the backbone and all non-action components fixed. Each run lasts about 64k steps. We tune only the action encoder and learning-rate schedule. Training optimizes the diffusion loss together with a small temporal contrastive loss that aligns frame features with action and mouse embeddings (Appendix D). Runs use 64 GPUs for about 15 days, totaling about 23k GPU-hours per full pass.
+
+<!-- chunk {"id": "body-0074", "role": "body", "section": "Implementation Details", "weight": 1.0} -->
+
+Preprocessing is implemented in the data loader in two stages. First, we normalize each recording to a fixed resolution and frame rate. This produces tensors for RGB video, per-frame cursor coordinates, and mouse/keyboard event traces (in both raw-action and meta-action views). Second, we render an SVG cursor at each logged position to produce per-frame masks and cursor-only reference frames. The first reference frame contains the full desktop with a unit mask. Later references paste only the cursor over a neutral background, with a mask restricted to arrow pixels. After VAE encoding, these references become latent slots that pin down the static GUI layout at t =0. For t> 0, they supervise only a small patch around the cursor and leave the rest of the frame unconstrained. We drop clips without valid cursor or action traces to keep supervision consistent.
+
+<!-- chunk {"id": "body-0075", "role": "body", "section": "Evaluation setup", "weight": 1.0} -->
+
+Our ablations target three capabilities: global fidelity, post-action responsiveness, and cursor-control precision. We use the FVD / LPIPS / SSIM suite as the core metrics. We also add action-driven metrics that focus on post-interaction frames after clicks, scrolls, and key/type events. For example, we compute SSIM / LPIPS averaged over the k frames after each logged action, and action-driven FVD on post-action clips. Ablations vary conditioning design and action encoding to measure how these choices affect perceptual quality and responsiveness when rolled out against ground-truth interfaces 7.
+
+<!-- chunk {"id": "body-0076", "role": "body", "section": "Evaluation setup", "weight": 1.0} -->
+
+7 Full metric definitions and implementation details are provided in Appendix B.3.
+
+<!-- chunk {"id": "body-0077", "role": "body", "section": "Evaluation setup", "weight": 1.0} -->
+
+- 1 In GUIWorld, a small amount of goal-directed data outperforms much larger random exploration, showing that alignment quality matters more than nominal scale for action-response learning. - 2 Precise cursor control requires explicit visual supervision: SVG mask/reference conditioning raises cursor accuracy to 98.7%, indicating that local GUI control primitives are learnable in controlled settings. - 3 Action injection depth matters: relative to shallow external conditioning, contextual, residual, and especially internal fusion improve post-action responsiveness and visual consistency. - 4 Action representation also matters: under the same injection mode, API-like meta-actions consistently outperform raw event-stream encoding.
+
+<!-- chunk {"id": "body-0078", "role": "body", "section": "Experiment 7: Data quality dominates performance", "weight": 1.0} -->
+
+Interactive GUI modeling shows that data quality matters more than dataset size for action-driven performance. We compare slow exploration, fast interaction, and supervised trajectories under contextual conditioning. This isolates which behaviors best support neural computer training.
+
+<!-- chunk {"id": "body-0079", "role": "body", "section": "Experiment 7: Data quality dominates performance", "weight": 1.0} -->
+
+Despite approximately 1,400 hours of random exploration across the slow and fast settings, these datasets are noisy. They are comparatively sample-inefficient for learning stable action-response mappings. They substantially improve global perceptual metrics over a baseline (Table 8). However, high-frequency cursor jitter and irregular, non-goal-directed action bursts make consistent control difficult under dense, stochastic input streams.
+
+<!-- chunk {"id": "body-0080", "role": "body", "section": "Experiment 7: Data quality dominates performance", "weight": 1.0} -->
+
+Table 8 Overall performance across data sources.
+
+<!-- chunk {"id": "body-0081", "role": "body", "section": "Experiment 7: Data quality dominates performance", "weight": 1.0} -->
+
+| Split | FVD all | SSIM all | LPIPS all | In contrast, the substantially smaller high-quality dataset (110 hours from Claude CUA) yields markedly stronger performance across all metrics. Goal-directed trajectories provide clearer action semantics and more predictable state transitions. This enables robust action conditioning even with limited data volume. These results indicate that neural computer development should prioritize curated, purposeful interactions over large-scale passive data collection. At the current stage, this result primarily indicates that alignment quality matters more than nominal scale for learning action-response structure in NC prototypes.
+
+<!-- chunk {"id": "body-0082", "role": "body", "section": "Experiment 8: Precise cursor control requires explicit visual supervision", "weight": 1.0} -->
+
+We examine whether the NC internalizes cursor dynamics. A natural baseline is to condition on normalized cursor-coordinate sequences mouse\_trajectories ⊂ T × 2 (details in Appendix D.4). To strengthen this signal, we further encode the normalized trajectories using a Fourier mouse encoder. We map coordinates to 2 and Table 9 Cursor conditioning losses versus accuracy.
+
+<!-- chunk {"id": "body-0083", "role": "body", "section": "Experiment 8: Precise cursor control requires explicit visual supervision", "weight": 1.0} -->
+
+| Loss variant | Cursor accuracy | project them through a fixed Gaussian matrix to obtain random Fourier features. A small MLP produces per-frame embeddings, which we aggregate into lag-aware windows aligned with the VAE stride. The resulting latent action sequence conditions the action modules and participates in the temporal contrastive loss.
+
+<!-- chunk {"id": "body-0084", "role": "body", "section": "Experiment 8: Precise cursor control requires explicit visual supervision", "weight": 1.0} -->
+
+However, Table 9 shows that coordinate-based supervision remains insufficient for precise interaction. Positiononly supervision achieves 8.7% accuracy, and even enhanced position features reach only 13.5%. This suggests that richer coordinate encodings alone do not resolve cursor drift and jitter.
+
+<!-- chunk {"id": "body-0085", "role": "body", "section": "Experiment 8: Precise cursor control requires explicit visual supervision", "weight": 1.0} -->
+
+Motivated by the importance of precise cursor placement, we introduce explicit visual cursor supervision. We render an SVG cursor at each (x t, y t) to produce per-frame cursor masks m t and cursor-only foregrounds f t (right panel of Figure 8). Following Figure 8, we construct a reference stream. The first frame contains the full desktop image, while subsequent frames contain only the cursor foreground over a neutral background, masked to the cursor region. We encode both the video and reference streams with the shared VAE, yielding video latents z 1: T, reference latents z ref 1: T, and mask tags τ 1: T. The diffusion transformer receives the concatenated tensor which anchors the static GUI layout at t =0 and provides localized supervision around the cursor for t> 0.
+
+<!-- chunk {"id": "body-0086", "role": "body", "section": "Experiment 8: Precise cursor control requires explicit visual supervision", "weight": 1.0} -->
+
+Under this explicit visual conditioning, cursor accuracy improves to 98.7%. This suggests that neural computers benefit from learning the cursor state as a visual object rather than relying solely on abstract coordinates. Explicit pixel-level supervision helps model cursor acceleration, hover states, and click feedback, which are essential for reliable GUI interaction. At the same time, this result is best viewed as evidence that local GUI control primitives are learnable under explicit supervision in controlled settings.
+
+<!-- chunk {"id": "body-0087", "role": "body", "section": "Experiment 9: Action injection under different schemes", "weight": 1.0} -->
+
+Table 10 Action-driven metrics across injection schemes (15 frames after action).
+
+<!-- chunk {"id": "body-0088", "role": "body", "section": "Experiment 9: Action injection under different schemes", "weight": 1.0} -->
+
+| Mode | SSIM +15 ↑ | LPIPS +15 ↓ | FVD +15 ↓ | † baseline 2 (external) was early-stopped at ∼ 50% of the planned training budget after preliminary rollouts did not warrant further compute. Included only as a rough reference.
+
+<!-- chunk {"id": "body-0089", "role": "body", "section": "Experiment 9: Action injection under different schemes", "weight": 1.0} -->
+
+Holding data and the action encoder fixed, we compare injection schemes on clean runs (Table 10). We compute action-driven metrics over the 15 frames following each click, scroll, or key event. Relative to both baselines (untrained and external ), mid- and deep-level fusion yields consistent improvements in post-action quality. This includes contextual, residual, and internal injection.
+
+<!-- chunk {"id": "body-0090", "role": "body", "section": "Experiment 9: Action injection under different schemes", "weight": 1.0} -->
+
+Specifically, moving from input-level conditioning ( external ) to token-level fusion ( contextual ) improves SSIM from 0.746 to 0.813 and reduces FVD from 33.4 to 24.8. Deeper injection sharpens these gains. internal achieves the highest structural consistency (SSIM 0.863) and the lowest temporal distortion (FVD 14.5), while residual attains the lowest perceptual distance (LPIPS 0.138). Together, these trends associate deeper action injection with improved tracking of fine-grained cursor motion and layout changes. 8
+
+<!-- chunk {"id": "body-0091", "role": "body", "section": "Experiment 10: Do action encodings matter?", "weight": 1.0} -->
+
+Table 11 Raw-action vs. API-like action encoding under the same injection mode (15 frames after action).
+
+<!-- chunk {"id": "body-0092", "role": "body", "section": "Experiment 10: Do action encodings matter?", "weight": 1.0} -->
+
+| Mode | Encoding | SSIM +15 ↑ | LPIPS +15 ↓ | FVD +15 ↓ | We compare two action encodings under the same injection mode to isolate the effect of representation choice (Table 11). Under internal conditioning, the meta-action (API-like) encoding yields small but consistent improvements over the raw-action representation. SSIM increases from 0.847 to 0.863, LPIPS drops from 0.144 to 0.141, and FVD drops from 16.6 to 14.5. However, these gains are modest compared to the substantially larger improvements observed when varying the action injection scheme itself (Table 10). This suggests that encoding granularity is not the dominant factor governing GUI interaction fidelity.
+
+<!-- chunk {"id": "body-0093", "role": "body", "section": "Experiment 10: Do action encodings matter?", "weight": 1.0} -->
+
+8 Appendix D summarizes the corresponding injection schemes and alignment details.
+
+<!-- chunk {"id": "body-0094", "role": "body", "section": "Experiment 10: Do action encodings matter?", "weight": 1.0} -->
+
+Table 12 Encoding examples for raw-action and meta-action encoders.
+
+<!-- chunk {"id": "body-0095", "role": "body", "section": "Experiment 10: Do action encodings matter?", "weight": 1.0} -->
+
+| User intent | Raw-action encoder (event stream) | Meta-action encoder (API-like slot) | Table 12 contrasts how short commands and shortcuts (e.g., ls -l, ctrl+v) are represented under the two encodings. The raw-action encoder treats typing as a stream of individual key events, leaving command or shortcut semantics to be inferred from the sequence. In contrast, the meta-action encoder collapses each interaction into a single typed action with associated text or a shortcut identifier. This design aims to model user actions as structured, tool-like operations rather than fragmented event streams.
+
+<!-- chunk {"id": "body-0096", "role": "body", "section": "Experiment 10: Do action encodings matter?", "weight": 1.0} -->
+
+In practice, this more structured abstraction does not translate into clear qualitative gains. Rendered text remains similarly smeared under both encodings, and robustness under theme changes and timing noise is largely unchanged. Task-level failures such as re-centering, re-acquisition, and multi-step interactions persist across both representations. We adopt the meta-action encoder as the default for its simplicity and semantic alignment with system-level conditioning. These results suggest that encoding granularity is secondary to alignment quality and injection strategy.
+
+<!-- chunk {"id": "body-0097", "role": "body", "section": "Visualizations", "weight": 1.0} -->
+
+Across GUIWorld interactive rollouts, failure modes are dominated by data quality and by where action information enters the backbone. Goal-directed supervision produces smooth, target-aligned cursor paths and consistent post-click UI transitions, whereas random exploration yields bursty jitter and spurious actions that degrade visual coherence (Table 8; Figures 26-30). Consistent with the action-driven metrics in Table 10, deeper token-level injection ( contextual / internal ) yields more reliable post-action updates in interactive elements (hover states, dropdowns, modals) and maintains cursor alignment under rapid motion.
+
+<!-- chunk {"id": "body-0098", "role": "body", "section": "Visualizations", "weight": 1.0} -->
+
+Figures 31-33 emphasize how small low-level deviations compound. Figures 34-36 focus on numeric/UI fidelity and interaction semantics. Figures 37-39 add stress cases where correctness hinges on precise field edits and page state. All full-resolution pages are in Appendix E; below we keep clickable thumbnails at the original location for quick navigation.
+
+<!-- chunk {"id": "body-0099", "role": "body", "section": "Position: Toward Completely Neural Computers", "weight": 1.0} -->
+
+Section Overview In this section, we ask what current Neural Computer (NC) prototypes have already shown, what still prevents them from becoming usable or general-purpose runtimes, and why neither current world models nor AI agents yet amount to this emerging machine form. We then contrast NCs with conventional computers, clarifying that they are not a smarter layer on top of the existing stack, and define their mature general-purpose form, namely Completely Neural Computers (CNCs). Finally, we outline a roadmap toward CNCs, relate NCs to other system objects, and close with several remarks on NCs.
+
+<!-- chunk {"id": "body-0100", "role": "body", "section": "From Neural Computers to Completely Neural Computers", "weight": 1.0} -->
+
+Current Status of NCs Our CLI and GUI-based neural computers already show that early runtime primitives can be learned with measurable interface fidelity. In terminal environments, OCR-based text fidelity is already measurable (Table 4); in GUI settings, explicit visual supervision yields strong local cursor control (Table 9); and in GUIWorld, aligned goal-directed data clearly outperforms much larger random exploration (Table 8). Taken together, these results suggest that current NCs already support early runtime primitives, especially I/O alignment and short-horizon control, while stable reuse and general-purpose execution remain out of reach. This does not mean that current prototypes are already close to CNCs; it means that the outline of a distinct machine form has begun to emerge at prototype scale.
+
+<!-- chunk {"id": "body-0101", "role": "body", "section": "From Neural Computers to Completely Neural Computers", "weight": 1.0} -->
+
+However, the current video-based prototypes are only early NC instantiations: if NCs are to mature into general-purpose runtimes, they must go well beyond basic I/O and short-term execution. At the formal level, this ultimately requires Gödel universality or Turing completeness, universal programmability, and behavior consistency unless explicitly reprogrammed.
+
+<!-- chunk {"id": "body-0102", "role": "body", "section": "From Neural Computers to Completely Neural Computers", "weight": 1.0} -->
+
+Before those conditions are met in full, progress is better read through practical acceptance lenses: routine reuse, execution consistency, and explicit update governance. These lenses matter because the immediate question is not whether CNCs have already been achieved, but whether NCs are beginning to behave more like usable runtimes than isolated demonstrations. For example, once an incident-response routine has been installed, the system should reuse it on later alerts rather than rediscovering the procedure from scratch each time; and if its behavior changes, that change should be attributable to an explicit update rather than ordinary execution. In practice, this reduces to three acceptance lenses: install-reuse, execution consistency, and update governance, which together offer a more useful view of current NC progress than the full CNC definition alone.
+
+<!-- chunk {"id": "body-0103", "role": "body", "section": "From Neural Computers to Completely Neural Computers", "weight": 1.0} -->
+
+While certain sequential neural architectures are Turing complete in principle, turning a trained instance into a reliably programmable runtime behavior remains challenging. Preliminary attempts, including Neural Virtual Machine and NeuroLISP, have been explored. Furthermore, ensuring stable behavior over long temporal horizons remains an open problem in neural systems. Section 4.2 provides a more detailed discussion of these requirements. See Section 4.3 for more discussion between NCs and other system objects, including world models and AI agents.
+
+<!-- chunk {"id": "body-0104", "role": "body", "section": "From Neural Computers to Completely Neural Computers", "weight": 1.0} -->
+
+Fundamental differences between NCs and conventional computers We compare NCs and conventional computers. Here, conventional computers denote random-access machines with instruction set architecture and layered OS/application stacks programmed via humandesigned high-level languages. NCs differ fundamentally from conventional computers in their architectural and programming-language semantics.
+
+<!-- chunk {"id": "body-0105", "role": "body", "section": "From Neural Computers to Completely Neural Computers", "weight": 1.0} -->
+
+At the architectural level, random-access machines instantiate local, compositional symbolic semantics, yielding exactness and interpretability, but brittleness under noise and model mismatch. Neural computers, by contrast, realize holistic, distributed numerical semantics, trading precise local semantics for robustness and generalization. Empirical evidence indicates that such holistic numerical representations are particularly well suited to domains characterized by high-dimensional representations, soft or statistical constraints, and globally coupled structures, including perception, natural language, planning under uncertainty, and approximate reasoning. Although conventional computers can, in principle, emulate NCs, doing so often introduces unnecessary conceptual and engineering complexity when the target tasks are already well matched to neural architectures.
+
+<!-- chunk {"id": "body-0106", "role": "body", "section": "From Neural Computers to Completely Neural Computers", "weight": 1.0} -->
+
+Table 13 Four system objects compared at a common systems level.
+
+<!-- chunk {"id": "body-0107", "role": "body", "section": "From Neural Computers to Completely Neural Computers", "weight": 1.0} -->
+
+| System object | Organized around | Source of truth | Primary role | At the programming-language level, NCs differ from conventional computers because their 'language semantics' are the meanings of user input sequences learned from data rather than explicitly designed by humans. For example, LLMs can be viewed as programmable computers in which prompts act as programs. In this case, the programming language is a natural language, which no non-neural system has historically been able to interpret robustly at scale. More broadly, learned programming-language semantics are not constrained by a human-specified syntax/semantics boundary and can, therefore, encode task-relevant conventions implicitly.
+
+<!-- chunk {"id": "body-0108", "role": "body", "section": "From Neural Computers to Completely Neural Computers", "weight": 1.0} -->
+
+Definition of Completely Neural Computers We use CNC to denote the mature form of an NC. Formally, a Neural Computer instance is complete if it is Turing complete, universally programmable, behaviorconsistent unless explicitly reprogrammed, and realizes the architectural and programming-language advantages of NCs relative to conventional computers. The following section unpacks these conditions in operational terms.
+
+<!-- chunk {"id": "body-0109", "role": "body", "section": "From Neural Computers to Completely Neural Computers", "weight": 1.0} -->
+
+Table 14 Operational reading of the four CNC requirements.
+
+<!-- chunk {"id": "body-0110", "role": "body", "section": "From Neural Computers to Completely Neural Computers", "weight": 1.0} -->
+
+| CNCrequirement | Plain reading Whatengineering evidence should look like |
+
+<!-- chunk {"id": "body-0111", "role": "body", "section": "ARoadmapTowardsCNC", "weight": 1.0} -->
+
+We frame the path toward CNCs through a set of formal requirements together with the practical challenges that must be resolved before those requirements become engineerable.
+
+<!-- chunk {"id": "body-0112", "role": "body", "section": "ARoadmapTowardsCNC", "weight": 1.0} -->
+
+Turing completeness A Neural Computer (NC) instance (a specific architecture with fixed learned weights) defines a class of computational models in which each model corresponds to at least one memory state instance. In the formal computability discussion below, 'memory state' is used in the classical state-machine sense; operationally, it corresponds to the NC runtime state introduced earlier. An NC instance is Turing complete if, for any given Turing machine, there exists an initial memory state that allows the NC to emulate that machine exactly. Notice that although Recurrent Neural Networks (RNNs), Neural Turing Machines (NTM), and Differentiable Neural Computers (DNC) are Turing complete in the asymptotic sense, a particular RNN, NTM, or DNC instance with finite precision cannot be Turing complete due to their fixed finite memory size. For an NC instance to achieve universality, unbounded effective memory is necessary. An NC instance has unbounded effective memory if there are infinitely many possible memory state instances. Existing works approach such unboundedness by progressively growing model parameters or context.
+
+<!-- chunk {"id": "body-0113", "role": "body", "section": "ARoadmapTowardsCNC", "weight": 1.0} -->
+
+Universal programmability An NC is universally programmable if, for each given Turing machine, there exists an input sequence such that the NC taking this input realizes a new memory state representing the given machine. Most existing universal programmability results for neural networks are established by constructing computational primitives and proving that their composition can simulate a universal computational model. Likewise, we believe that universal programmability in NCs can be achieved through compositional neural programs.
+
+<!-- chunk {"id": "body-0114", "role": "body", "section": "ARoadmapTowardsCNC", "weight": 1.0} -->
+
+Behavior consistency A CNC must preserve its function unless explicitly reprogrammed. For each memory state, there must be a non-empty set of inputs that executes the CNC without changing its pure function. Operationally, this requires a separation between run and update: ordinary inputs should execute installed capability without silently modifying it, while behavior-changing updates should occur explicitly through a programming interface. This in turn motivates training and architectural mechanisms that disentangle function use from function update, so that routines can be installed, executed, and composed without accidental functional drift. We hypothesize that gating mechanisms, such as those in LSTM, are effective in achieving this conditional invariance. In practice, making this separation reliable requires clear boundaries around what state persists across tasks, what counts as an explicit update, and what execution evidence can be replayed, compared, or rolled back.
+
+<!-- chunk {"id": "body-0115", "role": "body", "section": "Run / update contract", "weight": 1.0} -->
+
+- Run: invoke installed capability without silently changing persistent behavior. - Update: any behavior-changing modification should occur explicitly through a programming interface. - Required boundaries: state (what persists), update (what counts as reprogramming), and evidence (what can be replayed, compared, or rolled back).
+
+<!-- chunk {"id": "body-0116", "role": "body", "section": "Run / update contract", "weight": 1.0} -->
+
+Architectural semantics Since NC behavior is governed by real-valued parameters, learning can produce input-output mappings that generalize across variations within the training distribution. For example, after observing many instances of how the visual state of a spreadsheet interface changes when values are typed into cells, a model may learn the underlying transformation and correctly predict the screen updates for previously unseen spreadsheets that follow the same interaction rules. Such in-distribution generalization arises from the smooth function approximation properties of neural networks and their ability to interpolate across previously observed patterns. Furthermore, learning can also produce novel input-output mappings that are not explicitly represented in the training data, potentially introducing new computational primitives. The combination of such newly formed primitives could enable qualitatively new functions, yielding out-of-distribution functional generalization.
+
+<!-- chunk {"id": "body-0117", "role": "body", "section": "Run / update contract", "weight": 1.0} -->
+
+Beyond emulating conventional computers, NCs can natively support functions whose semantics are ill-suited to symbolic APIs, including probabilistic inference over high-dimensional latent states, representation learning, retrieval over dense memories, and end-to-end differentiable pipelines that couple perception and control. These functions are first-class at the architectural level and operate directly on distributed states. This enables capabilities such as learned heuristics, uncertainty-aware decision-making, and continual adaptation.
+
+<!-- chunk {"id": "body-0118", "role": "body", "section": "Run / update contract", "weight": 1.0} -->
+
+Because the memory state of an NC/CNC is numerical, computer configuration and design emerge as alternatives to application-level programming: the computer itself is configured by optimizing its internal state to achieve desired computational behaviors under task-defined objectives. Depending on the differentiability of the loss, methods such as Adam and natural evolution strategies apply. In a CNC, the memory constitutes a continuous manifold, so realizing a target capability amounts to synthesizing a machine configuration (a memory state) that minimizes a user-specified loss (e.g., 'minimize proof error') via direct numerical updates to the computer's state. This reframes system construction from discrete code authoring to differentiable configuration of the computer itself, with progress evaluated by solver convergence, stability, and reliability relative to combinatorial program search (e.g., LLM-based code generation ).
+
+<!-- chunk {"id": "body-0119", "role": "body", "section": "Run / update contract", "weight": 1.0} -->
+
+Programming-language semantics The learned programming-language semantics of NCs enable a shift from rigid coding to learned specifications, in which user inputs themselves function as programs. Rather than centering development on explicitly authored code, NCs expose a learned language whose syntax and semantics are acquired from data, so natural-language instructions, examples, and constraints serve as executable specifications. Consequently, brief user inputs can replace long sequences of low-level actions. Development, therefore, moves from code authoring to curating, specifying, and verifying inputs under a learned programming-language semantics, aligning system behavior with human intent via in-context specification rather than forcing users to conform to rigid, brittle interfaces. This does not imply that code disappears, but rather that code becomes one installation medium among several, alongside prompts, demonstrations, trajectories, and constraints.
+
+<!-- chunk {"id": "body-0120", "role": "body", "section": "Run / update contract", "weight": 1.0} -->
+
+Since NCs are programmed via users' input sequences under learned programming-language semantics, the training data for programming NCs, i.e., paired user I/O traces, is far more abundant and continuously generated than high-quality, human-written code. Every interaction with digital systems produces structured streams of inputs, interface states, and effects that can be logged at scale (e.g., keystrokes, cursor trajectories, screen transitions), yielding orders-of-magnitude more supervision than curated program corpora. These I/O traces constitute executable specifications, revealing user intentions and computer behavior. This enables end-to-end learning of interface conventions, control policies, and task semantics without requiring explicit program text. This asymmetry in data availability favors NC training regimes that leverage ubiquitous interaction logs and, by supporting broader task coverage, reduces dependence on brittle, sparsely available code datasets.
+
+<!-- chunk {"id": "body-0121", "role": "body", "section": "Relations to Other System Objects", "weight": 1.0} -->
+
+The comparisons below unpack this shift relative to conventional computers, world models, and AI agents.
+
+<!-- chunk {"id": "body-0122", "role": "body", "section": "Relations to Other System Objects", "weight": 1.0} -->
+
+Conventional Computers Conventional computers remain the reference system object for reliable execution, explicit programmability, and mature governance. NCs differ not by adding a smarter application layer on top of this substrate, but by shifting computation, memory, and I/O into a learned runtime state. In this sense, NCs are best viewed as a different candidate machine form and computing substrate rather than as a direct extension of the conventional software stack. This framing does not imply that conventional computers will disappear soon, but rather that future systems may be built from a different underlying runtime substrate.
+
+<!-- chunk {"id": "body-0123", "role": "body", "section": "Relations to Other System Objects", "weight": 1.0} -->
+
+World Models World models learn environment dynamics by predicting action-conditioned transitions. Such target environments range from the most ambitious, where all sensory inputs and control outputs (including agent actions, pain signals, and reinforcement signals) represent the interface to the real world, to much narrower scopes, where just a few control parameters of a robot arm with restricted perceptions are considered. They provide one technical perspective on current NC prototypes, since interactive computers are an important class of action-conditioned environments, but they do not by themselves define the NC abstraction. Many current approaches to modeling computational environments, such as the physical world, also rely heavily on computer-generated data, potentially leading to models that share characteristics with neural computers.
+
+<!-- chunk {"id": "body-0124", "role": "body", "section": "Relations to Other System Objects", "weight": 1.0} -->
+
+AI Agents Another important comparison point is AI agents built on top of modern AI models and external software substrates, including computer-use agents, coding and multi-agent systems, and recursive self-improvement loops. These systems place a learned agent between the user and an external execution substrate, whether that substrate is a GUI, a codebase, or a broader software toolchain. This provides strong leverage from existing computers and software stacks, but it also preserves a strict separation between the learned model and the runtime that actually stores executable state, applies updates, and enforces system contracts. Computer-use agents operate through low-bandwidth I/O; coding agents typically emit symbolic artifacts that must be executed elsewhere; and RSI-style loops improve the agent by iterating over external tools, prompts, or code rather than by turning the runtime itself into the computer. Such systems also increasingly rely on automated evaluators, including agent-as-a-judge schemes, to rank outputs, validate task completion, and close iterative improvement loops. We hypothesize that a sufficiently capable NC can internalize many of these agentic functions within one persistent neural runtime.
+
+<!-- chunk {"id": "body-0125", "role": "body", "section": "Additional Thoughts", "weight": 1.0} -->
+
+The remarks in this section are intended as hypotheses and design directions motivated by the present results, rather than as empirical conclusions established by the current prototypes.
+
+<!-- chunk {"id": "body-0126", "role": "body", "section": "Additional Thoughts", "weight": 1.0} -->
+
+ONE ONE proposed a single neural substrate that incrementally absorbs and reuses diverse learned skills. A mature CNC can be viewed as a plausible systems-level realization of this idea. In this sense, many specialized world-model-like components may ultimately appear not as separate external systems, but as installable capabilities within one persistent neural runtime.
+
+<!-- chunk {"id": "body-0127", "role": "body", "section": "Additional Thoughts", "weight": 1.0} -->
+
+Video models as a pragmatic prototype substrate We build our prototypes on state-of-the-art video models because they currently provide the simplest path to an end-to-end learned latent runtime state that jointly models pixels, dynamics, and action-conditioned control. This choice is pragmatic rather than fundamental. In our experiments, symbolic and algorithmic reasoning in terminal settings remains inconsistent for most strong video models, and even simple arithmetic can fail (Table 5). Sora2 is a notable exception in our probe, achieving 71% arithmetic accuracy, suggesting that some terminal symbolic reasoning is already possible in modern video generators. At the same time, we do not claim that video models cannot reason more broadly: recent work reports that video models can act as zero-shot learners and reasoners in naturalistic settings. We expect reasoning capabilities to improve quickly with continued progress in video modeling, but our results suggest that CNC-level reliability will likely require additional architectural and training ingredients beyond scaling today's video generators.
+
+<!-- chunk {"id": "body-0128", "role": "body", "section": "Additional Thoughts", "weight": 1.0} -->
+
+A hypothesis: machine-native neural architectures We emphasize that the following is a conjecture rather than a conclusion drawn from our experiments. Closing the reasoning gap may not require designing neural networks that more closely mimic animal cognition or the human brain. Many influential architectures, including convolutional networks and linear/quadratic Transformers, are highly engineered systems, but their core inductive biases remain strongly influenced by biological perception and attention. These models primarily rely on continuous, distributed representations, in which reasoning behavior emerges implicitly from large-scale training. We hypothesize that CNCs may instead benefit from designs that are explicitly machine-native. Developing discrete operations, compositional structures, and verifiable computation that are harmonious in neural systems may play an essential role in designing such systems. This approach follows more closely the construction of conventional computers from well-defined computational primitives and stands in contrast to relying on emergent reasoning in generic video generation models.
+
+<!-- chunk {"id": "body-0129", "role": "body", "section": "Additional Thoughts", "weight": 1.0} -->
+
+Neural networks generation via NC interaction Neural network generation can be viewed as a form of programming, i.e., the synthesis of a neural architecture and its corresponding weights. Because NCs' architectural semantics are already neural and numerical, neural components are first-class, and generation directly manipulates the memory state rather than translating it into symbolic code. Moreover, NCs can be programmed through I/O interaction: sequences of inputs, observations, and outcomes act as executable specifications that shape the internal state and routines of the system. This suggests a path in which users generate and refine neural modules within NCs through interactive traces, treating interaction logs as programs that configure and compose neural computation.
+
+<!-- chunk {"id": "body-0130", "role": "body", "section": "Additional Thoughts", "weight": 1.0} -->
+
+Unified hardware requirements and data representation In NCs, tensors and tensor-to-tensor transformations act as primary computational primitives, replacing the heterogeneous mix of data structures and subsystem-specific abstractions common in conventional computers. Traditional systems span many distinct domains-scalars, pointers, linked structures, files, sockets, and processes-each with its own memory layout, invariants, APIs, and failure modes, coordinated by operating systems through largely disjoint subsystems (virtual memory, filesystems, networking, scheduling, and drivers). Although this heterogeneity supports broad generality, it also fragments optimization and tooling because compilers, profilers, and debuggers must reason across incompatible abstractions. By contrast, a tensor-uniform pipeline concentrates representation and execution into a compact set of composable primitives, such as linear algebra and elementwise operations, allowing tooling to target a shared intermediate representation.
+
+<!-- chunk {"id": "body-0131", "role": "body", "section": "Additional Thoughts", "weight": 1.0} -->
+
+As a result, optimizations such as operator fusion, memory planning, and computational-graph rewriting can be applied system-wide; profiling can focus on throughput and memory bandwidth; and accelerators such as GPUs can be targeted through common tensor runtimes. This shared numerical representation also naturally supports multimodal computation: vision (pixel tensors), language (sequence embeddings), audio (waveforms or spectrograms), control (state-action tensors), and planning (latent trajectory tensors) all reside in one representational space and can be jointly reasoned over and optimized in a single graph, without repeated type bridging or subsystem translation-steps that are substantially harder in traditional heterogeneous stacks.
+
+<!-- chunk {"id": "body-0132", "role": "body", "section": "Conclusion", "weight": 1.5} -->
+
+Neural computers point toward a machine form in which a single latent runtime state acts as the computer itself, driving pixels, text, and actions while subsuming what operating systems and interfaces handle today. In this paper, the main result is that NCs have begun to exhibit early runtime primitives-most notably I/O alignment and short-horizon control-while stable reuse, symbolic reliability, and runtime governance remain unresolved. Our CNC capability map remains useful as a longer-horizon view, spanning efficiency, computation & reasoning, memory & storage, I/O & control, tool bridges, condition-driven generalization, programmability, and artifact generation. The map is staged and dependency-informed, but the more immediate gap is still the gap from prototype behavior to usable runtime behavior. Progress toward CNCs will therefore depend not only on stronger models, but also on whether reuse, consistency, and governance become sustained and testable. If these gaps continue to close, neural computers will look less like isolated demonstrations and more like a plausible candidate machine form for next-generation computers.

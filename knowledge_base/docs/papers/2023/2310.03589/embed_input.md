@@ -32,11 +32,11 @@ In this paper, we embark on a novel path and introduce TimeGPT, the first pre-tr
 
 <!-- chunk {"id": "body-0008", "role": "body", "section": "Literature Review", "weight": 1.0} -->
 
-Deep Learning forecasting models have become a prominent area of research, driven by their success in recent famous competitions, including (Makridakis et al. ), and their applicability to large-scale tasks in the industry. presents a comprehensive review and taxonomy of neural forecasting models and their applications.
+(a) Single series forecasting (b) Multiple series forecasting Figure 1: Illustration of single series forecasting and multiple series forecasting Deep Learning forecasting models have become a prominent area of research, driven by their success in recent famous competitions, including, and their applicability to large-scale tasks in the industry. presents a comprehensive review and taxonomy of neural forecasting models and their applications.
 
 <!-- chunk {"id": "body-0009", "role": "body", "section": "Literature Review", "weight": 1.0} -->
 
-Initial Deep Learning time series forecasting successes stemmed from the adaptation of established architectures, namely Recurrent Neural Networks (RNN) and Convolution Neural Networks (CNN), initially designed for natural language processing (NLP) and computer vision (CV), respectively. RNNs served as the backbone for popular models like DeepAR for probabilistic forecasting and the ESRNN, winner of the M4 Competition. CNNs demonstrated superior performance than RNNs in multiple tasks on sequential data, as shown. They now constitute a popular building block, as models like DPMN and TimesNet use. Feed-forward networks, due to their low computational costs and efficiency, are also frequently used, with notable examples including the N-BEATS (Oreshkin et al. Olivares et al., ) and NHITS.
+Initial Deep Learning time series forecasting successes stemmed from the adaptation of established architectures, namely Recurrent Neural Networks (RNN) and Convolution Neural Networks (CNN), initially designed for natural language processing (NLP) and computer vision (CV), respectively. RNNs served as the backbone for popular models like DeepAR for probabilistic forecasting and the ESRNN, winner of the M4 Competition. CNNs demonstrated superior performance than RNNs in multiple tasks on sequential data, as shown. They now constitute a popular building block, as models like DPMN and TimesNet use. Feed-forward networks, due to their low computational costs and efficiency, are also frequently used, with notable examples including the N-BEATS and NHITS.
 
 <!-- chunk {"id": "body-0010", "role": "body", "section": "Literature Review", "weight": 1.0} -->
 
@@ -52,7 +52,7 @@ Foundation models rely on their capabilities to generalize across domains, parti
 
 <!-- chunk {"id": "body-0013", "role": "body", "section": "Foundation model for time series", "weight": 1.0} -->
 
-Transfer-learning refers to pre-training a model on a (usually large) source dataset $D_{s} = \left. \{{(\mathbf{X},\mathbf{y})} \middle| {{\mathbf{X} \in \mathcal{X}},{\mathbf{y} \in \mathcal{Y}}}\} \right.$, to improve its performance on a new forecasting task with target dataset $D_{t}$. This paper considers two cases of transfer learning: zero-shot learning and fine-tuning. In the first case, the pre-trained model is directly transferred to solve the new forecasting task without re-training its parameters $\theta$ on the new dataset. Conversely, in fine-tuning, the model is further trained on the new dataset (starting from pre-trained parameters).
+The forecasting task objective is to estimate the following conditional distribution: Transfer-learning refers to pre-training a model on a (usually large) source dataset $D_{s} = \left. \{{(\mathbf{X},\mathbf{y})} \middle| {{\mathbf{X} \in \mathcal{X}},{\mathbf{y} \in \mathcal{Y}}}\} \right.$, to improve its performance on a new forecasting task with target dataset $D_{t}$. This paper considers two cases of transfer learning: zero-shot learning and fine-tuning. In the first case, the pre-trained model is directly transferred to solve the new forecasting task without re-training its parameters $\theta$ on the new dataset. Conversely, in fine-tuning, the model is further trained on the new dataset (starting from pre-trained parameters).
 
 <!-- chunk {"id": "body-0014", "role": "body", "section": "Foundation model for time series", "weight": 1.0} -->
 
@@ -88,7 +88,7 @@ TimeGPT underwent a multi-day training period on a cluster of NVIDIA A10G GPUs. 
 
 <!-- chunk {"id": "body-0022", "role": "body", "section": "Uncertainty quantification", "weight": 1.0} -->
 
-Probabilistic forecasting refers to estimating a model's uncertainty around the predictions. Correctly assessing a forecasting model's calibration enables risk assessment and informed decision-making. Conformal prediction, a non-parametric framework, offers a compelling approach to generating prediction intervals with a pre-specified level of coverage accuracy (Shafer and Vovk Stankeviciute et al., ). Unlike traditional methods, conformal prediction does not require strict distributional assumptions, making it more flexible and agnostic to the model or time series domain. During the inference of a new time series, we perform rolling forecasts on the latest available data to estimate the model's errors in forecasting the particular target time series.
+Probabilistic forecasting refers to estimating a model's uncertainty around the predictions. Correctly assessing a forecasting model's calibration enables risk assessment and informed decision-making. Conformal prediction, a non-parametric framework, offers a compelling approach to generating prediction intervals with a pre-specified level of coverage accuracy. Unlike traditional methods, conformal prediction does not require strict distributional assumptions, making it more flexible and agnostic to the model or time series domain. During the inference of a new time series, we perform rolling forecasts on the latest available data to estimate the model's errors in forecasting the particular target time series.
 
 <!-- chunk {"id": "body-0023", "role": "body", "section": "Experimental Results", "weight": 1.0} -->
 
@@ -100,7 +100,7 @@ In this section, we explore TimeGPT's capabilities as a forecasting foundation m
 
 <!-- chunk {"id": "body-0025", "role": "body", "section": "Experimental Results", "weight": 1.0} -->
 
-The evaluation is performed in the last forecasting window of each time series, varying in length by the sampling frequency. TimeGPT uses the previous historical values as inputs, as shown in Figure, without re-training its weights (zero-shot). We specify a different forecasting horizon based on the frequency to represent common practical applications: 12 for monthly, 1 for weekly, 7 for daily, and 24 for hourly data. ^33^3Future work would profit from expanding and varying this testing set.
+The evaluation is performed in the last forecasting window of each time series, varying in length by the sampling frequency. TimeGPT uses the previous historical values as inputs, as shown in Figure 3, without re-training its weights (zero-shot). We specify a different forecasting horizon based on the frequency to represent common practical applications: 12 for monthly, 1 for weekly, 7 for daily, and 24 for hourly data. ^33^3Future work would profit from expanding and varying this testing set.
 
 <!-- chunk {"id": "body-0026", "role": "body", "section": "Experimental Results", "weight": 1.0} -->
 
@@ -108,11 +108,11 @@ TimeGPT was benchmarked against a broad spectrum of baseline, statistical, machi
 
 <!-- chunk {"id": "body-0027", "role": "body", "section": "Experimental Results", "weight": 1.0} -->
 
-Our selected evaluation metrics include the relative Mean Absolute Error (rMAE) and the relative Root Mean Square Error (rRMSE), both normalized against the performance of the Seasonal Naive model. This choice is justified by the additional insights offered by these relative errors, as they show performance gains in relation to a known baseline, improving the interpretability of our results. The relative error metrics bring the additional benefit of scale independence, enabling comparisons across the results for each frequency. To ensure both robust numerical stability and consistency in evaluation, we apply this normalization at a global scale for each comprehensive dataset. The specific computations for these metrics, applicable to a dataset with $n$ time series and a forecast horizon of $h$, are described in Equation.
+Our selected evaluation metrics include the relative Mean Absolute Error (rMAE) and the relative Root Mean Square Error (rRMSE), both normalized against the performance of the Seasonal Naive model. This choice is justified by the additional insights offered by these relative errors, as they show performance gains in relation to a known baseline, improving the interpretability of our results. The relative error metrics bring the additional benefit of scale independence, enabling comparisons across the results for each frequency. To ensure both robust numerical stability and consistency in evaluation, we apply this normalization at a global scale for each comprehensive dataset. The specific computations for these metrics, applicable to a dataset with $n$ time series and a forecast horizon of $h$, are described in Equation 2.
 
 <!-- chunk {"id": "body-0028", "role": "body", "section": "Zero-shot inference", "weight": 1.0} -->
 
-We first test TimeGPT capabilities on zero-shot inference, meaning that no additional fine-tuning is performed on the test set. Table presents the zero-shot results. Remarkably, TimeGPT outperforms a comprehensive collection of battle-tested statistical models and SoTA deep learning approaches, ranking among the top-3 performers across frequencies.
+We first test TimeGPT capabilities on zero-shot inference, meaning that no additional fine-tuning is performed on the test set. Table 1 presents the zero-shot results. Remarkably, TimeGPT outperforms a comprehensive collection of battle-tested statistical models and SoTA deep learning approaches, ranking among the top-3 performers across frequencies.
 
 <!-- chunk {"id": "body-0029", "role": "body", "section": "Zero-shot inference", "weight": 1.0} -->
 
@@ -120,7 +120,7 @@ It must be noted that the validity of a forecasting model can only be assessed r
 
 <!-- chunk {"id": "body-0030", "role": "body", "section": "Fine Tuning", "weight": 1.0} -->
 
-Fine-tuning is a critical step in effectively utilizing foundation models and transformer-based architectures. Foundation models are pre-trained on vast amounts of data, capturing wide-ranging and generic features. However, these models often need to be specialized for specific contexts or domains. By fine-tuning, we adjust the model parameters on a task-specific dataset, allowing the model to tailor its vast pre-existing knowledge toward the requirements of the new task. This process ensures that the model retains its broad understanding and excels at the specific tasks at hand. Due to their inherent flexibility and capacity for learning complex patterns, transformer-based architectures particularly benefit from fine-tuning, enhancing their performance in domain-specific applications. Fine-tuning thus serves as a crucial bridge, linking foundation models' broad capabilities to the target tasks' specificities. Figure presents results on the accuracy improvements of TimeGPT against the number of fine-tuning steps for a subset of time series on the test set.
+Fine-tuning is a critical step in effectively utilizing foundation models and transformer-based architectures. Foundation models are pre-trained on vast amounts of data, capturing wide-ranging and generic features. However, these models often need to be specialized for specific contexts or domains. By fine-tuning, we adjust the model parameters on a task-specific dataset, allowing the model to tailor its vast pre-existing knowledge toward the requirements of the new task. This process ensures that the model retains its broad understanding and excels at the specific tasks at hand. Due to their inherent flexibility and capacity for learning complex patterns, transformer-based architectures particularly benefit from fine-tuning, enhancing their performance in domain-specific applications. Fine-tuning thus serves as a crucial bridge, linking foundation models' broad capabilities to the target tasks' specificities. Figure 5 presents results on the accuracy improvements of TimeGPT against the number of fine-tuning steps for a subset of time series on the test set.
 
 <!-- chunk {"id": "body-0031", "role": "body", "section": "Time Comparison", "weight": 1.0} -->
 
@@ -136,11 +136,11 @@ The introduction of a foundation model in time series that resembles other field
 
 <!-- chunk {"id": "body-0034", "role": "body", "section": "Discussion and Future Research", "weight": 1.5} -->
 
-Our results align with previous intuitions regarding the expected performance of large time series models. This is consistent with findings from Zalando, OpenAI, Alibaba, and Amazon (Kunz et al. Brown et al. Eisenach et al., ). These outcomes validate the scaling laws correlating model size, dataset size, and Transformer performance. These laws elucidate why simpler models might outperform Transformers on smaller datasets, as observed in studies such as. The relevance of Transformers is, therefore, context-dependent, and they often become more beneficial as dataset sizes increase. These laws offer important practical insights, guiding model selection for specific tasks. In situations where there are limitations on the availability of large datasets or computational resources, simpler models might be more fitting.
+Our results align with previous intuitions regarding the expected performance of large time series models. This is consistent with findings from Zalando, OpenAI, Alibaba, and Amazon. These outcomes validate the scaling laws correlating model size, dataset size, and Transformer performance. These laws elucidate why simpler models might outperform Transformers on smaller datasets, as observed in studies such as. The relevance of Transformers is, therefore, context-dependent, and they often become more beneficial as dataset sizes increase. These laws offer important practical insights, guiding model selection for specific tasks. In situations where there are limitations on the availability of large datasets or computational resources, simpler models might be more fitting.
 
 <!-- chunk {"id": "body-0035", "role": "body", "section": "Discussion and Future Research", "weight": 1.5} -->
 
-Informed forecasting: that incorporates knowledge about the underlying processes, such as physical laws, economic principles, or medical facts.
+Looking forward, we identify two primary areas for future exploration: Informed forecasting: that incorporates knowledge about the underlying processes, such as physical laws, economic principles, or medical facts.
 
 <!-- chunk {"id": "body-0036", "role": "body", "section": "Discussion and Future Research", "weight": 1.5} -->
 

@@ -96,11 +96,7 @@ The rationale behind this choice is that, if closing the gripper now is substant
 
 <!-- chunk {"id": "body-0024", "role": "body", "section": "Continuous Servoing", "weight": 1.0} -->
 
-1: Given current image It and network g.
-2: Infer vt⋆ using g and CEM.
-5: Output ⌀, close gripper.
-7: Modify vt⋆ to raise gripper height and execute vt⋆.
-Algorithm 1 Servoing mechanism f (It)
+1: Given current image It and network g. 2: Infer vt⋆ using g and CEM. 5: Output ⌀, close gripper. 7: Modify vt⋆ to raise gripper height and execute vt⋆. Algorithm 1 Servoing mechanism f (It)
 
 <!-- chunk {"id": "body-0025", "role": "body", "section": "Interpretation as Reinforcement Learning", "weight": 1.0} -->
 
@@ -168,7 +164,7 @@ First, the results suggest that the grasp success rate continued to improve as m
 
 <!-- chunk {"id": "body-0041", "role": "body", "section": "Qualitative Results", "weight": 1.0} -->
 
-Qualitatively, our method exhibited some interesting behaviors. Figure 9 shows the grasps that were chosen for soft and hard objects. Our system preferred to grasp softer objects by embedding the finger into the center of the object, while harder objects were grasped by placing the fingers on either side. Our method was also able to grasp a variety of challenging objects, some of which are shown in Figure 10.
+Qualitatively, our method exhibited some interesting behaviors. Figure 9 shows the grasps that were chosen for soft and hard objects. Our system preferred to grasp softer objects by embedding the finger into the center of the object, while harder objects were grasped by placing the fingers on either side. Our method was also able to grasp a variety of challenging objects, some of which are shown in Figure 10. Other interesting grasp strategies, corrections, and mistakes can be seen in our supplementary video: Figure 10: Examples of difficult objects grasped by our algorithm, including objects that are translucent, awkardly shaped, and heavy.
 
 <!-- chunk {"id": "body-0042", "role": "body", "section": "Discussion and Future Work", "weight": 1.5} -->
 

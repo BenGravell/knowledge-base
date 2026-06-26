@@ -42,12 +42,7 @@ ROS 2 also provides standardized APIs to connect user code through language-spec
 
 <!-- chunk {"id": "body-0011", "role": "body", "section": "II-A The Robot Operating System (ROS and ROS 2)", "weight": 1.0} -->
 
-Real-time Performance Metrics
-Spans Multiple Pipeline Categories
-Evaluation on Heterogeneous Hardware
-Integration with ROS/ROS 2 Framework
-Functional Performance Testing
-Non-functional Performance Testing
+Real-time Performance Metrics Spans Multiple Pipeline Categories Evaluation on Heterogeneous Hardware Integration with ROS/ROS 2 Framework Functional Performance Testing Non-functional Performance Testing TABLE I: Comparative evaluation of representative existing robotics benchmarks with RobotPerf across essential characteristics for robotic systems.
 
 <!-- chunk {"id": "body-0012", "role": "body", "section": "II-B Robotics Benchmarks", "weight": 1.0} -->
 
@@ -87,33 +82,27 @@ RobotPerf allows for the evaluation of benchmarks on a variety of hardware platf
 
 <!-- chunk {"id": "body-0021", "role": "body", "section": "III-C Platform Independence & Portability", "weight": 1.0} -->
 
-Utilizes tracers from in-code instrumentation.
-Limited to ROS 2 message subscriptions.
+Utilizes tracers from in-code instrumentation. Limited to ROS 2 message subscriptions.
 
 <!-- chunk {"id": "body-0022", "role": "body", "section": "III-C Platform Independence & Portability", "weight": 1.0} -->
 
-Low overhead. Driven by kernelspace.
-Restricted to ROS 2 message callbacks. Recorded by userspace processes.
+Low overhead. Driven by kernelspace. Restricted to ROS 2 message callbacks. Recorded by userspace processes.
 
 <!-- chunk {"id": "body-0023", "role": "body", "section": "III-C Platform Independence & Portability", "weight": 1.0} -->
 
-Multiple event types.
-Limited to message subscriptions in current implementation.
+Multiple event types. Limited to message subscriptions in current implementation.
 
 <!-- chunk {"id": "body-0024", "role": "body", "section": "III-C Platform Independence & Portability", "weight": 1.0} -->
 
-Requires a valid tracer. Standard format (CTF).
-Standard ROS 2 APIs. Custom JSON format.
+Requires a valid tracer. Standard format (CTF). Standard ROS 2 APIs. Custom JSON format.
 
 <!-- chunk {"id": "body-0025", "role": "body", "section": "III-C Platform Independence & Portability", "weight": 1.0} -->
 
-Requires code modifications and data postprocessing.
-Tests unmodified software with minor node additions.
+Requires code modifications and data postprocessing. Tests unmodified software with minor node additions.
 
 <!-- chunk {"id": "body-0026", "role": "body", "section": "III-C Platform Independence & Portability", "weight": 1.0} -->
 
-Does not modify the computational graph.
-Modifies the computational graph adding extra dataflow.
+Does not modify the computational graph. Modifies the computational graph adding extra dataflow.
 
 <!-- chunk {"id": "body-0027", "role": "body", "section": "III-D Flexible Methodology", "weight": 1.0} -->
 
@@ -129,120 +118,64 @@ The black-box methodology utilizes a user-level node called the MonitorNode to e
 
 <!-- chunk {"id": "body-0030", "role": "body", "section": "III-D2 Black-Box Testing", "weight": 1.0} -->
 
-Graph with 2 components: rectify and resize.
+Graph with 2 components: rectify and resize. a3_stereo_image_proc Computes disparity map from left and right images. a4_depth_image_proc Computes point cloud from rectified depth and color images.
 
 <!-- chunk {"id": "body-0031", "role": "body", "section": "III-D2 Black-Box Testing", "weight": 1.0} -->
 
-a3_stereo_image_proc
-Computes disparity map from left and right images.
+Apriltag detection component. c1_rrbot_joint_trajectory_controller Joint trajectory controller. c2_diffbot_diff_driver_controller Differential driver controller. c3_rrbot_forward_command_controller_position Position-based forward command controller. c4_rrbot_forward_command_controller_velocity Velocity-based forward command controller. c5_rrbot_forward_command_controller_acceleration Acceleration-based forward command controller. d1_xarm6_planning_and_traj_execution Manipulator planning and trajectory execution. d2_collision_checking_fcl Collision check: manipulator and box (FCL). d3_collision_checking_bullet Collision check: manipulator and box (Bullet). d4_inverse_kinematics_kdl Inverse kinematics (KDL plugin). d5_inverse_kinematics_lma Inverse kinematics (LMA plugin).
 
-<!-- chunk {"id": "body-0032", "role": "body", "section": "III-D2 Black-Box Testing", "weight": 1.0} -->
-
-a4_depth_image_proc
-Computes point cloud from rectified depth and color images.
-
-<!-- chunk {"id": "body-0033", "role": "body", "section": "III-D2 Black-Box Testing", "weight": 1.0} -->
-
-c1_rrbot_joint_trajectory_controller
-Joint trajectory controller.
-
-<!-- chunk {"id": "body-0034", "role": "body", "section": "III-D2 Black-Box Testing", "weight": 1.0} -->
-
-c2_diffbot_diff_driver_controller
-Differential driver controller.
-
-<!-- chunk {"id": "body-0035", "role": "body", "section": "III-D2 Black-Box Testing", "weight": 1.0} -->
-
-c3_rrbot_forward_command_controller_position
-Position-based forward command controller.
-
-<!-- chunk {"id": "body-0036", "role": "body", "section": "III-D2 Black-Box Testing", "weight": 1.0} -->
-
-c4_rrbot_forward_command_controller_velocity
-Velocity-based forward command controller.
-
-<!-- chunk {"id": "body-0037", "role": "body", "section": "III-D2 Black-Box Testing", "weight": 1.0} -->
-
-c5_rrbot_forward_command_controller_acceleration
-Acceleration-based forward command controller.
-
-<!-- chunk {"id": "body-0038", "role": "body", "section": "III-D2 Black-Box Testing", "weight": 1.0} -->
-
-d1_xarm6_planning_and_traj_execution
-Manipulator planning and trajectory execution.
-
-<!-- chunk {"id": "body-0039", "role": "body", "section": "III-D2 Black-Box Testing", "weight": 1.0} -->
-
-d2_collision_checking_fcl
-Collision check: manipulator and box (FCL ).
-
-<!-- chunk {"id": "body-0040", "role": "body", "section": "III-D2 Black-Box Testing", "weight": 1.0} -->
-
-d3_collision_checking_bullet
-Collision check: manipulator and box (Bullet ).
-
-<!-- chunk {"id": "body-0041", "role": "body", "section": "III-D2 Black-Box Testing", "weight": 1.0} -->
-
-d4_inverse_kinematics_kdl
-Inverse kinematics (KDL plugin ).
-
-<!-- chunk {"id": "body-0042", "role": "body", "section": "III-D2 Black-Box Testing", "weight": 1.0} -->
-
-d5_inverse_kinematics_lma
-Inverse kinematics (LMA plugin ).
-
-<!-- chunk {"id": "body-0043", "role": "body", "section": "III-E Opaque Performance Tests", "weight": 1.0} -->
+<!-- chunk {"id": "body-0032", "role": "body", "section": "III-E Opaque Performance Tests", "weight": 1.0} -->
 
 The requirement for packages to be instrumented directly within the source code poses a challenge to many benchmarking efforts. To overcome this hurdle, for most benchmarks, we refrain from altering the workloads of interest and, instead, utilize specialized input and output nodes positioned outside the primary nodes of concern. This setup allows for benchmarking without the need for direct instrumentation of the target layer. We term this methodology "opaque tests," a concept that RobotPerf adheres to when possible.
 
-<!-- chunk {"id": "body-0044", "role": "body", "section": "III-F Reproducibility & Consistency", "weight": 1.0} -->
+<!-- chunk {"id": "body-0033", "role": "body", "section": "III-F Reproducibility & Consistency", "weight": 1.0} -->
 
 To ensure consistent and reproducible evaluations, RobotPerf adheres to specific common robotic dataformats. In particular, it uses ROS 2 rosbags, including our own available at as well third-party bags (e.g., the r2b dataset ).
 
-<!-- chunk {"id": "body-0045", "role": "body", "section": "III-F Reproducibility & Consistency", "weight": 1.0} -->
+<!-- chunk {"id": "body-0034", "role": "body", "section": "III-F Reproducibility & Consistency", "weight": 1.0} -->
 
 To ensure consistent data loading and finer control over message delivery rates, we drew inspiration. Our computational graphs incorporate *modified and improved* DataLoaderNode and PlaybackNode implementations, which can be accessed at These enhanced nodes offer improvements that report worst-case latency and enable the reporting of maximum latency, introduce the ability to profile power consumption and so forth.
 
-<!-- chunk {"id": "body-0046", "role": "body", "section": "III-G Metrics", "weight": 1.0} -->
+<!-- chunk {"id": "body-0035", "role": "body", "section": "III-G Metrics", "weight": 1.0} -->
 
 We focus on three key metrics: latency, throughput and power consumption including energy efficiency. Latency measures the time between the start and the completion of a task. Throughput measures the total amount of work done in a given time for a task. Power measures the electrical energy per unit of time consumed while executing a given task. Measuring energy efficiency (or performance-per-Watt) captures the total amount of work (relative to either throughput or latency) that can be delivered for every watt of power consumed and is directly related to the runtime of battery powered robots.
 
-<!-- chunk {"id": "body-0047", "role": "body", "section": "III-H Current Benchmarks and Categories", "weight": 1.0} -->
+<!-- chunk {"id": "body-0036", "role": "body", "section": "III-H Current Benchmarks and Categories", "weight": 1.0} -->
 
 RobotPerf beta introduces benchmarks that cover the robotics pipeline from perception, to localization, to control, as well as dedicated benchmarks for manipulation. The full list of benchmarks in the beta release can be found in Table III. Aligned with our principles defined above, each benchmark is a self-contained ROS 2 package which describes all dependencies (generally other ROS packages). To facilitate reproducibility, all benchmarks are designed to be built and run using the common ROS 2 development flows (ament build tools, colcon meta-build tools, etc.). Finally, so that the benchmarks can be easily consumed by other tools, a description of each benchmark, as well as its results, is defined in a machine-readable format. As such, accompanying the package.xml and CMakeLists.txt files required for all ROS packages, a YAML file named benchmark.yaml is in the root of each benchmark which describes the benchmark and includes accepted results.
 
-<!-- chunk {"id": "body-0048", "role": "body", "section": "III-I Run Rules", "weight": 1.0} -->
+<!-- chunk {"id": "body-0037", "role": "body", "section": "III-I Run Rules", "weight": 1.0} -->
 
 To ensure the reliability and reproducibility of the performance data, we adhere to a stringent set of run rules. First, tests are performed in a controlled environment to ensure that performance data is not compromised by fluctuating external parameters. As per best practices recommended by ros2_tracing, we record and report settings like clock frequency and core count. Second, we look forward to the possibility of RobotPerf being embraced by the community and have results undergo peer review, which can contribute to enhancing reproducibility and accuracy. Finally, we aim to avoid overfitting to specific hardware setups or software configurations by encompassing a broad spectrum of test scenarios.
 
-<!-- chunk {"id": "body-0049", "role": "body", "section": "Evaluation", "weight": 1.0} -->
+<!-- chunk {"id": "body-0038", "role": "body", "section": "Evaluation", "weight": 1.0} -->
 
 We conduct comprehensive benchmarking using RobotPerf to evaluate its capabilities on three key aspects vital for a robotics-focused computing benchmark. First, we validate the framework's capacity to provide comparative insights across divergent heterogeneous platforms from edge devices to server-class hardware. Second, we analyze the results to understand RobotPerf's ability to guide selection of the optimal hardware solution tailored to particular robotic workloads. Finally, we assess how effectively RobotPerf reveals the advantages conferred by hardware and software acceleration techniques relative to general-purpose alternatives.
 
-<!-- chunk {"id": "body-0050", "role": "body", "section": "IV-A Fair and Representative Assessment of Heterogeneity", "weight": 1.0} -->
+<!-- chunk {"id": "body-0039", "role": "body", "section": "IV-A Fair and Representative Assessment of Heterogeneity", "weight": 1.0} -->
 
 Assessing hardware heterogeneity in robotic applications is imperative in the ever-evolving field of robotics. Different robotic workloads demand varying computational resources and efficiency levels. Therefore, comprehensively evaluating performance across diverse hardware platforms is crucial.
 
-<!-- chunk {"id": "body-0051", "role": "body", "section": "IV-A Fair and Representative Assessment of Heterogeneity", "weight": 1.0} -->
+<!-- chunk {"id": "body-0040", "role": "body", "section": "IV-A Fair and Representative Assessment of Heterogeneity", "weight": 1.0} -->
 
 We evaluated the RobotPerf benchmarks over a wide list of hardware platforms, including general-purpose CPUs on edge devices (e.g., Qualcomm RB5), server-class CPUs (e.g., Intel i7-8700), and specialized hardware accelerators (e.g., AMD Kria KR260). Figure 3 illustrates benchmark performance in robotics per category of workload (perception, localization, control, and manipulation) using radar plots, wherein the different hardware solutions are depicted together alongside different robotic workloads per category. Each hardware solution is presented with a different color, with smaller values and areas representing better performance in the respective category. Given our ability to benchmark 18 platforms (bottom of Figure 3), RobotPerf is capable of benchmarking heterogeneous hardware platforms and workloads, paving the way for community-driven co-design and optimization of hardware and software.
 
-<!-- chunk {"id": "body-0052", "role": "body", "section": "IV-B Quantitative Approach to Hardware Selection", "weight": 1.0} -->
+<!-- chunk {"id": "body-0041", "role": "body", "section": "IV-B Quantitative Approach to Hardware Selection", "weight": 1.0} -->
 
 The rapid evolution and diversity of tasks in robotics means we need to have a meticulous and context-specific approach to computing hardware selection and optimization. A "one-size-fits-all" hardware strategy would be an easy default selection, but it fails to capitalize on the nuanced differences in workload demands across diverse facets like perception, localization, control, and manipulation, each exhibiting distinctive sensitivities to hardware capabilities. Therefore, a rigorous analysis, guided by tools like RobotPerf, becomes essential to pinpoint the most effective hardware configurations that align well with individual workload requirements.
 
-<!-- chunk {"id": "body-0053", "role": "body", "section": "IV-B Quantitative Approach to Hardware Selection", "weight": 1.0} -->
+<!-- chunk {"id": "body-0042", "role": "body", "section": "IV-B Quantitative Approach to Hardware Selection", "weight": 1.0} -->
 
 The results in Figure 3 demonstrate the fallacy of a "one-size-fits-all" solution. For example, focusing in on the latency radar plot for control from Figure 3 (col 3, row 1), we see that the i7-12700H (I7H) outperforms the NVIDIA AGX Orin Dev. Kit (NO) on benchmarks C1, C3, C4, and C5, but is $6.5 \times$ slower on benchmark C2. As such, by analyzing data from the RobotPerf benchmarks, roboticists can better determine which hardware option best suits their needs given their specific workloads and performance requirements.
 
-<!-- chunk {"id": "body-0054", "role": "body", "section": "IV-B Quantitative Approach to Hardware Selection", "weight": 1.0} -->
+<!-- chunk {"id": "body-0043", "role": "body", "section": "IV-B Quantitative Approach to Hardware Selection", "weight": 1.0} -->
 
 One general lesson learned while evaluating the data is that each workload is unique, making it hard to generalize across both benchmarks and categories. To that end, RobotPerf results help us understand how the use of various hardware solutions and dedicated domain-specific hardware accelerators significantly improves the performance.
 
-<!-- chunk {"id": "body-0055", "role": "body", "section": "IV-C Rigorous Assessment of Acceleration Benefits", "weight": 1.0} -->
+<!-- chunk {"id": "body-0044", "role": "body", "section": "IV-C Rigorous Assessment of Acceleration Benefits", "weight": 1.0} -->
 
 In the rapidly advancing field of computing hardware, the optimization of algorithm implementations is a crucial factor in determining the success and efficiency of robotic applications. The need for an analytical tool, like RobotPerf, that facilitates the comparison of various algorithmic implementations on uniform hardware setups becomes important.
 
-<!-- chunk {"id": "body-0056", "role": "body", "section": "Conclusion and Future Work", "weight": 1.5} -->
+<!-- chunk {"id": "body-0045", "role": "body", "section": "Conclusion and Future Work", "weight": 1.5} -->
 
 RobotPerf represents an important step towards standardized benchmarking in robotics. With its comprehensive evaluation across the hardware/software stack and focus on industry-grade ROS 2 deployments, RobotPerf can pave the way for rigorous co-design of robotic hardware and algorithms. As RobotPerf matures with community involvement, we expect it to compare CPU, GPU and FPGA, exploring their power consumption and flexibility in augmenting real-world robotic computations. With a standardized robotics benchmark as a focal point, the field can make rapid progress in delivering real-time capable systems that will unlock the true potential of robotics in real-world applications.

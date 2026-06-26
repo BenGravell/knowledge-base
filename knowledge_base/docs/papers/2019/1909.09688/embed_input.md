@@ -48,43 +48,39 @@ While our main focus in this paper is the RRT^∗^ algorithm, we also rely on th
 
 <!-- chunk {"id": "body-0012", "role": "body", "section": "II-B Algorithms", "weight": 1.0} -->
 
-4: xnear ← nearest (xrand,V)
-5: xnew← steer(xnear, xrand, η)
-6: if collision-free(xnear, xnew) then
-7: V = V ∪ {xnew}; E = E ∪ {(xnear,xnew)}
-Algorithm 1 RRT(xinit:= s, xgoal:= t, n, η)
+4: xnear ← nearest (xrand, V) 5: xnew← steer(xnear, xrand, η) 6: if collision-free(xnear, xnew) then 7: V = V ∪ {xnew}; E = E ∪ {(xnear, xnew)} Algorithm 1 RRT(xinit:= s, xgoal:= t, n, η) The input for RRT (Algorithm 1) is an initial and goal configurations $x_{\text{init}},x_{\text{goal}}$, number of iterations $n$, and a steering parameter $\eta > 0$. RRT constructs a tree $G = {(V,E)}$ by performing $n$ iterations. In each iteration, a new sample $x_{\text{rand}}$ is returned from $\mathcal{F}$ uniformly at random by calling sample-free.
 
 <!-- chunk {"id": "body-0013", "role": "body", "section": "II-B Algorithms", "weight": 1.0} -->
 
-The input for RRT (Algorithm 1) is an initial and goal configurations $x_{\text{init}},x_{\text{goal}}$, number of iterations $n$, and a steering parameter $\eta > 0$. RRT constructs a tree $G = {(V,E)}$ by performing $n$ iterations. In each iteration, a new sample $x_{\text{rand}}$ is returned from $\mathcal{F}$ uniformly at random by calling sample-free. Then, the vertex $x_{\text{near}} \in V$ that is nearest (according to $\parallel \cdot \parallel$) to $x_{\text{rand}}$ is found using nearest.
+Then, the vertex $x_{\text{near}} \in V$ that is nearest (according to $\parallel \cdot \parallel$) to $x_{\text{rand}}$ is found using nearest. A new configuration $x_{\text{new}} \in \mathcal{X}$ is then returned by steer, such that $x_{\text{new}}$ is on the line segment between $x_{\text{near}}$ and $x_{\text{rand}}$, and the distance $\|{x_{\text{near}} - x_{\text{new}}}\|$ is at most $\eta$. Finally, collision-free($x_{\text{near}},x_{\text{new}}$) checks whether the straight-line path from $x_{\text{near}}$ to $x_{\text{new}}$ is collision free.
 
 <!-- chunk {"id": "body-0014", "role": "body", "section": "II-B Algorithms", "weight": 1.0} -->
 
-We proceed to describe RRT^∗^ in Algorithm 2. Every RRT^∗^ iteration begins with an RRT-style extension. The difference lies in the subsequent lines. First, RRT^∗^ attempts to connect the tree to $x_{\text{new}}$ from all its neighbors in $V$ within a $\min{\{{r{({|V|})}},\eta\}}$ vicinity (lines 7-15). Notice that the expression $r{({|V|})}$ determines the radius based on the current number of vertices in $V$.
+If so, $x_{\text{new}}$ is added as a vertex to $G$ and is connected by an edge from $x_{\text{near}}$.
 
 <!-- chunk {"id": "body-0015", "role": "body", "section": "II-B Algorithms", "weight": 1.0} -->
 
-In the next step, RRT^∗^ attempts to perform rewires (lines 17-21): with the addition of $x_{\text{new}}$, it may be beneficial to reroute the existing path of $x_{\text{near}}$ to use $x_{\text{new}}$. RRT^∗^ checks whether changing the parent of $x_{\text{near}}$ to be $x_{\text{new}}$ reduces $\text{cost}{(x_{\text{near}})}$. ($\text{parent}{(x_{\text{near}})}$ returns the immediate predecessor of $x_{\text{near}}$ in $G$. $\text{cost}{(x)}$ for $x \in V$ returns the cost of the path leading from $x_{\text{init}}$ to $x$ in $G$.)
+We proceed to describe RRT^∗^ in Algorithm 2. Every RRT^∗^ iteration begins with an RRT-style extension. The difference lies in the subsequent lines. First, RRT^∗^ attempts to connect the tree to $x_{\text{new}}$ from all its neighbors in $V$ within a $\min{\{{r{({|V|})}},\eta\}}$ vicinity (lines 7-15). Notice that the expression $r{({|V|})}$ determines the radius based on the current number of vertices in $V$.
 
 <!-- chunk {"id": "body-0016", "role": "body", "section": "II-B Algorithms", "weight": 1.0} -->
 
-4: xnear ← nearest (xrand,V) 5: xnew← steer(xnear, xrand, η) 6: if collision-free(xnear, xnew) then 7: Xnear = near (xnew,V,min {r (|V|),η}) 10: cmin = cost (xnear) + ∥xnew−xnear∥ 11: for xnear ∈ Xnear do 12: if collision-free (xnear,xnew) then 13: if cost (xnear) + ∥xnew−xnear∥ &lt; cmin then 15: cmin = cost (xnear) + ∥xnew−xnear∥ 17: for xnear ∈ Xnear do 18: if collision-free (xnew,xnear) then 19: if cost (xnew) + ∥xnear−xnew∥ &lt; cost (xnear) then 20: xparent = parent (xnear) 21: E = E ∪ {(xnew,xnear)} ∖ {(xparent,xnear)} Algorithm 2 RRT∗(xinit:= s, xgoal:= t, n,
+In the next step, RRT^∗^ attempts to perform rewires (lines 17-21): with the addition of $x_{\text{new}}$, it may be beneficial to reroute the existing path of $x_{\text{near}}$ to use $x_{\text{new}}$. RRT^∗^ checks whether changing the parent of $x_{\text{near}}$ to be $x_{\text{new}}$ reduces $\text{cost}{(x_{\text{near}})}$. ($\text{parent}{(x_{\text{near}})}$ returns the immediate predecessor of $x_{\text{near}}$ in $G$. $\text{cost}{(x)}$ for $x \in V$ returns the cost of the path leading from $x_{\text{init}}$ to $x$ in $G$.)
 
-<!-- chunk {"id": "body-0017", "role": "body", "section": "Remark 1", "weight": 1.0} -->
+<!-- chunk {"id": "body-0017", "role": "body", "section": "II-B Algorithms", "weight": 1.0} -->
 
-As mentioned above, RRT^∗^ performs extensions of the tree in a manner similar to RRT. That is, steer generates $x_{\text{new}}$, which lies on the straight line connecting $x_{\text{near}},x_{\text{rand}}$, such that ${\|{x_{\text{new}} - x_{\text{near}}}\|} \leq \eta$. Note that initially $x_{\text{new}} \neq x_{\text{rand}}$, but once the space is sufficiently covered by $G$, i.e., when $\mathcal{F} \subset {\bigcup_{v \in V}{\mathcal{B}_{\eta}{(v)}}}$, then in all the following iterations it will hold that $x_{\text{new}} = x_{\text{rand}}$.
+4: xnear ← nearest (xrand, V) 5: xnew← steer(xnear, xrand, η) 6: if collision-free(xnear, xnew) then 7: Xnear = near (xnew, V, min {r (|V|), η}) 10: cmin = cost (xnear) + ∥xnew − xnear∥ 11: for xnear ∈ Xnear do 12: if collision-free (xnear, xnew) then 13: if cost (xnear) + ∥xnew − xnear∥ < cmin then 15: cmin = cost (xnear) + ∥xnew − xnear∥ 17: for xnear ∈ Xnear do 18: if collision-free (xnew, xnear) then 19: if cost (xnew) + ∥xnear − xnew∥ < cost (xnear) then 20: xparent = parent (xnear) 21: E = E ∪ {(xnew, xnear)} ∖ {(xparent, xnear)} Algorithm 2 RRT∗(xinit:= s, xgoal:=
 
 <!-- chunk {"id": "body-0018", "role": "body", "section": "Remark 1", "weight": 1.0} -->
 
+As mentioned above, RRT^∗^ performs extensions of the tree in a manner similar to RRT. That is, steer generates $x_{\text{new}}$, which lies on the straight line connecting $x_{\text{near}},x_{\text{rand}}$, such that ${\|{x_{\text{new}} - x_{\text{near}}}\|} \leq \eta$. Note that initially $x_{\text{new}} \neq x_{\text{rand}}$, but once the space is sufficiently covered by $G$, i.e., when $\mathcal{F} \subset {\bigcup_{v \in V}{\mathcal{B}_{\eta}{(v)}}}$, then in all the following iterations it will hold that $x_{\text{new}} = x_{\text{rand}}$.
+
+<!-- chunk {"id": "body-0019", "role": "body", "section": "Remark 1", "weight": 1.0} -->
+
 This property will be important in the analysis of RRT^∗^, as it indicates that $x_{\text{new}}$ is uniformly sampled from $\mathcal{F}$. This notion will be formalized below. For now, it is useful to note that given the same sequence of samples, RRT and RRT^∗^ will generate two (possibly distinct) graphs that have a common vertex set.
-
-<!-- chunk {"id": "body-0019", "role": "body", "section": "Original optimality proof", "weight": 1.0} -->
-
-In this section we review the original proof for asymptotic optimality of RRT^∗^, and point out a logical gap. Specifically, Theorem 38 in states that if the connection radius used by RRT^∗^ is of the form
 
 <!-- chunk {"id": "body-0020", "role": "body", "section": "Original optimality proof", "weight": 1.0} -->
 
-where $n \in {\mathbb{N}}_{+}$, and for some constant $\gamma^{\text{KF}} > 0$, the cost of the solution obtained by RRT^∗^ converges to the robust optimum $c^{\ast}$ as $n\rightarrow\infty$, almost surely.
+In this section we review the original proof for asymptotic optimality of RRT^∗^, and point out a logical gap. Specifically, Theorem 38 in states that if the connection radius used by RRT^∗^ is of the form where $n \in {\mathbb{N}}_{+}$, and for some constant $\gamma^{\text{KF}} > 0$, the cost of the solution obtained by RRT^∗^ converges to the robust optimum $c^{\ast}$ as $n\rightarrow\infty$, almost surely.
 
 <!-- chunk {"id": "body-0021", "role": "body", "section": "III-A Review of previous proof", "weight": 1.0} -->
 
@@ -116,32 +112,28 @@ We identify an issue with the proof technique described above, and in particular
 
 <!-- chunk {"id": "body-0028", "role": "body", "section": "III-B A logical gap", "weight": 1.0} -->
 
-Now assume that $X^{B} = \varnothing$. We can choose the current structure of $G$ and the locations of $X_{j_{i}},X_{j_{i + 1}^{\prime}}$ such that the only directed edge that is added in iteration $j_{i}$ is $(X_{j_{i + 1}^{\prime}},X_{j_{i}})$, i.e., from $X_{j_{i + 1}^{\prime}}$ to $X_{j_{i}}$ (rather than the other way around). Note that in iteration $j_{i + 1}$ the addition of sample $X_{j_{i + 1}}$ would not resolve this problematic wiring since the latter sample will be connected by a directed edge either from $X_{j_{i}}$ or $X_{j_{i + 1}^{\prime}}$.
+Now assume that $X^{B} = \varnothing$. We can choose the current structure of $G$ and the locations of $X_{j_{i}},X_{j_{i + 1}'}$ such that the only directed edge that is added in iteration $j_{i}$ is $(X_{j_{i + 1}'},X_{j_{i}})$, i.e., from $X_{j_{i + 1}'}$ to $X_{j_{i}}$ (rather than the other way around). Note that in iteration $j_{i + 1}$ the addition of sample $X_{j_{i + 1}}$ would not resolve this problematic wiring since the latter sample will be connected by a directed edge either from $X_{j_{i}}$ or $X_{j_{i + 1}'}$. Moreover, we can repeat this argument for preceding balls to yield a long chain of samples that are connected in the opposite direction.
 
 <!-- chunk {"id": "body-0029", "role": "body", "section": "III-B A logical gap", "weight": 1.0} -->
 
-Moreover, we can repeat this argument for preceding balls to yield a long chain of samples that are connected in the opposite direction.
+In this discussion it is important to keep in mind that RRT^∗^ performs rewiring (i.e., changing the predecessor of a given vertex) only locally (lines 17-21 of Algorithm 2). That is, in order to force a rewiring of a given vertex $X_{j}$ RRT^∗^ must sample a vertex $x_{\text{new}}$ in the vicinity of $X_{j}$, and this rewiring would not cause a chain of rewires for $X_{j}$s predecessors or successors in $G$. Consequently, in order to reverse the direction of the aforementioned chain from $X_{j_{i + 1}'}$, RRT^∗^ would need to sample new vertices along the chain in the correct order. For a more detailed example see the appendix.
 
 <!-- chunk {"id": "body-0030", "role": "body", "section": "III-B A logical gap", "weight": 1.0} -->
 
-In this discussion it is important to keep in mind that RRT^∗^ performs rewiring (i.e., changing the predecessor of a given vertex) only locally (lines 17-21 of Algorithm 2). That is, in order to force a rewiring of a given vertex $X_{j}$ RRT^∗^ must sample a vertex $x_{\text{new}}$ in the vicinity of $X_{j}$, and this rewiring would not cause a chain of rewires for $X_{j}$s predecessors or successors in $G$. Consequently, in order to reverse the direction of the aforementioned chain from $X_{j_{i + 1}^{\prime}}$, RRT^∗^ would need to sample new vertices along the chain in the correct order. For a more detailed example see the appendix.
-
-<!-- chunk {"id": "body-0031", "role": "body", "section": "III-B A logical gap", "weight": 1.0} -->
-
 As we show in our proof in the next section, condition (iii) is in fact sufficient to guarantee asymptotic optimality, and we prove that it indeed holds with high probability when we slightly increase the connection radius from Equation, and modify the constant $\gamma^{\text{KF}}$.
 
-<!-- chunk {"id": "body-0032", "role": "body", "section": "Alternative proof", "weight": 1.0} -->
+<!-- chunk {"id": "body-0031", "role": "body", "section": "Alternative proof", "weight": 1.0} -->
 
 In order to account for the additional dimension of time, we set the connection radius to be ${r{(n)}} = {\gamma\left( \frac{\log n}{n} \right)^{\frac{1}{d + 1}}}$, where $\gamma$ is a constant that will be determined below. We state our main theorem and provide an overview of the proof. The full proof is presented later. Note that our result suggests that the exponent should be decreased from $1/d$ to $1/{({d + 1})}$, which yields a larger radius overall. Denote by $\sigma_{n}$ the path connecting $s$ to $t$ returned by RRT^∗^ after $n$ iterations. Recall that $c{(\sigma_{n})}$ denotes its length (in case that no solution is found, the length of $\sigma_{n}$ is assumed to be $\infty$).
 
-<!-- chunk {"id": "body-0033", "role": "body", "section": "Alternative proof", "weight": 1.0} -->
+<!-- chunk {"id": "body-0032", "role": "body", "section": "Alternative proof", "weight": 1.0} -->
 
 Our main theorem, which appears below, states that if $\gamma$ is set correctly, then the cost of the solution returned by RRT^∗^ is upper-bounded asymptotically by ${({1 + \varepsilon})}c^{\ast}$, where $c^{\ast}$ is the robust optimum, and $\varepsilon$ is a tuning parameter. Additional tuning parameters that appear in the theorem are as follows: $\eta$ is the steering size of RRT^∗^ (Algorithm 2, line 5), while $\mu$ and $\theta$ are constants whose purpose will become clear in the proof of the theorem.
 
-<!-- chunk {"id": "body-0034", "role": "body", "section": "Remark 2", "weight": 1.0} -->
+<!-- chunk {"id": "body-0033", "role": "body", "section": "Remark 2", "weight": 1.0} -->
 
 We wish to stress that the following lemma, which lower bounds the probability of ${\mathfrak{E}}_{n}^{1}$, is a key ingredient in our proof. As we shall see below, this would allow us to treat some of the vertices added by RRT^∗^ as uniformly sampled, which is not true for all samples, as some are perturbed by the steer operation. We mention that this issue was not addressed in the original proof, where the RRT^∗^ nodes were assumed (incorrectly) to be uniformly distributed. Furthermore, setting the steering step $\eta = \infty$ does not resolve this issue.
 
-<!-- chunk {"id": "body-0035", "role": "body", "section": "Conclusion", "weight": 1.5} -->
+<!-- chunk {"id": "body-0034", "role": "body", "section": "Conclusion", "weight": 1.5} -->
 
 In this paper we revisited the original asymptotic-optimality proof of RRT^∗^, and discussed an apparent logical gap within it. We then introduced an alternative proof that amends this logical gap. Our new proof suggests that the connection radius of RRT^∗^ should be slightly larger than the original bound on the radius that was developed. We leave the question of whether our bound is tight, i.e., whether the exponent of $1/{({d + 1})}$ in Equation can be lowered to $1/d$, to future research. The practical successes of the algorithm and its extensions, using the exponent $1/d$, provide some evidence that this might be the case.

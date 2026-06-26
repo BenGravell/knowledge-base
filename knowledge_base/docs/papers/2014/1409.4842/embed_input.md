@@ -64,128 +64,108 @@ However, one can also expect that there will be a smaller number of more spatial
 
 <!-- chunk {"id": "body-0016", "role": "body", "section": "Architectural Details", "weight": 1.0} -->
 
-(b) Inception module with dimension reductions
+(a) Inception module, naïve version (b) Inception module with dimension reductions Figure 2: Inception module As these "Inception modules" are stacked on top of each other, their output correlation statistics are bound to vary: as features of higher abstraction are captured by higher layers, their spatial concentration is expected to decrease suggesting that the ratio of $3 \times 3$ and $5 \times 5$ convolutions should increase as we move to higher layers.
 
 <!-- chunk {"id": "body-0017", "role": "body", "section": "Architectural Details", "weight": 1.0} -->
 
-As these "Inception modules" are stacked on top of each other, their output correlation statistics are bound to vary: as features of higher abstraction are captured by higher layers, their spatial concentration is expected to decrease suggesting that the ratio of $3 \times 3$ and $5 \times 5$ convolutions should increase as we move to higher layers.
+One big problem with the above modules, at least in this naïve form, is that even a modest number of $5 \times 5$ convolutions can be prohibitively expensive on top of a convolutional layer with a large number of filters. This problem becomes even more pronounced once pooling units are added to the mix: their number of output filters equals to the number of filters in the previous stage. The merging of the output of the pooling layer with the outputs of convolutional layers would lead to an inevitable increase in the number of outputs from stage to stage. Even while this architecture might cover the optimal sparse structure, it would do it very inefficiently, leading to a computational blow up within a few stages.
 
 <!-- chunk {"id": "body-0018", "role": "body", "section": "Architectural Details", "weight": 1.0} -->
 
-One big problem with the above modules, at least in this naïve form, is that even a modest number of $5 \times 5$ convolutions can be prohibitively expensive on top of a convolutional layer with a large number of filters. This problem becomes even more pronounced once pooling units are added to the mix: their number of output filters equals to the number of filters in the previous stage. The merging of the output of the pooling layer with the outputs of convolutional layers would lead to an inevitable increase in the number of outputs from stage to stage. Even while this architecture might cover the optimal sparse structure, it would do it very inefficiently, leading to a computational blow up within a few stages.
+This leads to the second idea of the proposed architecture: judiciously applying dimension reductions and projections wherever the computational requirements would increase too much otherwise. This is based on the success of embeddings: even low dimensional embeddings might contain a lot of information about a relatively large image patch. However, embeddings represent information in a dense, compressed form and compressed information is harder to model. We would like to keep our representation sparse at most places (as required by the conditions of ) and compress the signals only whenever they have to be aggregated en masse. That is, $1 \times 1$ convolutions are used to compute reductions before the expensive $3 \times 3$ and $5 \times 5$ convolutions. Besides being used as reductions, they also include the use of rectified linear activation which makes them dual-purpose. The final result is depicted in Figure 2(b).
 
 <!-- chunk {"id": "body-0019", "role": "body", "section": "Architectural Details", "weight": 1.0} -->
 
-This leads to the second idea of the proposed architecture: judiciously applying dimension reductions and projections wherever the computational requirements would increase too much otherwise. This is based on the success of embeddings: even low dimensional embeddings might contain a lot of information about a relatively large image patch. However, embeddings represent information in a dense, compressed form and compressed information is harder to model. We would like to keep our representation sparse at most places (as required by the conditions of ) and compress the signals only whenever they have to be aggregated en masse. That is, $1 \times 1$ convolutions are used to compute reductions before the expensive $3 \times 3$ and $5 \times 5$ convolutions. Besides being used as reductions, they also include the use of rectified linear activation which makes them dual-purpose. The final result is depicted in Figure 2(b).
+In general, an Inception network is a network consisting of modules of the above type stacked upon each other, with occasional max-pooling layers with stride 2 to halve the resolution of the grid. For technical reasons (memory efficiency during training), it seemed beneficial to start using Inception modules only at higher layers while keeping the lower layers in traditional convolutional fashion. This is not strictly necessary, simply reflecting some infrastructural inefficiencies in our current implementation.
 
 <!-- chunk {"id": "body-0020", "role": "body", "section": "Architectural Details", "weight": 1.0} -->
 
-In general, an Inception network is a network consisting of modules of the above type stacked upon each other, with occasional max-pooling layers with stride 2 to halve the resolution of the grid. For technical reasons (memory efficiency during training), it seemed beneficial to start using Inception modules only at higher layers while keeping the lower layers in traditional convolutional fashion. This is not strictly necessary, simply reflecting some infrastructural inefficiencies in our current implementation.
+One of the main beneficial aspects of this architecture is that it allows for increasing the number of units at each stage significantly without an uncontrolled blow-up in computational complexity. The ubiquitous use of dimension reduction allows for shielding the large number of input filters of the last stage to the next layer, first reducing their dimension before convolving over them with a large patch size. Another practically useful aspect of this design is that it aligns with the intuition that visual information should be processed at various scales and then aggregated so that the next stage can abstract features from different scales simultaneously.
 
 <!-- chunk {"id": "body-0021", "role": "body", "section": "Architectural Details", "weight": 1.0} -->
 
-One of the main beneficial aspects of this architecture is that it allows for increasing the number of units at each stage significantly without an uncontrolled blow-up in computational complexity. The ubiquitous use of dimension reduction allows for shielding the large number of input filters of the last stage to the next layer, first reducing their dimension before convolving over them with a large patch size. Another practically useful aspect of this design is that it aligns with the intuition that visual information should be processed at various scales and then aggregated so that the next stage can abstract features from different scales simultaneously.
-
-<!-- chunk {"id": "body-0022", "role": "body", "section": "Architectural Details", "weight": 1.0} -->
-
 The improved use of computational resources allows for increasing both the width of each stage as well as the number of stages without getting into computational difficulties. Another way to utilize the inception architecture is to create slightly inferior, but computationally cheaper versions of it. We have found that all the included the knobs and levers allow for a controlled balancing of computational resources that can result in networks that are $2 - 3 \times$ faster than similarly performing networks with non-Inception architecture, however this requires careful manual design at this point.
 
-<!-- chunk {"id": "body-0023", "role": "body", "section": "GoogLeNet", "weight": 1.0} -->
+<!-- chunk {"id": "body-0022", "role": "body", "section": "GoogLeNet", "weight": 1.0} -->
 
-We chose GoogLeNet as our team-name in the competition. This name is an homage to Yann LeCun's pioneering LeNet 5 network. We also use GoogLeNet to refer to the particular incarnation of the Inception architecture used in our submission for the competition. We have also used a deeper and wider Inception network, the quality of which was slightly inferior, but adding it to the ensemble seemed to improve the results marginally. We omit the details of that network, since our experiments have shown that the influence of the exact architectural parameters is relatively minor. Here, the most successful particular instance (named GoogLeNet) is described in Table 1 for demonstrational purposes. The exact same topology (trained with different sampling methods) was used for 6 out of the 7 models in our ensemble.
+We chose GoogLeNet as our team-name in the competition. This name is an homage to Yann LeCun's pioneering LeNet 5 network. We also use GoogLeNet to refer to the particular incarnation of the Inception architecture used in our submission for the competition. We have also used a deeper and wider Inception network, the quality of which was slightly inferior, but adding it to the ensemble seemed to improve the results marginally. We omit the details of that network, since our experiments have shown that the influence of the exact architectural parameters is relatively minor. Here, the most successful particular instance (named GoogLeNet) is described in Table 1 for demonstrational purposes. The exact same topology (trained with different sampling methods) was used for 6 out of the 7 models in our ensemble. patch size/ stride
 
-<!-- chunk {"id": "body-0024", "role": "body", "section": "GoogLeNet", "weight": 1.0} -->
-
-All the convolutions, including those inside the Inception modules, use rectified linear activation. The size of the receptive field in our network is $224 \times 224$ taking RGB color channels with mean subtraction. "${\#3} \times 3$ reduce" and "${\#5} \times 5$ reduce" stands for the number of $1 \times 1$ filters in the reduction layer used before the $3 \times 3$ and $5 \times 5$ convolutions. One can see the number of $1 \times 1$ filters in the projection layer after the built-in max-pooling in the "pool proj" column. All these reduction/projection layers use rectified linear activation as well.
-
-<!-- chunk {"id": "body-0025", "role": "body", "section": "GoogLeNet", "weight": 1.0} -->
-
-The network was designed with computational efficiency and practicality in mind, so that inference can be run on individual devices including even those with limited computational resources, especially with low-memory footprint. The network is 22 layers deep when counting only layers with parameters (or 27 layers if we also count pooling). The overall number of "layers" (independent building blocks) used for the construction of the network is about 100. However this number depends on the machine learning infrastructure system used. The use of average pooling before the classifier is based, although our implementation differs in that we use an extra linear layer. This enables adapting and fine-tuning our networks for other label sets easily, but it is mostly convenience and we do not expect it to have a major effect. It was found that a move from fully connected layers to average pooling improved the top-1 accuracy by about 0.6%, however the use of dropout remained essential even after removing the fully connected layers.
-
-<!-- chunk {"id": "body-0026", "role": "body", "section": "GoogLeNet", "weight": 1.0} -->
+<!-- chunk {"id": "body-0023", "role": "body", "section": "× 5", "weight": 1.0} -->
 
 Given the relatively large depth of the network, the ability to propagate gradients back through all the layers in an effective manner was a concern. One interesting insight is that the strong performance of relatively shallower networks on this task suggests that the features produced by the layers in the middle of the network should be very discriminative. By adding auxiliary classifiers connected to these intermediate layers, we would expect to encourage discrimination in the lower stages in the classifier, increase the gradient signal that gets propagated back, and provide additional regularization. These classifiers take the form of smaller convolutional networks put on top of the output of the Inception (4a) and (4d) modules. During training, their loss gets added to the total loss of the network with a discount weight (the losses of the auxiliary classifiers were weighted by 0.3). At inference time, these auxiliary networks are discarded.
 
-<!-- chunk {"id": "body-0027", "role": "body", "section": "GoogLeNet", "weight": 1.0} -->
+<!-- chunk {"id": "body-0024", "role": "body", "section": "× 5", "weight": 1.0} -->
 
-An average pooling layer with $5 \times 5$ filter size and stride $3$, resulting in an $4 \times 4 \times 512$ output for the (4a), and $4 \times 4 \times 528$ for the (4d) stage.
+The exact structure of the extra network on the side, including the auxiliary classifier, is as follows: An average pooling layer with $5 \times 5$ filter size and stride $3$, resulting in an $4 \times 4 \times 512$ output for the (4a), and $4 \times 4 \times 528$ for the (4d) stage.
 
-<!-- chunk {"id": "body-0028", "role": "body", "section": "GoogLeNet", "weight": 1.0} -->
+<!-- chunk {"id": "body-0025", "role": "body", "section": "× 5", "weight": 1.0} -->
 
 A $1 \times 1$ convolution with 128 filters for dimension reduction and rectified linear activation.
 
-<!-- chunk {"id": "body-0029", "role": "body", "section": "GoogLeNet", "weight": 1.0} -->
+<!-- chunk {"id": "body-0026", "role": "body", "section": "× 5", "weight": 1.0} -->
 
 A fully connected layer with 1024 units and rectified linear activation.
 
-<!-- chunk {"id": "body-0030", "role": "body", "section": "GoogLeNet", "weight": 1.0} -->
+<!-- chunk {"id": "body-0027", "role": "body", "section": "× 5", "weight": 1.0} -->
 
 A dropout layer with 70% ratio of dropped outputs.
 
-<!-- chunk {"id": "body-0031", "role": "body", "section": "GoogLeNet", "weight": 1.0} -->
+<!-- chunk {"id": "body-0028", "role": "body", "section": "× 5", "weight": 1.0} -->
 
 A linear layer with softmax loss as the classifier (predicting the same 1000 classes as the main classifier, but removed at inference time).
 
-<!-- chunk {"id": "body-0032", "role": "body", "section": "GoogLeNet", "weight": 1.0} -->
+<!-- chunk {"id": "body-0029", "role": "body", "section": "× 5", "weight": 1.0} -->
 
 A schematic view of the resulting network is depicted in Figure 3.
 
-<!-- chunk {"id": "body-0033", "role": "body", "section": "Training Methodology", "weight": 1.0} -->
+<!-- chunk {"id": "body-0030", "role": "body", "section": "Training Methodology", "weight": 1.0} -->
 
 Our networks were trained using the DistBelief distributed machine learning system using modest amount of model and data-parallelism. Although we used CPU based implementation only, a rough estimate suggests that the GoogLeNet network could be trained to convergence using few high-end GPUs within a week, the main limitation being the memory usage. Our training used asynchronous stochastic gradient descent with 0.9 momentum, fixed learning rate schedule (decreasing the learning rate by 4% every 8 epochs). Polyak averaging was used to create the final model used at inference time.
 
-<!-- chunk {"id": "body-0034", "role": "body", "section": "Training Methodology", "weight": 1.0} -->
+<!-- chunk {"id": "body-0031", "role": "body", "section": "Training Methodology", "weight": 1.0} -->
 
 Our image sampling methods have changed substantially over the months leading to the competition, and already converged models were trained on with other options, sometimes in conjunction with changed hyperparameters, like dropout and learning rate, so it is hard to give a definitive guidance to the most effective single way to train these networks. To complicate matters further, some of the models were mainly trained on smaller relative crops, others on larger ones, inspired. Still, one prescription that was verified to work very well after the competition includes sampling of various sized patches of the image whose size is distributed evenly between 8% and 100% of the image area and whose aspect ratio is chosen randomly between $3/4$ and $4/3$. Also, we found that the photometric distortions by Andrew Howard were useful to combat overfitting to some extent. In addition, we started to use random interpolation methods (bilinear, area, nearest neighbor and cubic, with equal probability) for resizing relatively late and in conjunction with other hyperparameter changes, so we could not tell definitely whether the final results were affected positively by their use.
 
-<!-- chunk {"id": "body-0035", "role": "body", "section": "ILSVRC 2014 Classification Challenge Setup and Results", "weight": 1.0} -->
+<!-- chunk {"id": "body-0032", "role": "body", "section": "ILSVRC 2014 Classification Challenge Setup and Results", "weight": 1.0} -->
 
 The ILSVRC 2014 classification challenge involves the task of classifying the image into one of 1000 leaf-node categories in the Imagenet hierarchy. There are about 1.2 million images for training, 50,000 for validation and 100,000 images for testing. Each image is associated with one ground truth category, and performance is measured based on the highest scoring classifier predictions. Two numbers are usually reported: the top-1 accuracy rate, which compares the ground truth against the first predicted class, and the top-5 error rate, which compares the ground truth against the first 5 predicted classes: an image is deemed correctly classified if the ground truth is among the top-5, regardless of its rank in them. The challenge uses the top-5 error rate for ranking purposes.
 
-<!-- chunk {"id": "body-0036", "role": "body", "section": "ILSVRC 2014 Classification Challenge Setup and Results", "weight": 1.0} -->
+<!-- chunk {"id": "body-0033", "role": "body", "section": "ILSVRC 2014 Classification Challenge Setup and Results", "weight": 1.0} -->
 
 We participated in the challenge with no external data used for training. In addition to the training techniques aforementioned in this paper, we adopted a set of techniques during testing to obtain a higher performance, which we elaborate below.
 
-<!-- chunk {"id": "body-0037", "role": "body", "section": "ILSVRC 2014 Classification Challenge Setup and Results", "weight": 1.0} -->
+<!-- chunk {"id": "body-0034", "role": "body", "section": "ILSVRC 2014 Classification Challenge Setup and Results", "weight": 1.0} -->
 
 We independently trained 7 versions of the same GoogLeNet model (including one wider version), and performed ensemble prediction with them. These models were trained with the same initialization (even with the same initial weights, mainly because of an oversight) and learning rate policies, and they only differ in sampling methodologies and the random order in which they see input images.
 
-<!-- chunk {"id": "body-0038", "role": "body", "section": "ILSVRC 2014 Classification Challenge Setup and Results", "weight": 1.0} -->
+<!-- chunk {"id": "body-0035", "role": "body", "section": "ILSVRC 2014 Classification Challenge Setup and Results", "weight": 1.0} -->
 
 During testing, we adopted a more aggressive cropping approach than that of Krizhevsky et al.. Specifically, we resize the image to 4 scales where the shorter dimension (height or width) is 256, 288, 320 and 352 respectively, take the left, center and right square of these resized images (in the case of portrait images, we take the top, center and bottom squares). For each square, we then take the 4 corners and the center $224 \times 224$ crop as well as the square resized to $224 \times 224$, and their mirrored versions. This results in ${4 \times 3 \times 6 \times 2} = 144$ crops per image. A similar approach was used by Andrew Howard in the previous year's entry, which we empirically verified to perform slightly worse than the proposed scheme. We note that such aggressive cropping may not be necessary in real applications, as the benefit of more crops becomes marginal after a reasonable number of crops are present (as we will show later on).
 
-<!-- chunk {"id": "body-0039", "role": "body", "section": "ILSVRC 2014 Classification Challenge Setup and Results", "weight": 1.0} -->
+<!-- chunk {"id": "body-0036", "role": "body", "section": "ILSVRC 2014 Classification Challenge Setup and Results", "weight": 1.0} -->
 
 The softmax probabilities are averaged over multiple crops and over all the individual classifiers to obtain the final prediction. In our experiments we analyzed alternative approaches on the validation data, such as max pooling over crops and averaging over classifiers, but they lead to inferior performance than the simple averaging.
 
-<!-- chunk {"id": "body-0040", "role": "body", "section": "ILSVRC 2014 Classification Challenge Setup and Results", "weight": 1.0} -->
+<!-- chunk {"id": "body-0037", "role": "body", "section": "ILSVRC 2014 Classification Challenge Setup and Results", "weight": 1.0} -->
 
 In the remainder of this paper, we analyze the multiple factors that contribute to the overall performance of the final submission.
 
-<!-- chunk {"id": "body-0041", "role": "body", "section": "ILSVRC 2014 Classification Challenge Setup and Results", "weight": 1.0} -->
+<!-- chunk {"id": "body-0038", "role": "body", "section": "ILSVRC 2014 Classification Challenge Setup and Results", "weight": 1.0} -->
 
-Our final submission in the challenge obtains a top-5 error of 6.67% on both the validation and testing data, ranking the first among other participants. This is a 56.5% relative reduction compared to the SuperVision approach in 2012, and about 40% relative reduction compared to the previous year's best approach (Clarifai), both of which used external data for training the classifiers. The following table shows the statistics of some of the top-performing approaches.
+Uses external data Table 2: Classification performance Our final submission in the challenge obtains a top-5 error of 6.67% on both the validation and testing data, ranking the first among other participants. This is a 56.5% relative reduction compared to the SuperVision approach in 2012, and about 40% relative reduction compared to the previous year's best approach (Clarifai), both of which used external data for training the classifiers. The following table shows the statistics of some of the top-performing approaches.
 
-<!-- chunk {"id": "body-0042", "role": "body", "section": "ILSVRC 2014 Classification Challenge Setup and Results", "weight": 1.0} -->
-
-We also analyze and report the performance of multiple testing choices, by varying the number of models and the number of crops used when predicting an image in the following table. When we use one model, we chose the one with the lowest top-1 error rate on the validation data. All numbers are reported on the validation dataset in order to not overfit to the testing data statistics.
-
-<!-- chunk {"id": "body-0043", "role": "body", "section": "ILSVRC 2014 Detection Challenge Setup and Results", "weight": 1.0} -->
+<!-- chunk {"id": "body-0039", "role": "body", "section": "ILSVRC 2014 Detection Challenge Setup and Results", "weight": 1.0} -->
 
 The ILSVRC detection task is to produce bounding boxes around objects in images among 200 possible classes. Detected objects count as correct if they match the class of the groundtruth and their bounding boxes overlap by at least 50% (using the Jaccard index). Extraneous detections count as false positives and are penalized. Contrary to the classification task, each image may contain many objects or none, and their scale may vary from large to tiny. Results are reported using the mean average precision (mAP).
 
-<!-- chunk {"id": "body-0044", "role": "body", "section": "ILSVRC 2014 Detection Challenge Setup and Results", "weight": 1.0} -->
+<!-- chunk {"id": "body-0040", "role": "body", "section": "ILSVRC 2014 Detection Challenge Setup and Results", "weight": 1.0} -->
 
 The approach taken by GoogLeNet for detection is similar to the R-CNN, but is augmented with the Inception model as the region classifier. Additionally, the region proposal step is improved by combining the Selective Search approach with multi-box predictions for higher object bounding box recall. In order to cut down the number of false positives, the superpixel size was increased by $2 \times$. This halves the proposals coming from the selective search algorithm. We added back 200 region proposals coming from multi-box resulting, in total, in about 60% of the proposals used, while increasing the coverage from 92% to 93%. The overall effect of cutting the number of proposals with increased coverage is a 1% improvement of the mean average precision for the single model case. Finally, we use an ensemble of 6 ConvNets when classifying each region which improves results from 40% to 43.9% accuracy. Note that contrary to R-CNN, we did not use bounding box regression due to lack of time.
 
-<!-- chunk {"id": "body-0045", "role": "body", "section": "ILSVRC 2014 Detection Challenge Setup and Results", "weight": 1.0} -->
+<!-- chunk {"id": "body-0041", "role": "body", "section": "ILSVRC 2014 Detection Challenge Setup and Results", "weight": 1.0} -->
 
-We first report the top detection results and show the progress since the first edition of the detection task. Compared to the 2013 result, the accuracy has almost doubled. The top performing teams all use Convolutional Networks. We report the official scores in Table 4 and common strategies for each team: the use of external data, ensemble models or contextual models. The external data is typically the classification data for pre-training a model that is later refined on the detection data. Some teams also mention the use of the localization data. Since a good portion of the localization task bounding boxes are not included in the detection dataset, one can pre-train a general bounding box regressor with this data the same way classification is used for pre-training. The GoogLeNet entry did not use the localization data for pretraining.
+Bounding box regression Table 5: Single model performance for detection In Table 5, we compare results using a single model only. The top performing model is by Deep Insight and surprisingly only improves by 0.3 points with an ensemble of 3 models while the GoogLeNet obtains significantly stronger results with the ensemble.
 
-<!-- chunk {"id": "body-0046", "role": "body", "section": "ILSVRC 2014 Detection Challenge Setup and Results", "weight": 1.0} -->
-
-In Table 5, we compare results using a single model only. The top performing model is by Deep Insight and surprisingly only improves by 0.3 points with an ensemble of 3 models while the GoogLeNet obtains significantly stronger results with the ensemble.
-
-<!-- chunk {"id": "body-0047", "role": "body", "section": "Conclusions", "weight": 1.0} -->
+<!-- chunk {"id": "body-0042", "role": "body", "section": "Conclusions", "weight": 1.0} -->
 
 Our results seem to yield a solid evidence that approximating the expected optimal sparse structure by readily available dense building blocks is a viable method for improving neural networks for computer vision. The main advantage of this method is a significant quality gain at a modest increase of computational requirements compared to shallower and less wide networks. Also note that our detection work was competitive despite of neither utilizing context nor performing bounding box regression and this fact provides further evidence of the strength of the Inception architecture. Although it is expected that similar quality of result can be achieved by much more expensive networks of similar depth and width, our approach yields solid evidence that moving to sparser architectures is feasible and useful idea in general. This suggest promising future work towards creating sparser and more refined structures in automated ways on the basis of.

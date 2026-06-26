@@ -42,10 +42,7 @@ In contrast, we present an end-to-end adversarial scenario generation system tha
 
 <!-- chunk {"id": "body-0011", "role": "body", "section": "Actors", "weight": 1.0} -->
 
-\textpdfrender TextRenderingMode=FillStroke, LineWidth=.5pt, ✓
-\textpdfrender TextRenderingMode=FillStroke, LineWidth=.5pt, ✓
-\textpdfrender TextRenderingMode=FillStroke, LineWidth=.5pt, ✓
-\textpdfrender TextRenderingMode=FillStroke, LineWidth=.5pt, ✓
+\textpdfrender TextRenderingMode=FillStroke, LineWidth=.5pt, ✓ \textpdfrender TextRenderingMode=FillStroke, LineWidth=.5pt, ✓ \textpdfrender TextRenderingMode=FillStroke, LineWidth=.5pt, ✓ \textpdfrender TextRenderingMode=FillStroke, LineWidth=.5pt, ✓ Table 1: Comparison with prior works. AdvSim produces safety-critical scenarios that are physically plausible and adversarial to full LiDAR-based autonomy systems in scale.
 
 <!-- chunk {"id": "body-0012", "role": "body", "section": "Physically Realizable Adversarial Examples", "weight": 1.0} -->
 
@@ -61,25 +58,15 @@ In what follows, we first define the autonomy system and our attack formulation 
 
 <!-- chunk {"id": "body-0015", "role": "body", "section": "Generating Safety-Critical Scenarios", "weight": 1.0} -->
 
-1:Sensory input x, initial state s0 of the perturbed actor, adversarial objective ℒadv, number of queries N.
-2:Pick the perturbed actor vadv heuristically
-3:Generate physically plausible trajectories set 𝒯adv
-4:Initialize observation set ℋ = ⌀
-6: Select δ(k) based on black-box algorithms and historical observations ℋ.
+1:Sensory input x, initial state s0 of the perturbed actor, adversarial objective ℒadv, number of queries N. 2:Pick the perturbed actor vadv heuristically 3:Generate physically plausible trajectories set 𝒯adv 4:Initialize observation set ℋ = ⌀ 6: Select δ(k) based on black-box algorithms and historical observations ℋ.
 
 <!-- chunk {"id": "body-0016", "role": "body", "section": "Generating Safety-Critical Scenarios", "weight": 1.0} -->
 
-7: τadv(k) = Πτ ∈ 𝒯adv [Bicycle (s0,δ(k))] ⊳ (Sec 3.2)
-8: xadv(k) = f (x,τadv(k),τsdv) ⊳ (Sec 3.3)
-9: Run the autonomy system and obtain the optimal SDV plan τ0(k) = τ0* (xadv(k))
-10: Calculate the adversarial loss of the optimal plan: ℒadv(k) = ℒadv (τ0(k),xadv(k)) ⊳ (Sec 3.4)
-11: Update observation set ℋ = ℋ ∪ {(τadv(k),ℒadv(k))}
-13:τadv* = arg maxτadv(k), k ∈ [N]ℒadv(k)
-Algorithm 1 Generating Adversarial Scenarios
+7: τadv(k) = Πτ ∈ 𝒯adv [Bicycle (s0, δ(k))] ⊳ (Sec 3.2) 8: xadv(k) = f (x, τadv(k), τsdv) ⊳ (Sec 3.3) 9: Run the autonomy system and obtain the optimal SDV plan τ0(k) = τ0* (xadv(k)) 10: Calculate the adversarial loss of the optimal plan: ℒadv(k) = ℒadv (τ0(k), xadv(k)) ⊳ (Sec 3.4) 11: Update observation set ℋ = ℋ ∪ {(τadv(k), ℒadv(k))} 13:τadv* = arg maxτadv(k), k ∈ [N]ℒadv(k) Algorithm 1 Generating Adversarial Scenarios
 
 <!-- chunk {"id": "body-0017", "role": "body", "section": "Problem Setup", "weight": 1.0} -->
 
-where $\tau_{0}$ is the SDV's planned trajectory. As $\mathbf{x}$ consists of raw sensor data (i.e., LiDAR point clouds), High-Definition maps, and other relevant information (e.g., previous SDV states, traffic light states), this minimization represents the full autonomy system, not just the planning module.
+Let $\mathcal{V} = {\{\mathbf{v}_{0},\mathbf{v}_{1},{\ldots\mathbf{v}_{M}}\}}$ be the set of vehicles that compose the scene, where $\mathbf{v}_{0}$ denotes the SDV, $M$ is the number of other vehicles. The objective of a self-driving system is to find the best planned trajectory $\tau_{0}^{\ast}$ according to a cost function $\mathcal{C}$ that comfortably and safely maneuvers around the scene, given the available sensor data inputs $\mathbf{x}$: where $\tau_{0}$ is the SDV's planned trajectory. As $\mathbf{x}$ consists of raw sensor data (i.e., LiDAR point clouds), High-Definition maps, and other relevant information (e.g., previous SDV states, traffic light states), this minimization represents the full autonomy system, not just the planning module.
 
 <!-- chunk {"id": "body-0018", "role": "body", "section": "Problem Setup", "weight": 1.0} -->
 
@@ -87,140 +74,128 @@ Our goal is to increase the risk of the self-driving car by perturbing the behav
 
 <!-- chunk {"id": "body-0019", "role": "body", "section": "Problem Setup", "weight": 1.0} -->
 
-We characterize the behavior of an adversary by the trajectory $\tau_{adv}$ it will take in the future. As the perturbed actor's trajectory $\tau_{adv}$ differs from its original behavior in the sensor data, the vehicle position and the occlusions it generates will change (see Fig. 3). Therefore, we must simulate the new LiDAR data given the adversary trajectory $\tau_{adv}$ and SDV trajectory $\tau_{sdv}$ to evaluate the system (Eq. 1).
+We characterize the behavior of an adversary by the trajectory $\tau_{adv}$ it will take in the future. As the perturbed actor's trajectory $\tau_{adv}$ differs from its original behavior in the sensor data, the vehicle position and the occlusions it generates will change (see Fig. 3). Therefore, we must simulate the new LiDAR data given the adversary trajectory $\tau_{adv}$ and SDV trajectory $\tau_{sdv}$ to evaluate the system (Eq. 1). The generation of point clouds in the perturbed traffic scene is given as follows: where $f{(\cdot)}$ denotes the realistic LiDAR simulation (Sec 3.3) for perturbed input $\mathbf{x}_{adv}$ given the adversary's trajectory and original sensor data sequence $\mathbf{x}$.
 
 <!-- chunk {"id": "body-0020", "role": "body", "section": "Problem Setup", "weight": 1.0} -->
 
-where $f{( \cdot )}$ denotes the realistic LiDAR simulation (Sec 3.3) for perturbed input $\mathbf{x}_{adv}$ given the adversary's trajectory and original sensor data sequence $\mathbf{x}$.
+We then define an adversarial objective $\mathcal{L}_{adv}$ which we maximize to generate scenarios as follows where $\tau_{0}^{\ast} = {\tau_{0}^{\ast}{(\mathbf{x}_{adv})}}$ is the optimal SDV's planned trajectory under simulated scene $\mathbf{x}_{adv}$. The design of the adversarial loss $\mathcal{L}_{adv}$ is deferred to Sec 3.4.
 
-<!-- chunk {"id": "body-0021", "role": "body", "section": "Problem Setup", "weight": 1.0} -->
-
-We then define an adversarial objective $\mathcal{L}_{adv}$ which we maximize to generate scenarios as follows
-
-<!-- chunk {"id": "body-0022", "role": "body", "section": "Modeling Adversarial Behaviors", "weight": 1.0} -->
+<!-- chunk {"id": "body-0021", "role": "body", "section": "Modeling Adversarial Behaviors", "weight": 1.0} -->
 
 To produce physically feasible actor behaviors, we parameterize the trajectory $\tau_{adv} = {\{\mathbf{s}_{t}\}}_{t = 0}^{T}$ as a sequence of kinematic bicycle model states $\mathbf{s}_{t} = {\{ x_{t},y_{t},\theta_{t},v_{t},\kappa_{t},a_{t}\}}$ in the next $T$ timesteps. Here $(x,y)$ is the center position of the perturbed actor, $\theta$ is the heading, $v$ and $a$ are the forward velocity and acceleration, and $\kappa$ is the vehicle path's curvature. Candidate adversary trajectories can be generated by perturbing the change of curvature ${\overset{˙}{\kappa}}_{t}$ and acceleration values $a_{t}$ within set bounds at different timesteps, and using the kinematic bicycle model to compute the other states.
 
-<!-- chunk {"id": "body-0023", "role": "body", "section": "Modeling Adversarial Behaviors", "weight": 1.0} -->
+<!-- chunk {"id": "body-0022", "role": "body", "section": "Modeling Adversarial Behaviors", "weight": 1.0} -->
 
-Moreover, to enlarge the space of sampled adversarial behaviors, we also allow the perturbation of initial states ($x_{0},y_{0},\theta_{0},v_{0}$) within set bounds. In summary, the perturbation space can be depicted as
+Moreover, to enlarge the space of sampled adversarial behaviors, we also allow the perturbation of initial states ($x_{0},y_{0},\theta_{0},v_{0}$) within set bounds. In summary, the perturbation space can be depicted as To increase the perturbed trajectory's plausibility, we ensure it does not collide with other actors or the original expert trajectory of the SDV. In practice, we do this by first performing rejection sampling to create a set of physically feasible trajectories $\mathcal{T}_{adv}$ and then projecting the trajectory generated by $\mathbf{δ}$ on to the physically feasible set, measured by $L_{2}$ distance. Our search space is low-dimensional and conducive to query-based black box optimization, while still allowing for fine-grained actor motion control.
 
-<!-- chunk {"id": "body-0024", "role": "body", "section": "Modeling Adversarial Behaviors", "weight": 1.0} -->
-
-To increase the perturbed trajectory's plausibility, we ensure it does not collide with other actors or the original expert trajectory of the SDV. In practice, we do this by first performing rejection sampling to create a set of physically feasible trajectories $\mathcal{T}_{adv}$ and then projecting the trajectory generated by $\mathbf{δ}$ on to the physically feasible set, measured by $L_{2}$ distance. Our search space is low-dimensional and conducive to query-based black box optimization, while still allowing for fine-grained actor motion control.
-
-<!-- chunk {"id": "body-0025", "role": "body", "section": "Realistic LiDAR Simulation", "weight": 1.0} -->
+<!-- chunk {"id": "body-0023", "role": "body", "section": "Realistic LiDAR Simulation", "weight": 1.0} -->
 
 Given an initial traffic scenario and the corresponding adversarial perturbation to the actors' behaviors, we discuss how we modify the existing real LiDAR sweeps to reflect the perturbation. We adopt the high-fidelity LiDARsim simulator, which leverages real world data to generate realistic background meshes and dynamic object assets, and then applies physics-based raycasting and machine learning to generate realistic LiDAR point clouds. Given a modified scene configuration, we use LiDARsim to render a simulated point cloud, and then update the real LiDAR sweep with the modified regions. We choose to update the sensor data for modified regions only rather than generating the full sweep to speed up the query function $f$ in Eq. 2. Specifically, we cache the simulated background LiDAR (Fig. 3 Step 1b) as the SDV trajectory is fixed during the actor perturbation. The sensor perturbation is illustrated in Fig. 3.
 
-<!-- chunk {"id": "body-0026", "role": "body", "section": "Realistic LiDAR Simulation", "weight": 1.0} -->
+<!-- chunk {"id": "body-0024", "role": "body", "section": "Realistic LiDAR Simulation", "weight": 1.0} -->
 
 Modifying the LiDAR sensor data to reflect the scenario perturbation is non-trivial, as the LiDAR's sensing characteristics cause specific visibility artifacts that should exist in the generated scene to be realistic and physically accurate. We perform two main steps for sensor simulation for modified scenarios: actor removal (removing the existing benign actors' LiDAR point cloud and filling the LiDAR shadow created) and actor addition (inserting the adversarial actors' LiDAR point cloud, while accounting for occlusion).
 
-<!-- chunk {"id": "body-0027", "role": "body", "section": "Removing Actors", "weight": 1.0} -->
+<!-- chunk {"id": "body-0025", "role": "body", "section": "Removing Actors", "weight": 1.0} -->
 
 Given an original LiDAR point cloud (Fig. 3a), we first remove the points within the bounding boxes of perturbed actors and simulate background points (Fig. 3b) using LiDARsim's background mesh. We then convert the simulated and real LiDAR sweeps into a range image, allowing us to identify the specific rays missing in the real LiDAR sweep (Fig. 3c) that exist in the simulated LiDAR. By taking the element-wise minimum ray distance between the range images, we can merge the LiDAR point clouds. Fig. 3d shows the synthetic point clouds (red: simulated points; blue: original real points) after actor removal.
 
-<!-- chunk {"id": "body-0028", "role": "body", "section": "Adding Actors", "weight": 1.0} -->
+<!-- chunk {"id": "body-0026", "role": "body", "section": "Adding Actors", "weight": 1.0} -->
 
 Once we have removed the selected actors from the LiDAR sweep, we update the LiDAR with the actors at their new locations. We first render the simulated LiDAR for the actors at their new locations using LiDARsim's vehicle asset bank (Fig. 3e). Fig. 3f shows the real LiDAR point cloud with the added actors. However, when a LiDAR ray hits an object, the remaining path of the ray becomes occluded, creating a LiDAR shadow. Similar to the actor removal process, we create range images of the simulated and real LiDAR, and merge the LiDAR point clouds, thereby removing the LiDAR points of the now-occluded regions (Fig. 3g) and obtaining the final modified LiDAR sweep (Fig. 3h). The generated scenes are realistic and match the desired perturbation in actors' motions (Fig. 3).
 
-<!-- chunk {"id": "body-0029", "role": "body", "section": "Adding Actors", "weight": 1.0} -->
+<!-- chunk {"id": "body-0027", "role": "body", "section": "Adding Actors", "weight": 1.0} -->
 
-PLT: Jointly Learnable Behavior and Trajectory Planning
+IL: End-to-end Imitation Learning NMP: Neural Motion Planner PLT: Jointly Learnable Behavior and Trajectory Planning P3: Perceive, Predict, and Plan Table 2: Evaluation of modern autonomy systems on original and AdvSim generated scenarios.
 
-<!-- chunk {"id": "body-0030", "role": "body", "section": "Adversarial Scenario Search", "weight": 1.0} -->
+<!-- chunk {"id": "body-0028", "role": "body", "section": "Adversarial Scenario Search", "weight": 1.0} -->
 
 Since we aim for a general adversarial scenario generation framework, we consider the autonomy system as a black box, where we access the evaluation scores through limited queries. Our goal is to find the perturbation that maximizes the SDV's planned trajectory cost. In this section, we introduce the adversarial objective we optimize to produce worst-case scenarios and detail the search algorithms applied. We then summarize the AdvSim algorithm.
 
-<!-- chunk {"id": "body-0031", "role": "body", "section": "Adversarial Objective", "weight": 1.0} -->
+<!-- chunk {"id": "body-0029", "role": "body", "section": "Adversarial Objective", "weight": 1.0} -->
 
 To induce autonomy system failures, we propose a combination of three costs as our adversarial loss function. These costs are similar to those autonomy systems attempt to minimize over in Eq. 1. We first include $l_{IL}$, an imitation-learning based cost that encourages the SDV's output plan to deviate from the recorded human trajectory in the original scenario. We compute this as a smooth $\ell_{1}$ distance between output trajectory $\tau_{0}^{\ast}$ and the ground-truth human trajectory $\tau_{h}$ for the entire scenario horizon. We also compute a cumulative collision (safety) cost $l_{col}^{t}$ that encourages the perturbation to cause the SDV to collide with other actors in the scene.
 
-<!-- chunk {"id": "body-0032", "role": "body", "section": "Adversarial Objective", "weight": 1.0} -->
+<!-- chunk {"id": "body-0030", "role": "body", "section": "Adversarial Objective", "weight": 1.0} -->
 
-Finally, we add other traffic-rule and comfort costs $c_{o}^{t}{(\mathbf{x}_{adv},\tau_{0}^{\ast})}$ that encourages the output plan $\tau_{0}^{\ast}$ to have lane violations and be dangerous (i.e. high accelerations and jerk) at each timestep $t$.
+Finally, we add other traffic-rule and comfort costs $c_{o}^{t}{(\mathbf{x}_{adv},\tau_{0}^{\ast})}$ that encourages the output plan $\tau_{0}^{\ast}$ to have lane violations and be dangerous (i.e. high accelerations and jerk) at each timestep $t$. The full adversarial loss is defined as: Our use of multiple different costs allows us to identify different types of autonomy system failures, such as unnatural trajectories, collisions, and hard braking.
 
-<!-- chunk {"id": "body-0033", "role": "body", "section": "Adversarial Objective", "weight": 1.0} -->
-
-Our use of multiple different costs allows us to identify different types of autonomy system failures, such as unnatural trajectories, collisions, and hard braking.
-
-<!-- chunk {"id": "body-0034", "role": "body", "section": "Search Algorithms", "weight": 1.0} -->
+<!-- chunk {"id": "body-0031", "role": "body", "section": "Search Algorithms", "weight": 1.0} -->
 
 AdvSim is a framework that can use any black-box search algorithm to identify autonomy system failures. The search algorithm attempts to find the safety critical scenarios by maximizing the adversarial objective $\mathcal{L}_{adv}$ in Eq. 2. The search algorithm queries the autonomy system with a candidate perturbation $\tau_{adv}$ to obtain a query pair $(\tau_{adv},\mathcal{L}_{adv})$ and maintains a history $\mathcal{H}$ of past query pairs to generate the next candidate perturbation. We study a wide variety of black-box search algorithms including Bayesian optimization (BO), genetic algorithms (GA), random search (RS) and gradient estimation methods (NES and Bandit-TD ). Specifically, BO maintains a surrogate model and select the next candidate based on the acquisition function and current model states. For GA algorithms, a group of candidate trajectories are evolved to maximize the objective and the best candidate is preserved at each iteration.
 
-<!-- chunk {"id": "body-0035", "role": "body", "section": "Search Algorithms", "weight": 1.0} -->
+<!-- chunk {"id": "body-0032", "role": "body", "section": "Search Algorithms", "weight": 1.0} -->
 
 For RS, the perturbations sampled from a pre-defined orthonormal basis are added or subtracted to original input iteratively. Another branch of query-based black-box search algorithms estimate the gradient through the target model. Specifically, NES maximizes the expectation of the objective under one search distribution and Bandit-TD further leverages temporal information to improve the query efficiency.
 
-<!-- chunk {"id": "body-0036", "role": "body", "section": "Overall Adversarial Scenario Generation Algorithm", "weight": 1.0} -->
+<!-- chunk {"id": "body-0033", "role": "body", "section": "Overall Adversarial Scenario Generation Algorithm", "weight": 1.0} -->
 
 We summarize our proposed AdvSim framework in Algorithm 1. Given an initial traffic scene, we pick the actors to be perturbed using heuristics, such as the closest reachable actors, and then sample physically plausible trajectories $\mathcal{T}_{adv}$ to ensure that our perturbations remain in this set. We then obtain the perturbation ${\mathbf{δ}}^{(k)}$ at iteration $k$ based on historical observations $\mathcal{H}$ using a selected black-box search algorithm (L. 5). We roll out the kinematics bicycle model states with initial state $\mathbf{s}_{0}$ and the perturbation ${\mathbf{δ}}^{(k)}$, and project onto the feasible set $\mathcal{T}_{adv}$ to obtain the adversarial trajectories for the perturbed actors (L. 6).
 
-<!-- chunk {"id": "body-0037", "role": "body", "section": "Overall Adversarial Scenario Generation Algorithm", "weight": 1.0} -->
+<!-- chunk {"id": "body-0034", "role": "body", "section": "Overall Adversarial Scenario Generation Algorithm", "weight": 1.0} -->
 
 After that, we update the sensor data accordingly (L. 7) and evaluate the full autonomy system on generated scenarios to compute $\mathcal{L}_{adv}$ (L. 8-9). Finally, after running the procedure for $N$ iterations, we obtain the adversarial behaviors of perturbed actors as well as corresponding simulated LiDAR data.
 
-<!-- chunk {"id": "body-0038", "role": "body", "section": "Experiments", "weight": 1.0} -->
+<!-- chunk {"id": "body-0035", "role": "body", "section": "Experiments", "weight": 1.0} -->
 
 We now showcase applying AdvSim to generate worst-case scenarios for several autonomy systems using a large scale self-driving dataset. In Sec. 4.1 we discuss the dataset and the autonomy systems under test, as well as how we evaluate the generated scenarios' effectiveness. In Sec. 4.2 we analyze how the AdvSim-generated scenarios affect autonomy performance. We also show robust training on the generated scenarios improves autonomy systems.
 
-<!-- chunk {"id": "body-0039", "role": "body", "section": "Dataset", "weight": 1.0} -->
+<!-- chunk {"id": "body-0036", "role": "body", "section": "Dataset", "weight": 1.0} -->
 
 We evaluate our approach on a self-driving dataset, UrbanScenarios, which has 5,000 driving logs of 25 seconds each. Our dataset is collected across multiple cities in North America, and contains different types of map layouts and varying traffic densities. We curate the dataset and select interesting candidate scenarios to apply AdvSim, where the SDV in the original scenario "interacts" with other vehicles. Specifically, we sample 100 trajectories per SDV behavior (e.g., keep lane, lane change) in the SDV's Frenet frame and calculate the trajectory collision rate with other actors' motion paths. We select the $6s$ scenario from each log that has the largest collision rate. After data curation, we obtain 3953 train and 409 val scenarios.
 
-<!-- chunk {"id": "body-0040", "role": "body", "section": "Autonomy Systems", "weight": 1.0} -->
+<!-- chunk {"id": "body-0037", "role": "body", "section": "Autonomy Systems", "weight": 1.0} -->
 
 We evaluate the effectiveness of the proposed framework on the following models: (a) Imitation Learning (IL), where the future states of the SDV are predicted directly from the fused LiDAR and map features with $L_{2}$ loss; (b) PLT, a modular autonomy system where the detection and prediction are trained jointly with the backbone used, and the planning is accomplished using a learnable combination of interpretable safety costs; (c, d) NMP and P3, two end-to-end interpretable motion planners. NMP predicts a cost-map directly from fused features with detection and prediction jointly trained as auxiliary tasks. P3 predicts a novel differentiable semantic occupancy representation used as safety-cost for planning. Please see supplementary for implementation details.
 
-<!-- chunk {"id": "body-0041", "role": "body", "section": "Metrics", "weight": 1.0} -->
+<!-- chunk {"id": "body-0038", "role": "body", "section": "Metrics", "weight": 1.0} -->
 
 In this paper, we focus on an open-loop scenario evaluation setting, in which the evaluated autonomy system takes the past 1s LiDAR data as input and outputs a 5s trajectory plan. We then unroll the 5s plan and the other actors' trajectories for 5s and evaluate the autonomy system's performance during that time. Following, we adopt standard planning metrics to measure the autonomy systems' performance on our adversarial scenarios, and compare how much more challenging they are relative to the original scenario set. Specifically, collision rate is the percentage of scenarios that cause the SDV to collide with another actor during a certain time frame (up to 3 or 5s). ${\mathbf{L}}_{\mathbf{2}}$ distance to the human trajectory represents how well the model imitated the human driving. Jerk and lateral acceleration indicate how comfortable the planned SDV trajectories are. Additionally, all evaluated autonomy systems, except for IL, generate intermediate perception and prediction representations. We therefore also report perception and motion forecasting metrics to see how the adversarial scenarios specifically impact these system components.
 
-<!-- chunk {"id": "body-0042", "role": "body", "section": "Metrics", "weight": 1.0} -->
+<!-- chunk {"id": "body-0039", "role": "body", "section": "Metrics", "weight": 1.0} -->
 
 For NMP and PLT planners, for detection we report Average Precision (AP) of bounding box detections at an Intersection of Union (IoU) of 0.7, and for motion forecasting we report the ${\mathbf{L}}_{\mathbf{2}}$ prediction error of predicted actor trajectories at future timesteps. Similarly, for the P3 planner, we adopt the F1-score of the occupancy prediction at different timesteps ($t = 0$ for detection and $t > 0$ for prediction). All reported metrics are for vehicles in the ego-coordinate view range of ${x \in {\lbrack{- {72m}},{72m}\rbrack}},{y \in {\lbrack{- {40m}},{40m}\rbrack}}$.
 
-<!-- chunk {"id": "body-0043", "role": "body", "section": "Evaluations on Modern Autonomy Systems", "weight": 1.0} -->
+<!-- chunk {"id": "body-0040", "role": "body", "section": "Evaluations on Modern Autonomy Systems", "weight": 1.0} -->
 
 We evaluate our AdvSim framework on the autonomy systems in Table 2. Here, we only consider perturbing a single vehicle in the traffic scene and adopted Bayesian optimization (BO) as the black-box search algorithm. Experiments show that AdvSim is effective in generating challenging scenarios for different systems, leading to an average collision rate of $32.8\%$, over 200% more compared to the original set. The adversarial scenarios also provide insights to how different autonomy systems compare. While NMP and PLT have similar drops in perception and motion forecasting, we observe that PLT is more robust to AdvSim scenarios than NMP on planning metrics, indicating the benefits of using a learning-based and hand-crafted cost function. We show qualitative examples of adversarial scenarios for each autonomy system in in Fig. 4. Unlike prior work, our generated scenarios cause the SDV to collide with other non-perturbed actors in the scene (Fig. 4, A, C, D).
 
-<!-- chunk {"id": "body-0044", "role": "body", "section": "Safer Planner with Challenging Scenarios", "weight": 1.0} -->
+<!-- chunk {"id": "body-0041", "role": "body", "section": "Safer Planner with Challenging Scenarios", "weight": 1.0} -->
 
 We investigate whether the robustness of the autonomy systems can be improved with our generated scenarios. We test several training schemes. First, we propose a curriculum learning (CL) baseline where we first train on standard examples till convergence (easy examples), and then train on real challenging scenarios selected based on reachable actors (Sec 4.1) (hard examples). Then, we propose a robust-training approach to leverage simulated worst-case scenarios. Specifically, we use AdvSim to generate a large number of adversarial scenarios to augment the training data. As discussed in Sec 3.2, the original expert trajectory is still a valid planning solution to mimic in the new scenario with respect to collisions, as we impose constraints on the perturbation. This allows us to re-train autonomy systems with scenarios produced by AdvSim using the same expert trajectories as ground truth. Table 3 demonstrates that CL helps improve the performance on both original and adversarial scenarios. Robust training with AdvSim-generated scenarios further improves performance across most planning metrics, highlighting the value of AdvSim scenarios for improving autonomy systems.
 
-<!-- chunk {"id": "body-0045", "role": "body", "section": "Safer Planner with Challenging Scenarios", "weight": 1.0} -->
+<!-- chunk {"id": "body-0042", "role": "body", "section": "Safer Planner with Challenging Scenarios", "weight": 1.0} -->
 
 In Fig. 5, we show a qualitative example of an adversarial scenario for standard P3 and robust-trained P3 with AdvSim. Finally, we investigate the generalization of robust training by evaluating robustly trained PLT and P3 with safety-critical scenarios generated for other autonomy systems (see supplementary).
 
-<!-- chunk {"id": "body-0046", "role": "body", "section": "Transferability of Adversarial Scenarios", "weight": 1.0} -->
+<!-- chunk {"id": "body-0043", "role": "body", "section": "Transferability of Adversarial Scenarios", "weight": 1.0} -->
 
 We study the transferability of adversarial scenarios across different autonomy systems in Table 4, where Source denotes the autonomy system used to identify failure scenarios and Target denotes the autonomy system evaluated on these scenarios. We report the cumulative collision rate up to 5s. Results on additional metrics are in supplementary. Table 4 shows that generating adversarial scenarios with the same target autonomy system usually leads to the best performance. Scenarios simulated w.r.t the more robust P3 system (see original in Table 2) have stronger transferability.
 
-<!-- chunk {"id": "body-0047", "role": "body", "section": "Transferability of Adversarial Scenarios", "weight": 1.0} -->
+<!-- chunk {"id": "body-0044", "role": "body", "section": "Transferability of Adversarial Scenarios", "weight": 1.0} -->
 
 #Actors
 
-<!-- chunk {"id": "body-0048", "role": "body", "section": "Investigation on Attack Configurations", "weight": 1.0} -->
+<!-- chunk {"id": "body-0045", "role": "body", "section": "Investigation on Attack Configurations", "weight": 1.0} -->
 
 We now study how the number of the perturbed actors and the search algorithm used affect scenario generation. In Table 5, the planning metrics (L2 human, jerk and lateral acceleration) and the prediction metrics become worse as the number of perturbed actors $m$ increase. This indicates AdvSim generated more complicated traffic configurations when perturbing multiple actors simultaneously. However, we observed the collision rate decreases when $m \geq 3$. This may be because we sampled finite trajectories for each actor, and attacking withmultiple actors simultaneously increases the difficulty of finding physical plausible candidates to optimize over. We also benchmark a wide range of black-box algorithms in Table 6. See supplementary for the implementation details. We found that BO is most efficient, since the perturbation space is low dimensional and the cost measure is not smooth w.r.t the perturbation (thus harder for gradient-estimation based approaches).
 
-<!-- chunk {"id": "body-0049", "role": "body", "section": "Investigation on Attack Configurations", "weight": 1.0} -->
+<!-- chunk {"id": "body-0046", "role": "body", "section": "Investigation on Attack Configurations", "weight": 1.0} -->
 
 #Query.
 
-<!-- chunk {"id": "body-0050", "role": "body", "section": "Ablation Studies", "weight": 1.0} -->
+<!-- chunk {"id": "body-0047", "role": "body", "section": "Ablation Studies", "weight": 1.0} -->
 
 We conduct ablation studies on proposed adversarial objective. As shown in Table 7, imitation-learning based cost $l_{\text{IL}}$, cumulative collision cost $\sum_{t}\ell_{col}^{t}$ and safety cost $\sum_{t}c_{s}^{t}$ are optimized for $L_{2}$ human, collisions, and comfort planning metrics, respectively. The hybrid loss function ($\mathcal{M}_{0}$) can generate worst-case scenarios with respect to multiple metrics. If some planning metrics are particularly interesting in practice (e.g., collisions for testing), we could use a subset of the proposed costs. Unless otherwise stated, we adopt $\mathcal{M}_{3}$ in other experiments since the collisions are of key importance in evaluating autonomy systems. Furthermore, we compare $\mathcal{M}_{0}$ with other baseline adversarial objective in Table 8: minimizing the closest distance to the ego-car, maximize the training cost proposed.
 
-<!-- chunk {"id": "body-0051", "role": "body", "section": "Ablation Studies", "weight": 1.0} -->
+<!-- chunk {"id": "body-0048", "role": "body", "section": "Ablation Studies", "weight": 1.0} -->
 
 Experiments show our design outperforms other baselines on all planning metrics.
 
-<!-- chunk {"id": "body-0052", "role": "body", "section": "Ablation Studies", "weight": 1.0} -->
+<!-- chunk {"id": "body-0049", "role": "body", "section": "Ablation Studies", "weight": 1.0} -->
 
 #ID
 
-<!-- chunk {"id": "body-0053", "role": "body", "section": "Conclusion", "weight": 1.5} -->
+<!-- chunk {"id": "body-0050", "role": "body", "section": "Conclusion", "weight": 1.5} -->
 
 In this work we present a novel adversarial framework to generate worst-case scenarios for modern autonomy systems. Our approach identifies physically plausible failure cases that impose risks to full autonomy stack by simulating the sensor data based on the perturbed behaviors. We demonstrate that AdvSim can generate failure cases at scale for a wide range of systems. More importantly, we leverage these scenarios in training to further improve the robustness and safety of the autonomy system. We hope that leveraging this framework will allow for safer self-driving vehicles.

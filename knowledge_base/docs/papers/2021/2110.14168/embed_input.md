@@ -26,7 +26,7 @@ To facilitate research, we are releasing GSM8K, a dataset of 8.5K high quality p
 
 <!-- chunk {"id": "body-0007", "role": "body", "section": "Introduction", "weight": 1.5} -->
 
-We present a curated dataset of 8.5K grade school math questions and natural language solutions, useful for probing the informal reasoning ability of large language models.
+Our main contributions are as follows: We present a curated dataset of 8.5K grade school math questions and natural language solutions, useful for probing the informal reasoning ability of large language models.
 
 <!-- chunk {"id": "body-0008", "role": "body", "section": "Introduction", "weight": 1.5} -->
 
@@ -118,7 +118,7 @@ To improve upon the finetuning baseline, we train verifiers to judge the correct
 
 <!-- chunk {"id": "body-0030", "role": "body", "section": "Verification", "weight": 1.0} -->
 
-Finetune a model (the "generator") for 2 epochs on the training set.
+As shown in Figure 4, we train the verifier as follows: Finetune a model (the "generator") for 2 epochs on the training set.
 
 <!-- chunk {"id": "body-0031", "role": "body", "section": "Verification", "weight": 1.0} -->
 
@@ -138,56 +138,48 @@ At test time, we sample 100 completions to each test problem, rank them with the
 
 <!-- chunk {"id": "body-0035", "role": "body", "section": "Verification", "weight": 1.0} -->
 
-(a) Comparison between a verifier trained to predict correctness after every token (token-level) and one trained to predict correctness after only the final token (solution-level)
+(a) Comparison between a verifier trained to predict correctness after every token (token-level) and one trained to predict correctness after only the final token (solution-level) (b) Comparison between a verifier trained jointly to predict correctness and perform language modeling (joint) and one trained only to predict correctness (verification-only) (c) Performance when varying the size of the generator and the verifier in isolation. Increasing the size of the generator has a larger impact than increasing the size of the verifier.
 
-<!-- chunk {"id": "body-0036", "role": "body", "section": "Verification", "weight": 1.0} -->
-
-(b) Comparison between a verifier trained jointly to predict correctness and perform language modeling (joint) and one trained only to predict correctness (verification-only)
-
-<!-- chunk {"id": "body-0037", "role": "body", "section": "Verification", "weight": 1.0} -->
-
-(c) Performance when varying the size of the generator and the verifier in isolation. Increasing the size of the generator has a larger impact than increasing the size of the verifier.
-
-<!-- chunk {"id": "body-0038", "role": "body", "section": "Verification Ablations", "weight": 1.0} -->
+<!-- chunk {"id": "body-0036", "role": "body", "section": "Verification Ablations", "weight": 1.0} -->
 
 We can either train verifiers to make a single scalar prediction conditioned on the entire generated solution, or to make a scalar prediction after each token in the solution. By default, we choose the latter, training verifiers to make predictions after each token. This can be viewed as a token-level value function. We compare these two methods in Figure 6(a), respectively labeled "solution-level" and "token-level".
 
-<!-- chunk {"id": "body-0039", "role": "body", "section": "Verification Ablations", "weight": 1.0} -->
+<!-- chunk {"id": "body-0037", "role": "body", "section": "Verification Ablations", "weight": 1.0} -->
 
 Predicting the value function at every token is a more challenging and noisier task than judging only the full completion. However, despite the initially slower training, the token-level verifier ultimately outperforms the solution-level verifier. Moreover, the token-level verifier is still improving late in training, whereas the solution-level verifier quickly shows signs of overfitting. We hypothesize that the full value function provides a useful auxiliary signal that encourages the model to judge the reasoning throughout solutions, rather than merely memorizing the correct final answer.
 
-<!-- chunk {"id": "body-0040", "role": "body", "section": "Verification Ablations", "weight": 1.0} -->
+<!-- chunk {"id": "body-0038", "role": "body", "section": "Verification Ablations", "weight": 1.0} -->
 
 In Figure 6(b), we ablate the objective used when training verifiers. As discussed in Section 4.2, we can optionally include a language modeling objective alongside the verification objective. We compare using both objectives to using only the verification objective. Although both are reasonable choices, including the language modeling objective is a strict improvement. This makes intuitive sense: better understanding this language distribution should only aid the verifier in discriminating between samples.
 
-<!-- chunk {"id": "body-0041", "role": "body", "section": "Verification Ablations", "weight": 1.0} -->
+<!-- chunk {"id": "body-0039", "role": "body", "section": "Verification Ablations", "weight": 1.0} -->
 
 In Figure 6(c), we separately ablate the model size of the generator and the verifier. We find that using a large generator with a small verifier performs significantly better than using a small generator with a large verifier. Verification is still remarkably effective, even when the verifier is much smaller than the generator. This suggests that the verifier may often be relying on relatively coarse heuristics to discriminate between solutions from a given generator, rather than attempting a more thorough form of verification.
 
-<!-- chunk {"id": "body-0042", "role": "body", "section": "Verification Ablations", "weight": 1.0} -->
+<!-- chunk {"id": "body-0040", "role": "body", "section": "Verification Ablations", "weight": 1.0} -->
 
 (a) 6B verification test performance when given varying numbers of completions per problem to rank.
 
-<!-- chunk {"id": "body-0043", "role": "body", "section": "Verification Ablations", "weight": 1.0} -->
+<!-- chunk {"id": "body-0041", "role": "body", "section": "Verification Ablations", "weight": 1.0} -->
 
 (b) 6B verification test performance when varying the number of top ranked samples allowed to vote on the answer.
 
-<!-- chunk {"id": "body-0044", "role": "body", "section": "Test Time Compute", "weight": 1.0} -->
+<!-- chunk {"id": "body-0042", "role": "body", "section": "Test Time Compute", "weight": 1.0} -->
 
 At test time, we can choose to generate arbitrarily many solutions to be judged by the verifier before selecting the highest ranked completion. Figure 7(a) shows how 6B verifier performance varies with the number of completions per test problem. At this scale, performance improves as we increase the number of completions up to 400. Beyond this point, performance start to decrease. This suggests that the benefits of search are eventually outweighed by the risk of finding adversarial solutions that fool the verifier. In general, we evaluate verifier test performance using 100 completions, since this captures most of the benefits of verification with a relatively modest compute cost.
 
-<!-- chunk {"id": "body-0045", "role": "body", "section": "Test Time Compute", "weight": 1.0} -->
+<!-- chunk {"id": "body-0043", "role": "body", "section": "Test Time Compute", "weight": 1.0} -->
 
 To further increase performance, we can take a majority vote among the top verifier-ranked solutions instead of selecting only the single top solution. This voting process considers only the final answer reached by the individual solutions: the final answer selected is the one with the most votes. Figure 7(b) shows how performance varies as we allow a greater number of top samples to cast a vote. Unsurprisingly, when starting with a greater number of samples, we can afford to allow a greater number of samples to cast a vote. When we have only 100 samples, it is optimal to allow only the top 3-5 samples to cast a vote. When we have 3200 samples, it is approximately optimal to allow the top 30 to cast a vote.
 
-<!-- chunk {"id": "body-0046", "role": "body", "section": "Regularization", "weight": 1.0} -->
+<!-- chunk {"id": "body-0044", "role": "body", "section": "Regularization", "weight": 1.0} -->
 
 We find that both finetuning and verification strongly benefit from the use of dropout as a regularizer. Specifically, we apply residual dropout along the residual paths of each layer in the network. We use 20% dropout for all dropout experiments, chosen based on the results of a hyperparameters sweep. We note that GPT-3 models are not pretrained with dropout. For experiments involving dropout, we therefore perform additional pretraining with dropout before subsequently finetuning the models. This mitigates the distribution shift the model experiences during finetuning.
 
-<!-- chunk {"id": "body-0047", "role": "body", "section": "Regularization", "weight": 1.0} -->
+<!-- chunk {"id": "body-0045", "role": "body", "section": "Regularization", "weight": 1.0} -->
 
 We first investigate the effect of dropout on finetuning across various training set sizes. Figure 8(a) shows that dropout leads to a significant improvement over baseline. We next investigate the effect of dropout on verifiers, considering both the solution-level and token-level variants. In Figure 8(b), we see that dropout significantly improves solution-level verifiers, mitigating the overfitting that occurs in the unregularized baseline. Notably, using dropout with solution-level verifiers reaches a similar level of performance as token-level verifiers. In Figure 8(c), we apply dropout to token-level verifiers. Since token-level verifiers are already less susceptible to overfitting, it is no surprise that the impact of dropout is less significant. Nevertheless, we do still see a slight gain from training token-level verifiers with dropout. Note that we increase the batch size for token-level verifiers by a factor of 4, to better handle the more difficult objective and the noise from dropout.
 
-<!-- chunk {"id": "body-0048", "role": "body", "section": "Conclusion", "weight": 1.5} -->
+<!-- chunk {"id": "body-0046", "role": "body", "section": "Conclusion", "weight": 1.5} -->
 
 We have seen that verification provides a significant performance boost relative to a finetuning baseline. On the full dataset, 6B verification slightly outperforms a finetuned 175B model, thereby offering a boost approximately equivalent to a 30x model size increase. We have also seen that token-level verifiers are less prone to overfitting than solution-level verifiers, and that all methods benefit from regularization with residual dropout. We expect verification to scale well to problem distributions that require more complex mathematical reasoning, and we hope GSM8K supports the development of new methods that scale even better.

@@ -28,7 +28,7 @@ We aim to develop a rapid and practical off-the-shelf motion planning pipeline t
 
 <!-- chunk {"id": "body-0007", "role": "body", "section": "Introduction", "weight": 1.5} -->
 
-DiffusionSeeder, a conditional DDPM that generates high-quality seed trajectories within 6 milliseconds from a raw depth image, camera pose, start joint configuration and end pose.
+This paper makes the following contributions: DiffusionSeeder, a conditional DDPM that generates high-quality seed trajectories within 6 milliseconds from a raw depth image, camera pose, start joint configuration and end pose.
 
 <!-- chunk {"id": "body-0008", "role": "body", "section": "Introduction", "weight": 1.5} -->
 
@@ -44,7 +44,7 @@ We study the robotics motion planning problem. The goal is to generate a fast, s
 
 <!-- chunk {"id": "body-0011", "role": "body", "section": "Dataset Generation", "weight": 1.0} -->
 
-We generate our dataset using cuRobo for a 7-DoF Franka robot on 3M M$\pi$Net training scenes in three categories: cubby, tabletop and dresser. A motion planning problem in the M$\pi$Net dataset consists of a scene mesh geometry, a start and end pose. To increase data diversity, we sample additional pairs of start and end poses based on the original start and end poses. Problems for which cuRobo is unable to find a feasible solution are discarded. We generated 15M problems with feasible and smooth solutions of size 32$\times$`<!-- -->`{=html}7 on 3M scenes, where 32 is the trajectory length $T$ and 7 is the robot DoF. More details are in Appendix 7.1.
+We generate our dataset using cuRobo for a 7-DoF Franka robot on 3M M$\pi$Net training scenes in three categories: cubby, tabletop and dresser (Appendix Fig 5). A motion planning problem in the M$\pi$Net dataset consists of a scene mesh geometry, a start and end pose. To increase data diversity, we sample additional pairs of start and end poses based on the original start and end poses. Problems for which cuRobo is unable to find a feasible solution are discarded. We generated 15M problems with feasible and smooth solutions of size 32$\times$`<!-- -->`{=html}7 on 3M scenes, where 32 is the trajectory length $T$ and 7 is the robot DoF. More details are in Appendix 7.1.
 
 <!-- chunk {"id": "body-0012", "role": "body", "section": "Dataset Generation", "weight": 1.0} -->
 
@@ -52,7 +52,7 @@ To provide partial observations to the planner, we render depth images for each 
 
 <!-- chunk {"id": "body-0013", "role": "body", "section": "Model Architecture", "weight": 1.0} -->
 
-DiffusionSeeder uses a conditional DDPM, consisting of an environment observation encoder and a conditional noise prediction network, to generate diverse seed trajectories, which can be optimized by an optimizer cuRobo for the final trajectory, as shown in Figure.
+DiffusionSeeder uses a conditional DDPM, consisting of an environment observation encoder and a conditional noise prediction network, to generate diverse seed trajectories, which can be optimized by an optimizer cuRobo for the final trajectory, as shown in Figure 2.
 
 <!-- chunk {"id": "body-0014", "role": "body", "section": "Model Architecture", "weight": 1.0} -->
 
@@ -60,100 +60,96 @@ The observation encoder processes depth images, camera poses, the start joint co
 
 <!-- chunk {"id": "body-0015", "role": "body", "section": "Model Architecture", "weight": 1.0} -->
 
-We adopt the CNN based architecture as the conditional noise prediction model, which is a 3-level UNet architecture consisting of conditional residual blocks with channel dimensions $\lbrack 256,512,1024\rbrack$. The model encodes the time step into a latent vector of 256 dimensions through a multi-layer perceptron (MLP), which is concatenated with the environment embedding from the observation encoder, resulting an 831-dimensional conditional vector.
+We adopt the CNN based architecture from as the conditional noise prediction model, which is a 3-level UNet architecture consisting of conditional residual blocks with channel dimensions $\lbrack 256,512,1024\rbrack$. The model encodes the time step into a latent vector of 256 dimensions through a multi-layer perceptron (MLP), which is concatenated with the environment embedding from the observation encoder, resulting an 831-dimensional conditional vector.
 
 <!-- chunk {"id": "body-0016", "role": "body", "section": "Model Training and Inference", "weight": 1.0} -->
 
-We jointly train the observation encoder and noise prediction model of the DDPM. During training, for each problem, we sample one depth image from the pre-rendered depth images. At each training iteration, we sample a ground truth trajectory $\tau$ from the dataset. We randomly select a denoising step $k \in {\lbrack 0,K\rbrack}$ and a random noise $\epsilon$, which is added to the ground truth trajectories, resulting a noisy trajectory $\overset{\sim}{\tau} = {\tau + \epsilon}$. The objective of the noise prediction network $\Theta$ is to predict the noise added to the original trajectory, with the training loss defined as
+We jointly train the observation encoder and noise prediction model of the DDPM. During training, for each problem, we sample one depth image from the pre-rendered depth images. At each training iteration, we sample a ground truth trajectory $\tau$ from the dataset. We randomly select a denoising step $k \in {\lbrack 0,K\rbrack}$ and a random noise $\epsilon$, which is added to the ground truth trajectories, resulting a noisy trajectory $\overset{\sim}{\tau} = {\tau + \epsilon}$. The objective of the noise prediction network $\Theta$ is to predict the noise added to the original trajectory, with the training loss defined as where $\Phi$ is the observation encoder and $O$ is the observation.
 
 <!-- chunk {"id": "body-0017", "role": "body", "section": "Model Training and Inference", "weight": 1.0} -->
 
-where $\Phi$ is the observation encoder and $O$ is the observation.
+In robot motion planning problems, the error in each joint can have different impact on the end effector error, due to the non-linearity of the robot forward kinematics (FK) model. To mitigate this issue, we pass both $\epsilon$ and the predicted noise $\hat{\epsilon}$ to the robot FK model to reflect this non-linearity. We use FK to obtain the position of many points sampled on the robot's geometry across all links. We calculate the distance between the predicted positions of these points and the labels (using FK on joint state) as the loss. This loss gives a more direct representation of the error in the Cartesian Space for the whole robot. In addition, as many of the motion planning problems can be solved through a linear interpolation solution, we upweight the loss for non-linear solution to encourage the model to pay attention to the non-linear solutions, which are often harder to solve. As cuRobo will only call a graph based planner when the linear interpolation solution has failed, we use this to approximate the non-linearity of the trajectories.
 
 <!-- chunk {"id": "body-0018", "role": "body", "section": "Model Training and Inference", "weight": 1.0} -->
 
-In robot motion planning problems, the error in each joint can have different impact on the end effector error, due to the non-linearity of the robot forward kinematics (FK) model. To mitigate this issue, we pass both $\epsilon$ and the predicted noise $\hat{\epsilon}$ to the robot FK model to reflect this non-linearity. We use FK to obtain the position of many points sampled on the robot's geometry across all links. We calculate the distance between the predicted positions of these points and the labels (using FK on joint state) as the loss. This loss gives a more direct representation of the error in the Cartesian Space for the whole robot. In addition, as many of the motion planning problems can be solved through a linear interpolation solution, we upweight the loss for non-linear solution to encourage the model to pay attention to the non-linear solutions, which are often harder to solve. As cuRobo will only call a graph based planner when the linear interpolation solution has failed, we use this to approximate the non-linearity of the trajectories. Together, we define our training loss as
+Together, we define our training loss as where $\mathbb{1}{(\tau)}$ is an indicator of whether the ground truth trajectory $\tau$ is generated from graph based planner and $\alpha$ is a scale factor. We train our model with depth images of size $256 \times 256$, $K = 100$, $\alpha = 4$ and a batch size of $256$ for 72 epochs, which takes 2 days on 8 NVIDIA A100 GPUs.
 
 <!-- chunk {"id": "body-0019", "role": "body", "section": "Model Training and Inference", "weight": 1.0} -->
 
-where $\mathbb{1}{(\tau)}$ is an indicator of whether the ground truth trajectory $\tau$ is generated from graph based planner and $\alpha$ is a scale factor. We train our model with depth images of size $256 \times 256$, $K = 100$, $\alpha = 4$ and a batch size of $256$ for 72 epochs, which takes 2 days on 8 NVIDIA A100 GPUs.
-
-<!-- chunk {"id": "body-0020", "role": "body", "section": "Model Training and Inference", "weight": 1.0} -->
-
 We use Denoising Diffusion Implicit Models (DDIM) for faster inference. Combined with CUDA optimization, we achieve a 6ms inference time on an Nvidia GeForce RTX 4090, which includes the inference of the vision encoder and 5 steps of denoising.
 
-<!-- chunk {"id": "body-0021", "role": "body", "section": "Optimization", "weight": 1.0} -->
+<!-- chunk {"id": "body-0020", "role": "body", "section": "Optimization", "weight": 1.0} -->
 
 We incorporate the trained DiffusionSeeder with an existing trajectory optimizer available in cuRobo. Joint space trajectories $\tau$ from DiffusionSeeder, the robot start configuration $q_{0}$, target end pose $X_{d}$ are passed to the optimizer to optimize for $N_{\text{iters}}$ iterations. Details are in Appendix 7.6.
 
-<!-- chunk {"id": "body-0022", "role": "body", "section": "Optimization", "weight": 1.0} -->
+<!-- chunk {"id": "body-0021", "role": "body", "section": "Optimization", "weight": 1.0} -->
 
 In partially observed scenes, for optimizer collision checking, we construct a Euclidean Signed Distance Field (ESDF) using nvblox from input depth images. Nvblox is a GPU-accelerated signed distance field construction library designed for robotic path planning, which uses GPU parallel computation to efficiently perform volumetric mapping of the world, while also enabling sharing of the generated map in a zero-copy mode with cuRobo for trajectory optimization on the GPU.
 
-<!-- chunk {"id": "body-0023", "role": "body", "section": "Experimental Evaluation", "weight": 1.0} -->
+<!-- chunk {"id": "body-0022", "role": "body", "section": "Experimental Evaluation", "weight": 1.0} -->
 
 We conduct experiments both in simulation and on a physical Franka Panda robot to evaluate DiffusionSeeder. In the following sections, we denote DiffusionSeeder as DiffusionSeeder combined with cuRobo, unless otherwise specified. We use the same set of parameters for both simulation and real-world experiments. We run DiffusionSeeder with $N_{\text{denoising}}$ denoising steps to generate trajectories of length $T = 32$ in the joint space. For each problem, we pass $N_{\text{trajs}}$ randomly sampled noise with the same condition from the observation encoder to the diffusion model to generate $N_{\text{trajs}}$ initial trajectories for optimization. ${N_{\text{denoising}} = 5},{N_{\text{trajs}} = 12}$ achieves good trade off between generation quality, diversity, and inference time.
 
-<!-- chunk {"id": "body-0024", "role": "body", "section": "Experimental Evaluation", "weight": 1.0} -->
+<!-- chunk {"id": "body-0023", "role": "body", "section": "Experimental Evaluation", "weight": 1.0} -->
 
 We consider the following quantitative metrics: success rate, plan time, jerk, translation error $\delta_{t}$, quaternion error $\delta_{r}$, and motion time (See Appendix 7.7). All metrics are computed over successful trajectories.
 
+<!-- chunk {"id": "body-0024", "role": "body", "section": "Simulation Experiments", "weight": 1.0} -->
+
+We evaluate DiffusionSeeder on the M$\pi$Net simulation test set of 1791 problems. Each problem has a scene from the same scene types as the training data but with different configurations (Figure 5). We compare DiffusionSeeder to BiTStar, M$\pi$Net and cuRobo(v0.6.2). We use $\delta_{t} = {0.005m}$ and $\delta_{r} = 2.86^{\circ}$ as the success threshold for both cuRobo and DiffusionSeeder as.
+
 <!-- chunk {"id": "body-0025", "role": "body", "section": "Simulation Experiments", "weight": 1.0} -->
-
-We evaluate DiffusionSeeder on the M$\pi$Net simulation test set of 1791 problems. Each problem has a scene from the same scene types as the training data but with different configurations. We compare DiffusionSeeder to BiTStar, M$\pi$Net and cuRobo(v0.6.2). We use $\delta_{t} = {0.005m}$ and $\delta_{r} = 2.86^{\circ}$ as the success threshold for both cuRobo and DiffusionSeeder as.
-
-<!-- chunk {"id": "body-0026", "role": "body", "section": "Simulation Experiments", "weight": 1.0} -->
 
 We represent scenes with a single depth image. Both cuRobo and DiffusionSeeder use nvblox with the given depth image for collision checking, which takes 30ms to reconstruct the ESDF. The total time of DiffusionSeeder and cuRobo is the sum of the planning and nvblox reconstruction time. In practice, this can be expedited by running nvblox construction in parallel with the diffusion model inference. For BiTStar, mesh generation from the depth image takes 0.17s. For M$\pi$Net, we project depth images to point clouds using the camera intrinsics. We evaluate the generated trajectories from all method using the ground truth mesh for collision checking (see Appendix 7.8).
 
-<!-- chunk {"id": "body-0027", "role": "body", "section": "Simulation Experiments", "weight": 1.0} -->
+<!-- chunk {"id": "body-0026", "role": "body", "section": "Simulation Experiments", "weight": 1.0} -->
 
 We run cuRobo for a maximum of $N_{\text{atp}}$ attempts, denoted as cuRobo-$N_{\text{atp}}$. For each attempt, we check if the trajectory meets the success criterion, repeating until a successful trajectory is generated or the attempt limit is reached. We use $N_{\text{atp}} = {1,10,100}$ as more attempts does not further increase the performance. For DiffusionSeeder, we run $N_{\text{iters}}$ optimization iterations for the diffusion generated trajectories, denoted as DiffusionSeeder-$N_{\text{iters}}$. We use $N_{\text{iters}} = {25,50,100,200,475}$, as more optimization iterations doesn't increase the trajectory quality much but increases the planning time. We evaluate all methods on a Nvidia GeForce RTX 4090.
 
-<!-- chunk {"id": "body-0028", "role": "body", "section": "Simulation Experiments", "weight": 1.0} -->
+<!-- chunk {"id": "body-0027", "role": "body", "section": "Simulation Experiments", "weight": 1.0} -->
 
-The average values of each metric are summarized in Table. Experiments in fully observed environments using ground-truth meshes, ablations on $N_{\text{trajs}}$ and number of depth images, DiffusionSeeder only without cuRobo and more discussions are included in Appendix 7.8.
+The average values of each metric are summarized in Table 1. Experiments in fully observed environments using ground-truth meshes, ablations on $N_{\text{trajs}}$ and number of depth images, DiffusionSeeder only without cuRobo and more discussions are included in Appendix 7.8.
+
+<!-- chunk {"id": "body-0028", "role": "body", "section": "DiffusionSeeder vs Sampling Based Planner", "weight": 1.0} -->
+
+BiTStar is a sampling-based planner that utilizes the benefits of the random geometric graph. It can generate high quality and optimal solutions quickly compared to other sampling-based methods, especially in high dimensional problems, and has the properties of probabilistic completeness and asymptotic optimality. We incorporate BiTStar from OMPL into MoveIt2 with a timeout of 5s and a maximum of 10 attempts per timeout. Since MoveIt2 constructs goal constraints using the Euler angle error on each axis, we set the angle error tolerance on goal pose to be 0.01 rad for each axis and the translation error tolerance to be 0.005 m. We denote this success threshold as $\overset{\sim}{\delta}$. We report the performance of BiTStar on both $\overset{\sim}{\delta}$ and $\delta$. Table 1 shows that DiffusionSeeder has a success rate 3x higher and a planning time 3% of that of BiTStar under the less strict success threshold $\overset{\sim}{\delta}$. The low success rate of BiTStar provides a benchmark for the difficulty of the motion planning problems under partial observations.
 
 <!-- chunk {"id": "body-0029", "role": "body", "section": "DiffusionSeeder vs Sampling Based Planner", "weight": 1.0} -->
 
-BiTStar is a sampling-based planner that utilizes the benefits of the random geometric graph. It can generate high quality and optimal solutions quickly compared to other sampling-based methods, especially in high dimensional problems, and has the properties of probabilistic completeness and asymptotic optimality. We incorporate BiTStar from OMPL into MoveIt2 with a timeout of 5s and a maximum of 10 attempts per timeout. Since MoveIt2 constructs goal constraints using the Euler angle error on each axis, we set the angle error tolerance on goal pose to be 0.01 rad for each axis and the translation error tolerance to be 0.005 m. We denote this success threshold as $\overset{\sim}{\delta}$. We report the performance of BiTStar on both $\overset{\sim}{\delta}$ and $\delta$. Table shows that DiffusionSeeder has a success rate 3x higher and a planning time 3% of that of BiTStar under the less strict success threshold $\overset{\sim}{\delta}$. The low success rate of BiTStar provides a benchmark for the difficulty of the motion planning problems under partial observations.
-
-<!-- chunk {"id": "body-0030", "role": "body", "section": "DiffusionSeeder vs Sampling Based Planner", "weight": 1.0} -->
-
 BiTStar has a lower jerk compared to DiffusionSeeder as DiffusionSeeder generates faster trajectories, indicated by the lower motion time. When we re-timed the trajectories from BiTStar so that trajectories reach the robot's velocity or acceleration limits, the maximum jerk of BiTStar generated trajectories became 81.4 ${rad}/s^{3}$ with a motion time of 1.72s. BiTStar generated trajectories have 21% lower jerk while also being 27% slower than DiffusionSeeder generated trajectories.
+
+<!-- chunk {"id": "body-0030", "role": "body", "section": "DiffusionSeeder vs Prior End-to-End Approach", "weight": 1.0} -->
+
+M$\pi$Net is an end-to-end method that takes point clouds and directly predicts waypoints in the configuration space. We use the best pre-trained model (M$\pi$Net trained on the Hybrid Expert) as our baseline to compare. We use a maximum rollout number of 150 for M$\pi$Net as. Additionally, we report the success rate of M$\pi$Net under the original success threshold of: $\delta' = {({{\delta_{t} = {0.01m}},{\delta_{r} = 15^{\circ}}})}$. Table 1 shows that DiffusionSeeder outperforms M$\pi$Net by an order of magnitude in terms of success rate (8.3% vs 85.8%). We hypothesize that this substantial improvement comes from combining the power of a learning approach with a classical motion planner.
 
 <!-- chunk {"id": "body-0031", "role": "body", "section": "DiffusionSeeder vs Prior End-to-End Approach", "weight": 1.0} -->
 
-M$\pi$Net is an end-to-end method that takes point clouds and directly predicts waypoints in the configuration space. We use the best pre-trained model (M$\pi$Net trained on the Hybrid Expert) as our baseline to compare. We use a maximum rollout number of 150 for M$\pi$Net as. Additionally, we report the success rate of M$\pi$Net under the original success threshold of: $\delta^{\prime} = {({{\delta_{t} = {0.01m}},{\delta_{r} = 15^{\circ}}})}$. Table shows that DiffusionSeeder outperforms M$\pi$Net by an order of magnitude in terms of success rate (8.3% vs 85.8%). We hypothesize that this substantial improvement comes from combining the power of a learning approach with a classical motion planner.
-
-<!-- chunk {"id": "body-0032", "role": "body", "section": "DiffusionSeeder vs Prior End-to-End Approach", "weight": 1.0} -->
-
 Since M$\pi$Net is a policy that predicts one-step delta joint configuration, it would be significantly slower to combine a multi-step M$\pi$Net trajectory (unrolled in a auto-regressive way) with classical methods for reactive control. However, M$\pi$Net allows the robot to start moving after the first inference is completed ($\sim$`<!-- -->`{=html}7 ms), while DiffusionSeeder always gives a complete trajectory in 17 ms.
 
-<!-- chunk {"id": "body-0033", "role": "body", "section": "DiffusionSeeder vs Heuristic Seed Generation", "weight": 1.0} -->
+<!-- chunk {"id": "body-0032", "role": "body", "section": "DiffusionSeeder vs Heuristic Seed Generation", "weight": 1.0} -->
 
-cuRobo uses heuristics to generate seed trajectories and its success rate depends heavily on the quality of seed trajectories it uses to optimize. At each attempt, cuRobo samples a new batch of seeds. From Table, the success rate of cuRobo increases monotonically with $N_{\text{atp}}$, indicating the inefficiency of its heuristic sampling as it needs to sample $N_{\text{atp}}$ times to achieve a high success rate, while DiffusionSeeder combined with cuRobo achieves higher performance in one attempt. Another effect of seed trajectories is on the number of optimization iterations. We set $N_{\text{iters}} = 475$ for cuRobo to optimize the seed trajectories, which was shown to achieve the highest success rate for cuRobo. DiffusionSeeder can achieve higher performance with significantly fewer iterations ($N_{\text{iters}} = 25$), suggesting the generated seed trajectories are closer to the optimal collision-free trajectories.
+cuRobo uses heuristics to generate seed trajectories and its success rate depends heavily on the quality of seed trajectories it uses to optimize. At each attempt, cuRobo samples a new batch of seeds. From Table 1, the success rate of cuRobo increases monotonically with $N_{\text{atp}}$, indicating the inefficiency of its heuristic sampling as it needs to sample $N_{\text{atp}}$ times to achieve a high success rate, while DiffusionSeeder combined with cuRobo achieves higher performance in one attempt. Another effect of seed trajectories is on the number of optimization iterations. We set $N_{\text{iters}} = 475$ for cuRobo to optimize the seed trajectories, which was shown to achieve the highest success rate for cuRobo. DiffusionSeeder can achieve higher performance with significantly fewer iterations ($N_{\text{iters}} = 25$), suggesting the generated seed trajectories are closer to the optimal collision-free trajectories.
+
+<!-- chunk {"id": "body-0033", "role": "body", "section": "Planning Time Comparisons", "weight": 1.0} -->
+
+Both cuRobo and DiffusionSeeder outperform M$\pi$Net and BiTStar by a large margin in planning speed. DiffusionSeeder-50 and cuRobo-1 are 11x and 6x faster than M$\pi$Net with success threshold $\delta'$, respectively, in terms of total time. Since both cuRobo and DiffusionSeeder use nvblox for ESDF reconstruction, we compare the planning time between cuRobo and DiffusionSeeder instead of the total time. On average, DiffusionSeeder-50 is 3x faster than cuRobo-1 with a 30% higher success rate. Compared to best-performing cuRobo-100, DiffusionSeeder-50 is 12x faster with a 10% higher success rate. We show the 75th and 98th quantile of the planning time of cuRobo-100 and DiffusionSeeder-50 in both partially and fully observed environments (Appendix 7.8.6) in Figure 3, where cuRobo planning time has a great discrepancy across the mean, 75th quantile, and 98th quantile.
 
 <!-- chunk {"id": "body-0034", "role": "body", "section": "Planning Time Comparisons", "weight": 1.0} -->
 
-Both cuRobo and DiffusionSeeder outperform M$\pi$Net and BiTStar by a large margin in planning speed. DiffusionSeeder-50 and cuRobo-1 are 11x and 6x faster than M$\pi$Net with success threshold $\delta^{\prime}$, respectively, in terms of total time. Since both cuRobo and DiffusionSeeder use nvblox for ESDF reconstruction, we compare the planning time between cuRobo and DiffusionSeeder instead of the total time. On average, DiffusionSeeder-50 is 3x faster than cuRobo-1 with a 30% higher success rate. Compared to best-performing cuRobo-100, DiffusionSeeder-50 is 12x faster with a 10% higher success rate. We show the 75th and 98th quantile of the planning time of cuRobo-100 and DiffusionSeeder-50 in both partially and fully observed environments (Appendix 7.8.6) in Figure, where cuRobo planning time has a great discrepancy across the mean, 75th quantile, and 98th quantile.
-
-<!-- chunk {"id": "body-0035", "role": "body", "section": "Planning Time Comparisons", "weight": 1.0} -->
-
 DiffusionSeeder-50 is 4x faster than cuRobo-100 on the 75th quantile and 36x faster on 98th quantile in partially observed environments. While cuRobo shows high variance in planning time, DiffusionSeeder achieves relatively consistent performance among all scenes, indicating its advantage in generating scene-specific seeds.
+
+<!-- chunk {"id": "body-0035", "role": "body", "section": "Real Robot Evaluation", "weight": 1.0} -->
+
+We conduct experiments on a Franka Panda robot across 6 scenes, categorized into 3 difficulty tiers with 2 scenes from each tier and also an empty scene. Some of these scenes are shown in Figure 4. None of the environment setups are part of our training dataset. In each scene, we select three poses that the robot needs to reach sequentially, repeating 5 times. A method is considered successful if it avoids collisions across all 5 trials in a scene. In addition to success, we also report the time the robot was executing trajectories as Motion Time. More details are in Appendix 7.9.
 
 <!-- chunk {"id": "body-0036", "role": "body", "section": "Real Robot Evaluation", "weight": 1.0} -->
 
-We conduct experiments on a Franka Panda robot across 6 scenes, categorized into 3 difficulty tiers with 2 scenes from each tier and also an empty scene. Some of these scenes are shown in Figure. None of the environment setups are part of our training dataset. In each scene, we select three poses that the robot needs to reach sequentially, repeating 5 times. A method is considered successful if it avoids collisions across all 5 trials in a scene. In addition to success, we also report the time the robot was executing trajectories as Motion Time. More details are in Appendix 7.9.
+From Table 2, DiffusionSeeder failed once among the 7 scenes with an average success rate of 86% while cuRobo failed 3 times with an average success rate of 57%, demonstrating the sim2real transfer of DiffusionSeeder. DiffusionSeeder outperforms cuRobo on planning time with an average planning time of 26ms while cuRobo has a planning time of 65ms. The motion time of the planned trajectories of DiffusionSeeder is higher than that of cuRobo, similar to that in simulation experiments. As discussed in Appendix 7.8.5, we hypothesize this may be attributed to the additional weight $\alpha$ on loss for non-linear trajectories, resulting DiffusionSeeder to generate more non-linear trajectories, which are less likely to collide but also have higher motion time. All failures for cuRobo was due to limited view of the obstacles from a single camera. The one environment where DiffusionSeeder failed was because the tree obstacle did not fully fit in the view of the camera.
 
-<!-- chunk {"id": "body-0037", "role": "body", "section": "Real Robot Evaluation", "weight": 1.0} -->
-
-From Table, DiffusionSeeder failed once among the 7 scenes with an average success rate of 86% while cuRobo failed 3 times with an average success rate of 57%, demonstrating the sim2real transfer of DiffusionSeeder. DiffusionSeeder outperforms cuRobo on planning time with an average planning time of 26ms while cuRobo has a planning time of 65ms. The motion time of the planned trajectories of DiffusionSeeder is higher than that of cuRobo, similar to that in simulation experiments. As discussed in Appendix 7.8.5, we hypothesize this may be attributed to the additional weight $\alpha$ on loss for non-linear trajectories, resulting DiffusionSeeder to generate more non-linear trajectories, which are less likely to collide but also have higher motion time. All failures for cuRobo was due to limited view of the obstacles from a single camera. The one environment where DiffusionSeeder failed was because the tree obstacle did not fully fit in the view of the camera.
-
-<!-- chunk {"id": "body-0038", "role": "body", "section": "Conclusion and Limitation", "weight": 1.5} -->
+<!-- chunk {"id": "body-0037", "role": "body", "section": "Conclusion and Limitation", "weight": 1.5} -->
 
 We propose DiffusionSeeder, a diffusion-based model for generating initial seed trajectories for motion planning in novel scenes from just depth observations. Integrated with cuRobo, it achieves up to 36× speedup on complex motion-planning tasks. DiffusionSeeder is trained on a large-scale synthetic dataset but shows generalization to unknown real world scenes and observations. By utilizing an environment encoder and a broad set of views of each scene during training, DiffusionSeeder generates collision-free seed trajectories under partial observation. In future, we hope to explore the capabilities of the environment encoder for single-view scene geometry understanding and investigate its applicability in other robotic domains, such as grasping and manipulation.
 
-<!-- chunk {"id": "body-0039", "role": "body", "section": "Conclusion and Limitation", "weight": 1.5} -->
+<!-- chunk {"id": "body-0038", "role": "body", "section": "Conclusion and Limitation", "weight": 1.5} -->
 
-DiffusionSeeder has a few limitations. It generates trajectories based on a fixed external camera view, making it less effective when the goal pose is occluded. We hope to extend DiffusionSeeder to incorporate multiple input views and more diverse camera poses in the future, to benefit from multi-camera or wrist-mounted camera setups. DiffusionSeeder is only trained on the Franka robot. We hope to extend DiffusionSeeder to different robots in the future. While we empirically observed that the nonlinearity introduced in Eq. improves the performance, there is a lack of thorough analysis on the effectiveness of Eq. compared to a regular MSE loss. A comprehensive study on the loss function design for robotic motion planning can be an interesting future direction.
+DiffusionSeeder has a few limitations. It generates trajectories based on a fixed external camera view, making it less effective when the goal pose is occluded. We hope to extend DiffusionSeeder to incorporate multiple input views and more diverse camera poses in the future, to benefit from multi-camera or wrist-mounted camera setups. DiffusionSeeder is only trained on the Franka robot. We hope to extend DiffusionSeeder to different robots in the future. While we empirically observed that the nonlinearity introduced in Eq. 2 improves the performance, there is a lack of thorough analysis on the effectiveness of Eq. 2 compared to a regular MSE loss. A comprehensive study on the loss function design for robotic motion planning can be an interesting future direction.

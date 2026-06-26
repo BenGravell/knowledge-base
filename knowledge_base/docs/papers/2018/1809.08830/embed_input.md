@@ -32,7 +32,7 @@ Also, the Wasserstein distance is known to be more statistically robust than oth
 
 <!-- chunk {"id": "body-0008", "role": "body", "section": "Introduction", "weight": 1.5} -->
 
-We introduce a distributionally robust mean square estimation problem over a nonconvex Wasserstein ambiguity set containing normal distributions only, and we demonstrate that the optimal estimator and the least favorable distribution form a Nash equilibrium.
+We summarize our main contributions as follows: We introduce a distributionally robust mean square estimation problem over a nonconvex Wasserstein ambiguity set containing normal distributions only, and we demonstrate that the optimal estimator and the least favorable distribution form a Nash equilibrium.
 
 <!-- chunk {"id": "body-0009", "role": "body", "section": "Introduction", "weight": 1.5} -->
 
@@ -64,11 +64,11 @@ We now demonstrate that the minimax problem is equivalent to a tractable convex 
 
 <!-- chunk {"id": "body-0016", "role": "body", "section": "Remark 2.6 (Divergence-based ambiguity sets)", "weight": 1.0} -->
 
-As a natural alternative, one could replace the Wasserstein distance in with an information divergence. For example, ambiguity sets defined via $\tau$-divergences, which encapsulate the popular KL divergence as a special case, have been studied. As shown in \[15, Theorem 1\] and \[30, Theorem 2.1\], the optimal estimator corresponding to any $\tau$-divergence ambiguity set always coincides with the Bayesian estimator for the nominal distribution ${\mathbb{P}} = {\mathcal{N}_{d}{(\mu,\Sigma)}}$ irrespective of $\rho$. Thus, in stark contrast to the setting considered here, the size of a $\tau$-divergence ambiguity set has no impact on the corresponding optimal estimator. Moreover, the least favorable prior ${\mathbb{Q}} = {\mathcal{N}_{d}{(\mu,S^{\star})}}$ for a $\tau$-divergence ambiguity set always satisfies
+As a natural alternative, one could replace the Wasserstein distance in with an information divergence. For example, ambiguity sets defined via $\tau$-divergences, which encapsulate the popular KL divergence as a special case, have been studied. As shown in \[15, Theorem 1\] and \[30, Theorem 2.1\], the optimal estimator corresponding to any $\tau$-divergence ambiguity set always coincides with the Bayesian estimator for the nominal distribution ${\mathbb{P}} = {\mathcal{N}_{d}{(\mu,\Sigma)}}$ irrespective of $\rho$. Thus, in stark contrast to the setting considered here, the size of a $\tau$-divergence ambiguity set has no impact on the corresponding optimal estimator.
 
 <!-- chunk {"id": "body-0017", "role": "body", "section": "Remark 2.6 (Divergence-based ambiguity sets)", "weight": 1.0} -->
 
-Thus, in order to harm the statistician, nature only perturbs the second moments of the signal but sets all second moments of the observation as well as all cross moments to their nominal values.
+Moreover, the least favorable prior ${\mathbb{Q}} = {\mathcal{N}_{d}{(\mu,S^{\star})}}$ for a $\tau$-divergence ambiguity set always satisfies Thus, in order to harm the statistician, nature only perturbs the second moments of the signal but sets all second moments of the observation as well as all cross moments to their nominal values.
 
 <!-- chunk {"id": "body-0018", "role": "body", "section": "Example 2.7 (Impact of $\\rho$ on the Nash equilibrium)", "weight": 1.0} -->
 
@@ -96,68 +96,76 @@ Consider a discrete-time dynamical system whose (unobservable) state $x_{t} \in 
 
 <!-- chunk {"id": "body-0024", "role": "body", "section": "The Wasserstein Distributionally Robust Kalman Filter", "weight": 1.0} -->
 
-The distribution ${\mathbb{P}}^{\star}$ is determined through the linear state-space model
+Note that we may restrict the dimension of $v_{t}$ to the dimension $d = {n + m}$ of $z_{t}$ without loss of generality. Otherwise, all linearly dependent columns of ${\lbrack B_{t}^{\top},D_{t}^{\top}\rbrack}^{\top}$ and the corresponding components of $v_{t}$ can be eliminated systematically.
 
 <!-- chunk {"id": "body-0025", "role": "body", "section": "The Wasserstein Distributionally Robust Kalman Filter", "weight": 1.0} -->
 
-By the law of total probability and the Markovian nature of the state-space model, the nominal distribution ${\mathbb{P}}^{\star}$ is uniquely determined by the marginal distribution ${\mathbb{P}}_{x_{0}}^{\star} = {\mathcal{N}_{n}{({\hat{x}}_{0},V_{0})}}$ of the initial state $x_{0}$ and the conditional distributions
+By the law of total probability and the Markovian nature of the state-space model, the nominal distribution ${\mathbb{P}}^{\star}$ is uniquely determined by the marginal distribution ${\mathbb{P}}_{x_{0}}^{\star} = {\mathcal{N}_{n}{({\hat{x}}_{0},V_{0})}}$ of the initial state $x_{0}$ and the conditional distributions of $z_{t}$ given $x_{t - 1}$ for all $t \in {\mathbb{N}}$.
 
 <!-- chunk {"id": "body-0026", "role": "body", "section": "The Wasserstein Distributionally Robust Kalman Filter", "weight": 1.0} -->
 
-In the update step, the pseudo-nominal a priori estimate ${\mathbb{P}}_{z_{t}|Y_{t - 1}}$ is updated by the measurement $y_{t}$ and robustified against model uncertainty to yield a refined a posteriori estimate ${\mathbb{Q}}_{x_{t}|Y_{t}}^{\star}$. This a posteriori estimate is found by solving the minimax problem
+In the update step, the pseudo-nominal a priori estimate ${\mathbb{P}}_{z_{t}|Y_{t - 1}}$ is updated by the measurement $y_{t}$ and robustified against model uncertainty to yield a refined a posteriori estimate ${\mathbb{Q}}_{x_{t}|Y_{t}}^{\star}$. This a posteriori estimate is found by solving the minimax problem equipped with the Wasserstein ambiguity set Note that the Wasserstein radius $\rho_{t}$ quantifies our distrust in the pseudo-nominal a priori estimate and can therefore be interpreted as a measure of model uncertainty. Practically, we reformulate as an equivalent finite convex program of the form (5. ‣ 2 Robust Estimation with Wasserstein Ambiguity Sets ‣ Wasserstein Distributionally Robust Kalman Filtering")), which is amenable to efficient computational solution via the Frank-Wolfe algorithm detailed in Section 3. By Theorem 2.5.
 
 <!-- chunk {"id": "body-0027", "role": "body", "section": "The Wasserstein Distributionally Robust Kalman Filter", "weight": 1.0} -->
 
-equipped with the Wasserstein ambiguity set
+‣ 2 Robust Estimation with Wasserstein Ambiguity Sets ‣ Wasserstein Distributionally Robust Kalman Filtering"), the optimal solution $S_{t}^{\star}$ of problem (5. ‣ 2 Robust Estimation with Wasserstein Ambiguity Sets ‣ Wasserstein Distributionally Robust Kalman Filtering")) yields the least favorable conditional distribution ${\mathbb{Q}}_{z_{t}|Y_{t - 1}}^{\star} = {\mathcal{N}_{d}{(\mu_{t},S_{t}^{\star})}}$ of $z_{t}$ given $Y_{t - 1}$.
 
 <!-- chunk {"id": "body-0028", "role": "body", "section": "The Wasserstein Distributionally Robust Kalman Filter", "weight": 1.0} -->
 
-Note that the Wasserstein radius $\rho_{t}$ quantifies our distrust in the pseudo-nominal a priori estimate and can therefore be interpreted as a measure of model uncertainty. Practically, we reformulate as an equivalent finite convex program of the form (5. ‣ 2 Robust Estimation with Wasserstein Ambiguity Sets ‣ Wasserstein Distributionally Robust Kalman Filtering")), which is amenable to efficient computational solution via the Frank-Wolfe algorithm detailed in Section 3. By Theorem 2.5. ‣ 2 Robust Estimation with Wasserstein Ambiguity Sets ‣ Wasserstein Distributionally Robust Kalman Filtering"), the optimal solution $S_{t}^{\star}$ of problem (5.
+By using the well-known formulas for conditional normal distributions (see, e.g., \[20, page 522\]), we then obtain the least favorable conditional distribution ${\mathbb{Q}}_{x_{t}|Y_{t}}^{\star} = {\mathcal{N}_{d}{({\hat{x}}_{t},V_{t})}}$ of $x_{t}$ given $Y_{t}$, where The distributionally robust Kalman filtering approach is summarized in Algorithm 3. Note that the robust update step outlined above reduces to the usual update step of the classical Kalman filter for $\rho \downarrow 0$.
 
 <!-- chunk {"id": "body-0029", "role": "body", "section": "The Wasserstein Distributionally Robust Kalman Filter", "weight": 1.0} -->
 
-‣ 2 Robust Estimation with Wasserstein Ambiguity Sets ‣ Wasserstein Distributionally Robust Kalman Filtering")) yields the least favorable conditional distribution ${\mathbb{Q}}_{z_{t}|Y_{t - 1}}^{\star} = {\mathcal{N}_{d}{(\mu_{t},S_{t}^{\star})}}$ of $z_{t}$ given $Y_{t - 1}$. By using the well-known formulas for conditional normal distributions (see, e.g., \[20, page 522\]), we then obtain the least favorable conditional distribution ${\mathbb{Q}}_{x_{t}|Y_{t}}^{\star} = {\mathcal{N}_{d}{({\hat{x}}_{t},V_{t})}}$ of $x_{t}$ given $Y_{t}$, where
+0: Covariance matrix Vt − 1 ≽ 0 State estimate x̂t − 1 Wasserstein radius ρt > 0 Tolerance δ > 0 Form the pseudo-nominal distribution Observe the output yt Use Algorithm 2 to solve Algorithm 3 Robust Kalman filter at time t Figure 2: Wasserstein ball in the space 𝕊+2 of covariance matrices centered at I2 with radius 1.
 
-<!-- chunk {"id": "body-0030", "role": "body", "section": "The Wasserstein Distributionally Robust Kalman Filter", "weight": 1.0} -->
-
-The distributionally robust Kalman filtering approach is summarized in Algorithm 3. Note that the robust update step outlined above reduces to the usual update step of the classical Kalman filter for $\rho \downarrow 0$.
-
-<!-- chunk {"id": "body-0031", "role": "body", "section": "The Wasserstein Distributionally Robust Kalman Filter", "weight": 1.0} -->
-
-0: Covariance matrix Vt − 1 ≽ 0 State estimate x̂t − 1 Wasserstein radius ρt &gt; 0 Tolerance δ &gt; 0
-Form the pseudo-nominal distribution
-Observe the output yt
-Use Algorithm 2 to solve
-Algorithm 3 Robust Kalman filter at time t
-
-<!-- chunk {"id": "body-0032", "role": "body", "section": "Numerical Results", "weight": 1.0} -->
+<!-- chunk {"id": "body-0030", "role": "body", "section": "Numerical Results", "weight": 1.0} -->
 
 We showcase the performance of the proposed Frank-Wolfe algorithm and the distributionally robust Kalman filter in a suite of synthetic experiments. All optimization problems are implemented in MATLAB and run on an Intel XEON CPU with 3.40GHz clock speed and 16GB of RAM, and the corresponding codes are made publicly available at
 
-<!-- chunk {"id": "body-0033", "role": "body", "section": "Distributionally Robust Minimum Mean Square Error Estimation", "weight": 1.0} -->
+<!-- chunk {"id": "body-0031", "role": "body", "section": "Distributionally Robust Minimum Mean Square Error Estimation", "weight": 1.0} -->
 
 We first assess the distributionally robust minimum mean square error (robust MMSE) estimator, which is obtained by solving, against the classical Bayesian MMSE estimator, which can be viewed as the solution of problem over a singleton ambiguity set that contains only the nominal distribution. Recall from Remark 2.6. ‣ 2 Robust Estimation with Wasserstein Ambiguity Sets ‣ Wasserstein Distributionally Robust Kalman Filtering") that the optimal estimator corresponding to a KL or $\tau$-divergence ambiguity set of the type studied in coincides with the Bayesian MMSE estimator irrespective of $\rho$. Thus, we may restrict attention to Wasserstein ambiguity sets. In order to develop a geometric intuition, Figure 2 visualizes the set of all bivariate normal distributions with zero mean that have a Wasserstein distance of at most 1 from the standard normal distribution---projected to the space of covariance matrices.
 
+<!-- chunk {"id": "body-0032", "role": "body", "section": "Distributionally Robust Minimum Mean Square Error Estimation", "weight": 1.0} -->
+
+In the first experiment we aim to predict a signal $x \in {\mathbb{R}}^{{4d}/5}$ from an observation $y \in {\mathbb{R}}^{d/5}$, where the random vector $z = {\lbrack x^{\top},y^{\top}\rbrack}^{\top}$ follows a $d$-variate Gaussian distribution with $d \in {\{ 10,50,100\}}$. The experiment comprises $10^{4}$ simulation runs. In each run we randomly generate two covariance matrices $\Sigma^{\star}$ and $\Sigma$ as follows.
+
+<!-- chunk {"id": "body-0033", "role": "body", "section": "Distributionally Robust Minimum Mean Square Error Estimation", "weight": 1.0} -->
+
+First, we draw two matrices $A^{\star}$ and $A$ from the standard normal distribution on ${\mathbb{R}}^{d \times d}$, and we denote by $R^{\star}$ and $R$ the orthogonal matrices whose columns correspond to the orthonormal eigenvectors of $A^{\star} + {(A^{\star})}^{\top}$ and $A + A^{\top}$, respectively. Then, we define $\Delta^{\star} = {R^{\star}\Lambda^{\star}{(R^{\star})}^{\top}}$ and $\Sigma = {R\LambdaR^{\top}}$, where $\Lambda^{\star}$ and $\Lambda$ are diagonal matrices whose main diagonals are sampled uniformly from ${\lbrack 0,1\rbrack}^{d}$ and ${\lbrack 0.1,10\rbrack}^{d}$, respectively.
+
 <!-- chunk {"id": "body-0034", "role": "body", "section": "Distributionally Robust Minimum Mean Square Error Estimation", "weight": 1.0} -->
 
-where $\parallel \cdot \parallel_{F}$ stands for the Frobenius norm, and the first inequality follows from \[16, Proposition 3\]. We assume that ${\mathbb{P}}^{\star}$ is the true distribution and $\mathbb{P}$ our nominal prior. The robust MMSE estimator is obtained by solving (5. ‣ 2 Robust Estimation with Wasserstein Ambiguity Sets ‣ Wasserstein Distributionally Robust Kalman Filtering")) for $\rho = \sqrt{d}$ via the Frank-Wolfe algorithm from Section 3, while the Bayesian MMSE estimator under $\mathbb{P}$ is calculated analytically. In order to provide a meaningful comparison between these two approaches, we also compute the Bayesian MMSE estimator under the true distribution ${\mathbb{P}}^{\star}$ (denoted by MMSE^⋆^), which is indeed the best possible estimator.
+Finally, we set $\Sigma^{\star} = {({\Sigma^{\frac{1}{2}} + {(\Delta^{\star})}^{\frac{1}{2}}})}^{2}$ and define the normal distributions ${\mathbb{P}}^{\star} = {\mathcal{N}_{d}{(0,\Sigma^{\star})}}$ and ${\mathbb{P}} = {\mathcal{N}_{d}{(0,\Sigma)}}$. By construction, we have where $\parallel \cdot \parallel_{F}$ stands for the Frobenius norm, and the first inequality follows from \[16, Proposition 3\]. We assume that ${\mathbb{P}}^{\star}$ is the true distribution and $\mathbb{P}$ our nominal prior. The robust MMSE estimator is obtained by solving (5.
 
 <!-- chunk {"id": "body-0035", "role": "body", "section": "Distributionally Robust Minimum Mean Square Error Estimation", "weight": 1.0} -->
 
-Figure 3 visualizes the distribution of the difference between the mean square errors under ${\mathbb{P}}^{\star}$ of the robust MMSE (Bayesian MMSE) and MMSE^⋆^ estimators. We observe that the robust MMSE estimator produces better results consistently across all experiments, and the effect is more pronounced for larger dimensions $d$. Figures 4(a) and 4(b) report the execution time and the iteration complexity of the Frank-Wolfe algorithm for $d \in {\{ 10,\ldots,100\}}$ when the algorithm is stopped as soon as the relative duality gap ${\left\langle {{F{(S^{k})}} - S^{k}},{{\nabla f}{(S^{k})}} \right\rangle/f}{(S^{k})}$ drops below $0.01\%$. Note that the execution time grows polynomially due to the matrix inversion in the bisection algorithm. Figure 4(c) shows the relative duality gap of the current solution as a function of the iteration count.
+‣ 2 Robust Estimation with Wasserstein Ambiguity Sets ‣ Wasserstein Distributionally Robust Kalman Filtering")) for $\rho = \sqrt{d}$ via the Frank-Wolfe algorithm from Section 3, while the Bayesian MMSE estimator under $\mathbb{P}$ is calculated analytically. In order to provide a meaningful comparison between these two approaches, we also compute the Bayesian MMSE estimator under the true distribution ${\mathbb{P}}^{\star}$ (denoted by MMSE^⋆^), which is indeed the best possible estimator. Figure 3 visualizes the distribution of the difference between the mean square errors under ${\mathbb{P}}^{\star}$ of the robust MMSE (Bayesian MMSE) and MMSE^⋆^ estimators. We observe that the robust MMSE estimator produces better results consistently across all experiments, and the effect is more pronounced for larger dimensions $d$.
 
-<!-- chunk {"id": "body-0036", "role": "body", "section": "Wasserstein Distributionally Robust Kalman Filtering", "weight": 1.0} -->
+<!-- chunk {"id": "body-0036", "role": "body", "section": "Distributionally Robust Minimum Mean Square Error Estimation", "weight": 1.0} -->
 
-We assess the performance of the proposed Wasserstein distributionally robust Kalman filter against that of the classical Kalman filter and the Kalman filter with the KL ambiguity set. To this end, we borrow the standard test instance from with $n = 2$ and $m = 1$. The system matrices satisfy
+Figures 4(a) and 4(b) report the execution time and the iteration complexity of the Frank-Wolfe algorithm for $d \in {\{ 10,\ldots,100\}}$ when the algorithm is stopped as soon as the relative duality gap ${\left\langle {{F{(S^{k})}} - S^{k}},{{\nabla f}{(S^{k})}} \right\rangle/f}{(S^{k})}$ drops below $0.01\%$. Note that the execution time grows polynomially due to the matrix inversion in the bisection algorithm. Figure 4(c) shows the relative duality gap of the current solution as a function of the iteration count.
 
-<!-- chunk {"id": "body-0037", "role": "body", "section": "Wasserstein Distributionally Robust Kalman Filtering", "weight": 1.0} -->
+<!-- chunk {"id": "body-0037", "role": "body", "section": "Distributionally Robust Minimum Mean Square Error Estimation", "weight": 1.0} -->
 
-We distinguish four different scenarios: time-invariant uncertainty ($\Delta_{t}^{j} = \Delta^{j}$ sampled uniformly from $\lbrack{- \overline{\Delta}},\overline{\Delta}\rbrack$ for each $j$) versus time-varying uncertainty ($\Delta_{t}^{j}$ sampled uniformly from $\lbrack{- \overline{\Delta}},\overline{\Delta}\rbrack$ for each $t$ and $j$), and small uncertainty ($\overline{\Delta} = 1$) versus large uncertainty ($\overline{\Delta} = 10$). All results are reported in decibel units ($10{\log_{10}{( \cdot )}}$).
+(a) Scaling of iteration count (b) Scaling of execution time Figure 4: Convergence behavior of the Frank-Wolfe algorithm (shown are the average (solid line) and the range (shaded area) of the respective performance measures across 100 simulation runs)
 
 <!-- chunk {"id": "body-0038", "role": "body", "section": "Wasserstein Distributionally Robust Kalman Filtering", "weight": 1.0} -->
 
-As for the filter design, the Wasserstein and KL radii are selected from the search grids $\{{a \cdot 10^{- 1}}:{a \in {\{ 1,1.1,\cdots,2\}}}\}$ and $\{{a \cdot 10^{- 4}}:{a \in {\{ 1,1.1,\cdots,2\}}}\}$, respectively. Figure 5 reports the results with minimum steady state error across all candidate radii.
+We assess the performance of the proposed Wasserstein distributionally robust Kalman filter against that of the classical Kalman filter and the Kalman filter with the KL ambiguity set. To this end, we borrow the standard test instance from with $n = 2$ and $m = 1$. The system matrices satisfy and ${B_{t}D_{t}^{\top}} = 0$, where $\Delta_{t}$ represents a scalar uncertainty, and the initial state satisfies $x_{0} \sim {\mathcal{N}_{2}{(0,I_{2})}}$. In all numerical experiments we simulate the different filters over $1000$ periods starting from ${\hat{x}}_{0} = 0$ and $V_{0} = I_{2}$.
 
 <!-- chunk {"id": "body-0039", "role": "body", "section": "Wasserstein Distributionally Robust Kalman Filtering", "weight": 1.0} -->
 
+We distinguish four different scenarios: time-invariant uncertainty ($\Delta_{t}^{j} = \Delta^{j}$ sampled uniformly from $\lbrack{- \overline{\Delta}},\overline{\Delta}\rbrack$ for each $j$) versus time-varying uncertainty ($\Delta_{t}^{j}$ sampled uniformly from $\lbrack{- \overline{\Delta}},\overline{\Delta}\rbrack$ for each $t$ and $j$), and small uncertainty ($\overline{\Delta} = 1$) versus large uncertainty ($\overline{\Delta} = 10$). All results are reported in decibel units ($10{\log_{10}{(\cdot)}}$).
+
+<!-- chunk {"id": "body-0040", "role": "body", "section": "Wasserstein Distributionally Robust Kalman Filtering", "weight": 1.0} -->
+
+As for the filter design, the Wasserstein and KL radii are selected from the search grids $\{{a \cdot 10^{- 1}}:{a \in {\{ 1,1.1,\cdots,2\}}}\}$ and $\{{a \cdot 10^{- 4}}:{a \in {\{ 1,1.1,\cdots,2\}}}\}$, respectively. Figure 5 reports the results with minimum steady state error across all candidate radii.
+
+<!-- chunk {"id": "body-0041", "role": "body", "section": "Wasserstein Distributionally Robust Kalman Filtering", "weight": 1.0} -->
+
 Under small time-invariant uncertainty (Figure 5(a)), the Wasserstein and KL distributionally robust filters display a similar steady-state performance but outperform the classical Kalman filter. Note that the KL distributionally robust filter starts from a different initial point as we use the delayed implementation. Under small time-varying uncertainty (Figure 5(b)), both distributionally robust filters display a similar performance as the classical Kalman filter. Figures 5(c) and (d) corresponding to the case of large uncertainty are similar to Figures 5(a) and (b), respectively. However, the Wasserstein distributionally robust filter now significantly outperforms the classical Kalman filter and, to a lesser extent, the KL distributionally robust filter. Moreover, the Wasserstein distributionally robust filter exhibits the best transient behavior.
+
+<!-- chunk {"id": "body-0042", "role": "body", "section": "Wasserstein Distributionally Robust Kalman Filtering", "weight": 1.0} -->
+
+(a) Small time-invariant uncertainty (b) Small time varying uncertainty (c) Large time-invariant uncertainty (d) Large time-varying uncertainty Figure 5: Empirical means square estimation error of different filters

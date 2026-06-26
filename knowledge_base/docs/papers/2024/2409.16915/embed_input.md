@@ -13,3 +13,299 @@ Proposes trajectory optimization directly within a Normalized Gaussian Splat (NG
 <!-- chunk {"id": "abstract-0003", "role": "abstract", "section": "Abstract", "weight": 2.0} -->
 
 Neural Radiance Fields and Gaussian Splatting have recently transformed computer vision by enabling photo-realistic representations of complex scenes. However, they have seen limited application in real-world robotics tasks such as trajectory optimization. This is due to the difficulty in reasoning about collisions in radiance models and the computational complexity associated with operating in dense models. This paper addresses these challenges by proposing SPLANNING, a risk-aware trajectory optimizer operating in a Gaussian Splatting model. This paper first derives a method to rigorously upper-bound the probability of collision between a robot and a radiance field. Then, this paper introduces a normalized reformulation of Gaussian Splatting that enables efficient computation of this collision bound. Finally, this paper presents a method to optimize trajectories that avoid collisions in a Gaussian Splat. Experiments show that SPLANNING outperforms state-of-the-art methods in generating collision-free trajectories in cluttered environments. The proposed system is also tested on a real-world robot manipulator. A project page is available at
+
+<!-- chunk {"id": "body-0004", "role": "body", "section": "INTRODUCTION", "weight": 1.5} -->
+
+For a robot to safely navigate its environment, it must understand the scene geometry it operates within. This understanding must include a detailed model of the scene and a method to reason about collisions with the environment. Radiance field representations, such as Neural Radiance Fields (NeRFs ) and Gaussian Splatting, have recently emerged as powerful methods for building detailed models of the scene. A radiance field is a five-dimensional function that maps a 3D point and viewing direction to an RGB color and volume rendering opacity. This function is then integrated along camera rays to approximate the image formation process. NeRFs use neural networks to learn the parameters of a radiance field, while Gaussian Splatting models use a set of 3D Gaussian functions. Over the past several years, radiance field representations have marked a paradigm shift in computer vision, with wide-ranging impacts on scene reconstruction, novel view synthesis, 3D tracking, and more.
+
+<!-- chunk {"id": "body-0005", "role": "body", "section": "INTRODUCTION", "weight": 1.5} -->
+
+The robotics research community has begun trying to integrate these models for robotic tasks such as localization, mapping, and navigation. A key strength of *Denotes equal contribution.
+
+<!-- chunk {"id": "body-0006", "role": "body", "section": "INTRODUCTION", "weight": 1.5} -->
+
+Jonathan Michaux, Seth Isaacson, Challen Enninful Adu, Adam Li, Rahul Kashyap Swayampakula, Parker Ewen, Sean Rice, Katherine A. Skinner and Ram Vasudevan are with the Department of Robotics, University of Michigan, Ann Arbor, MI 48109. { jmichaux, sethgi, enninful, adamli, rahulswa, pewen, seanrice, kskin, ramv } @umich.edu.
+
+<!-- chunk {"id": "body-0007", "role": "body", "section": "INTRODUCTION", "weight": 1.5} -->
+
+This work was funded by MCity, University of Michigan.
+
+<!-- chunk {"id": "body-0008", "role": "body", "section": "INTRODUCTION", "weight": 1.5} -->
+
+Fig. 1: SPLANNING constructs risk-aware trajectories in a Gaussian Splatting map in real-time. The top image shows a real-world scene that a 7DOF serial manipulator must plan through, starting at the blue configuration (left) and ending at the green configuration (right). The scene is represented as a normalized 3D Gaussian Splat. Then, in real-time, SPLANNING solves an optimization problem that constrains the probability that the robot's forward occupancy (bottom center, purple) collides with the scene. radiance models, such as 3D Gaussian Splats (3DGS), is that they represent the 3D scene using a continuous basis set. This differs from conventional discrete representations in robotics, such as point clouds and occupancy grids. In particular, point clouds do not inherently encode surface or object connectivity because they are a sampled representation of the environment. As a result, it's unclear how to derive a probabilistic interpretation for the occupancy of a continuous portion of the scene from a point cloud.
+
+<!-- chunk {"id": "body-0009", "role": "body", "section": "INTRODUCTION", "weight": 1.5} -->
+
+Though voxel grids do have a direct volumetric and probabilistic interpretation, the resolution of the map must be selected a-priori, which presents a strong tradeoff between fidelity and computational demands. In addition, to ensure safe planning, voxel-based methods typically employ obstacle buffering to account for the robot's geometry. This is straightforward to perform if the robot's footprint can be modeled as a point or sphere; however, this buffering operation is challenging to perform for articulated robots without unnecessarily restricting free space. On the other hand, just as with point clouds, one could process the voxel grid to create a surface model such as a signed distance field. However, this introduces additional computational overhead and potential inaccuracies in collision checking. Despite representing the scene using a continuous basis set, reasoning rigorously about collisions in 3DGS representations is challenging. While existing planners offer practical solutions to this problem, such as discretizing the robot body, discretizing the map before planning, or treating the confidence ellipsoids of the Gaussians in a Gaussian Splat as obstacles, work remains to fully exploit the continuous nature of radiance field models.
+
+<!-- chunk {"id": "body-0010", "role": "body", "section": "INTRODUCTION", "weight": 1.5} -->
+
+This paper extends the literature on motion planning in radiance fields by proposing a real-time, receding-horizon trajectory optimization algorithm called SPLANNING. This paper's key contributions are: 1) A rigorous definition and derivation of rigid body collision within a radiance field model, starting directly from the rendering equation; 2) a computationally efficient approach to upper-bound the probability of collision within a Gaussian Splatting model that can be incorporated into a real-time risk-aware trajectory planner; 3) a re-formulation of Gaussian Splatting that normalizes the 3D Gaussians to ensure the correctness of the collision probabilities. Simulation and hardware experiments illustrate that the risk-aware planner solves challenging tasks in realtime.
+
+<!-- chunk {"id": "body-0011", "role": "body", "section": "INTRODUCTION", "weight": 1.5} -->
+
+Relationship to Prior Work: SPLANNING builds upon prior work entitled Safe Planning for Articulated Robots Using Reachability-based Obstacle Avoidance With Spheres (SPARROWS). The prior work develops a trajectory optimization algorithm that leverages a novel sphere-based reachable set that overapproximates the swept volume of a serial robot manipulator. At runtime, SPARROWS uses this representation to enforce collision-avoidance constraints with obstacles of known geometry. In contrast, the present work introduces a novel chance constraint to facilitate planning in scenes with arbitrary geometry modeled by radiance fields.
+
+<!-- chunk {"id": "body-0012", "role": "body", "section": "Trajectory Optimization", "weight": 1.0} -->
+
+To generate safe motion plans, state-of-the-art trajectory optimizers such as CHOMP, TrajOpt, MPOT, and cuRobo model the robot or the environment with simple geometric primitives such as spheres, ellipsoids, capsules, or convex polygons and perform collision-checking along a given trajectory at discrete time instances. CHOMP represents the robot as a collection of discrete spheres and avoids collisions using a signed distance field to maintain a safety margin with the environment. TrajOpt uses the support mapping of convex shapes to represent the environment obstacles and the robot. Then, the signed distance (positive distance and penetration depth) between two convex shapes is computed by the Gilbert-Johnson-Keerthi and Expanding Polytope Algorithms. MPOT represents the robot geometry and environment obstacles as a collection of spheres and implements a collision-avoidance cost using an occupancy map. Using a gradient-free approach, MPOT optimizes a batch of smooth trajectories and selects the one with the lowest cost. Similarly, a recent method called cuRobo represents the robot as a collection of spheres and solves multiple trajectory optimization problems in parallel on the GPU to identify a collision-free path.
+
+<!-- chunk {"id": "body-0013", "role": "body", "section": "Trajectory Optimization", "weight": 1.0} -->
+
+In each of these approaches, collision avoidance is enforced using a soft penalty in the cost function. The major drawback of these approaches is that the resulting trajectories are not guaranteed to be safe. Furthermore, these approaches require explicit representations of scene geometry, such as zonotopes, point clouds, or 3D occupancy grids. Each of these methods suffers from a fundamental limitation: zonotopes are challenging to construct from sensor data, point clouds lack a clear volumetric and probabilistic interpretation, and 3D occupancy grids' computational requirements grow cubically with the resolution and size of the map. In contrast, SPLANNING enforces collision avoidance as a constraint and operates directly in a learned Gaussian Splatting model. In addition to being constructible directly from sensor data, Gaussian Splats allow for photorealistic rendering of the scene.
+
+<!-- chunk {"id": "body-0014", "role": "body", "section": "Reachability Analysis", "weight": 1.0} -->
+
+Reachability-based Trajectory Design (RTD) is a recent approach to real-time motion planning that generates provablysafe trajectories in a receding-horizon fashion. At runtime, RTD constructs reachable sets that overapproximate all possible robot configurations corresponding to a pre-specified continuum of parameterized trajectories. RTD then solves a nonlinear optimization problem to select a feasible trajectory such that the robot's motion is guaranteed to be collision-free. If a feasible trajectory is not found, RTD brings the robot safely to a stop by executing a fail-safe braking maneuver. Unlike traditional trajectory optimization methods, RTD constructs reachable sets such that obstacle-avoidance constraints are satisfied in continuous-time. Recent extensions of RTD have demonstrated real-time, certifiably-safe motion planning for robotic arms and mobile robots. Probabilistic extensions of RTD have also been proposed, which provide safety guarantees in uncertain environments. However, these reachability-based methods assume groundtruth knowledge of obstacle geometry or that probability density functions on the locations of obstacles are provided.
+
+<!-- chunk {"id": "body-0015", "role": "body", "section": "Reachability Analysis", "weight": 1.0} -->
+
+SPLANNING extends the literature on reachability analysis by presenting a reachability-based planner that operates in a radiance field model.
+
+<!-- chunk {"id": "body-0016", "role": "body", "section": "Radiance Fields", "weight": 1.0} -->
+
+Neural Radiance Fields (NeRFs) were first introduced to address the problem of novel view synthesis. NeRFs and their variants use neural networks to estimate the radiance emitted by a scene point when viewed from a given direction. Since their introduction, NeRFs have found many use cases in robotics including navigation, pose estimation, manipulation, and SLAM. NeRF-Nav, an early effort toward safe planning in radiance fields, approximates the robot as a set of points and then avoids collisions by integrating the NeRF density along the path traced by each point. A later work, CATNIPS, instead presents a framework for relating NeRFs to Poisson Point Processes. CATNIPS then introduces a method to convert a NeRF to an occupancy grid to plan robot motions.
+
+<!-- chunk {"id": "body-0017", "role": "body", "section": "Radiance Fields", "weight": 1.0} -->
+
+Fig. 2: SPLANNING optimizes trajectories in a Normalized 3D Gaussian Splat given a start configuration (blue) and goal configuration (green). Offline, a Normalized 3D Gaussian Splat is constructed to represent the scene geometry (Sec. V-A, bottom right). Online, a family of parameterized trajectories (App. A) is partitioned into a finite set of intervals (App. B, top left). Then, for each time interval, the Spherical Forward Occupancy ( SFO ) (purple) is computed as an overapproximation of the robot's swept volume (Sec. IV-B, bottom left). Finally, during online trajectory optimization (Sec. V-D, bottom middle), a novel constraint (Sec. V-B-V-C) bounds the probability that the SFO intersects with the scene, as represented by a Normalized 3D Gaussian Splat.
+
+<!-- chunk {"id": "body-0018", "role": "body", "section": "Radiance Fields", "weight": 1.0} -->
+
+While NeRFs use a neural network to model image formation, Gaussian Splatting methods learn a similar representation using Gaussian basis functions. Recently, Kerbl et al. introduced 3D Gaussian Splatting (3DGS), which learns the parameters of un-normalized 3D Gaussians via gradient descent. 3DGS offers high-speed rendering and a training method compatible with modern Graphics Processing Units (GPUs). However, similar to NeRFs, only limited efforts have been made towards using 3DGS for real-time motion planning. Splat-Nav is a real-time robot navigation pipeline designed specifically for Gaussian Splatting representations. It works by constructing safe polytope corridors through the environment by deriving the distance between a robot described by an ellipsoid while traveling along a straight line and another ellipsoid that corresponds to a Splat within the scene. It then optimizes Bezier curve trajectories within these corridors, ensuring they remain collision-free. This approach is validated on quadrotors.
+
+<!-- chunk {"id": "body-0019", "role": "body", "section": "Radiance Fields", "weight": 1.0} -->
+
+Unfortunately, extending this approach to robots such as manipulators presents significant challenges. First, motion planning within polytopic constraints is well-understood for quadrotors due to their simpler dynamics and direct workspace constraints, but it becomes considerably more complex for articulated manipulators. Their high-dimensional, nonlinear configuration spaces create intricate, often non-convex, mappings from workspace polytopes to configuration space constraints. Second, Splat-Nav's distance computation approach is designed specifically for straight-line movements and would not be immediately applicable when performing trajectory optimization over arbitrary trajectories (e.g., non-straight lines in the workspace). Manipulator planning typically requires considering paths through configuration space rather than linear segments in workspace, necessitating a different mathematical formulation for collision avoidance. Finally, the Splat-Nav constraint is implemented using a bisection search, complicating its integration into differentiable trajectory optimizers.
+
+<!-- chunk {"id": "body-0020", "role": "body", "section": "Radiance Fields", "weight": 1.0} -->
+
+In contrast, this paper proposes a novel re-formulation of 3DGS enabling collision checking that is computationally simple and fully differentiable, allowing it to be incorporated into a trajectory optimizer and gradient-based learning methods. Notably, we demonstrate that our collision avoidance representation is more accurate than existing methods. Further, we describe a planning framework that works with serial robot manipulators, unlike prior risk-aware planners for radiance field models that operate on quadrotors.
+
+<!-- chunk {"id": "body-0021", "role": "body", "section": "PROPOSED METHOD OVERVIEW", "weight": 1.0} -->
+
+As illustrated in Fig. 2, SPLANNING computes risk-aware trajectories using a visual scene representation. The key insight behind SPLANNING is the combination of reachability analysis with a novel Normalized 3D Gaussian Splat. This combination allows SPLANNING to constrain the probability of collision between the robot's reachable set and the scene.
+
+<!-- chunk {"id": "body-0022", "role": "body", "section": "Overview of Optimization", "weight": 1.0} -->
+
+At runtime, SPLANNING computes probabilistically safe trajectories by solving an optimization problem that limits the probability of the robot's forward occupancy intersecting the environment. SPLANNING tries to solve the following optimization problem in a receding-horizon manner: The cost function is a user-defined objective, such as bringing the robot close to a desired goal. Input constraints enforce limits on joint positions and velocities. Finally, is a safety constraint ensuring that the probability of the robot's forward occupancy FO (q (t; k)) intersecting the environment E stays below the risk threshold β.
+
+<!-- chunk {"id": "body-0023", "role": "body", "section": "ROBOT REPRESENTATION", "weight": 1.0} -->
+
+This section describes the construction of a sphere-based safety representation for a serial robotic manipulator. Section IV-A summarizes the kinematics of the robotic arm. Section IV-B then introduces the arm occupancy, which is the volume occupied by the arm in the environment. Lastly, Thm. 3 establishes the existence of the robot's Spherical Forward Occupancy, a sphere-based reachable set representation used to construct SPLANNING's novel chance constraint in Section V-C.
+
+<!-- chunk {"id": "body-0024", "role": "body", "section": "Arm Kinematics", "weight": 1.0} -->
+
+Given a compact time interval T ⊂ R, we define a trajectory for the robot's configuration as q: T → Q ⊂ R n q and a trajectory for the velocity as ˙ q: T → R n q. We restate an assumption [16, Ass. 4] about the robot model: Assumption 1. The robot operates in a three-dimensional workspace, denoted W s ⊂ R 3, such that W s ⊂ W where W denotes the world frame. There exists a reference frame called the base frame, denoted the 0 th frame, that indicates the origin of the robot's kinematic chain. We assume the robot's base frame coincides with the origin of the world frame. The robot is fully actuated and composed of only revolute joints, where the j th joint actuates the robot's j th link. The robot's j th joint has position and velocity limits given by q j (t) ∈ [q -j, lim, q + j, lim] and ˙ q j (t) ∈ [˙ q -j, lim, ˙ q + j, lim] for all t ∈ T, respectively.
+
+<!-- chunk {"id": "body-0025", "role": "body", "section": "Arm Kinematics", "weight": 1.0} -->
+
+We also assume that the robot's j th reference frame { ˆ x j, ˆ y j, ˆ z j } is attached to the robot's j th revolute joint, and that ˆ z j = ⊤ points in direction of the j th joint's axis of rotation. Then FK j: Q → R 4 × 4 maps the robot's timedependent configuration to the pose of the j th joint in the world frame such that p j ( q ( t )) and R j ( q ( t )) are the position and orientation of frame j with respect to world frame W, respectively.
+
+<!-- chunk {"id": "body-0026", "role": "body", "section": "Arm Occupancy", "weight": 1.0} -->
+
+In this subsection, we define the forward occupancy as the volume occupied by the arm in the workspace W s. Let L j ⊂ W s ⊂ R 3 denote the volume occupied by the robot's j th link with respect to the j th reference frame. Then the forward occupancy of link j is the map FO j: Q →P (W s) defined as where p j (q (t)) and R j (q (t)) specify the pose of the j th joint, and R j (q (t)) L j is the rotated volume of link j. The volume occupied by the entire arm in the workspace is then defined by the map FO: Q → W s such that Because the geometry of any of the robot's links may be arbitrarily complex, we restate an assumption [16, Ass.
+
+<!-- chunk {"id": "body-0027", "role": "body", "section": "Arm Occupancy", "weight": 1.0} -->
+
+5] that simplifies the construction of an overapproximation to the forward occupancy: Assumption 2. Given a robot configuration q (t) and any j ∈ { 1,..., n q }, there exists a ball with center p j (q (t)) and radius r j that overapproximates the volume occupied by the j th joint in W s. We further assume that link volume L j is a subset of the tapered capsule formed by the convex hull of the balls overapproximating the j th and (j +1) th joints.
+
+<!-- chunk {"id": "body-0028", "role": "body", "section": "Arm Occupancy", "weight": 1.0} -->
+
+Following Assum. 2, we now define the ball S j (q (t)) overapproximating the volume occupied by the j th joint as and the tapered capsule TC j (q (t)) overapproximating the j th link as Then, the volumes occupied by the j th link and the entire arm is overapproximated by For convenience, the notation FO (q (T)) denotes the forward occupancy over an entire time interval T. FO (q (T)) is also called the reachable set of the robot. Notably, the arm is collision-free over the time interval T if FO (q (T)) does not intersect with the environment.
+
+<!-- chunk {"id": "body-0029", "role": "body", "section": "Arm Occupancy", "weight": 1.0} -->
+
+To facilitate the exposition of our approach, we summarize the construction of the robot's safety representation in the following theorem: Theorem 3. Given a serial manipulator with n q ∈ N revolute joints and a time partition T of a finite set of intervals T i (i.e., T = ∪ n t i =1 T i), the swept volume corresponding to the robot's motion over T is overapproximated by a collection of L 2 balls in R 3, which we call the Spherical Forward Occupancy (SFO) defined as where each S j,i,m (q (T i; k)) is an L 2 ball in R 3, n S ∈ N is a parameter that specifies the number of closed balls overapproximating each of the robot's links, and k is a trajectory parameter that characterizes the motion of the robot over T.
+
+<!-- chunk {"id": "body-0030", "role": "body", "section": "Arm Occupancy", "weight": 1.0} -->
+
+Note that one can explicitly construct an SFO that satisfies this assumption using the approach described, which we summarize for convenience in Appendix B.
+
+<!-- chunk {"id": "body-0031", "role": "body", "section": "DETAILED DESCRIPTION OF SPLANNING", "weight": 1.0} -->
+
+This section provides a detailed overview of SPLANNING, a novel approach for generating risk-aware motion plans in cluttered scenes represented as radiance fields using Gaussian basis functions. Section V-A provides a brief overview of radiance fields and Gaussian Splatting. Section V-B then describes how to bound the probability of collision between a ball in R 3 and a learned radiance field represented by Gaussian Splats. Section V-C presents an easily-computed expression for an upper-bound on the aforementioned probability of collision, and Section V-D discusses how to leverage this result as a computationally-tractable chance constraint for online trajectory optimization.
+
+<!-- chunk {"id": "body-0032", "role": "body", "section": "DETAILED DESCRIPTION OF SPLANNING", "weight": 1.0} -->
+
+This section introduces the Normalized 3D Gaussian Splatting model used to represent the environment. 1) Volume Rendering: A radiance field is a 5-dimensional function L: (x, d) ↦→ (r, g, b, σ) that maps a point x ∈ R 3 and viewing direction d ∈ S 2 to r, g, b colors and a volume density σ. This work neglects color as it does not impact the collision probability. Further, the density σ does not depend on the view direction. As a result, we simplify the description of the radiance model by estimating the density function σ: R 3 → R.
+
+<!-- chunk {"id": "body-0033", "role": "body", "section": "DETAILED DESCRIPTION OF SPLANNING", "weight": 1.0} -->
+
+We define a ray φ: R → R 3 by φ (t) = o φ + tv φ, where o φ ∈ R 3 is the ray origin and v φ ∈ S 2 is the unit direction vector. From the density function σ, we may compute the probability that a particle travels along φ (t) from t = a to t = b without collision using the transmittance function T b a, as derived: Equivalently, we may define C b a [φ] as the random event describing a particle colliding while traveling along φ from a to b, where P(C b a [φ]) = 1 -T b a [φ] denotes the probability that a collision occurs. 2) Normalized Gaussian Splatting: Traditional splatting approaches represent the density function σ using basis functions such as 3D Gaussian functions. This allows the integral in to be computed by transforming each Gaussian to each ray's coordinate system and then analytically marginalizing the depth dimension. The result is a set of 2D Gaussian functions on the image plane that are queried and blended to form the image.
+
+<!-- chunk {"id": "body-0034", "role": "body", "section": "DETAILED DESCRIPTION OF SPLANNING", "weight": 1.0} -->
+
+3DGS proposed a variation of the traditional splatting formulation that uses un-normalized 3D Gaussian functions to represent a scene. A consequence of using unnormalized Gaussians is that the 3D to 2D transformation performed during rasterization projects the 3D Gaussians onto the image plane rather than integrating the 3D Gaussians. Because the 2D Gaussians are not constructed from integrating 3D Gaussians along rays, the 3D Gaussians cannot be interpreted as a basis set for σ.
+
+<!-- chunk {"id": "body-0035", "role": "body", "section": "DETAILED DESCRIPTION OF SPLANNING", "weight": 1.0} -->
+
+In contrast, the method we introduce for collision evaluation (Section V-B) relies on using the 3D Gaussians as a basis for σ. Hence, one of our key contributions is to re-formulate 3DGS using n G ∈ N normalized 3D Gaussians such that σ can be used to compute the probability of collision of a particle traveling along φ. In particular, where w n ∈ R + is a weight parameter and G n: R 3 → R gives the normalized Gaussian density with mean µ n ∈ R 3 and covariance matrix Σ n ∈ R 3 × 3. That is, Additionally, existing 3D Gaussian Splatting implementations apply a low-pass filter to the 2D Gaussian functions on the image plane by convolving the projected 2D Gaussians with an isotropic 2D Gaussian with a covariance of 0.3 pixels. This low-pass filter reduces artifacts in the rendered images. We omit this step from the normalized 3DGS rendering procedure because it has an effect that cannot be reasoned about in 3D. This would undermine the validity of our collision avoidance constraint.
+
+<!-- chunk {"id": "body-0036", "role": "body", "section": "DETAILED DESCRIPTION OF SPLANNING", "weight": 1.0} -->
+
+Instead, we apply an analogous filter in 3D Gaussians by convolving the 3D Gaussians in world coordinates with an isotropic 3D Gaussian with a small covariance of 1 e -6. Because this operation is applied to the 3D Gaussians, it does not impact the ability of the collision constraint to use the 3D Gaussians to model σ. The implementation details describing the updated Gaussian Splat training process are provided in Appendix E.
+
+<!-- chunk {"id": "body-0037", "role": "body", "section": "Bounding the Probability of Collision", "weight": 1.0} -->
+
+SPLANNING enforces safety by ensuring the probability of collision between the robot and the scene is below a given risk threshold. This subsection derives a method for bounding the probability of collision between a ball in R 3 and a scene represented as a radiance field. We make the following assumption about the Normalized 3D Gaussian Splat's representation of the scene: Assumption 4. The normalized 3D Gaussian Splat is assumed to have converged to an accurate representation of the scene, such that for all possible rays in the scene, the transmittance defined in is accurately computed. Furthermore, we assume that the transmittance, which represents the probability of a particle colliding while traveling along a ray, is equivalent to the probability that an infinitesimal segment of a rigid body experiences a collision when traveling along the same ray.
+
+<!-- chunk {"id": "body-0038", "role": "body", "section": "Bounding the Probability of Collision", "weight": 1.0} -->
+
+Without loss of generality, suppose S = B 2 (0, ρ ) is a closed L 2 ball centered at the origin with radius ρ and whose boundary is denoted ∂S. This assumption is made without loss of generality because one can apply a frame transformation to any arbitrary ball in R 3 to shift its center to the origin. Let C ( S ) denote the random event that the ball S collides with the environment. Then, we seek to compute the probability that C ( S ) occurs, which we denote P( C ( S )). We model this as the probability that a ray randomly cast from the center of S experiences a collision before reaching ∂S.
+
+<!-- chunk {"id": "body-0039", "role": "body", "section": "Bounding the Probability of Collision", "weight": 1.0} -->
+
+Formally, let (Ω V, F V, P V) be a probability space, and let V: Ω V → S 2 be a random variable representing the direction of a randomly-cast ray originating at the center of S. In particular, let V be uniformly distributed on S 2 under P V. Define the random ray Φ as: The transmittance of Φ (t, ω V) from t = 0 to t = ρ is given by Note that T ρ 0 (ω V) depends on Φ (t, ω V), which in turn depends on V (ω V). Hence, T ρ 0: Ω V → R is also a random variable on (Ω V, F V, P V). The probability the random ray collides on the interval from t = 0 to t = ρ is computed by 1 -T ρ 0 (ω V). Finally, the probability that the collision risk for the randomly-cast ray exceeds a risk threshold α ∈ R + is given by The following provides an upper bound on P(C (S)): Theorem 5. Consider, without loss of generality, a ball S = B 2 (0, ρ) of radius ρ that is centered at the origin.
+
+<!-- chunk {"id": "body-0040", "role": "body", "section": "Bounding the Probability of Collision", "weight": 1.0} -->
+
+Let α ∈ R + denote the risk threshold defined in for the probability of collision between a ray and the environment. Then, the probability that the ball S collides with the environment is bounded above by where the integral denotes a volume integral over the sphere S.
+
+<!-- chunk {"id": "body-0041", "role": "body", "section": "Evaluating the Collision Bound", "weight": 1.0} -->
+
+Computing the exact integral in is non-trivial. While [44, Thm 3.3] provides a method for computing the integral of Gaussian functions over spheres, it depends on an infinite series that is difficult to evaluate in practice. Therefore, we derive a computationally attractive expression for computing an upper bound for the probability of collision in Theorem 5.
+
+<!-- chunk {"id": "body-0042", "role": "body", "section": "Evaluating the Collision Bound", "weight": 1.0} -->
+
+Theorem 6. Let S = B 2 (0, ρ) be a closed ball of radius ρ that is centered at the origin. Suppose the density function σ: R 3 → R is represented by a set of n G ∈ N normalized Gaussian basis functions { G n } n G n =1 with means { µ n } n G n =1 and covariance matrices { Σ n } n G n =1, each with Eigendecomposition given by Σ n = R n Λ n R T n. Finally, let the diagonal elements of Λ n be denoted as λ n, 1, λ n, 2, λ n, 3 and represent the eigenvalues of Σ n. Then Above, erf denotes the error function and µ ′ n, λ ′ n, and η ′ n correspond to the mean, eigenvalues, and normalization constant of the normalized Gaussian G ′ n obtained by rotating G n by R T n. That is, G ′ n has mean µ ′ n = R T n µ n and covariance Σ ′ n = R T n Σ n R n.
+
+<!-- chunk {"id": "body-0043", "role": "body", "section": "Evaluating the Collision Bound", "weight": 1.0} -->
+
+Furthermore, Thus, we may constrain the risk of collision by enforcing for a given risk threshold ∈ A proof is provided in Appendix C-B. Note that, in practice, we set α = β for simplicity due to their mutual dependence introduced.
+
+<!-- chunk {"id": "body-0044", "role": "body", "section": "Risk-Aware Motion Planning", "weight": 1.0} -->
+
+The purpose of SPLANNING is to generate risk-aware motion plans in cluttered environments in a receding-horizon fashion. Prior to planning, a normalized Gaussian Splatting representation of the scene is constructed. At every planning iteration, the robot is given t p ≤ 0. 5 seconds to find a feasible trajectory by solving where k ∈ K is the trajectory parameter (Appendix. B-A) and cost (k) is a task-specific cost function. The robot's reachable set { S j,i,m } n S m =1 is a function of the robot's position (and hence trajectory parameter) and is computed repeatedly while numerically solving (Splanning-Opt). Safety is enforced using the novel collision-avoidance constraint. If a solution is not found, the robot executes a braking maneuver using the trajectory parameter found in the previous planning iteration. Since SPLANNING's collision-avoidance constraints are differentiable, analytical constraint gradients are provided to ensure real-time motion planning. For simplicity, expressions for kinematics and dynamics constraints were not included in (Splanning-Opt). However, and provide detailed explanations for including such constraints.
+
+<!-- chunk {"id": "body-0045", "role": "body", "section": "EXPERIMENTAL RESULTS", "weight": 1.0} -->
+
+This section assesses the effectiveness of SPLANNING by evaluating Normalized 3DGS reconstructions, the proposed constraint representation, and the proposed trajectory optimizer against baselines.
+
+<!-- chunk {"id": "body-0046", "role": "body", "section": "Normalized 3DGS Evaluation", "weight": 1.0} -->
+
+We first evaluate the ability of the normalized 3DGS to reconstruct scenes compared to the original 3DGS formulation. We evaluate reconstruction quality on two common RGB-D datasets. First, the method was evaluated on Replica, which is a simulated dataset. Replica contains sequences of simulated images at 20Hz; these were decimated to 2Hz. Then, 1 in every 8 retained images was excluded from training for evaluation, consistent with the methodology from [2, Sec. 7.2].
+
+<!-- chunk {"id": "body-0047", "role": "body", "section": "Normalized 3DGS Evaluation", "weight": 1.0} -->
+
+Next, Normalized 3DGS was evaluated on TUMRGBD, which is a real-world dataset. TUM-RGBD is a relatively difficult dataset for accurate 3D reconstruction due to low-resolution images and noisy depth data. TUM-RGBD sequences were downsampled to achieve an approximate total of 250 images per sequence. Again, 1 in every 8 images was excluded from training for evaluation. The reported metrics were only computed on the images excluded from training.
+
+<!-- chunk {"id": "body-0048", "role": "body", "section": "Normalized 3DGS Evaluation", "weight": 1.0} -->
+
+Visual reconstruction results, measured by Structural Similarity Index Measure (SSIM) and Peak Signal-to-Noise Ratio (PSNR), are shown in Table I. SSIM and PSNR are widely used metrics for evaluating image reconstruction quality. PSNR measures the overall error between a reconstructed image and its reference by comparing the peak signal level to the noise level; it is expressed in decibels, and higher values indicate better quality. In contrast, SSIM assesses perceptual similarity by comparing local patterns of pixel intensities that have been normalized for luminance, contrast, and structure. SSIM values range from 0 to 1, with values closer to 1 indicating images that are more similar in structure. Experiments indicate that Normalized 3DGS approaches the visual reconstruction quality of standard 3DGS, and with similar training and rendering speeds. This indicates that the Normalized 3DGS representation maintains the ability of 3DGS to support rapid and high-quality view synthesis.
+
+<!-- chunk {"id": "body-0049", "role": "body", "section": "Normalized 3DGS Evaluation", "weight": 1.0} -->
+
+Additionally, the geometric accuracy of each method is evaluated by measuring the difference between the rendered depth and ground-truth depth. For each image excluded from training, a depth image is rendered and compared to the ground truth. The Root-Mean-Square (RMS) error is calculated for each image and then averaged over all images to find the final metric. Similar to SSIM and PSNR results, Normalized 3DGS approaches the accuracy of standard 3DGS, as shown in Table II.
+
+<!-- chunk {"id": "body-0050", "role": "body", "section": "Simulation Environment", "weight": 1.0} -->
+
+The simulation environment, implemented with PyRender 1, contains cubical obstacles with 20cm sides. The obstacles are randomly placed within the reachable space of the robot arm. Three sets of scenes are created with 10, 20, and 40 obstacles per scene, respectively. For each number of obstacles, 100 random configurations are generated resulting in a total of 300 random scenes with varying degrees of clutter. A simulated Kinova Gen3 7-DOF serial manipulator is used in the planning experiments. The simulation environment and a corresponding 3D Gaussian Splat model are shown in Figure 3.
+
+<!-- chunk {"id": "body-0051", "role": "body", "section": "Simulation Environment", "weight": 1.0} -->
+
+| Scene | Unnormalized | Unnormalized | Unnormalized | Unnormalized | Normalized | Normalized | Normalized | Normalized | TABLE II: The RMSE depth error (m) is computed per evaluation image, then averaged over each image in the dataset. The standard 3DGS slightly outperforms the Normalized variant, but only Normalized 3DGS is suitable for risk-aware planning.
+
+<!-- chunk {"id": "body-0052", "role": "body", "section": "Collision Probability Evaluation", "weight": 1.0} -->
+
+We first evaluate the performance of our constraint representation and compare it against existing methods that plan in radiance fields. In particular, we compare against CATNIPS, which represents the world using a Neural Radiance Field, and Splat-Nav, which represents the world using an un-normalized 3D Gaussian Splat. Each method's collision representation is shown in Fig. 4. The NeRF representation for CATNIPS was trained using Nerfstudio, while the Splat-Nav scene representations were built using the original Gaussian Splatting method. We treat each collision detection method as a classifier to determine whether a configuration will result in a collision. The performance of each method is measured by evaluating the precision and recall of the collision classifier. A True Positive indicates the correct identification of a collision, while a True Negative indicates the correct identification of free space.
+
+<!-- chunk {"id": "body-0053", "role": "body", "section": "Collision Probability Evaluation", "weight": 1.0} -->
+
+Fig. 3: SPLANNING generates safe trajectories in densely cluttered environments in simulation. The left panel shows discrete time steps of sequential trajectories that brings the arm from the start configuration (blue) safely to the goal configuration (green). The right panel shows an intermediate planning step where the Spherical Forward Occupancy (purple) avoids the obstacles represented by a Normalized 3D Gaussian Splat.
+
+<!-- chunk {"id": "body-0054", "role": "body", "section": "Collision Probability Evaluation", "weight": 1.0} -->
+
+We select 15 scenes, 5 for each of 10, 20, and 40 randomlyplaced obstacles to sample within. In each scene, the arm configurations are classified into three categories: Unsafe (in collision), Nearly Safe ( < 40 cm to the nearest obstacle), and Safe ( > 40 cm to the nearest obstacle). We randomly sample 30 configurations of the arm, which includes 10 configurations from each category to ensure an informative collection of samples. We conduct our experiments under two conditions. First, we compare estimated collisions to ground truth collisions over the individual spheres that comprise the robot's SFO for stationary configurations. Second, we compare each method's estimate of whether an entire configuration is in collision against the ground truth. When evaluating collisions, we use the radius provided by the SFO for Splat-Nav and SPLANNING, and as CATNIPS utilizes a fixed-size robot kernel, we fix each sphere to have the radius of the largest sphere in the SFO. Descriptions of how these baselines are implemented are detailed in Appendix D.
+
+<!-- chunk {"id": "body-0055", "role": "body", "section": "Collision Probability Evaluation", "weight": 1.0} -->
+
+We calculate the Precision-Recall values at various thresholds corresponding to the allowable collision risk.
+
+<!-- chunk {"id": "body-0056", "role": "body", "section": "Collision Probability Evaluation", "weight": 1.0} -->
+
+Fig. 4: The collision constraint representation of CATNIPS, Splat-Nav, and SPLANNING are compared. CATNIPS transforms a NeRF into a 3D occupancy grid by relating it to a Poisson Point Process; after convolving this grid with a robot kernel, the center of the robot is checked for collision with the grid. Splat-Nav deterministically evaluates whether the confidence ellipsoids of each Gaussian intersect with a spherical robot. Finally, SPLANNING integrates a Normalized 3D Gaussian Splat over an overapproximation of the robot arm to form a risk constraint.
+
+<!-- chunk {"id": "body-0057", "role": "body", "section": "Collision Probability Evaluation", "weight": 1.0} -->
+
+Fig. 5: Two Precision-Recall curves are presented. Treating the collision constraints from SPLANNING, CATNIPS, Splat-Nav as classifiers, where a positive indicates collision and a negative indicates no collision, the top plot shows the Precision-Recall over individual spheres while the bottom plot show Precision-Recall over configurations. Highlighted markers indicate nominal parameters α = β = 0. 025, σ = 0. 99, and σ = 1 for SPLANNING, CATNIPS, and Splat-Nav respectively.
+
+<!-- chunk {"id": "body-0058", "role": "body", "section": "Collision Probability Evaluation", "weight": 1.0} -->
+
+SPLANNING, CATNIPS, and Splat-Nav each express this maximum allowable risk differently. For SPLANNING, we vary the parameters α and β, in the range of (0,1], as discussed in Section V-B. For CATNIPS, we vary the collision probability σ in the range of (0,1] and leave all other parameters as their respective defaults. Finally, Splat-Nav deterministically checks whether the robot collides with the 1-sigma ellipsoids, meaning the method does not emit a risk parameter. Instead, we evaluate the method across several level sets of the Gaussian functions, ranging from the 10 -5 -sigma ellipsoid to the 10-sigma ellipsoid.
+
+<!-- chunk {"id": "body-0059", "role": "body", "section": "Collision Probability Evaluation", "weight": 1.0} -->
+
+We report Precision-Recall curves in Fig. 5. All three methods achieve high recall, indicating that all were able to classify unsafe configurations correctly. CATNIPS has the lowest precision, indicating the presence of false positives which would cause a motion planner to behave overly conservatively, and has very limited control over the behavior of their constraint when σ is varied. Splat-Nav achieves higher precision and recall, with some control over the constraint behavior. The SPLANNING constraint achieves the highest precision and recall. Further, Fig. 5 shows that the thresholds α and β in SPLANNING allow for significant control of the behavior of the constraint, ranging from highly aggressive near the left to more conservative on the right.
+
+<!-- chunk {"id": "body-0060", "role": "body", "section": "Planner Performance Evaluation", "weight": 1.0} -->
+
+In this section, we quantitatively evaluate the performance of SPLANNING on the Kinova 7-DOF arm within a PyRender simulation environment. In each of the 300 randomly generated scenes, a start and end pose are sampled from the free space of the scene; note that it is not guaranteed that a collision-free path exists between the start and the goal.
+
+<!-- chunk {"id": "body-0061", "role": "body", "section": "Planner Performance Evaluation", "weight": 1.0} -->
+
+We compare SPLANNING to state-of-the-art trajectory optimization methods, including SPARROWS, ARMTD, CHOMP, TrajOpt, MPOT, and cuRobo. Each baseline method uses privileged geometry information from the simulation to inform collision avoidance (i.e., the exact 3D geometry of the environment is known), while SPLANNING uses simulated perception to reconstruct a Normalized 3DGS for planning. To evaluate whether each method produces collision-free trajectories, the simulator checks whether the robot is in collision with the groundtruth scene. In these experiments, SPLANNING, SPARROWS, and ARMTD are limited to 0.5s to construct the plan, and each trial is run for a maximum of 150 planning horizons. A success indicates that the robot successfully reached the goal. Collisions are detected by checking for collisions in simulation between the robot mesh and the obstacle meshes. Failures are also reported if the robot fails to reach the goal in the 150 TABLE III: Number of successes for SPLANNING, SPARROWS, ARMTD, MPOT, CHOMP, and TrajOpt in the Kinova planning experiment with 10, 20, and 40 randomly-placed obstacles.
+
+<!-- chunk {"id": "body-0062", "role": "body", "section": "Planner Performance Evaluation", "weight": 1.0} -->
+
+For each set of experiments, 100 randomly-generated scenes were tested. The first number reported is the number of successes (higher is better). The second number, orange, indicates trials that failed to reach the goal state but did not result in crashes. Red indicates the number of failures due to collision (lower is better). The most and second most successes are annotated.
+
+<!-- chunk {"id": "body-0063", "role": "body", "section": "Planner Performance Evaluation", "weight": 1.0} -->
+
+| Methods | Scene Representation | # Successes | # Successes | # Successes | TABLE IV: The peak memory usage of SPLANNING was measured for each execution, then averaged across the 100 randomly-generated scenes for each number of obstacles.
+
+<!-- chunk {"id": "body-0064", "role": "body", "section": "Planner Performance Evaluation", "weight": 1.0} -->
+
+| Numb Obs. | Mean Peak Memory ± Std. Dev. (GB) | planning horizons or if the optimizer fails to find a feasible plan for two consecutive planning iterations.
+
+<!-- chunk {"id": "body-0065", "role": "body", "section": "Planner Performance Evaluation", "weight": 1.0} -->
+
+For the following evaluations, the experiments involving SPLANNING, SPARROWS, and ARMTD were conducted on a system with an AMD Ryzen 5950X @ 3.4GHz and dual NVIDIA RTX A6000 GPUs. The experiments involving CUROBO and MPOT were conducted on a system equipped with an Intel Core i7-8700K CPU @ 3.70GHz and dual NVIDIA RTX A6000 GPUs. Baseline experiments for CHOMP and TrajOpt were performed on a machine with an Intel Core i9-12900H CPU @ 4.90GHz. During all simulation experiments, only one of the two GPUs was used for trajectory optimization. In the hardware experiments described below, one GPU ran the optimizer while the other computed highlevel plans in parallel.
+
+<!-- chunk {"id": "body-0066", "role": "body", "section": "Planner Performance Evaluation", "weight": 1.0} -->
+
+Table III presents the number of successes and collisions achieved by each planner in the experiments. SPARROWS, which has access to the ground-truth scene, had the highest number of successes and zero collisions. This is the expected result since SPARROWS solves a similar optimization problem to SPLANNING but is given ground-truth scene knowledge. In contrast, SPLANNING is the only method to incorporate perception. When SPLANNING's α and β parameters are set between 0. 025 and 0. 05, SPLANNING achieves more successes than all other baselines. Closest behind SPLANNING are cuRobo and MPOT, but both come with a significantly higher number of collisions.
+
+<!-- chunk {"id": "body-0067", "role": "body", "section": "Planner Performance Evaluation", "weight": 1.0} -->
+
+The time to formulate and solve each optimization problem was measured. For SPLANNING, the timings were averaged over all α, β parameters. Further, SPLANNING requires a warm-up for compiled PyTorch functions; as a result, the first planning cycle is excluded from the timing results.
+
+<!-- chunk {"id": "body-0068", "role": "body", "section": "Planner Performance Evaluation", "weight": 1.0} -->
+
+Timing results are summarized in Table V. All methods remain under the 0.5s limit. Notably, SPLANNING optimizes faster than ARMTD for the 20 and 40 obstacle cases, despite ARMTD having access to ground-truth obstacles and SPLANNING incorporating perception.
+
+<!-- chunk {"id": "body-0069", "role": "body", "section": "Planner Performance Evaluation", "weight": 1.0} -->
+
+| Methods | Mean Planning Time [s] | Mean Planning Time [s] | Mean Planning Time [s] | TABLE VI: Mean runtime for constraint and constraint gradient evaluation for SPLANNING, SPARROWS, and ARMTD in Kinova planning experiments with 10, 20, and 40 obstacles. For SPLANNING, the first planning constraint evaluation is excluded from each timing measurement as the system warms up.
+
+<!-- chunk {"id": "body-0070", "role": "body", "section": "Planner Performance Evaluation", "weight": 1.0} -->
+
+| Methods | Mean Constraint Evaluation Time [ms] | Mean Constraint Evaluation Time [ms] | Mean Constraint Evaluation Time [ms] | The time to compute each constraint and its gradient is evaluated in Table VI. The mean constraint evaluation for SPLANNING is under 10ms in all scenarios. SPLANNING takes slightly longer for each constraint evaluation than SPARROWS and ARMTD, both of which use ground-truth representations of obstacles rather than the Normalized 3DGS used by SPLANNING. However, as shown in Table V, SPLANNING comfortably remains under the 0.5s planning time limit.
+
+<!-- chunk {"id": "body-0071", "role": "body", "section": "Real-World Demonstrations", "weight": 1.0} -->
+
+The planner was evaluated on a Kinova Gen3 7-DOF manipulator in a real-world setting. For the hardware implementation, a high-level planner was added to the system. In particular, we deploy an open-source implementation of bidirectional RRT. The RRT planner evaluated collisions at discrete poses by computing the spherical forward occupancy of the static arm, and evaluating the SPLANNING collision constraint. Additionally, to deal with the non-uniform lighting conditions arising from real-world sensor data, we augment the Normalized 3D Gaussian Splatting method to include the appearance embedding method proposed.
+
+<!-- chunk {"id": "body-0072", "role": "body", "section": "Real-World Demonstrations", "weight": 1.0} -->
+
+| Risk Level (RRT, Opt.) | Success | RRT Fail | Stuck | Crash | RRT Time | Opt. Time | The hardware evaluations run the motion planner in realtime. To enable this, four processes are run on a desktop computer with an AMD Ryzen 5950X and two NVIDIA A6000 GPUs. First, the high-level planner takes the start and goal configuration and computes a sequence of joint waypoints that are each collision-free, as measured by the SPLANNING constraint. Second, a SPLANNING optimizer iteratively solves the optimization problem defined in Section V-D to compute a control parameter k. Third, a low-level controller consumes the control parameter k and uses a combination of RNEA-based inverse dynamics and a PD error tracking term. Fourth, an orchestration process manages the parallel execution of the above three components. By assuming the robot tracks the target trajectories perfectly, the SPLANNING process may compute the next plan as the current plan is being executed. Similarly, the high-level planner computes the next high-level plan as the current sequence of waypoints is being tracked.
+
+<!-- chunk {"id": "body-0073", "role": "body", "section": "Real-World Demonstrations", "weight": 1.0} -->
+
+The robot was mounted in an indoor setting with two sets of shelves, as shown in Fig. 2. For each set of shelves, three target configurations were placed in the environment. For each set of shelves, the robot was commanded to initialize at a safe configuration, cycle between the three target configurations, and then return to the home position. Retaining cycle order, each target configuration was treated as the starting target configuration for each set of shelves, resulting in three cycles per set of shelves and six overall cycles. Finally, each cycle was repeated for three trials, resulting in a total of 18 trials. This configuration was run with a range of risk thresholds for both the RRT high-level planner and the trajectory optimizer. Table VII provides the results. When the RRT is run with a low risk threshold, it frequently fails to find a solution. These failures arise both due to (a) incorrectly classifying the highlevel waypoints as in collision and (b) failure to connect the start and goal configurations. Conversely, a high RRT risk threshold combined with a low optimizer risk threshold leads to high-level plans that the trajectory optimizer is unable to track.
+
+<!-- chunk {"id": "body-0074", "role": "body", "section": "Real-World Demonstrations", "weight": 1.0} -->
+
+This results in the optimizer frequently becoming stuck, shown in the final row of Table VII. When risk thresholds are chosen according to the results in Sections VI-C and VI-D, a high rate of success is achieved.
+
+<!-- chunk {"id": "body-0075", "role": "body", "section": "Real-World Demonstrations", "weight": 1.0} -->
+
+Table VII also provides timing metrics for the hardware demonstrations. The RRT timing metrics exclude cases where the RRT classifies a high-level waypoint as in-collision, in which case the planner immediately reports a failure. Optimization times are averaged across all planning trials. Despite these multiple processes running on the computer, real-time trajectory optimization is maintained.
+
+<!-- chunk {"id": "body-0076", "role": "body", "section": "CONCLUSION", "weight": 1.5} -->
+
+This paper introduced a framework for evaluating collisions in a radiance field model. The result is SPLANNING, a trajectory optimizer that synthesizes trajectories while constraining the probability of colliding with the environment. To enable the constraint formulation, we presented a normalized variant of 3D Gaussian Splatting suitable for risk-aware planning while achieving similar reconstruction quality to standard 3DGS. The risk-aware constraint was demonstrated to outperform other radiance field methods for collision avoidance while also being efficient to compute in real-time planning. Planner evaluations demonstrated that the trajectory optimizer achieves a high number of successes in cluttered environments. Hardware demonstrations indicated that the planner is viable for realworld use.
+
+<!-- chunk {"id": "body-0077", "role": "body", "section": "CONCLUSION", "weight": 1.5} -->
+
+There are several promising avenues for future work. First, adding support for dynamic objects would aid in planning in real-world scenarios. Second, the Normalized 3DGS may be improved to increase the reconstruction quality. A key difference between Normalized 3DGS and standard 3DGS is the difference in filtering techniques; standard 3DGS applies a screen-space low-pass filter, while Normalized 3DGS applies the filter in world-space. This adaptation allows for a probabilistic interpretation of the 3D Gaussians but is suboptimal for visual reconstruction. Hence, future work avenues will explore other low-pass filtering techniques that improve reconstruction quality while maintaining the correctness for planning. Furthermore, in instances where the Normalized 3DGS is imperfect, another future research direction will explore closed-loop, active exploration strategies for improving the reconstruction quality online. Next, in our present formulation, although α and β are conceptually distinct, they are mathematically interchangeable. Future work will investigate this issue by deriving alternate chance constraints leveraging different approximation inequalities other than Markov's inequality. Finally, incorporating a real-time simultaneous localization and mapping (SLAM) module would enable navigation of scenes that have not been previously mapped.

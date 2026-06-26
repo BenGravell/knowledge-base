@@ -28,11 +28,11 @@ Given the advantages that \\ac3dgs offers when compared with \\acpnerf, the natu
 
 <!-- chunk {"id": "body-0007", "role": "body", "section": "INTRODUCTION", "weight": 1.5} -->
 
-To overcome these challenges, we propose FOCI, a trajectory optimization algorithm that leverages the overlap integral - the spatial integral over the multiplication of two functions - as a proxy measure for the collision between two Gaussians. By representing both the robot and the environment with 3D Gaussians, evaluating the full-body collision between them reduces to a sum of normal distribution evaluations. Furthermore, the resulting expression is fully differentiable, yielding expressive gradients in the optimization step.
+Planning pipeline included Covariance information leveraged TABLE I: Comparison of our work with related works on Gaussian Splats To overcome these challenges, we propose FOCI, a trajectory optimization algorithm that leverages the overlap integral - the spatial integral over the multiplication of two functions - as a proxy measure for the collision between two Gaussians. By representing both the robot and the environment with 3D Gaussians, evaluating the full-body collision between them reduces to a sum of normal distribution evaluations. Furthermore, the resulting expression is fully differentiable, yielding expressive gradients in the optimization step.
 
 <!-- chunk {"id": "body-0008", "role": "body", "section": "INTRODUCTION", "weight": 1.5} -->
 
-A novel collision measure between Gaussian Splats based on the overlap integral between Gaussians.
+The contributions of this work are therefore summarized as follows: A novel collision measure between Gaussian Splats based on the overlap integral between Gaussians.
 
 <!-- chunk {"id": "body-0009", "role": "body", "section": "INTRODUCTION", "weight": 1.5} -->
 
@@ -48,11 +48,11 @@ An evaluation of the proposed algorithm on the ANYmal legged robot in simulation
 
 <!-- chunk {"id": "body-0012", "role": "body", "section": "II-A Radiance Fields", "weight": 1.0} -->
 
-Radiance Fields are widely used in visual computing to represent 3D scenes and perform novel view synthesis, creating photorealistic renders from out of domain poses. The preliminary form is a \\aclnerf, initially proposed by Mildenhall et al., which are a type of environment representation that provide a neural mapping from position in space and a viewing angle to visual density and color along a ray. To render an image this neural radiance is integrated along a series of rays capturing view-dependent effects like specularity and volumetrics.\
+Radiance Fields are widely used in visual computing to represent 3D scenes and perform novel view synthesis, creating photorealistic renders from out of domain poses. The preliminary form is a \\aclnerf, initially proposed by Mildenhall et al., which are a type of environment representation that provide a neural mapping from position in space and a viewing angle to visual density and color along a ray. To render an image this neural radiance is integrated along a series of rays capturing view-dependent effects like specularity and volumetrics.\However, this ray casting operation can be costly at scale, and the implicit scene representation can make direct sampling difficult. As an alternative, \\ac3dgs produces similar quality reconstruction with an explicit basis at far faster speeds. Instead of encoding the scene in a neural network, \\ac3dgs creates a series of 3D Gaussian ellipsoids with colors and Spherical Harmonics to encode view-dependent effects. Instead of ray casting each Gaussian, the ellipsoids are splatted onto the viewing plane for rasterization levels of speed.
 
 <!-- chunk {"id": "body-0013", "role": "body", "section": "II-A Radiance Fields", "weight": 1.0} -->
 
-However, this ray casting operation can be costly at scale, and the implicit scene representation can make direct sampling difficult. As an alternative, \\ac3dgs produces similar quality reconstruction with an explicit basis at far faster speeds. Instead of encoding the scene in a neural network, \\ac3dgs creates a series of 3D Gaussian ellipsoids with colors and Spherical Harmonics to encode view-dependent effects. Instead of ray casting each Gaussian, the ellipsoids are splatted onto the viewing plane for rasterization levels of speed. Similar to \\acpnerf, \\ac3dgs is optimized by minimizing the deviation between an actual image and the corresponding image predicted by the model. Because of their explicit nature, \\ac3dgs allows for an informed guess that initializes all Gaussian means to points from Structure from Motion. The photometric losses then optimize the Gaussians' colors, opacities and covariances to more accurately match the images. During training, adaptive density control will split, prune, and clone Gaussians ensuring there are just enough to faithfully represent the scene.
+Similar to \\acpnerf, \\ac3dgs is optimized by minimizing the deviation between an actual image and the corresponding image predicted by the model. Because of their explicit nature, \\ac3dgs allows for an informed guess that initializes all Gaussian means to points from Structure from Motion. The photometric losses then optimize the Gaussians' colors, opacities and covariances to more accurately match the images. During training, adaptive density control will split, prune, and clone Gaussians ensuring there are just enough to faithfully represent the scene.
 
 <!-- chunk {"id": "body-0014", "role": "body", "section": "II-B1 Standard Methods", "weight": 1.0} -->
 
@@ -72,51 +72,51 @@ Due to its novelty, few papers have been published on trajectory optimization fo
 
 <!-- chunk {"id": "body-0018", "role": "body", "section": "II-B2 Radiance Field Methods", "weight": 1.0} -->
 
-Goel and Tabib propose a method to derive an ESDF and collision probability of a Gaussian Surface Model for an ellipsoidal robot with a fixed orientation, which can then be used to plan trajectories.\
+Goel and Tabib propose a method to derive an ESDF and collision probability of a Gaussian Surface Model for an ellipsoidal robot with a fixed orientation, which can then be used to plan trajectories.\While these works present considerable steps towards \\ac3dgs planning, they consider only ellipsoidal robots with a fixed orientation. However, in real world settings, optimizing orientation is crucial to navigating through narrow passageways. By leveraging a detailed whole-body overlap model, we propose a solution to this shortcoming. Table I provides an overview of how our algorithm compares to related work.
 
-<!-- chunk {"id": "body-0019", "role": "body", "section": "II-B2 Radiance Field Methods", "weight": 1.0} -->
-
-While these works present considerable steps towards \\ac3dgs planning, they consider only ellipsoidal robots with a fixed orientation. However, in real world settings, optimizing orientation is crucial to navigating through narrow passageways. By leveraging a detailed whole-body overlap model, we propose a solution to this shortcoming. Table I provides an overview of how our algorithm compares to related work.
-
-<!-- chunk {"id": "body-0020", "role": "body", "section": "Method", "weight": 1.0} -->
+<!-- chunk {"id": "body-0019", "role": "body", "section": "Method", "weight": 1.0} -->
 
 Our methodology can be split into three parts: 1) trajectory representation to create an initial spline, 2) collision measure and 3) optimization loop.
 
+<!-- chunk {"id": "body-0020", "role": "body", "section": "III-A Trajectory Representation", "weight": 1.0} -->
+
+We employ cubic B-splines for the optimization to generate a fully differentiable and smooth trajectories in $d$ dimensions. With B-splines, every point along the trajectory can be expressed as a weighted sum of the $H$ control points $\mathbf{q}_{i}$ of the trajectory. Since we are using unclampled uniform cubic B-Splines, each spline segment is parameterized by $4$ control points, resulting in $H-3$ individual segments. The progress along the trajectory is usually parameterized by a progress variable $s$, which can (but is not required to) be equal to the system time $t$. Using knots $\{-3,-2,\dots,H-1,H\}$ the spline is parametrized on $s\in[0,H-3)$. Since each individual spline segment is parameterized between $$, we define $s^{\prime}=s-i$ with $i:=\lfloor s\rfloor$ to index the corresponding segment.
+
 <!-- chunk {"id": "body-0021", "role": "body", "section": "III-A Trajectory Representation", "weight": 1.0} -->
 
-We employ cubic B-splines for the optimization to generate a fully differentiable and smooth trajectories in $d$ dimensions. With B-splines, every point along the trajectory can be expressed as a weighted sum of the $H$ control points $\mathbf{q}_{i}$ of the trajectory. Since we are using unclampled uniform cubic B-Splines, each spline segment is parameterized by $4$ control points, resulting in $H - 3$ individual segments. The progress along the trajectory is usually parameterized by a progress variable $s$, which can (but is not required to) be equal to the system time $t$. Using knots $\{{- 3},{- 2},\ldots,{H - 1},H\}$ the spline is parametrized on $s \in {\lbrack 0,{H - 3})}$.
+The spline can then be evaluated with By discretizing the trajectory with $\Delta s$ into $K$ discretization points and constructing a matrix $\underline{\Phi}$ from Equation 1 evaluated at each progress step, the relationship between discretized point matrix $\mathbf{X}=[\mathbf{x}_{1}\ \mathbf{x}_{2}\ \dots\ \mathbf{x}_{K}]^{T}\in\mathbb{R}^{K\times\text{d}}$ and control point matrix $\mathbf{Q}=[\mathbf{q}_{1}\ \mathbf{q}_{1}\ \dots\ \mathbf{q}_{H}]^{T}\in\mathbb{R}^{H\times\text{d}}$ is then given as We use
 
 <!-- chunk {"id": "body-0022", "role": "body", "section": "III-A Trajectory Representation", "weight": 1.0} -->
 
-Since each individual spline segment is parameterized between $\lbrack 0,1\rbrack$, we define $s^{\prime} = {s - i}$ with $i:={\lfloor s\rfloor}$ to index the corresponding segment. The spline can then be evaluated with
+Continous evaluations of the spline at $s$ and its time derivatives are denoted as $\mathbf{x}(s)$, $\dot{\mathbf{x}}(s)$, $\ddot{\mathbf{x}}(s)$, and $\dddot{\mathbf{x}}(s)$. Note that the spline is parameterized as a function of the progress variable $s$. We compute the time derivative with $\frac{d^{i}\mathbf{x}}{dt^{i}}=\frac{d^{i}\mathbf{x}}{ds^{i}}\left(\frac{ds}{dt}\right)^{i}$ and assume $m:=\frac{ds}{dt}$ to be constant.
 
 <!-- chunk {"id": "body-0023", "role": "body", "section": "III-A Trajectory Representation", "weight": 1.0} -->
 
-This parametrization works well for simple vector spaces such as ${\mathbb{R}}^{3}$ but fails to interpolate between orientations. Spline representations for Lie Groups have been discussed in robotics literature, which allow for pose optimization in $\text{SE}{}$, encoding orientations.
+This parametrization works well for simple vector spaces such as $\mathbb{R}^{3}$ but fails to interpolate between orientations. Spline representations for Lie Groups have been discussed in robotics literature, which allow for pose optimization in $\text{SE}$, encoding orientations.
 
 <!-- chunk {"id": "body-0024", "role": "body", "section": "III-A Trajectory Representation", "weight": 1.0} -->
 
-Although this formulation is fully compatible with the proposed framework, we decided to follow a simpler parameterization because our target platform is a legged robot. Instead of the full pose, only the position $\mathbf{p} \in {\mathbb{R}}^{3}$ and yaw angle $\psi \in {\mathbb{R}}$ are optimized.
+Although this formulation is fully compatible with the proposed framework, we decided to follow a simpler parameterization because our target platform is a legged robot. Instead of the full pose, only the position $\mathbf{p}\in\mathbb{R}^{3}$ and yaw angle $\psi\in\mathbb{R}$ are optimized. In the following, we assume $d=4$ and decompose the trajectory evaluations as $\textbf{x}=[\mathbf{p}^{T},\psi]^{T}\in\mathbb{R}^{4}$, and control points $\mathbf{q}_{i}=[^{C}\mathbf{p}_{i}^{T},^{C}\psi_{i}]^{T}\in\mathbb{R}^{4}$ with position component ${}^{C}\mathbf{p}_{i}^{T}$ and yaw component ${}^{C}\psi_{i}$.
 
-<!-- chunk {"id": "body-0025", "role": "body", "section": "III-B Collision Measure", "weight": 1.0} -->
+<!-- chunk {"id": "body-0025", "role": "body", "section": "III-A Trajectory Representation", "weight": 1.0} -->
 
-To quantify the collision between two objects, we want to measure the overlap between them. The collision measure should, therefore, fulfill the following three properties: 1) It should be close to zero if two objects do not overlap. 2) It should be greater than zero when two objects overlap and quantify the magnitude of that overlap. 3) It should be differentiable to allow for gradient evaluations in optimization.
+We use the $C$ superscript to denote a control point.
 
 <!-- chunk {"id": "body-0026", "role": "body", "section": "III-B Collision Measure", "weight": 1.0} -->
 
-In our work, we model both the environment $p{(\mathbf{r})}$ and the robot $r{(\mathbf{r})}$ by 3D Gaussian Splat.The environment is formed by $N$ individual Gaussians, and the robot by $M$ individual Gaussians. We define the density of the robot and the environment at a specific point $\mathbf{r} \in {\mathbb{R}}^{3}$ in space as
+To quantify the collision between two objects, we want to measure the overlap between them. The collision measure should, therefore, fulfill the following three properties: 1) It should be close to zero if two objects do not overlap. 2) It should be greater than zero when two objects overlap and quantify the magnitude of that overlap. 3) It should be differentiable to allow for gradient evaluations in optimization.
 
 <!-- chunk {"id": "body-0027", "role": "body", "section": "III-B Collision Measure", "weight": 1.0} -->
 
-The volume in which both quantities overlap is defined as the collision volume.
+In our work, we model both the environment $p(\mathbf{r})$ and the robot $r(\mathbf{r})$ by 3D Gaussian Splat.The environment is formed by $N$ individual Gaussians, and the robot by $M$ individual Gaussians. We define the density of the robot and the environment at a specific point $\mathbf{r}\in\mathbb{R}^{3}$ in space as The volume in which both quantities overlap is defined as the collision volume. To compute the magnitude of the collision, we compute the overlap integral between the environment field $p(\mathbf{r})$ and the robot field $r(\mathbf{r})$: Resulting in a representation that is fully differentiable with respect to the means $\bar{\bm{\mu}}_{j}$ and covariances $\mathbf{\bar{\Sigma}}_{j}$. Note that these robot means and covariances can further be parameterized, for example, the base pose and joint angles, whose gradients can then be derived with the chain rule.
 
 <!-- chunk {"id": "body-0028", "role": "body", "section": "III-B Collision Measure", "weight": 1.0} -->
 
-Resulting in a representation that is fully differentiable with respect to the means ${\overline{\mathbf{μ}}}_{j}$ and covariances ${\overline{\mathbf{\Sigma}}}_{j}$. Note that these robot means and covariances can further be parameterized, for example, the base pose and joint angles, whose gradients can then be derived with the chain rule.
+This measure for collision fulfills the desired properties defined above. Because of Gaussian's exponential nature, it converges to zero as the distance between the robot and the obstacle increase. That also means it does not contribute meaningfully to the gradient at further distances.
 
 <!-- chunk {"id": "body-0029", "role": "body", "section": "III-B Collision Measure", "weight": 1.0} -->
 
-This measure for collision fulfills the desired properties defined above. Because of Gaussian's exponential nature, it converges to zero as the distance between the robot and the obstacle increase. That also means it does not contribute meaningfully to the gradient at further distances.
+Note that the quantity $\mathcal{N}(\bm{\bar{\mu}}_{j};\bm{\mu}_{i},\mathbf{\Sigma}_{i}+\mathbf{\bar{\Sigma}}_{j})$ can be interpreted as the exponential of the negative Mahalanobis distance between $\bm{\bar{\mu}}_{j}$ and $\bm{\mu}_{i}$ using the joint covariance of the robot and environment Gaussian.
 
 <!-- chunk {"id": "body-0030", "role": "body", "section": "III-B Collision Measure", "weight": 1.0} -->
 
@@ -124,11 +124,11 @@ The Mahalanobis distance takes the potentially asymmetric extent of the Gaussian
 
 <!-- chunk {"id": "body-0031", "role": "body", "section": "III-C Optimization Formulation", "weight": 1.0} -->
 
-Whenever integrating a quantity like the collision measure along the spline is necessary, we approximate it as a discrete sum over the values discretized along the spline in $K$ equidistant steps. We represented the robot position and yaw orientation as a cubic B-spline. The kinematics of each Gaussian that makes up the robot is a function of the position and orientation of the base ${{\overline{\mathbf{μ}}}_{j}{(\mathbf{p},\psi)}} = {{\overline{\mathbf{μ}}}_{j}{(\mathbf{x})}}$.
+Whenever integrating a quantity like the collision measure along the spline is necessary, we approximate it as a discrete sum over the values discretized along the spline in $K$ equidistant steps. We represented the robot position and yaw orientation as a cubic B-spline. The kinematics of each Gaussian that makes up the robot is a function of the position and orientation of the base $\bar{\bm{\mu}}_{j}(\mathbf{p},\psi)=\bar{\bm{\mu}}_{j}(\mathbf{x})$.
 
 <!-- chunk {"id": "body-0032", "role": "body", "section": "III-C Optimization Formulation", "weight": 1.0} -->
 
-We minimize the weighted sum of the obstacle cost, the jerk along the trajectory, and the distance of the final point to the goal with weights ${\omega_{1} = 0.1},{\omega_{2} = 40}$ and $\omega_{3} = 1$. The collision avoidance is included in the objective function instead of the constraints because the collision measure is not normalized, making finding an appropriate threshold unfeasible. A similar approach has been taken, which faced a similar issue for \\acpnerf. We constrain the initial pose of the trajectory to the current position $\mathbf{x}_{\text{start}}$. When planning for ANYmal, we further constrain the trajectory height to be at an appropriate distance $h$ above the ground so that the robot can follow it.
+We minimize the weighted sum of the obstacle cost, the jerk along the trajectory, and the distance of the final point to the goal with weights $\omega_{1}=0.1,\omega_{2}=40$ and $\omega_{3}=1$. The collision avoidance is included in the objective function instead of the constraints because the collision measure is not normalized, making finding an appropriate threshold unfeasible. A similar approach has been taken, which faced a similar issue for \\acpnerf. We constrain the initial pose of the trajectory to the current position $\mathbf{x}_{\text{start}}$. When planning for ANYmal, we further constrain the trajectory height to be at an appropriate distance $h$ above the ground so that the robot can follow it.
 
 <!-- chunk {"id": "body-0033", "role": "body", "section": "III-C Optimization Formulation", "weight": 1.0} -->
 
@@ -136,7 +136,7 @@ We ensure that the velocity and acceleration remain within the physical limits o
 
 <!-- chunk {"id": "body-0034", "role": "body", "section": "III-C Optimization Formulation", "weight": 1.0} -->
 
-The optimization problem is defined in Equation.
+The optimization problem is defined in Equation 9.
 
 <!-- chunk {"id": "body-0035", "role": "body", "section": "III-C Optimization Formulation", "weight": 1.0} -->
 
@@ -144,7 +144,7 @@ Due to the non-linear and constrained nature of the optimization problem, we emp
 
 <!-- chunk {"id": "body-0036", "role": "body", "section": "III-D Implementation Details", "weight": 1.0} -->
 
-We define and solve the described optimization problem with Casadi. We exploit the independent summation structure of the collision measure and run this computation on the GPU in parallel. This led us to define a custom Casadi functor that computes the evaluation of the function and is gradients in parallel using NVIDIA Warp. Note that other GPU extensions for Casadi, such as L4Casadi and CusADI exist, but were not directly applicable due to the custom 3D Gaussian overlap integral formulation. The optimization problem is then solved via the interior point method (IPOPT) with the custom overlap integral functor.
+We define and solve the described optimization problem with Casadi. We exploit the independent summation structure of the collision measure (Equation 5) and run this computation on the GPU in parallel. This led us to define a custom Casadi functor that computes the evaluation of the function and is gradients in parallel using NVIDIA Warp. Note that other GPU extensions for Casadi, such as L4Casadi and CusADI exist, but were not directly applicable due to the custom 3D Gaussian overlap integral formulation. The optimization problem is then solved via the interior point method (IPOPT) with the custom overlap integral functor.
 
 <!-- chunk {"id": "body-0037", "role": "body", "section": "Experiments", "weight": 1.0} -->
 
@@ -158,13 +158,13 @@ To evaluate the functionality of our system, we plan trajectories through a rang
 
 In order to plan through a \\ac3dgs scene, the robot must be properly localized in a correctly scaled Gaussian environment. In deployments, this was accomplished by performing ICP to align accumulated LiDAR data with the surface means of the Gaussian Splat. In simulation, synthetic scenes can be created and arbitrarily scaled to provide complex testing scenes.
 
-<!-- chunk {"id": "body-0040", "role": "body", "section": "IV-A1 ANYmal Navigation", "weight": 1.0} -->
+<!-- chunk {"id": "body-0040", "role": "body", "section": "of Gaussians", "weight": 1.0} -->
 
 As Figure 2(b) shows, the planning algorithm effectively leverages the asymmetry of ANYmal to pass through the narrow opening collision-free. The start and end positions are constrained to be parallel to the wall; requiring the orientation to change to pass through the opening.
 
 <!-- chunk {"id": "body-0041", "role": "body", "section": "IV-A3 Hardware Experiments", "weight": 1.0} -->
 
-Finally, we showcase the method deployed on hardware using a real \\ac3dgs reconstruction of a scene captured using drone imagery and localized on site using ICP on the LiDAR data and Gaussian means. The narrow passages visible in Figure required the robot to rotate in order to safely traverse the environment, while obstacles on the ground forced the height-constrained trajectories to avoid shortcuts.
+Finally, we showcase the method deployed on hardware using a real \\ac3dgs reconstruction of a scene captured using drone imagery and localized on site using ICP on the LiDAR data and Gaussian means. The narrow passages visible in Figure 4 required the robot to rotate in order to safely traverse the environment, while obstacles on the ground forced the height-constrained trajectories to avoid shortcuts.
 
 <!-- chunk {"id": "body-0042", "role": "body", "section": "IV-B Runtime", "weight": 1.0} -->
 
@@ -172,28 +172,20 @@ We evaluate the performance of our method by comparing the runtimes of the Casad
 
 <!-- chunk {"id": "body-0043", "role": "body", "section": "IV-B Runtime", "weight": 1.0} -->
 
-Table II shows the total planning time for different environments of varying complexity. In the realistic environments, the larger scenes resulted in a longer A\* search time, while the more complex 3 Gaussian robot slightly increases the general solve time. This relation between complexity of the robot model and solve time forms a linear relation as shown in Figure. In comparisons with similar methods we are able to surpass the speed of traditional methods such as RRT\* on large complex scenes, while having similar time performance to state-of-the-art \\ac3dgs methods such as Splat-Nav. Additionally, our orientation-aware planning allows us to use halve the safety corridor distance in as we model a 1m by 0.5m robot such as ANYmal. Due to this unique ability to model the robot as a collection of Gaussians and therefore consider the robot's orientation, the smaller safety corridor allowed for slightly shorter paths, leveraging the robot's geometry.
+Min. Safety Dist. (m) TABLE III: Comparisons of the performance of our method with a similar \ac3dgs based planner and simple RRT* planner. Three metrics are used for evaluation, the speed of optimization, a path length relative to the scene scale, and minimum distance between the robot model and environment to measure the needed safety corridor.
 
 <!-- chunk {"id": "body-0044", "role": "body", "section": "IV-B Runtime", "weight": 1.0} -->
 
-In Figure we compare the effect of more complex robot Gaussians on the solve time for large complex scenes such as Stonehenge. A linear relation between robot complexity and optimization time shows the potential of modeling more complex robot geometry, allowing even tighter safety corridors on more complex robots.
+Table II shows the total planning time for different environments of varying complexity. In the realistic environments, the larger scenes resulted in a longer A\* search time, while the more complex 3 Gaussian robot slightly increases the general solve time. This relation between complexity of the robot model and solve time forms a linear relation as shown in Figure 6. In comparisons with similar methods (Table III, Figure 7) we are able to surpass the speed of traditional methods such as RRT\* on large complex scenes, while having similar time performance to state-of-the-art \\ac3dgs methods such as Splat-Nav. Additionally, our orientation-aware planning allows us to use halve the safety corridor distance in as we model a 1m by 0.5m robot such as ANYmal. Due to this unique ability to model the robot as a collection of Gaussians and therefore consider the robot's orientation, the smaller safety corridor allowed for slightly shorter paths, leveraging the robot's geometry.
 
-<!-- chunk {"id": "body-0045", "role": "body", "section": "Limitations", "weight": 1.5} -->
+<!-- chunk {"id": "body-0045", "role": "body", "section": "IV-B Runtime", "weight": 1.0} -->
 
-Three current shortcomings of the algorithm include a) occasional obstacle collision, b) distance agnostic optimization, c) sensitivity to \\ac3dgs quality.
+In Figure 6 we compare the effect of more complex robot Gaussians on the solve time for large complex scenes such as Stonehenge. A linear relation between robot complexity and optimization time shows the potential of modeling more complex robot geometry, allowing even tighter safety corridors on more complex robots.
 
 <!-- chunk {"id": "body-0046", "role": "body", "section": "Limitations", "weight": 1.5} -->
 
-a\) Both the jerk as well as the obstacle cost are additive terms in the cost function. Since obstacle avoidance is not formulated as a hard constraint, it can be traded off with the jerk cost, yielding a low jerk but colliding trajectories. Figure shows a trajectory resulting from such a trade off. Related work, such as trajectory planning on NeRFs by Adamkiewicz et al., has also encoded obstacle avoidance as a cost function component. We are confident that the existing issues can be resolved by constraining the trajectory to be close to the initial guess, tuning the weights of the individual cost terms, or using higher-order derivatives of the trajectory as the effort cost.
+Three current shortcomings of the algorithm include a) occasional obstacle collision, b) distance agnostic optimization, c) sensitivity to \\ac3dgs quality. a\) Both the jerk as well as the obstacle cost are additive terms in the cost function. Since obstacle avoidance is not formulated as a hard constraint, it can be traded off with the jerk cost, yielding a low jerk but colliding trajectories. Figure 8 shows a trajectory resulting from such a trade off. Related work, such as trajectory planning on NeRFs by Adamkiewicz et al., has also encoded obstacle avoidance as a cost function component. We are confident that the existing issues can be resolved by constraining the trajectory to be close to the initial guess, tuning the weights of the individual cost terms, or using higher-order derivatives of the trajectory as the effort cost.
 
-<!-- chunk {"id": "body-0047", "role": "body", "section": "Limitations", "weight": 1.5} -->
-
-b\) Trajectories are parameterized over an interval that depends only on the number of control points. Velocity, acceleration, and jerk are scaled with a constant time regulation factor $m$ that depends on the length of the initial guess. Although this formulation is easy to implement, it has many impactful disadvantages. Between two trajectories of the same shape but different lengths, the shorter one has a lower acceleration than the longer one because the robot has to be accelerated over larger distances while still being parameterized over the same progress interval. This means that longer trajectories automatically have bigger accelerations and jerks, since the optimization has no direct control over time. Subsequently, the jerk cost can become the dominant term in the optimization, decreasing the importance of obstacle avoidance. To account for different trajectory times, the execution time between the start and goal could be introduced into the trajectory representation and directly optimized as a decision variable.
-
-<!-- chunk {"id": "body-0048", "role": "body", "section": "Limitations", "weight": 1.5} -->
-
-c\) By using the overlap integral to compute collision between the robot and the scene, we assume that areas of high Gaussian overlap in the environment are dense objects geometrically, however this is not always the case. Instead, the \\ac3dgs optimization process results in a high number of overlapping Gaussians in areas of high information density, both in terms of texture and geometric data. More complex shapes such as edges, fine strands, or lettering result in a large amount of Gaussians to accurately capture the geometry and texture. This means that when computing the overlap integral over the environment, flat regions with text or patterns have a slightly higher collision cost than clean flat surfaces. Additionally, as splatting only renders and optimizes Gaussians visible to the camera, the internal Gaussian density of objects is not guaranteed. This means that if the trajectory does collide with a wall it can get stuck in a local minima and not recover with the aid of internal collision gradients. Both of these can be addressed with more intelligent \\ac3dgs creation, either by ensuring the Gaussians mainly represent geometry, or ensuring internal object density is consistent.
-
-<!-- chunk {"id": "body-0049", "role": "body", "section": "Conclusion", "weight": 1.5} -->
+<!-- chunk {"id": "body-0047", "role": "body", "section": "Conclusion", "weight": 1.5} -->
 
 In this work, we proposed a novel collision formulation for \\acl3dgs, that is computed in an efficient parallel manner, and integrated it into a trajectory optimization pipeline. We show that it can be effectively used for orientation-aware planning and verify it on the ANYmal quadruped robot. Because we exclusively operate in 3D Gaussian space, representing the environment and the robot as Gaussians, our method can be freely combined with new developments from the 3DGS community. Furthermore, we show that this method works on realistic data including scenes captured using the onboard sensor of the robot itself. The proposed method naively supports more complex robot kinematics, such as the kinematic chain of a robot arm. Future work can explore configuration-dependent trajectory planning for robotic manipulation tasks. Since this method exclusively focuses on static and complete \\acl3dgs environments, extensions toward dynamic scence and hybrid SLAM integration can be made in follow-up research.

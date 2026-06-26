@@ -40,7 +40,7 @@ To address the computational overhead inherent to video diffusion models, we int
 
 <!-- chunk {"id": "body-0010", "role": "body", "section": "Introduction", "weight": 1.5} -->
 
-We introduce DreamZero, a 14B WAM that jointly predicts video and actions, enabling effective learning from diverse, non-repetitive robot data.
+Our main contributions are: We introduce DreamZero, a 14B WAM that jointly predicts video and actions, enabling effective learning from diverse, non-repetitive robot data.
 
 <!-- chunk {"id": "body-0011", "role": "body", "section": "Introduction", "weight": 1.5} -->
 
@@ -56,7 +56,7 @@ We demonstrate cross-embodiment transfer: video-only data from humans (12 minute
 
 <!-- chunk {"id": "body-0014", "role": "body", "section": "Introduction", "weight": 1.5} -->
 
-We open-source our model weights, inference code, and code to run publicly available real-world (RoboArena) and simulation benchmarks (PolaRiS and Genie Sim 3.0)^11^1Despite only being trained on $\sim$`<!-- -->`{=html}500 hours of real-world data, DreamZero shows non-trivial performance on Genie Sim 3.0, which is a simulation benchmark comprised of 100 different tasks without being explicitly trained on the 10k hours of simulation training data. at
+We open-source our model weights, inference code, and code to run publicly available real-world (RoboArena) and simulation benchmarks (PolaRiS and Genie Sim 3.0)^11^1Despite only being trained on $\sim$`<!-- -->`{=html}500 hours of real-world data, DreamZero shows non-trivial performance on Genie Sim 3.0, which is a simulation benchmark comprised of 100 different tasks without being explicitly trained on the 10k hours of simulation training data. at Figure 3: Free-form Evaluation. DreamZero performs a diverse range of tasks when conditioned on natural language instructions, including object manipulation, tool use, and human-robot interaction.
 
 <!-- chunk {"id": "body-0015", "role": "body", "section": "Vision Language Action Models", "weight": 1.0} -->
 
@@ -96,11 +96,11 @@ DreamZeroaddresses these challenges through three design choices. First, we trai
 
 <!-- chunk {"id": "body-0024", "role": "body", "section": "Model Architecture", "weight": 1.0} -->
 
-Problem Formulation. DreamZero jointly predicts video $\mathbf{o}_{l:{l + H}}$ and actions $\mathbf{a}_{l:{l + H}}$ conditioned on language instruction $\mathbf{c}$, proprioceptive state $\mathbf{q}_{l}$ and visual observation including the current and the past history $\mathbf{o}_{0:l}$ where $H > 0$ is a fixed horizon and $l$ is a random index sampled from a trajectory.
+Problem Formulation. DreamZero jointly predicts video $\mathbf{o}_{l:l+H}$ and actions $\mathbf{a}_{l:l+H}$ conditioned on language instruction $\mathbf{c}$, proprioceptive state $\mathbf{q}_{l}$ and visual observation including the current and the past history $\mathbf{o}_{0:l}$ where $H>0$ is a fixed horizon and $l$ is a random index sampled from a trajectory. Note that joint prediction of video and action is a decomposition of autoregressive video prediction and action prediction from an inverse-dynamics model (IDM): Instead of using two separate models (video prediction model and inverse dynamics model) to model the decomposed objective, we train a single model end-to-end with joint prediction objective. We believe that this end-to-end design enables better video-action alignment through a deep integration between the two modalities.
 
 <!-- chunk {"id": "body-0025", "role": "body", "section": "Model Architecture", "weight": 1.0} -->
 
-Instead of using two separate models (video prediction model and inverse dynamics model) to model the decomposed objective, we train a single model end-to-end with joint prediction objective. We believe that this end-to-end design enables better video-action alignment through a deep integration between the two modalities. Since pretrained video models are already optimized on the video prediction objective on diverse web-scale video data, DreamZero only needs to additionally learn to predict videos for the robot embodiment videos and extract corresponding actions from the generated videos. We further hypothesize that this encourages better generalization than the conventional practice of training VLA from VLM, as our approach explicitly learns temporal dynamics from video frames used both as conditioning inputs and prediction targets.
+Since pretrained video models are already optimized on the video prediction objective on diverse web-scale video data, DreamZero only needs to additionally learn to predict videos for the robot embodiment videos and extract corresponding actions from the generated videos. We further hypothesize that this encourages better generalization than the conventional practice of training VLA from VLM, as our approach explicitly learns temporal dynamics from video frames used both as conditioning inputs and prediction targets.
 
 <!-- chunk {"id": "body-0026", "role": "body", "section": "Model Architecture", "weight": 1.0} -->
 
@@ -120,11 +120,11 @@ Training Objective. Similar to recent video diffusion models and VLAs, we employ
 
 <!-- chunk {"id": "body-0030", "role": "body", "section": "Model Architecture", "weight": 1.0} -->
 
-Formally, given a chunk index $k > 0$ and the denoising timestep $t_{k} \in {\lbrack 0,1\rbrack}$, we denote the corresponding noisy video latent vector for original video $\mathbf{o}^{k}$ as $\mathbf{z}_{t_{k}}^{k}$ and noisy normalized actions as $\mathbf{a}_{t_{k}}^{k}$. All frames within the same chunk share the same timestep $t_{k}$, while different chunks are assigned independent timesteps.
+Formally, given a chunk index $k>0$ and the denoising timestep $t_{k}\in$, we denote the corresponding noisy video latent vector for original video $\mathbf{o}^{k}$ as $\mathbf{z}_{t_{k}}^{k}$ and noisy normalized actions as $\mathbf{a}_{t_{k}}^{k}$. All frames within the same chunk share the same timestep $t_{k}$, while different chunks are assigned independent timesteps.
 
 <!-- chunk {"id": "body-0031", "role": "body", "section": "Model Architecture", "weight": 1.0} -->
 
-where ${w{(t_{k})}} > 0$ is a predefined weight function for $t_{k}$, $\mathbf{c}$ is the text condition, $\mathbf{q}_{k}$ is the proprioceptive states of $k$-th chunk, and the velocity $\mathbf{v}^{k} ≔ {{\lbrack\mathbf{z}_{1}^{k},\mathbf{a}_{1}^{k}\rbrack} - {\lbrack\mathbf{z}_{0}^{k},\mathbf{a}_{0}^{k}\rbrack}}$. To enable efficient training, we perform trajectory-level updates and apply attention masking (e.g., see Figure 14 for details) so that the current noisy chunk can attend to clean context of previous chunks. We provide the pseudo-code in Algorithm 1.
+We train the model $\mathbf{u}_{\theta}$ to predict the joint velocity for both modalities using the following flow-matching objective: where $w(t_{k})>0$ is a predefined weight function for $t_{k}$, $\mathbf{c}$ is the text condition, $\mathbf{q}_{k}$ is the proprioceptive states of $k$-th chunk, and the velocity $\mathbf{v}^{k}\coloneqq[\mathbf{z}_{1}^{k},\mathbf{a}_{1}^{k}]-[\mathbf{z}_{0}^{k},\mathbf{a}_{0}^{k}]$. To enable efficient training, we perform trajectory-level updates and apply attention masking (e.g., see Figure 14 for details) so that the current noisy chunk can attend to clean context of previous chunks. We provide the pseudo-code in Algorithm 1.
 
 <!-- chunk {"id": "body-0032", "role": "body", "section": "Model Architecture", "weight": 1.0} -->
 
@@ -176,23 +176,23 @@ Even with system optimizations, the number of diffusion steps remains the primar
 
 <!-- chunk {"id": "body-0044", "role": "body", "section": "Model-level Optimizations: DreamZero-Flash", "weight": 1.0} -->
 
-DreamZero-Flash addresses this by decoupling video and action noise schedules during training. The key insight is that, at inference time, actions should denoise to their final values while being conditioned on a still-noisy video representation within the current chunk, since with very few denoising steps (e.g., fewer than 4), the generated video tokens may remain inaccurate and thus provide a noisy conditioning signal. Standard DreamZero samples a shared timestep $t_{k} \sim {\mathcal{U}{}}$ for both modalities. This creates a train-test mismatch: during training, the model learns to predict actions when video and action are at the same noise level, but few-step or single-step inference requires predicting clean actions while video remains partially noisy.
+DreamZero-Flash addresses this by decoupling video and action noise schedules during training. The key insight is that, at inference time, actions should denoise to their final values while being conditioned on a still-noisy video representation within the current chunk, since with very few denoising steps (e.g., fewer than 4), the generated video tokens may remain inaccurate and thus provide a noisy conditioning signal. Standard DreamZero samples a shared timestep $t_{k}\sim\mathcal{U}$ for both modalities. This creates a train-test mismatch: during training, the model learns to predict actions when video and action are at the same noise level, but few-step or single-step inference requires predicting clean actions while video remains partially noisy.
 
 <!-- chunk {"id": "body-0045", "role": "body", "section": "Model-level Optimizations: DreamZero-Flash", "weight": 1.0} -->
 
-DreamZero-Flash closes this gap by biasing video timesteps toward high-noise states via $t_{k}^{\text{video}} = {1 - \eta}$, where $\eta \sim {\text{Beta}{(\alpha,\beta)}}$ with $\alpha > \beta$. In practice, we use $\text{Beta}{}$ as an example configuration, yielding ${{\mathbb{E}}{\lbrack t_{k}^{\text{video}}\rbrack}} = 0.125$ (predominantly noisy), while action timesteps remain uniform (Figure 5). During training, this exposes the model to configurations where it must predict clean actions from noisy visual context, directly matching the few-step or single-step inference regime. As a result, we reduce the diffusion steps from four to one, cutting inference from $\sim 350$ms to $\sim 150$ms with minimal performance loss (Table 3).
+DreamZero-Flash closes this gap by biasing video timesteps toward high-noise states via $t_{k}^{\text{video}}=1-\eta$, where $\eta\sim\text{Beta}(\alpha,\beta)$ with $\alpha>\beta$. In practice, we use $\text{Beta}$ as an example configuration, yielding $\mathbb{E}[t_{k}^{\text{video}}]=0.125$ (predominantly noisy), while action timesteps remain uniform (Figure 5). During training, this exposes the model to configurations where it must predict clean actions from noisy visual context, directly matching the few-step or single-step inference regime. As a result, we reduce the diffusion steps from four to one, cutting inference from ${\sim}350$ms to ${\sim}150$ms with minimal performance loss (Table 3). Moreover, the Flash formulation enables flexible training configurations---such as varying the noise sampling ratios of video and action---to better align training with different few-step or single-step inference regimes.
 
 <!-- chunk {"id": "body-0046", "role": "body", "section": "Model-level Optimizations: DreamZero-Flash", "weight": 1.0} -->
 
-Moreover, the Flash formulation enables flexible training configurations---such as varying the noise sampling ratios of video and action---to better align training with different few-step or single-step inference regimes. In practice, we mainly apply Flash training as the final stage following the main DreamZero model training.
+In practice, we mainly apply Flash training as the final stage following the main DreamZero model training.
 
 <!-- chunk {"id": "body-0047", "role": "body", "section": "Model-level Optimizations: DreamZero-Flash", "weight": 1.0} -->
 
-Action Chunk Smoothing. To suppress high-frequency noise in generated actions, we upsample chunks to $2 \times$ resolution, apply a Savitzky-Golay filter, and downsample to original resolution.
+Action Chunk Smoothing. To suppress high-frequency noise in generated actions, we upsample chunks to $2\times$ resolution, apply a Savitzky-Golay filter, and downsample to original resolution.
 
 <!-- chunk {"id": "body-0048", "role": "body", "section": "Summary", "weight": 1.0} -->
 
-Table 1 summarizes cumulative speedups. System and implementation optimizations yield $\sim 9 \times$ speedup on H100 and $\sim 16 \times$ on GB200; adding DreamZero-Flash achieves 38$\times$ on GB200, reducing latency from 5.7s to 150ms. With the exception of DiT caching and quantization, all system and implementation-level optimizations are mathematically equivalent to baseline and show no measurable performance degradation.
+Table 1 summarizes cumulative speedups. System and implementation optimizations yield ${\sim}9\times$ speedup on H100 and ${\sim}16\times$ on GB200; adding DreamZero-Flash achieves 38$\times$ on GB200, reducing latency from 5.7s to 150ms. With the exception of DiT caching and quantization, all system and implementation-level optimizations are mathematically equivalent to baseline and show no measurable performance degradation.
 
 <!-- chunk {"id": "body-0049", "role": "body", "section": "Experimental Setup", "weight": 1.0} -->
 
@@ -200,11 +200,11 @@ We validate our main hypotheses about learning from diverse data on two robot em
 
 <!-- chunk {"id": "body-0050", "role": "body", "section": "Experimental Setup", "weight": 1.0} -->
 
-We compare against two state-of-the-art Vision-Language-Action models (VLAs): GR00T N1.6 and $\pi_{0.5}$. For each baseline, we evaluate two initialization strategies: from-scratch, using pretrained VLM weights without prior robot data training for a fair apple-to-apple comparison with DreamZero, and from-pretrained, using official checkpoints pretrained on thousands of hours of cross-embodiment robot data. Both variants are then trained on identical data as DreamZero: $\sim 500$ hours of teleoperation data we collected for AgiBot G1, and DROID for Franka. We keep the compute budget comparable across all methods by matching total batch size and gradient steps.^44^4For from-pretrained baselines, this constitutes continual training on top of the official weights.
+We compare against two state-of-the-art Vision-Language-Action models (VLAs): GR00T N1.6 and $\pi_{0.5}$. For each baseline, we evaluate two initialization strategies: from-scratch, using pretrained VLM weights without prior robot data training for a fair apple-to-apple comparison with DreamZero, and from-pretrained, using official checkpoints pretrained on thousands of hours of cross-embodiment robot data. Both variants are then trained on identical data as DreamZero: ${\sim}500$ hours of teleoperation data we collected for AgiBot G1, and DROID for Franka. We keep the compute budget comparable across all methods by matching total batch size and gradient steps.^44^4For from-pretrained baselines, this constitutes continual training on top of the official weights.
 
 <!-- chunk {"id": "body-0051", "role": "body", "section": "Experimental Setup", "weight": 1.0} -->
 
-(b) Subtask Count Distribution per Episode
+(a) Episode Duration Distribution (b) Subtask Count Distribution per Episode Figure 6: Distribution statistics for the AgiBot pretraining corpus: episode durations, subtask density, and skill coverage across 7.2K episodes (∼500 hours).
 
 <!-- chunk {"id": "body-0052", "role": "body", "section": "Pretraining", "weight": 1.0} -->
 
@@ -212,99 +212,99 @@ Data. Our data collection philosophy differs from that of existing VLAs. While r
 
 <!-- chunk {"id": "body-0053", "role": "body", "section": "Pretraining", "weight": 1.0} -->
 
-Using AgiBot G1, we collect approximately 500 hours of teleoperation data across 22 unique environments (see Figure 15), including homes, restaurants, supermarkets, coffee shops, and offices---prioritizing task diversity and real-world utility over task-specific repetition. As shown in Figure 6, each episode averages around 4.4 minutes and encompasses approximately 42 subtasks---significantly longer-horizon than typical robotic manipulation datasets. The skill distribution reflects real-world deployment requirements: navigation enables movement between workspaces, while torso adjustments allow interaction with objects at varying heights (shelves, cabinets). Additional details on the data collection pipeline are provided in Appendix E.^55^5We plan to open-source this dataset in upcoming releases. Some samples can be found at
+Using AgiBot G1, we collect approximately 500 hours of teleoperation data across 22 unique environments (see Figure 15), including homes, restaurants, supermarkets, coffee shops, and offices---prioritizing task diversity and real-world utility over task-specific repetition. As shown in Figure 6, each episode averages around 4.4 minutes and encompasses approximately 42 subtasks---significantly longer-horizon than typical robotic manipulation datasets. The skill distribution reflects real-world deployment requirements: navigation enables movement between workspaces, while torso adjustments allow interaction with objects at varying heights (shelves, cabinets). Additional details on the data collection pipeline are provided in Appendix E.^55^5We plan to open-source this dataset in upcoming releases. Some samples can be found at We also validate DreamZero on the Franka single-arm robot using DROID, one of the most heterogeneous publicly available robotic datasets to demonstrate the effectiveness of WAMs on diverse, open-source data and enables reproducibility prior to the release of our in-house AgiBot dataset.
 
 <!-- chunk {"id": "body-0054", "role": "body", "section": "Pretraining", "weight": 1.0} -->
 
-We also validate DreamZero on the Franka single-arm robot using DROID, one of the most heterogeneous publicly available robotic datasets to demonstrate the effectiveness of WAMs on diverse, open-source data and enables reproducibility prior to the release of our in-house AgiBot dataset. We open-source the checkpoint and inference code to run some DROID-sim evals in PolaRiS.^66^6Available at
+We open-source the checkpoint and inference code to run some DROID-sim evals in PolaRiS.^66^6Available at Training. We use Wan2.1-I2V-14B-480P, a 14B image-to-video diffusion model, as the backbone for DreamZero. We train for 100K steps with a global batch size of 128 for AgiBot and 100K steps with a global batch size of 128 for DROID datasets. We update all DiT blocks, the state encoder, action encoder, and action decoder, while freezing the text encoder, image encoder, and VAE.^77^7We experimented with LoRA but found it led to suboptimal results. For both datasets, we filter out idle actions and use relative joint positions as the default action representation. We also conduct some ablations (Section 5.2) where we initialize from Wan2.1-I2V-5B-480P to see the effect of model size (5B vs. 14B).
 
 <!-- chunk {"id": "body-0055", "role": "body", "section": "Pretraining", "weight": 1.0} -->
 
-Training. We use Wan2.1-I2V-14B-480P, a 14B image-to-video diffusion model, as the backbone for DreamZero. We train for 100K steps with a global batch size of 128 for AgiBot and 100K steps with a global batch size of 128 for DROID datasets. We update all DiT blocks, the state encoder, action encoder, and action decoder, while freezing the text encoder, image encoder, and VAE.^77^7We experimented with LoRA but found it led to suboptimal results. For both datasets, we filter out idle actions and use relative joint positions as the default action representation. We also conduct some ablations (Section 5.2) where we initialize from Wan2.1-I2V-5B-480P to see the effect of model size (5B vs. 14B).
+Evaluation Protocol. We evaluate models out of the box after pretraining. Our default evaluation setting is unseen environments, unseen objects---because our pretraining and post-training data were collected in a different geographic location from our evaluation sites, every benchmark inherently tests out-of-distribution generalization rather than interpolation within the training distribution. We evaluate on two categories: seen and unseen tasks. We define the granularity of a task as a combination of the motion required for the task and the object type. For example, if the training data contains folding a red-colored shirt and evaluate the model to fold a black-colored shirt with a different size, it is considered as a seen task. On the other hand, if we evaluate the model to fold socks, it is considered as an unseen task because the motion required to fold socks is different from folding a shirt (See samples in Figure 7).
 
 <!-- chunk {"id": "body-0056", "role": "body", "section": "Pretraining", "weight": 1.0} -->
 
-Evaluation Protocol. We evaluate models out of the box after pretraining. Our default evaluation setting is unseen environments, unseen objects---because our pretraining and post-training data were collected in a different geographic location from our evaluation sites, every benchmark inherently tests out-of-distribution generalization rather than interpolation within the training distribution. We evaluate on two categories: seen and unseen tasks. We define the granularity of a task as a combination of the motion required for the task and the object type. For example, if the training data contains folding a red-colored shirt and evaluate the model to fold a black-colored shirt with a different size, it is considered as a seen task. On the other hand, if we evaluate the model to fold socks, it is considered as an unseen task because the motion required to fold socks is different from folding a shirt (See samples in Figure 7).
+AgiBot Evaluation Protocol. For seen tasks, we select 10 tasks from the pretraining distribution, including pick-and-place variants, stacking, wiping, and folding; we run 8 rollouts per task across 4 robots, each in different environments and different objects (80 rollouts total per checkpoint). We divide 10 seen tasks into three categories: PnP-Easy (Pick and place fruit, Wipe the mess, Take out fruit from bag), PnP-Hard (Pick and place fork/spoon, put the pen in pen holder, put the cup on the coaster, stack bowls/cups in a row), and Contact-Rich Manipulation (fold shirts, fold shorts, stack clothes). For unseen tasks, we evaluate 10 tasks absent from training---such as ironing, painting, pulling carts, cube stacking, removing a hat from a mannequin, and untying shoe laces---with 8 rollouts per task across 4 robots (80 rollouts total per checkpoint).
 
 <!-- chunk {"id": "body-0057", "role": "body", "section": "Pretraining", "weight": 1.0} -->
 
-AgiBot Evaluation Protocol. For seen tasks, we select 10 tasks from the pretraining distribution, including pick-and-place variants, stacking, wiping, and folding; we run 8 rollouts per task across 4 robots, each in different environments and different objects (80 rollouts total per checkpoint). We divide 10 seen tasks into three categories: PnP-Easy (Pick and place fruit, Wipe the mess, Take out fruit from bag), PnP-Hard (Pick and place fork/spoon, put the pen in pen holder, put the cup on the coaster, stack bowls/cups in a row), and Contact-Rich Manipulation (fold shirts, fold shorts, stack clothes). For unseen tasks, we evaluate 10 tasks absent from training---such as ironing, painting, pulling carts, cube stacking, removing a hat from a mannequin, and untying shoe laces---with 8 rollouts per task across 4 robots (80 rollouts total per checkpoint).
+The full list of each evaluation rollout initial frame and prompt is provided in Appendix F, and some evaluation rollouts can be found here.^88^8 for main evaluation rollouts and for accumulation of unique evaluation rollouts.
 
 <!-- chunk {"id": "body-0058", "role": "body", "section": "Pretraining", "weight": 1.0} -->
 
-The full list of each evaluation rollout initial frame and prompt is provided in Appendix F, and some evaluation rollouts can be found here.^88^8 for main evaluation rollouts and for accumulation of unique evaluation rollouts.
-
-<!-- chunk {"id": "body-0059", "role": "body", "section": "Pretraining", "weight": 1.0} -->
-
 DROID Evaluation Protocol. We evaluate on 20 seen tasks and 20 unseen tasks (verbs absent from DROID), performing 2 rollouts per task, for a total of 80 evaluation rollouts across 40 tasks for each checkpoint. We compare DreamZero against the publicly released $\pi_{0.5}$-DROID and an internally trained GR00T N1.6-DROID checkpoint. Object positions are fixed across checkpoints to ensure fairness. Each rollout is scored from 0 to 1.0 based on partial task completion; full details are provided in Appendix G.
 
-<!-- chunk {"id": "body-0060", "role": "body", "section": "Post-training", "weight": 1.0} -->
+<!-- chunk {"id": "body-0059", "role": "body", "section": "Post-training", "weight": 1.0} -->
 
 Beyond pre-training, we evaluate whether WAMs improve fine-tuning performance on task-specific data using the AgiBot robot.
 
+<!-- chunk {"id": "body-0060", "role": "body", "section": "Post-training", "weight": 1.0} -->
+
+Data. We collect post-training data on three downstream tasks: Shirt folding (33 hrs): Fold a flattened t-shirt through 5 sequential stages. We randomize initial shirt position across 2 shirt types.
+
 <!-- chunk {"id": "body-0061", "role": "body", "section": "Post-training", "weight": 1.0} -->
-
-Shirt folding (33 hrs): Fold a flattened t-shirt through 5 sequential stages. We randomize initial shirt position across 2 shirt types.
-
-<!-- chunk {"id": "body-0062", "role": "body", "section": "Post-training", "weight": 1.0} -->
 
 Fruit packing (12 hrs): Pack 10 fruits from a table into a bag. We randomize fruit combinations and positions of fruits and bag.
 
-<!-- chunk {"id": "body-0063", "role": "body", "section": "Post-training", "weight": 1.0} -->
+<!-- chunk {"id": "body-0062", "role": "body", "section": "Post-training", "weight": 1.0} -->
 
 Table bussing (40 hrs): Clear 5 pieces of trash into a trash bin and 5 pieces of dishware (dish, bowl, fork, and spoon) into a dish bin. We randomize object types, combinations, and positions.
 
-<!-- chunk {"id": "body-0064", "role": "body", "section": "Post-training", "weight": 1.0} -->
+<!-- chunk {"id": "body-0063", "role": "body", "section": "Post-training", "weight": 1.0} -->
 
 Training. We post-train for 50K steps per task. As in pretraining, we update all parameters except the text encoder, image encoder, and VAE.
 
-<!-- chunk {"id": "body-0065", "role": "body", "section": "Post-training", "weight": 1.0} -->
+<!-- chunk {"id": "body-0064", "role": "body", "section": "Post-training", "weight": 1.0} -->
 
 Evaluation Protocol. We measure average task progress across 10 rollouts per task. Task progress is defined as: folding stages completed out of 5 for shirt folding, fruits successfully packed out of 10 for fruit packing and items cleared for table bussing. Following Barreiros et al., we apply an image overlay to the initial scene to reduce variance.
 
-<!-- chunk {"id": "body-0066", "role": "body", "section": "Q1. Do WAMs learn better from diverse, non-repetitive data?", "weight": 1.0} -->
+<!-- chunk {"id": "body-0065", "role": "body", "section": "Q1. Do WAMs learn better from diverse, non-repetitive data?", "weight": 1.0} -->
 
 We evaluate pretrained models out-of-the-box on tasks present in the pretraining data, but in zero-shot environments with unseen objects. Results are shown in Figure 8.
 
-<!-- chunk {"id": "body-0067", "role": "body", "section": "Q1. Do WAMs learn better from diverse, non-repetitive data?", "weight": 1.0} -->
+<!-- chunk {"id": "body-0066", "role": "body", "section": "Q1. Do WAMs learn better from diverse, non-repetitive data?", "weight": 1.0} -->
 
 On AgiBot G1, from-scratch VLAs achieve near-zero task progress score across all categories. Even on simple pick-and-place tasks (PnP Easy), VLAs occasionally reach toward the correct object but fail to interact accurately with unseen objects in novel environments. In contrast, DreamZero successfully learns from heterogeneous data, achieving 62.2% average task progress---over 2$\times$ higher than the best pretrained VLA baseline (27.4%), despite those baselines being pretrained on thousands of hours of cross-embodiment robot data before continued training on our data mix. On DROID-Franka, we show a similar result as well; DreamZero which is only trained on the DROID dataset outperforms pre-trained baseline models trained on multiple robot embodiment data.
 
-<!-- chunk {"id": "body-0068", "role": "body", "section": "Q1. Do WAMs learn better from diverse, non-repetitive data?", "weight": 1.0} -->
+<!-- chunk {"id": "body-0067", "role": "body", "section": "Q1. Do WAMs learn better from diverse, non-repetitive data?", "weight": 1.0} -->
 
 We attribute this gap to the joint video-action formulation: while VLAs require massive robot data to learn direct observation-to-a ction mappings, WAMs leverage video generation as a strong prior for action prediction, enabling effective learning of diverse data and generalization to unseen environments. Notably, we observe tight alignment between generated videos and real-world execution, even for suboptimal behaviors (Figure 16). Most DreamZero failures stem from video generation errors rather than action prediction---the policy faithfully executes whatever trajectory the video predicts. This suggests that improvements to the video backbone would directly translate to better WAM performance.
 
+<!-- chunk {"id": "body-0068", "role": "body", "section": "Q2. Do WAMs generalize to unseen tasks?", "weight": 1.0} -->
+
+On AgiBot G1, from-scratch VLAs achieve near-zero task progress ($<1\%$), while DreamZero reaches 39.5% on average---with strong performance on tasks like "Remove Hat from Mannequin" (85.7%) and "Shake Hands" (59.2%). DreamZero also significantly outperforms pretrained VLA baselines (39.5% vs. 16.3%), even though those baselines may have encountered some of these tasks during cross-embodiment pretraining. Also on the DROID-Franka setup, DreamZero significantly outperforms (49% task progress, 22.5% success rate) other pretrained baselines (31% task progress, 12.5% success rate for GR00T N1.6 and 33% task progress, 7.5% success rate for $\pi_{0.5}$).
+
 <!-- chunk {"id": "body-0069", "role": "body", "section": "Q2. Do WAMs generalize to unseen tasks?", "weight": 1.0} -->
-
-On AgiBot G1, from-scratch VLAs achieve near-zero task progress ($< {1\%}$), while DreamZero reaches 39.5% on average---with strong performance on tasks like "Remove Hat from Mannequin" (85.7%) and "Shake Hands" (59.2%). DreamZero also significantly outperforms pretrained VLA baselines (39.5% vs. 16.3%), even though those baselines may have encountered some of these tasks during cross-embodiment pretraining. Also on the DROID-Franka setup, DreamZero significantly outperforms (49% task progress, 22.5% success rate) other pretrained baselines (31% task progress, 12.5% success rate for GR00T N1.6 and 33% task progress, 7.5% success rate for $\pi_{0.5}$).
-
-<!-- chunk {"id": "body-0070", "role": "body", "section": "Q2. Do WAMs generalize to unseen tasks?", "weight": 1.0} -->
 
 Qualitatively, we observe that pretrained VLAs often reach toward objects and attempt grasping regardless of the instruction, suggesting they overfit to dominant training behaviors (e.g., pick-and-place) rather than understanding novel task semantics, accounting for their partial task progress despite failing to complete the intended tasks. In contrast, DreamZero performs visual planning for unseen tasks and executes them successfully, with strong alignment between generated videos and real-world actions.
 
-<!-- chunk {"id": "body-0071", "role": "body", "section": "Q2. Do WAMs generalize to unseen tasks?", "weight": 1.0} -->
+<!-- chunk {"id": "body-0070", "role": "body", "section": "Q2. Do WAMs generalize to unseen tasks?", "weight": 1.0} -->
 
-Beyond structured evaluation, we conduct free-form testing on over 100+ additional tasks, including "Pop the ballon" and "Press elevator button", by doing free-form prompting with verbal instructions.^99^9Rollouts of these tasks are provided in
+Beyond structured evaluation, we conduct free-form testing on over 100+ additional tasks, including "Pop the ballon" and "Press elevator button", by doing free-form prompting with verbal instructions.^99^9Rollouts of these tasks are provided in Figure 10: Posttraining Results. WAMs enable stronger post-training results across three tasks, indicating that environment generalization of DreamZero is retained after post-training.
 
-<!-- chunk {"id": "body-0072", "role": "body", "section": "Q3. Do WAMs improve post-training performance?", "weight": 1.0} -->
+<!-- chunk {"id": "body-0071", "role": "body", "section": "Q3. Do WAMs improve post-training performance?", "weight": 1.0} -->
 
 We investigate whether WAMs retain their generalization even after fine-tuning on task-specific data. Figure 10 shows results on three tasks with varying distribution diversity.
 
-<!-- chunk {"id": "body-0073", "role": "body", "section": "Q3. Do WAMs improve post-training performance?", "weight": 1.0} -->
+<!-- chunk {"id": "body-0072", "role": "body", "section": "Q3. Do WAMs improve post-training performance?", "weight": 1.0} -->
 
 DreamZeromatches or outperforms VLA baselines across all tasks: comparable performance on shirt folding and table bussing while significantly outperforming on fruit packing. Similar to the findings from Figure 8 and Figure 9, from-scratch baselines fail to learn accurate motions to grasp the target objects; this means that from-scratch VLAs tend to overfit to the training data and fail to generalize to scenarios where we vary the table height, table distance, objects, and object placements, mostly due to the evaluation site being in a different geographic location (see Figure 7 for samples). Although pretraining on multiple robot embodiments with repetitive data largely boosts the post-training genearlization performance for pretrained baselines, DreamZero still matches or outperforms pretrained VLA baselines without cross embodiment pretraining. Since we still evaluate on unseen environments for post-training, this implies that the environment generalization of DreamZero is retained after post-training.
 
-<!-- chunk {"id": "body-0074", "role": "body", "section": "Q4. Do WAMs enable strong cross-embodiment transfer to unseen tasks?", "weight": 1.0} -->
+<!-- chunk {"id": "body-0073", "role": "body", "section": "Q4. Do WAMs enable strong cross-embodiment transfer to unseen tasks?", "weight": 1.0} -->
 
 Having shown that WAMs generalize to unseen tasks (Figure 9), we now investigate whether this generalization can be further improved by leveraging video data from different embodiments performing the same tasks. Crucially, we use only the video prediction objective for the cross-embodiment data (no actions), while maintaining the joint video-action objective for the AgiBot pretraining data; the cross-embodiment data thus serves as additional visual experience to strengthen the world model's understanding of task dynamics and expected behavior.
 
-<!-- chunk {"id": "body-0075", "role": "body", "section": "Q4. Do WAMs enable strong cross-embodiment transfer to unseen tasks?", "weight": 1.0} -->
+<!-- chunk {"id": "body-0074", "role": "body", "section": "Q4. Do WAMs enable strong cross-embodiment transfer to unseen tasks?", "weight": 1.0} -->
 
 We explore two settings (Figure 11): Robot-to-robot transfer using the bimanual YAM robot, and Human-to-robot transfer using egocentric human demonstrations. For each setting, we collect 72 multi-view trajectories of the 9 unseen tasks (8 demonstrations per task, 20 minutes for YAM, 12 minutes for human).^1010^10We exclude Pulling Cart task since data collection through teleoperation was infeasible with our bimanual YAM robot setup. We then co-train from the DreamZero-AgiBot checkpoint on a 1:1 mix with pretraining data for 10K steps.
 
-<!-- chunk {"id": "body-0076", "role": "body", "section": "Q4. Do WAMs enable strong cross-embodiment transfer to unseen tasks?", "weight": 1.0} -->
+<!-- chunk {"id": "body-0075", "role": "body", "section": "Q4. Do WAMs enable strong cross-embodiment transfer to unseen tasks?", "weight": 1.0} -->
 
 Results on the 9 unseen tasks (Table 2) show that both transfer settings improve performance over the baseline DreamZero. Robot-to-robot transfer yields the largest gain (38.3% $\rightarrow$ 55.4%), likely due to the narrower embodiment gap; both YAM and AgiBot are bimanual parallel grippers. Human-to-robot transfer also improves performance (38.3% $\rightarrow$ 54.3%), despite the larger morphological gap and dynamic egocentric viewpoints.
+
+<!-- chunk {"id": "body-0076", "role": "body", "section": "Q4. Do WAMs enable strong cross-embodiment transfer to unseen tasks?", "weight": 1.0} -->
+
+DreamZero + Human2Robot Transfer DreamZero + Robot2Robot Transfer Table 2: Cross-Embodiment Transfer Results. Average task progress on unseen tasks (± standard error). Both transfer settings improve over baseline (result from Table 9) using only 10–20 minutes of video-only demonstration data.
 
 <!-- chunk {"id": "body-0077", "role": "body", "section": "Q4. Do WAMs enable strong cross-embodiment transfer to unseen tasks?", "weight": 1.0} -->
 
@@ -320,7 +320,7 @@ We hypothesize that two factors enable this efficiency: the visual similarity of
 
 <!-- chunk {"id": "body-0080", "role": "body", "section": "Q6. Does DreamZero-Flash maintain performance with fewer denoising steps?", "weight": 1.0} -->
 
-We evaluate whether DreamZero-Flash can maintain task performance under aggressive single-step denoising. As shown in Table 3, reducing DreamZero from 4 denoising steps to 1 step drops task progress substantially (83% $\rightarrow$ 52%) on the table bussing task. In contrast, DreamZero-Flash achieves a higher average success rate (74%) at single-step inference, sitting only 9% below the 4-step baseline while being $\sim 2 \times$ faster. This suggests that decoupled noise scheduling offers a more effective speed--accuracy trade-off for real-time deployment.
+We evaluate whether DreamZero-Flash can maintain task performance under aggressive single-step denoising. As shown in Table 3, reducing DreamZero from 4 denoising steps to 1 step drops task progress substantially (83% $\rightarrow$ 52%) on the table bussing task. In contrast, DreamZero-Flash achieves a higher average success rate (74%) at single-step inference, sitting only 9% below the 4-step baseline while being ${\sim}2\times$ faster. This suggests that decoupled noise scheduling offers a more effective speed--accuracy trade-off for real-time deployment.
 
 <!-- chunk {"id": "body-0081", "role": "body", "section": "Model and Data Ablations", "weight": 1.0} -->
 

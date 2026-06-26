@@ -58,7 +58,7 @@ We factorize the notion of uncertainty into independent quantities. Intent uncer
 
 <!-- chunk {"id": "body-0015", "role": "body", "section": "Method", "weight": 1.0} -->
 
-The Gaussian parameters $\mu_{t}^{k}$ and $\Sigma_{t}^{k}$ are directly predicted by our model as a function of $\mathbf{x}$ for each time-step of each anchor trajectory $\mathbf{a}_{t}^{k}$. Note in the Gaussian distribution mean, $a_{t}^{k} + \mu_{t}^{k}$, the $\mu_{t}^{k}$ represents a scene-specific offset from the anchor state $a_{t}^{k}$; it can be thought of as modeling a scene-specific residual or error term on top of the prior anchor distribution. This allows the model to refine the static anchor trajectories to the current context, with variations coming, *e.g*. specific road geometry, traffic light state, or interactions with other agents.
+We make the simplifying assumption that uncertainty is unimodal given intent, and model control uncertainty as a Gaussian distribution dependent on each waypoint state of an anchor trajectory: The Gaussian parameters $\mu_{t}^{k}$ and $\Sigma_{t}^{k}$ are directly predicted by our model as a function of $\mathbf{x}$ for each time-step of each anchor trajectory $\mathbf{a}_{t}^{k}$. Note in the Gaussian distribution mean, $a_{t}^{k} + \mu_{t}^{k}$, the $\mu_{t}^{k}$ represents a scene-specific offset from the anchor state $a_{t}^{k}$; it can be thought of as modeling a scene-specific residual or error term on top of the prior anchor distribution. This allows the model to refine the static anchor trajectories to the current context, with variations coming, *e.g*. specific road geometry, traffic light state, or interactions with other agents.
 
 <!-- chunk {"id": "body-0016", "role": "body", "section": "Method", "weight": 1.0} -->
 
@@ -66,7 +66,7 @@ The time-step distributions are assumed to be conditionally independent given an
 
 <!-- chunk {"id": "body-0017", "role": "body", "section": "Method", "weight": 1.0} -->
 
-Note that this yields a Gaussian Mixture Model distribution, with mixture weights fixed over all time steps. This is a natural choice to model both types of uncertainty: it has rich representational power, a closed-form partition function, and is also compact. It is easy to evaluate this distribution on a discretely sampled grid to obtain a probabilistic occupancy grid, more cheaply and with fewer parameters than a native occupancy grid formulation.
+To obtain a distribution over the entire state space, we marginalize over agent intent: Note that this yields a Gaussian Mixture Model distribution, with mixture weights fixed over all time steps. This is a natural choice to model both types of uncertainty: it has rich representational power, a closed-form partition function, and is also compact. It is easy to evaluate this distribution on a discretely sampled grid to obtain a probabilistic occupancy grid, more cheaply and with fewer parameters than a native occupancy grid formulation.
 
 <!-- chunk {"id": "body-0018", "role": "body", "section": "Method", "weight": 1.0} -->
 
@@ -78,11 +78,11 @@ In Sec. 4, on some datasets, k-means leads to highly redundant clusters due to p
 
 <!-- chunk {"id": "body-0020", "role": "body", "section": "Method", "weight": 1.0} -->
 
-Learning. We train our model via imitation learning by fitting our parameters to maximize the log-likelihood of recorded driving trajectories. Let our data be of the form ${\{{(\mathbf{x}^{m},{\hat{\mathbf{s}}}^{m})}\}}_{m = 1}^{M}$. We learn to predict distribution parameters $\pi{(\left. \mathbf{a}^{k} \middle| \mathbf{x} \right.)}$,
+Learning. We train our model via imitation learning by fitting our parameters to maximize the log-likelihood of recorded driving trajectories. Let our data be of the form ${\{{(\mathbf{x}^{m},{\hat{\mathbf{s}}}^{m})}\}}_{m = 1}^{M}$. We learn to predict distribution parameters $\pi{(\left. \mathbf{a}^{k} \middle| \mathbf{x} \right.)}$, $\mu{(\mathbf{x})}_{t}^{k}$ and $\Sigma{(\mathbf{x})}_{t}^{k}$ as outputs of a deep neural network parameterized by weights $\theta$ with the following negative log-likelihood loss built upon Equation 2: This is a time-sequence extension of standard GMM likelihood fitting.
 
 <!-- chunk {"id": "body-0021", "role": "body", "section": "Method", "weight": 1.0} -->
 
-This is a time-sequence extension of standard GMM likelihood fitting. The notation $\mathbb{1}{( \cdot )}$ is the indicator function, and ${\hat{k}}^{m}$ is the index of the anchor most closely matching the groundtruth trajectory ${\hat{\mathbf{s}}}^{m}$, measured as $\ell^{2}$-norm distance in state-sequence space. This hard-assignment of groundtruth anchors sidesteps the intractability of direct GMM likelihood fitting, avoids resorting to an expectation-maximization procedure, and gives practitioners control over the design of the anchors as they wish (see our choice below). One could also employ a soft-assignment to anchors (*e.g*., proportional to the distance of the anchor to the groundtruth trajectory), just as easily.
+The notation $\mathbb{1}{(\cdot)}$ is the indicator function, and ${\hat{k}}^{m}$ is the index of the anchor most closely matching the groundtruth trajectory ${\hat{\mathbf{s}}}^{m}$, measured as $\ell^{2}$-norm distance in state-sequence space. This hard-assignment of groundtruth anchors sidesteps the intractability of direct GMM likelihood fitting, avoids resorting to an expectation-maximization procedure, and gives practitioners control over the design of the anchors as they wish (see our choice below). One could also employ a soft-assignment to anchors (*e.g*., proportional to the distance of the anchor to the groundtruth trajectory), just as easily.
 
 <!-- chunk {"id": "body-0022", "role": "body", "section": "Method", "weight": 1.0} -->
 
@@ -134,48 +134,40 @@ We implemented the single-trajectory regression, Min-of-K, and CVAE using the sa
 
 <!-- chunk {"id": "body-0034", "role": "body", "section": "Metrics", "weight": 1.0} -->
 
-Different approaches use a variety of output representations; primary examples are single trajectory prediction, an unweighted set of trajectory samples, a distribution over trajectories (ours), or probabilistic occupancy grids. Each representation comes with its own salient metrics, making it difficult to compare across all methods. Let $\hat{\mathbf{s}} = {\hat{s}}_{t = {1\ldotsT}}$ be a groundtruth trajectory.
+Different approaches use a variety of output representations; primary examples are single trajectory prediction, an unweighted set of trajectory samples, a distribution over trajectories (ours), or probabilistic occupancy grids. Each representation comes with its own salient metrics, making it difficult to compare across all methods. Let $\hat{\mathbf{s}} = {\hat{s}}_{t = {1\ldotsT}}$ be a groundtruth trajectory. We consider the following metrics: Log-likelihood (LL). We report ${\log p}{(\left. \hat{\mathbf{s}} \middle| \mathbf{x} \right.)}$ if the model admits evaluation of likelihood, as does MultiPath when all parameters are learned (see Eq.). The metric is scaled down by a factor of $2 \times T$, where $T$ is the number of time steps and $2$ for the two spatial dimensions.
 
 <!-- chunk {"id": "body-0035", "role": "body", "section": "Metrics", "weight": 1.0} -->
 
-Log-likelihood (LL). We report ${\log p}{(\left. \hat{\mathbf{s}} \middle| \mathbf{x} \right.)}$ if the model admits evaluation of likelihood, as does MultiPath when all parameters are learned (see Eq. ). The metric is scaled down by a factor of $2 \times T$, where $T$ is the number of time steps and $2$ for the two spatial dimensions.
-
-<!-- chunk {"id": "body-0036", "role": "body", "section": "Metrics", "weight": 1.0} -->
-
 For evaluating a set of trajectories, minADE~M~ ${\min_{s_{m}}\frac{1}{T}}{\sum_{t = 1}^{T}\left\| {{\hat{s}}_{t} - s_{m,t}} \right\|_{2}}$ measures the displacement error against the closest trajectory in the set of size $M$, so that reasonable predictions that simply do not happen to be the logged groundtruth are not penalized. Note that there is also the minMSD~M~, which is similar but the average is calculated on squared distances instead.
 
-<!-- chunk {"id": "body-0037", "role": "body", "section": "Toy experiment: 3-way intersection", "weight": 1.0} -->
+<!-- chunk {"id": "body-0036", "role": "body", "section": "Toy experiment: 3-way intersection", "weight": 1.0} -->
 
 We first explore a simple proof-of-concept dataset generated based on our modeling assumptions. We generate synthetic 3-way intersections, with the probability of choosing the left, the middle or the right path set a priori to be the intent uncertainty distribution $\{ 0.3,0.5,0.2\}$. To emphasize the flexibility of our single-trajectory control uncertainty modeling, each path is generated by sampling parameterized sine waves: $y = {\sin{({{\omegat} + \phi})}}$, where the frequency $\omega \sim {\mathcal{U}{}}$ and phase shift $\phi \sim {\mathcal{U}{({- \pi},\pi)}}$. As shown in Figure 2, MultiPath is able to fit the underlying distribution correctly, recovering the intent uncertainty, and reaching approximately Bayes-optimal likelihood, while other methods fare worse.
 
-<!-- chunk {"id": "body-0038", "role": "body", "section": "Behavior prediction for autonomous driving", "weight": 1.0} -->
+<!-- chunk {"id": "body-0037", "role": "body", "section": "Behavior prediction for autonomous driving", "weight": 1.0} -->
 
 To verify the performance of the proposed system, we collected a large dataset of real-world driving scenes from several cities in North America. Data is captured by a vehicle equipped with cameras, lidar and radar. As, we assume that an industry-grade perception system provides sufficiently accurate poses and tracks for all nearby agents, including vehicles, pedestrians, and cyclists. In our experiments, we treat the sensing vehicle as an additional agent, indistinguishable from any other agent in the scene. Most of the collected vehicle trajectories are either stationary or moving straight at a constant speed. Neither case is particularly interesting from a behavior prediction point of view. To address this and other dataset skew, we partitioned the space of future trajectories via a uniform, 2D grid over constant curvatures and distances, and performed stratified sampling such that the number of examples in each partition was capped to be at most 5% of the resulting dataset. The balanced dataset totals 3.85 million examples, contains 5.75 million agent trajectories and constitutes approximately 200 hours of driving.
 
-<!-- chunk {"id": "body-0039", "role": "body", "section": "Behavior prediction for autonomous driving", "weight": 1.0} -->
+<!-- chunk {"id": "body-0038", "role": "body", "section": "Behavior prediction for autonomous driving", "weight": 1.0} -->
 
 The top-down rendered input tensor for this data has a resolution of 400 px $\times$ 400 px and corresponds to 80 m $\times$ 80 m in real-world coordinates. We sample time steps every 0.2 s (5 Hz). The following features are stacked in the depth dimension: 3 channels of color-coded road semantics, 1 channel of distance-to-road-edge map, 1 channel encoding the speed limit, 5 channels encoding the traffic light states over the past 5 time steps (=1 second), and 5 channels each showing vehicles' top-down orthographic projection for each of the past 5 time steps. This results in 15 input channels in total. We predict trajectories up to 30 frames / 6 seconds into the future. The number of anchors $K$ is set to 16 for MultiPath $\mu,\Sigma$ and 64 for MultiPath $\mu$. The scene-level network is a with a depth multiplier of 25%, followed by a depth-to-space operation that restores some of the lost spatial resolution in the ResNet back to $200 \times 200$.
 
-<!-- chunk {"id": "body-0040", "role": "body", "section": "Behavior prediction for autonomous driving", "weight": 1.0} -->
+<!-- chunk {"id": "body-0039", "role": "body", "section": "Behavior prediction for autonomous driving", "weight": 1.0} -->
 
-Finally, we train the model end-to-end for 500k steps at a batch size of 32, with a learning rate warm-up phase and a cosine learning rate decay
+Finally, we train the model end-to-end for 500k steps at a batch size of 32, with a learning rate warm-up phase and a cosine learning rate decay Experimental results are shown in Tab. 1. MultiPath outperforms the baselines in all metrics. With respect to the log-likelihood, we have observed the most log-likelihood measurements for this task to fall between 3 to 4.2 nats, so the gain of roughly 0.2 nat by MultiPath compared to the regression baseline is quite significant. See Sec. A for in-depth analyses of these results. 16 anchors are used for MultiPath $\mu,\Sigma$, while 64 was the best $K$ for MultiPath $\mu$. An analysis of the effect of the number of anchors $K$ is in Sec. B.1, while the figures in Sec. C visualize the anchors.
 
-<!-- chunk {"id": "body-0041", "role": "body", "section": "Behavior prediction for autonomous driving", "weight": 1.0} -->
-
-Experimental results are shown in Tab. 1. MultiPath outperforms the baselines in all metrics. With respect to the log-likelihood, we have observed the most log-likelihood measurements for this task to fall between 3 to 4.2 nats, so the gain of roughly 0.2 nat by MultiPath compared to the regression baseline is quite significant. See Sec. A for in-depth analyses of these results. 16 anchors are used for MultiPath $\mu,\Sigma$, while 64 was the best $K$ for MultiPath $\mu$. An analysis of the effect of the number of anchors $K$ is in Sec. B.1, while the figures in Sec. C visualize the anchors.
-
-<!-- chunk {"id": "body-0042", "role": "body", "section": "Stanford Drone", "weight": 1.0} -->
+<!-- chunk {"id": "body-0040", "role": "body", "section": "Stanford Drone", "weight": 1.0} -->
 
 The Stanford Drone Dataset consists of top-down, near-orthographic videos of college campus scenes, collected by drones, containing interacting pedestrians, cyclists and vehicles. The RGB camera frames provide context similar to a rendered road semantics in the driving vehicle environment, and we treat it as such. We use the most common settings in the literature: sampling at 2.5 Hz, and predicting 4.8 seconds (12 frames) into the future, using 2 seconds of history (5 frames). Additional experimental details are in Sec. D.
 
-<!-- chunk {"id": "body-0043", "role": "body", "section": "Stanford Drone", "weight": 1.0} -->
+<!-- chunk {"id": "body-0041", "role": "body", "section": "Stanford Drone", "weight": 1.0} -->
 
 As shown in Tab. 2, we perform at or better than state-of-the-art in best single-trajectory distance metrics. Notably, CAR-Net outperforms our comparable single-trajectory model; their method focuses on a sophisticated attention and sequential architecture tuned to get the best single-trajectory distance metric performance. Interestingly, our single-trajectory model performs better when trained to predict uncertainty as well, a potential benefit of modeling uncertainty discussed.
 
-<!-- chunk {"id": "body-0044", "role": "body", "section": "CARLA", "weight": 1.0} -->
+<!-- chunk {"id": "body-0042", "role": "body", "section": "CARLA", "weight": 1.0} -->
 
 We evaluate MultiPath on the publicly available multi-agent trajectory forecasting and planning dataset generated using the CARLA simulator. Experimental details are in Sec. E. Tab. 3 reproduces results reported by for the DESIRE, SocialGAN, R2P2-MA, and the PRECOG-ESP methods and compares the performance of MultiPath against them. We report the minMSD metric with the top $K = 12$ predictions as defined in to report our evaluation results.
 
-<!-- chunk {"id": "body-0045", "role": "body", "section": "Conclusion", "weight": 1.5} -->
+<!-- chunk {"id": "body-0043", "role": "body", "section": "Conclusion", "weight": 1.5} -->
 
 We have introduced MultiPath, a model which predicts parametric distributions of future trajectories for agents in real-world settings. Through synthetic and real-world datasets, we have shown the benefits of MultiPath over previous single-trajectory and stochastic models in achieving likelihood and trajectory-set metrics and needing only 1 feed-forward inference pass.

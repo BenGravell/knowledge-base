@@ -48,15 +48,15 @@ We make the following assumptions about the ${\mathbb{R}}^{n}$-valued disturbanc
 
 <!-- chunk {"id": "body-0012", "role": "body", "section": "CVaR-Risk-Averse Optimal Control Problem", "weight": 1.0} -->
 
-subject to the linear dynamics, where $x \in {\mathbb{R}}^{n}$ is an initial condition and $\alpha \in {(0,1\rbrack}$ is a risk-aversion level. The objective $\text{CVaR}_{\alpha,x}^{\pi,\gamma}{(Z)}$ is the CVaR of $Z$ at level $\alpha$, when the system is initialized at $x$ and evolves according to a control policy $\pi \in \Pi$ and a disturbance strategy $\gamma \in \Gamma$. ($\gamma$ provides a distribution for $W_{t}$ for each $t$. $\Pi$ and $\Gamma$ will be defined in this section.) The CVaR of $Z$ represents the expectation of the $\alpha \cdot 100$% largest values of $Z$.
+Consider a CVaR optimal control problem on a discrete, finite time horizon with distributional ambiguity: subject to the linear dynamics, where $x \in {\mathbb{R}}^{n}$ is an initial condition and $\alpha \in {(0,1\rbrack}$ is a risk-aversion level. The objective $\text{CVaR}_{\alpha,x}^{\pi,\gamma}{(Z)}$ is the CVaR of $Z$ at level $\alpha$, when the system is initialized at $x$ and evolves according to a control policy $\pi \in \Pi$ and a disturbance strategy $\gamma \in \Gamma$. ($\gamma$ provides a distribution for $W_{t}$ for each $t$. $\Pi$ and $\Gamma$ will be defined in this section.) The CVaR of $Z$ represents the expectation of the $\alpha \cdot 100$% largest values of $Z$.
 
 <!-- chunk {"id": "body-0013", "role": "body", "section": "CVaR-Risk-Averse Optimal Control Problem", "weight": 1.0} -->
 
-While the problem does not satisfy a dynamic programming (DP) recursion on ${\mathbb{R}}^{n}$, there is a useful DP recursion on ${\mathbb{R}}^{n} \times {\mathbb{R}}$ (Lemma 4.12. ‣ 4 Analysis of a Value Iteration Algorithm ‣ Toward a Scalable Upper Bound for a CVaR-LQ Problem")). A CVaR optimal control problem *without* distributional ambiguity has been solved by defining an augmented state space. Taking inspiration, we use a ${\mathbb{R}}^{n} \times {\mathbb{R}}$-valued, random *augmented state* $(X_{t},S_{t})$. The dynamics of $X_{t}$ are given. $S_{t}$ is a $\mathbb{R}$-valued random variable, whose dynamics are given by
+While the problem does not satisfy a dynamic programming (DP) recursion on ${\mathbb{R}}^{n}$, there is a useful DP recursion on ${\mathbb{R}}^{n} \times {\mathbb{R}}$ (Lemma 4.12. ‣ 4 Analysis of a Value Iteration Algorithm ‣ Toward a Scalable Upper Bound for a CVaR-LQ Problem")). A CVaR optimal control problem *without* distributional ambiguity has been solved by defining an augmented state space. Taking inspiration, we use a ${\mathbb{R}}^{n} \times {\mathbb{R}}$-valued, random *augmented state* $(X_{t},S_{t})$. The dynamics of $X_{t}$ are given. $S_{t}$ is a $\mathbb{R}$-valued random variable, whose dynamics are given by $S_{t}$ keeps track of the random cumulative cost up to time $t$.
 
 <!-- chunk {"id": "body-0014", "role": "body", "section": "CVaR-Risk-Averse Optimal Control Problem", "weight": 1.0} -->
 
-$S_{t}$ keeps track of the random cumulative cost up to time $t$. The realizations of $(X_{0},S_{0})$ are concentrated at an arbitrary point ${(x,s)} \in {{\mathbb{R}}^{n} \times {\mathbb{R}}}$. We use the *augmented state space* ${\mathbb{R}}^{n} \times {\mathbb{R}}$ to define $\Pi$, the class of history-dependent control policies that summarize the history through $(X_{t},S_{t})$.
+The realizations of $(X_{0},S_{0})$ are concentrated at an arbitrary point ${(x,s)} \in {{\mathbb{R}}^{n} \times {\mathbb{R}}}$. We use the *augmented state space* ${\mathbb{R}}^{n} \times {\mathbb{R}}$ to define $\Pi$, the class of history-dependent control policies that summarize the history through $(X_{t},S_{t})$.
 
 <!-- chunk {"id": "body-0015", "role": "body", "section": "Probability Space for Random Cumulative Cost", "weight": 1.0} -->
 
@@ -72,104 +72,88 @@ where $Y$ is a random variable such that ${E{({|Y|})}} < {+ \infty}$. In, we use
 
 <!-- chunk {"id": "body-0018", "role": "body", "section": "Upper Bound for CVaR-LQ Problem", "weight": 1.0} -->
 
-In the current section, first we show that there is a policy $\pi \in \Pi$ such that $J_{\alpha,\pi}{(x)}$ is finite (Lemma 1 is finite for some 𝜋) ‣ 3 Upper Bound for CVaR-LQ Problem ‣ Toward a Scalable Upper Bound for a CVaR-LQ Problem")), which guarantees that the problem is well-defined. Second, we derive an upper bound to $J_{\alpha}^{\ast}{(x)}$ (Theorem 3.2).
+We use the definition of $\text{CVaR}_{\alpha,x}^{\pi,\gamma}{(Z)}$ to re-express $J_{\alpha}^{\ast}{(x)}$. For any $x \in {\mathbb{R}}^{n}$ and $\alpha \in {(0,1\rbrack}$, it holds that In the current section, first we show that there is a policy $\pi \in \Pi$ such that $J_{\alpha,\pi}{(x)}$ is finite (Lemma 1 is finite for some 𝜋) ‣ 3 Upper Bound for CVaR-LQ Problem ‣ Toward a Scalable Upper Bound for a CVaR-LQ Problem")), which guarantees that the problem is well-defined. Second, we derive an upper bound to $J_{\alpha}^{\ast}{(x)}$ (Theorem 3.2).
 
 <!-- chunk {"id": "body-0019", "role": "body", "section": "Upper Bound for CVaR-LQ Problem", "weight": 1.0} -->
 
-with ${V_{0}^{\ast}{(x,s)}}:={\inf_{\pi \in \Pi}{\sup_{\gamma \in \Gamma}{E_{x,s}^{\pi,\gamma}{({\max{({Z - S_{0}},0)}})}}}}$. Toward the goal of computing $V_{0}^{\ast}$ scalably, we will define a value iteration algorithm with value functions $V_{N},\ldots,V_{1},V_{0}$ (Section 4). We will analyze the algorithm in the setting of deterministic policies and finitely many disturbance values. We will show that, under a measurable selection assumption, ${\overline{V}}_{0}^{\ast} \leq {\overline{V}}_{0}$ (Theorem 4.8.
+‣ 3 Upper Bound for CVaR-LQ Problem ‣ Toward a Scalable Upper Bound for a CVaR-LQ Problem")): with ${V_{0}^{\ast}{(x,s)}}:={\inf_{\pi \in \Pi}{\sup_{\gamma \in \Gamma}{E_{x,s}^{\pi,\gamma}{({\max{({Z - S_{0}},0)}})}}}}$. Toward the goal of computing $V_{0}^{\ast}$ scalably, we will define a value iteration algorithm with value functions $V_{N},\ldots,V_{1},V_{0}$ (Section 4). We will analyze the algorithm in the setting of deterministic policies and finitely many disturbance values.
 
 <!-- chunk {"id": "body-0020", "role": "body", "section": "Upper Bound for CVaR-LQ Problem", "weight": 1.0} -->
 
-‣ 4 Analysis of a Value Iteration Algorithm ‣ Toward a Scalable Upper Bound for a CVaR-LQ Problem")), where ${\overline{V}}_{0}^{\ast}$ and ${\overline{V}}_{0}$ are the versions of $V_{0}^{\ast}$ and $V_{0}$ in the simplified setting, respectively. In Section 5, we will prove that $V_{0} \leq {\hat{V}}_{0}$, where
+We will show that, under a measurable selection assumption, ${\overline{V}}_{0}^{\ast} \leq {\overline{V}}_{0}$ (Theorem 4.8. ‣ 4 Analysis of a Value Iteration Algorithm ‣ Toward a Scalable Upper Bound for a CVaR-LQ Problem")), where ${\overline{V}}_{0}^{\ast}$ and ${\overline{V}}_{0}$ are the versions of $V_{0}^{\ast}$ and $V_{0}$ in the simplified setting, respectively. In Section 5, we will prove that $V_{0} \leq {\hat{V}}_{0}$, where such that $a_{0} \in {\mathbb{R}}$ and $P_{0} > 0$ are obtained via a Riccati-like recursion (Theorem 5.15). We will explain how the proof of Theorem 5.15 provides an algorithm for a novel risk-averse controller.
 
 <!-- chunk {"id": "body-0021", "role": "body", "section": "Upper Bound for CVaR-LQ Problem", "weight": 1.0} -->
 
-such that $a_{0} \in {\mathbb{R}}$ and $P_{0} > 0$ are obtained via a Riccati-like recursion (Theorem 5.15). We will explain how the proof of Theorem 5.15 provides an algorithm for a novel risk-averse controller. Also, the above analysis takes key steps toward deriving
+Also, the above analysis takes key steps toward deriving a *scalable* upper bound to a CVaR linear-quadratic optimal control problem with distributional ambiguity.
 
-<!-- chunk {"id": "body-0022", "role": "body", "section": "Upper Bound for CVaR-LQ Problem", "weight": 1.0} -->
-
-a *scalable* upper bound to a CVaR linear-quadratic optimal control problem with distributional ambiguity.
-
-<!-- chunk {"id": "body-0023", "role": "body", "section": "Analysis of a Value Iteration Algorithm", "weight": 1.0} -->
+<!-- chunk {"id": "body-0022", "role": "body", "section": "Analysis of a Value Iteration Algorithm", "weight": 1.0} -->
 
 To estimate $V_{0}^{\ast}$. ‣ 3 Upper Bound for CVaR-LQ Problem ‣ Toward a Scalable Upper Bound for a CVaR-LQ Problem")) in a scalable fashion, we propose a value iteration algorithm on ${\mathbb{R}}^{n} \times {\mathbb{R}}$.
 
-<!-- chunk {"id": "body-0024", "role": "body", "section": "Conjecture 4.4", "weight": 1.0} -->
+<!-- chunk {"id": "body-0023", "role": "body", "section": "Conjecture 4.4", "weight": 1.0} -->
 
 The functions $V_{N - 1},\ldots,V_{1},V_{0}$ are Borel measurable and bounded below by 0.
 
-<!-- chunk {"id": "body-0025", "role": "body", "section": "Conjecture 4.4", "weight": 1.0} -->
+<!-- chunk {"id": "body-0024", "role": "body", "section": "Conjecture 4.4", "weight": 1.0} -->
 
 We use the Conjecture in the proof of Theorem 5.15, which requires the Lebesgue integrals in Algorithm 1 ‣ 4 Analysis of a Value Iteration Algorithm ‣ Toward a Scalable Upper Bound for a CVaR-LQ Problem") to exist. The Conjecture will be proved formally in future work by using properties of convex functions.
 
-<!-- chunk {"id": "body-0026", "role": "body", "section": "Conjecture 4.4", "weight": 1.0} -->
+<!-- chunk {"id": "body-0025", "role": "body", "section": "Conjecture 4.4", "weight": 1.0} -->
 
 In this work, we will analyze Algorithm 1 ‣ 4 Analysis of a Value Iteration Algorithm ‣ Toward a Scalable Upper Bound for a CVaR-LQ Problem") in the setting of finitely many disturbance values and deterministic policies.
 
-<!-- chunk {"id": "body-0027", "role": "body", "section": "Algorithm 2 (Value Iteration in Finite Case)", "weight": 1.0} -->
+<!-- chunk {"id": "body-0026", "role": "body", "section": "Algorithm 2 (Value Iteration in Finite Case)", "weight": 1.0} -->
 
-The next theorem specifies properties of Algorithm 2 ‣ 4 Analysis of a Value Iteration Algorithm ‣ Toward a Scalable Upper Bound for a CVaR-LQ Problem").
+Let the functions ${\overline{V}}_{N},{\overline{V}}_{N - 1},\ldots,{\overline{V}}_{0}$ be defined recursively as follows. For all ${(x,s)} \in {{\mathbb{R}}^{n} \times {\mathbb{R}}}$ and for $t = {{N - 1},\ldots,1,0}$, The next theorem specifies properties of Algorithm 2 ‣ 4 Analysis of a Value Iteration Algorithm ‣ Toward a Scalable Upper Bound for a CVaR-LQ Problem").
 
-<!-- chunk {"id": "body-0028", "role": "body", "section": "Remark 4.9", "weight": 1.0} -->
+<!-- chunk {"id": "body-0027", "role": "body", "section": "Remark 4.9", "weight": 1.0} -->
 
 Theorem 4.8. ‣ 4 Analysis of a Value Iteration Algorithm ‣ Toward a Scalable Upper Bound for a CVaR-LQ Problem") invokes a measurable selection assumption (see also \[18, Th. 3.2.1\]), which motivates future study of measurable selection theorems.
 
-<!-- chunk {"id": "body-0029", "role": "body", "section": "Remark 4.9", "weight": 1.0} -->
+<!-- chunk {"id": "body-0028", "role": "body", "section": "Remark 4.9", "weight": 1.0} -->
 
 To prove Theorem 4.8. ‣ 4 Analysis of a Value Iteration Algorithm ‣ Toward a Scalable Upper Bound for a CVaR-LQ Problem"), we present two supporting results.
 
-<!-- chunk {"id": "body-0030", "role": "body", "section": "Scalable Upper Bound", "weight": 1.0} -->
+<!-- chunk {"id": "body-0029", "role": "body", "section": "Scalable Upper Bound", "weight": 1.0} -->
 
 Here, we return to the setting where there may be uncountably many disturbance values. We will derive a scalable upper bound to $V_{0}$ (Alg. 1 ‣ 4 Analysis of a Value Iteration Algorithm ‣ Toward a Scalable Upper Bound for a CVaR-LQ Problem")) of the form, ${{\hat{V}}_{0}{(x,s)}}:={a_{0} + {\max{({{x^{T}P_{0}x} - s},0)}}}$ for all ${(x,s)} \in {{\mathbb{R}}^{n} \times {\mathbb{R}}}$, where $a_{0} \in {\mathbb{R}}$ and a positive definite symmetric matrix $P_{0} \in {\mathbb{R}}^{n \times n}$ are obtained through a Riccati-like recursion. The recursion is parameterized by a positive definite symmetric matrix $L$ and provides a risk-averse controller.
 
-<!-- chunk {"id": "body-0031", "role": "body", "section": "Scalable Upper Bound", "weight": 1.0} -->
+<!-- chunk {"id": "body-0030", "role": "body", "section": "Scalable Upper Bound", "weight": 1.0} -->
 
 After the proof of Theorem 5.15, we will describe the controller synthesis procedure.
 
-<!-- chunk {"id": "body-0032", "role": "body", "section": "Remark 5.16 (About $L$, $P_{t}$, $a_{t}$)", "weight": 1.0} -->
+<!-- chunk {"id": "body-0031", "role": "body", "section": "Remark 5.16 (About $L$, $P_{t}$, $a_{t}$)", "weight": 1.0} -->
 
 $P_{t}$ and $a_{t}$ are parameterized by $L$. In the finite-time case above, $L \in {\mathbb{R}}^{n \times n}$ is only required to be symmetric and positive definite.
 
-<!-- chunk {"id": "body-0033", "role": "body", "section": "Remark 5.18 (Controller Synthesis)", "weight": 1.0} -->
-
-Based on the proof of Theorem 5.15, we can derive a sub-optimal policy as follows. For a fixed $L > 0$, compute the matrices $P_{t}$ via the recursion. Let $x_{0} \in {\mathbb{R}}^{n}$ be an initial condition. Define $s_{0}:={x_{0}^{T}P_{0}x_{0}}$, which depends on $L$ through $P_{0}$.
-
-<!-- chunk {"id": "body-0034", "role": "body", "section": "Remark 5.18 (Controller Synthesis)", "weight": 1.0} -->
+<!-- chunk {"id": "body-0032", "role": "body", "section": "Remark 5.18 (Controller Synthesis)", "weight": 1.0} -->
 
 We now identify some interesting similarities and differences between our approach and classical methods.
 
-<!-- chunk {"id": "body-0035", "role": "body", "section": "Remark 5.19 (Relation to LEQR and LQ games)", "weight": 1.0} -->
+<!-- chunk {"id": "body-0033", "role": "body", "section": "Remark 5.19 (Relation to LEQR and LQ games)", "weight": 1.0} -->
 
-The Riccati recursion for the LEQR problem in finite time takes the form: for $t = {{N - 1},\ldots,1,0}$,
+The Riccati recursion for the LEQR problem in finite time takes the form: for $t = {{N - 1},\ldots,1,0}$, provided that $\gamma > 0$ is chosen so that $\Sigma^{- 1} - {\gamma{\overline{P}}_{t + 1}}$ is positive definite for each $t$. Similarly, the Riccati recursion for a soft-constrained LQ game takes the form \[1, Eq. 3.4a', p. 53\]: for $t = {{N - 1},\ldots,1,0}$, provided that ${\hat{P}}_{t}$ is invertible for each $t$, $R = I_{m}$, and $\lambda$ is a scalar parameter representing a disturbance-attenuation level. The key differences between, (33. ‣ 5 A Scalable Upper Bound ‣ Toward a Scalable Upper Bound for a CVaR-LQ Problem")), and (34.
 
-<!-- chunk {"id": "body-0036", "role": "body", "section": "Remark 5.19 (Relation to LEQR and LQ games)", "weight": 1.0} -->
+<!-- chunk {"id": "body-0034", "role": "body", "section": "Remark 5.19 (Relation to LEQR and LQ games)", "weight": 1.0} -->
 
-provided that $\gamma > 0$ is chosen so that $\Sigma^{- 1} - {\gamma{\overline{P}}_{t + 1}}$ is positive definite for each $t$. Similarly, the Riccati recursion for a soft-constrained LQ game takes the form \[1, Eq. 3.4a', p. 53\]: for $t = {{N - 1},\ldots,1,0}$,
+‣ 5 A Scalable Upper Bound ‣ Toward a Scalable Upper Bound for a CVaR-LQ Problem")) appear in the terms $\gamma\Sigma$, $\frac{1}{\lambda^{2}}\Sigma$, and ${({P_{t + 1} + L})}^{- 1}$, respectively. Our recursion encodes a risk-aversion level through the matrix ${({P_{t + 1} + L})}^{- 1}$, whereas the classical recursions (33. ‣ 5 A Scalable Upper Bound ‣ Toward a Scalable Upper Bound for a CVaR-LQ Problem")) (34. ‣ 5 A Scalable Upper Bound ‣ Toward a Scalable Upper Bound for a CVaR-LQ Problem")) encode risk aversion by scaling the covariance $\Sigma$.
 
-<!-- chunk {"id": "body-0037", "role": "body", "section": "Remark 5.19 (Relation to LEQR and LQ games)", "weight": 1.0} -->
-
-provided that ${\hat{P}}_{t}$ is invertible for each $t$, $R = I_{m}$, and $\lambda$ is a scalar parameter representing a disturbance-attenuation level. The key differences between, (33. ‣ 5 A Scalable Upper Bound ‣ Toward a Scalable Upper Bound for a CVaR-LQ Problem")), and (34. ‣ 5 A Scalable Upper Bound ‣ Toward a Scalable Upper Bound for a CVaR-LQ Problem")) appear in the terms $\gamma\Sigma$, $\frac{1}{\lambda^{2}}\Sigma$, and ${({P_{t + 1} + L})}^{- 1}$, respectively. Our recursion encodes a risk-aversion level through the matrix ${({P_{t + 1} + L})}^{- 1}$, whereas the classical recursions (33. ‣ 5 A Scalable Upper Bound ‣ Toward a Scalable Upper Bound for a CVaR-LQ Problem")) (34.
-
-<!-- chunk {"id": "body-0038", "role": "body", "section": "Remark 5.19 (Relation to LEQR and LQ games)", "weight": 1.0} -->
-
-‣ 5 A Scalable Upper Bound ‣ Toward a Scalable Upper Bound for a CVaR-LQ Problem")) encode risk aversion by scaling the covariance $\Sigma$.
-
-<!-- chunk {"id": "body-0039", "role": "body", "section": "Remark 5.20 (Relation to minimax MPC)", "weight": 1.0} -->
+<!-- chunk {"id": "body-0035", "role": "body", "section": "Remark 5.20 (Relation to minimax MPC)", "weight": 1.0} -->
 
 One may interpret an LEQR controller in a model-predictive-control (MPC) setting as an approximate solution to minimax MPC \[3, p. 99\]. In minimax MPC, a matrix $\mathcal{T} \geq 0$, which depends on a bounded region containing the process noise, appears in the algorithm that provides an optimal control \[3, Eq. 8.29, p. 99\]. Our recursion has a similar structure since it is parameterized by a matrix $L > 0$, and it is plausible that a preferable choice of $L$ depends on the maximal covariance $\Sigma$ (a topic for future investigation). A key distinction between minimax MPC and our approach is the uncertainty model of the process noise. Our approach permits process noise with an unbounded support and a spectrum of possibilities that occur with various probabilities. However, minimax MPC permits process noise that lives in a bounded region with known bounds \[3, p. 42\]. The "better" uncertainty model may be application-dependent.
 
-<!-- chunk {"id": "body-0040", "role": "body", "section": "Numerical Simulation", "weight": 1.0} -->
+<!-- chunk {"id": "body-0036", "role": "body", "section": "Numerical Simulation", "weight": 1.0} -->
 
 Fig. 1 provides example trade-off curves comparing LEQR (as $\gamma$ varies) with our proposed approach from Section 5 (as $L$ varies). These results show that for a simple one-state system, our proposed approach (ACVaR) has comparable performance relative to LEQR. This finding is notable given the simplicity of our experiment and that our method avoids the case where $\gamma$ is too large and the LEQR cost becomes infinite. We also simulated the optimal CVaR controller, which is not distributionally robust. This controller assumes exact prior knowledge of the disturbance distribution, which explains its superior performance. However, this optimal CVaR controller is not scalable to higher-dimensional problem instances, since it requires discretizing the augmented state space.
 
-<!-- chunk {"id": "body-0041", "role": "body", "section": "Concluding Remarks", "weight": 1.0} -->
+<!-- chunk {"id": "body-0037", "role": "body", "section": "Concluding Remarks", "weight": 1.0} -->
 
 We took steps toward deriving a scalable upper bound to a distributionally robust, CVaR optimal control problem for linear systems with quadratic costs. CVaR characterizes the (usually abstract) notion of risk as a fraction of worst-case outcomes, which is intuitive and precise. A result from our analysis is a risk-averse controller with intriguing similarities and differences relative to the state-of-the-art.
 
-<!-- chunk {"id": "body-0042", "role": "body", "section": "Concluding Remarks", "weight": 1.0} -->
+<!-- chunk {"id": "body-0038", "role": "body", "section": "Concluding Remarks", "weight": 1.0} -->
 
 Potential areas for future work include studying the infinite-horizon case, characterizing the extent to which the upper bound approximation parameterized by $L$ is tight, and elucidating the connections between the choice of $L$ and the maximal covariance $\Sigma$.
 
-<!-- chunk {"id": "body-0043", "role": "body", "section": "Concluding Remarks", "weight": 1.0} -->
+<!-- chunk {"id": "body-0039", "role": "body", "section": "Concluding Remarks", "weight": 1.0} -->
 
 Further numerical experiments, potentially with higher-dimensional or more realistic application-specific examples, are needed to ascertain whether the proposed approach may be a superior alternative to LEQR in certain application domains.

@@ -32,55 +32,55 @@ The second general principle is feature warping. FlowNet2 and SPyNet warp the se
 
 <!-- chunk {"id": "body-0008", "role": "body", "section": "Introduction", "weight": 1.5} -->
 
-1\) Cascaded flow inference -- At each pyramid level, we introduce a novel cascade of two lightweight networks. Each of them has a feature warping (f-warp) layer to displace the feature maps of the second image towards the first image using the flow estimate from the previous level. Flow residue is computed to further reduce the feature-space distance between the images. This design is advantageous to the conventional design of using a single network for flow inference. First, the cascade progressively improves flow accuracy thus allowing an early correction of the estimate without passing more errors to the next level. Second, this design allows seamless integration with descriptor matching. We assign a matching network to the first inference. Consequently, pixel-accuracy flow field can be generated first and then refined to sub-pixel accuracy in the subsequent inference network. Since at each pyramid level the feature-space distance between the images has been reduced by feature warping, we can use a rather short displacement than to establish the cost volume. Besides, matching is performed only at sampled positions and thus a sparse cost-volume is aggregated. This effectively reduces the computational burden raised by the explicit matching.
+We now highlight the more specific differences between our network and existing CNN-based optical flow estimation frameworks: 1\) Cascaded flow inference -- At each pyramid level, we introduce a novel cascade of two lightweight networks. Each of them has a feature warping (f-warp) layer to displace the feature maps of the second image towards the first image using the flow estimate from the previous level. Flow residue is computed to further reduce the feature-space distance between the images. This design is advantageous to the conventional design of using a single network for flow inference. First, the cascade progressively improves flow accuracy thus allowing an early correction of the estimate without passing more errors to the next level. Second, this design allows seamless integration with descriptor matching. We assign a matching network to the first inference. Consequently, pixel-accuracy flow field can be generated first and then refined to sub-pixel accuracy in the subsequent inference network. Since at each pyramid level the feature-space distance between the images has been reduced by feature warping, we can use a rather short displacement than to establish the cost volume. Besides, matching is performed only at sampled positions and thus a sparse cost-volume is aggregated.
 
 <!-- chunk {"id": "body-0009", "role": "body", "section": "Introduction", "weight": 1.5} -->
 
-2\) Flow regularization -- The cascaded flow inference resembles the role of data fidelity in energy minimization methods. Using data term alone, vague flow boundaries and undesired artifacts exist in flow fields. To tackle this problem, local flow consistency and co-occurrence between flow boundaries and intensity edges are commonly used as the cues to regularize flow field. Some of the representative methods include anisotropic image-driven, image- and flow-driven, and complementary regularizations. After cascaded flow inference, we allow the flow field to be further regularized by our novel feature-driven local convolution (f-lconv) layer^11^1We name it as feature-driven local convolution (f-lconv) layer in order to distinguish it from local convolution (lconv) layer of which filter weights are locally fixed in conventional CNNs. at each pyramid level. The kernels of such a local convolution are adaptive to the pyramidal features from the encoder, flow estimate and occlusion probability map. This makes the flow regularization to be both flow- and image-aware.
+This effectively reduces the computational burden raised by the explicit matching.
 
 <!-- chunk {"id": "body-0010", "role": "body", "section": "Introduction", "weight": 1.5} -->
 
-To our best knowledge, state-of-the-art CNNs do not explore such a flow regularization.
+2\) Flow regularization -- The cascaded flow inference resembles the role of data fidelity in energy minimization methods. Using data term alone, vague flow boundaries and undesired artifacts exist in flow fields. To tackle this problem, local flow consistency and co-occurrence between flow boundaries and intensity edges are commonly used as the cues to regularize flow field. Some of the representative methods include anisotropic image-driven, image- and flow-driven, and complementary regularizations. After cascaded flow inference, we allow the flow field to be further regularized by our novel feature-driven local convolution (f-lconv) layer^11^1We name it as feature-driven local convolution (f-lconv) layer in order to distinguish it from local convolution (lconv) layer of which filter weights are locally fixed in conventional CNNs. at each pyramid level. The kernels of such a local convolution are adaptive to the pyramidal features from the encoder, flow estimate and occlusion probability map. This makes the flow regularization to be both flow- and image-aware.
 
 <!-- chunk {"id": "body-0011", "role": "body", "section": "Introduction", "weight": 1.5} -->
 
+To our best knowledge, state-of-the-art CNNs do not explore such a flow regularization.
+
+<!-- chunk {"id": "body-0012", "role": "body", "section": "Introduction", "weight": 1.5} -->
+
 The effectiveness of the aforementioned contributions are depicted in Figure 1. In summary, we propose a compact LiteFlowNet to estimate optical flow. Our network innovates the useful elements from conventional methods. *e.g*., brightness constraint in data fidelity to pyramidal CNN features and image warping to CNN feature warping. More specifically, we present a cascaded flow inference with feature warping and flow regularization in each pyramid level, which are new in the literature. Overall, our network outperforms FlowNet and SPyNet and is on par with or outperforms the recent FlowNet2 on public benchmarks, while having 30 times fewer parameters and being 1.36 times faster than FlowNet2.
-
-<!-- chunk {"id": "body-0012", "role": "body", "section": "LiteFlowNet", "weight": 1.0} -->
-
-LiteFlowNet is composed of two compact sub-networks that are specialized in pyramidal feature extraction and optical flow estimation as shown in Figure 2. Since the spatial dimension of feature maps is contracting in feature extraction and that of flow fields is expanding in flow estimation, we call the two sub-networks as NetC and NetE respectively. NetC transforms any given image pair into two pyramids of multi-scale high-dimensional features. NetE consists of cascaded flow inference and regularization modules that estimate coarse-to-fine flow fields.
 
 <!-- chunk {"id": "body-0013", "role": "body", "section": "LiteFlowNet", "weight": 1.0} -->
 
-Pyramidal Feature Extraction. As shown in Figure 2, NetC is a two-stream network in which the filter weights are shared across the two streams. Each of them functions as a feature descriptor that transforms an image $I$ to a pyramid of multi-scale high-dimensional features $\{{\mathcal{F}_{k}{(I)}}\}$ from the highest spatial resolution ($k = 1$) to the lowest spatial resolution ($k = L$). The pyramidal features are generated by stride-$s$ convolutions with the reduction of spatial resolution by a factor $s$ up the pyramid. In the following, we omit the subscript $k$ that indicates the level of pyramid for brevity. We use $\mathcal{F}_{i}$ to represent CNN features for $I_{i}$. When we discuss the operations in a pyramid level, the same operations are applicable to other levels.
+LiteFlowNet is composed of two compact sub-networks that are specialized in pyramidal feature extraction and optical flow estimation as shown in Figure 2. Since the spatial dimension of feature maps is contracting in feature extraction and that of flow fields is expanding in flow estimation, we call the two sub-networks as NetC and NetE respectively. NetC transforms any given image pair into two pyramids of multi-scale high-dimensional features. NetE consists of cascaded flow inference and regularization modules that estimate coarse-to-fine flow fields.
 
 <!-- chunk {"id": "body-0014", "role": "body", "section": "LiteFlowNet", "weight": 1.0} -->
 
-Feature Warping. At each pyramid level, a flow field is inferred from high-level features $\mathcal{F}_{1}$ and $\mathcal{F}_{2}$ of images $I_{1}$ and $I_{2}$. Flow inference becomes more challenging if $I_{1}$ and $I_{2}$ are captured far away from each other. With the motivation of image warping used in conventional methods and recent CNNs for addressing large-displacement flow, we propose to reduce feature-space distance between $\mathcal{F}_{1}$ and $\mathcal{F}_{2}$ by feature warping (f-warp).
+Pyramidal Feature Extraction. As shown in Figure 2, NetC is a two-stream network in which the filter weights are shared across the two streams. Each of them functions as a feature descriptor that transforms an image $I$ to a pyramid of multi-scale high-dimensional features $\{{\mathcal{F}_{k}{(I)}}\}$ from the highest spatial resolution ($k = 1$) to the lowest spatial resolution ($k = L$). The pyramidal features are generated by stride-$s$ convolutions with the reduction of spatial resolution by a factor $s$ up the pyramid. In the following, we omit the subscript $k$ that indicates the level of pyramid for brevity. We use $\mathcal{F}_{i}$ to represent CNN features for $I_{i}$. When we discuss the operations in a pyramid level, the same operations are applicable to other levels.
 
 <!-- chunk {"id": "body-0015", "role": "body", "section": "LiteFlowNet", "weight": 1.0} -->
 
-Specifically, $\mathcal{F}_{2}$ is warped towards $\mathcal{F}_{1}$ by f-warp via flow estimate $\overset{˙}{\mathbf{x}}$ to ${{\overset{\sim}{\mathcal{F}}}_{2}{(\mathbf{x})}} \triangleq {\mathcal{F}_{2}{({\mathbf{x} + \overset{˙}{\mathbf{x}}})}} \sim {\mathcal{F}_{1}{(\mathbf{x})}}$. This allows our network to infer residual flow between $\mathcal{F}_{1}$ and ${\overset{\sim}{\mathcal{F}}}_{2}$ that has smaller flow magnitude (more details in Section 3.1) but not the complete flow field that is more difficult to infer. Unlike conventional methods, f-warp is performed on high-level CNN features but not on images.
+Feature Warping. At each pyramid level, a flow field is inferred from high-level features $\mathcal{F}_{1}$ and $\mathcal{F}_{2}$ of images $I_{1}$ and $I_{2}$. Flow inference becomes more challenging if $I_{1}$ and $I_{2}$ are captured far away from each other. With the motivation of image warping used in conventional methods and recent CNNs for addressing large-displacement flow, we propose to reduce feature-space distance between $\mathcal{F}_{1}$ and $\mathcal{F}_{2}$ by feature warping (f-warp).
 
 <!-- chunk {"id": "body-0016", "role": "body", "section": "LiteFlowNet", "weight": 1.0} -->
 
-This makes our network more powerful and efficient in addressing the optical flow problem.
+Specifically, $\mathcal{F}_{2}$ is warped towards $\mathcal{F}_{1}$ by f-warp via flow estimate $\overset{˙}{\mathbf{x}}$ to ${{\overset{\sim}{\mathcal{F}}}_{2}{(\mathbf{x})}} \triangleq {\mathcal{F}_{2}{({\mathbf{x} + \overset{˙}{\mathbf{x}}})}} \sim {\mathcal{F}_{1}{(\mathbf{x})}}$. This allows our network to infer residual flow between $\mathcal{F}_{1}$ and ${\overset{\sim}{\mathcal{F}}}_{2}$ that has smaller flow magnitude (more details in Section 3.1) but not the complete flow field that is more difficult to infer. Unlike conventional methods, f-warp is performed on high-level CNN features but not on images.
 
 <!-- chunk {"id": "body-0017", "role": "body", "section": "LiteFlowNet", "weight": 1.0} -->
 
-where $\mathbf{x}_{s} = {\mathbf{x} + \overset{˙}{\mathbf{x}}} = {(x_{s},y_{s})}^{\top}$ denotes the source coordinates in the input feature map $\mathcal{F}$ that defines the sample point, $\mathbf{x} = {(x,y)}^{\top}$ denotes the target coordinates of the regular grid in the interpolated feature map $\overset{\sim}{\mathcal{F}}$, and $N{(\mathbf{x}_{s})}$ denotes the four pixel neighbors of $\mathbf{x}_{s}$. The above bilinear interpolation allows back-propagation during training as its gradients can be efficiently computed.
+This makes our network more powerful and efficient in addressing the optical flow problem. To allow end-to-end training, $\mathcal{F}$ is interpolated to $\overset{\sim}{\mathcal{F}}$ for any sub-pixel displacement $\overset{˙}{\mathbf{x}}$ as follows: where $\mathbf{x}_{s} = {\mathbf{x} + \overset{˙}{\mathbf{x}}} = {(x_{s},y_{s})}^{\top}$ denotes the source coordinates in the input feature map $\mathcal{F}$ that defines the sample point, $\mathbf{x} = {(x,y)}^{\top}$ denotes the target coordinates of the regular grid in the interpolated feature map $\overset{\sim}{\mathcal{F}}$, and $N{(\mathbf{x}_{s})}$ denotes the four pixel neighbors of $\mathbf{x}_{s}$.
 
-<!-- chunk {"id": "body-0018", "role": "body", "section": "Cascaded Flow Inference", "weight": 1.0} -->
+<!-- chunk {"id": "body-0018", "role": "body", "section": "LiteFlowNet", "weight": 1.0} -->
 
-At each pyramid level of NetE, pixel-by-pixel matching of high-level features yields coarse flow estimate. A subsequent refinement on the coarse flow further improves it to sub-pixel accuracy.
+The above bilinear interpolation allows back-propagation during training as its gradients can be efficiently computed.
 
 <!-- chunk {"id": "body-0019", "role": "body", "section": "Cascaded Flow Inference", "weight": 1.0} -->
 
-First Flow Inference (descriptor matching).
+At each pyramid level of NetE, pixel-by-pixel matching of high-level features yields coarse flow estimate. A subsequent refinement on the coarse flow further improves it to sub-pixel accuracy.
 
 <!-- chunk {"id": "body-0020", "role": "body", "section": "Cascaded Flow Inference", "weight": 1.0} -->
 
-where $c$ is the matching cost between point $\mathbf{x}$ in $\mathcal{F}_{1}$ and point $\mathbf{x} + \mathbf{d}$ in $\mathcal{F}_{2}$, $\mathbf{d} \in {\mathbb{Z}}$ is the displacement vector from $\mathbf{x}$, and $N$ is the length of the feature vector. A cost volume $C$ is built by aggregating all the matching costs into a 3D grid.
+First Flow Inference (descriptor matching). Point correspondence between $I_{1}$ and $I_{2}$ is established through computing correlation of high-level feature vectors in individual pyramidal features $\mathcal{F}_{1}$ and $\mathcal{F}_{2}$ as follows: where $c$ is the matching cost between point $\mathbf{x}$ in $\mathcal{F}_{1}$ and point $\mathbf{x} + \mathbf{d}$ in $\mathcal{F}_{2}$, $\mathbf{d} \in {\mathbb{Z}}$ is the displacement vector from $\mathbf{x}$, and $N$ is the length of the feature vector. A cost volume $C$ is built by aggregating all the matching costs into a 3D grid.
 
 <!-- chunk {"id": "body-0021", "role": "body", "section": "Cascaded Flow Inference", "weight": 1.0} -->
 
@@ -92,7 +92,7 @@ The sparse cost volume is interpolated in the spatial dimension to fill the miss
 
 <!-- chunk {"id": "body-0023", "role": "body", "section": "Cascaded Flow Inference", "weight": 1.0} -->
 
-In the descriptor matching unit $M$, residual flow $\Delta{\overset{˙}{\mathbf{x}}}_{m}$ is inferred by filtering the cost volume $C$ as illustrated in Figure 3.
+In the descriptor matching unit $M$, residual flow $\Delta{\overset{˙}{\mathbf{x}}}_{m}$ is inferred by filtering the cost volume $C$ as illustrated in Figure 3. A complete flow field ${\overset{˙}{\mathbf{x}}}_{m}$ is computed as follows: Figure 3: A cascaded flow inference module M:S in NetE. It consists of a descriptor matching unit M and a sub-pixel refinement unit S. In M, f-warp transforms high-level feature ℱ2 to ${\overset{\sim}{\mathcal{F}}}_{2}$ via upscaled flow field $2{\overset{˙}{\mathbf{x}}}^{\uparrow 2}$ estimated at previous pyramid level.
 
 <!-- chunk {"id": "body-0024", "role": "body", "section": "Cascaded Flow Inference", "weight": 1.0} -->
 
@@ -104,11 +104,11 @@ Cascaded flow inference resembles the role of data fidelity in conventional mini
 
 <!-- chunk {"id": "body-0026", "role": "body", "section": "Flow Regularization", "weight": 1.0} -->
 
-Consider a general case, a vector-valued feature $F$ that has to be regularized has $C$ channels and a spatial dimension $M \times N$. Define $\mathbf{G} = {\{ g\}}$ as the set of filters used in f-lcon layer.
+Consider a general case, a vector-valued feature $F$ that has to be regularized has $C$ channels and a spatial dimension $M \times N$. Define $\mathbf{G} = {\{ g\}}$ as the set of filters used in f-lcon layer. The operation of f-lcon to $F$ can be formulated as follow: where "$\ast$" denotes convolution, $f{(x,y,c)}$ is a $w \times w$ patch centered at position $(x,y)$ of channel $c$ in $F$, $g{(x,y,c)}$ is the corresponding $w \times w$ regularization filter, and $f_{g}{(x,y,c)}$ is a scalar output for $\mathbf{x} = {(x,y)}^{\top}$ and $c = {1,2,\ldots,C}$.
 
 <!-- chunk {"id": "body-0027", "role": "body", "section": "Flow Regularization", "weight": 1.0} -->
 
-where "$\ast$" denotes convolution, $f{(x,y,c)}$ is a $w \times w$ patch centered at position $(x,y)$ of channel $c$ in $F$, $g{(x,y,c)}$ is the corresponding $w \times w$ regularization filter, and $f_{g}{(x,y,c)}$ is a scalar output for $\mathbf{x} = {(x,y)}^{\top}$ and $c = {1,2,\ldots,C}$. To be specific for regularizing flow field ${\overset{˙}{\mathbf{x}}}_{s}$ from the cascaded flow inference, we replace $F$ to ${\overset{˙}{\mathbf{x}}}_{s}$.
+To be specific for regularizing flow field ${\overset{˙}{\mathbf{x}}}_{s}$ from the cascaded flow inference, we replace $F$ to ${\overset{˙}{\mathbf{x}}}_{s}$. Flow regularization module $R$ is defined as follows: Figure 4: Folding and packing of f-lcon filters {g}. The (x, y)-entry of 3D tensor $\overline{G}{(c)}$ is a 3D column with size 1 × 1 × w2. It corresponds to the unfolded w × w f-lcon filter g (x, y, c) to be applied at position (x, y) of channel c in vector-valued feature F.
 
 <!-- chunk {"id": "body-0028", "role": "body", "section": "Flow Regularization", "weight": 1.0} -->
 
@@ -116,7 +116,7 @@ The f-lcon filters need to be specialized for smoothing flow field. It should be
 
 <!-- chunk {"id": "body-0029", "role": "body", "section": "Flow Regularization", "weight": 1.0} -->
 
-where $N{(x,y)}$ denotes the neighborhood containing $\omega \times \omega$ pixels centered at position $(x,y)$.
+In summary, $\mathcal{D}$ is adaptively constructed by a CNN unit $R_{D}$ as follows: With the introduction of feature-driven distance metric $\mathcal{D}$, each filter $g$ of f-lcon is constructed as follows: where $N{(x,y)}$ denotes the neighborhood containing $\omega \times \omega$ pixels centered at position $(x,y)$.
 
 <!-- chunk {"id": "body-0030", "role": "body", "section": "Flow Regularization", "weight": 1.0} -->
 
@@ -124,7 +124,7 @@ Here, we provide a mechanism to perform f-lcon efficiently. For a $C$-channel in
 
 <!-- chunk {"id": "body-0031", "role": "body", "section": "Flow Regularization", "weight": 1.0} -->
 
-where "$\odot$" denotes element-wise dot product between the corresponding columns of the tensors. With the abuse of notation, $F_{g}{(c)}$ means the $c$-th $xy$-slice of the regularized $C$-channel feature $F_{g}$. Equation reduces the dimension of tensors from $M \times N \times w^{2}$ (right-hand side in prior to the dot product) to $M \times N$ (left-hand side).
+In this way, Equation can be reformulated to: where "$\odot$" denotes element-wise dot product between the corresponding columns of the tensors. With the abuse of notation, $F_{g}{(c)}$ means the $c$-th $xy$-slice of the regularized $C$-channel feature $F_{g}$. Equation reduces the dimension of tensors from $M \times N \times w^{2}$ (right-hand side in prior to the dot product) to $M \times N$ (left-hand side).
 
 <!-- chunk {"id": "body-0032", "role": "body", "section": "Experiments", "weight": 1.0} -->
 
@@ -144,27 +144,27 @@ We compare several variants of LiteFlowNet to state-of-the-art methods on public
 
 <!-- chunk {"id": "body-0036", "role": "body", "section": "Results", "weight": 1.0} -->
 
-FlyingChairs. We first compare the intermediate results of different well-performing networks trained on Chairs alone in Table 1. Average end-point error (AEE) is reported. LiteFlowNet-pre outperforms the compared networks. No intermediate result is available for FlowNet2 as each cascade is trained on the Chairs $\rightarrow$ Things3D schedule individually. Since FlowNetC, FlowNetS (variants of FlowNet ), and SPyNet have fewer parameters than FlowNet2 and the later two models do not perform feature matching, we also construct a small-size counterpart LiteFlowNetX-pre by removing the matching part and shrinking the model sizes of NetC and NetE by about 4 and 5 times, respectively. Despite that LiteFlowNetX-pre is 43 and 1.33 times smaller than FlowNetC and SPyNet, respectively, it still outperforms these networks and is on par with FlowNetC that uses explicit matching.
+MPI Sintel. In Table 2, LiteFlowNetX-pre outperforms FlowNetS (and C) and SPyNet that are trained on Chairs on all cases except the Middlebury benchmark. LiteFlowNet, trained on the Chairs $\rightarrow$ Things3D schedule, performs better than LiteFlowNet-pre as expected. LiteFlowNet also outperforms SPyNet, FlowNet2-S (and -C). We also fine-tuned LiteFlowNet on a mixture of Sintel clean and final training data (LiteFlowNet-ft) using the generalized Charbonnier loss. No noise augmentation was performed but we introduced image mirroring to improve the diversity of the training set. LiteFlowNet-ft outperforms FlowNet2-ft-sintel and EpicFlow for Sintel final testing set. Despite DC Flow (a hybrid method consists of CNN and post-processing) performs better than LiteFlowNet, its GPU runtime requires several seconds that makes it formidable in many applications. Figure 5 shows some examples of flow fields on Sintel dataset.
 
 <!-- chunk {"id": "body-0037", "role": "body", "section": "Results", "weight": 1.0} -->
 
-MPI Sintel. In Table 2, LiteFlowNetX-pre outperforms FlowNetS (and C) and SPyNet that are trained on Chairs on all cases except the Middlebury benchmark. LiteFlowNet, trained on the Chairs $\rightarrow$ Things3D schedule, performs better than LiteFlowNet-pre as expected. LiteFlowNet also outperforms SPyNet, FlowNet2-S (and -C). We also fine-tuned LiteFlowNet on a mixture of Sintel clean and final training data (LiteFlowNet-ft) using the generalized Charbonnier loss. No noise augmentation was performed but we introduced image mirroring to improve the diversity of the training set. LiteFlowNet-ft outperforms FlowNet2-ft-sintel and EpicFlow for Sintel final testing set. Despite DC Flow (a hybrid method consists of CNN and post-processing) performs better than LiteFlowNet, its GPU runtime requires several seconds that makes it formidable in many applications. Figure 5 shows some examples of flow fields on Sintel dataset.
+LiteFlowNet-ft and FlowNet2-ft-sintel perform the best among the compared methods. As LiteFlowNet has flow regularization module, sharper flow boundaries and lesser artifacts can be observed in the generated flow fields.
 
 <!-- chunk {"id": "body-0038", "role": "body", "section": "Results", "weight": 1.0} -->
 
-LiteFlowNet-ft and FlowNet2-ft-sintel perform the best among the compared methods. As LiteFlowNet has flow regularization module, sharper flow boundaries and lesser artifacts can be observed in the generated flow fields.
+KITTI. LiteFlowNet consistently performs better than LiteFlowNet-pre especially on as shown in Table 2. It also outperforms SPyNet and FlowNet2-S (and C). We also fine-tuned LiteFlowNet on a mixture of and training data (LiteFlowNet-ft) using the same augmentation as the case of Sintel except that we reduced the amount of augmentation for spatial motion to fit the driving scene. After fine-tuning, LiteFlowNet generalizes well to real-world data. LiteFlowNet-ft outperforms FlowNet2-ft-kitti. Figure 6 shows some examples of flow fields on KITTI. As in the case for Sintel, LiteFlowNet-ft and FlowNet2-ft-kitti performs the best among the compared methods. Even though LiteFlowNet and its variants perform pyramidal descriptor matching in a limited searching range, it yields reliable large-displacement flow fields for real-world data due to the feature warping (f-warp) layer introduced. More analysis will be presented in Section 4.3.
 
 <!-- chunk {"id": "body-0039", "role": "body", "section": "Results", "weight": 1.0} -->
 
-KITTI. LiteFlowNet consistently performs better than LiteFlowNet-pre especially on as shown in Table 2. It also outperforms SPyNet and FlowNet2-S (and C). We also fine-tuned LiteFlowNet on a mixture of and training data (LiteFlowNet-ft) using the same augmentation as the case of Sintel except that we reduced the amount of augmentation for spatial motion to fit the driving scene. After fine-tuning, LiteFlowNet generalizes well to real-world data. LiteFlowNet-ft outperforms FlowNet2-ft-kitti. Figure 6 shows some examples of flow fields on KITTI. As in the case for Sintel, LiteFlowNet-ft and FlowNet2-ft-kitti performs the best among the compared methods. Even though LiteFlowNet and its variants perform pyramidal descriptor matching in a limited searching range, it yields reliable large-displacement flow fields for real-world data due to the feature warping (f-warp) layer introduced. More analysis will be presented in Section 4.3.
-
-<!-- chunk {"id": "body-0040", "role": "body", "section": "Results", "weight": 1.0} -->
-
 Middlebury. LiteFlowNet has comparable performance with conventional methods. It outperforms FlowNetS (and C), FlowNet2-S (and C), SPyNet, and FlowNet2. On the benchmark, LiteFlowNet-ft refers to the one fine-tuned on Sintel.
 
-<!-- chunk {"id": "body-0041", "role": "body", "section": "param. (M)", "weight": 1.0} -->
+<!-- chunk {"id": "body-0040", "role": "body", "section": "param. (M)", "weight": 1.0} -->
 
 We measure runtime of a CNN using a machine equipped with an Intel Xeon E5 2.2GHz and an NVIDIA GTX 1080. Timings are averaged over 100 runs for Sintel image pairs of size $1024 \times 436$. As summarized in Table 3, LiteFlowNet has about 30 times fewer parameters than FlowNet2 and is 1.36 times faster in runtime. LiteFlowNetX, a variant of LiteFlowNet having a smaller model size and without descriptor matching, has about 43 times fewer parameters than FlowNetC and a comparable runtime. LiteFlowNetX also has 1.33 times fewer parameters than SPyNet. LiteFlowNet and its variants are currently the most compact CNNs for flow estimation.
+
+<!-- chunk {"id": "body-0041", "role": "body", "section": "Ablation Study", "weight": 1.0} -->
+
+Sintel clean (train) Sintel final (train) Table 4: AEE of different variants of LiteFlowNet-pre trained on Chairs dataset with some of the components disabled.
 
 <!-- chunk {"id": "body-0042", "role": "body", "section": "Ablation Study", "weight": 1.0} -->
 
@@ -189,3 +189,7 @@ Regularization. In comparison WMS with regularization disabled to ALL, undesired
 <!-- chunk {"id": "body-0047", "role": "body", "section": "Conclusion", "weight": 1.5} -->
 
 We have presented a compact network for accurate flow estimation. LiteFlowNet outperforms FlowNet and is on par with or outperforms the state-of-the-art FlowNet2 on public benchmarks while being faster in runtime and 30 times smaller in model size. Pyramidal feature extraction and feature warping (f-warp) help us to break the de facto rule of accurate flow network requiring large model size. To address large-displacement and detail-preserving flows, LiteFlowNet exploits short-range matching to generate pixel-level flow field and further improves the estimate to sub-pixel accuracy in the cascaded flow inference. To result crisp flow boundaries, LiteFlowNet regularizes flow field through feature-driven local convolution (f-lcon). With its lightweight, accurate, and fast flow computation, we expect that LiteFlowNet can be deployed to many applications such as motion segmentation, action recognition, SLAM, 3D reconstruction and more.
+
+<!-- chunk {"id": "body-0048", "role": "body", "section": "Conclusion", "weight": 1.5} -->
+
+Acknowledgement. This work is supported by SenseTime Group Limited and the General Research Fund sponsored by the Research Grants Council of the Hong Kong SAR (CUHK 14241716, 14224316, 14209217).

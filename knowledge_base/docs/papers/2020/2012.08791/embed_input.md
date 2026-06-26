@@ -9,3 +9,391 @@ Topics include Convolutional networks, Classification, Time series classificatio
 <!-- chunk {"id": "abstract-0002", "role": "abstract", "section": "Abstract", "weight": 2.0} -->
 
 Until recently, the most accurate methods for time series classification were limited by high computational complexity. ROCKET achieves state-of-the-art accuracy with a fraction of the computational expense of most existing methods by transforming input time series using random convolutional kernels, and using the transformed features to train a linear classifier. We reformulate ROCKET into a new method, MINIROCKET, making it up to 75 times faster on larger datasets, and making it almost deterministic (and optionally, with additional computational expense, fully deterministic), while maintaining essentially the same accuracy. Using this method, it is possible to train and test a classifier on all of 109 datasets from the UCR archive to state-of-the-art accuracy in less than 10 minutes. MINIROCKET is significantly faster than any other method of comparable accuracy (including ROCKET), and significantly more accurate than any other method of even roughly-similar computational expense. As such, we suggest that MINIROCKET should now be considered and used as the default variant of ROCKET.
+
+<!-- chunk {"id": "body-0003", "role": "body", "section": "Introduction", "weight": 1.5} -->
+
+Mean rank of \textsc{MiniRocket} in terms of accuracy versus other SOTA methods over 30 resamples of 109 datasets from the UCR archive. [In terms of accuracy, Apricot ranks just ahead of Rocket, but behind both TS-CHIEF and HIVE-COTE/TDE]In terms of accuracy, Apricot ranks just ahead of Rocket, but behind both TS-CHIEF and HIVE-COTE/TDE. Apricot is in the same clique as InceptionTime, Rocket, TS-CHIEF, and HIVE-COTE, that is, the pairwise differences between these classifiers are not statistically significant.
+
+<!-- chunk {"id": "body-0004", "role": "body", "section": "Introduction", "weight": 1.5} -->
+
+Transform time for \textsc{MiniRocket} versus \textsc{Rocket} for the same 109 datasets from the UCR archive. [In terms of transform time, Apricot is between approximately 5 and 70 times faster than Rocket]Scatter plot showing the total transform time (training and test) for Apricot against the total transform time for Rocket for 109 datasets from the UCR archive, on a log scale. In terms of total transform time, Apricot is between approximately 5 and 70 times faster than Rocket. The difference in total transform time increases, that is, Apricot is relatively faster, as total transform time increases. For shorter transform times, Apricot is closer to 10 times faster than Rocket, for longer transform times, Apricot is approaching 70 times faster than Rocket.
+
+<!-- chunk {"id": "body-0005", "role": "body", "section": "Introduction", "weight": 1.5} -->
+
+Until recently, the most accurate methods for time series classification were limited by high computational complexity. While there have been considerable advances in recent years, computational complexity and a lack of scalability remain persistent problems.
+
+<!-- chunk {"id": "body-0006", "role": "body", "section": "Introduction", "weight": 1.5} -->
+
+\textsc{Rocket} [dempster\_etal\_2020] achieves state-of-the-art accuracy with a fraction of the computational expense of any method of comparable accuracy by transforming input time series using random convolutional kernels, and using the transformed features to train a linear classifier. We show that it is possible to reformulate \textsc{Rocket}, making it up to $75$ times faster on larger datasets, and making it almost entirely deterministic (and optionally, with additional computational expense, fully deterministic), while maintaining essentially the same accuracy. We call this method \textsc{MiniRocket} (for MINImally RandOm Convolutional KErnel Transform).
+
+<!-- chunk {"id": "body-0007", "role": "body", "section": "Introduction", "weight": 1.5} -->
+
+\textsc{Rocket}, \textsc{MiniRocket} transforms input time series using convolutional kernels, and uses the transformed features to train a linear classifier. However, unlike \textsc{Rocket}, \textsc{MiniRocket} uses a small, fixed set of kernels, and is almost entirely deterministic. \textsc{MiniRocket} maintains the two most important aspects of \textsc{Rocket}: dilation and PPV, i.e., `proportion of positive values' pooling [dempster\_etal\_2020]. \textsc{MiniRocket} exploits various properties of the kernels, and of PPV, in order to massively reduce the time required for the transform. \textsc{MiniRocket}demonstrates that, while random convolutional kernels are highly effective, it is possible to achieve essentially the same accuracy using a mostly-deterministic and much faster procedure.
+
+<!-- chunk {"id": "body-0008", "role": "body", "section": "Introduction", "weight": 1.5} -->
+
+[fig-rank-ucr109] shows the mean rank of \textsc{MiniRocket} in terms of accuracy versus other state-of-the-art methods over 30 resamples of 109 datasets from the UCR archive of benchmark time series [dau\_etal\_2019]. On average, \textsc{MiniRocket} is marginally more accurate than \textsc{Rocket}, and slightly less accurate than the most accurate current methods.
+
+<!-- chunk {"id": "body-0009", "role": "body", "section": "Introduction", "weight": 1.5} -->
+
+While only broadly comparable due to hardware and software differences, total compute time for the same 109 datasets using a single CPU thread is approximately 13 hours for cBOSS, more than a day for CIF, more than two days for TDE, approximately a week for Proximity Forest, more than two weeks for HIVE-COTE, and several weeks for TS-CHIEF [bagnall\_etal\_2020,middlehurst\_etal\_2020a,middlehurst\_etal\_2020b]. Total compute time for InceptionTime (using GPUs, and for the original training/test splits rather than resamples) is more than 4 days [ismailfawaz\_etal\_2020].
+
+<!-- chunk {"id": "body-0010", "role": "body", "section": "Introduction", "weight": 1.5} -->
+
+\textsc{MiniRocket} represents a significant advance in accuracy relative to computational cost. \textsc{MiniRocket} is significantly faster than any other method of comparable accuracy (including \textsc{Rocket}), and significantly more accurate than any other method of even roughly-similar computational expense.
+
+<!-- chunk {"id": "body-0011", "role": "body", "section": "Current State of the Art", "weight": 1.0} -->
+
+Recent advances in accuracy have largely superseded the most accurate methods originally identified in [bagnall\_etal\_2017]. According to [bagnall\_etal\_2020,middlehurst\_etal\_2020a,middlehurst\_etal\_2020b], the most accurate current methods for time series classification are HIVE-COTE and its variants [lines\_etal\_2018], TS-CHIEF [shifaz\_etal\_2020], InceptionTime [ismailfawaz\_etal\_2020], and \textsc{Rocket} [dempster\_etal\_2020]. However, while accuracy has improved, with some exceptions computational complexity and a lack of scalability remain persistent problems.
+
+<!-- chunk {"id": "body-0012", "role": "body", "section": "Current State of the Art", "weight": 1.0} -->
+
+TS-CHIEF builds on Proximity Forest, an ensemble of decision trees using distance measures as splitting criteria [lucas\_etal\_2019]. In addition to distance measures, TS-CHIEF uses interval-based and spectral-based splitting criteria [shifaz\_etal\_2020].
+
+<!-- chunk {"id": "body-0013", "role": "body", "section": "Current State of the Art", "weight": 1.0} -->
+
+InceptionTime is an ensemble of convolutional neural networks based on the Inception architecture, and is the most accurate convolutional neural network model for time series classification The Temporal Dictionary Ensemble (TDE) is a recent dictionary method based on the frequency of occurrence of patterns in time series [middlehurst\_etal\_2020a]. TDE combines aspects of earlier dictionary methods including cBOSS [middlehurst\_etal\_2019], a more scalable variant of BOSS [schafer\_2015]. is a transform based on 22 predefined time series features, used in combination with a decision tree or random forest [lubba\_etal\_2019]. On its own, catch22 is fast, but highly inaccurate: see [dempster\_etal\_2020,middlehurst\_etal\_2020b]. The Canonical Interval Forest (CIF) is a recent method which adapts the Time Series Forest (TSF) to use catch22 features [middlehurst\_etal\_2020b]. CIF is significantly more accurate than either catch22 or TSF.
+
+<!-- chunk {"id": "body-0014", "role": "body", "section": "Current State of the Art", "weight": 1.0} -->
+
+HIVE-COTE is an ensemble of other methods including BOSS and TSF. Two recent variants of HIVE-COTE, namely HIVE-COTE/TDE (using TDE in place of BOSS) and HIVE-COTE/CIF (using CIF in place of TSF) have been shown to be significantly more accurate than HIVE-COTE, or any other existing method for time series classification [middlehurst\_etal\_2020a,middlehurst\_etal\_2020b]. These variants are, in turn, based on an updated `base' version of HIVE-COTE [bagnall\_etal\_2020].
+
+<!-- chunk {"id": "body-0015", "role": "body", "section": "Current State of the Art", "weight": 1.0} -->
+
+While state of the art in terms of accuracy, with the exception of cBOSS these methods are limited by high computational complexity, requiring days or even weeks to train on the datasets in the UCR archive. While more scalable, cBOSS is significantly less accurate than most of the other methods.
+
+<!-- chunk {"id": "body-0016", "role": "body", "section": "\\textsc{Rocket}", "weight": 1.0} -->
+
+\textsc{Rocket} achieves state-of-the-art accuracy, matching the most accurate methods for time series classification (with the exception of the most recent variants of HIVE-COTE), but is considerably faster and more scalable than other methods of comparable accuracy [dempster\_etal\_2020].
+
+<!-- chunk {"id": "body-0017", "role": "body", "section": "\\textsc{Rocket}", "weight": 1.0} -->
+
+\textsc{Rocket} transforms input time series using random convolutional kernels, and uses the transformed features to train a linear classifier. Each input time series is convolved with $10{,}000$ random convolutional kernels. \textsc{Rocket} applies global max pooling and PPV (for `proportion of positive values') pooling to the resulting convolution output to produce two features per kernel per input time series, for a total of $20{,}000$features per input time series. The transformed features are then used to train a linear classifier: a ridge regression classifier, or logistic regression trained using stochastic gradient descent (for larger datasets).
+
+<!-- chunk {"id": "body-0018", "role": "body", "section": "\\textsc{Rocket}", "weight": 1.0} -->
+
+The kernels are random in terms of their length, weights, bias, dilation, and padding: see Section [subsec-removing-randomness]. The two most important aspects of \textsc{Rocket} in terms of achieving state-of-the-art accuracy are the use of dilation, sampled on an exponential scale, and the use of PPV. \textsc{Rocket} forms the basis for \textsc{MiniRocket}. The differences between \textsc{Rocket} and \textsc{MiniRocket} are detailed in Section [sec-method].
+
+<!-- chunk {"id": "body-0019", "role": "body", "section": "Other Methods", "weight": 1.0} -->
+
+The use of a small, fixed set of kernels differentiates \textsc{MiniRocket} from both \textsc{Rocket}, which uses random kernels, and convolutional neural networks such as InceptionTime, which use learned kernels. It also differentiates \textsc{MiniRocket} from other methods with at least superficial similarities to \textsc{Rocket}, such as random shapelet methods as in [karlsson\_etal\_2016], and other random methods such as those based on [rahimi\_and\_recht\_2008].
+
+<!-- chunk {"id": "body-0020", "role": "body", "section": "Other Methods", "weight": 1.0} -->
+
+In using kernels with weights constrained to two values (see Section [subsubsec-weights]), there are obvious similarities with binary and quantised convolutional neural networks [rastegari\_etal\_2016,hubara\_etal\_2018]. \textsc{MiniRocket} makes use of at least two advantages of binary/quantised kernels, namely, the ability to perform the convolution operation via addition, as well as efficiencies arising from the relatively small number of possible binary kernels of a given size, e.g., [rastegari\_etal\_2016,juefeixu\_etal\_2017,hubara\_etal\_2018]. However, while the kernels used in \textsc{MiniRocket} are binary in the sense of having only two values, these values are not $0$ and $1$ (or $-1$ and $1$). In fact, the actual values of the weights are not important: see Section [subsubsec-weights].
+
+<!-- chunk {"id": "body-0021", "role": "body", "section": "Other Methods", "weight": 1.0} -->
+
+\textsc{MiniRocket}does not use bitwise operations, and the input and convolution output are used at full precision.
+
+<!-- chunk {"id": "body-0022", "role": "body", "section": "Other Methods", "weight": 1.0} -->
+
+The optimisations used in \textsc{MiniRocket} are similar in motivation to several optimisations developed for convolutional neural networks, i.e., broadly speaking, to reduce the number of operations (especially multiplications) required to perform the convolution operation, e.g., [liu\_etal\_2015,lavin\_and\_gray\_2016,chollet\_2017,mehta\_etal\_2018].
+
+<!-- chunk {"id": "body-0023", "role": "body", "section": "Other Methods", "weight": 1.0} -->
+
+In precomputing the product of the kernel weights and the input, and using those precomputed values to construct the convolution output (see Sections [subsubsec-factoring-out] and [subsubsec-all-kernels-at-once]), the optimisations used in \textsc{MiniRocket} bear some resemblance to highly simplified versions of shift-based methods [wu\_etal\_2018], where conventional convolutional kernels are replaced by a combination of $1 \times 1$ convolutions and spatial shifts in the input, and lookup-based methods [bagherinezhad\_etal\_2017], where the convolution operation is performed via linear combinations of the precomputed convolution output for a small `dictionary' of kernels.
+
+<!-- chunk {"id": "body-0024", "role": "body", "section": "Other Methods", "weight": 1.0} -->
+
+However, the optimisations used in \textsc{MiniRocket} are much simpler than these methods. \textsc{MiniRocket} uses a fixed set of kernels, and uses the convolution output for these kernels directly, rather than through a learned linear combination, c.f., e.g., [bagherinezhad\_etal\_2017,juefeixu\_etal\_2017]. The optimisations arise as a natural result of using this fixed set of kernels, rather than being general-purpose optimisations.
+
+<!-- chunk {"id": "body-0025", "role": "body", "section": "Other Methods", "weight": 1.0} -->
+
+Several things further distinguish \textsc{MiniRocket} (and \textsc{Rocket}) from most approaches involving convolutional neural networks. The features produced by the transform are all independent of each other (there is no hidden layer). Neither the convolution output nor the pooled features are transformed through, e.g., a sigmoid function or rectified linear unit (ReLU). As such, the classifier learns a direct linear function of the features produced by the transform. \textsc{MiniRocket}is also distinguished by its use of dilation (similar to using many different dilations in a single convolutional layer, with dilations taking any integer value not just powers of two), and PPV.
+
+<!-- chunk {"id": "body-0026", "role": "body", "section": "Method", "weight": 1.0} -->
+
+\textsc{MiniRocket} involves making certain key changes in order to remove almost all randomness from \textsc{Rocket} (Section [subsec-removing-randomness]), and exploiting these changes in order to dramatically speed up the transform (Section [subsec-optimising-the-transform]). In tuning kernel length, weights, bias, etc., we have restricted ourselves to the same 40 `development' datasets as used in [dempster\_etal\_2020], with the same aim of avoiding overfitting the entire UCR archive. (Note, however, that it is not necessarily the aim of \textsc{MiniRocket} to maximise accuracy per se, but rather to balance accuracy with parameter choices which remove randomness and are conducive to optimising the transform.) The procedures for setting the parameter values and performing the transform are set out in pseudo-fit and pseudo-transform in Appendix [sec-appendix-pseudocode].
+
+<!-- chunk {"id": "body-0027", "role": "body", "section": "Method", "weight": 1.0} -->
+
+\textsc{Rocket}, we implement \textsc{MiniRocket} in Python, compiled via Numba [lam\_etal\_2015]. We use a ridge regression classifier from scikit-learn [pedregosa\_etal\_2011], and logistic regression implemented using PyTorch [paszke\_etal\_2019].
+
+<!-- chunk {"id": "body-0028", "role": "body", "section": "Removing Randomness", "weight": 1.0} -->
+
+Summary of changes from \textsc{Rocket} to \textsc{MiniRocket}.
+
+<!-- chunk {"id": "body-0029", "role": "body", "section": "Removing Randomness", "weight": 1.0} -->
+
+| | \textsc{Rocket} | \textsc{MiniRocket} | \textsc{Rocket} uses kernels with lengths selected randomly from $\{7,9,11\}$, weights drawn from $\mathcal{N}$, bias terms drawn from $\mathcal{U}(-1, 1)$, random dilations, and random paddings. Two features, PPV and max, are computed per kernel, for a total of $20{,}000$ features. \textsc{MiniRocket} is characterised by a number of key changes to the kernels in terms of length, weights, bias, dilation, and padding, as well as resulting changes to the features, as summarised in Table [table-changes-rocket-to-minirocket].
+
+<!-- chunk {"id": "body-0030", "role": "body", "section": "Length", "weight": 1.0} -->
+
+\textsc{MiniRocket} uses kernels of length 9, with weights restricted to two values, building on the observation in [dempster\_etal\_2020] that weights drawn from $\{-1, 0, 1\}$ produce similar accuracy to weights drawn from $\mathcal{N}$.
+
+<!-- chunk {"id": "body-0031", "role": "body", "section": "Length", "weight": 1.0} -->
+
+In order to maximise computational efficiency, the set of kernels should be as small as possible: see Section [subsubsec-reusing-output]. The set of possible two-valued kernels grows exponentially with length. There are $2^{3} = 8$ possible kernels of length 3, but $2^{15} = 32{,}768$ possible kernels of length 15. With more than two values, the set of possible kernels grows even faster with length. For example, there are $3^{15} \approx 14\text{ million}$possible three-valued kernels of length 15. $2^{9} = 512$ possible two-valued kernels of length 9. \textsc{MiniRocket} uses a subset of 84 of these kernels, a subset which balances accuracy with the computational advantages of using a small number of kernels: see Section [subsubsec-sensitivity-kernels]. (A length of 9 is also consistent with the average length used in \textsc{Rocket}.)
+
+<!-- chunk {"id": "body-0032", "role": "body", "section": "Weights", "weight": 1.0} -->
+
+Kernels with weights restricted to two values, $\alpha$ and $\beta$, can be characterised in terms of the number of weights with the value $\beta$ (or, equivalently, the number of weights with the value $\alpha$). In this sense, the full set of two-valued kernels of length 9 includes the subset of kernels with 1 value of $\beta$ (e.g., $[\alpha,\alpha,\alpha,\alpha,\alpha,\alpha,\alpha,\alpha,\beta]$), the subset of kernels with 2 values of $\beta$ (e.g., $[\alpha,\alpha,\alpha,\alpha,\alpha,\alpha,\alpha,\beta,\beta]$), and so.
+
+<!-- chunk {"id": "body-0033", "role": "body", "section": "Weights", "weight": 1.0} -->
+
+\textsc{MiniRocket} uses the subset kernels with 3 values of $\beta$: [\alpha,\alpha,\alpha,\alpha,\alpha,\alpha,\beta,\beta,\beta] \\[\alpha,\alpha,\alpha,\alpha,\alpha,\beta,\alpha,\beta,\beta] \\[\alpha,\alpha,\alpha,\alpha,\beta,\alpha,\alpha,\beta,\beta] \\\textsc{MiniRocket}, we set $\alpha = -1$ and $\beta = 2$. However, the choice of $\alpha$ and $\beta$ is arbitrary, in the sense that the scale of these values is unimportant.
+
+<!-- chunk {"id": "body-0034", "role": "body", "section": "Weights", "weight": 1.0} -->
+
+For an input time series, $X$, kernel, $W$, and bias, $b$, PPV is given by $\text{PPV}(X * W - b) = \frac{1}{n} \sum [X * W - b > 0]$ or, equivalently, $\text{PPV}(X * W) = \frac{1}{n} \sum [X * W > b]$, where `$*$' denotes convolution, and $[X \in a]$ denotes the indicator function. As such, computing PPV is essentially equivalent to computing the empirical cumulative distribution function. Accordingly, the scale of the weights is unimportant, because bias values are drawn from the convolution output, $X * W$ (see Section [subsubsec-bias]), and so by definition match the scale of the weights and the scale of the input. (Hence, in contrast to \textsc{Rocket}, it is not necessary to normalise the input.)
+
+<!-- chunk {"id": "body-0035", "role": "body", "section": "Weights", "weight": 1.0} -->
+
+It is only important that the sum of the weights should be zero or, equivalently, that $\beta = -2 \alpha$. Otherwise, the values of $\alpha$ and $\beta$ are not important. This constraintthat the weights sum to zeroensures that the kernels are only sensitive to the relative magnitude of the values in the input, i.e., that the convolution output is invariant to the addition or subtraction of any constant value to the input, i.e., $X * W = (X \pm c) * W$.
+
+<!-- chunk {"id": "body-0036", "role": "body", "section": "Weights", "weight": 1.0} -->
+
+As PPV is bounded between 0 and 1, in computing PPV for a given kernel, $W$, we get an equivalent feature for the inverted kernel, $-W$, `for free': see Section [subsubsec-computing-ppv]. Accordingly, there is no need to use both the set of kernels with weights $\alpha = -1$ and $\beta = 2$, and the corresponding inverted set of kernels with weights $\alpha = 1$ and $\beta = -2$, as we get these inverted kernels `for free'.
+
+<!-- chunk {"id": "body-0037", "role": "body", "section": "Weights", "weight": 1.0} -->
+
+The set of 84 kernels of length 9 with three weights with the value $\beta = 2$, and six weights with the value $\alpha = -1$, has the desirable properties of being a relatively small, fixed set of kernelsconducive to the optimisations pursued in Section [subsec-optimising-the-transform]and producing high classification accuracy. However, we stress that there is not necessarily anything `special' about this set of kernels. Other subsets of kernels of length 9, and kernels of other lengths, produce similar accuracy: see Section [subsubsec-sensitivity-kernels]. This is in addition to the observations in [dempster\_etal\_2020], i.e., that kernels (of various lengths) with weights drawn from $\mathcal{N}$, or from $\{-1, 0, 1\}$, are also effective.
+
+<!-- chunk {"id": "body-0038", "role": "body", "section": "Bias", "weight": 1.0} -->
+
+Bias values are drawn from the convolution output, and are used to compute PPV as set out above in Section [subsubsec-weights]. By default, for a given kernel/dilation combination, bias values are drawn from the quantiles of the convolution output for a single, randomly-selected training example. For a given kernel, $W$, and dilation, $d$, we compute the convolution output for a randomly-selected training example, $X$, i.e., $W_{d} * X$. We take, e.g., the $[0.25, 0.5, 0.75]$ quantiles from $W_{d} * X$ as bias values, to be used in computing PPV. We use a low-discrepancy sequence to assign quantiles to different kernel/dilation combinations [schretter\_etal\_2016].
+
+<!-- chunk {"id": "body-0039", "role": "body", "section": "Bias", "weight": 1.0} -->
+
+The selection of training examples for the purpose of sampling bias values is the only stochastic element of \textsc{MiniRocket}. Further, while the choice of training example is random, in drawing bias values from the convolution output, we are selecting values produced by an otherwise entirely deterministic procedure. This is why we characterise \textsc{MiniRocket}as `minimally random'.
+
+<!-- chunk {"id": "body-0040", "role": "body", "section": "Bias", "weight": 1.0} -->
+
+For the deterministic variant of \textsc{MiniRocket}, bias values are drawn from the convolution output for the entire training set, rather than a single, randomly-selected training example. This is the only substantive difference between the default and deterministic variants, and the difference in accuracy between the two variants is negligible: see Section [subsec-ucr-archive].
+
+<!-- chunk {"id": "body-0041", "role": "body", "section": "Bias", "weight": 1.0} -->
+
+The advantage of using the entire training set is an entirely deterministic transform, for applications where this is desirable. However, this comes at additional computational cost, which is unlikely to be practical for larger datasets. Crucially, however, it demonstrates that the accuracy of \textsc{Rocket}is achievable using an entirely deterministic transform. In practice, using a single, randomly-selected training example has little impact in terms of accuracy.
+
+<!-- chunk {"id": "body-0042", "role": "body", "section": "Bias", "weight": 1.0} -->
+
+\textsc{Rocket} using the same method for sampling bias values as \textsc{MiniRocket} is slightly more accurate than default \textsc{Rocket} but, overall, the difference is relatively minor: see Section [subsec-ucr-archive].
+
+<!-- chunk {"id": "body-0043", "role": "body", "section": "Dilation", "weight": 1.0} -->
+
+Dilation is used to `spread' a kernel over the input. For dilation, $d$, a given kernel is convolved with every $d^{\text{th}}$ element of the input [yu\_and\_koltun\_2016,dempster\_etal\_2020]. Each kernel is assigned the same fixed set of dilations, adjusted to the length of the input time series.
+
+<!-- chunk {"id": "body-0044", "role": "body", "section": "Dilation", "weight": 1.0} -->
+
+We specify dilations in the range $D = \{\lfloor 2^{0} \rfloor,..., \lfloor 2^{\text{max}} \rfloor\}$, where the exponents are uniformly spaced between 0 and $\text{max} = \log_2 (l_{\text{input}} - 1) / (l_{\text{kernel}} - 1)$, where $l_{\text{input}}$ is input length and $l_{\text{kernel}}$ is kernel length (i.e., 9), such that the maximum effective length of a kernel, including dilation, is the length of the input time series. The count of each unique integer dilation value in $D$ determines the number of features to be computed per dilation (scaled according to the total number of features), ensuring that, as in \textsc{Rocket}, exponentially more features are computed for smaller dilations.
+
+<!-- chunk {"id": "body-0045", "role": "body", "section": "Dilation", "weight": 1.0} -->
+
+As time series length increases, the number of possible dilation values increases. This means that, for a fixed number of features, the number of features computed per dilation decreases (unless constrained in some way), making the transform less efficient: see Section [subsubsec-reusing-output]. Hence, by default, we limit the maximum number of dilations per kernel to 32. While technically an additional hyperparameter, this has little effect on accuracy (see Section [subsubsec-sensitivity-dilation]), and is intended to be kept at its default value.
+
+<!-- chunk {"id": "body-0046", "role": "body", "section": "Padding", "weight": 1.0} -->
+
+Padding is alternated for each kernel/dilation combination such that, overall, half the kernel/dilation combinations use padding, and half do not. As for \textsc{Rocket}, \textsc{MiniRocket} uses standard zero padding. In effect, zeros are added to the start and end of each input time series such that the convolution operation begins with the `middle' element of the kernel centered on the first element of the time series, and ends with the `middle' element of the kernel centered on the last element of the time series [goodfellow\_etal\_2016].
+
+<!-- chunk {"id": "body-0047", "role": "body", "section": "Features", "weight": 1.0} -->
+
+Given the other changes, there is no longer any benefit in terms of accuracy in using global max pooling in addition to PPV: see Section [subsubsec-sensitivity-features]. Accordingly, \textsc{MiniRocket}`drops' global max pooling and uses only PPV.
+
+<!-- chunk {"id": "body-0048", "role": "body", "section": "Features", "weight": 1.0} -->
+
+We do not replace global max pooling with additional PPV features. As for \textsc{Rocket}, the number of features represents a tradeoff between accuracy and computational expense. \textsc{MiniRocket} with $10{,}000$ features already matches \textsc{Rocket} in terms of accuracy, and there is little or no benefit in terms of accuracy to increasing the number of features beyond $10{,}000$: see Section [subsubsec-sensitivity-num-features].
+
+<!-- chunk {"id": "body-0049", "role": "body", "section": "Features", "weight": 1.0} -->
+
+\textsc{MiniRocket} uses $10{,}000$ features (or, more precisely, the nearest multiple of 84the number of kernelsless than $10{,}000$, i.e., $9{,}996$). While technically a hyperparameter, this is intended to be kept at its default value.
+
+<!-- chunk {"id": "body-0050", "role": "body", "section": "Optimising the Transform", "weight": 1.0} -->
+
+- computing PPV for $W$ and $-W$ at the same time; - reusing the convolution output to compute multiple features; - avoiding multiplications in the convolution operation; and - for each dilation, computing all kernels (almost) `at once'.
+
+<!-- chunk {"id": "body-0051", "role": "body", "section": "Computing PPV for $W$ and $-W$ at the Same Time", "weight": 1.0} -->
+
+Illustration of $\text{{\normalfont PPV}}(X * W - b) = 1 - \text{{\normalfont PPV}}(b - (X * W))$. [PPV for a given kernel, W, is equivalent to a very similar feature for the inverted kernel, negative W]A toy example showing that PPV for a given kernel, W, is equivalent to a very similar feature for the inverted kernel, negative W. Two plots: the plot on the left shows the convolution output for input X and kernel W minus bias b, and the resulting proportion of positive values, or PPV; the plot on the right shows the convolution output for the same input X and the inverted kernel negative W plus bias b, and the proportion of negative values, or PNV.
+
+<!-- chunk {"id": "body-0052", "role": "body", "section": "Computing PPV for $W$ and $-W$ at the Same Time", "weight": 1.0} -->
+
+PNV for the inverted kernel negative W is shown to be the same as PPV for the kernel W. $C = X * W - b$, PPV is given by $\text{PPV}(C) = \frac{1}{n} \sum [c > 0].$ PPV is bounded between 0 and 1. By definition, the proportion of negative values (or PNV) is the complement of PPV, i.e., $1 - \text{PPV}(X * W - b) = \text{PNV}(X * W - b).$That is, by computing PPV, we also implicitly compute PNV and vice versa. In this sense, PPV and PNV are equivalent.
+
+<!-- chunk {"id": "body-0053", "role": "body", "section": "Computing PPV for $W$ and $-W$ at the Same Time", "weight": 1.0} -->
+
+Further, the convolution operation is associative, such that $X * -W = -(X * W)$. Accordingly, by computing PPV for a given kernel, $W$, we unavoidably also compute an equivalent feature (i.e., PNV) for $-W$, that is, $\text{PPV}(X * W - b) = 1 - \text{PPV}(b - (X * W)).$ This relationship is illustrated in Figure [fig-diagram-ppv-inverse]. This means that, for the purposes of PPV, it is unnecessary to compute both $X * W$ and $X * -W$. In fact, it would be redundant to do so.
+
+<!-- chunk {"id": "body-0054", "role": "body", "section": "Computing PPV for $W$ and $-W$ at the Same Time", "weight": 1.0} -->
+
+This means that, in practice, for a given set of kernels where each kernel, $W$, is matched by a corresponding inverted kernel, $-W$, we only need to perform the convolution operation for $W$, i.e., for half of the kernels. We get $-W$ `for free'. Accordingly, as set out in Section [subsubsec-weights], \textsc{MiniRocket} only uses a set of kernels with weights $\alpha = -1$ and $\beta = 2$, as it is unnecessary to also use the corresponding set of inverted kernels with weights $\alpha = 1$ and $\beta = -2$.
+
+<!-- chunk {"id": "body-0055", "role": "body", "section": "Reusing the Convolution Output", "weight": 1.0} -->
+
+\textsc{MiniRocket}, the same kernel/dilation combination is used to compute multiple features, at least for smaller dilations (exponentially fewer features are computed for larger dilations: see Section [subsubsec-dilation]).
+
+<!-- chunk {"id": "body-0056", "role": "body", "section": "Reusing the Convolution Output", "weight": 1.0} -->
+
+For a given kernel, $W$, and dilation, $d$, we compute $C = X * W_{d}$ and then reuse the convolution output, $C$, to compute multiple features, i.e., for multiple different bias values. This has the effect that multiple features are computed with the computational cost of a single convolution operation, plus the much lower cost of computing PPV for each bias value.
+
+<!-- chunk {"id": "body-0057", "role": "body", "section": "Avoiding Multiplications", "weight": 1.0} -->
+
+Restricting the kernel weights to two values allows us to, in effect, `factor out' the multiplications from the convolution operation, and to perform the convolution operation using only addition.
+
+<!-- chunk {"id": "body-0058", "role": "body", "section": "Avoiding Multiplications", "weight": 1.0} -->
+
+For input time series $X = [x_{0}, x_{1},..., x_{n - 1}]$, and kernel $W = [w_{0}, w_{1},..., w_{m - 1}]$, with dilation, $d$, the convolution operation can be formulated as: $$X * W_{d} = \sum_{j=0}^{m - 1} x_{i - (\lfloor \frac{m}{2} \rfloor \cdot d) + (j \cdot d)} \cdot w_{j}, \forall i \in \{0, 1,..., n - 1\}.$$ Equivalently, the convolution operation can be thought of as the column sums of a matrix, $\boldsymbol{\hat{C}}$, where each row corresponds to the input time series multiplied by the appropriate kernel weight, and the alignment of the rows corresponds to dilation (values of 0 in
+
+<!-- chunk {"id": "body-0059", "role": "body", "section": "Avoiding Multiplications", "weight": 1.0} -->
+
+$\boldsymbol{\hat{C}}$ represent zero padding), e.g.: \vdots & \vdots & \vdots & \vdots & \vdots & \ddots \\The result of the convolution operation is given by the column sums of $\boldsymbol{\hat{C}}$, i.e., $C = X * W = \boldsymbol{1}^{\top}\boldsymbol{\hat{C}}$, where $\boldsymbol{1}$ is a vector, $[1,1,...,1]^{\top}$, of length $n$.
+
+<!-- chunk {"id": "body-0060", "role": "body", "section": "Avoiding Multiplications", "weight": 1.0} -->
+
+Where the weights of the kernels are restricted to two values, $\alpha$ and $\beta$, we can `factor out' the multiplications by precomputing $A = \alpha X$ and $B = \beta X$ and then, for a given kernel, e.g., $W = [\alpha, \beta, \alpha,..., \alpha]$, completing the convolution operation by summation using $A = [a_{0}, a_{1},..., a_{n - 1}]$ and $B = [b_{0}, b_{1},..., b_{n - 1}]$: \vdots & \vdots & \vdots & \vdots & \vdots & \ddots & \vdots \\In other words, it is only necessary to compute $\alpha X$ and $\beta X$once for each input time series, and then reuse the results to complete the convolution operation for each kernel by addition.
+
+<!-- chunk {"id": "body-0061", "role": "body", "section": "Computing All the Kernels (Almost) `At Once'", "weight": 1.0} -->
+
+We can take further advantage of using only two values for the kernel weights in order to perform most of the computation required for all 84 kernels `at once' for each dilation value. More precisely, as \textsc{MiniRocket} uses kernels with six weights of one value, and three weights of another value, we can perform $\frac{6}{9} = \frac{2}{3}$of the computation for all 84 kernels `at once' for a given dilation.
+
+<!-- chunk {"id": "body-0062", "role": "body", "section": "Computing All the Kernels (Almost) `At Once'", "weight": 1.0} -->
+
+This is possible by treating all kernel weights as $\alpha = -1$, precomputing convolution output, $C_{\alpha}$, and later adjusting $C_{\alpha}$ for each kernel. Per Section [subsubsec-factoring-out], $C_{\alpha}$ can be thought of as the column sums of a matrix with 9 rows, where each row corresponds to $\alpha X = -X$, aligned according to dilation. For example, for a dilation of 1: $$\hat{\boldsymbol{C}}_{\alpha} = \vdots & \vdots & \vdots & \vdots & \vdots & \ddots & \vdots \\\textsc{MiniRocket}, the kernel weights are $\alpha = -1$ and $\beta = 2$. Let $\gamma = 3$, noting that $2 = -1 + 3$.
+
+<!-- chunk {"id": "body-0063", "role": "body", "section": "Computing All the Kernels (Almost) `At Once'", "weight": 1.0} -->
+
+As for $\hat{\boldsymbol{C}}_{\alpha}$, we then form $\hat{\boldsymbol{C}}_{\gamma}$, where each row corresponds to $\gamma X = 3X$, aligned according to dilation. For each kernel, $C_{\gamma}$ is equivalent to the column sums of those rows in $\hat{\boldsymbol{C}}_{\gamma}$ corresponding to the position of the $\beta$ weights in the given kernel. For example, for kernel $W = [\beta, \alpha, \beta, \alpha, \beta, \alpha, \alpha, \alpha, \alpha]$: $$\hat{\boldsymbol{C}}_{\gamma}^{(W)} = The final convolution output for a given kernel is then given by $C = C_{\alpha} + C_{\gamma}$.
+
+<!-- chunk {"id": "body-0064", "role": "body", "section": "Computing All the Kernels (Almost) `At Once'", "weight": 1.0} -->
+
+In other words, we can reuse $C_{\alpha}$, computed once for a given dilation, to compute the convolution output for all 84 kernels for that dilation. For each kernel, computing $C$ only involves adding $C_{\gamma}$ to $C_{\alpha}$. In performing the convolution operation in this way, we only have to compute $C_{\gamma}$ for each kernel, i.e., $\frac{1}{3}$of the computation otherwise required.
+
+<!-- chunk {"id": "body-0065", "role": "body", "section": "Classifiers", "weight": 1.0} -->
+
+\textsc{Rocket}, \textsc{MiniRocket} is a transform, producing features which are then used to train a linear classifier. We use the same classifiers as \textsc{Rocket} to learn the mapping from the features to the classes, i.e., a ridge regression classifier or, for larger datasets, logistic regression trained using Adam [kingma\_and\_ba\_2015]. As for \textsc{Rocket}, we suggest switching from the ridge regression classifier to logistic regression when there are more training examples than features, i.e., when there are more than approximately $10{,}000$training examples.
+
+<!-- chunk {"id": "body-0066", "role": "body", "section": "Complexity", "weight": 1.0} -->
+
+Fundamentally, the scalability of \textsc{MiniRocket} remains the same as for \textsc{Rocket}: linear in the number of kernels/features ($k$), the number of examples ($n$), and time series length ($l_{\text{input}}$) or, formally, $O(k \cdot n \cdot l_{\text{input}})$. While \textsc{MiniRocket} uses a smaller number of kernel/dilation combinations, and computes multiple features for each kernel/dilation combination, complexity is still proportional to the number of kernels/features. Similarly, while \textsc{MiniRocket} `factors out' multiplications from the convolution operation, the number of addition operations is still proportional to the number of kernels and time series length, and while \textsc{MiniRocket} performs the majority of the computation required for all 84 kernels `at once', the remaining computation is still proportional to the number of kernels/features.
+
+<!-- chunk {"id": "body-0067", "role": "body", "section": "Complexity", "weight": 1.0} -->
+
+However, within this broad class of complexity, the various optimisations pursued in Section [subsec-optimising-the-transform] make \textsc{MiniRocket}significantly faster in practice.
+
+<!-- chunk {"id": "body-0068", "role": "body", "section": "Memory", "weight": 1.0} -->
+
+\textsc{Rocket} (which does not store any intermediate values), \textsc{MiniRocket} temporarily stores up to 13 additional vectors, namely, $A = -X$, $G = \gamma X = 3X$ (plus 9 variants of $G$ pre-aligned for the given dilation), $C_{\alpha}$, and $C$: see Sections [subsubsec-factoring-out] and [subsubsec-all-kernels-at-once]. This is equivalent to storing 13 additional copies of a single input time series (approx. $1{,}000{,}000 \times 4 \times 13 = 52 \text{MB}$for time series of length 1 million), which should be negligible in almost all cases.
+
+<!-- chunk {"id": "body-0069", "role": "body", "section": "Memory", "weight": 1.0} -->
+
+When transforming the training set, the deterministic variant stores the convolution output for a given kernel/dilation combination for the entire training set, which is equivalent to storing one additional copy of the entire training set. This is impractical for larger datasets, which is why it is avoided by default.
+
+<!-- chunk {"id": "body-0070", "role": "body", "section": "Experiments", "weight": 1.0} -->
+
+\textsc{MiniRocket} on the datasets in the UCR archive (Section [subsec-ucr-archive]), showing that, on average, \textsc{MiniRocket} is marginally more accurate than \textsc{Rocket}, and not significantly less accurate than the most accurate current methods for time series classification. We demonstrate the speed and scalability of \textsc{MiniRocket} in terms of both training set size and time series length (Section [subsec-scalability]), showing that \textsc{MiniRocket} is up to $75$ times faster than \textsc{Rocket} on larger datasets. We also explore the effect of key parameters in relation to kernel length, bias, output features, and dilation (Section [subsec-sensitivity-analysis]).
+
+<!-- chunk {"id": "body-0071", "role": "body", "section": "UCR Archive", "weight": 1.0} -->
+
+\textsc{MiniRocket} on the datasets in the UCR archive [dau\_etal\_2019]. We compare \textsc{MiniRocket} against the most accurate current methods for time series classification, namely, HIVE-COTE/TDE (representative of HIVE-COTE and its variants), TS-CHIEF, InceptionTime, and \textsc{Rocket}, as well as TDE, CIF, cBOSS and Proximity Forest.
+
+<!-- chunk {"id": "body-0072", "role": "body", "section": "UCR Archive", "weight": 1.0} -->
+
+For consistency and direct comparability with the most recent published results for other state-of-the-art methods [bagnall\_etal\_2020,middlehurst\_etal\_2020a,middlehurst\_etal\_2020b], we evaluate \textsc{MiniRocket} on 30 resamples of 109 datasets from the archive. We use the same 30 resamples (including the default training/test split) as in [bagnall\_etal\_2020,middlehurst\_etal\_2020a,middlehurst\_etal\_2020b]. (Full results are available in the accompanying repository.) [fig-rank-ucr109] on page fig-rank-ucr109 shows the mean rank of \textsc{MiniRocket} versus the other state-of-the-art methods.
+
+<!-- chunk {"id": "body-0073", "role": "body", "section": "UCR Archive", "weight": 1.0} -->
+
+Methods for which the pairwise difference in accuracy is not statistically significant, per a Wilcoxon signed-rank test with Holm correction (as a post hoc test to the Friedman test), are connected with a black line [demsar\_2006,garcia\_and\_herrera\_2008,benavoli\_etal\_2016].
+
+<!-- chunk {"id": "body-0074", "role": "body", "section": "UCR Archive", "weight": 1.0} -->
+
+\textsc{MiniRocket} is, on average, marginally more accurate than \textsc{Rocket}, and somewhat less accurate than the most accurate current methods, namely TS-CHIEF and HIVE-COTE/TDE, although the differences in accuracy are not statistically significant. However, as noted in Section [sec-introduction], the total compute time for \textsc{MiniRocket} on these datasets is a tiny fraction of the total compute time required by the other methods (even \textsc{Rocket}, which is already considerably faster than even the fastest of the other methods).
+
+<!-- chunk {"id": "body-0075", "role": "body", "section": "UCR Archive", "weight": 1.0} -->
+
+\textsc{MiniRocket} versus \textsc{Rocket}.
+
+<!-- chunk {"id": "body-0076", "role": "body", "section": "UCR Archive", "weight": 1.0} -->
+
+Pairwise accuracy of \textsc{MiniRocket} versus \textsc{Rocket}. [Apricot is more accurate than Rocket on 61 of 109 datasets]Scatter plot showing the accuracy of Apricot against the accuracy of Rocket for 109 datasets from the UCR archive. Apricot is more accurate on 61 datasets, as accurate on 3 datasets, and less accurate on 45 datasets. The accuracy of Apricot and Rocket is similar for most datasets. For one dataset, PigAirWayPressure, Apricot is considerably more accurate than Rocket. [fig-pairwise-minirocket-vs-rocket] shows the pairwise accuracy of \textsc{MiniRocket} versus \textsc{Rocket} for the same 109 datasets. Overall, \textsc{MiniRocket} and \textsc{Rocket} achieve very similar accuracy. \textsc{MiniRocket} is more accurate than \textsc{Rocket} on 61 datasets, and less accurate on 45 datasets, but the differences in accuracy are mostly small.
+
+<!-- chunk {"id": "body-0077", "role": "body", "section": "UCR Archive", "weight": 1.0} -->
+
+The large difference in accuracy between \textsc{MiniRocket} and \textsc{Rocket} on one dataset, PigAirwayPressure, appears to be due to the way the bias values are sampled. We also evaluated a variant of \textsc{Rocket} which uses the same method of sampling bias values as \textsc{MiniRocket}. Overall, this variant is slightly more accurate than default \textsc{Rocket}, but the difference is relatively minor, with a win/draw/loss of 50/6/53 against \textsc{MiniRocket}.
+
+<!-- chunk {"id": "body-0078", "role": "body", "section": "UCR Archive", "weight": 1.0} -->
+
+Pairwise accuracy of default \textsc{MiniRocket} versus the deterministic variant. [Apricot is more accurate than the deterministic variant of Apricot on 42 of 109 datasets]Scatter plot showing the accuracy of Apricot against the accuracy of the deterministic variant of Apricot for 109 datasets from the UCR archive. Apricot is more accurate on 42 datasets, as accurate on 11 datasets, and less accurate on 56 datasets. The accuracy of Apricot and the deterministic variant is extremely similar on all datasets, with only very minor, almost imperceptible, differences. [fig-pairwise-minirocket-vs-minirocket-dv] shows the pairwise accuracy of default \textsc{MiniRocket} vs the deterministic variant (or \textsc{MiniRocket}$_{\text{DV}}$) for the same 109 datasets. Overall, the deterministic variant produces essentially the same accuracy as the default variant.
+
+<!-- chunk {"id": "body-0079", "role": "body", "section": "Training Set Size", "weight": 1.0} -->
+
+Training time versus (left) training set size and (right) time series length. [Apricot is much faster than Rocket on large datasets in terms of both training set size and time series length]Three line plots showing training set size against total training time (transform plus classifier training), and one line plot showing time series length against total training time, for both Apricot and Rocket. In terms of training set size, Apricot is 66 times faster for the FruitFlies dataset, 43 times faster for the InsectSound dataset, and 75 times faster for the MosquitoSound dataset. In terms of time series length, Apricot is 19 times faster for the DucksAndGeese dataset.
+
+<!-- chunk {"id": "body-0080", "role": "body", "section": "Training Set Size", "weight": 1.0} -->
+
+Accuracy and total training time.
+
+<!-- chunk {"id": "body-0081", "role": "body", "section": "Training Set Size", "weight": 1.0} -->
+
+| | 2cAccuracy | 2cTraining Time | | | We demonstrate the speed and scalability of \textsc{MiniRocket} in terms of training set size on the three largest datasets in the UCR archive, namely, MosquitoSound ($139{,}780$ training examples, each of length $3{,}750$), InsectSound ($25{,}000$ training examples, each of length $600$), and FruitFlies ($17{,}259$ training examples, each of length $5{,}000$). These recent additions are significantly larger than other datasets in the archive.
+
+<!-- chunk {"id": "body-0082", "role": "body", "section": "Training Set Size", "weight": 1.0} -->
+
+For this purpose, following [dempster\_etal\_2020], we integrate \textsc{MiniRocket} (and \textsc{Rocket}) with logistic regression, trained using Adam. Training details are provided in Appendix [sec-appendix-training-details]. The experiments were performed on the same cluster as noted in Section [sec-introduction] and, again, both \textsc{Rocket} and \textsc{MiniRocket}are restricted to a single CPU core. [fig-scalability] shows training time vs training set size for \textsc{MiniRocket} and \textsc{Rocket}. Training time includes the transform for both validation and training sets, and classifier training. Table [table-scalability-training-set-size]shows test accuracy and total training time (for the full training set).
+
+<!-- chunk {"id": "body-0083", "role": "body", "section": "Training Set Size", "weight": 1.0} -->
+
+\textsc{MiniRocket} is slightly more accurate on one of the datasets, and slightly less accurate on two of the datasets. This is consistent with the small differences in accuracy observed on the other datasets in the UCR archive: see Section [subsec-ucr-archive]. However, \textsc{MiniRocket} is considerably faster than \textsc{Rocket}: $43$ times faster on InsectSound, $66$ times faster on FruitFlies, and $75$ times faster on MosquitoSound.
+
+<!-- chunk {"id": "body-0084", "role": "body", "section": "Training Set Size", "weight": 1.0} -->
+
+\textsc{Rocket} and \textsc{MiniRocket} on the InsectSound and MosquitoSound datasets appears to be broadly comparable to reported results for other methods for these datasets or versions of these datasets [chen\_etal\_2014,zhang\_etal\_2017,fanioudakis\_etal\_2018,flynn\_and\_bagnall\_2019], although some deep learning approaches are significantly more accurate on MosquitoSound [fanioudakis\_etal\_2018].
+
+<!-- chunk {"id": "body-0085", "role": "body", "section": "Time Series Length", "weight": 1.0} -->
+
+We demonstrate the scalability of \textsc{MiniRocket} in terms of time series length on the dataset in the UCR archive with the longest time series, DucksAndGeese ($50$ training examples, each of length $236{,}784$). This recent addition has significantly longer time series than other datasets in the archive. [fig-scalability] shows training time versus time series length for both \textsc{Rocket} and \textsc{MiniRocket}. Training time includes the transform and classifier training. (With only 50 training examples, we use the ridge regression classifier.)
+
+<!-- chunk {"id": "body-0086", "role": "body", "section": "Time Series Length", "weight": 1.0} -->
+
+\textsc{Rocket} and \textsc{MiniRocket} are linear in time series length, \textsc{MiniRocket} is considerably faster for a given length. With more training examples, we would expect the difference in training time to be considerably larger. With only 50 training examples, the overhead of sampling bias values (which is unrelated to training set size) constitutes a significant proportion of the total training time for \textsc{MiniRocket}.
+
+<!-- chunk {"id": "body-0087", "role": "body", "section": "Sensitivity Analysis", "weight": 1.0} -->
+
+- sampling bias from the convolution output versus $\mathcal{U}(-1, 1)$; - using only PPV versus both PPV and global max pooling; - the number of features; and - limiting the maximum number of dilations per kernel.
+
+<!-- chunk {"id": "body-0088", "role": "body", "section": "Sensitivity Analysis", "weight": 1.0} -->
+
+We perform the analysis using the 40 `development' datasets (default training/test splits). Results are mean results over 10 runs.
+
+<!-- chunk {"id": "body-0089", "role": "body", "section": "Kernels", "weight": 1.0} -->
+
+Mean rank for different kernel lengths. [The subset of kernels of length 9 having three weights of one value ranks just behind the full set of length 9]The subset of kernels of length 9 having three weights of one value and six weights of another value ranks just behind the full set of kernels of length 9, and ahead of any other subset of length 9 and kernels of length 7 or 11. The pairwise differences are (with one exception) not statistically significant. [fig-sensitivity-kal] shows the effect of kernel length on accuracy. For kernels of length 9, a subscript refers to a particular subset of kernels in the sense discussed in Section [subsubsec-weights]. (E.g., $9_{\{3\}}$ refers to kernels with three weights of one value, and six weights of another value.) The total number of features is kept constant (to the nearest multiple of the number of kernels less than $10{,}000$: see Section [subsubsec-features]), such that more features are computed per kernel for smaller sets of kernels and vice versa.
+
+<!-- chunk {"id": "body-0090", "role": "body", "section": "Kernels", "weight": 1.0} -->
+
+Kernels of length 9 are most accurate, but kernels of length 7 or 11 are not significantly less accurate. This is consistent with the findings in [dempster\_etal\_2020] in relation to \textsc{Rocket}. The actual differences in accuracy between kernels of different lengths is very small.
+
+<!-- chunk {"id": "body-0091", "role": "body", "section": "Kernels", "weight": 1.0} -->
+
+Crucially, however, as noted in Section [subsubsec-weights], the $9_{\{3\}}$ subset is nearly as accurate as the full set of kernels of length 9. This is a relatively small subset of kernels, and is particularly well suited to the optimisations pursued in Section [subsec-optimising-the-transform].
+
+<!-- chunk {"id": "body-0092", "role": "body", "section": "Bias", "weight": 1.0} -->
+
+Mean rank for bias sampled from the convolution output versus bias sampled from $\mathcal{U}(-1, 1)$. [Bias sampled from the convolution output ranks well ahead of bias sampled uniformly]Bias sampled from the convolution output ranks well ahead of bias sampled uniformly from negative 1 to 1, and the difference is statistically significant. [fig-sensitivity-bias] shows the effect in terms of accuracy of sampling bias from the convolution output versus from $\mathcal{U}(-1, 1)$ as in \textsc{Rocket}. \textsc{MiniRocket} is significantly less accurate when sampling bias from $\mathcal{U}(-1,1)$. The change to sampling bias from the convolution output is critical to matching the accuracy of \textsc{Rocket}.
+
+<!-- chunk {"id": "body-0093", "role": "body", "section": "Features", "weight": 1.0} -->
+
+Mean rank for PPV vs PPV and global max pooling. [PPV by itself ranks ahead of the combination of PPV and global max pooling]PPV by itself ranks ahead of the combination of PPV and global max pooling, but the difference is not statistically significant. [fig-sensitivity-ppv] shows the effect of using only PPV versus both PPV and global max pooling. With the other changes to \textsc{MiniRocket}in particular, with the change to sampling bias from the convolution outputthere is no advantage to using global max pooling in addition to PPV. In fact, using global max pooling in addition to PPV is less accurate than just using PPV, although the difference is not statistically significant.
+
+<!-- chunk {"id": "body-0094", "role": "body", "section": "Number of Features", "weight": 1.0} -->
+
+Mean rank for different numbers of features. [9,996 features, the default, ranks just behind 49,980 features, but ahead of any other number of features]9,996 features, the default, ranks just behind 49,980 features, but ahead of 99,960 features and any smaller number of features. 9,996 features is in the same clique as 4,956, 99,960, and 49,980 features, that is, the pairwise differences are not statistically significant. [fig-sensitivity-num-features] shows the effect of different numbers of features between $84$ and $99{,}960$ (the nearest multiple of 84 less than 100, 500, $1{,}000$,...). Increasing the number of features noticeably increases accuracy up to approximately $10{,}000$ features.
+
+<!-- chunk {"id": "body-0095", "role": "body", "section": "Number of Features", "weight": 1.0} -->
+
+There is little or no benefit to increasing the number of features beyond $10{,}000$, at least for shorter time series, because there is little benefit in computing PPV for many more than $l_{\text{input}}$ bias values for time series of length $l_{\text{input}}$ (more and more features will be the same). For $49{,}980$ and $99{,}960$ features, we have endeavoured to avoid this limitation as much as possible by setting the maximum number of dilations per kernel to 119 (see Section [subsubsec-dilation]) and, where necessary, sampling bias values from multiple training examples.
+
+<!-- chunk {"id": "body-0096", "role": "body", "section": "Dilation", "weight": 1.0} -->
+
+Mean rank of different values for the maximum number of dilations per kernel. [A maximum of 32 dilations per kernel, the default, ranks ahead of all other values]A maximum of 32 dilations per kernel, the default, ranks ahead of all other values for the maximum number of dilations per kernel. The pairwise differences are (with one exception) not statistically significant. [fig-sensitivity-dilation] shows the effect in terms of accuracy of different values for the maximum number of dilations per kernel. The total number of features is kept constant, such that more features are computed per dilation for a smaller number of maximum dilations per kernel and vice versa: see Section [subsubsec-dilation]. There is little difference in accuracy between values of 16 and 119 (119 being the largest possible number of dilations per kernel for the default number of features, i.e., $\lfloor 10{,}000 / {84} \rfloor = 119$). A value of 32 balances accuracy with the computational advantage of limiting the number of dilations per kernel, as discussed in Section [subsubsec-dilation].
+
+<!-- chunk {"id": "body-0097", "role": "body", "section": "Conclusion", "weight": 1.5} -->
+
+\textsc{Rocket} into a new method, \textsc{MiniRocket}, making it up to $75$ times faster on larger datasets. \textsc{MiniRocket} shows that it is possible to achieve essentially the same accuracy as \textsc{Rocket}using a mostly-deterministic and much faster procedure.
+
+<!-- chunk {"id": "body-0098", "role": "body", "section": "Conclusion", "weight": 1.5} -->
+
+\textsc{MiniRocket} represents a significant advance in accuracy relative to computational cost. \textsc{MiniRocket} is much faster than any other method of comparable accuracy (including \textsc{Rocket}), and far more accurate than any other method of even roughly-similar computational expense. Accordingly, we suggest that \textsc{MiniRocket} should be considered and used as the default variant of \textsc{Rocket}. We provide a naive facility for applying \textsc{MiniRocket} to multivariate time series (available through the accompanying repository). In future work, we propose to investigate more sophisticated approaches to multivariate time series, to explore the integration of \textsc{MiniRocket} with nonlinear classifiers, and the use of \textsc{MiniRocket}beyond time series data.
+
+<!-- chunk {"id": "body-0099", "role": "body", "section": "Conclusion", "weight": 1.5} -->
+
+This material is based on work supported by an Australian Government Research Training Program Scholarship, and the Australian Research Council under award DP190100017. The authors would like to thank Professor Eamonn Keogh and all the people who have contributed to the UCR time series classification archive. Figures showing mean ranks were produced using code from [ismailfawaz\_etal\_2019].

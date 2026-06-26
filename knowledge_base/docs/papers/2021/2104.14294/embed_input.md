@@ -20,124 +20,123 @@ In this paper, we question whether the muted success of Transformers in vision c
 
 <!-- chunk {"id": "body-0005", "role": "body", "section": "Introduction", "weight": 1.5} -->
 
-While the self-supervised pretext tasks used in NLP are text specific, many existing self-supervised methods have shown their potential on images with convnets. They typically share a similar structure but with different components designed to avoid trivial solutions (collapse) or to improve performance. In this work, inspired from these methods, we study the impact of self-supervised pretraining on ViT features.
+While the self-supervised pretext tasks used in NLP are text specific, many existing self-supervised methods have shown their potential on images with convnets. They typically share a similar structure but with different components designed to avoid trivial solutions (collapse) or to improve performance. In this work, inspired from these methods, we study the impact of self-supervised pretraining on ViT features. Of particular interest, we have identified several interesting properties that do not emerge with supervised ViTs, nor with convnets: Self-supervised ViT features explicitly contain the scene layout and, in particular, object boundaries, as shown in Figure 1. This information is directly accessible in the self-attention modules of the last block.
 
 <!-- chunk {"id": "body-0006", "role": "body", "section": "Introduction", "weight": 1.5} -->
 
-Self-supervised ViT features explicitly contain the scene layout and, in particular, object boundaries, as shown in Figure 1. This information is directly accessible in the self-attention modules of the last block.
+Self-supervised ViT features perform particularly well with a basic nearest neighbors classifier ($k$-NN) *without any finetuning, linear classifier nor data augmentation*, achieving 78.3% top-1 accuracy on ImageNet.
 
 <!-- chunk {"id": "body-0007", "role": "body", "section": "Introduction", "weight": 1.5} -->
 
-Self-supervised ViT features perform particularly well with a basic nearest neighbors classifier ($k$-NN) *without any finetuning, linear classifier nor data augmentation*, achieving 78.3% top-1 accuracy on ImageNet.
+The emergence of segmentation masks seems to be a property shared across self-supervised methods. However, the good performance with $k$-NN only emerge when combining certain components such as momentum encoder and multi-crop augmentation. Another finding from our study is the importance of using smaller patches with ViTs to improve the quality of the resulting features.
 
 <!-- chunk {"id": "body-0008", "role": "body", "section": "Introduction", "weight": 1.5} -->
 
-The emergence of segmentation masks seems to be a property shared across self-supervised methods. However, the good performance with $k$-NN only emerge when combining certain components such as momentum encoder and multi-crop augmentation. Another finding from our study is the importance of using smaller patches with ViTs to improve the quality of the resulting features.
+Overall, our findings about the importance of these components lead us to design a simple self-supervised approach that can be interpreted as a form of knowledge distillation with no labels. The resulting framework, DINO, simplifies self-supervised training by directly predicting the output of a teacher network---built with a momentum encoder---by using a standard cross-entropy loss. Interestingly, our method can work with only a centering and sharpening of the teacher output to avoid collapse, while other popular components such as predictor, advanced normalization or contrastive loss add little benefits in terms of stability or performance. Of particular importance, our framework is flexible and works on both convnets and ViTs without the need to modify the architecture, nor adapt internal normalizations.
 
 <!-- chunk {"id": "body-0009", "role": "body", "section": "Introduction", "weight": 1.5} -->
 
-Overall, our findings about the importance of these components lead us to design a simple self-supervised approach that can be interpreted as a form of knowledge distillation with no labels. The resulting framework, DINO, simplifies self-supervised training by directly predicting the output of a teacher network---built with a momentum encoder---by using a standard cross-entropy loss. Interestingly, our method can work with only a centering and sharpening of the teacher output to avoid collapse, while other popular components such as predictor, advanced normalization or contrastive loss add little benefits in terms of stability or performance. Of particular importance, our framework is flexible and works on both convnets and ViTs without the need to modify the architecture, nor adapt internal normalizations.
-
-<!-- chunk {"id": "body-0010", "role": "body", "section": "Introduction", "weight": 1.5} -->
-
 We further validate the synergy between DINO and ViT by outperforming previous self-supervised features on the ImageNet linear classification benchmark with 80.1% top-1 accuracy with a ViT-Base with small patches. We also confirm that DINO works with convnets by matching the state of the art with a ResNet-50 architecture. Finally, we discuss different scenarios to use DINO with ViTs in case of limited computation and memory capacity. In particular, training DINO with ViT takes just two 8-GPU servers over 3 days to achieve $76.1\%$ on ImageNet linear benchmark, which outperforms self-supervised systems based on convnets of comparable sizes with significantly reduced compute requirements.
 
-<!-- chunk {"id": "body-0011", "role": "body", "section": "Self-supervised learning", "weight": 1.0} -->
+<!-- chunk {"id": "body-0010", "role": "body", "section": "Self-supervised learning", "weight": 1.0} -->
 
 A large body of work on self-supervised learning focuses on discriminative approaches coined *instance classification*, which considers each image a different class and trains the model by discriminating them up to data augmentations. However, explicitly learning a classifier to discriminate between all images does not scale well with the number of images. Wu *et al*. propose to use a noise contrastive estimator (NCE) to compare instances instead of classifying them. A caveat of this approach is that it requires comparing features from a large number of images simultaneously. In practice, this requires large batches or memory banks. Several variants allow automatic grouping of instances in the form of clustering.
 
-<!-- chunk {"id": "body-0012", "role": "body", "section": "Self-supervised learning", "weight": 1.0} -->
+<!-- chunk {"id": "body-0011", "role": "body", "section": "Self-supervised learning", "weight": 1.0} -->
 
 Recent works have shown that we can learn unsupervised features without discriminating between images. Of particular interest, Grill *et al*. propose a metric-learning formulation called BYOL, where features are trained by matching them to representations obtained with a momentum encoder. Methods like BYOL work even without a momentum encoder, at the cost of a drop of performance. Several other works echo this direction, showing that one can match more elaborate representations, train features matching them to a uniform distribution or by using whitening. Our approach takes its inspiration from BYOL but operates with a different similarity matching loss and uses the exact same architecture for the student and the teacher. That way, our work completes the interpretation initiated in BYOL of self-supervised learning as a form of Mean Teacher self-distillation with no labels.
 
-<!-- chunk {"id": "body-0013", "role": "body", "section": "Self-training and knowledge distillation", "weight": 1.0} -->
+<!-- chunk {"id": "body-0012", "role": "body", "section": "Self-training and knowledge distillation", "weight": 1.0} -->
 
 Self-training aims at improving the quality of features by propagating a small initial set of annotations to a large set of unlabeled instances. This propagation can either be done with hard assignments of labels or with a soft assignment. When using soft labels, the approach is often referred to as knowledge distillation and has been primarily designed to train a small network to mimic the output of a larger network to compress models. Xie *et al*. have shown that distillation could be used to propagate soft pseudo-labels to unlabelled data in a self-training pipeline, drawing an essential connection between self-training and knowledge distillation. Our work builds on this relation and extends knowledge distillation to the case where no labels are available. Previous works have also combined self-supervised learning and knowledge distillation, enabling self-supervised model compression and performance gains. However, these works rely on a *pre-trained* fixed teacher while our teacher is dynamically built during training. This way, knowledge distillation, instead of being used as a post-processing step to self-supervised pre-training, is directly cast as a self-supervised objective.
 
-<!-- chunk {"id": "body-0014", "role": "body", "section": "Self-training and knowledge distillation", "weight": 1.0} -->
+<!-- chunk {"id": "body-0013", "role": "body", "section": "Self-training and knowledge distillation", "weight": 1.0} -->
 
 Finally, our work is also related to codistillation where student and teacher have the same architecture and use distillation during training. However, the teacher in codistillation is also distilling from the student, while it is updated with an average of the student in our work.
 
-<!-- chunk {"id": "body-0015", "role": "body", "section": "SSL with Knowledge Distillation", "weight": 1.0} -->
+<!-- chunk {"id": "body-0014", "role": "body", "section": "SSL with Knowledge Distillation", "weight": 1.0} -->
 
 The framework used for this work, DINO, shares the same overall structure as recent self-supervised approaches. However, our method shares also similarities with knowledge distillation and we present it under this angle. We illustrate DINO in Figure 2 and propose a pseudo-code implementation in Algorithm 1.
 
+<!-- chunk {"id": "body-0015", "role": "body", "section": "SSL with Knowledge Distillation", "weight": 1.0} -->
+
+Knowledge distillation is a learning paradigm where we train a student network $g_{\theta_{s}}$ to match the output of a given teacher network $g_{\theta_{t}}$, parameterized by $\theta_{s}$ and $\theta_{t}$ respectively. Given an input image $x$, both networks output probability distributions over $K$ dimensions denoted by $P_{s}$ and $P_{t}$. The probability $P$ is obtained by normalizing the output of the network $g$ with a softmax function. More precisely, with $\tau_{s} > 0$ a temperature parameter that controls the sharpness of the output distribution, and a similar formula holds for $P_{t}$ with temperature $\tau_{t}$. Given a fixed teacher network $g_{\theta_{t}}$, we learn to match these distributions by minimizing the cross-entropy loss w.r.t.
+
 <!-- chunk {"id": "body-0016", "role": "body", "section": "SSL with Knowledge Distillation", "weight": 1.0} -->
 
-Knowledge distillation is a learning paradigm where we train a student network $g_{\theta_{s}}$ to match the output of a given teacher network $g_{\theta_{t}}$, parameterized by $\theta_{s}$ and $\theta_{t}$ respectively. Given an input image $x$, both networks output probability distributions over $K$ dimensions denoted by $P_{s}$ and $P_{t}$. The probability $P$ is obtained by normalizing the output of the network $g$ with a softmax function. More precisely,
+the parameters of the student network $\theta_{s}$: In the following, we detail how we adapt the problem in Eq. to self-supervised learning. First, we construct different distorted views, or crops, of an image with multi-crop strategy. More precisely, from a given image, we generate a set $V$ of different views. This set contains two *global* views, $x_{1}^{g}$ and $x_{2}^{g}$ and several *local* views of smaller resolution. All crops are passed through the student while only the *global* views are passed through the teacher, therefore encouraging "local-to-global" correspondences.
 
-<!-- chunk {"id": "body-0017", "role": "body", "section": "SSL with Knowledge Distillation", "weight": 1.0} -->
+<!-- chunk {"id": "body-0017", "role": "body", "section": "l, m: network and center momentum rates", "weight": 1.0} -->
 
-with $\tau_{s} > 0$ a temperature parameter that controls the sharpness of the output distribution, and a similar formula holds for $P_{t}$ with temperature $\tau_{t}$. Given a fixed teacher network $g_{\theta_{t}}$, we learn to match these distributions by minimizing the cross-entropy loss w.r.t.
+for x in loader: # load a minibatch x with n samples x1, x2 = augment(x), augment(x) # random views s1, s2 = gs(x1), gs(x2) # student output n-by-K t1, t2 = gt(x1), gt(x2) # teacher output n-by-K loss.backward # back-propagate
 
-<!-- chunk {"id": "body-0018", "role": "body", "section": "SSL with Knowledge Distillation", "weight": 1.0} -->
+<!-- chunk {"id": "body-0018", "role": "body", "section": "student, teacher and center updates", "weight": 1.0} -->
 
-In the following, we detail how we adapt the problem in Eq. to self-supervised learning. First, we construct different distorted views, or crops, of an image with multi-crop strategy. More precisely, from a given image, we generate a set $V$ of different views. This set contains two *global* views, $x_{1}^{g}$ and $x_{2}^{g}$ and several *local* views of smaller resolution. All crops are passed through the student while only the *global* views are passed through the teacher, therefore encouraging "local-to-global" correspondences.
+gt.params = l*gt.params + (1-l)*gs.params C = m*C + (1-m)*cat([t1, t2]).mean(dim=0) t = t.detach # stop gradient s = softmax(s / tps, dim=1) t = softmax((t - C) / tpt, dim=1) # center + sharpen return - (t * log(s)).sum(dim=1).mean Algorithm 1 DINO PyTorch pseudocode w/o multi-crop.
 
-<!-- chunk {"id": "body-0019", "role": "body", "section": "SSL with Knowledge Distillation", "weight": 1.0} -->
-
-## gs, gt: student and teacher networks ## center (K) ## tps, tpt: student and teacher temperatures ## l, m: network and center momentum rates for x in loader: # load a minibatch x with n samples x1, x2 = augment(x), augment(x) # random views s1, s2 = gs(x1), gs(x2) # student output n-by-K t1, t2 = gt(x1), gt(x2) # teacher output n-by-K loss.backward # back-propagate ## student, teacher and center updates gt.params = l*gt.params + (1-l)*gs.params C = m*C + (1-m)*cat([t1, t2]).mean(dim=0) t = t.detach # stop gradient s = softmax(s / tps, dim=1) t = softmax((t - C) / tpt, dim=1) # center + sharpen return - (t *
-
-<!-- chunk {"id": "body-0020", "role": "body", "section": "SSL with Knowledge Distillation", "weight": 1.0} -->
-
-log(s)).sum(dim=1).mean Algorithm 1 DINO PyTorch pseudocode w/o multi-crop.
-
-<!-- chunk {"id": "body-0021", "role": "body", "section": "SSL with Knowledge Distillation", "weight": 1.0} -->
+<!-- chunk {"id": "body-0019", "role": "body", "section": "student, teacher and center updates", "weight": 1.0} -->
 
 This loss is general and can be used on any number of views, even only $2$. However, we follow the standard setting for multi-crop by using 2 global views at resolution $224^{2}$ covering a large (for example greater than $50\%$) area of the original image, and several local views of resolution $96^{2}$ covering only small areas (for example less than $50\%$) of the original image. We refer to this setting as the basic parametrization of DINO, unless mentioned otherwise.
 
-<!-- chunk {"id": "body-0022", "role": "body", "section": "SSL with Knowledge Distillation", "weight": 1.0} -->
+<!-- chunk {"id": "body-0020", "role": "body", "section": "student, teacher and center updates", "weight": 1.0} -->
 
 Both networks share the same architecture $g$ with different sets of parameters $\theta_{s}$ and $\theta_{t}$. We learn the parameters $\theta_{s}$ by minimizing Eq. with stochastic gradient descent.
 
-<!-- chunk {"id": "body-0023", "role": "body", "section": "Teacher network", "weight": 1.0} -->
+<!-- chunk {"id": "body-0021", "role": "body", "section": "Teacher network", "weight": 1.0} -->
 
 Unlike knowledge distillation, we do not have a teacher $g_{\theta_{t}}$ given *a priori* and hence, we build it from past iterations of the student network. We study different update rules for the teacher in Section 5.2 and show that freezing the teacher network over an epoch works surprisingly well in our framework, while copying the student weight for the teacher fails to converge. Of particular interest, using an exponential moving average (EMA) on the student weights, i.e., a momentum encoder, is particularly well suited for our framework. The update rule is ${\theta_{t}\leftarrow{{\lambda\theta_{t}} + {{({1 - \lambda})}\theta_{s}}}},$ with $\lambda$ following a cosine schedule from $0.996$ to $1$ during training. Originally the momentum encoder has been introduced as a substitute for a queue in contrastive learning.
 
-<!-- chunk {"id": "body-0024", "role": "body", "section": "Teacher network", "weight": 1.0} -->
+<!-- chunk {"id": "body-0022", "role": "body", "section": "Teacher network", "weight": 1.0} -->
 
 However, in our framework, its role differs since we do not have a queue nor a contrastive loss, and may be closer to the role of the mean teacher used in self-training. Indeed, we observe that this teacher performs a form of model ensembling similar to Polyak-Ruppert averaging with an exponential decay. Using Polyak-Ruppert averaging for model ensembling is a standard practice to improve the performance of a model. We observe that this teacher has better performance than the student throughout the training, and hence, guides the training of the student by providing target features of higher quality. This dynamic was not observed in previous works.
 
-<!-- chunk {"id": "body-0025", "role": "body", "section": "Teacher network", "weight": 1.0} -->
+<!-- chunk {"id": "body-0023", "role": "body", "section": "Teacher network", "weight": 1.0} -->
 
 #tokens
+
+<!-- chunk {"id": "body-0024", "role": "body", "section": "Teacher network", "weight": 1.0} -->
+
 #params
 
-<!-- chunk {"id": "body-0026", "role": "body", "section": "Network architecture", "weight": 1.0} -->
+<!-- chunk {"id": "body-0025", "role": "body", "section": "Network architecture", "weight": 1.0} -->
 
 The neural network $g$ is composed of a backbone $f$ (ViT or ResNet ), and of a projection head $h$: $g = {h \circ f}$. The features used in downstream tasks are the backbone $f$ output. The projection head consists of a 3-layer multi-layer perceptron (MLP) with hidden dimension $2048$ followed by $\ell_{2}$ normalization and a weight normalized fully connected layer with $K$ dimensions, which is similar to the design from SwAV. We have tested other projection heads and this particular design appears to work best for DINO (Appendix C). We do not use a predictor, resulting in the exact same architecture in both student and teacher networks. Of particular interest, we note that unlike standard convnets, ViT architectures do not use batch normalizations (BN) by default. Therefore, when applying DINO to ViT we do not use any BN also in the projection heads, making the system *entirely BN-free*.
 
+<!-- chunk {"id": "body-0026", "role": "body", "section": "Avoiding collapse", "weight": 1.0} -->
+
+Several self-supervised methods differ by the operation used to avoid collapse, either through contrastive loss, clustering constraints, predictor or batch normalizations. While our framework can be stabilized with multiple normalizations, it can also work with only a centering and sharpening of the momentum teacher outputs to avoid model collapse. As shown experimentally in Section 5.3, centering prevents one dimension to dominate but encourages collapse to the uniform distribution, while the sharpening has the opposite effect. Applying both operations balances their effects which is sufficient to avoid collapse in presence of a momentum teacher. Choosing this method to avoid collapse trades stability for less dependence over the batch: the centering operation only depends on first-order batch statistics and can be interpreted as adding a bias term $c$ to the teacher: ${g_{t}{(x)}}\leftarrow{{g_{t}{(x)}} + c}$. The center $c$ is updated with an exponential moving average, which allows the approach to work well across different batch sizes as shown in Section 5.5: where $m > 0$ is a rate parameter and $B$ is the batch size.
+
 <!-- chunk {"id": "body-0027", "role": "body", "section": "Avoiding collapse", "weight": 1.0} -->
 
-Several self-supervised methods differ by the operation used to avoid collapse, either through contrastive loss, clustering constraints, predictor or batch normalizations. While our framework can be stabilized with multiple normalizations, it can also work with only a centering and sharpening of the momentum teacher outputs to avoid model collapse. As shown experimentally in Section 5.3, centering prevents one dimension to dominate but encourages collapse to the uniform distribution, while the sharpening has the opposite effect. Applying both operations balances their effects which is sufficient to avoid collapse in presence of a momentum teacher. Choosing this method to avoid collapse trades stability for less dependence over the batch: the centering operation only depends on first-order batch statistics and can be interpreted as adding a bias term $c$ to the teacher: ${g_{t}{(x)}}\leftarrow{{g_{t}{(x)}} + c}$. The center $c$ is updated with an exponential moving average, which allows the approach to work well across different batch sizes as shown in Section 5.5:
+Output sharpening is obtained by using a low value for the temperature $\tau_{t}$ in the teacher softmax normalization.
 
-<!-- chunk {"id": "body-0028", "role": "body", "section": "Avoiding collapse", "weight": 1.0} -->
-
-where $m > 0$ is a rate parameter and $B$ is the batch size. Output sharpening is obtained by using a low value for the temperature $\tau_{t}$ in the teacher softmax normalization.
-
-<!-- chunk {"id": "body-0029", "role": "body", "section": "Implementation and evaluation protocols", "weight": 1.0} -->
+<!-- chunk {"id": "body-0028", "role": "body", "section": "Implementation and evaluation protocols", "weight": 1.0} -->
 
 In this section, we provide the implementation details to train with DINO and present the evaluation protocols used in our experiments.
 
-<!-- chunk {"id": "body-0030", "role": "body", "section": "Vision Transformer", "weight": 1.0} -->
+<!-- chunk {"id": "body-0029", "role": "body", "section": "Vision Transformer", "weight": 1.0} -->
 
 We briefly describe the mechanism of the Vision Transformer (ViT) and refer to Vaswani *et al*. for details about Transformers and to Dosovitskiy *et al*. for its adaptation to images. We follow the implementation used in DeiT. We summarize the configuration of the different networks used in this paper in Table 1. The ViT architecture takes as input a grid of non-overlapping contiguous image patches of resolution $N \times N$. In this paper we typically use $N = 16$ ("/16") or $N = 8$ ("/8"). The patches are then passed through a linear layer to form a set of embeddings. We add an extra learnable token to the sequence. The role of this token is to aggregate information from the entire sequence and we attach the projection head $h$ at its output. We refer to this token as the class token \[CLS\] for consistency with previous works, even though it is not attached to any label nor supervision in our case. The set of patch tokens and \[CLS\] token are fed to a standard Transformer network with a "pre-norm" layer normalization.
 
-<!-- chunk {"id": "body-0031", "role": "body", "section": "Vision Transformer", "weight": 1.0} -->
+<!-- chunk {"id": "body-0030", "role": "body", "section": "Vision Transformer", "weight": 1.0} -->
 
 The Transformer is a sequence of self-attention and feed-forward layers, paralleled with skip connections. The self-attention layers update the token representations by looking at the other token representations with an attention mechanism.
 
-<!-- chunk {"id": "body-0032", "role": "body", "section": "Implementation details", "weight": 1.0} -->
+<!-- chunk {"id": "body-0031", "role": "body", "section": "Implementation details", "weight": 1.0} -->
 
 We pretrain the models on the ImageNet dataset without labels. We train with the adamw optimizer and a batch size of $1024$, distributed over $16$ GPUs when using ViT-S/16. The learning rate is linearly ramped up during the first $10$ epochs to its base value determined with the following linear scaling rule: ${lr} = {{0.0005 \ast \text{batchsize}}/256}$. After this warmup, we decay the learning rate with a cosine schedule. The weight decay also follows a cosine schedule from $0.04$ to $0.4$. The temperature $\tau_{s}$ is set to $0.1$ while we use a linear warm-up for $\tau_{t}$ from $0.04$ to $0.07$ during the first $30$ epochs. We follow the data augmentations of BYOL (color jittering, Gaussian blur and solarization) and multi-crop with a bicubic interpolation to adapt the position embeddings to the scales.
 
-<!-- chunk {"id": "body-0033", "role": "body", "section": "Implementation details", "weight": 1.0} -->
+<!-- chunk {"id": "body-0032", "role": "body", "section": "Implementation details", "weight": 1.0} -->
 
 The code and models to reproduce our results is publicly available.
 
-<!-- chunk {"id": "body-0034", "role": "body", "section": "Evaluation protocols", "weight": 1.0} -->
+<!-- chunk {"id": "body-0033", "role": "body", "section": "Evaluation protocols", "weight": 1.0} -->
 
 Standard protocols for self-supervised learning are to either learn a linear classifier on frozen features or to finetune the features on downstream tasks. For linear evaluations, we apply random resize crops and horizontal flips augmentation during training, and report accuracy on a central crop. For finetuning evaluations, we initialize networks with the pretrained weights and adapt them during training. However, both evaluations are sensitive to hyperparameters, and we observe a large variance in accuracy between runs when varying the learning rate for example. We thus also evaluate the quality of features with a simple weighted nearest neighbor classifier ($k$-NN) as. We freeze the pretrain model to compute and store the features of the training data of the downstream task. The nearest neighbor classifier then matches the feature of an image to the $k$ nearest stored features that votes for the label. We sweep over different number of nearest neighbors and find that $20$ NN is consistently working the best for most of our runs. This evaluation protocol does not require any other hyperparameter tuning, nor data augmentation and can be run with only one pass over the downstream dataset, greatly simplifying the feature evaluation.
+
+<!-- chunk {"id": "body-0034", "role": "body", "section": "Evaluation protocols", "weight": 1.0} -->
+
+Comparison across architectures Table 2: Linear and k-NN classification on ImageNet. We report top-1 accuracy for linear and k-NN evaluations on the validation set of ImageNet for different self-supervised methods. We focus on ResNet-50 and ViT-small architectures, but also report the best results obtained across architectures. ∗ are run by us. We run the k-NN evaluation for models with official released weights. The throughput (im/s) is calculated on a NVIDIA V100 GPU with 128 samples per forward. Parameters (M) are of the feature extractor.
 
 <!-- chunk {"id": "body-0035", "role": "body", "section": "Main Results", "weight": 1.0} -->
 
@@ -205,7 +204,7 @@ We show the impact of adding different components from self-supervised learning 
 
 <!-- chunk {"id": "body-0051", "role": "body", "section": "Importance of the Different Components", "weight": 1.0} -->
 
-CE: Cross-Entropy, MSE: Mean Square Error, INCE: InfoNCE
+SK: Sinkhorn-Knopp, MC: Multi-Crop, Pred.: Predictor CE: Cross-Entropy, MSE: Mean Square Error, INCE: InfoNCE Table 7: Important component for self-supervised ViT pretraining. Models are trained for 300 epochs with ViT-S/16. We study the different components that matter for the k-NN and linear (“Lin.”) evaluations. For the different variants, we highlight the differences from the default DINO setting. The best combination is the momentum encoder with the multicrop augmentation and the cross-entropy loss. We also report results with BYOL, MoCo-v2 and SwAV.
 
 <!-- chunk {"id": "body-0052", "role": "body", "section": "Importance of the Different Components", "weight": 1.0} -->
 
@@ -229,11 +228,11 @@ To further understand the reasons why a momentum teacher works well in our frame
 
 <!-- chunk {"id": "body-0057", "role": "body", "section": "Avoiding collapse", "weight": 1.0} -->
 
-We study the complementarity role of centering and target sharpening to avoid collapse. There are two forms of collapse: regardless of the input, the model output is uniform along all the dimensions or dominated by one dimension. The centering avoids the collapse induced by a dominant dimension, but encourages an uniform output. Sharpening induces the opposite effect.
+We study the complementarity role of centering and target sharpening to avoid collapse. There are two forms of collapse: regardless of the input, the model output is uniform along all the dimensions or dominated by one dimension. The centering avoids the collapse induced by a dominant dimension, but encourages an uniform output. Sharpening induces the opposite effect. We show this complementarity by decomposing the cross-entropy $H$ into an entropy $h$ and the Kullback-Leibler divergence ("KL") $D_{KL}$: A KL equal to zero indicates a constant output, and hence a collapse. In Fig. 7, we plot the entropy and KL during training with and without centering and sharpening. If one operation is missing, the KL converges to zero, indicating a collapse. However, the entropy $h$ converges to different values: $0$ with no centering and $- {\log{({1/K})}}$ with no sharpening, indicating that both operations induce different form of collapse.
 
 <!-- chunk {"id": "body-0058", "role": "body", "section": "Avoiding collapse", "weight": 1.0} -->
 
-A KL equal to zero indicates a constant output, and hence a collapse. In Fig. 7, we plot the entropy and KL during training with and without centering and sharpening. If one operation is missing, the KL converges to zero, indicating a collapse. However, the entropy $h$ converges to different values: $0$ with no centering and $- {\log{({1/K})}}$ with no sharpening, indicating that both operations induce different form of collapse. Applying both operations balances these effects (see study of the sharpening parameter $\tau_{t}$ in Appendix D).
+Applying both operations balances these effects (see study of the sharpening parameter $\tau_{t}$ in Appendix D).
 
 <!-- chunk {"id": "body-0059", "role": "body", "section": "Compute requirements", "weight": 1.0} -->
 

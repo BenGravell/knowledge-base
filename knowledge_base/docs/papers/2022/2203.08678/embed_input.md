@@ -36,148 +36,116 @@ In Section III-C"), we design a novel globally convergent and locally accelerate
 
 <!-- chunk {"id": "body-0009", "role": "body", "section": "II-A Dynamic Programming", "weight": 1.0} -->
 
-Dynamic Programming (DP) comprises the methods for solving stochastic optimal control problems by solving the Bellman equation. Here we are interested in DP algorithms in the classes of value iteration (VI) and policy iteration (PI). Starting from Equation (3")), we define a nonsmooth mapping $T:{{\mathbb{R}}^{n}\rightarrow{\mathbb{R}}^{n}}$, known as the Bellman operator, by
+Dynamic Programming (DP) comprises the methods for solving stochastic optimal control problems by solving the Bellman equation. Here we are interested in DP algorithms in the classes of value iteration (VI) and policy iteration (PI). Starting from Equation (3")), we define a nonsmooth mapping $T:{{\mathbb{R}}^{n}\rightarrow{\mathbb{R}}^{n}}$, known as the Bellman operator, by An analogous linear operator $T^{\pi}:{{\mathbb{R}}^{n}\rightarrow{\mathbb{R}}^{n}}$ can be defined for the Bellman equation associated with policy $\pi$ as Given the cost vector $V$, any policy $\pi$ such that is called greedy with respect to the cost $V$. It can be shown that the Bellman operator is contractive and, thanks to the Banach Theorem, admits a unique fixed point $V^{\ast}$.
 
 <!-- chunk {"id": "body-0010", "role": "body", "section": "II-A Dynamic Programming", "weight": 1.0} -->
 
-An analogous linear operator $T^{\pi}:{{\mathbb{R}}^{n}\rightarrow{\mathbb{R}}^{n}}$ can be defined for the Bellman equation associated with policy $\pi$ as
+Moreover, the corresponding Picard-Banach iteration converges asymptotically to the fixed point from any initial value $V$, i.e.
 
 <!-- chunk {"id": "body-0011", "role": "body", "section": "II-A Dynamic Programming", "weight": 1.0} -->
 
-Given the cost vector $V$, any policy $\pi$ such that
+This is at the core of VI, which repeatedly applies the $T$ operator starting from an arbitrary finite cost. The generated sequence linearly converges to $V^{\ast}$ with a $\gamma$-contraction rate.
 
 <!-- chunk {"id": "body-0012", "role": "body", "section": "II-A Dynamic Programming", "weight": 1.0} -->
 
-is called greedy with respect to the cost $V$. It can be shown that the Bellman operator is contractive and, thanks to the Banach Theorem, admits a unique fixed point $V^{\ast}$. Moreover, the corresponding Picard-Banach iteration converges asymptotically to the fixed point from any initial value $V$, i.e.
+An alternative method to solve Equation (3")) is PI (Algorithm 1")). With PI, we start from an arbitrary initial policy and alternate policy evaluation (step 3) and policy improvement (step 4) until convergence. The policy evaluation step at iteration $k$ computes the cost $V^{\pi_{k}}$ associated with the current policy $\pi_{k}$. This requires the solution of a system with $n$ linear equations, which is generally computationally demanding for MDPs with large state spaces. The policy is then updated by extracting a greedy policy associated with $V^{\pi_{k}}$ in the policy improvement step. Unlike VI, PI converges in a finite number of iterations since the policy, and therefore also its cost, are improved at each iteration and since, by the finiteness of $\mathcal{S}$ and $\mathcal{A}$, there only exists a finite number of policies.
 
 <!-- chunk {"id": "body-0013", "role": "body", "section": "II-A Dynamic Programming", "weight": 1.0} -->
 
-This is at the core of VI, which repeatedly applies the $T$ operator starting from an arbitrary finite cost. The generated sequence linearly converges to $V^{\ast}$ with a $\gamma$-contraction rate.
+It is nonetheless important to characterize its convergence rate and asymptotic behavior since, for large state and action spaces, the number of iterations could be prohibitive (exponential in $n$ and $m$). By exploiting the properties of the Bellman operator, we can show that PI is globally $\gamma$-contractive, which is similar to VI. Extensive empirical evidence, however, suggests that PI has superior convergence properties and generally requires considerably fewer iterations than VI. From a computational viewpoint, the per-iteration costs of PI with direct inversion amount to $\mathcal{O}{({n^{3} + {m \cdot n^{2}}})}$ versus the $\mathcal{O}{({m \cdot n^{2}})}$ of VI.
 
 <!-- chunk {"id": "body-0014", "role": "body", "section": "II-A Dynamic Programming", "weight": 1.0} -->
 
-An alternative method to solve Equation (3")) is PI (Algorithm 1")). With PI, we start from an arbitrary initial policy and alternate policy evaluation (step 3) and policy improvement (step 4) until convergence. The policy evaluation step at iteration $k$ computes the cost $V^{\pi_{k}}$ associated with the current policy $\pi_{k}$. This requires the solution of a system with $n$ linear equations, which is generally computationally demanding for MDPs with large state spaces. The policy is then updated by extracting a greedy policy associated with $V^{\pi_{k}}$ in the policy improvement step. Unlike VI, PI converges in a finite number of iterations since the policy, and therefore also its cost, are improved at each iteration and since, by the finiteness of $\mathcal{S}$ and $\mathcal{A}$, there only exists a finite number of policies.
+1:Initialization: select an arbitrary initial policy π0 and set k = 0 2:while cost has not converged do 4: $\pi_{k + 1} = \overset{\sim}{\pi}$ with $\overset{\sim}{\pi} \in {\text{GreedyPolicy}{(V^{\pi_{k}})}}$ according to Algorithm 1 Exact Policy Iteration
 
-<!-- chunk {"id": "body-0015", "role": "body", "section": "II-A Dynamic Programming", "weight": 1.0} -->
+<!-- chunk {"id": "body-0015", "role": "body", "section": "II-B Generalized Differentiation & Semismooth Newton-Type Methods", "weight": 1.0} -->
 
-It is nonetheless important to characterize its convergence rate and asymptotic behavior since, for large state and action spaces, the number of iterations could be prohibitive (exponential in $n$ and $m$). By exploiting the properties of the Bellman operator, we can show that PI is globally $\gamma$-contractive, which is similar to VI. Extensive empirical evidence, however, suggests that PI has superior convergence properties and generally requires considerably fewer iterations than VI. From a computational viewpoint, the per-iteration costs of PI with direct inversion amount to $\mathcal{O}{({n^{3} + {m \cdot n^{2}}})}$ versus the $\mathcal{O}{({m \cdot n^{2}})}$ of VI.
+Consider the following nonlinear root finding problem where $r:{{\mathbb{R}}^{d}\rightarrow{\mathbb{R}}^{d}}$ is a locally Lipschitz-continuous vector-valued function. A vector $\theta^{\ast} \in {\mathbb{R}}^{d}$ that verifies (6")) is called root or solution of the nonlinear equation (6")). In general, we can not rely on smooth optimization methods to solve (6")) since $r$ can be nonsmooth, so its Jacobian ${r'{(\theta)}} \in {\mathbb{R}}^{d \times d}$ might not exist. We therefore need to introduce some notions of generalized differentiability from nonsmooth analysis, such as the B-differential and Clarke's generalized Jacobian.
 
-<!-- chunk {"id": "body-0016", "role": "body", "section": "II-A Dynamic Programming", "weight": 1.0} -->
+<!-- chunk {"id": "body-0016", "role": "body", "section": "II-B Generalized Differentiation & Semismooth Newton-Type Methods", "weight": 1.0} -->
 
-1:Initialization: select an arbitrary initial policy π0 and set k = 0
-2:while cost has not converged do
-4: $\pi_{k + 1} = \overset{\sim}{\pi}$ with $\overset{\sim}{\pi} \in {\text{GreedyPolicy}{(V^{\pi_{k}})}}$ according to
-Algorithm 1 Exact Policy Iteration
+Since $r$ is a locally Lipschitz-continuous map, the Rademacher Theorem implies that it is differentiable almost everywhere and we denote with $\mathcal{M}_{r}$ the set of all points where $r$ is differentiable. Another fundamental implication of the Rademacher Theorem is the definition of the B-differential of $r$ at $\theta \in {\mathbb{R}}^{d}$ as the set We denote with $\partial{r{(\theta)}}$ Clarke's generalized Jacobian of $r$ at $\theta \in {\mathbb{R}}^{d}$, which is defined as the convex hull of $\partial_{B}{r{(\theta)}}$. Consequently, ${\partial_{B}{r{(\theta)}}} \subseteq {\partial{r{(\theta)}}}$. These sets are always nonempty when evaluated at points where the function is Lipschitz continuous \[9, Proposition 1.51\].
 
 <!-- chunk {"id": "body-0017", "role": "body", "section": "II-B Generalized Differentiation & Semismooth Newton-Type Methods", "weight": 1.0} -->
 
-Consider the following nonlinear root finding problem
-
-<!-- chunk {"id": "body-0018", "role": "body", "section": "II-B Generalized Differentiation & Semismooth Newton-Type Methods", "weight": 1.0} -->
-
-where $r:{{\mathbb{R}}^{d}\rightarrow{\mathbb{R}}^{d}}$ is a locally Lipschitz-continuous vector-valued function. A vector $\theta^{\ast} \in {\mathbb{R}}^{d}$ that verifies (6")) is called root or solution of the nonlinear equation (6")). In general, we can not rely on smooth optimization methods to solve (6")) since $r$ can be nonsmooth, so its Jacobian ${r^{\prime}{(\theta)}} \in {\mathbb{R}}^{d \times d}$ might not exist. We therefore need to introduce some notions of generalized differentiability from nonsmooth analysis, such as the B-differential and Clarke's generalized Jacobian.
-
-<!-- chunk {"id": "body-0019", "role": "body", "section": "II-B Generalized Differentiation & Semismooth Newton-Type Methods", "weight": 1.0} -->
-
-Since $r$ is a locally Lipschitz-continuous map, the Rademacher Theorem implies that it is differentiable almost everywhere and we denote with $\mathcal{M}_{r}$ the set of all points where $r$ is differentiable. Another fundamental implication of the Rademacher Theorem is the definition of the B-differential of $r$ at $\theta \in {\mathbb{R}}^{d}$ as the set
-
-<!-- chunk {"id": "body-0020", "role": "body", "section": "II-B Generalized Differentiation & Semismooth Newton-Type Methods", "weight": 1.0} -->
-
-We denote with $\partial{r{(\theta)}}$ Clarke's generalized Jacobian of $r$ at $\theta \in {\mathbb{R}}^{d}$, which is defined as the convex hull of $\partial_{B}{r{(\theta)}}$. Consequently, ${\partial_{B}{r{(\theta)}}} \subseteq {\partial{r{(\theta)}}}$. These sets are always nonempty when evaluated at points where the function is Lipschitz continuous \[9, Proposition 1.51\]. If $r$ is continuously differentiable at $\theta$, then ${\partial{r{(\theta)}}} = {\partial_{B}{r{(\theta)}}} = \left\{ {r^{\prime}{(\theta)}} \right\}$.
-
-<!-- chunk {"id": "body-0021", "role": "body", "section": "II-B Generalized Differentiation & Semismooth Newton-Type Methods", "weight": 1.0} -->
-
-Otherwise, $\partial_{B}{r{(\theta)}}$ and, consequently, $\partial{r{(\theta)}}$ are not necessarily singletons.
-
-<!-- chunk {"id": "body-0022", "role": "body", "section": "II-B Generalized Differentiation & Semismooth Newton-Type Methods", "weight": 1.0} -->
-
 The B-differential and Clarke's generalized Jacobian are of practical interest only if we can compute at least some of their elements. Because of the lack of sharp calculus rules, this can be done only in few cases, depending on the structure of $r$. For instance, consider the class of piecewise continuously differentiable functions on ${\mathbb{R}}^{d}$, which is formally characterized by the following definition.
 
-<!-- chunk {"id": "body-0023", "role": "body", "section": "Example II.3", "weight": 1.0} -->
+<!-- chunk {"id": "body-0018", "role": "body", "section": "Example II.3", "weight": 1.0} -->
 
 We refer to for more details on the computation of elements in Clarke's generalized Jacobian for piecewise continuous functions and to Chapter 1 in for functions with different structures.
 
-<!-- chunk {"id": "body-0024", "role": "body", "section": "Example II.3", "weight": 1.0} -->
+<!-- chunk {"id": "body-0019", "role": "body", "section": "Example II.3", "weight": 1.0} -->
 
 The Newton method is not directly applicable to solve (6")) because of the nonsmoothness. The extension of the Newton method to nonsmooth equations dates back to at least and is generally known as the semismooth Newton method,. Similarly to the Newton method, instead of solving directly (6")), the semismooth Newton method solves a series of linear equations that locally approximate (6")), but the Jacobian matrix in the Newtonian iteration system is replaced by an element from Clarke's generalized Jacobian.
 
-<!-- chunk {"id": "body-0025", "role": "body", "section": "Example II.3", "weight": 1.0} -->
+<!-- chunk {"id": "body-0020", "role": "body", "section": "Example II.3", "weight": 1.0} -->
 
-In particular, the semismooth Newton method generates a sequence of iterates $\left\{ \theta_{k} \right\}$ where $\theta_{0} \in {\mathbb{R}}^{d}$ is the initial approximation of the root and, for any $k \geq 0$, $\theta_{k + 1}$ is computed as a solution of the linear equation ${{{r{(\theta_{k})}} + {J_{k}\left( {\theta_{k + 1} - \theta_{k}} \right)}} = 0},$ with $J_{k} \in {\partial{r{(\theta_{k})}}}$. When $J_{k}$ is nonsingular, then the iterate $\theta_{k + 1}$ can be computed in closed-form as follows
+When $J_{k}$ is nonsingular, then the iterate $\theta_{k + 1}$ can be computed in closed-form as follows Under certain assumptions, the semismooth Newton method enjoys fast local quadratic convergence, but the cost per iteration with direct inversion is in the order of $\mathcal{O}{(d^{3})}$. In addition, as discussed, it may be difficult to obtain an element from Clarke's generalized Jacobian. These are some of the main motivations behind the design of different variants of the semismooth Newton method of the form where $B_{k} \in {\mathbb{R}}^{d \times d}$. These variants, collectively known as semismooth Newton-type methods, can lead to lower computational costs while maintaining acceptable convergence rates. Clearly, if $B_{k} \in {\partial{r{(\theta_{k})}}}$, then we recover the semismooth Newton method.
 
-<!-- chunk {"id": "body-0026", "role": "body", "section": "Example II.3", "weight": 1.0} -->
+<!-- chunk {"id": "body-0021", "role": "body", "section": "Example II.3", "weight": 1.0} -->
 
-Under certain assumptions, the semismooth Newton method enjoys fast local quadratic convergence, but the cost per iteration with direct inversion is in the order of $\mathcal{O}{(d^{3})}$. In addition, as discussed, it may be difficult to obtain an element from Clarke's generalized Jacobian. These are some of the main motivations behind the design of different variants of the semismooth Newton method of the form
+Among the most frequently used semismooth Newton-type methods, we recall the fixed-point iteration method, where $B_{k} = {\alpha_{k}I}$ with $\alpha_{k} \neq 0$.
 
-<!-- chunk {"id": "body-0027", "role": "body", "section": "Example II.3", "weight": 1.0} -->
-
-where $B_{k} \in {\mathbb{R}}^{d \times d}$. These variants, collectively known as semismooth Newton-type methods, can lead to lower computational costs while maintaining acceptable convergence rates. Clearly, if $B_{k} \in {\partial{r{(\theta_{k})}}}$, then we recover the semismooth Newton method. Among the most frequently used semismooth Newton-type methods, we recall the fixed-point iteration method, where $B_{k} = {\alpha_{k}I}$ with $\alpha_{k} \neq 0$.
-
-<!-- chunk {"id": "body-0028", "role": "body", "section": "Example II.3", "weight": 1.0} -->
+<!-- chunk {"id": "body-0022", "role": "body", "section": "Example II.3", "weight": 1.0} -->
 
 Before proceeding with the formal characterization of the local convergence rate of semismooth Newton-type methods, we need to introduce the notions of strong semismoothness \[9, Subsection 1.4.2\] and CD-regularity \[9, Remark 1.65\].
 
-<!-- chunk {"id": "body-0029", "role": "body", "section": "Remark II.8", "weight": 1.0} -->
+<!-- chunk {"id": "body-0023", "role": "body", "section": "Remark II.8", "weight": 1.0} -->
 
 If at each iteration of the semismooth Newton method we select $J_{k}$ from $\partial_{B}{r{(\theta_{k})}}$, then the CD-regularity assumption can be replaced by the weaker assumption of BD-regularity of $r$ at $\theta^{\ast}$. The proof is analogous but instead of considering $J_{k} \in {\partial{r{(\theta_{k})}}}$ we consider $J_{k} \in {\partial_{B}{r{(\theta_{k})}}}$. See \[9, Remark 2.54\] for a more detailed discussion.
 
-<!-- chunk {"id": "body-0030", "role": "body", "section": "Remark II.8", "weight": 1.0} -->
+<!-- chunk {"id": "body-0024", "role": "body", "section": "Remark II.8", "weight": 1.0} -->
 
-1:Initialization: select θ0 ∈ ℝd, t o l ≥ 0 and set k = 0
-3: select Bk ∈ ℝd × d nonsingular and compute
+1:Initialization: select θ0 ∈ ℝd, t o l ≥ 0 and set k = 0 3: select Bk ∈ ℝd × d nonsingular and compute Algorithm 2 Semismooth Newton-Type Method
 
-<!-- chunk {"id": "body-0031", "role": "body", "section": "SEMISMOOTH NEWTON-TYPE DYNAMIC PROGRAMMING", "weight": 1.0} -->
+<!-- chunk {"id": "body-0025", "role": "body", "section": "SEMISMOOTH NEWTON-TYPE DYNAMIC PROGRAMMING", "weight": 1.0} -->
 
 In this section we formalize the connection of PI and VI with semismooth Newton-type methods. Such a connection has far-reaching consequences. By adopting this different perspective on DP methods, we can indeed deploy the well-established semismooth Newton-type theory to analyze existing DP methods and design novel ones, with favorable local contraction rates and efficient iterations.
 
-<!-- chunk {"id": "body-0032", "role": "body", "section": "SEMISMOOTH NEWTON-TYPE DYNAMIC PROGRAMMING", "weight": 1.0} -->
+<!-- chunk {"id": "body-0026", "role": "body", "section": "SEMISMOOTH NEWTON-TYPE DYNAMIC PROGRAMMING", "weight": 1.0} -->
 
-We start by looking at the Bellman equation (3")) as a nonlinear root finding problem, where ${r{(\theta)}} = {\theta - {T\theta}}$, $r:{{\mathbb{R}}^{n}\rightarrow{\mathbb{R}}^{n}}$ and the $s$-th component is
+We start by looking at the Bellman equation (3")) as a nonlinear root finding problem, where ${r{(\theta)}} = {\theta - {T\theta}}$, $r:{{\mathbb{R}}^{n}\rightarrow{\mathbb{R}}^{n}}$ and the $s$-th component is We call $r$ the Bellman residual function.
 
-<!-- chunk {"id": "body-0033", "role": "body", "section": "SEMISMOOTH NEWTON-TYPE DYNAMIC PROGRAMMING", "weight": 1.0} -->
+<!-- chunk {"id": "body-0027", "role": "body", "section": "SEMISMOOTH NEWTON-TYPE DYNAMIC PROGRAMMING", "weight": 1.0} -->
 
-We call $r$ the Bellman residual function.
+Clearly, every component is piecewise affine and therefore convex, because it is the sum of the identity map with the negative minimum of a finite collection of affine functions, one per admissible action. Consequently, the Bellman residual function is convex and continuous. Looking at the set of the admissible policies and based on the relation between $T$ and $T^{\pi}$, we can rewrite the Bellman residual function as follows where ${T^{\pi}\theta} = {g^{\pi} + {\gammaP^{\pi}\theta}}$ is an affine function of $\theta$.
 
-<!-- chunk {"id": "body-0034", "role": "body", "section": "SEMISMOOTH NEWTON-TYPE DYNAMIC PROGRAMMING", "weight": 1.0} -->
+<!-- chunk {"id": "body-0028", "role": "body", "section": "SEMISMOOTH NEWTON-TYPE DYNAMIC PROGRAMMING", "weight": 1.0} -->
 
-Clearly, every component is piecewise affine and therefore convex, because it is the sum of the identity map with the negative minimum of a finite collection of affine functions, one per admissible action. Consequently, the Bellman residual function is convex and continuous. Looking at the set of the admissible policies and based on the relation between $T$ and $T^{\pi}$, we can rewrite the Bellman residual function as follows
+Consequently, the Bellman residual function is piecewise affine since it is continuous and there exist $|\Pi|$ affine selection functions $\left\{ {\theta - {T^{\pi}\theta}} \right\}_{\pi \in \Pi}$ such that ${r{(\theta)}} \in \left\{ {\theta - {T^{\pi}\theta}} \right\}_{\pi \in \Pi}$ for all $\theta \in {\mathbb{R}}^{n}$. Because of its piecewise affine structure, the Bellman residual function is globally Lipschitz continuous (Proposition 4.2.2 in) and strongly semismooth everywhere (Proposition 7.4.7 in).
 
-<!-- chunk {"id": "body-0035", "role": "body", "section": "SEMISMOOTH NEWTON-TYPE DYNAMIC PROGRAMMING", "weight": 1.0} -->
-
-where ${T^{\pi}\theta} = {g^{\pi} + {\gammaP^{\pi}\theta}}$ is an affine function of $\theta$. Consequently, the Bellman residual function is piecewise affine since it is continuous and there exist $|\Pi|$ affine selection functions $\left\{ {\theta - {T^{\pi}\theta}} \right\}_{\pi \in \Pi}$ such that ${r{(\theta)}} \in \left\{ {\theta - {T^{\pi}\theta}} \right\}_{\pi \in \Pi}$ for all $\theta \in {\mathbb{R}}^{n}$. Because of its piecewise affine structure, the Bellman residual function is globally Lipschitz continuous (Proposition 4.2.2 in ) and strongly semismooth everywhere (Proposition 7.4.7 in ).
-
-<!-- chunk {"id": "body-0036", "role": "body", "section": "SEMISMOOTH NEWTON-TYPE DYNAMIC PROGRAMMING", "weight": 1.0} -->
+<!-- chunk {"id": "body-0029", "role": "body", "section": "SEMISMOOTH NEWTON-TYPE DYNAMIC PROGRAMMING", "weight": 1.0} -->
 
 The following lemma characterizes the relation between greedy policies and active selection functions at $\theta \in {\mathbb{R}}^{n}$.
 
-<!-- chunk {"id": "body-0037", "role": "body", "section": "III-A Policy Iteration", "weight": 1.0} -->
+<!-- chunk {"id": "body-0030", "role": "body", "section": "III-A Policy Iteration", "weight": 1.0} -->
 
 We start by introducing an assumption on the sets of the spurious greedy policies, which excludes the presence of selection functions that are active but not essentially active.
 
-<!-- chunk {"id": "body-0038", "role": "body", "section": "Assumption III.4", "weight": 1.0} -->
+<!-- chunk {"id": "body-0031", "role": "body", "section": "Assumption III.4", "weight": 1.0} -->
 
 The following proposition characterizes the connection between PI and the semismooth Newton method.
 
-<!-- chunk {"id": "body-0039", "role": "body", "section": "III-B Value Iteration", "weight": 1.0} -->
+<!-- chunk {"id": "body-0032", "role": "body", "section": "III-B Value Iteration", "weight": 1.0} -->
 
 In light of the equivalence between PI and the semismooth Newton method to solve (15")), we investigate the connection between VI and semismooth Newton-type methods. In particular, with the following proposition we show that VI is a semismooth Newton-type method where the elements in Clarke's generalized Jacobian are approximated with the identity matrix.
 
-<!-- chunk {"id": "body-0040", "role": "body", "section": "III-C $\\alpha$-Value Iteration", "weight": 1.0} -->
+<!-- chunk {"id": "body-0033", "role": "body", "section": "III-C $\\alpha$-Value Iteration", "weight": 1.0} -->
 
 Proposition III.6") shows that VI is also an instance of the fixed-point iteration method with $\alpha_{k} = 1$ for all $k$. The question that naturally arises is what do the iterates of the fixed-point iteration method correspond to if we allow $\alpha_{k} \neq 1$. In this spirit, we propose to use $\alphaI$ with $\alpha > 0$ to approximate the elements in Clarke's generalized Jacobian.
 
-<!-- chunk {"id": "body-0041", "role": "body", "section": "III-C $\\alpha$-Value Iteration", "weight": 1.0} -->
+<!-- chunk {"id": "body-0034", "role": "body", "section": "III-C $\\alpha$-Value Iteration", "weight": 1.0} -->
 
 The following lemma characterizes the iterates of this method, which we call $\alpha$-Value Iteration ($\alpha$-VI).
 
-<!-- chunk {"id": "body-0042", "role": "body", "section": "CONCLUSIONS & FUTURE WORK", "weight": 1.0} -->
+<!-- chunk {"id": "body-0035", "role": "body", "section": "CONCLUSIONS & FUTURE WORK", "weight": 1.0} -->
 
 We developed a unified convergence analysis for semismooth Newton-type methods based on the kappa condition. We then proved that PI and VI are semismooth Newton-type methods. In particular, Propositions III.5") and III.6") reveal that PI and VI sit at the two opposite sides in the spectrum of semismooth Newton-type methods: PI enjoys local quadratic contraction but its costs per iteration are demanding; instead, VI is based on a coarse approximation of the elements in Clarke's generalized Jacobian which allows to drastically reduce the costs per iteration at the price of downgrading the local quadratic convergence to a linear one. This connection has far-reaching consequences on the theoretical and algorithmic side. We can both deploy the semismooth Newton-type theory to analyze the local convergence properties of existing DP methods and, taking inspiration from the existing semismooth Newton-type methods, design novel DP algorithms that achieve different trade-offs of local contraction rate and costs per iteration. In this spirit, we proposed an extension of VI with global convergence guarantees and asymptotically faster contraction rate.
 
-<!-- chunk {"id": "body-0043", "role": "body", "section": "CONCLUSIONS & FUTURE WORK", "weight": 1.0} -->
+<!-- chunk {"id": "body-0036", "role": "body", "section": "CONCLUSIONS & FUTURE WORK", "weight": 1.0} -->
 
 This novel locally accelerated version of VI comes with negligible additional computational costs and leads to great improvement in performance, as demonstrated by our numerical experiments.
 
-<!-- chunk {"id": "body-0044", "role": "body", "section": "CONCLUSIONS & FUTURE WORK", "weight": 1.0} -->
+<!-- chunk {"id": "body-0037", "role": "body", "section": "CONCLUSIONS & FUTURE WORK", "weight": 1.0} -->
 
 Finally, another promising future direction consists in formalizing and exploiting the connection between inexact semismooth Newton methods and optimistic policy iteration-type algorithms.

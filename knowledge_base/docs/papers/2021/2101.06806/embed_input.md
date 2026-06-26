@@ -64,29 +64,29 @@ This network combines ideas from to extract geometric, semantic and motion infor
 
 Human drivers are able to successfully navigate complex road topologies with high-density of traffic by exploiting their prior knowledge about traffic rules and social behavior such as the fact that vehicles should drive on the road, close to a lane centerline, in the direction of traffic and should not collide with other actors. Since we would like to incorporate such prior knowledge into the decisions of the SDV, and these to be explainable through interpretable concepts, it is important to predict intelligible representations of the static environment, which we refer here as an online map, as well as the dynamic objects position and velocity into the future, captured in our dynamic occupancy field. We refer the reader to Fig.3 for an example of these representations. Since the predicted online map and dynamic occupancy field are not going to be perfect due to limitations in the sensors, occlusions and the model, it is important to reason about uncertainty to assess the risk of each possible decision the SDV might take. Next, we first describe the semantics in our interpretable representation of the world, and then introduce our probabilistic model.
 
-<!-- chunk {"id": "body-0017", "role": "body", "section": "Online map representation", "weight": 1.0} -->
+<!-- chunk {"id": "body-0017", "role": "body", "section": "Interpretable Scene Representations", "weight": 1.0} -->
 
-Drivable area: Road surface (or pavement) where vehicles are allowed to drive, bounded by the curb.
+Reachable Distance Transform Temporal Motion Field Figure 3: Interpretable Scene representations. For occupancy and motion, we visualize all time steps and classes in the same image to save space, differentiating with colors.
 
 <!-- chunk {"id": "body-0018", "role": "body", "section": "Online map representation", "weight": 1.0} -->
 
-Reachable lanes: Lane center lines (or motion paths) are defined as the canonical paths vehicles travel, typically in the middle of 2 lane markers. We define the reachable lanes as the subset of motion paths the SDV can get to without breaking any traffic rules. When planning a trajectory, we would like the SDV to stay close to these reachable lanes and drive aligned to their direction. Thus, for each pixel in the ground plane we predict the unsigned distance to the closest reachable lane centerline, truncated at 10 meters, as well as the angle of the closest reachable lane centerline segment.
+In order to drive safely it is useful to reason the following elements in BEV: Drivable area: Road surface (or pavement) where vehicles are allowed to drive, bounded by the curb.
 
 <!-- chunk {"id": "body-0019", "role": "body", "section": "Online map representation", "weight": 1.0} -->
 
+Reachable lanes: Lane center lines (or motion paths) are defined as the canonical paths vehicles travel, typically in the middle of 2 lane markers. We define the reachable lanes as the subset of motion paths the SDV can get to without breaking any traffic rules. When planning a trajectory, we would like the SDV to stay close to these reachable lanes and drive aligned to their direction. Thus, for each pixel in the ground plane we predict the unsigned distance to the closest reachable lane centerline, truncated at 10 meters, as well as the angle of the closest reachable lane centerline segment.
+
+<!-- chunk {"id": "body-0020", "role": "body", "section": "Online map representation", "weight": 1.0} -->
+
 Intersection: Drivable area portion where traffic is controlled via traffic lights or traffic signs. Reasoning about this is important to handle stop/yield signs and traffic lights. For instance, if a traffic light is red, we should wait to enter the intersection. Following, we assume a separate camera-based perception system detects the traffic lights and recognizes their state as this is not our focus.
-
-<!-- chunk {"id": "body-0020", "role": "body", "section": "Dynamic occupancy field", "weight": 1.0} -->
-
-Another critical aspect to achieve safe self-driving is to understand which space is occupied by dynamic objects and how do these move over time. Many accurate LiDAR-based object detectors have been proposed to localize dynamic obstacles followed by a motion forecasting stage to predict the future state of each object. However, all these methods contain unsafe discrete decisions such as confidence thresholding and non-maximum suppression (NMS) that can eliminate low-confidence predictions of true objects resulting in unsafe situations. proposed a probabilistic way to measure the likelihood of a collision for a given SDV maneuver by exploiting a non-parametric spatial representation of the world. This computation is agnostic to the number of objects. However, this representation does not provide velocity estimates, and thus it is not amenable to car-following behaviors and speed-dependent safety buffer reasoning. Moreover, the decision making algorithm cannot properly reason about interactions, since for a given future occupancy its origin cannot be traced back.
 
 <!-- chunk {"id": "body-0021", "role": "body", "section": "Dynamic occupancy field", "weight": 1.0} -->
 
-In contrast, in this paper we propose an occupancy flow parameterized by the occupancy of the dynamic objects at the current state of the world and a temporal motion field into the future that describes how objects move (and in turn their future occupancies), both discretized into a spatial grid on BEV with a resolution of 0.4 m/pixel, as depicted in Fig.
+Another critical aspect to achieve safe self-driving is to understand which space is occupied by dynamic objects and how do these move over time. Many accurate LiDAR-based object detectors have been proposed to localize dynamic obstacles followed by a motion forecasting stage to predict the future state of each object. However, all these methods contain unsafe discrete decisions such as confidence thresholding and non-maximum suppression (NMS) that can eliminate low-confidence predictions of true objects resulting in unsafe situations. proposed a probabilistic way to measure the likelihood of a collision for a given SDV maneuver by exploiting a non-parametric spatial representation of the world. This computation is agnostic to the number of objects. However, this representation does not provide velocity estimates, and thus it is not amenable to car-following behaviors and speed-dependent safety buffer reasoning. Moreover, the decision making algorithm cannot properly reason about interactions, since for a given future occupancy its origin cannot be traced back.
 
 <!-- chunk {"id": "body-0022", "role": "body", "section": "Dynamic occupancy field", "weight": 1.0} -->
 
-Initial Occupancy: a BEV grid cell is active (occupied) if its center falls in the interior of a polygon given by an object shape and its current pose.
+In contrast, in this paper we propose an occupancy flow parameterized by the occupancy of the dynamic objects at the current state of the world and a temporal motion field into the future that describes how objects move (and in turn their future occupancies), both discretized into a spatial grid on BEV with a resolution of 0.4 m/pixel, as depicted in Fig. 4: Initial Occupancy: a BEV grid cell is active (occupied) if its center falls in the interior of a polygon given by an object shape and its current pose.
 
 <!-- chunk {"id": "body-0023", "role": "body", "section": "Dynamic occupancy field", "weight": 1.0} -->
 
@@ -110,11 +110,11 @@ We model the occupancy of dynamic objects $\mathcal{O}^{c}$ for each class $c \i
 
 <!-- chunk {"id": "body-0028", "role": "body", "section": "Probabilistic Model", "weight": 1.0} -->
 
-where $p{({\mathcal{V}_{t,i_{1},k} = i_{2}})}$ distributes the mass locally and is determined via bilinear interpolation if $i_{2}$ is among the 4 nearest grid cells to the head of the continuous motion vector, and 0 for all other cells, as depicted in Fig. 4. With this definition, we can easily calculate the future occupancy iteratively, starting from the occupancy predictions at $t = 0$. This parameterization ensures consistency by definition between future motion and future occupancy, and provides an efficient way to query how does some particular initial occupancy evolve over time, which will be used for interaction and right-of-way reasoning in our motion planner. Specifically, to get the occupancy that flows into cell $i$ at time $t + 1$ from all cells $j$ at time $t$, we can simply compute the probability that no occupancy flow event occurs, and take its complement
+To compute the probability of future occupancy under our probabilistic model, we first define the probability of occupancy flowing from location $i_{1}$ to location $i_{2}$ between two consecutive time steps $t$ and $t + 1$ as follows: where $p{({\mathcal{V}_{t,i_{1},k} = i_{2}})}$ distributes the mass locally and is determined via bilinear interpolation if $i_{2}$ is among the 4 nearest grid cells to the head of the continuous motion vector, and 0 for all other cells, as depicted in Fig. 4. With this definition, we can easily calculate the future occupancy iteratively, starting from the occupancy predictions at $t = 0$. This parameterization ensures consistency by definition between future motion and future occupancy, and provides an efficient way to query how does some particular initial occupancy evolve over time, which will be used for interaction and right-of-way reasoning in our motion planner.
 
 <!-- chunk {"id": "body-0029", "role": "body", "section": "Probabilistic Model", "weight": 1.0} -->
 
-We point the reader to the appendix for further details on the mapping and perception and prediction network architecture.
+Specifically, to get the occupancy that flows into cell $i$ at time $t + 1$ from all cells $j$ at time $t$, we can simply compute the probability that no occupancy flow event occurs, and take its complement We point the reader to the appendix for further details on the mapping and perception and prediction network architecture.
 
 <!-- chunk {"id": "body-0030", "role": "body", "section": "Motion Planning", "weight": 1.0} -->
 
@@ -122,7 +122,7 @@ The goal of the motion planner is to generate trajectories that are safe, comfor
 
 <!-- chunk {"id": "body-0031", "role": "body", "section": "Motion Planning", "weight": 1.0} -->
 
-with $f$ the scoring function, $\mathbf{w}$ the learnable parameters of our models, $\mathcal{M}$ the map layers, $\mathcal{O},\mathcal{K},\mathcal{V}$ the occupancy and motion mode-probability and vector layers respectively, and $\mathcal{T}{(\mathbf{x}_{0})}$ represents the possible trajectories which are generated conditioned on the current state of the SDV $\mathbf{x}_{0}$.
+The planner evaluates all the sampled trajectories in parallel and selects the trajectory with the minimum cost: with $f$ the scoring function, $\mathbf{w}$ the learnable parameters of our models, $\mathcal{M}$ the map layers, $\mathcal{O},\mathcal{K},\mathcal{V}$ the occupancy and motion mode-probability and vector layers respectively, and $\mathcal{T}{(\mathbf{x}_{0})}$ represents the possible trajectories which are generated conditioned on the current state of the SDV $\mathbf{x}_{0}$.
 
 <!-- chunk {"id": "body-0032", "role": "body", "section": "Trajectory Sampling", "weight": 1.0} -->
 
@@ -146,94 +146,88 @@ We use a linear combination of the following cost functions to score the sampled
 
 <!-- chunk {"id": "body-0037", "role": "body", "section": "Routing and Driving on Roads", "weight": 1.0} -->
 
-In order to encourage the SDV to perform the high-level command, we use a scoring function that encourages trajectories that travel a larger distance in regions with high probability in $\mathcal{R}$.
+In order to encourage the SDV to perform the high-level command, we use a scoring function that encourages trajectories that travel a larger distance in regions with high probability in $\mathcal{R}$. We use the following score function: where $m{(\tau)}$ is the BEV grid-cells that overlap with SDV polygon in trajectory $\tau$. This score function makes sure the SDV stays on the route and is only rewarded when moving within the route. We introduce an additional cost-to-go that considers the predicted route beyond the planning horizon. This is important when there is a turn at the end of the horizon and the SDV velocity is high. Specifically, we compute the average value of $1 - \mathcal{R}_{j}$ for all BEV grid-cells $j$ that have overlap with SDV beyond the trajectory horizon, assuming that the SDV maintains constant velocity and heading.
 
 <!-- chunk {"id": "body-0038", "role": "body", "section": "Routing and Driving on Roads", "weight": 1.0} -->
 
-where $m{(\tau)}$ is the BEV grid-cells that overlap with SDV polygon in trajectory $\tau$. This score function makes sure the SDV stays on the route and is only rewarded when moving within the route. We introduce an additional cost-to-go that considers the predicted route beyond the planning horizon. This is important when there is a turn at the end of the horizon and the SDV velocity is high. Specifically, we compute the average value of $1 - \mathcal{R}_{j}$ for all BEV grid-cells $j$ that have overlap with SDV beyond the trajectory horizon, assuming that the SDV maintains constant velocity and heading.
+The SDV needs to always stay close to the center of the reachable lanes while on the road. Hence we use the predicted reachable lanes distance transform $\mathcal{M}^{D}$ to penalize distant trajectory points. In order to promote cautious behavior when there is high uncertainty in $\mathcal{M}^{D}$ and $\mathcal{M}^{\theta}$, we use a cost function that is the product of the SDV velocity and the standard deviation of the probability distributions of cells overlapping with SDV in $\mathcal{M}^{D}$ and $\mathcal{M}^{\theta}$. This promotes slow maneuver in the presence of map uncertainty.
 
 <!-- chunk {"id": "body-0039", "role": "body", "section": "Routing and Driving on Roads", "weight": 1.0} -->
 
-The SDV needs to always stay close to the center of the reachable lanes while on the road. Hence we use the predicted reachable lanes distance transform $\mathcal{M}^{D}$ to penalize distant trajectory points. In order to promote cautious behavior when there is high uncertainty in $\mathcal{M}^{D}$ and $\mathcal{M}^{\theta}$, we use a cost function that is the product of the SDV velocity and the standard deviation of the probability distributions of cells overlapping with SDV in $\mathcal{M}^{D}$ and $\mathcal{M}^{\theta}$. This promotes slow maneuver in the presence of map uncertainty.
+The SDV is also required to stay on the road and avoid encroaching onto the side-walks or the curb. Hence, we use the predicted drivable area $\mathcal{M}^{A}$ to penalize trajectories that go off the road: where $m{(\mathbf{x})}$ is the set of BEV grid-cells that overlap with SDV at trajectory point $\mathbf{x}$. Similarly, the SDV needs to avoid junctions with red-traffic lights. Hence. we use the predicted junction probability map $\mathcal{M}^{J}$ to penalize maneuvers that violate red-traffic light, similar to the routing cost.
 
-<!-- chunk {"id": "body-0040", "role": "body", "section": "Routing and Driving on Roads", "weight": 1.0} -->
-
-The SDV is also required to stay on the road and avoid encroaching onto the side-walks or the curb.
-
-<!-- chunk {"id": "body-0041", "role": "body", "section": "Routing and Driving on Roads", "weight": 1.0} -->
-
-where $m{(\mathbf{x})}$ is the set of BEV grid-cells that overlap with SDV at trajectory point $\mathbf{x}$. Similarly, the SDV needs to avoid junctions with red-traffic lights. Hence. we use the predicted junction probability map $\mathcal{M}^{J}$ to penalize maneuvers that violate red-traffic light, similar to the routing cost.
-
-<!-- chunk {"id": "body-0042", "role": "body", "section": "Safety", "weight": 1.0} -->
+<!-- chunk {"id": "body-0040", "role": "body", "section": "Safety", "weight": 1.0} -->
 
 The predicted occupancy layers and motion predictions are used to score the trajectory samples with respect to safety. We penalize trajectories where the SDV overlaps occupied regions. For each trajectory point, we use the BEV grid-cell with maximum probability among all the grid-cells that overlap with SDV polygon and use this probability directly as collision cost. The max operator ensures that the worst-case occupancy is considered over the region SDV occupies.
 
-<!-- chunk {"id": "body-0043", "role": "body", "section": "Safety", "weight": 1.0} -->
+<!-- chunk {"id": "body-0041", "role": "body", "section": "Safety", "weight": 1.0} -->
 
 The above objective promotes trajectories that do not overlap with occupied regions. However, the SDV needs to also maintain a safe distance from objects that are in the direction of SDV motion. This headway distance is a function of the relative speed of the SDV wrt the other objects. To compute this cost for each trajectory point $\mathbf{x}$, we retrieve all the BEV grid-cells in front of the SDV at $\mathbf{x}$ and measure the violation of safety distance if the object at each of those grid-cells stops with hard deceleration, and SDV with state $\mathbf{x}_{t}$ reacts with a comfortable deceleration.
 
-<!-- chunk {"id": "body-0044", "role": "body", "section": "Comfort", "weight": 1.0} -->
+<!-- chunk {"id": "body-0042", "role": "body", "section": "Comfort", "weight": 1.0} -->
 
 We also penalize jerk, lateral acceleration, curvature and its rate of change to promote comfortable driving.
 
-<!-- chunk {"id": "body-0045", "role": "body", "section": "Learning", "weight": 1.0} -->
+<!-- chunk {"id": "body-0043", "role": "body", "section": "Comfort", "weight": 1.0} -->
+
+Progress per event (m) ↑ jerk$\left(\frac{m}{s^{3}} \right)$ ↓ lat.acc. $\left(\frac{m}{s^{2}} \right)$↓ Table 1: Closed-loop simulation results lat.acc.$\left(\frac{m}{s^{2}} \right)$ Jerk $\left(\frac{m}{s^{3}} \right)$ Table 2: Large-scale evaluation against expert demonstrations
+
+<!-- chunk {"id": "body-0044", "role": "body", "section": "Learning", "weight": 1.0} -->
 
 We optimize our driving model in two stages. We first train the online map, dynamic occupancy field, and routing. Once these are converged, in a second stage, we keep these parts frozen and train the planner weights for the linear combination of scoring functions. We found this 2-stage training empirically more stable than training end-to-end.
 
-<!-- chunk {"id": "body-0046", "role": "body", "section": "Online map", "weight": 1.0} -->
+<!-- chunk {"id": "body-0045", "role": "body", "section": "Online map", "weight": 1.0} -->
 
 We train the online map using negative log-likelihood (NLL) under the data distribution. That means, Gaussian NLL for reachable lanes distance transform $\mathcal{M}^{D}$, Von Mises NLL for direction of traffic $\mathcal{M}^{\theta}$ and binary cross-entropy for drivable area $\mathcal{M}^{A}$ and junctions $\mathcal{M}^{J}$.
 
-<!-- chunk {"id": "body-0047", "role": "body", "section": "Dynamic occupancy field", "weight": 1.0} -->
+<!-- chunk {"id": "body-0046", "role": "body", "section": "Dynamic occupancy field", "weight": 1.0} -->
 
 To learn the occupancy $\mathcal{O}$ of dynamic objects at the current and future time stamps, we employ cross entropy loss with hard negative mining to tackle the high imbalance in the data (i.e., the majority of the space is free). To learn the probabilistic motion field, the motion modes $\mathcal{K}$ are learned in an unsupervised fashion via a categorical cross-entropy, where the true mode is defined as the one which associated motion vector is closest to the ground-truth motion in $\ell_{2}$ distance. Then, only the associated motion vector from the true mode is trained via a Huber loss. Note that because the occupancy at future time steps $t > 1$ is obtained by warping the initial occupancy iteratively with the motion field, the whole motion field receives supervision from the occupancy loss. This is important in practice.
 
-<!-- chunk {"id": "body-0048", "role": "body", "section": "Routing", "weight": 1.0} -->
+<!-- chunk {"id": "body-0047", "role": "body", "section": "Routing", "weight": 1.0} -->
 
 We train the route prediction with binary cross-entropy loss. To learn a better routing model, we leverage supervision for all possible commands given a scene, instead of just the command that the SDV followed in the observational data. This does not require additional human annotations, since we can extract all possible (command, route) pairs from the ground-truth HD map.
 
-<!-- chunk {"id": "body-0049", "role": "body", "section": "Scoring", "weight": 1.0} -->
+<!-- chunk {"id": "body-0048", "role": "body", "section": "Scoring", "weight": 1.0} -->
 
 Since selecting the minimum-cost trajectory within a discrete set is non-differentiable, we use the max-margin loss to penalize trajectories that have small cost but differ from the human demonstration or are unsafe.
 
-<!-- chunk {"id": "body-0050", "role": "body", "section": "Scoring", "weight": 1.0} -->
+<!-- chunk {"id": "body-0049", "role": "body", "section": "Scoring", "weight": 1.0} -->
 
-Scenario 1 - Keep Lane
-Scenario 2 - Turn Left
-Scenario 3 - Turn Right
+Scenario 1 - Keep Lane Scenario 2 - Turn Left Scenario 3 - Turn Right Map and Route Figure 5: Qualitative results. We show our predicted scene representations and motion plan for different high-level actions.
 
-<!-- chunk {"id": "body-0051", "role": "body", "section": "Experimental Evaluation", "weight": 1.0} -->
+<!-- chunk {"id": "body-0050", "role": "body", "section": "Experimental Evaluation", "weight": 1.0} -->
 
 In this section we first describe our experimental setup, and then present quantitative results in both closed-loop and open-loop. Closed-loop evaluations are of critical importance since as the execution unrolls, the SDV finds itself in states induced by its own previous motion plans, and thus it is much more challenging than open-loop and closer to the real task of driving. We defer the ablations of several components from our model to the appendix.
 
-<!-- chunk {"id": "body-0052", "role": "body", "section": "Dataset", "weight": 1.0} -->
+<!-- chunk {"id": "body-0051", "role": "body", "section": "Dataset", "weight": 1.0} -->
 
 We train our models using our large-scale dataset UrbanExpert that includes challenging scenarios where the operators are instructed to drive smoothly and in a safe manner. It contains 5000 scenarios for training, 500 for validation and 1000 for the test set. Each scenario is 25 seconds. Compared to KITTI, UrbanExpert has 33x more hours of driving. Note that the train/validation/test splits are geographically non-overlapping which is crucial to evaluate generalization.
 
-<!-- chunk {"id": "body-0053", "role": "body", "section": "Baselines", "weight": 1.0} -->
+<!-- chunk {"id": "body-0052", "role": "body", "section": "Baselines", "weight": 1.0} -->
 
 We compare against many SOTA approaches. Imitation Learning (IL), where the future positions of the SDV are predicted directly from the scene context features, and is trained using L2 loss. Conditional Imitation Learning (CIL), which is similar to IL but the trajectory is conditioned on the driving command. Neural Motion Planner (NMP), where a planning cost-volume as well as detection and prediction are predicted in a multi-task fashion from the scene context features, and Trajectory Classification (TC), where a cost-volume is predicted similar to NMP, but the trajectory cost is used to create a probability distribution over the trajectories and is trained by optimizing for the likelihood of the expert trajectory. Finally, we extend NMP to consider the high-level command by learning a separate costing network for each discrete action (CNMP).
 
-<!-- chunk {"id": "body-0054", "role": "body", "section": "Closed-loop Simulation Results", "weight": 1.0} -->
+<!-- chunk {"id": "body-0053", "role": "body", "section": "Closed-loop Simulation Results", "weight": 1.0} -->
 
 Our simulated environment leverages a state-of-the-art LiDAR simulator to recreate a virtual world from previously collected real static environments and a large-scale bank of diverse actors. We use a set of 164 curated scenarios (18 seconds each) that are particularly challenging and require complex decision making and motion planning. The simulation starts by replaying the motion of the actors as happened during the real-world capture. In case the scenario diverges from the original one due to SDV actions (e.g., SDV moving slower), the affected actors (e.g., rear vehicles) switch to the Intelligent Driver Model for the rest of the simulation in order to be reactive. We stop the simulation if the execution diverges too far from the commanded route. A scenario is a success iff there are no events, i.e., the SDV does not collide with other actors, follows the route, does not get out of the road nor into opposite traffic. We report the Success rate. Because the goal of an SDV is to reach a goal by following the driving commands, we report Off-route (%), which measures the percentage of scenarios the SDV goes outside the route.
 
-<!-- chunk {"id": "body-0055", "role": "body", "section": "Closed-loop Simulation Results", "weight": 1.0} -->
+<!-- chunk {"id": "body-0054", "role": "body", "section": "Closed-loop Simulation Results", "weight": 1.0} -->
 
 Since all simulated scenarios are initialized from a real log, we measure the average L2 distance to the trajectory demonstrated by the expert driver. Progress is measured by recording the meters traveled until an event happens. We summarize this in the metric meters per event, and show a breakdown per event category. Table 1 shows that our method clearly outperforms all the baselines across all metrics. MP3 achieves over 3x the success rate, diverges from the route a third of the times, imitates the human expert driver at least twice as close, and progresses 3x more per event than any baseline, while also being the most comfortable.
 
-<!-- chunk {"id": "body-0056", "role": "body", "section": "Open-Loop Evaluation", "weight": 1.0} -->
+<!-- chunk {"id": "body-0055", "role": "body", "section": "Open-Loop Evaluation", "weight": 1.0} -->
 
 We evaluate our method against human expert demonstrations on UrbanExpert. We measure the safety of the planner via the % of collisions with the ground-truth actors up to each trajectory time step. Progress measures how far the SDV advanced along the route for the 5s planning horizon, and L2 the distance to the human expert trajectory at different time steps. To illustrate the map and route understanding, we compute the road violation rate, oncoming traffic violation rate, and route violation rate. Finally, jerk and lateral acceleration show how comfortable the produced trajectories are. As shown in Table 2 our MP3 model produces the safest trajectories that in turn achieve the most progress and are the most comfortable. In terms of imitation, IL and CIL outperform the rest since they are optimized for this metric, but are very unsafe. Our model achieves similar map-related metrics than the best performing baselines (NMP/CNMP) in open-loop. We want to stress the fact that these experiments are open-loop, and thus the SDV always plans from an expert state. Because of this, it is very unusual to diverge from the route/road.
 
-<!-- chunk {"id": "body-0057", "role": "body", "section": "Open-Loop Evaluation", "weight": 1.0} -->
+<!-- chunk {"id": "body-0056", "role": "body", "section": "Open-Loop Evaluation", "weight": 1.0} -->
 
 We consider this a secondary evaluation that does not reflect very well the actual performance when executing these plans, but include it for completeness since previous methods benchmark this way. Comparing these results to closed-loop, we can see that MP3 is much more robust than the baselines to the distributional shift incurred by the SDV unrolling its own plans over time.
 
-<!-- chunk {"id": "body-0058", "role": "body", "section": "Qualitative Results", "weight": 1.0} -->
+<!-- chunk {"id": "body-0057", "role": "body", "section": "Qualitative Results", "weight": 1.0} -->
 
 Fig. 5 showcases the outputs from our model. Scenario 1 shows the predictions when our model is commanded to keep straight at the intersection. Our model recognizes and accurately predicts the future motion of pedestrians near the SDV that just came out of occlusion, and plans a safe stop accordingly. Moreover, we can appreciate the high expressivity of our dynamic occupancy field at the bottom, which can capture highly multimodal behaviors such as the 3 modes of the vehicle heading north at the intersection. Scenario 2 and Scenario 3 show how our model accurately predicts the route when given turning commands, as well as how planning can progress through crowded scenes similar to the human demonstrations. See Appendix C for visualizations of the retrieved trajectory samples from the motion planner together with their cost, as well as a comparison of closed-loop rollouts against the baselines.
 
-<!-- chunk {"id": "body-0059", "role": "body", "section": "Conclusion", "weight": 1.5} -->
+<!-- chunk {"id": "body-0058", "role": "body", "section": "Conclusion", "weight": 1.5} -->
 
 In this paper, we have proposed an end-to-end model for mapless driving. Importantly, our method produces probabilistic intermediate representations that are interpretable and ready-to-use as cost functions in our neural motion planner. We showcased that our driving model is safer, more comfortable and progresses the most among SOTA approaches in a large-scale dataset. Most importantly, when we evaluate our model in a closed-loop simulator without any additional training it is far more robust than the baselines, achieving very significant improvements across all metrics.

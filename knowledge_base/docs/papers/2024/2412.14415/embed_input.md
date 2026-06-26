@@ -12,11 +12,11 @@ We present DriveGPT, a scalable behavior model for autonomous driving. We model 
 
 <!-- chunk {"id": "body-0003", "role": "body", "section": "Introduction", "weight": 1.5} -->
 
-Transformer-based foundation models have become increasingly prevalent in sequential modeling tasks across various machine learning domains. These models are highly effective in handling sequential data by capturing long-range dependencies and temporal relationships. Their success has been evident in natural language processing (Mann et al. Kaplan et al. Hoffmann et al., ), time-series forecasting, and speech recognition, where sequential patterns play a crucial role. One of the key strengths of transformer-based models is their capacity to learn from large datasets including millions of training examples, enabling them to address complex tasks with increased model sizes, up to billions of model parameters.
+Transformer-based foundation models have become increasingly prevalent in sequential modeling tasks across various machine learning domains. These models are highly effective in handling sequential data by capturing long-range dependencies and temporal relationships. Their success has been evident in natural language processing, time-series forecasting, and speech recognition, where sequential patterns play a crucial role. One of the key strengths of transformer-based models is their capacity to learn from large datasets including millions of training examples, enabling them to address complex tasks with increased model sizes, up to billions of model parameters.
 
 <!-- chunk {"id": "body-0004", "role": "body", "section": "Introduction", "weight": 1.5} -->
 
-While scaling up model and dataset sizes has been critical for recent advances in sequential modeling for text prediction (Kaplan et al. Hoffmann et al., ), it remains unclear whether these scaling trends can be directly extended to behavior modeling, particularly in driving tasks, due to several unique challenges. First, driving tasks involve a wider range of input modalities, including agent trajectories and map information, unlike language tasks that rely solely on textual inputs. Second, behavior modeling demands spatial reasoning and an understanding of physical kinematics. Such capabilities are typically beyond the scope of language models. Finally, the collection of large-scale driving datasets requires substantial effort and resources, making it far more challenging than gathering textual data. As a result, existing work is often constrained by the availability of training data or the scalability of the models, as summarized in Table.
+While scaling up model and dataset sizes has been critical for recent advances in sequential modeling for text prediction, it remains unclear whether these scaling trends can be directly extended to behavior modeling, particularly in driving tasks, due to several unique challenges. First, driving tasks involve a wider range of input modalities, including agent trajectories and map information, unlike language tasks that rely solely on textual inputs. Second, behavior modeling demands spatial reasoning and an understanding of physical kinematics. Such capabilities are typically beyond the scope of language models. Finally, the collection of large-scale driving datasets requires substantial effort and resources, making it far more challenging than gathering textual data. As a result, existing work is often constrained by the availability of training data or the scalability of the models, as summarized in Table 1.
 
 <!-- chunk {"id": "body-0005", "role": "body", "section": "Introduction", "weight": 1.5} -->
 
@@ -24,11 +24,11 @@ In our work, we present a comprehensive study of scaling up data sizes and model
 
 <!-- chunk {"id": "body-0006", "role": "body", "section": "Introduction", "weight": 1.5} -->
 
-As we scale up the volume of training data and the number of model parameters, we observe improvements in both quantitative metrics and qualitative behaviors. More importantly, large models trained on extensive, diverse datasets can better handle rare or edge-case scenarios, which often pose significant challenges for autonomous vehicles, as shown in Fig. ^11^1The baseline model is trained on $\sim$`<!-- -->`{=html}50 times less data and uses $\sim$`<!-- -->`{=html}50 times fewer parameters.. As a result, we see great potential in scaling up behavior models through data and model parameters to improve the safety and robustness of autonomous driving systems.
+As we scale up the volume of training data and the number of model parameters, we observe improvements in both quantitative metrics and qualitative behaviors. More importantly, large models trained on extensive, diverse datasets can better handle rare or edge-case scenarios, which often pose significant challenges for autonomous vehicles, as shown in Fig. 1^11^1The baseline model is trained on $\sim$`<!-- -->`{=html}50 times less data and uses $\sim$`<!-- -->`{=html}50 times fewer parameters.. As a result, we see great potential in scaling up behavior models through data and model parameters to improve the safety and robustness of autonomous driving systems.
 
 <!-- chunk {"id": "body-0007", "role": "body", "section": "Introduction", "weight": 1.5} -->
 
-We present DriveGPT, a large autoregressive behavior model for driving, by scaling up both model parameters and real-world training data samples.
+Our main contributions are as follows: We present DriveGPT, a large autoregressive behavior model for driving, by scaling up both model parameters and real-world training data samples.
 
 <!-- chunk {"id": "body-0008", "role": "body", "section": "Introduction", "weight": 1.5} -->
 
@@ -44,19 +44,19 @@ We demonstrate the generalizability of our model on the Waymo Open Motion Datase
 
 <!-- chunk {"id": "body-0011", "role": "body", "section": "Behavior Modeling", "weight": 1.0} -->
 
-Behavior modeling is a critical task in autonomous driving, which covers a broad spectrum of tasks including planning, prediction, and simulation. Taking multimodal inputs including agent history states and map information, behavior models predict the future states of these traffic agents by reasoning about agent dynamics (Cui et al. Song et al., ), interactions (Sun et al. Jiang et al., ), human intent (Shi et al. Huang et al. Sun et al., ), and driving environments (Liang et al. Kim et al., ).
+Behavior modeling is a critical task in autonomous driving, which covers a broad spectrum of tasks including planning, prediction, and simulation. Taking multimodal inputs including agent history states and map information, behavior models predict the future states of these traffic agents by reasoning about agent dynamics, interactions, human intent, and driving environments.
 
 <!-- chunk {"id": "body-0012", "role": "body", "section": "Behavior Modeling", "weight": 1.0} -->
 
-Among learning-based models, transformers have gained popularity due to their ability to fuse multimodal inputs as encoders (Nayakanti et al. Zhang et al. Zhou et al. Jia et al. Gan et al., ) and model long-range temporal relationships as decoders (Seff et al. Shi et al. ). Despite the success of transformers in behavior modeling, existing literature is often restricted by the size of model parameters due to limited training data, which fails to capture the full scaling potential of transformer-based models. In our work, we scale up our transformer models to include billions of parameters, by training on a large-scale dataset including more than 100M driving demonstrations, and validate the scalability of transformer-based models in the context of autonomous driving.
+Among learning-based models, transformers have gained popularity due to their ability to fuse multimodal inputs as encoders and model long-range temporal relationships as decoders. Despite the success of transformers in behavior modeling, existing literature is often restricted by the size of model parameters due to limited training data, which fails to capture the full scaling potential of transformer-based models. In our work, we scale up our transformer models to include billions of parameters, by training on a large-scale dataset including more than 100M driving demonstrations, and validate the scalability of transformer-based models in the context of autonomous driving.
 
 <!-- chunk {"id": "body-0013", "role": "body", "section": "Large Transformer Models", "weight": 1.0} -->
 
-Large transformers have demonstrated great success in sequential modeling tasks, by scaling up model parameters and data sizes (Kaplan et al. Hoffmann et al. Zhai et al. Muennighoff et al., ). These scaling laws have pushed the boundary of many sequential modeling tasks including natural language processing, time-series forecasting, and speech recognition.
+Large transformers have demonstrated great success in sequential modeling tasks, by scaling up model parameters and data sizes. These scaling laws have pushed the boundary of many sequential modeling tasks including natural language processing, time-series forecasting, and speech recognition.
 
 <!-- chunk {"id": "body-0014", "role": "body", "section": "Large Transformer Models", "weight": 1.0} -->
 
-Recent work has studied the scalability of behavior models in the context of motion prediction (Seff et al. Ettinger et al., ), planning, and simulation, yet these studies are either constrained by limited data size (up to a couple of million training examples), or focused on a few orders of magnitude in terms of data and model scaling, limiting the potential to draw statistically significant conclusions over a large scaling range.
+Recent work has studied the scalability of behavior models in the context of motion prediction, planning, and simulation, yet these studies are either constrained by limited data size (up to a couple of million training examples), or focused on a few orders of magnitude in terms of data and model scaling, limiting the potential to draw statistically significant conclusions over a large scaling range.
 
 <!-- chunk {"id": "body-0015", "role": "body", "section": "Large Transformer Models", "weight": 1.0} -->
 
@@ -64,15 +64,15 @@ In this paper, we study the scaling properties (in terms of data samples, model 
 
 <!-- chunk {"id": "body-0016", "role": "body", "section": "Large Transformer Models", "weight": 1.0} -->
 
-Beyond autonomous driving, there is limited relevant literature on building large transformer models for robotic tasks (O'Neill et al. Octo Model Team et al., ), which share a transformer architecture similar to our work. Robotics models often share different input features and dynamic models, and operate in different environments, making them difficult to apply directly to driving tasks.
+Beyond autonomous driving, there is limited relevant literature on building large transformer models for robotic tasks, which share a transformer architecture similar to our work. Robotics models often share different input features and dynamic models, and operate in different environments, making them difficult to apply directly to driving tasks.
 
 <!-- chunk {"id": "body-0017", "role": "body", "section": "Behavior Model", "weight": 1.0} -->
 
-We use a standard encoder-decoder architecture as our behavior model, as shown in Fig.. We use transformer-based models as our encoder and decoder backbones due to their scalability in related sequential modeling tasks.
+We use a standard encoder-decoder architecture as our behavior model, as shown in Fig. 2. We use transformer-based models as our encoder and decoder backbones due to their scalability in related sequential modeling tasks.
 
 <!-- chunk {"id": "body-0018", "role": "body", "section": "Problem Formulation", "weight": 1.0} -->
 
-The context information includes target agent history states $c_{\text{target}}$, nearby agent history states $c_{\text{nearby}}$, and map states $c_{\text{map}}$. The historical agent information includes agent positions from previous historical steps, i.e. $s_{0:{t - 1}}$ if we want to predict agent positions at step $t$.
+We model the problem as a sequential prediction task over the future positions of the target agent up to horizon $T$, by applying the chain rule at each step, conditioning on driving context information $\mathbf{c}$ and historical agent positions $\mathbf{s}$: The context information includes target agent history states $c_{\text{target}}$, nearby agent history states $c_{\text{nearby}}$, and map states $c_{\text{map}}$. The historical agent information includes agent positions from previous historical steps, i.e. $s_{0:{t - 1}}$ if we want to predict agent positions at step $t$.
 
 <!-- chunk {"id": "body-0019", "role": "body", "section": "Problem Formulation", "weight": 1.0} -->
 
@@ -92,55 +92,55 @@ The decoder first tokenizes agent positions at all steps into embeddings with di
 
 <!-- chunk {"id": "body-0023", "role": "body", "section": "LLM-Style Trajectory Decoder", "weight": 1.0} -->
 
-The output is a set of discrete actions $a$ represented as the Verlet action (Rhinehart et al. Seff et al., ), as the second derivative of positions.
+The output is a set of discrete actions $a$ represented as the Verlet action, as the second derivative of positions. We can apply the following equation to map Verlet actions to positions: where $a_{t}$ is the predicted Verlet action, and $({s_{t} - s_{t - 1}})$ assumes a constant velocity step. This representation helps predict smooth trajectories using a small set of actions.
 
-<!-- chunk {"id": "body-0024", "role": "body", "section": "LLM-Style Trajectory Decoder", "weight": 1.0} -->
-
-where $a_{t}$ is the predicted Verlet action, and $({s_{t} - s_{t - 1}})$ assumes a constant velocity step. This representation helps predict smooth trajectories using a small set of actions.
-
-<!-- chunk {"id": "body-0025", "role": "body", "section": "Training", "weight": 1.0} -->
+<!-- chunk {"id": "body-0024", "role": "body", "section": "Training", "weight": 1.0} -->
 
 To train a DriveGPT model, we follow teacher forcing by applying ground truth future positions as input to the trajectory decoder. This allows us to predict all future steps in parallel.
 
-<!-- chunk {"id": "body-0026", "role": "body", "section": "Training", "weight": 1.0} -->
+<!-- chunk {"id": "body-0025", "role": "body", "section": "Training", "weight": 1.0} -->
 
 We use a single cross-entropy classification loss over the action space, where the target action is selected as the one that is closest to the ground truth future trajectories. We refer the reader to Appendix A for more training details.
 
-<!-- chunk {"id": "body-0027", "role": "body", "section": "Inference", "weight": 1.0} -->
+<!-- chunk {"id": "body-0026", "role": "body", "section": "Inference", "weight": 1.0} -->
 
 At inference time, we follow a standard LLM setup and roll out a trajectory over horizon $T$ autoregressively, by repeating the process of predicting the action distribution at the next step, sampling an action, and adding it back to the input sequence.
 
-<!-- chunk {"id": "body-0028", "role": "body", "section": "Inference", "weight": 1.0} -->
+<!-- chunk {"id": "body-0027", "role": "body", "section": "Inference", "weight": 1.0} -->
 
 We sample multiple trajectories in batch to approximate the distribution and then subsample to the desired number of modes using $K$-Means, as.
 
-<!-- chunk {"id": "body-0029", "role": "body", "section": "Scaling Experiments", "weight": 1.0} -->
+<!-- chunk {"id": "body-0028", "role": "body", "section": "Scaling Experiments", "weight": 1.0} -->
 
 The goal of our scaling experiments is to determine the effect of data and model size on behavior prediction performance. Quantifying scaling laws similar to those seen in LLMs can help prioritize the value of data and compute for future research directions in behavior modeling. We focus our effort on exploring the next frontier of data and model size -- over an order of magnitude beyond previously published work.
 
-<!-- chunk {"id": "body-0030", "role": "body", "section": "Large-scale driving dataset", "weight": 1.0} -->
+<!-- chunk {"id": "body-0029", "role": "body", "section": "Large-scale driving dataset", "weight": 1.0} -->
 
 From millions of miles of high-quality real-world human driving demonstrations, we curate a small subset of 120M segments for an internal research dataset. The dataset is carefully curated and balanced to represent diverse geographic regions across multiple cities and countries, including the United States, Japan, and the UAE. Data collection is evenly distributed between daytime and nighttime and is conducted primarily in urban environments. The dataset captures a wide range of challenging driving scenarios, such as lane changes, intersections, double-parked vehicles, construction zones, and close interactions with pedestrians and cyclists.
 
-<!-- chunk {"id": "body-0031", "role": "body", "section": "Large-scale driving dataset", "weight": 1.0} -->
+<!-- chunk {"id": "body-0030", "role": "body", "section": "Large-scale driving dataset", "weight": 1.0} -->
 
 We extracted map information, target agent states, and nearby agent states into vectorized representation, as customary in behavior modeling literature.
 
+<!-- chunk {"id": "body-0031", "role": "body", "section": "Scaling overview", "weight": 1.0} -->
+
+We scale the model size across three orders of magnitude, from 1.5 million to 1.4 billion parameters, by increasing the embedding dimension in both encoder and decoder transformers. For each model size, we explore multiple learning rate schedules using a cosine decay over the full training steps and select the maximum learning rate that yields the best performance. Table. 2 summarizes the optimal learning rate for each model size. Consistent with practices in large language model scaling, each model is trained for a single epoch.
+
 <!-- chunk {"id": "body-0032", "role": "body", "section": "Scaling overview", "weight": 1.0} -->
 
-We scale the model size across three orders of magnitude, from 1.5 million to 1.4 billion parameters, by increasing the embedding dimension in both encoder and decoder transformers. For each model size, we explore multiple learning rate schedules using a cosine decay over the full training steps and select the maximum learning rate that yields the best performance. Table. summarizes the optimal learning rate for each model size. Consistent with practices in large language model scaling, each model is trained for a single epoch.
+Hidden Dimension (dmodel) Table 2: We vary the model size over three orders of magnitude through hidden dimensions. For each model size, we report the optimal learning rate, which decreases as the model size increases, matching the observations in the LLM scaling literature.
 
 <!-- chunk {"id": "body-0033", "role": "body", "section": "Scaling overview", "weight": 1.0} -->
 
-We evaluate model performance using validation loss, computed on a comprehensive validation set of 10 million samples drawn from the same distribution as the training data, with no overlap. This set remains fixed across all scaling experiments to ensure consistency. We use validation loss as a proxy to measure model performance, following standard practices in scaling studies (Kaplan et al. Hoffmann et al. Muennighoff et al., ). This loss, calculated as cross-entropy on next-action prediction, serves as our primary performance metric. Additional driving-specific metrics are reported in Sec. 5.1.
+We evaluate model performance using validation loss, computed on a comprehensive validation set of 10 million samples drawn from the same distribution as the training data, with no overlap. This set remains fixed across all scaling experiments to ensure consistency. We use validation loss as a proxy to measure model performance, following standard practices in scaling studies. This loss, calculated as cross-entropy on next-action prediction, serves as our primary performance metric. Additional driving-specific metrics are reported in Sec. 5.1.
 
 <!-- chunk {"id": "body-0034", "role": "body", "section": "Data Scaling", "weight": 1.0} -->
 
-Data scaling results are summarized in Fig.. The smallest dataset of 2.2M samples mimics the size of Waymo Open Motion Dataset (WOMD), a large open-source dataset for behavior modeling ($\sim$`<!-- -->`{=html}44k scenarios with multiple target agents per scenario). We select a few subsets of our internal research dataset to study data scaling across different orders of dataset sizes. Our experiments use $\sim$`<!-- -->`{=html}50x more data than WOMD, exploring a new region of the design space.
+Data scaling results are summarized in Fig. 3. The smallest dataset of 2.2M samples mimics the size of Waymo Open Motion Dataset (WOMD), a large open-source dataset for behavior modeling ($\sim$`<!-- -->`{=html}44k scenarios with multiple target agents per scenario). We select a few subsets of our internal research dataset to study data scaling across different orders of dataset sizes. Our experiments use $\sim$`<!-- -->`{=html}50x more data than WOMD, exploring a new region of the design space.
 
 <!-- chunk {"id": "body-0035", "role": "body", "section": "Data Scaling", "weight": 1.0} -->
 
-The results indicate that as the model is trained on more unique data samples, the performance improves, regardless of model size. Extrapolating from the scaling law in Fig., to improve the best loss by another $10\%$, we would need to include $350$M more training examples. A $20\%$ improvement would require about $1.4$B more examples. As a result, we find that data remains the bottleneck for further improving driving performance.
+The results indicate that as the model is trained on more unique data samples, the performance improves, regardless of model size. Extrapolating from the scaling law in Fig. 3, to improve the best loss by another $10\%$, we would need to include $350$M more training examples. A $20\%$ improvement would require about $1.4$B more examples. As a result, we find that data remains the bottleneck for further improving driving performance.
 
 <!-- chunk {"id": "body-0036", "role": "body", "section": "Data Scaling", "weight": 1.0} -->
 
@@ -148,19 +148,19 @@ Lastly, the scaling results remain relatively consistent across model sizes. Thi
 
 <!-- chunk {"id": "body-0037", "role": "body", "section": "Model Scaling", "weight": 1.0} -->
 
-We now study model sizes across three orders of magnitude (1.5M to 1.4B parameters), as listed in Table. We increase model size by increasing the hidden dimensions of transformers for simplicity. We notice that modifying other parameters such as number of attention heads and hidden dimensions per head does not lead to noticeable changes in the results, as studied in Appendix B.
+We now study model sizes across three orders of magnitude (1.5M to 1.4B parameters), as listed in Table 2. We increase model size by increasing the hidden dimensions of transformers for simplicity. We notice that modifying other parameters such as number of attention heads and hidden dimensions per head does not lead to noticeable changes in the results, as studied in Appendix B.
 
 <!-- chunk {"id": "body-0038", "role": "body", "section": "Model Scaling", "weight": 1.0} -->
 
-Training larger models is sensitive to learning rates, as observed in other scaling studies (Kaplan et al. Hoffmann et al., ). For each model size, we run multiple experiments at different learning rates to select the one with the optimal performance, as summarized in Table..
+Training larger models is sensitive to learning rates, as observed in other scaling studies. For each model size, we run multiple experiments at different learning rates to select the one with the optimal performance, as summarized in Table. 2.
 
 <!-- chunk {"id": "body-0039", "role": "body", "section": "Model Scaling", "weight": 1.0} -->
 
-Results in Fig. demonstrate that increasing the amount of training data enhances the effectiveness of model scaling. Specifically, when the dataset size is up to 21M, the impact on the validation loss is barely noticeable across a large range of model sizes. Beyond 21M samples, validation losses improve with larger models -- up to 12M parameters when trained on the 42M dataset and up to 94M parameters when trained on the 120M dataset -- before reaching a plateau and eventually overfitting. These findings further reinforce that data is the primary bottleneck for scaling models, aligning with observations in the LLM scaling literature. We leave further exploration of scaling behavior with larger datasets to future work.
+Results in Fig. 4 demonstrate that increasing the amount of training data enhances the effectiveness of model scaling. Specifically, when the dataset size is up to 21M, the impact on the validation loss is barely noticeable across a large range of model sizes. Beyond 21M samples, validation losses improve with larger models -- up to 12M parameters when trained on the 42M dataset and up to 94M parameters when trained on the 120M dataset -- before reaching a plateau and eventually overfitting. These findings further reinforce that data is the primary bottleneck for scaling models, aligning with observations in the LLM scaling literature. We leave further exploration of scaling behavior with larger datasets to future work.
 
 <!-- chunk {"id": "body-0040", "role": "body", "section": "Compute Scaling", "weight": 1.0} -->
 
-In Fig., we examine how compute affects training loss, where compute is measured by Floating Point Operations (FLOPs). We identify a monotonically decreasing "min-bound" boundary, which shows the lowest training loss observed up to the current compute value. As we increase compute, training loss generally decreases. Initially, this decrease is quite steep, but it gradually slows down at higher FLOPs values. This trend is consistent with observations in the LLM scaling literature, such as those reported, covering a subset of the full FLOP range explored in these studies.
+In Fig. 5, we examine how compute affects training loss, where compute is measured by Floating Point Operations (FLOPs). We identify a monotonically decreasing "min-bound" boundary, which shows the lowest training loss observed up to the current compute value. As we increase compute, training loss generally decreases. Initially, this decrease is quite steep, but it gradually slows down at higher FLOPs values. This trend is consistent with observations in the LLM scaling literature, such as those reported, covering a subset of the full FLOP range explored in these studies.
 
 <!-- chunk {"id": "body-0041", "role": "body", "section": "Compute Scaling", "weight": 1.0} -->
 
@@ -168,7 +168,7 @@ Next, we investigate whether there is an optimal combination of data size and mo
 
 <!-- chunk {"id": "body-0042", "role": "body", "section": "Compute Scaling", "weight": 1.0} -->
 
-Fig. plots the performance with different compute budgets. The trend clearly shows that a larger compute budget leads to better performance, with optimal model size increasing accordingly, as indicated by the "best" gray line. The results further reveal that data is the main bottleneck, as the smallest model outperforms others in the three largest FLOP groups.
+Fig. 6 plots the performance with different compute budgets. The trend clearly shows that a larger compute budget leads to better performance, with optimal model size increasing accordingly, as indicated by the "best" gray line. The results further reveal that data is the main bottleneck, as the smallest model outperforms others in the three largest FLOP groups.
 
 <!-- chunk {"id": "body-0043", "role": "body", "section": "Ablation Study on Decoder Architecture", "weight": 1.0} -->
 
@@ -176,11 +176,11 @@ We scale up two different model architectures by two orders of magnitude: our au
 
 <!-- chunk {"id": "body-0044", "role": "body", "section": "Ablation Study on Decoder Architecture", "weight": 1.0} -->
 
-The results are summarized in Fig., where we use minFDE at 6 seconds as a proxy to measure the model performance because of different loss definitions between two decoder architectures. Despite worse performance at small-scale parameters, our autoregressive decoder achieves better scalability and outperforms the one-shot baseline beyond 8M parameters. While we find it harder to scale the one-shot decoder, we confirm that our autoregressive decoder scales up to 100M parameters in terms of prediction accuracy, and defer further scalability study on the one-shot decoder as future work.
+The results are summarized in Fig. 7, where we use minFDE at 6 seconds as a proxy to measure the model performance because of different loss definitions between two decoder architectures. Despite worse performance at small-scale parameters, our autoregressive decoder achieves better scalability and outperforms the one-shot baseline beyond 8M parameters. While we find it harder to scale the one-shot decoder, we confirm that our autoregressive decoder scales up to 100M parameters in terms of prediction accuracy, and defer further scalability study on the one-shot decoder as future work.
 
 <!-- chunk {"id": "body-0045", "role": "body", "section": "Planning and Prediction Experiments", "weight": 1.0} -->
 
-In this section, we show detailed results of DriveGPT in a planning task using our internal research dataset and a motion prediction task using an external dataset. The results here further explore the impact of scaling from Section and help ground those results in driving tasks and metrics.
+In this section, we show detailed results of DriveGPT in a planning task using our internal research dataset and a motion prediction task using an external dataset. The results here further explore the impact of scaling from Section 4 and help ground those results in driving tasks and metrics.
 
 <!-- chunk {"id": "body-0046", "role": "body", "section": "Internal Evaluation: AV Planning", "weight": 1.0} -->
 
@@ -192,7 +192,7 @@ We approximate the distribution by oversampling trajectories in batch and subsam
 
 <!-- chunk {"id": "body-0048", "role": "body", "section": "Internal Evaluation: AV Planning", "weight": 1.0} -->
 
-We measure the planning performance on a comprehensive test set through a set of standard geometric metrics including minADE (mADE), minFDE (mFDE), and miss rate (MR). Additionally, we use semantic-based metrics including offroad rate (Offroad) that measures the ratio of trajectories that leave the road and collision rate (Collision) that measures the ratio of trajectories overlapping with traffic agents. We normalize these metrics across experiments to highlight relative performance changes.
+We measure the planning performance on a comprehensive test set through a set of standard geometric metrics including minADE (mADE), minFDE (mFDE), and miss rate (MR). Additionally, we use semantic-based metrics including offroad rate (Offroad) that measures the ratio of trajectories that leave the road and collision rate (Collision) that measures the ratio of trajectories overlapping with traffic agents. We normalize these metrics across experiments to highlight relative performance changes. $\hat{\text{mADE}} \downarrow$ $\hat{\text{mFDE}} \downarrow$ $\hat{\text{MR}} \downarrow$ $\hat{\text{Offroad}} \downarrow$ $\hat{\text{Collision}} \downarrow$ Table 3: As we scale up more training data, DriveGPT produces better AV trajectories as measured across all metrics. Metrics are normalized to highlight relative performance.
 
 <!-- chunk {"id": "body-0049", "role": "body", "section": "Data Scaling Results", "weight": 1.0} -->
 
@@ -200,76 +200,80 @@ We compare a DriveGPT model at 26M parameters trained on datasets of different s
 
 <!-- chunk {"id": "body-0050", "role": "body", "section": "Data Scaling Results", "weight": 1.0} -->
 
-The results are presented in Table, where we see that training on more data samples significantly improves the quality of the predicted AV trajectories, in terms of critical semantics metrics in driving including offroad rate and collision rate, as well as geometric metrics. These improvements are consistent with Sec. 4.1.
+The results are presented in Table 3, where we see that training on more data samples significantly improves the quality of the predicted AV trajectories, in terms of critical semantics metrics in driving including offroad rate and collision rate, as well as geometric metrics. These improvements are consistent with Sec. 4.1.
 
 <!-- chunk {"id": "body-0051", "role": "body", "section": "Data Scaling Results", "weight": 1.0} -->
 
-We further present two qualitative examples in Fig. to illustrate the value of training on more data. In these examples, red trajectories represent DriveGPT trained on 120M samples, and pink trajectories are from the same model trained on 2.2M samples. The examples show that our method produces map-compliant and collision-free trajectories when trained on more data, successfully handling complicated interactions involving a jaywalking pedestrian and two double-parked vehicles.
+We further present two qualitative examples in Fig. 8 to illustrate the value of training on more data. In these examples, red trajectories represent DriveGPT trained on 120M samples, and pink trajectories are from the same model trained on 2.2M samples. The examples show that our method produces map-compliant and collision-free trajectories when trained on more data, successfully handling complicated interactions involving a jaywalking pedestrian and two double-parked vehicles.
 
 <!-- chunk {"id": "body-0052", "role": "body", "section": "Model Scaling Results", "weight": 1.0} -->
 
-We train four models using our 120M internal research dataset, and select the 8M model as the baseline. The baseline represents a reasonable size at which our model starts to outperform one-shot decoders, as shown in Sec. 4.4.
+$\hat{\text{mADE}} \downarrow$ $\hat{\text{mFDE}} \downarrow$ $\hat{\text{MR}} \downarrow$ $\hat{\text{Offroad}} \downarrow$ $\hat{\text{Collision}} \downarrow$ Table 4: As we scale up more model parameters, all metrics improve up to 94M. Collision rate continues to improve at 163M. Metrics are normalized to highlight relative performance.
 
 <!-- chunk {"id": "body-0053", "role": "body", "section": "Model Scaling Results", "weight": 1.0} -->
 
-The results are presented in Table, where all metrics improve as the model size increases up to 94M parameters, with further gains in the collision metric at 163M parameters (see Sec. D.1 for qualitative examples). Although validation loss shows diminishing returns beyond 94M in Fig., driving metrics continue to improve with increased model capacities, highlighting the potential benefits of introducing more parameters for enhanced driving performance.
+We train four models using our 120M internal research dataset, and select the 8M model as the baseline. The baseline represents a reasonable size at which our model starts to outperform one-shot decoders, as shown in Sec. 4.4.
 
 <!-- chunk {"id": "body-0054", "role": "body", "section": "Model Scaling Results", "weight": 1.0} -->
 
-We present a qualitative example in Fig., where a larger DriveGPT including 94M parameters produces better trajectory samples in red that stay within the road boundary, compared to a smaller version including 8M parameters, in a right turn scenario.
+The results are presented in Table 4, where all metrics improve as the model size increases up to 94M parameters, with further gains in the collision metric at 163M parameters (see Sec. D.1 for qualitative examples). Although validation loss shows diminishing returns beyond 94M in Fig. 4, driving metrics continue to improve with increased model capacities, highlighting the potential benefits of introducing more parameters for enhanced driving performance.
 
-<!-- chunk {"id": "body-0055", "role": "body", "section": "Closed-Loop Driving", "weight": 1.0} -->
+<!-- chunk {"id": "body-0055", "role": "body", "section": "Model Scaling Results", "weight": 1.0} -->
 
-We demonstrate the effectiveness of DriveGPT as a real-time motion planner deployed in a closed-loop setting. The model takes input features from an industry-level perception system that outputs agent states and map information. We used the 8M DriveGPT model, trained on the full dataset, to drive the car, achieving a latency of under 50ms on a single onboard GPU.
+We present a qualitative example in Fig. 9, where a larger DriveGPT including 94M parameters produces better trajectory samples in red that stay within the road boundary, compared to a smaller version including 8M parameters, in a right turn scenario.
 
 <!-- chunk {"id": "body-0056", "role": "body", "section": "Closed-Loop Driving", "weight": 1.0} -->
 
-In Fig., we present a challenging example in dense urban traffic where there are two double-parked vehicles blocking the path forward along with other oncoming vehicles. DriveGPT generates smooth and safe trajectories, bypassing the blocking vehicles and moving back to the original lane afterward. More examples are presented in the supplementary video at where DriveGPT alone is responsible for driving in real time.
+We demonstrate the effectiveness of DriveGPT as a real-time motion planner deployed in a closed-loop setting. The model takes input features from an industry-level perception system that outputs agent states and map information. We used the 8M DriveGPT model, trained on the full dataset, to drive the car, achieving a latency of under 50ms on a single onboard GPU.
 
-<!-- chunk {"id": "body-0057", "role": "body", "section": "External Evaluation: Motion Prediction", "weight": 1.0} -->
+<!-- chunk {"id": "body-0057", "role": "body", "section": "Closed-Loop Driving", "weight": 1.0} -->
+
+In Fig. 10, we present a challenging example in dense urban traffic where there are two double-parked vehicles blocking the path forward along with other oncoming vehicles. DriveGPT generates smooth and safe trajectories, bypassing the blocking vehicles and moving back to the original lane afterward. More examples are presented in the supplementary video at where DriveGPT alone is responsible for driving in real time.
+
+<!-- chunk {"id": "body-0058", "role": "body", "section": "External Evaluation: Motion Prediction", "weight": 1.0} -->
 
 To directly compare with published results, we evaluate DriveGPT on the WOMD motion prediction task. Additionally, we explore the benefits of scale by pretraining on our internal research dataset and finetuning on the significantly smaller WOMD dataset.
 
-<!-- chunk {"id": "body-0058", "role": "body", "section": "Open-Source Encoder", "weight": 1.0} -->
+<!-- chunk {"id": "body-0059", "role": "body", "section": "Open-Source Encoder", "weight": 1.0} -->
 
 For our external evaluation, we use the open-source MTR encoder. This encoder is similar to the one described in Sec. 3.2. We make this change to improve the reproducibility of our results and take advantage of MTR's open-source dataloading code for WOMD. We use the same autoregressive decoder as described in Sec. 3.3.
 
-<!-- chunk {"id": "body-0059", "role": "body", "section": "Pretraining Setup", "weight": 1.0} -->
+<!-- chunk {"id": "body-0060", "role": "body", "section": "Pretraining Setup", "weight": 1.0} -->
 
 We made a couple of minor modifications to DriveGPT to be compatible with the WOMD dataset. First, we modify our map data to include the same semantics as in WOMD. Second, we modify our agent data to include the same kinematic features for traffic agents as in WOMD.
 
-<!-- chunk {"id": "body-0060", "role": "body", "section": "Pretraining Setup", "weight": 1.0} -->
+<!-- chunk {"id": "body-0061", "role": "body", "section": "Pretraining Setup", "weight": 1.0} -->
 
-We pretrain DriveGPT by training on our internal research dataset for one epoch. We load the pretrained checkpoint and finetune the model using the same training setup as in the MTR codebase, where we train the model for 30 epochs using a weighted decay learning rate scheduler.
-
-<!-- chunk {"id": "body-0061", "role": "body", "section": "Results", "weight": 1.0} -->
-
-We measure model performance via a set of standard WOMD metrics, including minADE, minFDE, miss rate, and soft mAP. Each metric is measured on the test set and computed over three different time horizons.
+We pretrain DriveGPT by training on our internal research dataset for one epoch (as in Sec. 4). We load the pretrained checkpoint and finetune the model using the same training setup as in the MTR codebase, where we train the model for 30 epochs using a weighted decay learning rate scheduler.
 
 <!-- chunk {"id": "body-0062", "role": "body", "section": "Results", "weight": 1.0} -->
 
-We present two variants of our method to validate its effectiveness on the motion prediction task, including DriveGPT-WOMD that is trained on WOMD, and DriveGPT-Finetune that is pretrained on our 120M internal research dataset and finetuned on WOMD. For baselines, we use a set of representative state-of-the-art models.
+We measure model performance via a set of standard WOMD metrics, including minADE, minFDE, miss rate, and soft mAP. Each metric is measured on the test set and computed over three different time horizons.
 
 <!-- chunk {"id": "body-0063", "role": "body", "section": "Results", "weight": 1.0} -->
 
-We report results on the WOMD test set^22^2Metrics are sourced from and WOMD leaderboard. in Table. The results demonstrate that our method outperforms existing state-of-the-art non-ensemble models in terms of geometric metrics. Compared to Wayformer and MotionLM that use ensembles of up to 8 replicas, our model achieves the best minADE and minFDE metrics and the second-best miss rate metric without any ensembling.
+We present two variants of our method to validate its effectiveness on the motion prediction task, including DriveGPT-WOMD that is trained on WOMD, and DriveGPT-Finetune that is pretrained on our 120M internal research dataset and finetuned on WOMD. For baselines, we use a set of representative state-of-the-art models.
 
 <!-- chunk {"id": "body-0064", "role": "body", "section": "Results", "weight": 1.0} -->
 
-While we prioritize geometric metrics that emphasize the recall of predicted trajectory samples (i.e. not missing the critical trajectory), our model shows lower soft mAP scores due to suboptimal probability estimates. These estimates suffer from accumulated noises over time, as they are computed by compounding the action probabilities over a long sequence (as described in Eq. ), resulting in less accurate sample probabilities and reduced soft mAP, which relies on accurate probability assignments across predicted samples. Consequently, we notice that the gap in soft mAP grows as the prediction horizon increases. This reveals a limitation of using an autoregressive decoder for accurate probability estimation, as also noted in the LLM literature (Jiang et al. Geng et al., ). We defer improving the probability estimates of autoregressive models for behavior modeling as future work. One potential direction is to train an additional probability prediction head for each sample, which could enhance probability estimates and lead to improved soft mAP scores.
+We report results on the WOMD test set^22^2Metrics are sourced from and WOMD leaderboard. in Table 5. The results demonstrate that our method outperforms existing state-of-the-art non-ensemble models in terms of geometric metrics. Compared to Wayformer and MotionLM that use ensembles of up to 8 replicas, our model achieves the best minADE and minFDE metrics and the second-best miss rate metric without any ensembling.
 
 <!-- chunk {"id": "body-0065", "role": "body", "section": "Results", "weight": 1.0} -->
 
-We observe up to 3% additional gains by pretraining on our internal dataset, despite a large distribution shift between our internal dataset and the public WOMD dataset, in terms of trajectory distributions, feature noises, and differences in semantic definitions.
+While we prioritize geometric metrics that emphasize the recall of predicted trajectory samples (i.e. not missing the critical trajectory), our model shows lower soft mAP scores due to suboptimal probability estimates. These estimates suffer from accumulated noises over time, as they are computed by compounding the action probabilities over a long sequence (as described in Eq. ), resulting in less accurate sample probabilities and reduced soft mAP, which relies on accurate probability assignments across predicted samples. Consequently, we notice that the gap in soft mAP grows as the prediction horizon increases. This reveals a limitation of using an autoregressive decoder for accurate probability estimation, as also noted in the LLM literature. We defer improving the probability estimates of autoregressive models for behavior modeling as future work. One potential direction is to train an additional probability prediction head for each sample, which could enhance probability estimates and lead to improved soft mAP scores.
 
 <!-- chunk {"id": "body-0066", "role": "body", "section": "Results", "weight": 1.0} -->
 
-Diving deeper into agent-specific results in Table, we see consistent improvements across all agent types, compared to MTR that shares the same encoder as ours. This further validates the generalizability of our method, in addition to vehicle behavior modeling results described in Sec. 5.1.
+We observe up to 3% additional gains by pretraining on our internal dataset, despite a large distribution shift between our internal dataset and the public WOMD dataset, in terms of trajectory distributions, feature noises, and differences in semantic definitions.
 
-<!-- chunk {"id": "body-0067", "role": "body", "section": "Qualitative Comparison", "weight": 1.0} -->
+<!-- chunk {"id": "body-0067", "role": "body", "section": "Results", "weight": 1.0} -->
 
-We present two qualitative comparisons in Fig., where DriveGPT produces better trajectories in terms of diversity (covering more distinct outcomes) and accuracy (matching with the ground truth future) compared to MTR. This improvement is evident in challenging scenarios with limited agent history information (top row) and multiple future modalities (bottom row).
+Diving deeper into agent-specific results in Table 6, we see consistent improvements across all agent types, compared to MTR that shares the same encoder as ours. This further validates the generalizability of our method, in addition to vehicle behavior modeling results described in Sec. 5.1.
 
-<!-- chunk {"id": "body-0068", "role": "body", "section": "Conclusion", "weight": 1.5} -->
+<!-- chunk {"id": "body-0068", "role": "body", "section": "Qualitative Comparison", "weight": 1.0} -->
+
+We present two qualitative comparisons in Fig. 11, where DriveGPT produces better trajectories in terms of diversity (covering more distinct outcomes) and accuracy (matching with the ground truth future) compared to MTR. This improvement is evident in challenging scenarios with limited agent history information (top row) and multiple future modalities (bottom row).
+
+<!-- chunk {"id": "body-0069", "role": "body", "section": "Conclusion", "weight": 1.5} -->
 
 We introduced DriveGPT, an LLM-style autoregressive behavior model, to better understand the effects of model parameters and dataset size for autonomous driving. We systematically examined model performance as a function of both dataset size and model capacity, revealing LLM-like scaling laws for data and compute, as well as diminishing returns with increased model size. We showed the quantitative and qualitative benefits of scaling for planning in real-world driving scenarios. Additionally, we demonstrated our method on a public motion prediction benchmark, where DriveGPT outperformed state-of-the-art baselines and achieved improved performance through pretraining on a large-scale dataset.

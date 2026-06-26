@@ -16,11 +16,11 @@ With the fast-growing scale of robot fleets deployed in the real world, learning
 
 <!-- chunk {"id": "body-0004", "role": "body", "section": "Introduction", "weight": 1.5} -->
 
-Hence, a "top-down" scheme of centralizing these data (grauman2022ego4d; open_x_embodiment_rt_x_2023), and training a single policy to handle all the diverse tasks, can be computationally prohibitive and violate real-world communication constraints. At the same time, we wish to consolidate the skills each robot acquires after being trained on its local datasets via various off-the-shelf robot learning approaches. Thus, it is natural to ask: *How can the entire fleet efficiently acquire diverse skills, without having to *transmit* the massive amount of heterogeneous data that is generated constantly in silos, when each one of the robots has learned some skills from its own interactions?*
+Hence, a "top-down" scheme of centralizing these data (grauman2022ego4d; open_x_embodiment_rt_x_2023), and training a single policy to handle all the diverse tasks, can be computationally prohibitive and violate real-world communication constraints. At the same time, we wish to consolidate the skills each robot acquires after being trained on its local datasets via various off-the-shelf robot learning approaches. Thus, it is natural to ask: *How can the entire fleet efficiently acquire diverse skills, without having to *transmit* the massive amount of heterogeneous data that is generated constantly in silos, when each one of the robots has learned some skills from its own interactions?* To answer this question, we propose *policy merging* (\\Creffig:framework), PoMe, a "bottom-up" approach for fleet policy learning from multiple datasets. Specifically, we consider neural-network-parameterized policies that are already trained separately on different datasets and tasks, and seek to merge their weights to form one single policy, while preserving the learned skills of the original policies.
 
 <!-- chunk {"id": "body-0005", "role": "body", "section": "Introduction", "weight": 1.5} -->
 
-To answer this question, we propose *policy merging* (\\Creffig:framework), PoMe, a "bottom-up" approach for fleet policy learning from multiple datasets. Specifically, we consider neural-network-parameterized policies that are already trained separately on different datasets and tasks, and seek to merge their weights to form one single policy, while preserving the learned skills of the original policies. Policy merging acquires skills efficiently with drastically reduced communication costs, by transmitting only the trained weights of neural networks but not the training data. Such a bottom-up merging scheme is agnostic to and thus compatible with any local training approaches used in practice.
+Policy merging acquires skills efficiently with drastically reduced communication costs, by transmitting only the trained weights of neural networks but not the training data. Such a bottom-up merging scheme is agnostic to and thus compatible with any local training approaches used in practice.
 
 <!-- chunk {"id": "body-0006", "role": "body", "section": "Introduction", "weight": 1.5} -->
 
@@ -40,7 +40,7 @@ Compared with one of the few federated learning methods that also explicitly acc
 
 <!-- chunk {"id": "body-0010", "role": "body", "section": "Introduction", "weight": 1.5} -->
 
-We design a new policy-merging approach, \\algname, that outperforms baselines by over $50\%$, by accounting for the permutation symmetries in RNN-parameterized policies, and also extend the approach to the training stage, by allowing multiple rounds of merging between each training update, and also extend to merging multiple (more than two) models.
+\[itemsep=2pt,topsep=0pt,parsep=0pt,partopsep=0pt\] We design a new policy-merging approach, \\algname, that outperforms baselines by over $50\%$, by accounting for the permutation symmetries in RNN-parameterized policies, and also extend the approach to the training stage, by allowing multiple rounds of merging between each training update, and also extend to merging multiple (more than two) models.
 
 <!-- chunk {"id": "body-0011", "role": "body", "section": "Introduction", "weight": 1.5} -->
 
@@ -84,19 +84,19 @@ Given the invariance properties introduced in \\Crefsec:problem_setup, merging b
 
 <!-- chunk {"id": "body-0021", "role": "body", "section": "Methodology", "weight": 1.0} -->
 
-The GitRebasin algorithm (ainsworth2022git) iteratively computes the weight permutations $(\mathcal{P}_{i})$. At each step, agent index $i$ is drawn uniformly from $\lbrack N\rbrack$, and one constructs $\theta_{i}^{\prime} = {\frac{1}{N - 1}{\sum_{j \neq i}\theta_{j}}}$ by averaging the parameters of indices $j \neq i$. It then solves a series of linear assignment problems (LAPs) (kuhn1955hungarian; jonker1988shortest; bertsekas1998network) for each layer $\ell$ to find some $\mathbf{P}^{\ell}$, which is derived by matching the activations between two models via ordinary least squares regression.
+The GitRebasin algorithm (ainsworth2022git) iteratively computes the weight permutations $(\mathcal{P}_{i})$. At each step, agent index $i$ is drawn uniformly from $\lbrack N\rbrack$, and one constructs $\theta_{i}' = {\frac{1}{N - 1}{\sum_{j \neq i}\theta_{j}}}$ by averaging the parameters of indices $j \neq i$. It then solves a series of linear assignment problems (LAPs) (kuhn1955hungarian; jonker1988shortest; bertsekas1998network) for each layer $\ell$ to find some $\mathbf{P}^{\ell}$, which is derived by matching the activations between two models via ordinary least squares regression. The algorithm then repeats the sampling from $(\theta_{1},\ldots,\theta_{N})$ and the computation of $\theta_{i}'$, until convergence.
 
 <!-- chunk {"id": "body-0022", "role": "body", "section": "Methodology", "weight": 1.0} -->
 
-The algorithm then repeats the sampling from $(\theta_{1},\ldots,\theta_{N})$ and the computation of $\theta_{i}^{\prime}$, until convergence.
+pena2022re instead propose a gradient-based variant to merge two models by relaxing the rigid constraint of using a hard permutation matrix. The direct extension of their algorithm to our setting is as follows: given two models $(\theta,\theta')$, iteratively trajectories $\mathbf{τ}$ from a common dataset $\mathcal{D}$, and update the aligning parameters $\mathcal{P}$ by following the gradient of $\mathcal{L}_{bc}{({{\alpha\mathcal{P}{(\theta)}} + {{({1 - \alpha})}\theta'}};{\mathbf{τ}})}$, where $\mathcal{L}_{bc}$ is as given in \\Crefeq:Lbc. Thus, for each iteration $s \geq 1$ with some stepsize $\eta > 0$.
 
 <!-- chunk {"id": "body-0023", "role": "body", "section": "Methodology", "weight": 1.0} -->
 
-pena2022re instead propose a gradient-based variant to merge two models by relaxing the rigid constraint of using a hard permutation matrix. The direct extension of their algorithm to our setting is as follows: given two models $(\theta,\theta^{\prime})$, iteratively trajectories $\mathbf{τ}$ from a common dataset $\mathcal{D}$, and update the aligning parameters $\mathcal{P}$ by following the gradient of $\mathcal{L}_{bc}{({{\alpha\mathcal{P}{(\theta)}} + {{({1 - \alpha})}\theta^{\prime}}};{\mathbf{τ}})}$, where $\mathcal{L}_{bc}$ is as given in \\Crefeq:Lbc. Thus, for each iteration $s \geq 1$
+Note that the updated matrices in ${\overset{\sim}{\mathcal{P}}}_{s} = {({\overset{\sim}{\mathbf{P}}}_{s}^{0},\ldots,{\overset{\sim}{\mathbf{P}}}_{s}^{L})}$ are not necessarily (even close to) permutation matrices. We define a *soft permutation projection* with regularization $\tau > 0$ as: and the associated *hard permutation projection* ${Proj}_{hard}:=\left.
 
 <!-- chunk {"id": "body-0024", "role": "body", "section": "Methodology", "weight": 1.0} -->
 
-and the associated *hard permutation projection* ${Proj}_{hard}:=\left. {Proj}_{\tau} \right|_{\tau = 0}$, where $\mathcal{B}_{d}$ is the Birkhoff polytope of doubly-stochastic matrices, ${\mathcal{H}{(\mathbf{P})}} = {- {\sum_{i,j}{\mathbf{P}_{ij}{\log{(\mathbf{P}_{ij})}}}}}$ is the matrix entropy (cuturi2013sinkhorn; mena2018learning), and $\tau > 0$ is some hyperparameter that weights the strength of the entropy regularization. Computation of ${Proj}_{hard}$ can be implemented efficiently via solving a linear assignment problem, and the solution with $\tau > 0$ can be solved approximately via a Sinkhorn iteration (eisenberger2022unified; pena2022re), which also allows gradient computation on any differentiable objective.
+{Proj}_{\tau} \right|_{\tau = 0}$, where $\mathcal{B}_{d}$ is the Birkhoff polytope of doubly-stochastic matrices, ${\mathcal{H}{(\mathbf{P})}} = {- {\sum_{i,j}{\mathbf{P}_{ij}{\log{(\mathbf{P}_{ij})}}}}}$ is the matrix entropy (cuturi2013sinkhorn; mena2018learning), and $\tau > 0$ is some hyperparameter that weights the strength of the entropy regularization. Computation of ${Proj}_{hard}$ can be implemented efficiently via solving a linear assignment problem, and the solution with $\tau > 0$ can be solved approximately via a Sinkhorn iteration (eisenberger2022unified; pena2022re), which also allows gradient computation on any differentiable objective.
 
 <!-- chunk {"id": "body-0025", "role": "body", "section": "Methodology", "weight": 1.0} -->
 
@@ -108,20 +108,15 @@ To measure the performance of model alignment, we study the (imitation) loss bar
 
 <!-- chunk {"id": "body-0027", "role": "body", "section": "Methodology", "weight": 1.0} -->
 
-{\overline{\mathcal{L}}}_{bc}{(\theta^{\prime};\mathcal{D})})}}$, evaluates the worst performing policy linearly interpolating between $\theta$ and $\theta^{\prime}$, where we recall the definition of ${\overline{\mathcal{L}}}_{bc}$ above \\Crefeq:Lbc.
+between $\theta$ and $\theta'$, where we recall the definition of ${\overline{\mathcal{L}}}_{bc}$ above \\Crefeq:Lbc.
 
 <!-- chunk {"id": "body-0028", "role": "body", "section": "Methodology", "weight": 1.0} -->
 
-More amenable to the control and policy learning setting, we can also define the task *performance barrier*, which replaces the behavior cloning loss ${\overline{\mathcal{L}}}_{bc}$ with any suitable measure $\mathcal{T}$ of task performance (e.g., the accumulated rewards or the success rates of task completion): ${{\max_{\lambda \in {\lbrack 0,1\rbrack}}\frac{1}{2}}{({{\mathcal{T}{(\theta)}} + {\mathcal{T}{(\theta^{\prime})}}})}} - {\mathcal{T}{({{{({1 - \lambda})}\theta} + {\lambda\theta^{\prime}}})}}$; the sign is flipped to model the rewards achieved in accomplishing the tasks. These metrics will be used in our experiments in \\Crefexp:multitask_task.
+More amenable to the control and policy learning setting, we can also define the task *performance barrier*, which replaces the behavior cloning loss ${\overline{\mathcal{L}}}_{bc}$ with any suitable measure $\mathcal{T}$ of task performance (e.g., the accumulated rewards or the success rates of task completion): ${{\max_{\lambda \in {\lbrack 0,1\rbrack}}\frac{1}{2}}{({{\mathcal{T}{(\theta)}} + {\mathcal{T}{(\theta')}}})}} - {\mathcal{T}{({{{({1 - \lambda})}\theta} + {\lambda\theta'}})}}$; the sign is flipped to model the rewards achieved in accomplishing the tasks. These metrics will be used in our experiments in \\Crefexp:multitask_task.
 
 <!-- chunk {"id": "body-0029", "role": "body", "section": "Methodology", "weight": 1.0} -->
 
-1: Input: Models θ1, …, θN, datasets 𝒟local, i for each i ∈ [N]
-2: Parameters: Epoch length E, iteration number S, soft-projection parameter τ &gt; 0, stepsize η &gt; 0
-3: Initialize: Permutations 𝒫hard, 1, …, 𝒫hard, N, 𝒫soft, 1, …, 𝒫soft, N ← Identity
-5: Average models: $\overline{\theta}\leftarrow{\frac{1}{N}{\sum_{i = 1}^{N}{\mathcal{P}_{{hard},i}{(\theta_{i})}}}}$
-9: Sample data pair (o,a) ∼ 𝒟local, i to form a trajectory τ, and sample interpolation parameter α ∼ Unif
-10: Update with gradient: ${\overset{\sim}{\mathcal{P}}}_{{soft},i}\leftarrow{\mathcal{P}_{{soft},i} - \left.
+1: Input: Models θ1, …, θN, datasets 𝒟local, i for each i ∈ [N] 2: Parameters: Epoch length E, iteration number S, soft-projection parameter τ > 0, stepsize η > 0 3: Initialize: Permutations 𝒫hard, 1, …, 𝒫hard, N, 𝒫soft, 1, …, 𝒫soft, N ← Identity 5: Average models: $\overline{\theta}\leftarrow{\frac{1}{N}{\sum_{i = 1}^{N}{\mathcal{P}_{{hard},i}{(\theta_{i})}}}}$ 9: Sample data pair (o, a) ∼ 𝒟local, i to form a trajectory τ, and sample interpolation parameter α ∼ Unif 10: Update with gradient: ${\overset{\sim}{\mathcal{P}}}_{{soft},i}\leftarrow{\mathcal{P}_{{soft},i} - \left.
 
 <!-- chunk {"id": "body-0030", "role": "body", "section": "Methodology", "weight": 1.0} -->
 
@@ -133,7 +128,7 @@ In this section, we describe our new algorithm for merging many RNN-parameterize
 
 <!-- chunk {"id": "body-0032", "role": "body", "section": "Permutation invariance of RNNs", "weight": 1.0} -->
 
-for each layer $\ell$ with $1 \leq \ell \leq {L - 1}$. In \\Crefsec:permut_append, we verify that RNNs are invariant to the above operation when $\mathcal{P} \in \mathcal{G}_{perm} \subset \mathcal{G}_{lin}$ are hard permutation operators.
+In \\Crefsec:permut_append, we verify that RNNs are invariant to the above operation when $\mathcal{P} \in \mathcal{G}_{perm} \subset \mathcal{G}_{lin}$ are hard permutation operators.
 
 <!-- chunk {"id": "body-0033", "role": "body", "section": "Merging many models with a single reference", "weight": 1.0} -->
 
@@ -141,11 +136,11 @@ Rather than *sequentially* merging $N = 2$ models, we merge all models to a comm
 
 <!-- chunk {"id": "body-0034", "role": "body", "section": "Merging many models with a single reference", "weight": 1.0} -->
 
-Algorithm description. Our algorithm, Fleet-Merge, is depicted in \\Crefalg:fed_rebasin. We maintain hard transformation operators ${\mathcal{P}_{{hard},1},\ldots,\mathcal{P}_{{hard},N}} \in \mathcal{G}_{perm}$, initialized by identity matrices. At each epoch, we compute the reference model $\overline{\theta}$ by averaging each model under the associated transformation. We then select a subset of models $\mathcal{I}$, and initialize the "soft" permutation $\mathcal{P}_{{soft},i}\leftarrow\mathcal{P}_{{hard},i}$ as the hard permutation operator. For each $i \in \mathcal{I}$, we update the "soft" permutation $\mathcal{P}_{{soft},i}$ for $T$ steps.
+Algorithm description. Our algorithm, Fleet-Merge, is depicted in \\Crefalg:fed_rebasin. We maintain hard transformation operators ${\mathcal{P}_{{hard},1},\ldots,\mathcal{P}_{{hard},N}} \in \mathcal{G}_{perm}$, initialized by identity matrices. At each epoch, we compute the reference model $\overline{\theta}$ by averaging each model under the associated transformation (Line 5). We then select a subset of models $\mathcal{I}$, and initialize the "soft" permutation $\mathcal{P}_{{soft},i}\leftarrow\mathcal{P}_{{hard},i}$ as the hard permutation operator. For each $i \in \mathcal{I}$, we update the "soft" permutation $\mathcal{P}_{{soft},i}$ for $T$ steps.
 
 <!-- chunk {"id": "body-0035", "role": "body", "section": "Merging many models with a single reference", "weight": 1.0} -->
 
-Importantly, because each $\theta_{i}$ corresponds to a recurrent neural network model, the action of $\mathcal{P}_{{soft},i}{(\theta_{i})}$ in the gradient step in Line is given by \\Crefeq:rnn_action. Of equal significance (and as noted above), the trajectories $\mathbf{τ}$ in Line are sampled not from a common dataset, but rather from a local dataset $\mathcal{D}_{{local},i}$ associated with the $i$-th agent. We conclude by re-projecting each $\mathcal{P}_{{soft},i}$ onto $\mathcal{G}_{perm}$ to obtain a new $\mathcal{P}_{{hard},i}$, which are used to update $\overline{\theta}$ accordingly in the next epoch.
+Importantly, because each $\theta_{i}$ corresponds to a recurrent neural network model, the action of $\mathcal{P}_{{soft},i}{(\theta_{i})}$ in the gradient step in Line 10 is given by \\Crefeq:rnn_action. Of equal significance (and as noted above), the trajectories $\mathbf{τ}$ in Line 9 are sampled not from a common dataset, but rather from a local dataset $\mathcal{D}_{{local},i}$ associated with the $i$-th agent. We conclude by re-projecting each $\mathcal{P}_{{soft},i}$ onto $\mathcal{G}_{perm}$ to obtain a new $\mathcal{P}_{{hard},i}$ (Line 12), which are used to update $\overline{\theta}$ accordingly in the next epoch.
 
 <!-- chunk {"id": "body-0036", "role": "body", "section": "Merging many models with a single reference", "weight": 1.0} -->
 
@@ -157,7 +152,7 @@ In this setting, we use the optimal LQG controller to generate expert trajectori
 
 <!-- chunk {"id": "body-0038", "role": "body", "section": "Experiments: Linear Policy Merging", "weight": 1.0} -->
 
-Following zhang2022multi, we then use the closed-loop rollout metric $\mathcal{T}{(\pi)} = \frac{1}{N}\sum_{i = 1}^{N}\max_{t \leq T}\left. \parallel y_{t}^{i} - {\hat{y}}_{t}\parallel \right.^{2}$ to evaluate the learner's performance with respect to the expert, where $\hat{u},\hat{y}$ denotes the input and output of the learner.
+We train the controller parameter with the following procedure: Following zhang2022multi, we then use the closed-loop rollout metric $\mathcal{T}{(\pi)} = \frac{1}{N}\sum_{i = 1}^{N}\max_{t \leq T}\left. \parallel y_{t}^{i} - {\hat{y}}_{t}\parallel \right.^{2}$ to evaluate the learner's performance with respect to the expert, where $\hat{u},\hat{y}$ denotes the input and output of the learner.
 
 <!-- chunk {"id": "body-0039", "role": "body", "section": "Experiments: Linear Policy Merging", "weight": 1.0} -->
 
@@ -181,7 +176,7 @@ We first trained multiple feedforward policies for a single task and single data
 
 <!-- chunk {"id": "body-0044", "role": "body", "section": "Meta-world", "weight": 1.0} -->
 
-In this section, we experiment with imitation learning on the popular Meta-world benchmark yu2020meta, which has 50 distinct manipulation tasks. We use frozen ResNet features on the images as policy inputs. In Figure, we compare different merging algorithms to measure the mode connectivity and observed that there are almost no performance barriers between the policies. We show similar observations across different architectures, different inputs and metrics, and large-scale settings in the Appendix LABEL:appendix:metaworld. Moreover, we compared the merged policy with different non-IIDness and observe that the gradient-based algorithms achieve the best performance.
+In this section, we experiment with imitation learning on the popular Meta-world benchmark yu2020meta, which has 50 distinct manipulation tasks. We use frozen ResNet features on the images as policy inputs. In Figure 3, we compare different merging algorithms to measure the mode connectivity and observed that there are almost no performance barriers between the policies. We show similar observations across different architectures, different inputs and metrics, and large-scale settings in the Appendix LABEL:appendix:metaworld. Moreover, we compared the merged policy with different non-IIDness and observe that the gradient-based algorithms achieve the best performance.
 
 <!-- chunk {"id": "body-0045", "role": "body", "section": "Meta-world", "weight": 1.0} -->
 

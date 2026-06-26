@@ -56,7 +56,7 @@ To better understand the different ways in which AI research can be red, conside
 
 <!-- chunk {"id": "body-0014", "role": "body", "section": "Red AI", "weight": 1.0} -->
 
-\[h\] $${Cost(R)} \propto {E \cdot D \cdot H}$$ The equation of Red AI: The cost of an AI ($R$)esult grows linearly with the cost of processing a single ($E$)xample, the size of the training ($D$)ataset and the number of ($H$)yperparameter experiments.
+This cost can be estimated as follows: \[h\] $${Cost(R)} \propto {E \cdot D \cdot H}$$ The equation of Red AI: The cost of an AI ($R$)esult grows linearly with the cost of processing a single ($E$)xample, the size of the training ($D$)ataset and the number of ($H$)yperparameter experiments.
 
 <!-- chunk {"id": "body-0015", "role": "body", "section": "Red AI", "weight": 1.0} -->
 
@@ -76,11 +76,11 @@ When examining variants of a single model (e.g., BERT-small and BERT-large) we s
 
 <!-- chunk {"id": "body-0019", "role": "body", "section": "Processing many examples", "weight": 1.0} -->
 
-Another way state-of-the-art performance has recently been progressing in AI is by successively increasing the amount of training data models are trained. BERT-large had top performance in 2018 across many NLP tasks after training on 3 billion word-pieces. XLNet recently outperformed BERT after training on 32 billion word-pieces, including part of Common Crawl; openGPT-2-XL trained on 40 billion words; FAIR's RoBERTa was trained on 160GB of text, roughly 40 billion word-pieces, requiring around 25,000 GPU hours to train. In computer vision, researchers from Facebook pretrained an image classification model on 3.5 billion images from Instagram, three orders of magnitude larger than existing labelled image datasets such as Open Images.^1111^11
+Another way state-of-the-art performance has recently been progressing in AI is by successively increasing the amount of training data models are trained. BERT-large had top performance in 2018 across many NLP tasks after training on 3 billion word-pieces. XLNet recently outperformed BERT after training on 32 billion word-pieces, including part of Common Crawl; openGPT-2-XL trained on 40 billion words; FAIR's RoBERTa was trained on 160GB of text, roughly 40 billion word-pieces, requiring around 25,000 GPU hours to train. In computer vision, researchers from Facebook pretrained an image classification model on 3.5 billion images from Instagram, three orders of magnitude larger than existing labelled image datasets such as Open Images.^1111^11 Figure 3: Diminishing returns of training on more data: object detection accuracy increases linearly as the number of training examples increases exponentially.
 
 <!-- chunk {"id": "body-0020", "role": "body", "section": "Processing many examples", "weight": 1.0} -->
 
-The use of massive data creates barriers for many researchers for reproducing the results of these models, or training their own models on the same setup (especially as training for multiple epochs is standard). For example, the June 2019 Common Crawl contains 242 TB of uncompressed data,^1212^12[ so even storing the data is expensive. Finally, as in the case of model size, relying on more data to improve performance is notoriously expensive because of the diminishing return of adding more data. For instance, Figure 3, taken, shows a logarithmic relation between the object recognition top-1 accuracy and the number of training examples.
+The use of massive data creates barriers for many researchers for reproducing the results of these models, or training their own models on the same setup (especially as training for multiple epochs is standard). For example, the June 2019 Common Crawl contains 242 TB of uncompressed data,^1212^12 so even storing the data is expensive. Finally, as in the case of model size, relying on more data to improve performance is notoriously expensive because of the diminishing return of adding more data. For instance, Figure 3, taken, shows a logarithmic relation between the object recognition top-1 accuracy and the number of training examples.
 
 <!-- chunk {"id": "body-0021", "role": "body", "section": "Massive number of experiments", "weight": 1.0} -->
 
@@ -136,7 +136,7 @@ FPO has several appealing properties. First, it directly computes the amount of 
 
 <!-- chunk {"id": "body-0034", "role": "body", "section": "FPO", "weight": 1.0} -->
 
-Several packages exist for computing FPO in various neural network libraries,^1414^14E.g., though none of them contains all the building blocks required to construct all modern AI models. We encourage the builders of neural network libraries to implement such functionality directly.
+Several packages exist for computing FPO in various neural network libraries,^1414^14E.g. though none of them contains all the building blocks required to construct all modern AI models. We encourage the builders of neural network libraries to implement such functionality directly.
 
 <!-- chunk {"id": "body-0035", "role": "body", "section": "Discussion", "weight": 1.5} -->
 

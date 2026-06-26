@@ -34,55 +34,55 @@ We additionally use $M_{\sigma}^{- 1}$ and $\operatorname{adj}{(M)}_{\sigma}$ to
 
 <!-- chunk {"id": "body-0009", "role": "body", "section": "Problem Setup and Background", "weight": 1.0} -->
 
-We consider constrained discrete-time linear dynamical systems of the form
+For notational convenience, we overload $\phi$ to compactly denote the vector of constraint residuals for a state $x$ and input $u$ as well as for the sequences $x_{1:T}$ and $u_{0:{T - 1}}$: We consider deterministic state-feedback control policies of the form $\pi:{X\rightarrow U}$ and denote the closed-loop system under $\pi$ by ${f_{cl}^{\pi}{(x)}}:={{Ax} + {B\pi{(x)}}}$. We use $\pi^{\star}$ to refer to the expert policy and $\hat{\pi}$ for its learned approximation. In particular, our choice of $\pi^{\star}$ in this paper is an MPC with quadratic cost and linear constraints.
 
 <!-- chunk {"id": "body-0010", "role": "body", "section": "Problem Setup and Background", "weight": 1.0} -->
 
-We consider deterministic state-feedback control policies of the form $\pi:{X\rightarrow U}$ and denote the closed-loop system under $\pi$ by ${f_{cl}^{\pi}{(x)}}:={{Ax} + {B\pi{(x)}}}$. We use $\pi^{\star}$ to refer to the expert policy and $\hat{\pi}$ for its learned approximation. In particular, our choice of $\pi^{\star}$ in this paper is an MPC with quadratic cost and linear constraints.
+The MPC policy is obtained by solving the following minimization problem over future actions $u:=u_{0:{T - 1}}$ with quadratic cost in $u$ and states $x:=x_{1:T}$: where $Q_{t}$ and $R_{t - 1}$ are positive definite for all $t \in {\lbrack T\rbrack}$. For a given state $x$, the corresponding input ${\mathbf{π}}_{mpc}$ of the MPC is: where the minimization is over the feasible set defined in Section 2. For ${\mathbf{π}}_{mpc}$ to be well-defined, we assume that $V{(x_{0},u)}$ has a unique global minimum in $u$ for all feasible $x_{0}$.
 
-<!-- chunk {"id": "body-0011", "role": "body", "section": "Problem Setup and Background", "weight": 1.0} -->
+<!-- chunk {"id": "body-0011", "role": "body", "section": "Explicit Solution to MPC", "weight": 1.0} -->
 
-where $Q_{t}$ and $R_{t - 1}$ are positive definite for all $t \in {\lbrack T\rbrack}$.
+Explicit MPC \[bemporad2002explicit\] rewrites Equation 2.4 as a multi-parametric quadratic program with linear inequality constraints and solves it for every possible combination of active constraints, building an analytical solution to the control problem.
 
-<!-- chunk {"id": "body-0012", "role": "body", "section": "Problem Setup and Background", "weight": 1.0} -->
+<!-- chunk {"id": "body-0012", "role": "body", "section": "Explicit Solution to MPC", "weight": 1.0} -->
 
-where the minimization is over the feasible set defined in Section 2. For ${\mathbf{π}}_{mpc}$ to be well-defined, we assume that $V{(x_{0},u)}$ has a unique global minimum in $u$ for all feasible $x_{0}$.
+We assume that the constraint polytope in Section 2.1 contains a full-dimensional ball of radius $r$ and is contained inside an origin-centered ball of radius $R$. Consequently, its objective is $L_{V}$-Lipschitz for some constant $L_{V}$. We now state the solution of Section 2.1 \[alessio2009survey\] and later (in Lemma 4.5) show how it appears in the smoothness of the barrier MPC solution.
 
-<!-- chunk {"id": "body-0013", "role": "body", "section": "Explicit Solution to MPC", "weight": 1.0} -->
+<!-- chunk {"id": "body-0013", "role": "body", "section": "Fact 2.1 (\\[bemporad2002explicit\\])", "weight": 1.0} -->
 
-Explicit MPC \[bemporad2002explicit\] rewrites Equation 2.4 as a multi-parametric quadratic program with linear inequality constraints and solves it for every possible combination of active constraints, building an analytical solution to the control problem. We therefore rewrite Equation 2.4
+Let $\sigma \in {\{ 0,1\}}^{m}$ denote a set of active constraints for Section 2.1, with $\sigma_{i} = 1$ iff the $i$th constraint is active. We overload this notation so that $\sigma{(x_{0})}$ represents active constraints of the solution of Section 2.1 for a particular $x_{0}$. Let $P_{\sigma} = \left. \{ x \middle| {{\sigma{(x)}} = \sigma}\} \right.$ be the the set of $x_{0}$ for which the solution has active constraints $\sigma$.
 
-<!-- chunk {"id": "body-0014", "role": "body", "section": "Explicit Solution to MPC", "weight": 1.0} -->
+<!-- chunk {"id": "body-0014", "role": "body", "section": "Fact 2.1 (\\[bemporad2002explicit\\])", "weight": 1.0} -->
 
-so that $x_{1:T} = {{\hat{A}x_{0}} + {\hat{B}u}}$. We assume that the constraint polytope in Section 2.1 contains a full-dimensional ball of radius $r$ and is contained inside an origin-centered ball of radius $R$. Consequently, its objective is $L_{V}$-Lipschitz for some constant $L_{V}$. We now state the solution of Section 2.1 \[alessio2009survey\] and later (in Lemma 4.5) show how it appears in the smoothness of the barrier MPC solution.
+Then for $x_{0} \in P_{\sigma}$, the solution $u$ of Section 2.1 may be expressed as $u = {{K_{\sigma}x_{0}} + k_{\sigma}}$, where $K_{\sigma}$ and $k_{\sigma}$ are defined as: Based on this fact, one may pre-compute an efficient lookup structure mapping $x \in P_{\sigma}$ to $K_{\sigma},k_{\sigma}$. However, since every combination of active constraints may potentially yield a unique feedback law, the number of pieces to be computed may grow exponentially in the problem dimension or time horizon. For instance, even the simple two-dimensional toy system in Figure 1 has $261$ pieces. In high dimensions or over long time horizons, merely enumerating all pieces of the explicit MPC may be computationally intractable.
 
 <!-- chunk {"id": "body-0015", "role": "body", "section": "Fact 2.1 (\\[bemporad2002explicit\\])", "weight": 1.0} -->
 
-Let $\sigma \in {\{ 0,1\}}^{m}$ denote a set of active constraints for Section 2.1, with $\sigma_{i} = 1$ iff the $i$th constraint is active. We overload this notation so that $\sigma{(x_{0})}$ represents active constraints of the solution of Section 2.1 for a particular $x_{0}$. Let $P_{\sigma} = \left. \{ x \middle| {{\sigma{(x)}} = \sigma}\} \right.$ be the the set of $x_{0}$ for which the solution has active constraints $\sigma$. Then for $x_{0} \in P_{\sigma}$, the solution $u$ of Section 2.1
-
-<!-- chunk {"id": "body-0016", "role": "body", "section": "Fact 2.1 (\\[bemporad2002explicit\\])", "weight": 1.0} -->
-
-Based on this fact, one may pre-compute an efficient lookup structure mapping $x \in P_{\sigma}$ to $K_{\sigma},k_{\sigma}$. However, since every combination of active constraints may potentially yield a unique feedback law, the number of pieces to be computed may grow exponentially in the problem dimension or time horizon. For instance, even the simple two-dimensional toy system in Figure 1 has $261$ pieces. In high dimensions or over long time horizons, merely enumerating all pieces of the explicit MPC may be computationally intractable.
-
-<!-- chunk {"id": "body-0017", "role": "body", "section": "Fact 2.1 (\\[bemporad2002explicit\\])", "weight": 1.0} -->
-
 This observation motivates us to consider approximating explicit MPC using a polynomial number of sample trajectories, collected offline. We introduce this framework next.
 
-<!-- chunk {"id": "body-0018", "role": "body", "section": "Motivating Smoothness: Imitation Learning Frameworks", "weight": 1.0} -->
+<!-- chunk {"id": "body-0016", "role": "body", "section": "Motivating Smoothness: Imitation Learning Frameworks", "weight": 1.0} -->
 
 In this section, we motivate barrier MPC by specializing to the setting of Section 2 the framework from \[pfrommer2022tasil\], which enables high-probability guarantees on the quality of an approximation.
 
+<!-- chunk {"id": "body-0017", "role": "body", "section": "Motivating Smoothness: Imitation Learning Frameworks", "weight": 1.0} -->
+
+Suppose we are given an expert controller $\pi^{\star}$, a policy class $\Pi$, a distribution of initial conditions $\mathcal{D}$, and $N$ sample trajectories ${\{ x_{0:{K - 1}}^{(i)}\}}_{i = 1}^{N}$ of length $K$, with ${\{ x_{0}^{(i)}\}}_{i = 1}^{N}$ sampled i.i.d from $\mathcal{D}$. Our goal is to find an approximate policy $\hat{\pi} \in \Pi$ such that, given an accuracy parameter $\epsilon$, the closed-loop states ${\hat{x}}_{t}$ and $x_{t}^{\star}$ induced by $\hat{\pi}$ and $\pi^{\star}$, respectively, satisfy, with high probability over $x_{0} \sim \mathcal{D}$, This is formalized in 3.6.
+
+<!-- chunk {"id": "body-0018", "role": "body", "section": "Motivating Smoothness: Imitation Learning Frameworks", "weight": 1.0} -->
+
+‣ 3 Motivating Smoothness: Imitation Learning Frameworks ‣ On the Sample Complexity of Imitation Learning for Smoothed Model Predictive ControlThe first two authors contributed equally. A preliminary version of this manuscript is published in CDC 2024."). To understand this statement, we first establish some assumptions.
+
 <!-- chunk {"id": "body-0019", "role": "body", "section": "Motivating Smoothness: Imitation Learning Frameworks", "weight": 1.0} -->
-
-This is formalized in 3.6. ‣ 3 Motivating Smoothness: Imitation Learning Frameworks ‣ On the Sample Complexity of Imitation Learning for Smoothed Model Predictive ControlThe first two authors contributed equally. A preliminary version of this manuscript is published in CDC 2024."). To understand this statement, we first establish some assumptions.
-
-<!-- chunk {"id": "body-0020", "role": "body", "section": "Motivating Smoothness: Imitation Learning Frameworks", "weight": 1.0} -->
 
 We first assume through 3.1 that $\hat{\pi}$ has been chosen by a black-box supervised imitation learning algorithm which, given the input data, produces a $\hat{\pi} \in \Pi$ such that, with high probability over the distribution induced by $\mathcal{D}$, the policy and its Jacobian are close to the expert.
 
+<!-- chunk {"id": "body-0020", "role": "body", "section": "Assumption 3.1", "weight": 1.0} -->
+
+For some ${\delta \in {}},{{\epsilon_{0} > 0},{\epsilon_{1} > 0}}$ and given $N$ trajectories ${\{ x_{0:{K - 1}}^{(i)}\}}_{i = 1}^{(N)}$ of length $K$ sampled i.i.d. from $\mathcal{D}$ and rolled out under $\pi^{\star}$, the approximating policy $\hat{\pi}$ satisfies: For instance, as shown in \[pfrommer2022tasil\], 3.1 holds for $\hat{\pi}$ chosen as an empirical risk minimizer from a class of twice differentiable parametric functions with $\ell_{2}$-bounded parameters, e.g., dense neural networks with smooth activation functions and trained with $\ell_{2}$ weight regularization.
+
 <!-- chunk {"id": "body-0021", "role": "body", "section": "Assumption 3.1", "weight": 1.0} -->
 
-For instance, as shown in \[pfrommer2022tasil\], 3.1 holds for $\hat{\pi}$ chosen as an empirical risk minimizer from a class of twice differentiable parametric functions with $\ell_{2}$-bounded parameters, e.g., dense neural networks with smooth activation functions and trained with $\ell_{2}$ weight regularization. We refer the reader to \[pfrommer2022tasil, tu2022sample\] for other such examples of $\Pi$. Note the above definition requires generalization on only the state distribution induced by the expert, rather than the distribution induced by the learned policy, as in \[ahn2023model, chen2018approximating\].
+We refer the reader to \[pfrommer2022tasil, tu2022sample\] for other such examples of $\Pi$. Note the above definition requires generalization on only the state distribution induced by the expert, rather than the distribution induced by the learned policy, as in \[ahn2023model, chen2018approximating\].
 
 <!-- chunk {"id": "body-0022", "role": "body", "section": "Assumption 3.1", "weight": 1.0} -->
 
@@ -106,7 +106,7 @@ Having stated all the necessary assumptions, we are now ready to state below the
 
 <!-- chunk {"id": "body-0027", "role": "body", "section": "Fact 3.6 (cf. \\[pfrommer2022tasil\\], Corollary A.1)", "weight": 1.0} -->
 
-The upshot of this result is that to match the trajectory of the MPC policy $\pi^{\star}$ with high probability, provided $\pi^{\star}$ is $(L_{0},L_{1})$-smooth, we need to match the Jacobian and value of $\pi^{\star}$ on *only* $NK$ pieces. This is in contrast to prior work such as \[maddalena2020neural, karg2020efficient, chen2018approximating\] on approximating explicit MPC, which require sampling new control inputs during training (in a reinforcement learning-like fashion) or post-training verification of the stability properties of the network.
+This is in contrast to prior work such as \[maddalena2020neural, karg2020efficient, chen2018approximating\] on approximating explicit MPC, which require sampling new control inputs during training (in a reinforcement learning-like fashion) or post-training verification of the stability properties of the network.
 
 <!-- chunk {"id": "body-0028", "role": "body", "section": "Fact 3.6 (cf. \\[pfrommer2022tasil\\], Corollary A.1)", "weight": 1.0} -->
 
@@ -118,15 +118,15 @@ We first consider randomized smoothing \[duchi2012randomized\] as a baseline app
 
 <!-- chunk {"id": "body-0030", "role": "body", "section": "Fact 3.8 (c.f. \\[duchi2012randomized\\], Appendix E, Lemma 7-9)", "weight": 1.0} -->
 
-Using randomized smoothing to obtain a smoothed policy has the following key disadvantages: Firstly the expectation ${\mathbb{E}}_{w \sim \mathcal{P}}{\lbrack{{\mathbf{π}}_{mpc}{({x + {\epsilon w}})}}\rbrack}$ is evaluated via sampling, which means the policy must be continuously re-evaluated during training in order to guarantee a smooth learned policy. Secondly, smoothing in this manner may cause $\pi^{rs}$ to violate state constraints. Finally, simply smoothing the policy may not preserve the stability of ${\mathbf{π}}_{mpc}$. As we shall show, using barrier MPC as a smoothed policy overcomes all these drawbacks.
+For $\mathcal{P} \in {\{{{Unif}{({B_{\ell_{2}}{}})}},{{Unif}{({B_{\ell_{\infty}}{}})}},{\mathcal{N}{(0,I)}}\}}$, there exist $L_{0},L_{1}$ that depend on $d_{x}$ and the Lipschitz constant of ${\mathbf{π}}_{mpc}$ such that Using randomized smoothing to obtain a smoothed policy has the following key disadvantages: Firstly the expectation ${\mathbb{E}}_{w \sim \mathcal{P}}{\lbrack{{\mathbf{π}}_{mpc}{({x + {\epsilon w}})}}\rbrack}$ is evaluated via sampling, which means the policy must be continuously re-evaluated during training in order to guarantee a smooth learned policy.
 
-<!-- chunk {"id": "body-0031", "role": "body", "section": "Our Approach to Smoothing: Barrier MPC", "weight": 1.0} -->
+<!-- chunk {"id": "body-0031", "role": "body", "section": "Fact 3.8 (c.f. \\[duchi2012randomized\\], Appendix E, Lemma 7-9)", "weight": 1.0} -->
+
+Secondly, smoothing in this manner may cause $\pi^{rs}$ to violate state constraints. Finally, simply smoothing the policy may not preserve the stability of ${\mathbf{π}}_{mpc}$. As we shall show, using barrier MPC as a smoothed policy overcomes all these drawbacks.
+
+<!-- chunk {"id": "body-0032", "role": "body", "section": "Our Approach to Smoothing: Barrier MPC", "weight": 1.0} -->
 
 Having described the guarantees obtained via randomized smoothing, we now consider smoothing via barrier functions.
-
-<!-- chunk {"id": "body-0032", "role": "body", "section": "Problem 4.2 (Barrier MPC)", "weight": 1.0} -->
-
-Given an MPC as in Section 2.1 and weight $\eta > 0$, the barrier MPC is defined by minimizing, over the input sequence $u_{\eta} \in {\mathbb{R}}^{T \cdot d_{u}}$, the cost
 
 <!-- chunk {"id": "body-0033", "role": "body", "section": "Problem 4.2 (Barrier MPC)", "weight": 1.0} -->
 

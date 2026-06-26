@@ -40,7 +40,7 @@ We evaluate SceneSmith across 210 diverse room- and house-level prompts, demonst
 
 <!-- chunk {"id": "body-0010", "role": "body", "section": "Introduction", "weight": 1.5} -->
 
-We introduce SceneSmith, a hierarchical, agentic framework for constructing simulation-ready indoor environments from natural language, designed to support scalable robot training and evaluation.
+In summary, our key contributions are: We introduce SceneSmith, a hierarchical, agentic framework for constructing simulation-ready indoor environments from natural language, designed to support scalable robot training and evaluation.
 
 <!-- chunk {"id": "body-0011", "role": "body", "section": "Introduction", "weight": 1.5} -->
 
@@ -64,7 +64,7 @@ We begin by describing the scene representation and hierarchical construction pr
 
 <!-- chunk {"id": "body-0016", "role": "body", "section": "Scene Hierarchy", "weight": 1.0} -->
 
-Each object pairs a simulation-ready *asset* $\mathcal{A}_{i}$, comprising visual geometry, collision geometry, physical properties, and joint definitions if it is articulated, with a pose $\mathcal{X}_{i} \in {SE{}}$.
+We represent a *scene* as a set of rooms, $\mathcal{S}=\{\mathcal{R}_{j}\mid j\in\{1,\dots,M\}\}$, constructed from a natural-language prompt $\mathcal{T}$. Each *room* $\mathcal{R}_{j}=(\mathcal{G}_{j},\mathcal{O}_{j})$ consists of *architectural geometry* $\mathcal{G}_{j}$ (walls, floor, doors, windows) and *objects* $\mathcal{O}_{j}=\{(\mathcal{A}_{i},\mathcal{X}_{i})\}$. Each object pairs a simulation-ready *asset* $\mathcal{A}_{i}$, comprising visual geometry, collision geometry, physical properties, and joint definitions if it is articulated, with a pose $\mathcal{X}_{i}\in SE$.
 
 <!-- chunk {"id": "body-0017", "role": "body", "section": "Scene Hierarchy", "weight": 1.0} -->
 
@@ -84,7 +84,7 @@ The designer proposes modifications to the scene state at the current stage usin
 
 <!-- chunk {"id": "body-0021", "role": "body", "section": "Agentic Trio: Designer, Critic, and Orchestrator", "weight": 1.0} -->
 
-Agent Tools. Agents interact with the scene exclusively through tools that provide structured observation and modification operations. We organize tools into functional categories that are shared across stages, including *state observation tools* (e.g., querying object metadata and poses), *visual observation tools* (e.g., rendering scene views), *scene modification tools* (e.g., placing or adjusting assets), *asset acquisition tools* for generating or retrieving simulation assets, and *feasibility verification tools* (e.g., collision and reachability checks). Object placement is performed relative to supporting surfaces. Agents specify $SE{}$ poses within a surface coordinate frame (e.g., on floors, walls, or shelves). Full $SE{}$ object poses arise by lifting these placements through the known pose of the supporting surface. In addition, certain stages expose *specialized tools* tailored to their construction context. For example, furniture placement stages include snapping tools that translate objects into contact-aligned relative configurations (e.g., chairs snapped toward tables or cabinets snapped against walls), as well as relational facing queries that evaluate whether an object is oriented toward or away from another object or architectural element.
+Agent Tools. Agents interact with the scene exclusively through tools that provide structured observation and modification operations. We organize tools into functional categories that are shared across stages, including *state observation tools* (e.g., querying object metadata and poses), *visual observation tools* (e.g., rendering scene views), *scene modification tools* (e.g., placing or adjusting assets), *asset acquisition tools* for generating or retrieving simulation assets, and *feasibility verification tools* (e.g., collision and reachability checks). Object placement is performed relative to supporting surfaces. Agents specify $SE$ poses within a surface coordinate frame (e.g., on floors, walls, or shelves). Full $SE$ object poses arise by lifting these placements through the known pose of the supporting surface. In addition, certain stages expose *specialized tools* tailored to their construction context. For example, furniture placement stages include snapping tools that translate objects into contact-aligned relative configurations (e.g., chairs snapped toward tables or cabinets snapped against walls), as well as relational facing queries that evaluate whether an object is oriented toward or away from another object or architectural element.
 
 <!-- chunk {"id": "body-0022", "role": "body", "section": "Agentic Trio: Designer, Critic, and Orchestrator", "weight": 1.0} -->
 
@@ -164,7 +164,7 @@ Automatic Evaluation. We use SceneEval with the following metrics: CNT (object c
 
 <!-- chunk {"id": "body-0041", "role": "body", "section": "Scene Generation Results", "weight": 1.0} -->
 
-External Baselines (SceneSmith averages 71.1 ± 13.0 objects)
+External Baselines (SceneSmith averages 71.1 ± 13.0 objects) House-Level (SceneSmith averages 214.1 ± 60.9 objects) Table 1: User study results (179 room-level, 31 house-level prompts): SceneSmith vs baselines and ablations. #Obj shows the comparison method’s average object count with 95% CI. Win rates show percentage preferred (excluding ties for faithfulness), with 95% Wilson score CIs. Cohen’s h measures effect size. Significance: ** p < 0.001, * p < 0.01, – p ≥ 0.05 (FDR-corrected).
 
 <!-- chunk {"id": "body-0042", "role": "body", "section": "Scene Generation Results", "weight": 1.0} -->
 
@@ -188,7 +188,7 @@ We demonstrate the agentic robot policy evaluation pipeline from Section 3.5. We
 
 <!-- chunk {"id": "body-0047", "role": "body", "section": "Robot Simulation Demonstrations", "weight": 1.0} -->
 
-Zero-shot policy rollout conditioned: “Take the apple from the bowl and place it onto the cutting board.”
+Zero-shot policy rollout conditioned: “Take the apple from the bowl and place it onto the cutting board.” Figure 5: Qualitative robot simulation demonstrations. Each row shows frames sampled from a single trajectory, ordered left to right. Top: a teleoperated RB-Y1 opens an articulated cabinet and places a bottle inside. Bottom: a policy from prior work is executed zero-shot in a SceneSmith scene; conditioned on the shown text instruction, it moves the apple from the bowl to the cutting board. Additional teleoperation and zero-shot videos are provided on the project page.
 
 <!-- chunk {"id": "body-0048", "role": "body", "section": "Robot Simulation Demonstrations", "weight": 1.0} -->
 

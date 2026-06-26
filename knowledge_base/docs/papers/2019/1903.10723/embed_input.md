@@ -32,68 +32,52 @@ The remainder of this paper is structured as follows. In Section III, we phrase 
 
 <!-- chunk {"id": "body-0008", "role": "body", "section": "Setting", "weight": 1.0} -->
 
-We denote the set of integers in the interval $\lbrack a,b\rbrack$ by ${\mathbb{I}}_{\lbrack a,b\rbrack}$. The Kronecker product is written as $\otimes$. For a sequence ${\{ x_{k}\}}_{k = 0}^{N - 1}$, we define the Hankel matrix
+We denote the set of integers in the interval $\lbrack a,b\rbrack$ by ${\mathbb{I}}_{\lbrack a,b\rbrack}$. The Kronecker product is written as $\otimes$. For a sequence ${\{ x_{k}\}}_{k = 0}^{N - 1}$, we define the Hankel matrix For a stacked window of the sequence, we write Further, $x$ will denote either the sequence itself or the stacked vector $x_{\lbrack 0,{N - 1}\rbrack}$ containing all of its components. A key assumption for our results will be persistence of excitation of the input signal, as captured in the following standard definition.
 
-<!-- chunk {"id": "body-0009", "role": "body", "section": "Setting", "weight": 1.0} -->
-
-For a stacked window of the sequence, we write
-
-<!-- chunk {"id": "body-0010", "role": "body", "section": "Setting", "weight": 1.0} -->
-
-Further, $x$ will denote either the sequence itself or the stacked vector $x_{\lbrack 0,{N - 1}\rbrack}$ containing all of its components. A key assumption for our results will be persistence of excitation of the input signal, as captured in the following standard definition.
-
-<!-- chunk {"id": "body-0011", "role": "body", "section": "Trajectory-based representation of linear systems", "weight": 1.0} -->
+<!-- chunk {"id": "body-0009", "role": "body", "section": "Trajectory-based representation of linear systems", "weight": 1.0} -->
 
 In this section, we translate the main result of, which characterizes the trajectory space of an unknown system from measured data, to the classical state-space control framework. While the behavioral theory is naturally well-suited for such a result, we illustrate that it can also be formulated in the classical framework in an elegant way. Further, we show how a required persistence of excitation assumption can be relaxed by weaving multiple trajectories together to achieve an overall larger time horizon.
 
-<!-- chunk {"id": "body-0012", "role": "body", "section": "Trajectory-based representation of linear systems", "weight": 1.0} -->
+<!-- chunk {"id": "body-0010", "role": "body", "section": "Trajectory-based representation of linear systems", "weight": 1.0} -->
 
 The following result is the correspondence of \[8, Theorem 1\] in the classical control setting and it will serve as the basis for the remainder of this paper.
 
-<!-- chunk {"id": "body-0013", "role": "body", "section": "Trajectory-based representation of nonlinear systems", "weight": 1.0} -->
+<!-- chunk {"id": "body-0011", "role": "body", "section": "Trajectory-based representation of nonlinear systems", "weight": 1.0} -->
 
 In this section, we extend Theorem 3 to certain classes of nonlinear systems. In particular, we consider the special cases of Hammerstein and Wiener systems. More generally, this allows us to extend Theorem 3 to all systems, which are linear in suitably chosen and known input-output coordinates. During the last decades, there have been many contributions to identify Hammerstein and Wiener systems from data. Our results can be seen as an alternative to the identification of such systems, using a single measured trajectory to represent them.
 
-<!-- chunk {"id": "body-0014", "role": "body", "section": "IV-A Hammerstein systems", "weight": 1.0} -->
+<!-- chunk {"id": "body-0012", "role": "body", "section": "IV-A Hammerstein systems", "weight": 1.0} -->
 
-A Hammerstein system is a nonlinear system, composed of a static nonlinearity followed by an LTI system, i.e.,
+A Hammerstein system is a nonlinear system, composed of a static nonlinearity followed by an LTI system, i.e., with a nonlinear function $\psi:{{\mathbb{R}}^{m}\rightarrow{\mathbb{R}}^{\overset{\sim}{m}}}$. In the following, we deal only with the case $\overset{\sim}{m} = 1$ for notational simplicity, but the same ideas can be employed for $\overset{\sim}{m} > 1$. We assume that $\psi$ can be written as ${\psi{(u)}} = {\sum_{i = 1}^{r}{a_{i}\psi_{i}{(u)}}}$, with $a_{i}$ not all zero, for $r$ known basis functions $\psi_{i}$.
 
-<!-- chunk {"id": "body-0015", "role": "body", "section": "IV-A Hammerstein systems", "weight": 1.0} -->
+<!-- chunk {"id": "body-0013", "role": "body", "section": "IV-A Hammerstein systems", "weight": 1.0} -->
 
-The following result uses the fact that can also be viewed as a linear map from $v$ to $y$.
+Further, we define the auxiliary input trajectory ${\{ v_{k}\}}_{k = 0}^{N - 1}$ with components The following result uses the fact that can also be viewed as a linear map from $v$ to $y$.
 
-<!-- chunk {"id": "body-0016", "role": "body", "section": "IV-B Wiener systems", "weight": 1.0} -->
+<!-- chunk {"id": "body-0014", "role": "body", "section": "IV-B Wiener systems", "weight": 1.0} -->
 
-A Wiener system consists of an LTI system followed by a static nonlinearity, i.e., it is of the form
+A Wiener system consists of an LTI system followed by a static nonlinearity, i.e., it is of the form with a nonlinear function $\phi:{{\mathbb{R}}^{\overset{\sim}{p}}\rightarrow{\mathbb{R}}^{p}}$. Similar to Section IV-A, we consider in the following only the case $\overset{\sim}{p} = 1$. To apply the same reasoning as for Hammerstein systems, we assume that $\phi$ is invertible and that its inverse admits a basis function decomposition as ${\phi^{- 1}{(y)}} = {\sum_{i = 1}^{q}{b_{i}{\overset{\sim}{\phi}}_{i}{(y)}}}$ with $q$ known basis functions ${\overset{\sim}{\phi}}_{i}$.
 
-<!-- chunk {"id": "body-0017", "role": "body", "section": "IV-B Wiener systems", "weight": 1.0} -->
+<!-- chunk {"id": "body-0015", "role": "body", "section": "IV-B Wiener systems", "weight": 1.0} -->
 
-with a nonlinear function $\phi:{{\mathbb{R}}^{\overset{\sim}{p}}\rightarrow{\mathbb{R}}^{p}}$. Similar to Section IV-A, we consider in the following only the case $\overset{\sim}{p} = 1$. To apply the same reasoning as for Hammerstein systems, we assume that $\phi$ is invertible and that its inverse admits a basis function decomposition as ${\phi^{- 1}{(y)}} = {\sum_{i = 1}^{q}{b_{i}{\overset{\sim}{\phi}}_{i}{(y)}}}$ with $q$ known basis functions ${\overset{\sim}{\phi}}_{i}$. We define an auxiliary output trajectory ${\{ z_{k}\}}_{k = 0}^{N - 1}$ with components
+We define an auxiliary output trajectory ${\{ z_{k}\}}_{k = 0}^{N - 1}$ with components which will serve as the output of an equivalent LTI system. The following result is the correspondence of Proposition 5 for the Wiener system case.
 
-<!-- chunk {"id": "body-0018", "role": "body", "section": "IV-B Wiener systems", "weight": 1.0} -->
-
-which will serve as the output of an equivalent LTI system. The following result is the correspondence of Proposition 5 for the Wiener system case.
-
-<!-- chunk {"id": "body-0019", "role": "body", "section": "Remark 7", "weight": 1.0} -->
+<!-- chunk {"id": "body-0016", "role": "body", "section": "Remark 7", "weight": 1.0} -->
 
 From the perspective of Koopman operator theory, there has recently been a renewed interest in viewing nonlinear systems as linear systems in lifted state coordinates. In a similar fashion, Propositions 5 and 6 can be combined directly to provide trajectory-based representations of nonlinear systems, which are linear in suitable higher-dimensional input-output coordinates. Even if such coordinates do not exist or are not known, one may in practice simply choose sufficiently many basis functions to approximate the unknown nonlinear system. In Section V, we illustrate the effectiveness of this approach for the data-driven simulation problem. Note that considering systems which are linear in suitable input-output coordinates is more restrictive than dealing with systems which are linear in certain lifted state coordinates. On the other hand, in contrast to many methods related to Koopman operator theory, the present setting does not require state measurements, but only input-output data.
 
-<!-- chunk {"id": "body-0020", "role": "body", "section": "Data-driven simulation", "weight": 1.0} -->
+<!-- chunk {"id": "body-0017", "role": "body", "section": "Data-driven simulation", "weight": 1.0} -->
 
 The data-driven simulation problem is concerned with the computation of an unknown system's output resulting from the application of a given input, using no model but only a previously measured input-output trajectory. Its solution is described in the behavioral context. Loosely speaking, the idea is to fix $\overline{u}$ in to first solve $\overline{u} = {H_{L}{(u)}\alpha}$ for $\alpha$, in order to then compute the new predicted output $\overline{y} = {H_{L}{(y)}\alpha}$. To fix a unique such output, initial conditions have to be specified. Since a state-space model is not available, we consider an *initial input-output trajectory* over a length of at least $n$, since this induces a unique initial state in *some* minimal realization. The following is the main result of.
 
-<!-- chunk {"id": "body-0021", "role": "body", "section": "Example 10", "weight": 1.0} -->
+<!-- chunk {"id": "body-0018", "role": "body", "section": "Example 10", "weight": 1.0} -->
 
-We consider a Hammerstein system with nonlinearity ${\psi{(u)}} = {\sin{(u)}}$ and the system matrices
+We consider a Hammerstein system with nonlinearity ${\psi{(u)}} = {\sin{(u)}}$ and the system matrices We assume that the system order $n = 4$ is known, i.e., $\nu = 4$. From an open-loop simulation, a trajectory ${\{ u_{k},y_{k}\}}_{k = 0}^{N - 1}$ of length $N = 1000$ is collected, where the output is subject to multiplicative measurement noise with signal-to-noise ratio $5\%$. Problem with a squared exponential kernel with $\sigma = 1$ is used to compute the output $\overline{y}$ resulting from a uniformly distributed random input $\overline{u}$ in the interval $\lbrack{- 0.3},0.3\rbrack$ of length $L = 50$ with zero initial conditions. The regularization parameter is chosen as $\lambda = 10$. Figure 1 shows the resulting output estimate as well as the true output for comparison.
 
-<!-- chunk {"id": "body-0022", "role": "body", "section": "Example 10", "weight": 1.0} -->
+<!-- chunk {"id": "body-0019", "role": "body", "section": "Example 10", "weight": 1.0} -->
 
-We assume that the system order $n = 4$ is known, i.e., $\nu = 4$. From an open-loop simulation, a trajectory ${\{ u_{k},y_{k}\}}_{k = 0}^{N - 1}$ of length $N = 1000$ is collected, where the output is subject to multiplicative measurement noise with signal-to-noise ratio $5\%$. Problem with a squared exponential kernel with $\sigma = 1$ is used to compute the output $\overline{y}$ resulting from a uniformly distributed random input $\overline{u}$ in the interval $\lbrack{- 0.3},0.3\rbrack$ of length $L = 50$ with zero initial conditions. The regularization parameter is chosen as $\lambda = 10$. Figure 1 shows the resulting output estimate as well as the true output for comparison. It can be seen that the estimate is good, considering the noise level.
+It can be seen that the estimate is good, considering the noise level. If the regularization term is omitted, i.e., $\lambda = 0$, or a fixed number of polynomial basis functions is chosen, then the estimation accuracy deteriorates significantly, even for smaller noise levels.
 
-<!-- chunk {"id": "body-0023", "role": "body", "section": "Example 10", "weight": 1.0} -->
-
-If the regularization term is omitted, i.e., $\lambda = 0$, or a fixed number of polynomial basis functions is chosen, then the estimation accuracy deteriorates significantly, even for smaller noise levels.
-
-<!-- chunk {"id": "body-0024", "role": "body", "section": "Conclusion", "weight": 1.5} -->
+<!-- chunk {"id": "body-0020", "role": "body", "section": "Conclusion", "weight": 1.5} -->
 
 This paper described a purely data-driven framework for system analysis and control. All trajectories of an unknown system can be constructed from a single measured trajectory and thus, this trajectory captures all the required information needed for analysis and controller design, without explicit identification of a model. After describing this result in the classical control framework, we extended it to certain classes of nonlinear systems and we applied this extension to the data-driven simulation problem via kernel methods. Future research should further explore applications of the nonlinear extension presented in Section IV to data-driven system analysis and control problems, as well as connections to more elaborate results from the literature on kernel methods.

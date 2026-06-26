@@ -38,15 +38,15 @@ Let us define a probability space $(\Omega,F,P)$ where $\Omega$ is the sample sp
 
 <!-- chunk {"id": "body-0010", "role": "body", "section": "II-A1 Polynomial Chaos Expansion", "weight": 1.0} -->
 
-For several types of distributions, specific gPC basis functions exist for describing the underlying random variables of a given function. Some of them are listed in Table I.
+Furthermore, let $F{(\xi)}$ be a function of the random variable $\xi$ and $L_{\rho}^{2}$ be the space of square integrable functions with norm ${\| F\|}_{L_{\rho}^{2}} = {{\mathbb{E}}{\lbrack F^{2}\rbrack}^{1/2}}$, i.e.: Then, the polynomial chaos expansion of $F$ can be obtained as: The functions $\Phi_{j}{(\xi)}$ in expression are the generalized polynomial chaos basis functions, that satisfy orthogonality: where $\gamma = {{\mathbb{E}}{\lbrack{\Phi^{2}{(\xi)}}\rbrack}} = {\langle{\Phi_{j}\Phi_{j}}\rangle}$ are the normalization factors and $\delta_{mn} = 0$ if $m \neq n$, $\delta_{mn} = 1$ if
 
 <!-- chunk {"id": "body-0011", "role": "body", "section": "II-A1 Polynomial Chaos Expansion", "weight": 1.0} -->
 
-where $K$ is the total number of polynomials. The coefficients of this expansion can be obtained by exploiting the orthogonality of $\Phi$.
+For several types of distributions, specific gPC basis functions exist for describing the underlying random variables of a given function. Some of them are listed in Table I.
 
 <!-- chunk {"id": "body-0012", "role": "body", "section": "II-A1 Polynomial Chaos Expansion", "weight": 1.0} -->
 
-which is called Galerkin projection. Note that the gPC basis functions $\Phi_{j}{(\xi)}$ are the products of the polynomials of mutually independent random variables with multi-index ${|i|} = {i_{1} + \cdots + i_{d}}$.
+In practical applications, a truncated version of the gPC expansion can be used by taking into account polynomials of degree up to $r$: where $K$ is the total number of polynomials. The coefficients of this expansion can be obtained by exploiting the orthogonality of $\Phi$. Taking the inner product of $F$ and $\Phi_{j}$ yields: which is called Galerkin projection. Note that the gPC basis functions $\Phi_{j}{(\xi)}$ are the products of the polynomials of mutually independent random variables with multi-index ${|i|} = {i_{1} + \cdots + i_{d}}$.
 
 <!-- chunk {"id": "body-0013", "role": "body", "section": "II-A2 Dynamical systems with polynomial chaos", "weight": 1.0} -->
 
@@ -54,148 +54,116 @@ In order to apply DDP to a stochastic system represented by gPC, information abo
 
 <!-- chunk {"id": "body-0014", "role": "body", "section": "II-A2 Dynamical systems with polynomial chaos", "weight": 1.0} -->
 
-where $Z$ and $Z_{0}$ are the orders of the polynomials.
+The system dynamics $f:{{{\mathbb{R}}^{n} \times {\mathbb{R}}^{m}}\rightarrow{\mathbb{R}}^{n}}$ are provided: Applying the gPC expansion to random variables $\zeta^{p}$ and $\zeta^{0}$ with respect to the mutually independent standard random variables $\xi^{p}$ and $\xi^{0}$ yields: where $Z$ and $Z_{0}$ are the orders of the polynomials. Likewise, the initial states are expanded as: gPC basis polynomials $\frac{x^{\alpha}e^{- x}}{\Gamma{({\alpha + 1})}}$ TABLE I: Correspondence between the type of underlying random variables and the type of gpc basis functions.
 
 <!-- chunk {"id": "body-0015", "role": "body", "section": "II-A2 Dynamical systems with polynomial chaos", "weight": 1.0} -->
 
-Therefore, the evolution of the system can be obtained as an evolution of gPC coefficients, i.e.:
+In order to parameterize $x$ with both $\xi^{p}$ and $\xi^{0}$, we define the concatenated vector of random parameters as $\xi = {(\xi^{p},\xi^{0})} \in {\mathbb{R}}^{d}$, with $d = {d_{p} + d_{0}}$. Since the evolution of $x$ depends on $\xi$, the gPC expansion of the state vector and its time derivatives are given: Applying Galerkin projection to these equations yields the coefficients: Therefore, the evolution of the system can be obtained as an evolution of gPC coefficients, i.e.: Finally, differentiating the time derivative of the coefficients with respect to the coefficients of $x$ and $u$ yields the elements of the Jacobian matrix: The integrals can be numerically evaluated online by Gaussian quadrature. The nodes and weights for the computation can be obtained by solving an eigenvalue problem.
 
 <!-- chunk {"id": "body-0016", "role": "body", "section": "II-A2 Dynamical systems with polynomial chaos", "weight": 1.0} -->
 
-The integrals can be numerically evaluated online by Gaussian quadrature. The nodes and weights for the computation can be obtained by solving an eigenvalue problem.
-
-<!-- chunk {"id": "body-0017", "role": "body", "section": "II-A2 Dynamical systems with polynomial chaos", "weight": 1.0} -->
-
 Once the gPC expansion of $x_{i}{(\xi)}$ is obtained, statistical information can be computed analytically.
+
+<!-- chunk {"id": "body-0017", "role": "body", "section": "II-B1 Deterministic DDP", "weight": 1.0} -->
+
+Next, we provide a brief overview of discrete-time DDP. For more details the reader can be referred to. Let us consider the discrete-time finite-horizon optimal control problem: where $x_{k} = {x{(t_{k})}}$, $u_{k} = {u{(t_{k})}}$ and $f$ is the transition dynamics function. The scalar functions $l$, $\phi$ and $J$ correspond to the running, terminal and total cost, respectively. With ${\mathbf{X}}_{d}:={(x_{0}^{\mathsf{T}},\ldots,x_{N}^{\mathsf{T}})}$ and ${\mathbf{U}}:={(u_{0}^{\mathsf{T}},\ldots,u_{N - 1}^{\mathsf{T}})}$, we denote the state and control sequences, respectively, over the time horizon.
 
 <!-- chunk {"id": "body-0018", "role": "body", "section": "II-B1 Deterministic DDP", "weight": 1.0} -->
 
-Next, we provide a brief overview of discrete-time DDP. For more details the reader can be referred to.
+Next, the notion of the value function is introduced: which provides the minimum cost-to-go at each state and time. The Bellman's principle of optimality can be expressed through the following backward propagation rule: Let us also define the following function: which is the quantity to be minimized. During the backward pass of DDP, problem is solved locally by expanding both sides of about some given nominal trajectories ${\overline{\mathbf{X}}}_{d}$, $\overline{\mathbf{U}}$. By taking the quadratic expansions of $Q_{k}$ around the vicinity of ${\overline{\mathbf{X}}}_{d}$, $\overline{\mathbf{U}}$, we get: with ${\deltax_{k}}:={x_{k} - {\overline{x}}_{k}}$, ${\deltau_{k}}:={u_{k} - {\overline{u}}_{k}}$ being the deviations about the nominal sequences.
 
 <!-- chunk {"id": "body-0019", "role": "body", "section": "II-B1 Deterministic DDP", "weight": 1.0} -->
 
-which provides the minimum cost-to-go at each state and time.
+Note that, the $Q$ functions are evaluated on ${\overline{\mathbf{X}}}_{d}$, $\overline{\mathbf{U}}$. Given the expressions, we can now explicitly minimize with respect to $\delta{\mathbf{u}}$ in order to acquire the locally optimal control deviations as: Moreover, the value function $V_{k}$ is also quadratically expanded and by plugging it into along with $\deltau_{k}^{\ast}$, we get: The equations are propagated backwards in time using the terminal condition ${V{(x_{N})}} = {\phi{(x_{N})}}$.
 
 <!-- chunk {"id": "body-0020", "role": "body", "section": "II-B1 Deterministic DDP", "weight": 1.0} -->
 
-which is the quantity to be minimized. During the backward pass of DDP, problem is solved locally by expanding both sides of about some given nominal trajectories ${\overline{\mathbf{X}}}_{d}$, $\overline{\mathbf{U}}$.
+Subsequently, in the forward pass, the new control sequence is applied to the system. The resulting trajectories will be used as the nominal ones at the next backward pass leading to an iterative process, which is terminated with the satisfaction of some predefined convergence criteria. Regarding the cost functions, control effort and deviation from the desired state $x^{d}$ are typically penalized, i.e.: where $A_{f}$, $R$ are positive definite matrices and $A$ is a positive semidefinite matrix.
 
-<!-- chunk {"id": "body-0021", "role": "body", "section": "II-B1 Deterministic DDP", "weight": 1.0} -->
+<!-- chunk {"id": "body-0021", "role": "body", "section": "II-B2 DDP with gPC", "weight": 1.0} -->
 
-The equations are propagated backwards in time using the terminal condition ${V{(x_{N})}} = {\phi{(x_{N})}}$.
+We will now demonstrate how unconstrained DDP can be combined with gPC. Since the dynamics are required to be discretized for applying discrete-time DDP, we can apply Euler discretization on them. Moreover, in order to obtain the optimal control of a system represented by gPC, the expectation of the cost can be used. Taking the expectation of the running cost of the discretized system yields: where $X_{k}^{d}$ is the expanded desired state $x_{d}$ and $\otimes$ stands for the Kronecker product. Note that since $x_{d}$ is deterministic, $X_{d}$ only contains terms corresponding to the mean of $x_{d}$ and zeros for higher order moments. The expectation of the terminal cost can be simplified using the same procedure.
 
-<!-- chunk {"id": "body-0022", "role": "body", "section": "II-B1 Deterministic DDP", "weight": 1.0} -->
+<!-- chunk {"id": "body-0022", "role": "body", "section": "II-B2 DDP with gPC", "weight": 1.0} -->
 
-Subsequently, in the forward pass, the new control sequence is applied to the system. The resulting trajectories will be used as the nominal ones at the next backward pass leading to an iterative process, which is terminated with the satisfaction of some predefined convergence criteria. Regarding the cost functions, control effort and deviation from the desired state $x^{d}$ are typically penalized, i.e.:
+In order to penalize not only the mean but also the higher order moments of the state, $A$ can be modified by taking into account elements corresponding to the higher order moments (${x_{ij},i} \neq 0$) as: with $A_{i} = {{diag}{(a_{i0},{a_{i1}{\langle\Phi_{1},\Phi_{1}\rangle}},\ldots,{a_{iK}{\langle\Phi_{K},\Phi_{K}\rangle}})}}$. More details on the cost derivation can be found.
 
-<!-- chunk {"id": "body-0023", "role": "body", "section": "II-B1 Deterministic DDP", "weight": 1.0} -->
+<!-- chunk {"id": "body-0023", "role": "body", "section": "III-A Problem Formulation", "weight": 1.0} -->
 
-where $A_{f}$, $R$ are positive definite matrices and $A$ is a positive semidefinite matrix.
+Let us consider the following finite-horizon optimal control problem under parametric uncertainty and subject to control and state constraints: The chance constraint (7c) indicates that ${g{(x_{k},u_{k})}} \leq 0$ is satisfied with a probability greater than a specified value $p_{c}$. By taking the gPC expansion of the dynamics and the expectation of the performance index, problem can be transformed into the following deterministic one: where ${\mathbf{X}}:={(X_{0}^{\mathsf{T}},\ldots,X_{N}^{\mathsf{T}})}$. The chance constraint (7c) has now been transformed into the deterministic (8c) by using the appropriate function $g_{g}$ and constant $\alpha$. The choice of these two is further explained during the simulation examples in Section IV.
 
-<!-- chunk {"id": "body-0024", "role": "body", "section": "II-B2 DDP with gPC", "weight": 1.0} -->
+<!-- chunk {"id": "body-0024", "role": "body", "section": "III-B Constrained DDP with generalized Polynomial Chaos", "weight": 1.0} -->
 
-We will now demonstrate how unconstrained DDP can be combined with gPC. Since the dynamics are required to be discretized for applying discrete-time DDP, we can apply Euler discretization on them. Moreover, in order to obtain the optimal control of a system represented by gPC, the expectation of the cost can be used.
+After expressing the originally stochastic problem in a deterministic manner, we are now able to solve it using a deterministic constrained trajectory optimization method such as Augmented Lagrangian (AL) DDP. From now, we will refer to the resulting approach as gPC Constrained DDP (gPC CDDP). The constraints (8c) are first, redefined as $G = {g_{g} - \alpha} < 0$, where $G = {(G_{1},\ldots,G_{w})}^{\mathsf{T}}$ is a vector of $w$ constraints, and then, integrated into the original objective function by adding a function $P$ which penalizes their violation. Therefore, problem can now be expressed as: where $\lambda$ and $\mu$ are the Lagrange multipliers and penalty parameters, respectively. It is known that can provide a solution to under mild assumptions.
 
-<!-- chunk {"id": "body-0025", "role": "body", "section": "II-B2 DDP with gPC", "weight": 1.0} -->
-
-where $X_{k}^{d}$ is the expanded desired state $x_{d}$ and $\otimes$ stands for the Kronecker product. Note that since $x_{d}$ is deterministic, $X_{d}$ only contains terms corresponding to the mean of $x_{d}$ and zeros for higher order moments. The expectation of the terminal cost can be simplified using the same procedure.
-
-<!-- chunk {"id": "body-0026", "role": "body", "section": "III-A Problem Formulation", "weight": 1.0} -->
-
-The chance constraint (7c) indicates that ${g{(x_{k},u_{k})}} \leq 0$ is satisfied with a probability greater than a specified value $p_{c}$.
-
-<!-- chunk {"id": "body-0027", "role": "body", "section": "III-A Problem Formulation", "weight": 1.0} -->
-
-where ${\mathbf{X}}:={(X_{0}^{\mathsf{T}},\ldots,X_{N}^{\mathsf{T}})}$. The chance constraint (7c) has now been transformed into the deterministic (8c) by using the appropriate function $g_{g}$ and constant $\alpha$. The choice of these two is further explained during the simulation examples in Section IV.
-
-<!-- chunk {"id": "body-0028", "role": "body", "section": "III-B Constrained DDP with generalized Polynomial Chaos", "weight": 1.0} -->
-
-After expressing the originally stochastic problem in a deterministic manner, we are now able to solve it using a deterministic constrained trajectory optimization method such as Augmented Lagrangian (AL) DDP. From now, we will refer to the resulting approach as gPC Constrained DDP (gPC CDDP). The constraints (8c) are first, redefined as $G = {g_{g} - \alpha} < 0$, where $G = {(G_{1},\ldots,G_{w})}^{\mathsf{T}}$ is a vector of $w$ constraints, and then, integrated into the original objective function by adding a function $P$ which penalizes their violation.
-
-<!-- chunk {"id": "body-0029", "role": "body", "section": "III-B Constrained DDP with generalized Polynomial Chaos", "weight": 1.0} -->
-
-where $\lambda$ and $\mu$ are the Lagrange multipliers and penalty parameters, respectively. It is known that can provide a solution to under mild assumptions.
-
-<!-- chunk {"id": "body-0030", "role": "body", "section": "III-B Constrained DDP with generalized Polynomial Chaos", "weight": 1.0} -->
+<!-- chunk {"id": "body-0025", "role": "body", "section": "III-B Constrained DDP with generalized Polynomial Chaos", "weight": 1.0} -->
 
 The optimization process of AL DDP consists of two stages: an inner and an outer loop. In the inner loop, a locally optimal solution of is obtained by applying DDP. In the outer loop, the parameters $\lambda$ and $\mu$ are updated according to the value of the derivative of $P$ and $P$ itself, respectively. As for $\mu$, they are increased monotonically, given the constraint improvement from the inner loop is not enough. More details regarding the choice of $P$ can be found,.
 
-<!-- chunk {"id": "body-0031", "role": "body", "section": "III-B Constrained DDP with generalized Polynomial Chaos", "weight": 1.0} -->
+<!-- chunk {"id": "body-0026", "role": "body", "section": "III-B Constrained DDP with generalized Polynomial Chaos", "weight": 1.0} -->
 
 AL DDP is quite robust as a trajectory optimization method, reaching the desired state at an early stage of the optimization iterations. However, since the constraints (8c) are treated as soft constraints - as they are part of the cost - they may be slightly violated. On the other hand, control constraints can be strictly satisfied by using control-limited DDP in the inner loop instead of unconstrained DDP. Thus, we use a combination of AL and control-limited DDP similar to the one presented. The slight constraint violation that we mentioned can be observed especially when the horizon of the trajectory is quite long or the number of the constraints is large. In our receding horizon approach presented in III-C, this drawback is alleviated by taking into account a shorter prediction horizon which leads to a smaller number of constraints.
 
-<!-- chunk {"id": "body-0032", "role": "body", "section": "III-C Receding Horizon Constrained DDP", "weight": 1.0} -->
+<!-- chunk {"id": "body-0027", "role": "body", "section": "III-C Receding Horizon Constrained DDP", "weight": 1.0} -->
 
 Applying gPC CDDP directly can be effective, but it may suffer from the accumulation of state variance on the trajectory. This variance growth can result in violating the chance constraints and being unable to reach the desired state target, as it is illustrated in Section IV. In order to deal with this problem, we implement our proposed method in a receding horizon fashion. An similar MPC variant of DDP has been presented, but in a fully deterministic setting. In the parametric uncertainty case, the benefits of following an MPC approach are mainly the following. First of all, by taking into account the current state during the computation of each MPC control sequence, we integrate feedback into our method. Second, by considering the state evolution only during the prediction horizon $H$ - which is shorter than the whole time horizon $N$ - the growth of the variance in our computations can be maintained to lower levels. Finally, by addressing a shorter trajectory optimization problem than the original one, the constraints taken into account by gPC CDDP will be reduced.
 
-<!-- chunk {"id": "body-0033", "role": "body", "section": "III-C Receding Horizon Constrained DDP", "weight": 1.0} -->
+<!-- chunk {"id": "body-0028", "role": "body", "section": "III-C Receding Horizon Constrained DDP", "weight": 1.0} -->
 
-Our algorithm starts with computing the locally optimal control sequence for problem using gPC CDDP. Next, the first segment of the control is applied to the real system, keeping it in the confidence region of gPC CDDP while satisfying the chance constraints. Note that the specific values of the parameters are not required for the system to remain inside of the bounds. After obtaining the updated state of the real system, the gPC coefficients are updated accordingly. We can update the mean part (0-th coefficient) of the gPC dynamics by using the real system information and set the remaining coefficients - which correspond to the variance - to be zero. If we assume noisy measurements, the latter coefficients can be given non-zero values. Finally, in order to exploit a warm start for the next MPC computation, the control is also applied to the gPC dynamics, whose variance is low due to the information from the real system. This gPC MPC CDDP method can successfully keep the variance low, addressing the problem stated earlier in this section. This is further explained and demonstrated in Section IV.
+Essentially, instead of solving, we solve at each time step $k$, the following problem: Our algorithm starts with computing the locally optimal control sequence for problem using gPC CDDP. Next, the first segment of the control is applied to the real system, keeping it in the confidence region of gPC CDDP while satisfying the chance constraints. Note that the specific values of the parameters are not required for the system to remain inside of the bounds. After obtaining the updated state of the real system, the gPC coefficients are updated accordingly. We can update the mean part (0-th coefficient) of the gPC dynamics by using the real system information and set the remaining coefficients - which correspond to the variance - to be zero. If we assume noisy measurements, the latter coefficients can be given non-zero values. Finally, in order to exploit a warm start for the next MPC computation, the control is also applied to the gPC dynamics, whose variance is low due to the information from the real system. This gPC MPC CDDP method can successfully keep the variance low, addressing the problem stated earlier in this section. This is further explained and demonstrated in Section IV.
 
-<!-- chunk {"id": "body-0034", "role": "body", "section": "Results", "weight": 1.0} -->
+<!-- chunk {"id": "body-0029", "role": "body", "section": "Results", "weight": 1.0} -->
 
 In this section, we present simulation results that verify the effectiveness of our approach. Initially, we apply the method on a differential wheeled robot while explaining in detail its performance compared to other related approaches. Subsequently, we demonstrate the applicability of our method to more complex systems such as a quadrotor.
 
-<!-- chunk {"id": "body-0035", "role": "body", "section": "IV-A Differential Wheeled Robot", "weight": 1.0} -->
+<!-- chunk {"id": "body-0030", "role": "body", "section": "IV-A Differential Wheeled Robot", "weight": 1.0} -->
 
 We will first test our algorithm on a differential wheeled robot as shown in Fig. 1. The goal of the robot is to reach a desired target while avoiding obstacles. Its model contains three uncertain parameters: the tread $d$ and the wheel radii $r_{R}$ and $r_{L}$, all of which are assumed to be normally distributed with means $0.2$ and variances $1.5 \times 10^{- 3}$. Hermite polynomials are chosen - according to Table I - to describe these parameters.
 
-<!-- chunk {"id": "body-0036", "role": "body", "section": "IV-A Differential Wheeled Robot", "weight": 1.0} -->
+<!-- chunk {"id": "body-0031", "role": "body", "section": "IV-A Differential Wheeled Robot", "weight": 1.0} -->
 
-Subsequently, the parameters, e.g. $d \sim {N{(\mu_{d},\sigma_{d}^{2})}}$, can be expanded by the standard random variable $\xi_{d} \sim {N{}}$, which will be an element of the random vector $\xi \in {\mathbb{R}}^{3}$, i.e.:
+The first few of them, their inner products, and the PDF are given: Subsequently, the parameters, e.g. $d \sim {N{(\mu_{d},\sigma_{d}^{2})}}$, can be expanded by the standard random variable $\xi_{d} \sim {N{}}$, which will be an element of the random vector $\xi \in {\mathbb{R}}^{3}$, i.e.: The dynamics of the robot are provided: where $x,y$ are its position coordinates, $\theta$ is its orientation, $v$ and $\omega$ are its translational and rotational velocities, respectively, and $dt$ is the time step. The control inputs of the robot are the rotational velocities of its two wheels: $u_{1} = {\overset{˙}{\phi}}_{R}$ and $u_{2} = {\overset{˙}{\phi}}_{L}$.
 
-<!-- chunk {"id": "body-0037", "role": "body", "section": "IV-A Differential Wheeled Robot", "weight": 1.0} -->
+<!-- chunk {"id": "body-0032", "role": "body", "section": "IV-A Differential Wheeled Robot", "weight": 1.0} -->
 
-where $x,y$ are its position coordinates, $\theta$ is its orientation, $v$ and $\omega$ are its translational and rotational velocities, respectively, and $dt$ is the time step. The control inputs of the robot are the rotational velocities of its two wheels: $u_{1} = {\overset{˙}{\phi}}_{R}$ and $u_{2} = {\overset{˙}{\phi}}_{L}$.
+The translational velocities of the wheels can be obtained: while $v$ and $\omega$ are given: In this setting, chance constraints can be formulated by imposing the probability that the robot will avoid colliding with an obstacle to be greater than $p$. The confidence region of the robot can be used to transform the chance constraints into deterministic ones. In particular, we approximate the area $R$ where the robot might exist with probability $p$ by using the ellipsoid: where $\overline{z}$ is mean of $z$, $\Sigma$ is covariance matrix given: and $s{(p)}$ is the scaling factor. If the position of the robot followed a Gaussian distribution, then $s{(p)}$ could be obtained by computing the chi-square inverse cumulative distribution function with a specified $p$, which is fixed over time. In our case, however, the distribution of the position is not Gaussian even though the uncertain parameters follow such a distribution. Thus, we evaluate $s{(p)}$ using Monte Carlo simulation by sampling the random parameters at each time step.
 
-<!-- chunk {"id": "body-0038", "role": "body", "section": "IV-A Differential Wheeled Robot", "weight": 1.0} -->
+<!-- chunk {"id": "body-0033", "role": "body", "section": "IV-A Differential Wheeled Robot", "weight": 1.0} -->
 
-In this setting, chance constraints can be formulated by imposing the probability that the robot will avoid colliding with an obstacle to be greater than $p$. The confidence region of the robot can be used to transform the chance constraints into deterministic ones.
+In order to facilitate the computation, we overestimate the confidence region with a circle whose radius is the major axis of the ellipsoid, which can be obtained as the largest eigenvalue of $\Sigma$, i.e. $\lambda_{\max}$. Thus, a constraint for a circle obstacle with center $(x_{c},y_{c})$ and radius $r_{c}$ can be formulated as follows: Note that the gradient and the Hessian of $g$ - which are required for constrained DDP - can be analytically computed with the derivative of $\lambda_{\max}$.
 
-<!-- chunk {"id": "body-0039", "role": "body", "section": "IV-A Differential Wheeled Robot", "weight": 1.0} -->
-
-and $s{(p)}$ is the scaling factor. If the position of the robot followed a Gaussian distribution, then $s{(p)}$ could be obtained by computing the chi-square inverse cumulative distribution function with a specified $p$, which is fixed over time. In our case, however, the distribution of the position is not Gaussian even though the uncertain parameters follow such a distribution. Thus, we evaluate $s{(p)}$ using Monte Carlo simulation by sampling the random parameters at each time step. In order to facilitate the computation, we overestimate the confidence region with a circle whose radius is the major axis of the ellipsoid, which can be obtained as the largest eigenvalue of $\Sigma$, i.e. $\lambda_{\max}$.
-
-<!-- chunk {"id": "body-0040", "role": "body", "section": "IV-A Differential Wheeled Robot", "weight": 1.0} -->
-
-Note that the gradient and the Hessian of $g$ - which are required for constrained DDP - can be analytically computed with the derivative of $\lambda_{\max}$.
-
-<!-- chunk {"id": "body-0041", "role": "body", "section": "IV-A Differential Wheeled Robot", "weight": 1.0} -->
+<!-- chunk {"id": "body-0034", "role": "body", "section": "IV-A Differential Wheeled Robot", "weight": 1.0} -->
 
 In this simulation, we have set ${dt} = 0.02$s, $N = 60$, $H = 10$, $r = 2$, and $p = 0.95$. The initial control is set to be zero and the control bounds to be ${|u_{i}|} \leq 100$, $i = {1,2}$.
 
-<!-- chunk {"id": "body-0042", "role": "body", "section": "IV-A Differential Wheeled Robot", "weight": 1.0} -->
+<!-- chunk {"id": "body-0035", "role": "body", "section": "IV-A Differential Wheeled Robot", "weight": 1.0} -->
 
 In Fig. 2, we demonstrate a comparison between gPC CDDP, gPC MPC CDDP and MPC CDDP which is purely deterministic. In Fig. 2(a), the accumulation of the variance while using gPC CDDP is demonstrated, making the robot unable to pass through the two obstacles. The confidence region is validated by overlaying the realizations of the trajectories with sampled parameters. In Fig. 2(b), gPC MPC CDDP is applied to the dynamics obtained by the realizations of different sampled parameters. The results show that the method can successfully reduce the variance growth, so the robot reaches the desired target. Note that for this method, the exact values of the dynamics parameters are not required, but only information of the states at every time step. Fig. 2(c) shows one trajectory from the same algorithm and the confidence region from some MPC cycles. Note that the trajectory indeed lies inside the confidence region computed by the algorithm. Finally, the performance of MPC CDDP with the parameters being sampled, is presented in Fig 2(d). In this simulation, the parameters used in the model are the mean parameters.
 
-<!-- chunk {"id": "body-0043", "role": "body", "section": "IV-A Differential Wheeled Robot", "weight": 1.0} -->
+<!-- chunk {"id": "body-0036", "role": "body", "section": "IV-A Differential Wheeled Robot", "weight": 1.0} -->
 
 Unlike gPC CDDP, the uncertainty of the dynamics which arises from the parameters is not considered here. Therefore, the real dynamics trajectory may violate the constraints even though they appear to be satisfied by the model trajectories computed by MPC. The poor performance of this method validates that not only using MPC but also taking into consideration the uncertainty is necessary.
 
-<!-- chunk {"id": "body-0044", "role": "body", "section": "IV-B Quadrotor", "weight": 1.0} -->
+<!-- chunk {"id": "body-0037", "role": "body", "section": "IV-B Quadrotor", "weight": 1.0} -->
 
-Subsequently, we test our method on a quadrotor whose dynamics are provided. We assume that we are aware of the upper and lower limits of the drag and lift coefficients. Thus, they can be viewed as uniformly distributed random variables which can be described using Legendre polynomials - according to Table I.
+Subsequently, we test our method on a quadrotor whose dynamics are provided. We assume that we are aware of the upper and lower limits of the drag and lift coefficients. Thus, they can be viewed as uniformly distributed random variables which can be described using Legendre polynomials - according to Table I. The first few polynomials, their inner products, and the PDF are as follows: with $z \in {\mathbb{R}}$ and ${{i,j} = 0},{1,\ldots}$. Note that the inner product is scaled by $1/2$ compared to the orthogonality relation of the polynomial. Each uncertain parameter, e.g. the drag coefficient $k_{d}$, is expanded by its mean $\mu_{k_{d}}$ and the distance between its mean and lower or upper limit of the distribution denoted by $\Delta_{k_{d}}$, i.e.: where $\xi_{1}$ is a uniformly distributed scalar random variable in $\lbrack{- 1},1\rbrack$.
 
-<!-- chunk {"id": "body-0045", "role": "body", "section": "IV-B Quadrotor", "weight": 1.0} -->
+<!-- chunk {"id": "body-0038", "role": "body", "section": "IV-B Quadrotor", "weight": 1.0} -->
 
-with $z \in {\mathbb{R}}$ and ${{i,j} = 0},{1,\ldots}$. Note that the inner product is scaled by $1/2$ compared to the orthogonality relation of the polynomial. Each uncertain parameter, e.g. the drag coefficient $k_{d}$, is expanded by its mean $\mu_{k_{d}}$ and the distance between its mean and lower or upper limit of the distribution denoted by $\Delta_{k_{d}}$, i.e.:
+Similarly, the lift coefficient $k_{l}$ can be expanded with the standard uniformly distributed random variable $\xi_{2}$. Thus, we have the random vector $\xi = {\lbrack\xi_{1},\xi_{2}\rbrack}^{\mathsf{T}}$. We have used $\mu_{k_{b}} = {1.140 \times 10^{- 7}}$, $\Delta_{b} = {\mu_{k_{b}}/3}$, $\mu_{k_{l}} = {2.980 \times 10^{- 6}}$, $\Delta_{k_{l}} = {\mu_{k_{l}}/3}$. In this simulation, the control of the system is the force generated by four rotors with control limits $0 \leq u \leq 3$. The initial state of the quadrotor is hovering.
 
-<!-- chunk {"id": "body-0046", "role": "body", "section": "IV-B Quadrotor", "weight": 1.0} -->
+<!-- chunk {"id": "body-0039", "role": "body", "section": "IV-B Quadrotor", "weight": 1.0} -->
 
-where $\xi_{1}$ is a uniformly distributed scalar random variable in $\lbrack{- 1},1\rbrack$. Similarly, the lift coefficient $k_{l}$ can be expanded with the standard uniformly distributed random variable $\xi_{2}$. Thus, we have the random vector $\xi = {\lbrack\xi_{1},\xi_{2}\rbrack}^{\mathsf{T}}$. We have used $\mu_{k_{b}} = {1.140 \times 10^{- 7}}$, $\Delta_{b} = {\mu_{k_{b}}/3}$, $\mu_{k_{l}} = {2.980 \times 10^{- 6}}$, $\Delta_{k_{l}} = {\mu_{k_{l}}/3}$. In this simulation, the control of the system is the force generated by four rotors with control limits $0 \leq u \leq 3$.
+Moreover, $N = 100$, $H = 25$, ${dt} = 0.02$s, $r = 2$, and $p = 0.95$. Although this problem is 3D, the concepts of confidence region and chance constraints presented in IV-A are readily extended and applied to this task.
 
-<!-- chunk {"id": "body-0047", "role": "body", "section": "IV-B Quadrotor", "weight": 1.0} -->
-
-The initial state of the quadrotor is hovering. Moreover, $N = 100$, $H = 25$, ${dt} = 0.02$s, $r = 2$, and $p = 0.95$. Although this problem is 3D, the concepts of confidence region and chance constraints presented in IV-A are readily extended and applied to this task.
-
-<!-- chunk {"id": "body-0048", "role": "body", "section": "IV-B Quadrotor", "weight": 1.0} -->
+<!-- chunk {"id": "body-0040", "role": "body", "section": "IV-B Quadrotor", "weight": 1.0} -->
 
 Fig. 3 demonstrates the quadrotor simulation results. In Fig. 3(a), we observe that most of the realizations of the trajectories are captured within the blue ball which shows the confidence region of the quadrotor. We also observe again that with gPC CDDP, the growth of the variance pushes the quadrotor away from the desired state in order to satisfy the constraints. The trajectories obtained from gPC MPC CDDP are presented in Fig. 3(b). Similarly to the case of the differential wheeled robot, our receding horizon approach successfully reduces the variance, driving the trajectories closer to the target.
 
-<!-- chunk {"id": "body-0049", "role": "body", "section": "Conclusion", "weight": 1.5} -->
+<!-- chunk {"id": "body-0041", "role": "body", "section": "Conclusion", "weight": 1.5} -->
 
 In this work, we propose a novel chance-constrained receding horizon control method that is able to handle uncertainty arising from model parameters using gPC. In particular, by transforming a chance-constrained optimization problem into a deterministic one, we are able to solve it using a constrained DDP technique. Our method successfully handles high-dimensional dynamics while enjoying the convergence properties and scalability of DDP. Furthermore, in order to address the accumulation of uncertainty on the trajectory, we implement our algorithm in a receding horizon fashion. Simulation results demonstrate that our method is applicable to complex robotic tasks and able to deal effectively with parametric uncertainty and nonlinear constraints.
 
-<!-- chunk {"id": "body-0050", "role": "body", "section": "Conclusion", "weight": 1.5} -->
+<!-- chunk {"id": "body-0042", "role": "body", "section": "Conclusion", "weight": 1.5} -->
 
 Future work would examine the robustness of our method under other forms of uncertainty such as process noise. Moreover, we would like to explore potential combinations of our method with others that can handle non-parametric uncertainty. Finally, we are interested in incorporating learning techniques such as Gaussian processes that will lead to safe learning algorithms under parametric and non-parametric uncertainty.

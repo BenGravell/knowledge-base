@@ -24,1278 +24,1132 @@ This contrasts with a unimodal and continuous form of partial observability, suc
 
 <!-- chunk {"id": "body-0006", "role": "body", "section": "Introduction", "weight": 1.5} -->
 
-In problems with multimodal partial observability, planning based on a single modality, or state hypothesis leads to incomplete plans, or can be overly conservative. For instance, in Fig. 1, a complete action plan needs to account for several initial block configurations; the blocks' colors need to be observed. In Fig. 2 planning considering that every pedestrian would cross would be overly conservative. Conversely, ignoring the eventuality that a pedestrian might cross is unsafe.
+(a) Possible start state Figure 1: Example of partially observable TAMP problem: The blocks’ colors are initially not visible. The robot must look (b) and react to observations to reach the goal state (c), defined by a given color order.
 
 <!-- chunk {"id": "body-0007", "role": "body", "section": "Introduction", "weight": 1.5} -->
 
-To overcome those limitations, we consider multiple modalities or state hypotheses, and compute trajectory-trees in belief space. Within the planning horizon, the belief state may evolve according to different scenarios, introducing branches in the optimal motion paths, as illustrated in Fig.3.
+(b) Pedestrian stays on the walkway Figure 2: Example of partially observable MPC Problem: a pedestrian is detected (a), whose intention is uncertain. The control policy must account for 2 cases: The pedestrian may walk along the street (b) or cross (c).
 
 <!-- chunk {"id": "body-0008", "role": "body", "section": "Introduction", "weight": 1.5} -->
 
-In Model Predictive Control (MPC), a key requirement is that optimization must be sufficiently rapid to be executed in real time. To maintain tractability, we adopt a trajectory-tree structure which assumes that the state becomes fully observable after a given horizon (PO-MPC), similar to the Q-MDP algorithm for POMDPs. We leverage the decomposability of such trajectory-trees by introducing a new optimization algorithm, which we call Distributed Augmented Lagrangian (D-AuLa). This method combines aspects of the Augmented Lagrangian and the Alternating Direction Method of Multipliers (ADMM) methods. This is described in Section 4 ‣ Optimizing Trajectory-Trees in Belief Space: An Application from Model Predictive Control to Task and Motion Planning") and suppported by autonomous driving examples.
+In problems with multimodal partial observability, planning based on a single modality, or state hypothesis leads to incomplete plans, or can be overly conservative. For instance, in Fig. 1, a complete action plan needs to account for several initial block configurations; the blocks' colors need to be observed. In Fig. 2 planning considering that every pedestrian would cross would be overly conservative. Conversely, ignoring the eventuality that a pedestrian might cross is unsafe.
 
 <!-- chunk {"id": "body-0009", "role": "body", "section": "Introduction", "weight": 1.5} -->
 
-In Task and Motion Planning (TAMP), the challenge is not only to optimize motions, but also to devise a symbolic plan solving the problem. In Section 5 ‣ Optimizing Trajectory-Trees in Belief Space: An Application from Model Predictive Control to Task and Motion Planning"), we present an integrated planner (PO-LGP) for discrete partially observable problems, which is based on the Logic Geometric Programming framework (LGP). This planner produces symbolic policies as trees of actions, which are implemented at the motion level by trajectory-trees. The policies include exploratory actions through which the robot acquires information about the environment via observations, leading to belief state updates and corresponding branching points on the trajectory-tree. The optimization of the trajectory-trees utilizes a generalization of the K-Order Motion Optimization (KOMO) transcription and the optimization algorithm method described in the MPC section.
+To overcome those limitations, we consider multiple modalities or state hypotheses, and compute trajectory-trees in belief space. Within the planning horizon, the belief state may evolve according to different scenarios, introducing branches in the optimal motion paths, as illustrated in Fig.3.
 
 <!-- chunk {"id": "body-0010", "role": "body", "section": "Introduction", "weight": 1.5} -->
 
-Partially Observable MPC (PO-MPC): an MPC formulation for optimizing control policies under multimodal partially observability, which leverages the probabilistic information of the belief state to reduce conservativeness without compromising safety.
+Optimizing trajectory-trees has different implications depending on the use-case: In Model Predictive Control (MPC), a key requirement is that optimization must be sufficiently rapid to be executed in real time. To maintain tractability, we adopt a trajectory-tree structure which assumes that the state becomes fully observable after a given horizon (PO-MPC), similar to the Q-MDP algorithm for POMDPs. We leverage the decomposability of such trajectory-trees by introducing a new optimization algorithm, which we call Distributed Augmented Lagrangian (D-AuLa). This method combines aspects of the Augmented Lagrangian and the Alternating Direction Method of Multipliers (ADMM) methods. This is described in Section 4 ‣ Optimizing Trajectory-Trees in Belief Space: An Application from Model Predictive Control to Task and Motion Planning") and suppported by autonomous driving examples.
 
 <!-- chunk {"id": "body-0011", "role": "body", "section": "Introduction", "weight": 1.5} -->
 
-Distributed Augmented Lagrangian (D-AuLa): an optimization procedure for accelerating the optimization of loosely coupled constrained optimization problems. It is applicable beyond trajectory optimization, and a proof of convergence and optimality is provided in Appendix B ‣ Optimizing Trajectory-Trees in Belief Space: An Application from Model Predictive Control to Task and Motion Planning").
+In Task and Motion Planning (TAMP), the challenge is not only to optimize motions, but also to devise a symbolic plan solving the problem. In Section 5 ‣ Optimizing Trajectory-Trees in Belief Space: An Application from Model Predictive Control to Task and Motion Planning"), we present an integrated planner (PO-LGP) for discrete partially observable problems, which is based on the Logic Geometric Programming framework (LGP). This planner produces symbolic policies as trees of actions, which are implemented at the motion level by trajectory-trees. The policies include exploratory actions through which the robot acquires information about the environment via observations, leading to belief state updates and corresponding branching points on the trajectory-tree. The optimization of the trajectory-trees utilizes a generalization of the K-Order Motion Optimization (KOMO) transcription and the optimization algorithm method described in the MPC section.
 
 <!-- chunk {"id": "body-0012", "role": "body", "section": "Introduction", "weight": 1.5} -->
 
-Partially Observable LGP (PO-LGP): a planner for partially observable TAMP problems which reasons on reactive action trees both at task and motion planning level. The planned policies account for all contingencies without reliance on replanning.
+Accordingly, our contributions are: Partially Observable MPC (PO-MPC): an MPC formulation for optimizing control policies under multimodal partially observability, which leverages the probabilistic information of the belief state to reduce conservativeness without compromising safety.
 
 <!-- chunk {"id": "body-0013", "role": "body", "section": "Introduction", "weight": 1.5} -->
 
-Tree K-Order Motion Optmization (T-KOMO): an extension of the K-Order Motion Optimization transcription for optimizing arborescent trajectories in configuration space. This transcription is used in the TAMP examples as well as in one of the MPC examples.
+Distributed Augmented Lagrangian (D-AuLa): an optimization procedure for accelerating the optimization of loosely coupled constrained optimization problems. It is applicable beyond trajectory optimization, and a proof of convergence and optimality is provided in Appendix B ‣ Optimizing Trajectory-Trees in Belief Space: An Application from Model Predictive Control to Task and Motion Planning").
 
 <!-- chunk {"id": "body-0014", "role": "body", "section": "Introduction", "weight": 1.5} -->
 
+Partially Observable LGP (PO-LGP): a planner for partially observable TAMP problems which reasons on reactive action trees both at task and motion planning level. The planned policies account for all contingencies without reliance on replanning.
+
+<!-- chunk {"id": "body-0015", "role": "body", "section": "Introduction", "weight": 1.5} -->
+
+Tree K-Order Motion Optmization (T-KOMO): an extension of the K-Order Motion Optimization transcription for optimizing arborescent trajectories in configuration space. This transcription is used in the TAMP examples as well as in one of the MPC examples.
+
+<!-- chunk {"id": "body-0016", "role": "body", "section": "Introduction", "weight": 1.5} -->
+
 This article builds upon initial work on TAMP; the conceptual limitations of the graph-based task planner are overcome by introducing a tree-based Monte-Carlo method for task planning (more details are provided in Section 15 ‣ Optimizing Trajectory-Trees in Belief Space: An Application from Model Predictive Control to Task and Motion Planning")). Furthermore, trajectory-trees are optimized jointly using a new method, referred to as T-KOMO instead of the heuristic approach used. In addition, experiments are included to provide insights on how the approach scales to large belief states. The section on MPC is motivated by the simplified autonomous driving examples of. It advances previous work on MPC by adding more details about the approach scalability, and provides theoretical foundations with a convergence proof for D-AuLa.
-
-<!-- chunk {"id": "body-0015", "role": "body", "section": "Belief-space Motion Planning", "weight": 1.0} -->
-
-Planning under partial observability can generally be formulated as a Partially Observable Markov Decision Process (POMDP). A comprehensive review of POMDP methods is beyond the scope of this paper, and we refer the reader to for surveys of POMDPs in robotics.
-
-<!-- chunk {"id": "body-0016", "role": "body", "section": "Belief-space Motion Planning", "weight": 1.0} -->
-
-Traditionally, POMDPs have often been solved offline by computing a policy that maps belief states to actions and is used at execution time to select the next action. For example, in policies are computed for discretized environments (grid worlds). To improve scalability, milestones are sampled in the state space and connected into a roadmap that guides belief-space planning, allowing the method to scale to robotic systems with up to five degrees of freedom.
 
 <!-- chunk {"id": "body-0017", "role": "body", "section": "Belief-space Motion Planning", "weight": 1.0} -->
 
-Such policies represent the most general form of solution to POMDPs. However, their computation quickly becomes intractable in high-dimensional domains.
+Planning under partial observability can generally be formulated as a Partially Observable Markov Decision Process (POMDP). A comprehensive review of POMDP methods is beyond the scope of this paper, and we refer the reader to for surveys of POMDPs in robotics.
 
 <!-- chunk {"id": "body-0018", "role": "body", "section": "Belief-space Motion Planning", "weight": 1.0} -->
 
-Approaches have also been developed to compute offline policies directly in continuous spaces for specific problem classes. For instance, in the context of navigation under motion and sensing uncertainty, the Feedback-based Information RoadMap (FIRM) framework constructs a graph in belief space whose edges are associated with local feedback controllers. The resulting solution is a policy over this graph that determines how to switch between controllers based on the current belief state, enabling feedback-driven navigation under uncertainty. This approach exploits structural properties typical of navigation problems, including low-dimensional state spaces and Gaussian belief representations, and is therefore less suited to settings involving high-dimensional systems or multi-modal belief distributions.
+Traditionally, POMDPs have often been solved offline by computing a policy that maps belief states to actions and is used at execution time to select the next action. For example, in policies are computed for discretized environments (grid worlds). To improve scalability, milestones are sampled in the state space and connected into a roadmap that guides belief-space planning, allowing the method to scale to robotic systems with up to five degrees of freedom.
 
 <!-- chunk {"id": "body-0019", "role": "body", "section": "Belief-space Motion Planning", "weight": 1.0} -->
 
-To overcome the curse of dimensionality of offline policy computation, many recent POMDP-based motion planning approaches rely on online planning combined with open-loop macro-actions. Planning is performed iteratively from the current belief state, while macro-actions represent motion segments executed without feedback during their duration. This drastically reduces the set of reachable belief states considered during planning.
+Such policies represent the most general form of solution to POMDPs. However, their computation quickly becomes intractable in high-dimensional domains.
 
 <!-- chunk {"id": "body-0020", "role": "body", "section": "Belief-space Motion Planning", "weight": 1.0} -->
 
-In, macro-actions are generated efficiently using parallelized sampling-based motion planning, and planning over these actions is performed using the Reference-based POMDP approach, enabling scalability to domains with up to 15 dimensions. In, a macro-action generator is learned offline and used online to produce motion primitives represented as parameterized curves, which are then evaluated using the DESPOT algorithm.
+Approaches have also been developed to compute offline policies directly in continuous spaces for specific problem classes. For instance, in the context of navigation under motion and sensing uncertainty, the Feedback-based Information RoadMap (FIRM) framework constructs a graph in belief space whose edges are associated with local feedback controllers. The resulting solution is a policy over this graph that determines how to switch between controllers based on the current belief state, enabling feedback-driven navigation under uncertainty. This approach exploits structural properties typical of navigation problems, including low-dimensional state spaces and Gaussian belief representations, and is therefore less suited to settings involving high-dimensional systems or multi-modal belief distributions.
 
 <!-- chunk {"id": "body-0021", "role": "body", "section": "Belief-space Motion Planning", "weight": 1.0} -->
 
-The combination of online planning and open-loop macro-actions can be interpreted as implicitly constructing trajectory-trees in belief space, where nodes correspond to reachable belief states and edges correspond to motion segments defined by macro-actions.
+To overcome the curse of dimensionality of offline policy computation, many recent POMDP-based motion planning approaches rely on online planning combined with open-loop macro-actions. Planning is performed iteratively from the current belief state, while macro-actions represent motion segments executed without feedback during their duration. This drastically reduces the set of reachable belief states considered during planning.
 
 <!-- chunk {"id": "body-0022", "role": "body", "section": "Belief-space Motion Planning", "weight": 1.0} -->
 
+In, macro-actions are generated efficiently using parallelized sampling-based motion planning, and planning over these actions is performed using the Reference-based POMDP approach, enabling scalability to domains with up to 15 dimensions. In, a macro-action generator is learned offline and used online to produce motion primitives represented as parameterized curves, which are then evaluated using the DESPOT algorithm.
+
+<!-- chunk {"id": "body-0023", "role": "body", "section": "Belief-space Motion Planning", "weight": 1.0} -->
+
+The combination of online planning and open-loop macro-actions can be interpreted as implicitly constructing trajectory-trees in belief space, where nodes correspond to reachable belief states and edges correspond to motion segments defined by macro-actions.
+
+<!-- chunk {"id": "body-0024", "role": "body", "section": "Belief-space Motion Planning", "weight": 1.0} -->
+
 Like the aforementioned approaches, this work represents planning contingencies using trajectory-trees. However, the motion computation differs fundamentally. Instead of selecting motion primitives generated through sampling or learning, we formulate motion generation as a gradient-based optimal control problem with differentiable costs and constraints. The trajectory-tree structure in belief space induces a coupled optimization problem in which the trajectories of all branches are optimized jointly, rather than computed independently for each branch.
 
-<!-- chunk {"id": "body-0023", "role": "body", "section": "Model Predictive Control", "weight": 1.0} -->
+<!-- chunk {"id": "body-0025", "role": "body", "section": "Model Predictive Control", "weight": 1.0} -->
 
 Model Predictive Control (MPC) typically optimizes a sequence of control inputs, or trajectory, in a receding-horizon fashion. In its original formulation, uncertainty is not explicitly modeled. Frequent replanning nevertheless provides a certain degree of robustness to disturbances.
 
-<!-- chunk {"id": "body-0024", "role": "body", "section": "Stochastic and Robust MPC", "weight": 1.0} -->
+<!-- chunk {"id": "body-0026", "role": "body", "section": "Stochastic and Robust MPC", "weight": 1.0} -->
 
 Stochastic and robust variants of MPC explicitly incorporate uncertainty in the planning assumptions (e.g., unmodeled system dynamics, external disturbances, or noise). Surveys of stochastic and robust MPC can be found. Robust MPC typically seeks constraint satisfaction under worst-case realizations of the uncertainty. In contrast, stochastic MPC exploits information about the probability distribution of the uncertainty and interprets constraints probabilistically, requiring that violations occur with probability below a specified threshold. Like robust MPC, the approach presented in this work seeks constraint satisfaction even in worst-case realizations. Similar to stochastic MPC, it leverages probabilistic information about the uncertainty to reduce conservativeness.
 
-<!-- chunk {"id": "body-0025", "role": "body", "section": "Stochastic and Robust MPC", "weight": 1.0} -->
+<!-- chunk {"id": "body-0027", "role": "body", "section": "Stochastic and Robust MPC", "weight": 1.0} -->
 
 A common robust MPC formulation is Min-Max MPC where a control sequence is optimized with respect to the worst-case realization of the uncertainty. This guarantees constraint satisfaction but can lead to overly conservative behavior. Although multiple uncertainty realizations are considered during optimization, the final solution remains a single sequential trajectory optimized against the worst case.
 
-<!-- chunk {"id": "body-0026", "role": "body", "section": "Stochastic and Robust MPC", "weight": 1.0} -->
+<!-- chunk {"id": "body-0028", "role": "body", "section": "Stochastic and Robust MPC", "weight": 1.0} -->
 
 Another widely used approach is tube-based MPC. In this formulation, a nominal trajectory is optimized while a feedback controller ensures that the system state remains within a bounded tube around this nominal trajectory despite disturbances. This allows bounded uncertainty to be handled efficiently. However, the method assumes bounded disturbances and enforces that the system state remains within a tube around a nominal trajectory, and therefore does not represent branching multi-modal futures.
 
-<!-- chunk {"id": "body-0027", "role": "body", "section": "Tree-based approaches", "weight": 1.0} -->
+<!-- chunk {"id": "body-0029", "role": "body", "section": "Tree-based approaches", "weight": 1.0} -->
 
 The idea of explicitly representing alternative future evolutions as a tree of scenarios within the planning horizon originates in the control literature. Early applications were mainly in the optimal control of chemical processes. In, Lucia et al. introduced such an approach and termed it Multi-Stage MPC. Subsequent work further developed and optimized this formulation, in particular by exploiting the tree structure to accelerate the optimization of the underlying QP problems. In this prior work, the tree formulation aims to improve controller performance in the presence of general continuous disturbances. In contrast, in our approach the semantics of the tree structure differ: it models partial observability, with branching occurring at observation points where the belief state is updated.
 
-<!-- chunk {"id": "body-0028", "role": "body", "section": "Tree-based approaches", "weight": 1.0} -->
+<!-- chunk {"id": "body-0030", "role": "body", "section": "Tree-based approaches", "weight": 1.0} -->
 
 In robotics, tree-based approaches have been applied to collision avoidance in for mobile robots. In the context of autonomous driving, this has been applied to highway lane changes, traffic light, and intersection scenarios for autonomous driving as well as evasion maneuver.
 
-<!-- chunk {"id": "body-0029", "role": "body", "section": "Tree-based approaches", "weight": 1.0} -->
+<!-- chunk {"id": "body-0031", "role": "body", "section": "Tree-based approaches", "weight": 1.0} -->
 
 Among these robotics related studies, is the only one detailing a parallelizable solving scheme, albeit for linear MPC only. The other studies do not explicitly tackle the challenges of optimization time and scalability, and use off-the-shelf solvers like IPOPT, and OSQP. IPOPT is also used in via the Do-MPC toolbox.
 
-<!-- chunk {"id": "body-0030", "role": "body", "section": "Tree-based approaches", "weight": 1.0} -->
+<!-- chunk {"id": "body-0032", "role": "body", "section": "Tree-based approaches", "weight": 1.0} -->
 
 In contrast, our work focuses not only on the benefit of the tree formulation (PO-MPC), but also on the efficiency of the optimization method. We decompose the control problem as a QMDP and leverage the low-coupling between the optimal control problem of each branch of the trajectory-tree to optimize it in a distributed fashion (D-AuLa). The presented scheme is applicable both to linear and non-linear MPC.
 
-<!-- chunk {"id": "body-0031", "role": "body", "section": "Task and Motion Planning", "weight": 1.0} -->
+<!-- chunk {"id": "body-0033", "role": "body", "section": "Task and Motion Planning", "weight": 1.0} -->
 
 Task and Motion Planning (TAMP) is the robotic planning subfield concerned with solving hybrid planning problems that combine symbolic task planning, which determines a sequence of high-level actions, with motion planning, which computes the continuous motions required to execute these actions. While many robotic problems can fall into this category, the methods developed in the TAMP literature are particularly relevant when the coupling between task and motion planning is strong, meaning that symbolic decisions cannot be evaluated reliably without considering the geometric feasibility and cost of the associated motions. This arises commonly in manipulation problems, where the combined complexity of the robot and environment makes it difficult to assess the feasibility of symbolic actions without feedback from a motion planner. Surveys of recent developments in TAMP are available.
 
-<!-- chunk {"id": "body-0032", "role": "body", "section": "Optimization-based TAMP and LGP", "weight": 1.0} -->
+<!-- chunk {"id": "body-0034", "role": "body", "section": "Optimization-based TAMP and LGP", "weight": 1.0} -->
 
 The approach proposed in this paper is rooted in the Logic--Geometric Programming (LGP) framework. A distinctive feature of LGP is its emphasis on global optimality through trajectory optimization, where the motions associated with a task plan are optimized jointly across task modes and kinematic switches. This contrasts with many TAMP approaches that prioritize feasibility and rely on sampling-based motion planning, typically computing motions independently for each action. Optimizing trajectories globally naturally produces smooth motions and ensures consistency across action transitions.
 
-<!-- chunk {"id": "body-0033", "role": "body", "section": "Optimization-based TAMP and LGP", "weight": 1.0} -->
+<!-- chunk {"id": "body-0035", "role": "body", "section": "Optimization-based TAMP and LGP", "weight": 1.0} -->
 
 Building on this perspective, the proposed method extends trajectory optimization to trajectory-trees under partial observability. The optimization is performed not only across action and kinematic switches but also across observation branchings, ensuring global consistency of the resulting trajectory-tree. In contrast to approaches based on sequential convex optimization, we adopt an Augmented Lagrangian method that avoids repeated linearization of the problem.
 
-<!-- chunk {"id": "body-0034", "role": "body", "section": "Determinization under partial observability", "weight": 1.0} -->
+<!-- chunk {"id": "body-0036", "role": "body", "section": "Determinization under partial observability", "weight": 1.0} -->
 
 Most TAMP approaches focus on deterministic problems, where a solution is a sequence of actions along with associated motions, and no replanning is expected. When partial observability is considered, a common strategy is to approximate the problem as deterministic, resulting in solutions that remain in the form of action sequences.
 
-<!-- chunk {"id": "body-0035", "role": "body", "section": "Determinization under partial observability", "weight": 1.0} -->
+<!-- chunk {"id": "body-0037", "role": "body", "section": "Determinization under partial observability", "weight": 1.0} -->
 
 This is, for example, the case, where planning is performed in belief space using a determinized model of the belief space dynamics. At execution time, the actual trajectory (in belief space) of the robot may leave the plan's envelope, requiring replanning.
 
-<!-- chunk {"id": "body-0036", "role": "body", "section": "Determinization under partial observability", "weight": 1.0} -->
+<!-- chunk {"id": "body-0038", "role": "body", "section": "Determinization under partial observability", "weight": 1.0} -->
 
 A similar approach is adopted in with optional replanning once an observation is received, which is beyond the plan's expectations. In the belief space dynamics are determinized, using Maximum Likelihood Observation (MLO). In self-loop determinization is used, and replanning is performed after the execution of each action.
 
-<!-- chunk {"id": "body-0037", "role": "body", "section": "Determinization under partial observability", "weight": 1.0} -->
+<!-- chunk {"id": "body-0039", "role": "body", "section": "Determinization under partial observability", "weight": 1.0} -->
 
 An advantage of using a determinized model, is that it enables the usage of deterministic planner for task planning. For example, Fast-Forward is used, and PPDL-Stream solvers are used.
 
-<!-- chunk {"id": "body-0038", "role": "body", "section": "Determinization under partial observability", "weight": 1.0} -->
+<!-- chunk {"id": "body-0040", "role": "body", "section": "Determinization under partial observability", "weight": 1.0} -->
 
 However, planning under such determinization schemes presents two limitations. First, it explicitly relies on replanning to account for cases where the outcomes encountered at execution time differ from those predicted by the determinization. Second, it implicitly assumes that some outcomes are much more likely than others, and that the planning goal is reachable considering only these likely outcomes. The efficiency of such an approach may degrade drastically in problems where partial observability is multimodal, and where selecting a single outcome at each step may fail to reach the goal, or lead to plans having a low probability of success, requiring frequent replanning. For example, in Fig. 1, a Look action only has a $\frac{1}{6}$ probability of identifying the block, compared to a $\frac{5}{6}$ probability that it is inconclusive. Solving the stacking task, however, necessitates to account for the unlikely outcome that the colored side is discovered.
 
-<!-- chunk {"id": "body-0039", "role": "body", "section": "Tree-based approaches", "weight": 1.0} -->
+<!-- chunk {"id": "body-0041", "role": "body", "section": "Tree-based approaches", "weight": 1.0} -->
 
 To overcome these limitations, our approach does not determinize the belief state dynamics. Instead, the optimized trajectory-trees account for all contingencies foreseen under the planning assumptions. Provided those assumptions hold, the robot's state is expected to remain within the scope of the planned trajectory-tree during execution, without relying on replanning.
 
-<!-- chunk {"id": "body-0040", "role": "body", "section": "Tree-based approaches", "weight": 1.0} -->
+<!-- chunk {"id": "body-0042", "role": "body", "section": "Tree-based approaches", "weight": 1.0} -->
 
 This shares similarities, where tree-like plans are generated using the SSP solver LAO\*. However, the nature of the uncertainty addressed differs: tackles action stochasticity, whereas our approach addresses partial observability. Additionally, plans motions for actions independently (piecewise paths). Our method performs piecewise trajectory optimization during the policy search phase, but it also includes a final phase of joint trajectory-tree optimization, in which the entire tree is optimized across action switches and across observation branchings which significantly reduces trajectory costs. Finally, the two works differ in scope: focuses on the high-level planning loop, i.e. how to orchestrate the calls to a SSP solver and motion planner, whereas this paper explores the specifics of the low-level trajectory optimization for arborescent plans, in addition to the high-level aspects.
 
-<!-- chunk {"id": "body-0041", "role": "body", "section": "Trajectory-Trees in Belief Space", "weight": 1.0} -->
+<!-- chunk {"id": "body-0043", "role": "body", "section": "Trajectory-Trees in Belief Space", "weight": 1.0} -->
 
 In this section, we introduce the trajectory-tree abstraction, which provides a common foundation for the PO-MPC and PO-LGP methods presented in the following sections.
 
-<!-- chunk {"id": "body-0042", "role": "body", "section": "State Representation", "weight": 1.0} -->
-
-$x \in \mathcal{X}$, where $\mathcal{X}$ is the continuous state space of the robot and its environment.
-
-<!-- chunk {"id": "body-0043", "role": "body", "section": "State Representation", "weight": 1.0} -->
-
-$s \in \mathcal{S}$, where $\mathcal{S}$ is a set of symbolic states.
-
 <!-- chunk {"id": "body-0044", "role": "body", "section": "State Representation", "weight": 1.0} -->
+
+We consider a hybrid state comprising both a continuous geometric component and a symbolic component: $x\in\mathcal{X}$, where $\mathcal{X}$ is the continuous state space of the robot and its environment. $s\in\mathcal{S}$, where $\mathcal{S}$ is a set of symbolic states.
+
+<!-- chunk {"id": "body-0045", "role": "body", "section": "State Representation", "weight": 1.0} -->
 
 In the TAMP example shown in Fig. 1, the continuous state $x$ corresponds to the geometric configurations of the robot and the objects, while the symbolic state $s$ encodes the actual color of a block's colored side. In the MPC example shown in Fig. 2, the continuous state $x$ models the car's state (position, velocity), while the symbolic state $s$ captures the pedestrian's intention to cross.
 
-<!-- chunk {"id": "body-0045", "role": "body", "section": "Mixed Observability", "weight": 1.0} -->
-
-We plan in a context of mixed observability, where the hybrid state $(x,s)$ is decomposed into observable and latent components. Observable components are directly accessible at each step. Latent components are not directly observable and must be inferred through the belief state. While latent variables are not directly observed, their values may become fully determined over time through belief updates. Specifically, we assume a fixed partition of the state space,
-
 <!-- chunk {"id": "body-0046", "role": "body", "section": "Mixed Observability", "weight": 1.0} -->
 
-where the observable and latent components are distinct state variables. This decomposition is structural and does not change over time. ^11^1Observability is a fixed property of the state variables; observable and latent components do not correspond to values of the same variable.
+We plan in a context of mixed observability, where the hybrid state $(x,s)$ is decomposed into observable and latent components. Observable components are directly accessible at each step. Latent components are not directly observable and must be inferred through the belief state. While latent variables are not directly observed, their values may become fully determined over time through belief updates. Specifically, we assume a fixed partition of the state space, where the observable and latent components are distinct state variables. This decomposition is structural and does not change over time. ^11^1Observability is a fixed property of the state variables; observable and latent components do not correspond to values of the same variable.
 
 <!-- chunk {"id": "body-0047", "role": "body", "section": "Mixed Observability", "weight": 1.0} -->
 
-A belief state encapsulates both the observable components of the state and a probability distribution over the latent components. Formally, it is expressed as
+A belief state encapsulates both the observable components of the state and a probability distribution over the latent components. Formally, it is expressed as where $\beta(x^{\text{latent}},s^{\text{latent}})$ denotes a probability distribution over the latent state variables. We refer to $\beta$ as the belief distribution, distinguishing it from the full belief state.
 
 <!-- chunk {"id": "body-0048", "role": "body", "section": "Mixed Observability", "weight": 1.0} -->
 
-where $\beta{(x^{\text{latent}},s^{\text{latent}})}$ denotes a probability distribution over the latent state variables. We refer to $\beta$ as the belief distribution, distinguishing it from the full belief state.
+Multi-hypothesis belief assumption: We assume the belief distribution $\beta$ to be defined over a finite set of hypotheses (or modalities), denoted as $\{(x_{m}^{\text{latent}},s_{m}^{\text{latent}})\}_{m\in\mathcal{H}}$, where $\mathcal{H}$ is the index set of hypotheses. During planning, the likelihood and underlying state associated with each hypothesis may evolve. In particular, some observation outcomes may result in zero probability being assigned to certain hypotheses, but the index set $\mathcal{H}$ remains fixed.
 
 <!-- chunk {"id": "body-0049", "role": "body", "section": "Mixed Observability", "weight": 1.0} -->
 
-Multi-hypothesis belief assumption: We assume the belief distribution $\beta$ to be defined over a finite set of hypotheses (or modalities), denoted as ${\{{(x_{m}^{\text{latent}},s_{m}^{\text{latent}})}\}}_{m \in \mathcal{H}}$, where $\mathcal{H}$ is the index set of hypotheses. During planning, the likelihood and underlying state associated with each hypothesis may evolve. In particular, some observation outcomes may result in zero probability being assigned to certain hypotheses, but the index set $\mathcal{H}$ remains fixed.
+This representation is related to particle-based belief models, where each hypothesis (or particle) carries a state and an associated probability. However, in contrast to particle filters, where particles are samples without persistent semantic identity, we assume a fixed set of hypotheses whose identities are preserved throughout planning and which explicitly represent the possible modalities of the belief.
 
 <!-- chunk {"id": "body-0050", "role": "body", "section": "Mixed Observability", "weight": 1.0} -->
 
-This representation is related to particle-based belief models, where each hypothesis (or particle) carries a state and an associated probability. However, in contrast to particle filters, where particles are samples without persistent semantic identity, we assume a fixed set of hypotheses whose identities are preserved throughout planning and which explicitly represent the possible modalities of the belief.
-
-<!-- chunk {"id": "body-0051", "role": "body", "section": "Mixed Observability", "weight": 1.0} -->
-
 In Fig. 1, the positions of the blocks are observable, but both the orientation of the colored side relative to the parent block (continuous) and its color (symbolic) are partially observable, resulting in a finite set of hypotheses. In Fig. 2, the pedestrian's intention is partially observable (symbolic).
 
-<!-- chunk {"id": "body-0052", "role": "body", "section": "Trajectory-Trees", "weight": 1.0} -->
+<!-- chunk {"id": "body-0051", "role": "body", "section": "Trajectory-Trees", "weight": 1.0} -->
 
 Before detailing the planning structure, we first state an assumption on the system dynamics used throughout.
 
+<!-- chunk {"id": "body-0052", "role": "body", "section": "Trajectory-Trees", "weight": 1.0} -->
+
+Deterministic continuous dynamics assumption: The continuous systems dynamics are deterministic, i.e., applying a given control input $u\in\mathcal{U}$, where $\mathcal{U}$ denotes the continuous control space, from a given continuous state $x\in\mathcal{X}$ results in a unique successor state $x^{\prime}$. This enables the representation of motion segments between branching points as open-loop trajectories, rather than feedback control policies.
+
 <!-- chunk {"id": "body-0053", "role": "body", "section": "Trajectory-Trees", "weight": 1.0} -->
 
-Deterministic continuous dynamics assumption: The continuous systems dynamics are deterministic, i.e., applying a given control input $u \in \mathcal{U}$, where $\mathcal{U}$ denotes the continuous control space, from a given continuous state $x \in \mathcal{X}$ results in a unique successor state $x^{\prime}$. This enables the representation of motion segments between branching points as open-loop trajectories, rather than feedback control policies.
+A trajectory-tree is a tree in belief space. Each node in the tree is associated with a belief state. The tree alternates between two types of stages, as illustrated in Fig. 4: Trajectory stage: This stage represents a segment of system evolution. Starting from a node, a control trajectory is executed---potentially in conjunction with a symbolic action in the TAMP setting---which deterministically updates the observable state and the underlying state hypotheses of the belief state. The belief distribution, however, remains unchanged.
 
 <!-- chunk {"id": "body-0054", "role": "body", "section": "Trajectory-Trees", "weight": 1.0} -->
 
-A trajectory-tree is a tree in belief space. Each node in the tree is associated with a belief state. The tree alternates between two types of stages, as illustrated in Fig.
+Belief update stage: This stage models a probabilistic branching into multiple possible belief states, each represented by a child node and an associated branching probability. The belief distribution is updated, but the underlying hypotheses and the observable state remain unchanged. This stage is represented in blue in Fig. 4a.
 
 <!-- chunk {"id": "body-0055", "role": "body", "section": "Trajectory-Trees", "weight": 1.0} -->
 
-Trajectory stage: This stage represents a segment of system evolution. Starting from a node, a control trajectory is executed---potentially in conjunction with a symbolic action in the TAMP setting---which deterministically updates the observable state and the underlying state hypotheses of the belief state. The belief distribution, however, remains unchanged.
+(a) Belief space view Figure 4: Illustrative example of trajectory-tree in belief space: The trajectory stages (in black) represent the system evolution under an applied control u. The belief update stages (in blue) correspond to probabilistic branching of the belief state. From a geometrical persective, the motion forms a trajectory-tree.
 
 <!-- chunk {"id": "body-0056", "role": "body", "section": "Trajectory-Trees", "weight": 1.0} -->
 
-Belief update stage: This stage models a probabilistic branching into multiple possible belief states, each represented by a child node and an associated branching probability. The belief distribution is updated, but the underlying hypotheses and the observable state remain unchanged. This stage is represented in blue in Fig. 4a.
+Trajectory-trees represent the evolution of the hybrid belief state with probabilistic branching occuring at fixed time points. In the PO-MPC method employed for MPC, branching arises from an assumed determinization of the partially observable state after a fixed horizon. In contrast, in the PO-LGP used for TAMP problems, branching points correspond to the reception of observations that inform the robot about its environment. These differing mechanisms give rise to structurally distinct trees, as illustrated in Fig. 5.
 
 <!-- chunk {"id": "body-0057", "role": "body", "section": "Trajectory-Trees", "weight": 1.0} -->
 
-Trajectory-trees represent the evolution of the hybrid belief state with probabilistic branching occuring at fixed time points. In the PO-MPC method employed for MPC, branching arises from an assumed determinization of the partially observable state after a fixed horizon. In contrast, in the PO-LGP used for TAMP problems, branching points correspond to the reception of observations that inform the robot about its environment. These differing mechanisms give rise to structurally distinct trees, as illustrated in Fig. 5.
+(a) PO-MPC: Early branching for fast computations (b) PO-LGP: Look actions to enable exploratory behavior Figure 5: Example of tree structures: In PO-MPC 5a the trajectory-tree assumes full observability after the first branching (similarly to Q-MDP). In PO-LGP for TAMP 5b, Look actions provide observations, resulting in a belief state update.
 
 <!-- chunk {"id": "body-0058", "role": "body", "section": "Trajectory-Trees", "weight": 1.0} -->
 
-(a) PO-MPC: Early branching for fast computations
-
-<!-- chunk {"id": "body-0059", "role": "body", "section": "Trajectory-Trees", "weight": 1.0} -->
-
-(b) PO-LGP: Look actions to enable exploratory behavior
-
-<!-- chunk {"id": "body-0060", "role": "body", "section": "Trajectory-Trees", "weight": 1.0} -->
-
 In the following, we use the term continuous trajectory-tree to denote the continuous motions that compose a trajectory-tree. When the context is clear, we may refer to the continuous part simply as the trajectory-tree, omitting the qualifier for brevity. In TAMP, where planning involves symbolic decision-making, we use the term policy to refer to the symbolic part of the trajectory-tree, governing the high-level sequencing of actions and observations.
 
-<!-- chunk {"id": "body-0061", "role": "body", "section": "Trajectory-Tree Optimization", "weight": 1.0} -->
+<!-- chunk {"id": "body-0059", "role": "body", "section": "Trajectory-Tree Optimization", "weight": 1.0} -->
 
-The specific procedures for optimizing the continuous components of the trajectory-trees in the MPC and TAMP contexts will be described in their respective sections.
+The specific procedures for optimizing the continuous components of the trajectory-trees in the MPC and TAMP contexts will be described in their respective sections. However, we first highlight key elements that are common to both formulations: Symbol-induced optimization problem: The trajectory-tree is computed by solving a constrained optimization problem, where the cost and constraint functions are defined by the symbolic components of the tree. In MPC, these functions are associated with the symbolic state $s$. In TAMP, where symbolic actions can actively modify the symbolic state, the cost and constraint functions are instead tied to the symbolic actions.
 
-<!-- chunk {"id": "body-0062", "role": "body", "section": "Trajectory-Tree Optimization", "weight": 1.0} -->
-
-Symbol-induced optimization problem: The trajectory-tree is computed by solving a constrained optimization problem, where the cost and constraint functions are defined by the symbolic components of the tree. In MPC, these functions are associated with the symbolic state $s$. In TAMP, where symbolic actions can actively modify the symbolic state, the cost and constraint functions are instead tied to the symbolic actions.
-
-<!-- chunk {"id": "body-0063", "role": "body", "section": "Trajectory-Tree Optimization", "weight": 1.0} -->
+<!-- chunk {"id": "body-0060", "role": "body", "section": "Trajectory-Tree Optimization", "weight": 1.0} -->
 
 Minimization of the expected the trajectory cost: Since branching in the trajectory-tree is probabilistic, the optimization objective is expressed as the minimization of the expected trajectory cost.
 
-<!-- chunk {"id": "body-0064", "role": "body", "section": "Trajectory-Tree Optimization", "weight": 1.0} -->
+<!-- chunk {"id": "body-0061", "role": "body", "section": "Trajectory-Tree Optimization", "weight": 1.0} -->
 
 Robust constraint satisfaction: Constraints are enforced uniformly across all edges of the trajectory-tree, irrespective of the probability of reaching a given edge. This aligns with the principle of robust constraint satisfaction in the MPC literature, as opposed to formulations based on chance constraints.
 
-<!-- chunk {"id": "body-0065", "role": "body", "section": "Trajectory-Tree Optimization", "weight": 1.0} -->
+<!-- chunk {"id": "body-0062", "role": "body", "section": "Trajectory-Tree Optimization", "weight": 1.0} -->
 
 Augmented Lagrangian-based optimization: Constraints on the trajectory-tree are enforced using the Augmented Lagrangian method (AuLa). In TAMP, the standard formulation of the algorithm is applied. For the MPC, the method is extended to support distributed optimization (D-AuLa).
 
-<!-- chunk {"id": "body-0066", "role": "body", "section": "Model Predictive Control (MPC)", "weight": 1.0} -->
+<!-- chunk {"id": "body-0063", "role": "body", "section": "Model Predictive Control (MPC)", "weight": 1.0} -->
 
 We develop trajectory-tree optimization for the MPC use case. We first describe the PO-MPC problem formulation and state the trajectory-tree optimization objective in Section 4.1.4 ‣ Optimizing Trajectory-Trees in Belief Space: An Application from Model Predictive Control to Task and Motion Planning"). The main goal of the PO-MPC formulation is to improve the control performance by leveraging the multi-hypothesis representation of the trajectory-tree. Next, we detail the optimization procedure D-AuLa used to optimize the trajectory-trees. D-AuLa significantly reduces computation time by exploiting parallelism. Experiments are provided in Section 4.3.1 ‣ Optimizing Trajectory-Trees in Belief Space: An Application from Model Predictive Control to Task and Motion Planning") and 4.3.2 ‣ Optimizing Trajectory-Trees in Belief Space: An Application from Model Predictive Control to Task and Motion Planning"). The results are discussed in Section 4.4 ‣ Optimizing Trajectory-Trees in Belief Space: An Application from Model Predictive Control to Task and Motion Planning").
 
-<!-- chunk {"id": "body-0067", "role": "body", "section": "State Representation", "weight": 1.0} -->
+<!-- chunk {"id": "body-0064", "role": "body", "section": "State Representation", "weight": 1.0} -->
 
 We use the hybrid, partially observable state representation introduced in Section 3.
 
-<!-- chunk {"id": "body-0068", "role": "body", "section": "State Representation", "weight": 1.0} -->
+<!-- chunk {"id": "body-0065", "role": "body", "section": "State Representation", "weight": 1.0} -->
 
 Continuous and symbolic states: The continuous state $x$ corresponds to the usual notion of state in the MPC literature, while $s$ represents discrete aspects of the planning problem. In the example shown in Fig. 2, the continuous state captures the car's position and velocity and is fully observable. The symbolic state represents the pedestrian's intention, which is partially observable and therefore modeled as a latent variable.
 
-<!-- chunk {"id": "body-0069", "role": "body", "section": "State Representation", "weight": 1.0} -->
+<!-- chunk {"id": "body-0066", "role": "body", "section": "State Representation", "weight": 1.0} -->
 
 Relation between the continuous and symbolic states: The two state components represent different aspects of the planning problem, and no further relation is assumed between them. However, as outlined in Section 3.3.1, and formalized further in the upcoming Section 4.1.4 ‣ Optimizing Trajectory-Trees in Belief Space: An Application from Model Predictive Control to Task and Motion Planning"), the cost and constraint functions defining the optimization problem are linked to the symbolic state. Therefore, if two hypotheses are qualitatively different to the extent that they involve different planning objectives, this difference must be encoded as different values of a symbolic state variable.
 
-<!-- chunk {"id": "body-0070", "role": "body", "section": "Assumed Control Pipeline", "weight": 1.0} -->
+<!-- chunk {"id": "body-0067", "role": "body", "section": "Assumed Control Pipeline", "weight": 1.0} -->
 
 The PO-MPC formulation assumes a modular architecture where a perception module tracks and provides the multiple hypotheses $\mathcal{H}$ and the belief distribution, as shown in Fig. 6 ‣ Optimizing Trajectory-Trees in Belief Space: An Application from Model Predictive Control to Task and Motion Planning").
 
-<!-- chunk {"id": "body-0071", "role": "body", "section": "Assumed Control Pipeline", "weight": 1.0} -->
+<!-- chunk {"id": "body-0068", "role": "body", "section": "Assumed Control Pipeline", "weight": 1.0} -->
 
 Belief space inference is therefore decoupled from planning. At each planning cycle, a trajectory-tree is optimized based on the current belief state estimate.
 
-<!-- chunk {"id": "body-0072", "role": "body", "section": "Assumed Control Pipeline", "weight": 1.0} -->
+<!-- chunk {"id": "body-0069", "role": "body", "section": "Assumed Control Pipeline", "weight": 1.0} -->
 
 Such architecture in which perception components output multiple hypotheses or modalities, each associated with a confidence score or probability, is commonplace in the autonomous driving domain, as for example.
 
-<!-- chunk {"id": "body-0073", "role": "body", "section": "Trajectory-Tree Structure", "weight": 1.0} -->
+<!-- chunk {"id": "body-0070", "role": "body", "section": "Trajectory-Tree Structure", "weight": 1.0} -->
 
 The trajectory-tree structure is directly determined by the number of hypotheses $|\mathcal{H}|$ of the belief state, and is not co-optimized as it will be the case in TAMP (see Section 5 ‣ Optimizing Trajectory-Trees in Belief Space: An Application from Model Predictive Control to Task and Motion Planning")).
 
-<!-- chunk {"id": "body-0074", "role": "body", "section": "Trajectory-Tree Structure", "weight": 1.0} -->
+<!-- chunk {"id": "body-0071", "role": "body", "section": "Trajectory-Tree Structure", "weight": 1.0} -->
 
 It comprises a first common trunk (see orange part in Fig. 7 ‣ Optimizing Trajectory-Trees in Belief Space: An Application from Model Predictive Control to Task and Motion Planning")) which is the part executed by the controller until the next planning cycle happens. This trunk spans a time interval which we call the branching horizon.
 
-<!-- chunk {"id": "body-0075", "role": "body", "section": "Trajectory-Tree Structure", "weight": 1.0} -->
+<!-- chunk {"id": "body-0072", "role": "body", "section": "Trajectory-Tree Structure", "weight": 1.0} -->
 
-Beyond the branching horizon, the trajectory-tree evolves into $|\mathcal{H}|$ branches, each corresponding directly to a specific state hypothesis $m \in \mathcal{H}$. The full trajectory-tree spans a total time interval, which we refer to as the prediction horizon, following standard terminology in MPC. In the case of a single pedestrian in the scene, there are two state hypotheses, resulting in a trajectory-tree with two branches, as shown in Fig. 7 ‣ Optimizing Trajectory-Trees in Belief Space: An Application from Model Predictive Control to Task and Motion Planning").
+Beyond the branching horizon, the trajectory-tree evolves into $|\mathcal{H}|$ branches, each corresponding directly to a specific state hypothesis $m\in\mathcal{H}$. The full trajectory-tree spans a total time interval, which we refer to as the prediction horizon, following standard terminology in MPC. In the case of a single pedestrian in the scene, there are two state hypotheses, resulting in a trajectory-tree with two branches, as shown in Fig. 7 ‣ Optimizing Trajectory-Trees in Belief Space: An Application from Model Predictive Control to Task and Motion Planning").
 
-<!-- chunk {"id": "body-0076", "role": "body", "section": "Trajectory-Tree Structure", "weight": 1.0} -->
+<!-- chunk {"id": "body-0073", "role": "body", "section": "Trajectory-Tree Structure", "weight": 1.0} -->
 
 The trajectory-tree elements before the branching horizon are associated with the current belief state, while the elements beyond the branching horizon have fully determined belief states. This amounts to a form of determinization, where it is idealized that an observation would be received that fully reveals the hidden state. This type of determinization is also employed in the QMDP method for solving POMDPs.
 
-<!-- chunk {"id": "body-0077", "role": "body", "section": "Trajectory-Tree Structure", "weight": 1.0} -->
+<!-- chunk {"id": "body-0074", "role": "body", "section": "Trajectory-Tree Structure", "weight": 1.0} -->
 
 The numerical value of the branching horizon is directly motivated by a QMDP analogy. While QMDP assumes that full observability is achieved after a single action, this assumption is transposed here to full observability one planning cycle. Accordingly, the branching horizon is set to the estimated time between two planning events.^22^2As the planning cycle time may not be fully deterministic, we recommend using a worst-case estimate. By construction, this ensures that only controls preceding the branching point are executed, and reflects the hypothetical nature of the determinization event represented by the branching point.
 
-<!-- chunk {"id": "body-0078", "role": "body", "section": "Trajectory-Tree Structure", "weight": 1.0} -->
+<!-- chunk {"id": "body-0075", "role": "body", "section": "Trajectory-Tree Structure", "weight": 1.0} -->
 
 Importantly, the belief space dynamics within this tree structure do not depend on either explicit observations or an observation model. The branching probabilities are solely determined by the current belief state. This corresponds to the QMDP-style determinization underlying the trajectory-tree structure with a single branching, and is consistent with the control pipeline described in the previous section, where belief state tracking is separated from planning. This modeling choice, however, entails a limitation discussed below, and contrasts with belief space dynamics where belief state inference and planning are integrated and thereby produce trajectory-trees with multiple branching stages, contingent on observations, as introduced in the TAMP section.
 
-<!-- chunk {"id": "body-0079", "role": "body", "section": "Trajectory-Tree Structure", "weight": 1.0} -->
+<!-- chunk {"id": "body-0076", "role": "body", "section": "Trajectory-Tree Structure", "weight": 1.0} -->
 
-The trajectory-tree optimization does not rely on an explicit observation model, making the approach modular and easy to integrate with various perception modules, as it only requires an input in the form of multiple hypotheses with associated probabilities.
+This decoupled structure offers several advantages: The trajectory-tree optimization does not rely on an explicit observation model, making the approach modular and easy to integrate with various perception modules, as it only requires an input in the form of multiple hypotheses with associated probabilities.
 
-<!-- chunk {"id": "body-0080", "role": "body", "section": "Trajectory-Tree Structure", "weight": 1.0} -->
+<!-- chunk {"id": "body-0077", "role": "body", "section": "Trajectory-Tree Structure", "weight": 1.0} -->
 
 The total number of trajectory elements is kept lower compared to a structure with more branching points.
 
-<!-- chunk {"id": "body-0081", "role": "body", "section": "Trajectory-Tree Structure", "weight": 1.0} -->
+<!-- chunk {"id": "body-0078", "role": "body", "section": "Trajectory-Tree Structure", "weight": 1.0} -->
 
 The trajectory-tree optimization can be decomposed into nearly independent subproblems, thereby improving scalability. This is aspect is illustrated in Fig. 8 ‣ 4 Model Predictive Control (MPC) ‣ Optimizing Trajectory-Trees in Belief Space: An Application from Model Predictive Control to Task and Motion Planning") and is the subject of Section 4.2 ‣ 4 Model Predictive Control (MPC) ‣ Optimizing Trajectory-Trees in Belief Space: An Application from Model Predictive Control to Task and Motion Planning").
 
-<!-- chunk {"id": "body-0082", "role": "body", "section": "Trajectory-Tree Structure", "weight": 1.0} -->
+<!-- chunk {"id": "body-0079", "role": "body", "section": "Trajectory-Tree Structure", "weight": 1.0} -->
 
 Despite these advantages, one limitation is that, similar to the Q-MDP algorithm, it cannot plan actions that actively seek to gain information. In the second experiment with uncertain obstacles found in Section 4.3.2 ‣ Optimizing Trajectory-Trees in Belief Space: An Application from Model Predictive Control to Task and Motion Planning"), such an action would be to intentionally come closer to the obstacle to observe it better. It is not a desired behavior in that case, but could be relevant in other planning problems. In TAMP problems for instance, exploring the environment is an important skill, such that the PO-LGP approach that we detail in Section 5 ‣ Optimizing Trajectory-Trees in Belief Space: An Application from Model Predictive Control to Task and Motion Planning") adopts the alternative approach, with multi-stage branching based on observations, as examplified in Fig. 5, which enables exploratory behavior.
 
+<!-- chunk {"id": "body-0080", "role": "body", "section": "Optimization Problem Formulation", "weight": 1.0} -->
+
+Let $L$ denote the number of steps in the branching horizon, and $T$ the total number of steps on each branch ($L\ll T$). We note $d_{u}$ and $d_{x}$ the dimension of the control vector at each time step, and $d_{x}$ the state dimension.
+
+<!-- chunk {"id": "body-0081", "role": "body", "section": "Optimization Problem Formulation", "weight": 1.0} -->
+
+Let $u_{m}\in\mathbb{R}^{d_{u}\times T}$ and $x_{m}\in\mathbb{R}^{d_{x}\times T}$ be the control and continuous state sequences on the branch corresponding to the state hypothesis $m\in\mathcal{H}$. The state sequence $x_{m}$ comprises both the partially and fully observable components. Let $\tilde{u}\in\mathbb{R}^{d_{u}\times L}$ be the controls in the branching horizon, and $p(m)$ be the probability of state hypothesis $m$ as indicated by the belief state. We note $s_{m}$ the discrete state associated with the state hypothesis $m$.
+
+<!-- chunk {"id": "body-0082", "role": "body", "section": "Optimization Problem Formulation", "weight": 1.0} -->
+
+We formulate the optimal control problem as follows: where $c_{s_{m}}:\mathbb{R}^{d_{x}+d_{u}}\rightarrow\mathbb{R}$ is a scalar cost function, $g_{s_{m}}:\mathbb{R}^{d_{x}+d_{u}}\rightarrow\mathbb{R}^{d_{g}}$ defines $d_{g}$ inequality constraints functions. Those functions are indexed by $s_{m}$ to reflect the fact that both the planning goal and constraints may depend on the symbolic state. The function $f:\mathbb{R}^{d_{x}+d_{u}}\rightarrow\mathbb{R}^{d_{x}}$ are equality constraints modeling the system dynamic.
+
 <!-- chunk {"id": "body-0083", "role": "body", "section": "Optimization Problem Formulation", "weight": 1.0} -->
 
-Let $L$ denote the number of steps in the branching horizon, and $T$ the total number of steps on each branch ($L \ll T$). We note $d_{u}$ and $d_{x}$ the dimension of the control vector at each time step, and $d_{x}$ the state dimension.
+Although each pair $(u_{m},x_{m})$ corresponds to a specific hypothesis $m\in\mathcal{H}$, the optimization variables across different $m$ are not fully independent from each other. Indeed, in the branching horizon, they all correspond to the common trunk and must therefore be equal. This is captured by the Eq. (1d ‣ Optimizing Trajectory-Trees in Belief Space: An Application from Model Predictive Control to Task and Motion Planning")) and is usually called non-anticipativity constraint in multi-stage MPC. In the following we call $\tilde{u}$ the consensus variable.
 
 <!-- chunk {"id": "body-0084", "role": "body", "section": "Optimization Problem Formulation", "weight": 1.0} -->
 
-Let $u_{m} \in {\mathbb{R}}^{d_{u} \times T}$ and $x_{m} \in {\mathbb{R}}^{d_{x} \times T}$ be the control and continuous state sequences on the branch corresponding to the state hypothesis $m \in \mathcal{H}$. The state sequence $x_{m}$ comprises both the partially and fully observable components. Let $\overset{\sim}{u} \in {\mathbb{R}}^{d_{u} \times L}$ be the controls in the branching horizon, and $p{(m)}$ be the probability of state hypothesis $m$ as indicated by the belief state. We note $s_{m}$ the discrete state associated with the state hypothesis $m$.
+The common trunk of the tree is constrained by the active constraints of all states, regardless of the state likelihood. This is for guaranteeing the robustness of the constraint satisfaction.
 
 <!-- chunk {"id": "body-0085", "role": "body", "section": "Optimization Problem Formulation", "weight": 1.0} -->
 
-Although each pair $(u_{m},x_{m})$ corresponds to a specific hypothesis $m \in \mathcal{H}$, the optimization variables across different $m$ are not fully independent from each other. Indeed, in the branching horizon, they all correspond to the common trunk and must therefore be equal. This is captured by the Eq. (1d ‣ Optimizing Trajectory-Trees in Belief Space: An Application from Model Predictive Control to Task and Motion Planning")) and is usually called non-anticipativity constraint in multi-stage MPC. In the following we call $\overset{\sim}{u}$ the consensus variable.
-
-<!-- chunk {"id": "body-0086", "role": "body", "section": "Optimization Problem Formulation", "weight": 1.0} -->
-
-The common trunk of the tree is constrained by the active constraints of all states, regardless of the state likelihood. This is for guaranteeing the robustness of the constraint satisfaction.
-
-<!-- chunk {"id": "body-0087", "role": "body", "section": "Optimization Problem Formulation", "weight": 1.0} -->
-
 In contrast, the minimized costs Eq. (1a ‣ Optimizing Trajectory-Trees in Belief Space: An Application from Model Predictive Control to Task and Motion Planning")) are weighted by the belief state for optimizing more with respect to likely states than unlikely ones.
 
-<!-- chunk {"id": "body-0088", "role": "body", "section": "Transcription to Generic Solver Format", "weight": 1.0} -->
+<!-- chunk {"id": "body-0086", "role": "body", "section": "Transcription to Generic Solver Format", "weight": 1.0} -->
 
-Here we rewrite the optimization problem in a generic format that is the input to our solver. In Eq. (1 ‣ Optimizing Trajectory-Trees in Belief Space: An Application from Model Predictive Control to Task and Motion Planning")) both the controls $u$ and states $x$ are optimization variables.
+Here we rewrite the optimization problem in a generic format that is the input to our solver. In Eq. (1 ‣ Optimizing Trajectory-Trees in Belief Space: An Application from Model Predictive Control to Task and Motion Planning")) both the controls $u$ and states $x$ are optimization variables. In many cases, it is possible to eliminate either the controls or the configurations and obtain a more compact formulation: Optimization in control space: This is achieved by eliminating the variable $x$, and is known as single shooting. It is well described in the MPC literature, particularly for linear MPC. We apply this approach in the first MPC experiment presented in Section 4.3.1 ‣ Optimizing Trajectory-Trees in Belief Space: An Application from Model Predictive Control to Task and Motion Planning").
 
-<!-- chunk {"id": "body-0089", "role": "body", "section": "Transcription to Generic Solver Format", "weight": 1.0} -->
-
-Optimization in control space: This is achieved by eliminating the variable $x$, and is known as single shooting. It is well described in the MPC literature, particularly for linear MPC. We apply this approach in the first MPC experiment presented in Section 4.3.1 ‣ Optimizing Trajectory-Trees in Belief Space: An Application from Model Predictive Control to Task and Motion Planning").
-
-<!-- chunk {"id": "body-0090", "role": "body", "section": "Transcription to Generic Solver Format", "weight": 1.0} -->
+<!-- chunk {"id": "body-0087", "role": "body", "section": "Transcription to Generic Solver Format", "weight": 1.0} -->
 
 Optimization in configuration space: In that case, the controls $u$ are eliminated. This typically requires adding additional constraints to ensure the existence of controls implementing the configuration transitions e.g. for non-holonomic robots, or to impose control bounds. The LGP formulation, and the KOMO solver follow this approach. We use this transcription for the second MPC experiment described in Section 4.3.2 ‣ Optimizing Trajectory-Trees in Belief Space: An Application from Model Predictive Control to Task and Motion Planning") and the TAMP examples of Section 5 ‣ Optimizing Trajectory-Trees in Belief Space: An Application from Model Predictive Control to Task and Motion Planning").
 
-<!-- chunk {"id": "body-0091", "role": "body", "section": "Transcription to Generic Solver Format", "weight": 1.0} -->
+<!-- chunk {"id": "body-0088", "role": "body", "section": "Transcription to Generic Solver Format", "weight": 1.0} -->
 
-where $\overset{\sim}{z}$ and ${z_{m},m} \in \mathcal{H}$ are the optimization variables, which can be in control space, configuration space, or a combination of both. We note $d$ the dimensionality of the optimized parameters at each time step. The functions $c_{s_{m}}:{{\mathbb{R}}^{T \times d}\rightarrow{\mathbb{R}}}$ and $g_{s_{m}}:{{\mathbb{R}}^{T \times d}\rightarrow{\mathbb{R}}^{d_{g_{s_{m}}}}}$ correspond directly to the original cost and constraints functions (2a ‣ Optimizing Trajectory-Trees in Belief Space: An Application from Model Predictive Control to Task and Motion Planning")) and (2b ‣ Optimizing Trajectory-Trees in Belief Space: An Application from Model Predictive Control to Task and Motion Planning")) respectively.
+The problem can be rewritten in a generic format: where $\tilde{z}$ and $z_{m},m\in\mathcal{H}$ are the optimization variables, which can be in control space, configuration space, or a combination of both. We note $d$ the dimensionality of the optimized parameters at each time step. The functions $c_{s_{m}}:\mathbb{R}^{T\times d}\rightarrow\mathbb{R}$ and $g_{s_{m}}:\mathbb{R}^{T\times d}\rightarrow\mathbb{R}^{d_{g_{s_{m}}}}$ correspond directly to the original cost and constraints functions (2a ‣ Optimizing Trajectory-Trees in Belief Space: An Application from Model Predictive Control to Task and Motion Planning")) and (2b ‣ Optimizing Trajectory-Trees in Belief Space: An Application from Model Predictive Control to Task and Motion Planning")) respectively.
 
-<!-- chunk {"id": "body-0092", "role": "body", "section": "Transcription to Generic Solver Format", "weight": 1.0} -->
+<!-- chunk {"id": "body-0089", "role": "body", "section": "Transcription to Generic Solver Format", "weight": 1.0} -->
 
-The function $h_{s_{m}}:{{\mathbb{R}}^{T \times d}\rightarrow{\mathbb{R}}^{d_{h_{m}}}}$ is an equality constraint which can capture the system dynamics (see (2c ‣ Optimizing Trajectory-Trees in Belief Space: An Application from Model Predictive Control to Task and Motion Planning"))). It is optional, since it is not needed in case of direct shooting transcription. Eq. (2d ‣ Optimizing Trajectory-Trees in Belief Space: An Application from Model Predictive Control to Task and Motion Planning")) is the non-anticipativity constraint and $\overset{\sim}{z}$ is the consensus variable. We generally assume the functions $c_{s_{m}}$, $g_{s_{m}}$, and $h_{s_{m}}$ to be smooth, but not necessarily convex or unimodal.
+The function $h_{s_{m}}:\mathbb{R}^{T\times d}\rightarrow\mathbb{R}^{d_{h_{m}}}$ is an equality constraint which can capture the system dynamics (see (2c ‣ Optimizing Trajectory-Trees in Belief Space: An Application from Model Predictive Control to Task and Motion Planning"))). It is optional, since it is not needed in case of direct shooting transcription. Eq. (2d ‣ Optimizing Trajectory-Trees in Belief Space: An Application from Model Predictive Control to Task and Motion Planning")) is the non-anticipativity constraint and $\tilde{z}$ is the consensus variable. We generally assume the functions $c_{s_{m}}$, $g_{s_{m}}$, and $h_{s_{m}}$ to be smooth, but not necessarily convex or unimodal.
 
-<!-- chunk {"id": "body-0093", "role": "body", "section": "Distributed Augmented Lagrangian solver (D-AuLa)", "weight": 1.0} -->
+<!-- chunk {"id": "body-0090", "role": "body", "section": "Distributed Augmented Lagrangian solver (D-AuLa)", "weight": 1.0} -->
 
 The global optimization problem (2 ‣ Optimizing Trajectory-Trees in Belief Space: An Application from Model Predictive Control to Task and Motion Planning")) can naturally be decomposed into $|\mathcal{H}|$ loosely coupled optimization subproblems, each corresponding to one branch of the trajectory tree and its associated state hypothesis, as illustrated in Fig. 8 ‣ 4 Model Predictive Control (MPC) ‣ Optimizing Trajectory-Trees in Belief Space: An Application from Model Predictive Control to Task and Motion Planning").
 
+<!-- chunk {"id": "body-0091", "role": "body", "section": "Distributed Augmented Lagrangian solver (D-AuLa)", "weight": 1.0} -->
+
+The subproblem associated with a state hypothesis $m\in\mathcal{H}$ follows from the global objective (2 ‣ Optimizing Trajectory-Trees in Belief Space: An Application from Model Predictive Control to Task and Motion Planning")) and is given: where the cost term (3a ‣ 4 Model Predictive Control (MPC) ‣ Optimizing Trajectory-Trees in Belief Space: An Application from Model Predictive Control to Task and Motion Planning")) corresponds to the term associated with hypothesis $m$ in the global objective (2a ‣ Optimizing Trajectory-Trees in Belief Space: An Application from Model Predictive Control to Task and Motion Planning")), and the constraints of the global problem are retained. In particular, the non-anticipativity constraint (3d ‣ 4 Model Predictive Control (MPC) ‣ Optimizing Trajectory-Trees in Belief Space: An Application from Model Predictive Control to Task and Motion Planning")) induces a coupling between subproblems through the shared consensus variable $\tilde{z}$. Consequently, the subproblems cannot be optimized independently.
+
+<!-- chunk {"id": "body-0092", "role": "body", "section": "Distributed Augmented Lagrangian solver (D-AuLa)", "weight": 1.0} -->
+
+However, this coupling is weak, as the non-anticipativity constraint only applies over the branching horizon, which is a small portion of the full trajectory-tree ($L\ll T$).
+
+<!-- chunk {"id": "body-0093", "role": "body", "section": "Distributed Augmented Lagrangian solver (D-AuLa)", "weight": 1.0} -->
+
+The core idea of the D-AuLa algorithm is to take advantage of this decomposition. Each subproblem is smaller and can be optimized faster. In addition, some parts of the optimization can be parallelized. It performs multiple iterations, each consisting of two phases: A distributed phase where a relaxed version of each subproblem is optimized.
+
 <!-- chunk {"id": "body-0094", "role": "body", "section": "Distributed Augmented Lagrangian solver (D-AuLa)", "weight": 1.0} -->
 
-where the cost term (3a ‣ 4 Model Predictive Control (MPC) ‣ Optimizing Trajectory-Trees in Belief Space: An Application from Model Predictive Control to Task and Motion Planning")) corresponds to the term associated with hypothesis $m$ in the global objective (2a ‣ Optimizing Trajectory-Trees in Belief Space: An Application from Model Predictive Control to Task and Motion Planning")), and the constraints of the global problem are retained. In particular, the non-anticipativity constraint (3d ‣ 4 Model Predictive Control (MPC) ‣ Optimizing Trajectory-Trees in Belief Space: An Application from Model Predictive Control to Task and Motion Planning")) induces a coupling between subproblems through the shared consensus variable $\overset{\sim}{z}$. Consequently, the subproblems cannot be optimized independently. However, this coupling is weak, as the non-anticipativity constraint only applies over the branching horizon, which is a small portion of the full trajectory-tree ($L \ll T$).
+A centralized phase at which the consensus variable $\tilde{z}$ is updated.
 
 <!-- chunk {"id": "body-0095", "role": "body", "section": "Distributed Augmented Lagrangian solver (D-AuLa)", "weight": 1.0} -->
 
-The core idea of the D-AuLa algorithm is to take advantage of this decomposition. Each subproblem is smaller and can be optimized faster. In addition, some parts of the optimization can be parallelized.
+The proposed method integrates the Augmented Lagrangian method (AuLa) with Alternating Direction Method of Multipliers (ADMM) to address both subproblem-specific constraints and the non-anticipativity constraint at the same abstraction level. This is in contrast to a hierarchical approach, where ADMM handles decomposition in an outer loop, and subproblems are solved to high accuracy using standard constrained optimization in an inner loop. By enforcing all constraints simultaneously and incrementally, our method avoids the inefficiency of strictly satisfying subproblem constraints before achieving consensus, ensuring a more cohesive and efficient optimization process.
 
 <!-- chunk {"id": "body-0096", "role": "body", "section": "Distributed Augmented Lagrangian solver (D-AuLa)", "weight": 1.0} -->
 
-A distributed phase where a relaxed version of each subproblem is optimized.
-
-<!-- chunk {"id": "body-0097", "role": "body", "section": "Distributed Augmented Lagrangian solver (D-AuLa)", "weight": 1.0} -->
-
-A centralized phase at which the consensus variable $\overset{\sim}{z}$ is updated.
-
-<!-- chunk {"id": "body-0098", "role": "body", "section": "Distributed Augmented Lagrangian solver (D-AuLa)", "weight": 1.0} -->
-
-The proposed method integrates the Augmented Lagrangian method (AuLa) with Alternating Direction Method of Multipliers (ADMM) to address both subproblem-specific constraints and the non-anticipativity constraint at the same abstraction level. This is in contrast to a hierarchical approach, where ADMM handles decomposition in an outer loop, and subproblems are solved to high accuracy using standard constrained optimization in an inner loop. By enforcing all constraints simultaneously and incrementally, our method avoids the inefficiency of strictly satisfying subproblem constraints before achieving consensus, ensuring a more cohesive and efficient optimization process.
-
-<!-- chunk {"id": "body-0099", "role": "body", "section": "Distributed Augmented Lagrangian solver (D-AuLa)", "weight": 1.0} -->
-
 In the literature, the ADMM algorithm usually refers to a decomposition into two subproblems which are solved and updated in a sequential fashion. Our method builds upon the variation called consensus optimization, as described, for a N-fold decomposition, and where the optimizations of the subproblems are parallelizable. We refer the reader to Appendices A.1 ‣ Appendix A Background on the Augmented Lagrangian and ADMM Methods ‣ Optimizing Trajectory-Trees in Belief Space: An Application from Model Predictive Control to Task and Motion Planning") and A.2 ‣ Appendix A Background on the Augmented Lagrangian and ADMM Methods ‣ Optimizing Trajectory-Trees in Belief Space: An Application from Model Predictive Control to Task and Motion Planning") for background on AuLa and consensus-ADMM respectively.
 
-<!-- chunk {"id": "body-0100", "role": "body", "section": "Distributed Augmented Lagrangian (D-AuLa)", "weight": 1.0} -->
+<!-- chunk {"id": "body-0097", "role": "body", "section": "Distributed Augmented Lagrangian (D-AuLa)", "weight": 1.0} -->
 
-The optimization problem of each subproblem is similar to a standard constrained optimization problem, but the coupling constraint (3d ‣ 4 Model Predictive Control (MPC) ‣ Optimizing Trajectory-Trees in Belief Space: An Application from Model Predictive Control to Task and Motion Planning")) makes it peculiar, as the global consensus variable $\overset{\sim}{z}$ is shared across all subproblems and must be jointly optimized. In other words, the branches of the trajectory tree cannot be optimized independently, since they share a common trunk that couples the subproblems.
+The optimization problem of each subproblem is similar to a standard constrained optimization problem, but the coupling constraint (3d ‣ 4 Model Predictive Control (MPC) ‣ Optimizing Trajectory-Trees in Belief Space: An Application from Model Predictive Control to Task and Motion Planning")) makes it peculiar, as the global consensus variable $\tilde{z}$ is shared across all subproblems and must be jointly optimized. In other words, the branches of the trajectory tree cannot be optimized independently, since they share a common trunk that couples the subproblems.
 
-<!-- chunk {"id": "body-0101", "role": "body", "section": "Distributed Augmented Lagrangian (D-AuLa)", "weight": 1.0} -->
+<!-- chunk {"id": "body-0098", "role": "body", "section": "Distributed Augmented Lagrangian (D-AuLa)", "weight": 1.0} -->
 
 To orchestrate this joint optimization, while still exploiting the decomposition into subproblems, we form $|\mathcal{H}|$ unconstrained objectives, one for each subproblem, by combining the augmentations from both the AuLa and the ADMM methods.
 
-<!-- chunk {"id": "body-0102", "role": "body", "section": "Distributed Augmented Lagrangian (D-AuLa)", "weight": 1.0} -->
+<!-- chunk {"id": "body-0099", "role": "body", "section": "Distributed Augmented Lagrangian (D-AuLa)", "weight": 1.0} -->
 
-Equations (4b ‣ 4.2 Distributed Augmented Lagrangian solver (D-AuLa) ‣ 4 Model Predictive Control (MPC) ‣ Optimizing Trajectory-Trees in Belief Space: An Application from Model Predictive Control to Task and Motion Planning")) and (4c ‣ 4.2 Distributed Augmented Lagrangian solver (D-AuLa) ‣ 4 Model Predictive Control (MPC) ‣ Optimizing Trajectory-Trees in Belief Space: An Application from Model Predictive Control to Task and Motion Planning")) are the terms of the Augmented Lagrangian method for handling the inequality and equality constraints intrinsic to each subproblem. The $\odot$ notation in (4b ‣ 4.2 Distributed Augmented Lagrangian solver (D-AuLa) ‣ 4 Model Predictive Control (MPC) ‣ Optimizing Trajectory-Trees in Belief Space: An Application from Model Predictive Control to Task and Motion Planning")) is for the element-wise multiplication.
+We call this unconstrained objective the Distributed Augmented Lagrangian: where $\Delta z_{m}\in\mathbb{R}^{L\times d}$, with $\Delta z_{m}(t)=z_{m}(t)-\tilde{z}(t),\forall t<L$ is the difference between $z_{m}$ and the consensus $\tilde{z}$ in the branching horizon.
 
-<!-- chunk {"id": "body-0103", "role": "body", "section": "Distributed Augmented Lagrangian (D-AuLa)", "weight": 1.0} -->
+<!-- chunk {"id": "body-0100", "role": "body", "section": "Distributed Augmented Lagrangian (D-AuLa)", "weight": 1.0} -->
 
-In other words, the square penalty applies only on the elements of $g_{s_{m}}{(z_{m})}$ which are violating the inequality constraint.
+Equations (4b ‣ 4.2 Distributed Augmented Lagrangian solver (D-AuLa) ‣ 4 Model Predictive Control (MPC) ‣ Optimizing Trajectory-Trees in Belief Space: An Application from Model Predictive Control to Task and Motion Planning")) and (4c ‣ 4.2 Distributed Augmented Lagrangian solver (D-AuLa) ‣ 4 Model Predictive Control (MPC) ‣ Optimizing Trajectory-Trees in Belief Space: An Application from Model Predictive Control to Task and Motion Planning")) are the terms of the Augmented Lagrangian method for handling the inequality and equality constraints intrinsic to each subproblem. The $\odot$ notation in (4b ‣ 4.2 Distributed Augmented Lagrangian solver (D-AuLa) ‣ 4 Model Predictive Control (MPC) ‣ Optimizing Trajectory-Trees in Belief Space: An Application from Model Predictive Control to Task and Motion Planning")) is for the element-wise multiplication. In other words, the square penalty applies only on the elements of $g_{s_{m}}(z_{m})$ which are violating the inequality constraint.
 
-<!-- chunk {"id": "body-0104", "role": "body", "section": "Distributed Augmented Lagrangian (D-AuLa)", "weight": 1.0} -->
+<!-- chunk {"id": "body-0101", "role": "body", "section": "Distributed Augmented Lagrangian (D-AuLa)", "weight": 1.0} -->
 
-Equations (4d ‣ 4.2 Distributed Augmented Lagrangian solver (D-AuLa) ‣ 4 Model Predictive Control (MPC) ‣ Optimizing Trajectory-Trees in Belief Space: An Application from Model Predictive Control to Task and Motion Planning")) are similar ADMM terms for solving the coupling between the subproblems.
+Equations (4d ‣ 4.2 Distributed Augmented Lagrangian solver (D-AuLa) ‣ 4 Model Predictive Control (MPC) ‣ Optimizing Trajectory-Trees in Belief Space: An Application from Model Predictive Control to Task and Motion Planning")) are similar ADMM terms for solving the coupling between the subproblems. $\lambda_{m}\in\mathbb{R}^{d_{g_{m}}},\kappa_{m}\in\mathbb{R}^{d_{h_{m}}},\eta_{m}\in\mathbb{R}^{L\times d}$ are the dual variables, and $\mu,\nu,\rho$ are fixed positive constants.
 
-<!-- chunk {"id": "body-0105", "role": "body", "section": "Optimization Procedure", "weight": 1.0} -->
+<!-- chunk {"id": "body-0102", "role": "body", "section": "Optimization Procedure", "weight": 1.0} -->
 
-where the subscript $k$ indicates the number of iterations. The lines (5a ‣ 4 Model Predictive Control (MPC) ‣ Optimizing Trajectory-Trees in Belief Space: An Application from Model Predictive Control to Task and Motion Planning")), (5b ‣ 4 Model Predictive Control (MPC) ‣ Optimizing Trajectory-Trees in Belief Space: An Application from Model Predictive Control to Task and Motion Planning")), (5c ‣ 4 Model Predictive Control (MPC) ‣ Optimizing Trajectory-Trees in Belief Space: An Application from Model Predictive Control to Task and Motion Planning")) and (5e ‣ 4 Model Predictive Control (MPC) ‣ Optimizing Trajectory-Trees in Belief Space: An Application from Model Predictive Control to Task and Motion Planning")) are indexed by $m$, and are performed for each subproblem.
+The optimization algorithm consists in executing several iterations of the following steps: where the subscript $k$ indicates the number of iterations. The lines (5a ‣ 4 Model Predictive Control (MPC) ‣ Optimizing Trajectory-Trees in Belief Space: An Application from Model Predictive Control to Task and Motion Planning")), (5b ‣ 4 Model Predictive Control (MPC) ‣ Optimizing Trajectory-Trees in Belief Space: An Application from Model Predictive Control to Task and Motion Planning")), (5c ‣ 4 Model Predictive Control (MPC) ‣ Optimizing Trajectory-Trees in Belief Space: An Application from Model Predictive Control to Task and Motion Planning")) and (5e ‣ 4 Model Predictive Control (MPC) ‣ Optimizing Trajectory-Trees in Belief Space: An Application from Model Predictive Control to Task and Motion Planning")) are indexed by $m$, and are performed for each subproblem.
 
-<!-- chunk {"id": "body-0106", "role": "body", "section": "Optimization Procedure", "weight": 1.0} -->
+<!-- chunk {"id": "body-0103", "role": "body", "section": "Optimization Procedure", "weight": 1.0} -->
 
 On the other hand, (5d ‣ 4 Model Predictive Control (MPC) ‣ Optimizing Trajectory-Trees in Belief Space: An Application from Model Predictive Control to Task and Motion Planning")) is a centralized step, it is where the $z_{m}$ resulting from all sub-optimizations are gathered together. The Fig. 9 ‣ 4 Model Predictive Control (MPC) ‣ Optimizing Trajectory-Trees in Belief Space: An Application from Model Predictive Control to Task and Motion Planning") shows the execution flow. The next subsections explain each line of the procedure one by one.
 
-<!-- chunk {"id": "body-0107", "role": "body", "section": "Optimization Procedure", "weight": 1.0} -->
+<!-- chunk {"id": "body-0104", "role": "body", "section": "Optimization Procedure", "weight": 1.0} -->
 
-Initialization: All dual variables $\lambda_{m},\kappa_{m},\eta_{m}$ are initially set to $0.0$. The optimization variables $z_{m}$ as well as the initial common consensus variable $\overset{\sim}{z}$ can be initialized randomly, or by any better heuristic to speed-up the optimization.
+Initialization: All dual variables $\lambda_{m},\kappa_{m},\eta_{m}$ are initially set to $0.0$. The optimization variables $z_{m}$ as well as the initial common consensus variable $\tilde{z}$ can be initialized randomly, or by any better heuristic to speed-up the optimization.
 
-<!-- chunk {"id": "body-0108", "role": "body", "section": "Optimization Procedure", "weight": 1.0} -->
+<!-- chunk {"id": "body-0105", "role": "body", "section": "Optimization Procedure", "weight": 1.0} -->
 
 Unconstrained minimization: The step (5a ‣ 4 Model Predictive Control (MPC) ‣ Optimizing Trajectory-Trees in Belief Space: An Application from Model Predictive Control to Task and Motion Planning")) is the minimization of $|\mathcal{H}|$ unconstrained optimization problems and is the part which is computationally expensive. These are optimized using a Gauss-Newton procedure. It therefore requires the gradients $\nabla c$, $\nabla g$, $\nabla h$ to be provided. The Hessian, or second order derivatives, are approximated from the gradients. As Fig. 9 ‣ 4 Model Predictive Control (MPC) ‣ Optimizing Trajectory-Trees in Belief Space: An Application from Model Predictive Control to Task and Motion Planning") shows, these optimizations are independent from each other and can be performed in parallel. This is where the algorithm takes full advantage of the decomposition.
 
-<!-- chunk {"id": "body-0109", "role": "body", "section": "Optimization Procedure", "weight": 1.0} -->
+<!-- chunk {"id": "body-0106", "role": "body", "section": "Optimization Procedure", "weight": 1.0} -->
 
 Augmented Lagrangian dual variables update: Equations (5b ‣ 4 Model Predictive Control (MPC) ‣ Optimizing Trajectory-Trees in Belief Space: An Application from Model Predictive Control to Task and Motion Planning")) and (5c ‣ 4 Model Predictive Control (MPC) ‣ Optimizing Trajectory-Trees in Belief Space: An Application from Model Predictive Control to Task and Motion Planning")) update the dual variables corresponding to the inequality and equality constraints respectively. As in the pure AuLa method, the Lagrange multipliers are updated to a value that pushes out of constraint violations and "should" lead to satisfied constraints in the next iteration.
 
+<!-- chunk {"id": "body-0107", "role": "body", "section": "Optimization Procedure", "weight": 1.0} -->
+
+ADMM consensus variables update: Line (5d ‣ 4 Model Predictive Control (MPC) ‣ Optimizing Trajectory-Trees in Belief Space: An Application from Model Predictive Control to Task and Motion Planning")) updates the consensus variable. It can be performed only once the computations of all the $z_{m}^{k+1}$ are finished. Its computation is fairly intuitive, $\tilde{z}^{k+1}$ is the average of the $z_{m}^{k+1}$ on the branching horizon.
+
+<!-- chunk {"id": "body-0108", "role": "body", "section": "Optimization Procedure", "weight": 1.0} -->
+
+ADMM dual variable update: Line (5e ‣ 4 Model Predictive Control (MPC) ‣ Optimizing Trajectory-Trees in Belief Space: An Application from Model Predictive Control to Task and Motion Planning")) updates the dual variables corresponding to the ADMM equality constraint. It is based on the last results $z^{k+1}_{m}$ and the consensus variable $\tilde{z}^{k+1}$. It can therefore be performed only after the step (5d ‣ 4 Model Predictive Control (MPC) ‣ Optimizing Trajectory-Trees in Belief Space: An Application from Model Predictive Control to Task and Motion Planning")). The ADMM equality constraint (2d ‣ Optimizing Trajectory-Trees in Belief Space: An Application from Model Predictive Control to Task and Motion Planning")) is treated similarly to the standard equality constraint (2c ‣ Optimizing Trajectory-Trees in Belief Space: An Application from Model Predictive Control to Task and Motion Planning")) throughout the optimization procedure. The only difference, is that the constraint definition is not fixed, since $\tilde{z}$ is a moving target.
+
+<!-- chunk {"id": "body-0109", "role": "body", "section": "Optimization Procedure", "weight": 1.0} -->
+
+Both the constraints related to the planning problem and the tree consistency are enforced gradually over the course of the optimization.
+
 <!-- chunk {"id": "body-0110", "role": "body", "section": "Optimization Procedure", "weight": 1.0} -->
 
-ADMM consensus variables update: Line (5d ‣ 4 Model Predictive Control (MPC) ‣ Optimizing Trajectory-Trees in Belief Space: An Application from Model Predictive Control to Task and Motion Planning")) updates the consensus variable. It can be performed only once the computations of all the $z_{m}^{k + 1}$ are finished. Its computation is fairly intuitive, ${\overset{\sim}{z}}^{k + 1}$ is the average of the $z_{m}^{k + 1}$ on the branching horizon.
+Termination criterion: The procedure can be stopped once the constraints of each subproblem are satisfied (6a ‣ 4 Model Predictive Control (MPC) ‣ Optimizing Trajectory-Trees in Belief Space: An Application from Model Predictive Control to Task and Motion Planning")), (6b ‣ 4 Model Predictive Control (MPC) ‣ Optimizing Trajectory-Trees in Belief Space: An Application from Model Predictive Control to Task and Motion Planning")), once a consensus for $\tilde{z}$ is reached (6d ‣ 4 Model Predictive Control (MPC) ‣ Optimizing Trajectory-Trees in Belief Space: An Application from Model Predictive Control to Task and Motion Planning")), and once the optimization procedure is stationary (6c ‣ 4 Model Predictive Control (MPC) ‣ Optimizing Trajectory-Trees in Belief Space: An Application from Model Predictive Control to Task and Motion Planning")), (6e ‣ 4 Model Predictive Control (MPC) ‣ Optimizing Trajectory-Trees in Belief Space: An Application from Model Predictive Control to Task and Motion Planning")).
 
 <!-- chunk {"id": "body-0111", "role": "body", "section": "Optimization Procedure", "weight": 1.0} -->
 
-ADMM dual variable update: Line (5e ‣ 4 Model Predictive Control (MPC) ‣ Optimizing Trajectory-Trees in Belief Space: An Application from Model Predictive Control to Task and Motion Planning")) updates the dual variables corresponding to the ADMM equality constraint. It is based on the last results $z_{m}^{k + 1}$ and the consensus variable ${\overset{\sim}{z}}^{k + 1}$. It can therefore be performed only after the step (5d ‣ 4 Model Predictive Control (MPC) ‣ Optimizing Trajectory-Trees in Belief Space: An Application from Model Predictive Control to Task and Motion Planning")). The ADMM equality constraint (2d ‣ Optimizing Trajectory-Trees in Belief Space: An Application from Model Predictive Control to Task and Motion Planning")) is treated similarly to the standard equality constraint (2c ‣ Optimizing Trajectory-Trees in Belief Space: An Application from Model Predictive Control to Task and Motion Planning")) throughout the optimization procedure.
+Formally it means that the AuLa and ADMM residuals are smaller than threshold values ($\epsilon^{pri},\epsilon^{opt},\xi^{pri},\xi^{dual}\in\mathbb{R}_{>0}$).
 
 <!-- chunk {"id": "body-0112", "role": "body", "section": "Optimization Procedure", "weight": 1.0} -->
 
-The only difference, is that the constraint definition is not fixed, since $\overset{\sim}{z}$ is a moving target. Both the constraints related to the planning problem and the tree consistency are enforced gradually over the course of the optimization.
-
-<!-- chunk {"id": "body-0113", "role": "body", "section": "Optimization Procedure", "weight": 1.0} -->
-
-Termination criterion: The procedure can be stopped once the constraints of each subproblem are satisfied (6a ‣ 4 Model Predictive Control (MPC) ‣ Optimizing Trajectory-Trees in Belief Space: An Application from Model Predictive Control to Task and Motion Planning")), (6b ‣ 4 Model Predictive Control (MPC) ‣ Optimizing Trajectory-Trees in Belief Space: An Application from Model Predictive Control to Task and Motion Planning")), once a consensus for $\overset{\sim}{z}$ is reached (6d ‣ 4 Model Predictive Control (MPC) ‣ Optimizing Trajectory-Trees in Belief Space: An Application from Model Predictive Control to Task and Motion Planning")), and once the optimization procedure is stationary (6c ‣ 4 Model Predictive Control (MPC) ‣ Optimizing Trajectory-Trees in Belief Space: An Application from Model Predictive Control to Task and Motion Planning")), (6e ‣ 4 Model Predictive Control (MPC) ‣ Optimizing Trajectory-Trees in Belief Space: An Application from Model Predictive Control to Task and Motion Planning")).
-
-<!-- chunk {"id": "body-0114", "role": "body", "section": "Optimization Procedure", "weight": 1.0} -->
-
-Formally it means that the AuLa and ADMM residuals are smaller than threshold values (${\epsilon^{pri},\epsilon^{opt},\xi^{pri},\xi^{dual}} \in {\mathbb{R}}_{> 0}$).
-
-<!-- chunk {"id": "body-0115", "role": "body", "section": "Optimization Procedure", "weight": 1.0} -->
-
 In the examples of the experimental section, the algorithm typically converges after 10 to 30 iterations.
 
-<!-- chunk {"id": "body-0116", "role": "body", "section": "Convergence and Optimality", "weight": 1.0} -->
+<!-- chunk {"id": "body-0113", "role": "body", "section": "Convergence and Optimality", "weight": 1.0} -->
 
 This algorithm differs from the consensus ADMM algorithm by its additional constraints $g$ and $h$ which lead to additional augmentation terms in the Augmented Lagrangian (4b ‣ 4.2 Distributed Augmented Lagrangian solver (D-AuLa) ‣ 4 Model Predictive Control (MPC) ‣ Optimizing Trajectory-Trees in Belief Space: An Application from Model Predictive Control to Task and Motion Planning")), (4c ‣ 4.2 Distributed Augmented Lagrangian solver (D-AuLa) ‣ 4 Model Predictive Control (MPC) ‣ Optimizing Trajectory-Trees in Belief Space: An Application from Model Predictive Control to Task and Motion Planning")) and algorithmic steps (5b ‣ 4 Model Predictive Control (MPC) ‣ Optimizing Trajectory-Trees in Belief Space: An Application from Model Predictive Control to Task and Motion Planning")) and (5c ‣ 4 Model Predictive Control (MPC) ‣ Optimizing Trajectory-Trees in Belief Space: An Application from Model Predictive Control to Task and Motion Planning")). These additional constraints do not affect the convergence properties of the ADMM algorithm.
 
-<!-- chunk {"id": "body-0117", "role": "body", "section": "Convergence and Optimality", "weight": 1.0} -->
+<!-- chunk {"id": "body-0114", "role": "body", "section": "Convergence and Optimality", "weight": 1.0} -->
 
-For convex problems with equality constraints, but no inequality constraints, a proof is provided in the Appendix B ‣ Optimizing Trajectory-Trees in Belief Space: An Application from Model Predictive Control to Task and Motion Planning") showing that convergence to the global optimum is guaranteed.
+For convex problems with equality constraints, but no inequality constraints, a proof is provided in the Appendix B ‣ Optimizing Trajectory-Trees in Belief Space: An Application from Model Predictive Control to Task and Motion Planning") showing that convergence to the global optimum is guaranteed. The key points of the argument are summarized as follows: The D-AuLa algorithm can be reframed into a form closer to the standard ADMM, with only two subproblems and sequential steps. The additional constraints apply to only one of the subproblems. We call it the Constrained ADMM algorithm (C-ADMM). The relation between those two forms is established in Appendix B.4 ‣ Optimizing Trajectory-Trees in Belief Space: An Application from Model Predictive Control to Task and Motion Planning") Convergence of the C-ADMM algorithm is proven in Appendix B.3 ‣ Optimizing Trajectory-Trees in Belief Space: An Application from Model Predictive Control to Task and Motion Planning"), by extending the proof of the standard ADMM given.
 
-<!-- chunk {"id": "body-0118", "role": "body", "section": "Convergence and Optimality", "weight": 1.0} -->
-
-The D-AuLa algorithm can be reframed into a form closer to the standard ADMM, with only two subproblems and sequential steps. The additional constraints apply to only one of the subproblems. We call it the Constrained ADMM algorithm (C-ADMM). The relation between those two forms is established in Appendix B.4 ‣ Optimizing Trajectory-Trees in Belief Space: An Application from Model Predictive Control to Task and Motion Planning")
-
-<!-- chunk {"id": "body-0119", "role": "body", "section": "Convergence and Optimality", "weight": 1.0} -->
-
-Convergence of the C-ADMM algorithm is proven in Appendix B.3 ‣ Optimizing Trajectory-Trees in Belief Space: An Application from Model Predictive Control to Task and Motion Planning"), by extending the proof of the standard ADMM given.
-
-<!-- chunk {"id": "body-0120", "role": "body", "section": "Convergence and Optimality", "weight": 1.0} -->
+<!-- chunk {"id": "body-0115", "role": "body", "section": "Convergence and Optimality", "weight": 1.0} -->
 
 Non-convexity is discussed in Appendix B.5 ‣ Optimizing Trajectory-Trees in Belief Space: An Application from Model Predictive Control to Task and Motion Planning"), and inequality constraints are discussed in Appendix B.6 ‣ Optimizing Trajectory-Trees in Belief Space: An Application from Model Predictive Control to Task and Motion Planning").
 
-<!-- chunk {"id": "body-0121", "role": "body", "section": "Experiments", "weight": 1.0} -->
+<!-- chunk {"id": "body-0116", "role": "body", "section": "Experiments", "weight": 1.0} -->
 
 We evaluate the proposed approach in two distinct domains, as presented in Sections 4.3.1 ‣ Optimizing Trajectory-Trees in Belief Space: An Application from Model Predictive Control to Task and Motion Planning") and 4.3.2 ‣ Optimizing Trajectory-Trees in Belief Space: An Application from Model Predictive Control to Task and Motion Planning"). The performance obtained with PO-MPC, particularly in terms of control costs, is analyzed and discussed independently within each section. Optimization time with D-AuLa is specifically examined and discussed in Section 4.3.3 ‣ 4.3 Experiments ‣ 4 Model Predictive Control (MPC) ‣ Optimizing Trajectory-Trees in Belief Space: An Application from Model Predictive Control to Task and Motion Planning"). The solver is implemented in C++. The source code and a supplementary video are available for reference^33^3
 
-<!-- chunk {"id": "body-0122", "role": "body", "section": "Adaptative Cruise Control among pedestrians", "weight": 1.0} -->
+<!-- chunk {"id": "body-0117", "role": "body", "section": "Adaptative Cruise Control among pedestrians", "weight": 1.0} -->
 
 We consider the problem briefly introduced in Fig. 2. The car drives along a street in presence of pedestrians on the sides who may cross. The pedestrians' intentions are partially observed through a simulated perception module that outputs, for each pedestrian, the probability that it will cross in front of the car. Eventually pedestrians either cross the street, or walk on the walkway making their intention fully observable.
 
-<!-- chunk {"id": "body-0123", "role": "body", "section": "Adaptative Cruise Control among pedestrians", "weight": 1.0} -->
+<!-- chunk {"id": "body-0118", "role": "body", "section": "Adaptative Cruise Control among pedestrians", "weight": 1.0} -->
 
 We optimize the longitudinal acceleration of the car. The car dynamics are modeled as a linear system (7 ‣ Optimizing Trajectory-Trees in Belief Space: An Application from Model Predictive Control to Task and Motion Planning")) and we consider quadratic cost with linear constraints. The problem is reduced to an optimization in control space only (see Section 4.1.5 ‣ Optimizing Trajectory-Trees in Belief Space: An Application from Model Predictive Control to Task and Motion Planning")). The optimization problem (2 ‣ Optimizing Trajectory-Trees in Belief Space: An Application from Model Predictive Control to Task and Motion Planning")) takes the form of $N$ loosely-coupled QPs.
 
-<!-- chunk {"id": "body-0124", "role": "body", "section": "Adaptative Cruise Control among pedestrians", "weight": 1.0} -->
+<!-- chunk {"id": "body-0119", "role": "body", "section": "Adaptative Cruise Control among pedestrians", "weight": 1.0} -->
 
-Performance is evaluated on randomized scenes in simulation. The car dynamics are simulated in Gazebo. Planning occurs at a frequency of $10\ {Hz}$, with trajectory-trees planned over a prediction horizon of $5\ s$, and a branching horizon set at $1\ s$. The trajectory-tree is discretized at 4 steps per second.
+Performance is evaluated on randomized scenes in simulation. The car dynamics are simulated in Gazebo. Planning occurs at a frequency of $10\text{\,}\mathrm{Hz}$, with trajectory-trees planned over a prediction horizon of $5\text{\,}\mathrm{s}$, and a branching horizon set at $1\text{\,}\mathrm{s}$. The trajectory-tree is discretized at 4 steps per second.
 
-<!-- chunk {"id": "body-0125", "role": "body", "section": "Adaptative Cruise Control among pedestrians", "weight": 1.0} -->
+<!-- chunk {"id": "body-0120", "role": "body", "section": "Adaptative Cruise Control among pedestrians", "weight": 1.0} -->
 
 We compare the results obtained with the trajectory-tree optimization versus two baselines. The first baseline (referred to as single-hypothesis) is a classical MPC approach where a sequential trajectory is planned. To make sure that no collision happens with pedestrians, the hypothesis used is the worst case: as long as the pedestrian's intention is uncertain, the car plans to stop in front of it. The second baseline (refered to as full-observability) is an idealized case, possible only in simulation, the perception module has full information: it knows in advance which pedestrians will cross. It outputs crossing probabilities which are either $0.0$ or $1.0$. This second baseline gives a lower-bound of the control costs. Only a sequential trajectory needs to be planned in this case.
 
+<!-- chunk {"id": "body-0121", "role": "body", "section": "Adaptative Cruise Control among pedestrians", "weight": 1.0} -->
+
+System dynamics: The system dynamics are described by the linear system: where $x$ and $v_{t}$ are respectively the longitudinal coordinate of the vehicle along the road and its velocity. The continuous state is the compound vector $(x,v)$. $u_{t}$ is the controlled acceleration.
+
+<!-- chunk {"id": "body-0122", "role": "body", "section": "Adaptative Cruise Control among pedestrians", "weight": 1.0} -->
+
+Partially observable discrete state: With $N_{p}$ pedestrians located at $x_{0}<..<x_{N_{p}-1}$ ahead of the vehicle, the discrete state can be described by an integer $m\in[0..N_{p}]$ indicating the closest pedestrian who crosses. $m=N_{p}$ is the case where no pedestrian crosses.
+
+<!-- chunk {"id": "body-0123", "role": "body", "section": "Adaptative Cruise Control among pedestrians", "weight": 1.0} -->
+
+We note $p_{m}$ the output of the simulated prediction module giving the crossing probability of the $m^{th}$ pedestrian. The $m^{th}$ pedestrian is the closest crossing pedestrian if: it crosses, and, the pedestrians before him do not cross, such that: Costs and constraints: The trajectory-tree is optimized w.r.t the following trajectory costs: Speed: The matrix $\boldsymbol{Q}=\begin{pmatrix}0&0\\0&k_{v}\end{pmatrix}$^44^4Table 1 ‣ Optimizing Trajectory-Trees in Belief Space: An Application from Model Predictive Control to Task and Motion Planning") is obtained with $k_{u}=5.0$, $k_{v}=1.0$, $d_{safety}=2.5$ m penalizes the velocity difference between the vehicle speed and a given desired velocity.
+
+<!-- chunk {"id": "body-0124", "role": "body", "section": "Adaptative Cruise Control among pedestrians", "weight": 1.0} -->
+
+Acceleration: The square acceleration is penalized, $\boldsymbol{R}=\begin{pmatrix}k_{u}\end{pmatrix}$^††^footnotemark:.
+
+<!-- chunk {"id": "body-0125", "role": "body", "section": "Adaptative Cruise Control among pedestrians", "weight": 1.0} -->
+
+In addition, the following constraints are applied: Stop before the $i^{th}$ pedestrian: A state inequality constraint applies to stop and keep a safe distance to the pedestrian, $x\leq x_{i}-d_{saftey}$^††^footnotemark:. This constraint is applied only when planning with respect to a state hypothesis in which the pedestrian intends to cross.
+
 <!-- chunk {"id": "body-0126", "role": "body", "section": "Adaptative Cruise Control among pedestrians", "weight": 1.0} -->
 
-where $x$ and $v_{t}$ are respectively the longitudinal coordinate of the vehicle along the road and its velocity. The continuous state is the compound vector $(x,v)$. $u_{t}$ is the controlled acceleration.
+Control bounds: Longitudinal acceleration is constrained to stay between bounds $[-8.0,2.0]m/{s^{2}}$.
 
 <!-- chunk {"id": "body-0127", "role": "body", "section": "Adaptative Cruise Control among pedestrians", "weight": 1.0} -->
 
-Partially observable discrete state: With $N_{p}$ pedestrians located at $x_{0} <.. < x_{N_{p} - 1}$ ahead of the vehicle, the discrete state can be described by an integer $m \in {\lbrack 0..N_{p}\rbrack}$ indicating the closest pedestrian who crosses. $m = N_{p}$ is the case where no pedestrian crosses.
+Example of trajectory-trees: Fig. 10 ‣ Optimizing Trajectory-Trees in Belief Space: An Application from Model Predictive Control to Task and Motion Planning") shows a trajectory-tree obtained with a vehicle launched at $48$ km/h ($30$mph) in the presence of 3 pedestrians. Each pedestrian has a $0.15$ probability of crossing. This implies a probability of $0.61$ that the road is free. The trajectory-tree does not brake too hard, but still guarantees that it is possible to come to a stop in the worst case (see red curve in Fig. 10 ‣ Optimizing Trajectory-Trees in Belief Space: An Application from Model Predictive Control to Task and Motion Planning")). On the other hand, the single hypothesis approach brakes much stronger.
 
 <!-- chunk {"id": "body-0128", "role": "body", "section": "Adaptative Cruise Control among pedestrians", "weight": 1.0} -->
 
-We note $p_{m}$ the output of the simulated prediction module giving the crossing probability of the $m^{th}$ pedestrian.
+Influence of the belief state: Fig. 11 ‣ Optimizing Trajectory-Trees in Belief Space: An Application from Model Predictive Control to Task and Motion Planning") focuses on the branching horizon ($t\leq 1.0s$) and shows the influence of the crossing probability. When the probability is low, the planned control is more optimistic, whereas when this probability increases, the control policy becomes more conservative and tends to the single hypothesis case.
 
 <!-- chunk {"id": "body-0129", "role": "body", "section": "Adaptative Cruise Control among pedestrians", "weight": 1.0} -->
 
-Costs and constraints: The trajectory-tree is optimized w.r.t
+Evaluation on random scenarios: The algorithm is tested under various combinations of pedestrian density and pedestrian behavior (average crossing probability). Each run is performed over 30 minutes of simulated driving. We report in Table 1 ‣ Optimizing Trajectory-Trees in Belief Space: An Application from Model Predictive Control to Task and Motion Planning") on the average costs (as defined by the matrices $\boldsymbol{Q}$ and $\boldsymbol{R}$) of the controls which are actually executed, until the next planning cycle occurs. To give a sense of the conservativeness of the car, we indicate the average velocity.
 
 <!-- chunk {"id": "body-0130", "role": "body", "section": "Adaptative Cruise Control among pedestrians", "weight": 1.0} -->
 
-Speed: The matrix ${\mathbf{Q}} = \begin{pmatrix}
-\end{pmatrix}$^44^4Table 1 ‣ Optimizing Trajectory-Trees in Belief Space: An Application from Model Predictive Control to Task and Motion Planning") is obtained with $k_{u} = 5.0$, $k_{v} = 1.0$, $d_{safety} = 2.5$ m penalizes the velocity difference between the vehicle speed and a given desired velocity.
+In Table 1 ‣ Optimizing Trajectory-Trees in Belief Space: An Application from Model Predictive Control to Task and Motion Planning"), we also indictate the performance obtained with simplified trajectory-trees. With 80 pedestrians per km, up to 4 pedestrians can enter the planning horizon such that 5 branches are needed (Tree-5). The variations (Tree-4, Tree-3 and Tree-2) are obtained with a simplified trees (having 4, 3 and 2 branches respectively) to evaluate the benefit of having larger trees versus the computation time.
 
 <!-- chunk {"id": "body-0131", "role": "body", "section": "Adaptative Cruise Control among pedestrians", "weight": 1.0} -->
 
-Acceleration: The square acceleration is penalized, ${\mathbf{R}} = \begin{pmatrix}
-\end{pmatrix}$^††^footnotemark:.
+Percentage of pedestr. crossing Table 1: Performance comparison: Trajectory-trees lead to lower costs than sequential trajectories (single hyp.). The full obs. baseline is an idealized case assuming perfect information.
 
 <!-- chunk {"id": "body-0132", "role": "body", "section": "Adaptative Cruise Control among pedestrians", "weight": 1.0} -->
 
-Stop before the $i^{th}$ pedestrian: A state inequality constraint applies to stop and keep a safe distance to the pedestrian, $x \leq {x_{i} - d_{saftey}}$^††^footnotemark:. This constraint is applied only when planning with respect to a state hypothesis in which the pedestrian intends to cross.
+Results interpretation: Trajectory-trees lead to better control costs than the single hypothesis MPC (up to twice lower costs in the case of 20 pedestrians per km, and 5% of crossing probability). The cost are significantly reduced and come closer to the ideal case with full observability. In particular, the car drives less conservatively, maintains a higher average velocity but still ensures that it is possible to come to a stop safely if a pedestrian would cross. The benefit is more visible when the crossing probability is low (1% and 5%). With 25% of crossing probability and 4 pedestrians in the planning horizon, it is quite likely that at least one pedestrian will cross. This is reflected by the small difference between the single-hypothesis and full observable baselines.
 
 <!-- chunk {"id": "body-0133", "role": "body", "section": "Adaptative Cruise Control among pedestrians", "weight": 1.0} -->
 
-Control bounds: Longitudinal acceleration is constrained to stay between bounds ${{\lbrack{- 8.0},2.0\rbrack}m}/s^{2}$.
+Trajectory-trees with the highest number of branches perform best. This is consistent since the problem structure is best modeled in that case. However, the cost improvement when adding a branch to the tree diminishes with the number of branches, e.g. the improvement is large between the Single-hypothesis case and Tree-2, but is small between Tree-4 and Tree-5. This suggests that, in this example, a simple tree can be a good trade-off between performance and computation time.
 
 <!-- chunk {"id": "body-0134", "role": "body", "section": "Adaptative Cruise Control among pedestrians", "weight": 1.0} -->
 
-Example of trajectory-trees: Fig. 10 ‣ Optimizing Trajectory-Trees in Belief Space: An Application from Model Predictive Control to Task and Motion Planning") shows a trajectory-tree obtained with a vehicle launched at $48$ km/h ($30$mph) in the presence of 3 pedestrians. Each pedestrian has a $0.15$ probability of crossing. This implies a probability of $0.61$ that the road is free. The trajectory-tree does not brake too hard, but still guarantees that it is possible to come to a stop in the worst case (see red curve in Fig. 10 ‣ Optimizing Trajectory-Trees in Belief Space: An Application from Model Predictive Control to Task and Motion Planning")). On the other hand, the single hypothesis approach brakes much stronger.
-
-<!-- chunk {"id": "body-0135", "role": "body", "section": "Adaptative Cruise Control among pedestrians", "weight": 1.0} -->
-
-Influence of the belief state: Fig. 11 ‣ Optimizing Trajectory-Trees in Belief Space: An Application from Model Predictive Control to Task and Motion Planning") focuses on the branching horizon ($t \leq {1.0s}$) and shows the influence of the crossing probability. When the probability is low, the planned control is more optimistic, whereas when this probability increases, the control policy becomes more conservative and tends to the single hypothesis case.
-
-<!-- chunk {"id": "body-0136", "role": "body", "section": "Adaptative Cruise Control among pedestrians", "weight": 1.0} -->
-
-Evaluation on random scenarios: The algorithm is tested under various combinations of pedestrian density and pedestrian behavior (average crossing probability). Each run is performed over 30 minutes of simulated driving. We report in Table 1 ‣ Optimizing Trajectory-Trees in Belief Space: An Application from Model Predictive Control to Task and Motion Planning") on the average costs (as defined by the matrices $\mathbf{Q}$ and $\mathbf{R}$) of the controls which are actually executed, until the next planning cycle occurs. To give a sense of the conservativeness of the car, we indicate the average velocity.
-
-<!-- chunk {"id": "body-0137", "role": "body", "section": "Adaptative Cruise Control among pedestrians", "weight": 1.0} -->
-
-In Table 1 ‣ Optimizing Trajectory-Trees in Belief Space: An Application from Model Predictive Control to Task and Motion Planning"), we also indictate the performance obtained with simplified trajectory-trees. With 80 pedestrians per km, up to 4 pedestrians can enter the planning horizon such that 5 branches are needed (Tree-5). The variations (Tree-4, Tree-3 and Tree-2) are obtained with a simplified trees (having 4, 3 and 2 branches respectively) to evaluate the benefit of having larger trees versus the computation time.
-
-<!-- chunk {"id": "body-0138", "role": "body", "section": "Adaptative Cruise Control among pedestrians", "weight": 1.0} -->
-
-Results interpretation: Trajectory-trees lead to better control costs than the single hypothesis MPC (up to twice lower costs in the case of 20 pedestrians per km, and 5% of crossing probability). The cost are significantly reduced and come closer to the ideal case with full observability. In particular, the car drives less conservatively, maintains a higher average velocity but still ensures that it is possible to come to a stop safely if a pedestrian would cross. The benefit is more visible when the crossing probability is low (1% and 5%). With 25% of crossing probability and 4 pedestrians in the planning horizon, it is quite likely that at least one pedestrian will cross. This is reflected by the small difference between the single-hypothesis and full observable baselines.
-
-<!-- chunk {"id": "body-0139", "role": "body", "section": "Adaptative Cruise Control among pedestrians", "weight": 1.0} -->
-
-Trajectory-trees with the highest number of branches perform best. This is consistent since the problem structure is best modeled in that case. However, the cost improvement when adding a branch to the tree diminishes with the number of branches, e.g. the improvement is large between the Single-hypothesis case and Tree-2, but is small between Tree-4 and Tree-5. This suggests that, in this example, a simple tree can be a good trade-off between performance and computation time.
-
-<!-- chunk {"id": "body-0140", "role": "body", "section": "Adaptative Cruise Control among pedestrians", "weight": 1.0} -->
-
 Trajectory-trees take longer to optimize, but computations remain fast and compatible with a real-time application.
 
-<!-- chunk {"id": "body-0141", "role": "body", "section": "Slalom among uncertain obstacles", "weight": 1.0} -->
+<!-- chunk {"id": "body-0135", "role": "body", "section": "Slalom among uncertain obstacles", "weight": 1.0} -->
 
 In this example, the ego-vehicle drives along a straight reference trajectory. Obstacles appear randomly. Obstacle detection is imperfect: there are false-positives i.e. obstacles are detected although they do not exist. This captures a common problem when working with sensors like radars that can suffer from a high rate of false detections. The simulated detection module also outputs an existence probability for each detected object. The closer the car gets to the obstacle, the more reliable are the observations. Once the distance to obstacle becomes lower than a threshold (randomized in the simulation), the object becomes fully observed: it gets a probability of 1.0 or disappears.
 
-<!-- chunk {"id": "body-0142", "role": "body", "section": "Slalom among uncertain obstacles", "weight": 1.0} -->
+<!-- chunk {"id": "body-0136", "role": "body", "section": "Slalom among uncertain obstacles", "weight": 1.0} -->
 
-Optimization is performed in configuration space using the K-Order-Motion-Optimization (KOMO) formulation. The prediction horizon is set to $5\ s$ with 4 steps per second, and a branching horizon of $1\ s$.
+Optimization is performed in configuration space using the K-Order-Motion-Optimization (KOMO) formulation. The prediction horizon is set to $5\text{\,}\mathrm{s}$ with 4 steps per second, and a branching horizon of $1\text{\,}\mathrm{s}$.
 
-<!-- chunk {"id": "body-0143", "role": "body", "section": "Slalom among uncertain obstacles", "weight": 1.0} -->
+<!-- chunk {"id": "body-0137", "role": "body", "section": "Slalom among uncertain obstacles", "weight": 1.0} -->
 
-State space and kinematics: Optimization is performed in $SE{}$.
+State space and kinematics: Optimization is performed in $SE$. No slippage is assumed, this is enforced by the following non-holonomic constraint: where $\begin{pmatrix}x,y,\theta\end{pmatrix}$ is the vehicle pose.
 
-<!-- chunk {"id": "body-0144", "role": "body", "section": "Slalom among uncertain obstacles", "weight": 1.0} -->
-
-where $\begin{pmatrix}
-\end{pmatrix}$ is the vehicle pose.
-
-<!-- chunk {"id": "body-0145", "role": "body", "section": "Slalom among uncertain obstacles", "weight": 1.0} -->
+<!-- chunk {"id": "body-0138", "role": "body", "section": "Slalom among uncertain obstacles", "weight": 1.0} -->
 
 Partially observable discrete state: The discrete states represent the possible combinations of obstacle existences. With 2 uncertain obstacles in the planning horizon, there are 4 possible states (see Fig. 12 ‣ Optimizing Trajectory-Trees in Belief Space: An Application from Model Predictive Control to Task and Motion Planning")).
 
-<!-- chunk {"id": "body-0146", "role": "body", "section": "Slalom among uncertain obstacles", "weight": 1.0} -->
+<!-- chunk {"id": "body-0139", "role": "body", "section": "Slalom among uncertain obstacles", "weight": 1.0} -->
 
-Acceleration: The square accelerations $\overset{¨}{x}$ and $\overset{¨}{y}$ as well as the square angular acceleration $\overset{¨}{\theta}$.
+Costs and constraints: The following trajectory cost terms are minimized: Acceleration: The square accelerations $\ddot{x}$ and $\ddot{y}$ as well as the square angular acceleration $\ddot{\theta}$.
 
-<!-- chunk {"id": "body-0147", "role": "body", "section": "Slalom among uncertain obstacles", "weight": 1.0} -->
+<!-- chunk {"id": "body-0140", "role": "body", "section": "Slalom among uncertain obstacles", "weight": 1.0} -->
 
 Distance to centerline: The square distance to a reference line.
 
-<!-- chunk {"id": "body-0148", "role": "body", "section": "Slalom among uncertain obstacles", "weight": 1.0} -->
+<!-- chunk {"id": "body-0141", "role": "body", "section": "Slalom among uncertain obstacles", "weight": 1.0} -->
 
 Speed: The square difference to a desired velocity.
 
-<!-- chunk {"id": "body-0149", "role": "body", "section": "Slalom among uncertain obstacles", "weight": 1.0} -->
+<!-- chunk {"id": "body-0142", "role": "body", "section": "Slalom among uncertain obstacles", "weight": 1.0} -->
 
-Kinematics: The non-holonomic constraint, see (9a ‣ Optimizing Trajectory-Trees in Belief Space: An Application from Model Predictive Control to Task and Motion Planning")).
+In addition, the following constraints apply: Kinematics: The non-holonomic constraint, see (9a ‣ Optimizing Trajectory-Trees in Belief Space: An Application from Model Predictive Control to Task and Motion Planning")).
 
-<!-- chunk {"id": "body-0150", "role": "body", "section": "Slalom among uncertain obstacles", "weight": 1.0} -->
+<!-- chunk {"id": "body-0143", "role": "body", "section": "Slalom among uncertain obstacles", "weight": 1.0} -->
 
 Collision Avoidance: The distance to obstacles must stay greater than a safety distance.
 
-<!-- chunk {"id": "body-0151", "role": "body", "section": "Slalom among uncertain obstacles", "weight": 1.0} -->
+<!-- chunk {"id": "body-0144", "role": "body", "section": "Slalom among uncertain obstacles", "weight": 1.0} -->
 
 Unlike the previous example, the non-holonomic and collision avoidance constraints make the problem non-convex.
 
-<!-- chunk {"id": "body-0152", "role": "body", "section": "Slalom among uncertain obstacles", "weight": 1.0} -->
+<!-- chunk {"id": "body-0145", "role": "body", "section": "Slalom among uncertain obstacles", "weight": 1.0} -->
 
 Gradients are computed analytically while we use the gauss-newton approximation of the 2^nd^ order derivatives.
 
-<!-- chunk {"id": "body-0153", "role": "body", "section": "Slalom among uncertain obstacles", "weight": 1.0} -->
+<!-- chunk {"id": "body-0146", "role": "body", "section": "Slalom among uncertain obstacles", "weight": 1.0} -->
 
 Evaluation on random scenarios: Table 2 ‣ Optimizing Trajectory-Trees in Belief Space: An Application from Model Predictive Control to Task and Motion Planning") gathers results obtained when simulating 30 minutes of driving, on average, one potential obstacle every 17 meters resulting overall in 900 uncertain obstacles being encountered. As in the previous example, we compare against two baselines: First, the single-hypothesis MPC which does not use the belief state information and considers all obstacles the same way, regardless of their existence probabilities. Second, the idealized full observability case, without uncertainty.
 
-<!-- chunk {"id": "body-0154", "role": "body", "section": "Slalom among uncertain obstacles", "weight": 1.0} -->
+<!-- chunk {"id": "body-0147", "role": "body", "section": "Slalom among uncertain obstacles", "weight": 1.0} -->
+
+Percentage of false positive Table 2: Performance comparison: Trajectory-trees lead to significantly lower trajectory costs. The fully observable case is an idealized case with full information.
+
+<!-- chunk {"id": "body-0148", "role": "body", "section": "Slalom among uncertain obstacles", "weight": 1.0} -->
 
 Results interpretation: Trajectory-trees consistently result in lower costs within the branching horizon compared to the single-hypothesis baseline. When taking the idealized fully-observable case as a base, the cost reduction amounts to 65% and 74% in scenarios with false positive probabilities of 90% and 75%, respectively. The vehicle exhibits reduced lateral acceleration while successfully avoiding all true obstacles.
 
-<!-- chunk {"id": "body-0155", "role": "body", "section": "Slalom among uncertain obstacles", "weight": 1.0} -->
+<!-- chunk {"id": "body-0149", "role": "body", "section": "Slalom among uncertain obstacles", "weight": 1.0} -->
 
-Computation time required for trajectory-trees is higher than for sequential trajectories but remains largely compatible with the planning frequency of $10\ {Hz}$. Optimization time is higher in the case with 75% of false positive, reflecting the fact that more obstacles are encountered, which results in a higher number of iterations required by the solver to satisfy the collision avoidance constraint.
+Computation time required for trajectory-trees is higher than for sequential trajectories but remains largely compatible with the planning frequency of $10\text{\,}\mathrm{Hz}$. Optimization time is higher in the case with 75% of false positive, reflecting the fact that more obstacles are encountered, which results in a higher number of iterations required by the solver to satisfy the collision avoidance constraint.
 
-<!-- chunk {"id": "body-0156", "role": "body", "section": "Benefit of Optimization Decomposition (D-AuLa)", "weight": 1.0} -->
+<!-- chunk {"id": "body-0150", "role": "body", "section": "Benefit of Optimization Decomposition (D-AuLa)", "weight": 1.0} -->
 
 Optimization times are compared against the scenario where trajectory-tree optimization is not decomposed and treated as a single large joint optimization problem. The undecomposed problem is solved using the same solver, which in this case, effectively reduces to the standard Augmented Lagrangian method. Tests were conducted on a Intel^®^ Core^™^ i5-8300H. The results are shown in Fig. 13 ‣ 4.3 Experiments ‣ 4 Model Predictive Control (MPC) ‣ Optimizing Trajectory-Trees in Belief Space: An Application from Model Predictive Control to Task and Motion Planning").
 
-<!-- chunk {"id": "body-0157", "role": "body", "section": "Benefit of Optimization Decomposition (D-AuLa)", "weight": 1.0} -->
+<!-- chunk {"id": "body-0151", "role": "body", "section": "Benefit of Optimization Decomposition (D-AuLa)", "weight": 1.0} -->
 
-(a) Pedestrian domain: The number of branches is proportional to the number of pedestrians
+(a) Pedestrian domain: The number of branches is proportional to the number of pedestrians (b) Slalom domain: The number of branches is 2n (n is the number of obstacles) Figure 13: Decomposed (D-AuLa) vs. undecomposed (AuLa) optimization: D-AuLa scales exponentially better in the pedestrian case 13a. In the slalom case 13b, it is faster by a factor 2.75.
 
-<!-- chunk {"id": "body-0158", "role": "body", "section": "Benefit of Optimization Decomposition (D-AuLa)", "weight": 1.0} -->
-
-(b) Slalom domain: The number of branches is 2n (n is the number of obstacles)
-
-<!-- chunk {"id": "body-0159", "role": "body", "section": "Benefit of Optimization Decomposition (D-AuLa)", "weight": 1.0} -->
+<!-- chunk {"id": "body-0152", "role": "body", "section": "Benefit of Optimization Decomposition (D-AuLa)", "weight": 1.0} -->
 
 D-AuLa scales nearly linearly with respect to the number of branches. This can be understood easily; one optimizes as many subproblems as branches in the tree, but the size of each subproblem does not change.
 
-<!-- chunk {"id": "body-0160", "role": "body", "section": "Benefit of Optimization Decomposition (D-AuLa)", "weight": 1.0} -->
+<!-- chunk {"id": "body-0153", "role": "body", "section": "Benefit of Optimization Decomposition (D-AuLa)", "weight": 1.0} -->
 
-In the pedestrian example, we use a single shooting transcription. When optimizing sequential trajectories this transcriptions leads to Hessian matrices of the Augmented Lagrangian which are dense. Since the $N$ subroblems are sequential trajectories, the $N$ Hessian matrices are dense. Optimization time is dominated by the computations and Cholesky decompositions these Hessian matrices, which reults in a complexity $\mathcal{O}{({N \times T^{3}})}$ which is cubic with respect to the number of trajectory elements $T$, but linear with respect to the number of subproblems $N$.
+In the pedestrian example, we use a single shooting transcription. When optimizing sequential trajectories this transcriptions leads to Hessian matrices of the Augmented Lagrangian which are dense. Since the $N$ subroblems are sequential trajectories, the $N$ Hessian matrices are dense. Optimization time is dominated by the computations and Cholesky decompositions these Hessian matrices, which reults in a complexity $\mathcal{O}(N\times T^{3})$ which is cubic with respect to the number of trajectory elements $T$, but linear with respect to the number of subproblems $N$.
 
-<!-- chunk {"id": "body-0161", "role": "body", "section": "Benefit of Optimization Decomposition (D-AuLa)", "weight": 1.0} -->
+<!-- chunk {"id": "body-0154", "role": "body", "section": "Benefit of Optimization Decomposition (D-AuLa)", "weight": 1.0} -->
 
-When optimizing jointly (AuLa), we use the same solver setting with dense matrix arithmetic, the total number of elements optimized is $L + {N \times {({T - L})}}$, therefore leading to a complexity of $\mathcal{O}{({({T \times N})}^{3})}$, i.e. cubic with respect to the number of branches $N$. It is however, worth noting, that the Hessian of the undecomposed problem becomes sparse for $N > 1$, and sparsity increases with $N$, such that one could in principle use sparse matrix arithmetic to improve undecomposed optimization.
+When optimizing jointly (AuLa), we use the same solver setting with dense matrix arithmetic, the total number of elements optimized is $L+N\times(T-L)$, therefore leading to a complexity of $\mathcal{O}((T\times N)^{3})$, i.e. cubic with respect to the number of branches $N$. It is however, worth noting, that the Hessian of the undecomposed problem becomes sparse for $N>1$, and sparsity increases with $N$, such that one could in principle use sparse matrix arithmetic to improve undecomposed optimization.
 
-<!-- chunk {"id": "body-0162", "role": "body", "section": "Benefit of Optimization Decomposition (D-AuLa)", "weight": 1.0} -->
+<!-- chunk {"id": "body-0155", "role": "body", "section": "Benefit of Optimization Decomposition (D-AuLa)", "weight": 1.0} -->
 
-When optimizing the undecomposed problem with an off-the-shelf QP solver OSQP specializing in large sparse QPs, we observe that D-AuLa is faster but only for a high number of branches ($N \geq 400$). For $N = 600$, D-AuLa is faster by a factor $7$ with an optimization time of $1.8\ s$ compared to $14.3\ s$ for OSQP. This updates the measurements obtained with OSQP provided in which were including expensive matrix manipulations, taking place outside of the OSQP solver as part of the baseline measurement. The lower optimization times obtained with OSQP for smaller values of $N$ can be attributed, at least in part, to the fact that D-AuLa is not specifically tailored for QP problems and does not exploit certain structural properties inherent to QPs (e.g. constancy of Hessian). It therefore requires a high number of branches such that the benefits of the decomposition with D-AuLa overcome a specialized solver.
+When optimizing the undecomposed problem with an off-the-shelf QP solver OSQP specializing in large sparse QPs, we observe that D-AuLa is faster but only for a high number of branches ($N\geq 400$). For $N=600$, D-AuLa is faster by a factor $7$ with an optimization time of $1.8\text{\,}\mathrm{s}$ compared to $14.3\text{\,}\mathrm{s}$ for OSQP. This updates the measurements obtained with OSQP provided in which were including expensive matrix manipulations, taking place outside of the OSQP solver as part of the baseline measurement. The lower optimization times obtained with OSQP for smaller values of $N$ can be attributed, at least in part, to the fact that D-AuLa is not specifically tailored for QP problems and does not exploit certain structural properties inherent to QPs (e.g. constancy of Hessian). It therefore requires a high number of branches such that the benefits of the decomposition with D-AuLa overcome a specialized solver.
 
-<!-- chunk {"id": "body-0163", "role": "body", "section": "Benefit of Optimization Decomposition (D-AuLa)", "weight": 1.0} -->
+<!-- chunk {"id": "body-0156", "role": "body", "section": "Benefit of Optimization Decomposition (D-AuLa)", "weight": 1.0} -->
 
 In the slalom example, D-AuLa is faster by a constant ratio (approximately 2.75), indicating that both exhibit the same complexity. It is consistent with the theoritical complexity of the trajectory-tree optimization with the T-KOMO transcription as will be explained in Section 5.2.5 ‣ 5.2 PO-LPG Planner ‣ 5 Task and Motion Planning (TAMP) ‣ Optimizing Trajectory-Trees in Belief Space: An Application from Model Predictive Control to Task and Motion Planning"). Optimization time scales linearly with respect to the number of trajectory elements, regardless of the linear or tree structure. Decomposing the optimization brings the benefit of parralelization, but does not change the complexity.
 
-<!-- chunk {"id": "body-0164", "role": "body", "section": "Discussion", "weight": 1.5} -->
+<!-- chunk {"id": "body-0157", "role": "body", "section": "Discussion", "weight": 1.5} -->
 
 These experiments show that the PO-MPC approach leads to lower control costs than a sequential MPC approach, without compromising the robustness of the constraints satisfaction. This translates into a car driving less conservatively without compromising safety.
 
-<!-- chunk {"id": "body-0165", "role": "body", "section": "Discussion", "weight": 1.5} -->
+<!-- chunk {"id": "body-0158", "role": "body", "section": "Discussion", "weight": 1.5} -->
 
 The increased optimization time is significantly mitigated by the D-AuLa method which leverages the decomposability of the PO-MPC control policies. Optimization time is compatible with real-time planning for a moderate number of branches in the trajectory-tree (e.g. five branches in the first example, and four in the second example). D-AuLa is a general method applicable both to linear and non-linear MPC.
 
-<!-- chunk {"id": "body-0166", "role": "body", "section": "Discussion", "weight": 1.5} -->
+<!-- chunk {"id": "body-0159", "role": "body", "section": "Discussion", "weight": 1.5} -->
 
 The first experiment shows that a large part of the performance gain is already obtained with a trajectory-tree with two branches, and the performance improvement is comparatively smaller with five branches. This suggests that, in general, adopting a simplified trajectory-tree, i.e. clustering modalities, can represent a favorable trade-off between performance and computation time.
 
-<!-- chunk {"id": "body-0167", "role": "body", "section": "Discussion", "weight": 1.5} -->
+<!-- chunk {"id": "body-0160", "role": "body", "section": "Discussion", "weight": 1.5} -->
 
 An interesting extension of this work could involve specializing D-AuLa to QP problems, which are common in domains like autonomous driving. Another relevant extension would be to generalize the PO-MPC approach beyond deterministic continuous dynamics. This could be achieved by coupling the presented approach to Tube MPC techniques to account for continuous but statistically bounded disturbances within each modality.
 
-<!-- chunk {"id": "body-0168", "role": "body", "section": "Task and Motion Planning (TAMP)", "weight": 1.0} -->
+<!-- chunk {"id": "body-0161", "role": "body", "section": "Task and Motion Planning (TAMP)", "weight": 1.0} -->
 
 We now develop the trajectory-tree optimization method for partially observable Task and Motion Planning problems. Unlike MPC where the task does not change over the planning horizon, there is here an additional layer of task planning. The goal of the presented approach (PO-LGP), is to determine both the symbolic actions, or policy, along with the corresponding continuous trajectory-tree which optimally solve the partially observable planning problem.
 
-<!-- chunk {"id": "body-0169", "role": "body", "section": "PO-LGP Problem Formulation", "weight": 1.0} -->
+<!-- chunk {"id": "body-0162", "role": "body", "section": "PO-LGP Problem Formulation", "weight": 1.0} -->
 
 We formulate the problem in terms of a decision tree and, for every action edge in this tree, cost and constraint objectives on the continuous trajectory. The decision tree is in belief space, including action and observation branchings.
 
-<!-- chunk {"id": "body-0170", "role": "body", "section": "PO-LGP Problem Formulation", "weight": 1.0} -->
+<!-- chunk {"id": "body-0163", "role": "body", "section": "PO-LGP Problem Formulation", "weight": 1.0} -->
 
 To define a problem we first define the symbolic partially observable decision process that spans this tree. Second, we define the cost and constraints functions that define the optimization objectives for the continuous trajectory optimization problem associated with transitioning through this tree.
 
-<!-- chunk {"id": "body-0171", "role": "body", "section": "PO-LGP Problem Formulation", "weight": 1.0} -->
+<!-- chunk {"id": "body-0164", "role": "body", "section": "PO-LGP Problem Formulation", "weight": 1.0} -->
 
 An optimal trajectory-tree then represents a reactive policy that transitions the tree depending on observations, smoothly switching into different motion options.
 
-<!-- chunk {"id": "body-0172", "role": "body", "section": "State Representation", "weight": 1.0} -->
+<!-- chunk {"id": "body-0165", "role": "body", "section": "State Representation", "weight": 1.0} -->
 
 We use the hybrid, partially observable state representation introduced in Section 3.
 
-<!-- chunk {"id": "body-0173", "role": "body", "section": "State Representation", "weight": 1.0} -->
+<!-- chunk {"id": "body-0166", "role": "body", "section": "State Representation", "weight": 1.0} -->
 
-Continuous state: As typical in the LGP context, the continuous state is $x \in \mathcal{X}$, where $\mathcal{X}$ is the system configuration space. We can write $\mathcal{X} = {{{\mathbb{R}}^{n} \times S}E{}^{m}}$, for an $n$-DOF robot interacting with $m$ rigid objects. While the continuous state space includes both the robot and environment configurations, only the robot's joint trajectory is directly optimized. The environment evolves implicitly through kinematic constraints imposed by the symbolic plan structure^55^5In scenarios involving underactuated dynamics---such as non-prehensile manipulation---the non-actuated DOFs are likewise included as optimization variables, subject to cost and constraint functions that model the physical interactions, as is standard in LGP, see e.g.
+Continuous state: As typical in the LGP context, the continuous state is $x\in\mathcal{X}$, where $\mathcal{X}$ is the system configuration space. We can write $\mathcal{X}=\mathbb{R}^{n}\times SE^{m}$, for an $n$-DOF robot interacting with $m$ rigid objects. While the continuous state space includes both the robot and environment configurations, only the robot's joint trajectory is directly optimized. The environment evolves implicitly through kinematic constraints imposed by the symbolic plan structure^55^5In scenarios involving underactuated dynamics---such as non-prehensile manipulation---the non-actuated DOFs are likewise included as optimization variables, subject to cost and constraint functions that model the physical interactions, as is standard in LGP, see e.g.
 
-<!-- chunk {"id": "body-0174", "role": "body", "section": "State Representation", "weight": 1.0} -->
+<!-- chunk {"id": "body-0167", "role": "body", "section": "State Representation", "weight": 1.0} -->
 
 Although, this definition does not explicitly represent dynamic quantities such as velocity or acceleration, these are implicitly accounted for through cost and constraint functions that operate on consecutive configuration tuples along the trajectory, as further detailed in Section 5.1.4 ‣ Optimizing Trajectory-Trees in Belief Space: An Application from Model Predictive Control to Task and Motion Planning").
 
-<!-- chunk {"id": "body-0175", "role": "body", "section": "State Representation", "weight": 1.0} -->
+<!-- chunk {"id": "body-0168", "role": "body", "section": "State Representation", "weight": 1.0} -->
 
 Symbolic state: The symbolic state $s$ represents discrete aspects of the planning problem. Unlike in the MPC case where the robot does not control the symbolic state, it is here coupled to a decision process with symbolic actions, as described in the next section.
 
-<!-- chunk {"id": "body-0176", "role": "body", "section": "State Representation", "weight": 1.0} -->
+<!-- chunk {"id": "body-0169", "role": "body", "section": "State Representation", "weight": 1.0} -->
 
 In the example introduced in Fig. 1, the continuous state is the robot's and blocks' configurations. The symbolic state models the color of a block's colored side, as well as structural relations, such as which blocks are stacked on others. The orientation of the colored side of the block (a continuous variable) and its color (a symbolic variable) are not directly observable. Figure 14 ‣ Optimizing Trajectory-Trees in Belief Space: An Application from Model Predictive Control to Task and Motion Planning") illustrates a state hypotheses in case of a scene with two blocks.
 
-<!-- chunk {"id": "body-0177", "role": "body", "section": "State Representation", "weight": 1.0} -->
+<!-- chunk {"id": "body-0170", "role": "body", "section": "State Representation", "weight": 1.0} -->
 
-(colored block_0 side_0) (block_0 red) (colored block_1 side_2) (block_1 green)
+(colored block_0 side_0) (block_0 red) (colored block_1 side_2) (block_1 green) (colored block_0 side_1) (block_0 green) (colored block_1 side_0) (block_1 red) Figure 14: Example of hypotheses: The continuous part represents the normal vector of the colored face. It corresponds to a logical fact in the symbolic part indicating which side is colored. The symbolic state also contains the blocks’ colors. There are 72 hypotheses (asuming each side can be the colored side).
 
-<!-- chunk {"id": "body-0178", "role": "body", "section": "State Representation", "weight": 1.0} -->
-
-(colored block_0 side_1) (block_0 green) (colored block_1 side_0) (block_1 red)
-
-<!-- chunk {"id": "body-0179", "role": "body", "section": "State Representation", "weight": 1.0} -->
+<!-- chunk {"id": "body-0171", "role": "body", "section": "State Representation", "weight": 1.0} -->
 
 Relation between the continuous and symbolic latent states: We assume that the continuous state hypotheses are linked to symbolic symbols. This linkage is necessary because the observation model of the decision process (described in the next section) is defined over symbolic states. Thus, inference about continuous aspects of the environment is performed through their symbolic counterparts. For example, in Fig. 14 ‣ Optimizing Trajectory-Trees in Belief Space: An Application from Model Predictive Control to Task and Motion Planning"), the orientation of a block's colored side is encoded symbolically.
 
-<!-- chunk {"id": "body-0180", "role": "body", "section": "Assumed Decision Process", "weight": 1.0} -->
+<!-- chunk {"id": "body-0172", "role": "body", "section": "Assumed Decision Process", "weight": 1.0} -->
 
-We model the decision process by a 7-tuple $(S,\mathcal{X},A,T,\Omega,O,C,G)$, where,
+We model the decision process by a 7-tuple $(S,\mathcal{X},A,T,\Omega,O,C,G)$, where, $S$ is a finite set of symbolic states $\mathcal{X}$ is the continuous state space $A$ is a finite set of symbolic actions $T$ is a transition model giving the next state $s^{\prime}=T(s,a)$ of $s$ after taking action $a$ $\Omega$ is a finite set of observations $O$ is an observation model giving the observation $o=O(s,a)$ after taking action $a$ and reaching state $s$ $C$ is a cost model defined by tuples of cost and constraints functions $(c_{a},h_{a},g_{a})$, which evaluate trajectories implementing an action $a\in A$ $G$ is a set of goal conditions defined over the symbolic state space $S$.
 
-<!-- chunk {"id": "body-0181", "role": "body", "section": "Assumed Decision Process", "weight": 1.0} -->
+<!-- chunk {"id": "body-0173", "role": "body", "section": "Assumed Decision Process", "weight": 1.0} -->
 
-$\mathcal{X}$ is the continuous state space
+A belief state is terminal if all its hypotheses with non-zero probability are terminal This is a POMDP with the following distinctions: Implicit cost-based objective: The optimization objective is defined in terms of cost minimization rather than reward maximization. Importantly, the action costs are not specified numerically, but are instead defined implicitly through the cost and constraint functions applying on the trajectory-tree. Evaluating an action's cost thus entails solving a constrained optimization problem.
 
-<!-- chunk {"id": "body-0182", "role": "body", "section": "Assumed Decision Process", "weight": 1.0} -->
-
-$T$ is a transition model giving the next state $s^{\prime} = {T{(s,a)}}$ of $s$ after taking action $a$
-
-<!-- chunk {"id": "body-0183", "role": "body", "section": "Assumed Decision Process", "weight": 1.0} -->
-
-$O$ is an observation model giving the observation $o = {O{(s,a)}}$ after taking action $a$ and reaching state $s$
-
-<!-- chunk {"id": "body-0184", "role": "body", "section": "Assumed Decision Process", "weight": 1.0} -->
-
-$C$ is a cost model defined by tuples of cost and constraints functions $(c_{a},h_{a},g_{a})$, which evaluate trajectories implementing an action $a \in A$
-
-<!-- chunk {"id": "body-0185", "role": "body", "section": "Assumed Decision Process", "weight": 1.0} -->
-
-$G$ is a set of goal conditions defined over the symbolic state space $S$. A belief state is terminal if all its hypotheses with non-zero probability are terminal
-
-<!-- chunk {"id": "body-0186", "role": "body", "section": "Assumed Decision Process", "weight": 1.0} -->
-
-Implicit cost-based objective: The optimization objective is defined in terms of cost minimization rather than reward maximization. Importantly, the action costs are not specified numerically, but are instead defined implicitly through the cost and constraint functions applying on the trajectory-tree. Evaluating an action's cost thus entails solving a constrained optimization problem.
-
-<!-- chunk {"id": "body-0187", "role": "body", "section": "Assumed Decision Process", "weight": 1.0} -->
+<!-- chunk {"id": "body-0174", "role": "body", "section": "Assumed Decision Process", "weight": 1.0} -->
 
 Deterministic transitions: The action transition model $T$, as well as the observation model $O$, map each state-action pair to a next state and observation, respectively. This corresponds to the assumption that the action and observation processes are deterministic, which is less general than the standard POMDP formulation, where transitions and observations are typically stochastic.
 
-<!-- chunk {"id": "body-0188", "role": "body", "section": "Assumed Decision Process", "weight": 1.0} -->
+<!-- chunk {"id": "body-0175", "role": "body", "section": "Assumed Decision Process", "weight": 1.0} -->
 
 The assumption of deterministic symbolic actions parallels the earlier assumption of deterministic continuous-state dynamics introduced in Section 3.3 but at the symbolic level. The assumption of deterministic observations limits the number of reachable belief states, and thereby the size of trajectory-trees. It also allows the goal conditions $G$ to be defined over the state space directly, instead of being predicates in belief space. We discuss in Section 5.5 ‣ Optimizing Trajectory-Trees in Belief Space: An Application from Model Predictive Control to Task and Motion Planning") how the framework can be generalized beyond those assumptions.
 
-<!-- chunk {"id": "body-0189", "role": "body", "section": "Assumed Decision Process", "weight": 1.0} -->
+<!-- chunk {"id": "body-0176", "role": "body", "section": "Assumed Decision Process", "weight": 1.0} -->
 
 In the experiments, we use a first-order logic language, similar to PDDL to model the decision process. As is common in PDDL-based representations, actions are associated with explicit preconditions. For instance, a robot's gripper must be free before a grasp action can be executed. These preconditions do not appear explicitly in the POMDP formalism introduced above, where the actions are assumed to be available in every state. However, preconditions can still be captured, by interpreting actions whose preconditions are not satisfied as incurring infinite cost.
 
-<!-- chunk {"id": "body-0190", "role": "body", "section": "Decision Tree", "weight": 1.0} -->
+<!-- chunk {"id": "body-0177", "role": "body", "section": "Decision Tree", "weight": 1.0} -->
 
-Given an initial belief $b_{0}$, the decision process spans an AND/OR decision tree with each node corresonding to a belief state.
+Given an initial belief $b_{0}$, the decision process spans an AND/OR decision tree with each node corresonding to a belief state. The tree contains two kinds of nodes: In *action nodes* the agent chooses an action In *observation nodes* the agent receives an observation At action nodes, the probability distribution of the belief state does not change, but the symbolic state of each hypothesis $m\in\mathcal{H}$ is updated by applying the action $a$, i.e, At observation nodes, multiple observations may be possible, giving rise to distinct contingencies. This branching occurs despite the observation model being deterministic and reflects the underlying uncertainty in the belief state. Upon reception of an observation $o$, the probability of each hypothesis $m$ is updated according to: where $b^{\prime}(m)$ denotes the updated probability of hypothesis $m$, and $p(o\mid s^{\prime}_{m},a)$ is the probability of receiving observation $o$.
 
-<!-- chunk {"id": "body-0191", "role": "body", "section": "Decision Tree", "weight": 1.0} -->
+<!-- chunk {"id": "body-0178", "role": "body", "section": "Decision Tree", "weight": 1.0} -->
 
-In *action nodes* the agent chooses an action
+Since the observation model $O$ is deterministic, $p(o\mid s^{\prime}_{m},a)$ is either $0.0$ or $1.0$. Hypotheses incompatible with the observation $o$ are assigned zero likelihood. The entropy of the belief state therefore decreases after each observation, and the belief eventually collapses to a single hypothesis with probability $1.0$ once all initially uncertain aspects have been observed.^66^6In small problems, a single observation may suffice to fully resolve the belief state, as in Fig. 16 ‣ Optimizing Trajectory-Trees in Belief Space: An Application from Model Predictive Control to Task and Motion Planning"). In general, however, multiple observation stages are needed to reveal all initially latent aspects (see Fig. 21 ‣ Optimizing Trajectory-Trees in Belief Space: An Application from Model Predictive Control to Task and Motion Planning")).
 
-<!-- chunk {"id": "body-0192", "role": "body", "section": "Decision Tree", "weight": 1.0} -->
-
-In *observation nodes* the agent receives an observation
-
-<!-- chunk {"id": "body-0193", "role": "body", "section": "Decision Tree", "weight": 1.0} -->
-
-At action nodes, the probability distribution of the belief state does not change, but the symbolic state of each hypothesis $m \in \mathcal{H}$ is updated by applying the action $a$, i.e,
-
-<!-- chunk {"id": "body-0194", "role": "body", "section": "Decision Tree", "weight": 1.0} -->
-
-At observation nodes, multiple observations may be possible, giving rise to distinct contingencies. This branching occurs despite the observation model being deterministic and reflects the underlying uncertainty in the belief state.
-
-<!-- chunk {"id": "body-0195", "role": "body", "section": "Decision Tree", "weight": 1.0} -->
-
-where $b^{\prime}{(m)}$ denotes the updated probability of hypothesis $m$, and $p{({o \mid {s_{m}^{\prime},a}})}$ is the probability of receiving observation $o$. Since the observation model $O$ is deterministic, $p{({o \mid {s_{m}^{\prime},a}})}$ is either $0.0$ or $1.0$. Hypotheses incompatible with the observation $o$ are assigned zero likelihood. The entropy of the belief state therefore decreases after each observation, and the belief eventually collapses to a single hypothesis with probability $1.0$ once all initially uncertain aspects have been observed.^66^6In small problems, a single observation may suffice to fully resolve the belief state, as in Fig. 16 ‣ Optimizing Trajectory-Trees in Belief Space: An Application from Model Predictive Control to Task and Motion Planning").
-
-<!-- chunk {"id": "body-0196", "role": "body", "section": "Decision Tree", "weight": 1.0} -->
-
-In general, however, multiple observation stages are needed to reveal all initially latent aspects (see Fig. 21 ‣ Optimizing Trajectory-Trees in Belief Space: An Application from Model Predictive Control to Task and Motion Planning")).
-
-<!-- chunk {"id": "body-0197", "role": "body", "section": "Decision Tree", "weight": 1.0} -->
+<!-- chunk {"id": "body-0179", "role": "body", "section": "Decision Tree", "weight": 1.0} -->
 
 An equivalent view on the problem is to model it as a Markov Decision Process (MDP) in belief space, where observation branching is not formally linked to observations, but tied to the action stochasticity. While formally equivalent, we favor the description using the POMDP formalism (albeit with deterministic transition), as it highlights more clearly the explicit role of observations and information gathering in the decision process.
 
-<!-- chunk {"id": "body-0198", "role": "body", "section": "Decision Tree", "weight": 1.0} -->
+<!-- chunk {"id": "body-0180", "role": "body", "section": "Decision Tree", "weight": 1.0} -->
 
 Example of decision tree: Consider a simplified version of the example introduced in Fig. 1 with only the green and blue blocks. The robot can pick up blocks, place them on the top of another block or on the table. The robot also has a Look action to observe a block's color. The Fig. 15 ‣ Optimizing Trajectory-Trees in Belief Space: An Application from Model Predictive Control to Task and Motion Planning") shows the decision tree at an early stage of its expansion. At the node, the color of the picked up blocked is observed which leads to two outcoming edges corresponding to the two possibilites. In this example, observation branching is sparse. Only the observation nodes following a Look action have more than one child.
 
-<!-- chunk {"id": "body-0199", "role": "body", "section": "Decision Tree", "weight": 1.0} -->
+<!-- chunk {"id": "body-0181", "role": "body", "section": "Decision Tree", "weight": 1.0} -->
 
 Decision tree vs. decision graph: Some nodes in the decision tree may be symbolically equivalent like the root node and the node in Fig. 15 ‣ Optimizing Trajectory-Trees in Belief Space: An Application from Model Predictive Control to Task and Motion Planning"): the robot picked up a block only to put it back on the table. However, in general, the geometric states are different in these two nodes since the optimal position of the block after placing it back on the table may differ from its initial position. We therefore represent the decision process as a tree, which allows us to attach geometric information to edges (cost and trajectory pieces as described in Section 5.2.2 ‣ Optimizing Trajectory-Trees in Belief Space: An Application from Model Predictive Control to Task and Motion Planning") and 5.2.3 ‣ Optimizing Trajectory-Trees in Belief Space: An Application from Model Predictive Control to Task and Motion Planning")) without loss of generality. This is in contrast to where it was represented as a graph, thereby limiting the geometric configurations explored during the search.
 
-<!-- chunk {"id": "body-0200", "role": "body", "section": "Decision Tree", "weight": 1.0} -->
+<!-- chunk {"id": "body-0182", "role": "body", "section": "Decision Tree", "weight": 1.0} -->
 
 The tree representation increases the search space for task planning which we mitigate by adopting a Monte-Carlo sampling (see Section 5.2.1 ‣ Optimizing Trajectory-Trees in Belief Space: An Application from Model Predictive Control to Task and Motion Planning")).
 
-<!-- chunk {"id": "body-0201", "role": "body", "section": "Decision Tree", "weight": 1.0} -->
+<!-- chunk {"id": "body-0183", "role": "body", "section": "Decision Tree", "weight": 1.0} -->
 
 Candidate policies: The node in Fig. 15 ‣ Optimizing Trajectory-Trees in Belief Space: An Application from Model Predictive Control to Task and Motion Planning") is a terminal, since the block colors are known, and the blue block is stacked on the green one. Finding a terminal node is however not enough to solve the planning problem, a solution needs to cover all contingences. This implies that the policies will be themselves tree-like.
 
-<!-- chunk {"id": "body-0202", "role": "body", "section": "Decision Tree", "weight": 1.0} -->
+<!-- chunk {"id": "body-0184", "role": "body", "section": "Decision Tree", "weight": 1.0} -->
 
 More formally, a policy $\pi$ is a mapping from a symbolic belief state to an action. Since the belief space dynamics are described by the decision tree, $\pi$ maps decision tree nodes to actions. A policy reaching the goal condition, on the symbolic level, is a sub-set of the decision tree, where each action node has only one outcoming edge (the action has been decided), and which leaves are terminal nodes. We call this a candidate policy.
 
-<!-- chunk {"id": "body-0203", "role": "body", "section": "Decision Tree", "weight": 1.0} -->
+<!-- chunk {"id": "body-0185", "role": "body", "section": "Decision Tree", "weight": 1.0} -->
 
 Fig. 16 ‣ Optimizing Trajectory-Trees in Belief Space: An Application from Model Predictive Control to Task and Motion Planning") shows a candidate policy. Candidate policies form the symbolic part of a trajectory-tree as defined in Section 3. The procedure for extracting candidate policies from the decision tree is detailed in Section 5.2.2 ‣ Optimizing Trajectory-Trees in Belief Space: An Application from Model Predictive Control to Task and Motion Planning").
 
-<!-- chunk {"id": "body-0204", "role": "body", "section": "Trajectory-Trees", "weight": 1.0} -->
+<!-- chunk {"id": "body-0186", "role": "body", "section": "Trajectory-Trees", "weight": 1.0} -->
 
 The candidate policies defined above, reach the goal conditions on the symbolic level, but are not yet refined into a full trajectory-tree. As there are no costs or rewards defined solely at the symbolic level, candidate policies cannot be directly compared. However, at the geometric level, different candidate policies will lead to different trajectory costs, and some may prove infeasible. Here, we define the trajectory-tree optimization problem associated with a candidate policy.
 
-<!-- chunk {"id": "body-0205", "role": "body", "section": "Trajectory-Trees", "weight": 1.0} -->
+<!-- chunk {"id": "body-0187", "role": "body", "section": "Trajectory-Trees", "weight": 1.0} -->
 
 In typical trajectory optimization, the objective is given as a set of constraints and sum of cost terms along the trajectory. In our setting, we generalize this to a set of constraints and sum of cost terms for each action edge in the tree, weighted by the probability of being in the corresponding belief state.
 
-<!-- chunk {"id": "body-0206", "role": "body", "section": "Trajectory-Trees", "weight": 1.0} -->
+<!-- chunk {"id": "body-0188", "role": "body", "section": "Trajectory-Trees", "weight": 1.0} -->
 
-Let $a \in A$ be the action taken by the agent in belief state $b$ during the time interval $\lbrack t_{k},t_{k + 1}\rbrack$. This action implies cost and constraint functions $c_{a}$, $g_{a}$ and $h_{a}$ on the trajectory.
+Let $a\in A$ be the action taken by the agent in belief state $b$ during the time interval $[t_{k},t_{k+1}]$. This action implies cost and constraint functions $c_{a}$, $g_{a}$ and $h_{a}$ on the trajectory.
 
-<!-- chunk {"id": "body-0207", "role": "body", "section": "Trajectory-Trees", "weight": 1.0} -->
+<!-- chunk {"id": "body-0189", "role": "body", "section": "Trajectory-Trees", "weight": 1.0} -->
 
-Let $x^{\text{known}}{(t)}$ denote the components of the state whose values are known at time $t$. This includes all observable components $x^{\text{observable}}{(t)}$, as well as latent components $x^{\text{latent}}{(t)}$ whose values have been resolved through belief inference. We then define the aggregated vector $\mathbf{x}^{\text{known}}{(t)}$ as the collection of $x^{\text{known}}{(t)}$ and its time derivatives up to order $k \in {\mathbb{N}}$, i.e.,
+Let $x^{\text{known}}(t)$ denote the components of the state whose values are known at time $t$. This includes all observable components $x^{\text{observable}}(t)$, as well as latent components $x^{\text{latent}}(t)$ whose values have been resolved through belief inference. We then define the aggregated vector $\mathbf{x}^{\text{known}}(t)$ as the collection of $x^{\text{known}}(t)$ and its time derivatives up to order $k\in\mathbb{N}$, i.e., We define the cost of action $a$ in belief space $b$ as, and $c(a,b)=+\infty$ if any of the constraints are not satisfied. By defining the costs over $\mathbf{x}^{\text{known}}$ we restrict the robot to act on parts of the system which are either fully observable, or which have been discovered earlier on the trajectory-tree via observations.
 
-<!-- chunk {"id": "body-0208", "role": "body", "section": "Trajectory-Trees", "weight": 1.0} -->
+<!-- chunk {"id": "body-0190", "role": "body", "section": "Trajectory-Trees", "weight": 1.0} -->
 
-We define the cost of action $a$ in belief space $b$ as,
+The number of derivative $k$ is a global parameter. Actions may be primarily defined over the configurations (i.e., zero-order), as is the case for the observation actions used in the experiments (Section 5.2.6 ‣ Optimizing Trajectory-Trees in Belief Space: An Application from Model Predictive Control to Task and Motion Planning")). However, all actions typically also involve higher-order cost and constraint terms to ensure smoothness and adherence to physical limits. In the experiments, we use $k=2$, and squared joint accelerations are minimized throughout the entire trajectory-tree, alongside action-specific costs and constraints.
 
-<!-- chunk {"id": "body-0209", "role": "body", "section": "Trajectory-Trees", "weight": 1.0} -->
-
-and ${c{(a,b)}} = {+ \infty}$ if any of the constraints are not satisfied. By defining the costs over $\mathbf{x}^{\text{known}}$ we restrict the robot to act on parts of the system which are either fully observable, or which have been discovered earlier on the trajectory-tree via observations. The number of derivative $k$ is a global parameter. Actions may be primarily defined over the configurations (i.e., zero-order), as is the case for the observation actions used in the experiments (Section 5.2.6 ‣ Optimizing Trajectory-Trees in Belief Space: An Application from Model Predictive Control to Task and Motion Planning")). However, all actions typically also involve higher-order cost and constraint terms to ensure smoothness and adherence to physical limits. In the experiments, we use $k = 2$, and squared joint accelerations are minimized throughout the entire trajectory-tree, alongside action-specific costs and constraints.
-
-<!-- chunk {"id": "body-0210", "role": "body", "section": "Trajectory-Trees", "weight": 1.0} -->
+<!-- chunk {"id": "body-0191", "role": "body", "section": "Trajectory-Trees", "weight": 1.0} -->
 
 This definition links the symbolic decision making in belief space to trajectory costs. A policy $\pi$, which is a tree of actions defines an optimization problem on a trajectory-tree. We use $\psi$ to denote a continuous trajectory-tree.
 
-<!-- chunk {"id": "body-0211", "role": "body", "section": "Trajectory-Trees", "weight": 1.0} -->
+<!-- chunk {"id": "body-0192", "role": "body", "section": "Trajectory-Trees", "weight": 1.0} -->
 
 The cost and constraints functions are defined by the symbolic action $a$, in contrast to the PO-MPC method, where they are directly linked to the state $s$. This reflects the fact that in PO-MPC, the agent does not take symbolic actions, but rather plans reactively based on the current belief state. In contrast, PO-LGP explicitly incorporates symbolic actions, which serve as the primary drivers of the robot's motion. The dependency on the state remains, but is implicit via the preconditions necessary to undertake an action $a$ in state $s$.
 
-<!-- chunk {"id": "body-0212", "role": "body", "section": "Optimal Trajectory-Tree", "weight": 1.0} -->
+<!-- chunk {"id": "body-0193", "role": "body", "section": "Optimal Trajectory-Tree", "weight": 1.0} -->
 
-We can now define the problem as finding a symbolic policy $\pi$ and a continuous trajectory-tree $\psi$ that minimize the expected costs given the initial belief state $b_{0}$,
+We can now define the problem as finding a symbolic policy $\pi$ and a continuous trajectory-tree $\psi$ that minimize the expected costs given the initial belief state $b_{0}$, Here, the expectation is with respect to the probability $p(b,b_{0})$ of visiting a belief node in the decision tree. Together $(\pi^{\star},\psi^{\star})$ form the optimal trajectory-tree $\Pi^{\star}$.
 
-<!-- chunk {"id": "body-0213", "role": "body", "section": "Optimal Trajectory-Tree", "weight": 1.0} -->
-
-Here, the expectation is with respect to the probability $p{(b,b_{0})}$ of visiting a belief node in the decision tree. Together $(\pi^{\star},\psi^{\star})$ form the optimal trajectory-tree $\Pi^{\star}$.
-
-<!-- chunk {"id": "body-0214", "role": "body", "section": "PO-LPG Planner", "weight": 1.0} -->
+<!-- chunk {"id": "body-0194", "role": "body", "section": "PO-LPG Planner", "weight": 1.0} -->
 
 We propose a planner that works in three stages, schematized in Fig. 17 ‣ Optimizing Trajectory-Trees in Belief Space: An Application from Model Predictive Control to Task and Motion Planning") and detailed in Algorithm 1 ‣ Optimizing Trajectory-Trees in Belief Space: An Application from Model Predictive Control to Task and Motion Planning"). First, the decision tree is expanded (line 2 ‣ Optimizing Trajectory-Trees in Belief Space: An Application from Model Predictive Control to Task and Motion Planning"), and developed in Section 5.2.1 ‣ Optimizing Trajectory-Trees in Belief Space: An Application from Model Predictive Control to Task and Motion Planning")). Second, we alternate Dynamic Programming on the decision tree and piecewise trajectory optimization to compute candidate policies $\pi$ along with a set of trajectory pieces $\psi$.
 
-<!-- chunk {"id": "body-0215", "role": "body", "section": "PO-LPG Planner", "weight": 1.0} -->
+<!-- chunk {"id": "body-0195", "role": "body", "section": "PO-LPG Planner", "weight": 1.0} -->
 
 This corresponds to the lines 3 ‣ Optimizing Trajectory-Trees in Belief Space: An Application from Model Predictive Control to Task and Motion Planning") to 9 ‣ Optimizing Trajectory-Trees in Belief Space: An Application from Model Predictive Control to Task and Motion Planning") and detailed in Sections 5.2.2 ‣ Optimizing Trajectory-Trees in Belief Space: An Application from Model Predictive Control to Task and Motion Planning") and 5.2.3 ‣ Optimizing Trajectory-Trees in Belief Space: An Application from Model Predictive Control to Task and Motion Planning"). These pieces do not yet form a globally optimal trajectory-tree, but inform the policy optimization about the cost and feasibility associated with actions.
 
-<!-- chunk {"id": "body-0216", "role": "body", "section": "PO-LPG Planner", "weight": 1.0} -->
+<!-- chunk {"id": "body-0196", "role": "body", "section": "PO-LPG Planner", "weight": 1.0} -->
 
 In the third stage we fix $\pi^{\star}$ and optimize the full continuous trajectory-tree $\psi^{\star}$ jointly (line 11 ‣ Optimizing Trajectory-Trees in Belief Space: An Application from Model Predictive Control to Task and Motion Planning") detailed in Section 5.2.5 ‣ 5.2 PO-LPG Planner ‣ 5 Task and Motion Planning (TAMP) ‣ Optimizing Trajectory-Trees in Belief Space: An Application from Model Predictive Control to Task and Motion Planning")).
 
-<!-- chunk {"id": "body-0217", "role": "body", "section": "PO-LPG Planner", "weight": 1.0} -->
+<!-- chunk {"id": "body-0197", "role": "body", "section": "PO-LPG Planner", "weight": 1.0} -->
 
-1:function Plan(b0) ⊳ Parameters: cm c t s, c0
-5: πp r e v ← π ⊳ Save π for comparison line 9
-Algorithm 1 TAMP outer loop
+1:function Plan(b0) ⊳ Parameters: cmcts, c0 5: πprev ← π ⊳ Save π for comparison line 9 Algorithm 1 TAMP outer loop The optimization of trajectory pieces in line 6 ‣ Optimizing Trajectory-Trees in Belief Space: An Application from Model Predictive Control to Task and Motion Planning") raises substantial computational costs, especially since it is performed in a loop for each candidate policy. Our solver involves several mechanisms to decide whether it is worth computing these trajectory pieces. These mechanisms include: controlling the size of the decision tree via a parameter $c_{mcts}$, and a mechanism akin to Rmax, controlled by a parameter $c_{0}$, to decide if an action of the decision tree should be "explored".
 
-<!-- chunk {"id": "body-0218", "role": "body", "section": "PO-LPG Planner", "weight": 1.0} -->
-
-The optimization of trajectory pieces in line 6 ‣ Optimizing Trajectory-Trees in Belief Space: An Application from Model Predictive Control to Task and Motion Planning") raises substantial computational costs, especially since it is performed in a loop for each candidate policy. Our solver involves several mechanisms to decide whether it is worth computing these trajectory pieces. These mechanisms include: controlling the size of the decision tree via a parameter $c_{mcts}$, and a mechanism akin to Rmax, controlled by a parameter $c_{0}$, to decide if an action of the decision tree should be "explored".
-
-<!-- chunk {"id": "body-0219", "role": "body", "section": "Sampling of the Decision Tree", "weight": 1.0} -->
+<!-- chunk {"id": "body-0198", "role": "body", "section": "Sampling of the Decision Tree", "weight": 1.0} -->
 
 The decision tree is expanded from the start belief state using a Monte-Carlo based Partially Observable Upper Confidence Trees algorithm (PO-UCT) described.
 
-<!-- chunk {"id": "body-0220", "role": "body", "section": "Sampling of the Decision Tree", "weight": 1.0} -->
+<!-- chunk {"id": "body-0199", "role": "body", "section": "Sampling of the Decision Tree", "weight": 1.0} -->
 
-A key aspect of PO-UCT is that a state is sampled from the belief state at the begining of each iteration. In our case with deterministic transitions and observation models, this implies that traversing the decision tree becomes fully deterministic without branching, as in the fully observable case. At action nodes, the action minimizing the Upper Confidence Bound ${- {\mathcal{C}{(b,a)}}} + {c_{mcts}\sqrt{\log{(\frac{N{(b)}}{N{(b,a)}})}}}$ is selected, where $c_{mcts}$ is an exploration parameter as mentioned in Algorithm 1 ‣ Optimizing Trajectory-Trees in Belief Space: An Application from Model Predictive Control to Task and Motion Planning"). $\mathcal{C}{(b,a)}$ is the current estimate of the expected costs to go. $N{(b)}$ and $N{(b,a)}$ are the visit counters.
+A key aspect of PO-UCT is that a state is sampled from the belief state at the begining of each iteration. In our case with deterministic transitions and observation models, this implies that traversing the decision tree becomes fully deterministic without branching, as in the fully observable case. At action nodes, the action minimizing the Upper Confidence Bound $-\mathcal{C}(b,a)+c_{mcts}\sqrt{\log(\frac{N(b)}{N(b,a)})}$ is selected, where $c_{mcts}$ is an exploration parameter as mentioned in Algorithm 1 ‣ Optimizing Trajectory-Trees in Belief Space: An Application from Model Predictive Control to Task and Motion Planning"). $\mathcal{C}(b,a)$ is the current estimate of the expected costs to go. $N(b)$ and $N(b,a)$ are the visit counters. This is the standard upper-confidence-bound used here for cost minimization instead of reward maximization.
 
-<!-- chunk {"id": "body-0221", "role": "body", "section": "Sampling of the Decision Tree", "weight": 1.0} -->
+<!-- chunk {"id": "body-0200", "role": "body", "section": "Sampling of the Decision Tree", "weight": 1.0} -->
 
-This is the standard upper-confidence-bound used here for cost minimization instead of reward maximization. Rollouts are performed using random actions down to a given maximal depth (typically 50 actions). At this step, no motions have been planned such that the true trajectory costs, and the feasibility of actions are not known. We assume that all actions have equal costs, which directs the expansion towards solutions minimizing the number of actions. Iterations are stopped once the decision tree contains at least one solution policy, and once a minimum number of iterations is reached.
+Rollouts are performed using random actions down to a given maximal depth (typically 50 actions). At this step, no motions have been planned such that the true trajectory costs, and the feasibility of actions are not known. We assume that all actions have equal costs, which directs the expansion towards solutions minimizing the number of actions. Iterations are stopped once the decision tree contains at least one solution policy, and once a minimum number of iterations is reached.
 
-<!-- chunk {"id": "body-0222", "role": "body", "section": "Sampling of the Decision Tree", "weight": 1.0} -->
+<!-- chunk {"id": "body-0201", "role": "body", "section": "Sampling of the Decision Tree", "weight": 1.0} -->
 
 Unlike in a typical usage of PO-UCT where the end result is the solution policy, we are interested in the expanded decision tree, which we will use as search space in the next stages. The goal is to expand the decision tree enough such that it contains enough candidate policies for the policy improvement phase, without resorting to a systematic uninformed expansion which would result in an unnecessarily large decision tree.
 
-<!-- chunk {"id": "body-0223", "role": "body", "section": "Dynamic Programming on the Decision Tree", "weight": 1.0} -->
+<!-- chunk {"id": "body-0202", "role": "body", "section": "Dynamic Programming on the Decision Tree", "weight": 1.0} -->
 
-We assume that at any point in time we have cost estimates $c{(a,b)}$ for each action $a$ in belief state $b$ in the decision tree. These costs are first initialized with a low, optimistic value $c_{0}$ as mentioned in Algorithm 1 ‣ Optimizing Trajectory-Trees in Belief Space: An Application from Model Predictive Control to Task and Motion Planning"). Only when an candidate policy makes it likely to actually visit the edge $(b,a)$ do we compute more precise estimates using piecewise trajectory optimization, as described below. Given the current cost estimates, an exact expectation of the costs to goal is computed. This is performed by applying dynamic programming as described in Algorithm 2 ‣ Optimizing Trajectory-Trees in Belief Space: An Application from Model Predictive Control to Task and Motion Planning").
+We assume that at any point in time we have cost estimates $c(a,b)$ for each action $a$ in belief state $b$ in the decision tree. These costs are first initialized with a low, optimistic value $c_{0}$ as mentioned in Algorithm 1 ‣ Optimizing Trajectory-Trees in Belief Space: An Application from Model Predictive Control to Task and Motion Planning"). Only when an candidate policy makes it likely to actually visit the edge $(b,a)$ do we compute more precise estimates using piecewise trajectory optimization, as described below. Given the current cost estimates, an exact expectation of the costs to goal is computed. This is performed by applying dynamic programming as described in Algorithm 2 ‣ Optimizing Trajectory-Trees in Belief Space: An Application from Model Predictive Control to Task and Motion Planning").
 
-<!-- chunk {"id": "body-0224", "role": "body", "section": "Dynamic Programming on the Decision Tree", "weight": 1.0} -->
+<!-- chunk {"id": "body-0203", "role": "body", "section": "Dynamic Programming on the Decision Tree", "weight": 1.0} -->
 
-10: /* Apply Bellman updates */
-Algorithm 2 Computation of the expected costs
+10: /* Apply Bellman updates */Algorithm 2 Computation of the expected costs First, a queue of action nodes of the decision tree is built, where nodes are ranked by increasing costs to a terminal node. Terminal nodes are placed in the queue. The expected costs to goal are initialized to infinity for non-terminal nodes (lines 3 ‣ Optimizing Trajectory-Trees in Belief Space: An Application from Model Predictive Control to Task and Motion Planning") to 9 ‣ Optimizing Trajectory-Trees in Belief Space: An Application from Model Predictive Control to Task and Motion Planning")).
 
-<!-- chunk {"id": "body-0225", "role": "body", "section": "Dynamic Programming on the Decision Tree", "weight": 1.0} -->
-
-First, a queue of action nodes of the decision tree is built, where nodes are ranked by increasing costs to a terminal node. Terminal nodes are placed in the queue. The expected costs to goal are initialized to infinity for non-terminal nodes (lines 3 ‣ Optimizing Trajectory-Trees in Belief Space: An Application from Model Predictive Control to Task and Motion Planning") to 9 ‣ Optimizing Trajectory-Trees in Belief Space: An Application from Model Predictive Control to Task and Motion Planning")).
-
-<!-- chunk {"id": "body-0226", "role": "body", "section": "Dynamic Programming on the Decision Tree", "weight": 1.0} -->
+<!-- chunk {"id": "body-0204", "role": "body", "section": "Dynamic Programming on the Decision Tree", "weight": 1.0} -->
 
 Next, a node $w$ is taken from the queue and a new expected cost is computed for its action parent $u$ (lines 12 ‣ Optimizing Trajectory-Trees in Belief Space: An Application from Model Predictive Control to Task and Motion Planning") to 16 ‣ Optimizing Trajectory-Trees in Belief Space: An Application from Model Predictive Control to Task and Motion Planning")). If the new expected cost improves the current estimate, it is saved, and $u$ is placed on the queue (lines 17 ‣ Optimizing Trajectory-Trees in Belief Space: An Application from Model Predictive Control to Task and Motion Planning") to 19 ‣ Optimizing Trajectory-Trees in Belief Space: An Application from Model Predictive Control to Task and Motion Planning")). This procedure is repeated until the queue is empty.
 
-<!-- chunk {"id": "body-0227", "role": "body", "section": "Dynamic Programming on the Decision Tree", "weight": 1.0} -->
+<!-- chunk {"id": "body-0205", "role": "body", "section": "Dynamic Programming on the Decision Tree", "weight": 1.0} -->
 
-where $O{(b,a)}$ is the set of possible observations received after executing the action $a$. $O{(\left. o \middle| {b,a} \right.)}$ is the probability of receiving the observation $o$ after executing $a$ (corresponding to $p{(\left. v \middle| u \right.)}$ line 16 ‣ Optimizing Trajectory-Trees in Belief Space: An Application from Model Predictive Control to Task and Motion Planning")). $T{(b,a,o)}$ indicates the successor of $b$ after taking action $a$ and receiving observation $o$. These nodes correspond to $\mathcal{W}$ in line 16 ‣ Optimizing Trajectory-Trees in Belief Space: An Application from Model Predictive Control to Task and Motion Planning").
+The computation of the new costs (line 16 ‣ Optimizing Trajectory-Trees in Belief Space: An Application from Model Predictive Control to Task and Motion Planning")), together with the comparison to the current estimate (line 17 ‣ Optimizing Trajectory-Trees in Belief Space: An Application from Model Predictive Control to Task and Motion Planning")) corresponds to the application of the following Bellman update: where $O(b,a)$ is the set of possible observations received after executing the action $a$. $O(o|b,a)$ is the probability of receiving the observation $o$ after executing $a$ (corresponding to $p(v|u)$ line 16 ‣ Optimizing Trajectory-Trees in Belief Space: An Application from Model Predictive Control to Task and Motion Planning")). $T(b,a,o)$ indicates the successor of $b$ after taking action $a$ and receiving observation $o$. These nodes correspond to $\mathcal{W}$ in line 16 ‣ Optimizing Trajectory-Trees in Belief Space: An Application from Model Predictive Control to Task and Motion Planning").
 
-<!-- chunk {"id": "body-0228", "role": "body", "section": "Dynamic Programming on the Decision Tree", "weight": 1.0} -->
+<!-- chunk {"id": "body-0206", "role": "body", "section": "Dynamic Programming on the Decision Tree", "weight": 1.0} -->
 
 This algorithm takes advantage of the tree structure to update the expected costs from the leaves to the root, minimizing the number of Bellman updates compared to a standard Value Iteration algorithm as used. Nodes that do not lead to any leaf---thereby constituting dead ends---retain their initial infinite cost throughout the procedure, as no Bellman update assigns them a finite value. The same applies to nodes that lead to a leaf only through an action edge with infinite cost, are assigned an infinite cost by the Bellman update. This case occurs when the piecewise trajectory optimization reported infeasibility of an action, as detailed in the next section. The Bellman updates propagate the infeasibility information throughout the relevant portions of the decision tree.
 
-<!-- chunk {"id": "body-0229", "role": "body", "section": "Dynamic Programming on the Decision Tree", "weight": 1.0} -->
+<!-- chunk {"id": "body-0207", "role": "body", "section": "Dynamic Programming on the Decision Tree", "weight": 1.0} -->
 
 A candidate policy $\pi$ is straightforwardly extracted by traversing the decision tree from the root and choosing at each action node the action with the lowest expected costs.
 
-<!-- chunk {"id": "body-0230", "role": "body", "section": "Dynamic Programming on the Decision Tree", "weight": 1.0} -->
+<!-- chunk {"id": "body-0208", "role": "body", "section": "Dynamic Programming on the Decision Tree", "weight": 1.0} -->
 
 An infinite cost at the root node at the end of the procedure indicates that the decision tree does not contain a valid solution. Either the decision tree has not been expanded enough or the planning problem is infeasible.
 
-<!-- chunk {"id": "body-0231", "role": "body", "section": "Piecewise Trajectory Optimization", "weight": 1.0} -->
+<!-- chunk {"id": "body-0209", "role": "body", "section": "Piecewise Trajectory Optimization", "weight": 1.0} -->
 
-A given policy $\pi¸$ transitions only a small subset of action edges of the full decision tree. For this set of action edges we compute $c{(a,b)}$ (if it was not already computed in previous iterations).
+A given policy $\pi¸$ transitions only a small subset of action edges of the full decision tree. For this set of action edges we compute $c(a,b)$ (if it was not already computed in previous iterations). For the sake of computational efficiency, $c(a,b)$ is estimated in two stages: We first optimize key-frames only (robot pose at each node). This step is much quicker than optimizing a full trajectory piece. If an action is impossible at this stage, the optimization is not pursued further. Infinite costs are returned, thereby making this node and sub-tree unreachable by the candidate policies. The pose feasibility check is optimistic, it might succeed even if the path itself is infeasible (e.g. if there is no possible trajectory without collision between two key-frames).
 
-<!-- chunk {"id": "body-0232", "role": "body", "section": "Piecewise Trajectory Optimization", "weight": 1.0} -->
+<!-- chunk {"id": "body-0210", "role": "body", "section": "Piecewise Trajectory Optimization", "weight": 1.0} -->
 
-We first optimize key-frames only (robot pose at each node). This step is much quicker than optimizing a full trajectory piece. If an action is impossible at this stage, the optimization is not pursued further. Infinite costs are returned, thereby making this node and sub-tree unreachable by the candidate policies. The pose feasibility check is optimistic, it might succeed even if the path itself is infeasible (e.g. if there is no possible trajectory without collision between two key-frames).
+If pose optimization reports feasibility, we then optimize the trajectory piece, minimizing (10 ‣ Optimizing Trajectory-Trees in Belief Space: An Application from Model Predictive Control to Task and Motion Planning")), to get the cost estimate $c(a,b)$. We use a time discretization of 20 frames per action. Optimization is performed using the K-Order-Motion-Optimization method (KOMO) adopted. We save the computed trajectory piece and its cost $c(a,b)$ which will be used in the next round of Dynamic Programming. The final configurations of the trajectory piece are used as initial state for the following action edges. If piecewise trajectory failed to converge to a feasible solution, the cost $c(a,b)$ is set to infinity, as defined in (10 ‣ Optimizing Trajectory-Trees in Belief Space: An Application from Model Predictive Control to Task and Motion Planning")).
 
-<!-- chunk {"id": "body-0233", "role": "body", "section": "Piecewise Trajectory Optimization", "weight": 1.0} -->
-
-If pose optimization reports feasibility, we then optimize the trajectory piece, minimizing (10 ‣ Optimizing Trajectory-Trees in Belief Space: An Application from Model Predictive Control to Task and Motion Planning")), to get the cost estimate $c{(a,b)}$. We use a time discretization of 20 frames per action. Optimization is performed using the K-Order-Motion-Optimization method (KOMO) adopted. We save the computed trajectory piece and its cost $c{(a,b)}$ which will be used in the next round of Dynamic Programming. The final configurations of the trajectory piece are used as initial state for the following action edges. If piecewise trajectory failed to converge to a feasible solution, the cost $c{(a,b)}$ is set to infinity, as defined in (10 ‣ Optimizing Trajectory-Trees in Belief Space: An Application from Model Predictive Control to Task and Motion Planning")).
-
-<!-- chunk {"id": "body-0234", "role": "body", "section": "Piecewise Trajectory Optimization", "weight": 1.0} -->
+<!-- chunk {"id": "body-0211", "role": "body", "section": "Piecewise Trajectory Optimization", "weight": 1.0} -->
 
 In the case of observation actions, as described in Section 5.2.6 ‣ Optimizing Trajectory-Trees in Belief Space: An Application from Model Predictive Control to Task and Motion Planning"), infeasibility arises when the robot is unable to position its sensor within the visibility cone of the target object.
 
-<!-- chunk {"id": "body-0235", "role": "body", "section": "Piecewise Trajectory Optimization", "weight": 1.0} -->
+<!-- chunk {"id": "body-0212", "role": "body", "section": "Piecewise Trajectory Optimization", "weight": 1.0} -->
 
-There may be a strong overlap between candidate policies (same edge in many candidate policies). This is especially the case in the last iterations of Policy improvement, saving computational costs as computing $c{(a,b)}$ is performed only once. Intuitively, as we alternate between Dynamic Programming and Piecewise trajectory planning, the decision tree is informed with precise estimates of the costs of actions until convergence to a final policy $\pi^{\star}$.
+There may be a strong overlap between candidate policies (same edge in many candidate policies). This is especially the case in the last iterations of Policy improvement, saving computational costs as computing $c(a,b)$ is performed only once. Intuitively, as we alternate between Dynamic Programming and Piecewise trajectory planning, the decision tree is informed with precise estimates of the costs of actions until convergence to a final policy $\pi^{\star}$.
 
-<!-- chunk {"id": "body-0236", "role": "body", "section": "Choice of $c_{0}$ and Exploration vs. Explotation tradeoff", "weight": 1.0} -->
+<!-- chunk {"id": "body-0213", "role": "body", "section": "Choice of $c_{0}$ and Exploration vs. Explotation tradeoff", "weight": 1.0} -->
 
-The use of optimistic initializations $c_{0}$ of $c{(a,b)}$ is analogous to the R-Max algorithm and allows us to control exploration vs. exploitation within the policy optimization. An optimistic initial $c_{0}$ (e.g., zero costs) encourages exploration, since unexplored actions will appear advantageous compared to actions associated with costs resulting from the piecewise trajectory optimization.
+The use of optimistic initializations $c_{0}$ of $c(a,b)$ is analogous to the R-Max algorithm and allows us to control exploration vs. exploitation within the policy optimization. An optimistic initial $c_{0}$ (e.g., zero costs) encourages exploration, since unexplored actions will appear advantageous compared to actions associated with costs resulting from the piecewise trajectory optimization.
 
-<!-- chunk {"id": "body-0237", "role": "body", "section": "Choice of $c_{0}$ and Exploration vs. Explotation tradeoff", "weight": 1.0} -->
+<!-- chunk {"id": "body-0214", "role": "body", "section": "Choice of $c_{0}$ and Exploration vs. Explotation tradeoff", "weight": 1.0} -->
 
 On the other hand, when chosing $c_{0}$ less optimistically, we lose the guarantees that come with admissible heuristics, but may converge faster to reasonable policies. Our experiments will investigate the influence of the cost initialization on the number of iterations.
 
-<!-- chunk {"id": "body-0238", "role": "body", "section": "Choice of $c_{0}$ and Exploration vs. Explotation tradeoff", "weight": 1.0} -->
+<!-- chunk {"id": "body-0215", "role": "body", "section": "Choice of $c_{0}$ and Exploration vs. Explotation tradeoff", "weight": 1.0} -->
 
 Convergence to the best policy contained in the decision tree is guaranteed if $c_{0}$ is chosen as a lower bound of the piecewise trajectory costs.
 
-<!-- chunk {"id": "body-0239", "role": "body", "section": "Joint Trajectory-Tree Optimization (T-KOMO)", "weight": 1.0} -->
+<!-- chunk {"id": "body-0216", "role": "body", "section": "Joint Trajectory-Tree Optimization (T-KOMO)", "weight": 1.0} -->
 
 In the third stage of the solver, we fix the symbolic policy $\pi^{\star}$ found, as described above, and focus on the joint optimization of the trajectory-tree $\psi$. So far we have only optimized pieces for each action independently. Concatenating these pieces cannot capture long-term dependencies in the trajectories, e.g. when final actions influence earlier parts of the trajectory. The joint optimization of the trajectory-tree leads to better and smoother motions as the experiments show. It is performed only once for the best symbolic policy $\pi^{\star}$.
 
-<!-- chunk {"id": "body-0240", "role": "body", "section": "Joint Trajectory-Tree Optimization (T-KOMO)", "weight": 1.0} -->
+<!-- chunk {"id": "body-0217", "role": "body", "section": "Joint Trajectory-Tree Optimization (T-KOMO)", "weight": 1.0} -->
 
-Joint optimization objective: Let $\psi$ be the trajectory-tree composed of a total of $N$ configurations. $\psi$ implements the policy $\pi$. We index the trajectory elements in a depth-first way. We note $p_{i}$ the probability to reach the $i^{\text{th}}$ configuration. By definition, $p_{0} = 1.0$, and this probability does not change between two consecutive configurations on a sequential part of the trajectory. The probability evolves at observation branchings based on the branching probability derived from the observation model $\mathcal{O}$. Fig. 18 ‣ 5.2 PO-LPG Planner ‣ 5 Task and Motion Planning (TAMP) ‣ Optimizing Trajectory-Trees in Belief Space: An Application from Model Predictive Control to Task and Motion Planning") illustrates the indexing of $\psi$ and how cost and constraints functions apply on consecutive configurations. We note $\alpha{(j,n)}$ the $n^{\text{th}}$ ancestor of the $j^{\text{th}}$ configuration.
+Joint optimization objective: Let $\psi$ be the trajectory-tree composed of a total of $N$ configurations. $\psi$ implements the policy $\pi$. We index the trajectory elements in a depth-first way. We note $p_{i}$ the probability to reach the $i^{\text{th}}$ configuration. By definition, $p_{0}=1.0$, and this probability does not change between two consecutive configurations on a sequential part of the trajectory. The probability evolves at observation branchings based on the branching probability derived from the observation model $\mathcal{O}$. Fig. 18 ‣ 5.2 PO-LPG Planner ‣ 5 Task and Motion Planning (TAMP) ‣ Optimizing Trajectory-Trees in Belief Space: An Application from Model Predictive Control to Task and Motion Planning") illustrates the indexing of $\psi$ and how cost and constraints functions apply on consecutive configurations. We note $\alpha(j,n)$ the $n^{\text{th}}$ ancestor of the $j^{\text{th}}$ configuration.
 
-<!-- chunk {"id": "body-0241", "role": "body", "section": "Joint Trajectory-Tree Optimization (T-KOMO)", "weight": 1.0} -->
+<!-- chunk {"id": "body-0218", "role": "body", "section": "Joint Trajectory-Tree Optimization (T-KOMO)", "weight": 1.0} -->
 
-To keep notations compact, we note $\psi_{{j - k}:j}$ the $k$-th-tuple composed of the configurations leading to $j$ for a given motion order $k$, i.e. $\psi_{{j - k}:j} = {(\psi_{\alpha{(i,{k - 1})}},\ldots,\psi_{\alpha{(i,1)}},\psi_{i})}$. The prefix $\psi_{{k - 1}:0}$ are the configurations before the trajectory-tree; assuming them to be known simplifies the notation, without the need to introduce a special notation for the first $k$ terms.
+To keep notations compact, we note $\psi_{j-k:j}$ the $k$-th-tuple composed of the configurations leading to $j$ for a given motion order $k$, i.e. $\psi_{j-k:j}=(\psi_{\alpha(i,k-1)},...,\psi_{\alpha(i,1)},\psi_{i})$. The prefix $\psi_{k-1:0}$ are the configurations before the trajectory-tree; assuming them to be known simplifies the notation, without the need to introduce a special notation for the first $k$ terms.
 
-<!-- chunk {"id": "body-0242", "role": "body", "section": "Joint Trajectory-Tree Optimization (T-KOMO)", "weight": 1.0} -->
+<!-- chunk {"id": "body-0219", "role": "body", "section": "Joint Trajectory-Tree Optimization (T-KOMO)", "weight": 1.0} -->
 
-The $k$-order trajectory-tree optimization problem is formulated as,
+The $k$-order trajectory-tree optimization problem is formulated as, where the functions $c$, $g$ and $h$ are the functions defined in (10 ‣ Optimizing Trajectory-Trees in Belief Space: An Application from Model Predictive Control to Task and Motion Planning")). These functions are indexed by $i$ and not by the symbolic action $a$ since at this stage motions are discretized (typically 20 configurations per actions). This optimization objective corresponds to the initial problem formulation (11 ‣ Optimizing Trajectory-Trees in Belief Space: An Application from Model Predictive Control to Task and Motion Planning")) for a fixed candidate policy $\pi$ and over a discretized representation of the trajectory-tree. The cost terms $c_{i}(\psi_{i-k:i})$ are weighted by the probability to reach a given configuration of the tree, which leads to trajetory-trees more optimized towards likely configuration than unlikely ones. The motion order $k$ is the number of consecutive configurations needed by the cost and constraints functions, e.g. $k=2$ for costs defined on the acceleration.
 
-<!-- chunk {"id": "body-0243", "role": "body", "section": "Joint Trajectory-Tree Optimization (T-KOMO)", "weight": 1.0} -->
-
-where the functions $c$, $g$ and $h$ are the functions defined in (10 ‣ Optimizing Trajectory-Trees in Belief Space: An Application from Model Predictive Control to Task and Motion Planning")). These functions are indexed by $i$ and not by the symbolic action $a$ since at this stage motions are discretized (typically 20 configurations per actions). This optimization objective corresponds to the initial problem formulation (11 ‣ Optimizing Trajectory-Trees in Belief Space: An Application from Model Predictive Control to Task and Motion Planning")) for a fixed candidate policy $\pi$ and over a discretized representation of the trajectory-tree. The cost terms $c_{i}{(\psi_{{i - k}:i})}$ are weighted by the probability to reach a given configuration of the tree, which leads to trajetory-trees more optimized towards likely configuration than unlikely ones. The motion order $k$ is the number of consecutive configurations needed by the cost and constraints functions, e.g. $k = 2$ for costs defined on the acceleration.
-
-<!-- chunk {"id": "body-0244", "role": "body", "section": "Joint Trajectory-Tree Optimization (T-KOMO)", "weight": 1.0} -->
+<!-- chunk {"id": "body-0220", "role": "body", "section": "Joint Trajectory-Tree Optimization (T-KOMO)", "weight": 1.0} -->
 
 This optimization problem formulation generalizes the K-order Motion Optimization (KOMO) to tree-like trajectories.
 
-<!-- chunk {"id": "body-0245", "role": "body", "section": "Joint Trajectory-Tree Optimization (T-KOMO)", "weight": 1.0} -->
+<!-- chunk {"id": "body-0221", "role": "body", "section": "Joint Trajectory-Tree Optimization (T-KOMO)", "weight": 1.0} -->
 
 Optimizing the trajectory-tree: The optimization objective (13a ‣ 5.2 PO-LPG Planner ‣ 5 Task and Motion Planning (TAMP) ‣ Optimizing Trajectory-Trees in Belief Space: An Application from Model Predictive Control to Task and Motion Planning")) is a constrained optimization problem that we optimize with the D-AuLa solver introduced in Section 4.2 ‣ 4 Model Predictive Control (MPC) ‣ Optimizing Trajectory-Trees in Belief Space: An Application from Model Predictive Control to Task and Motion Planning") but without decomposition into subproblems (i.e. with a number of subproblems equal to one). In that case, the D-AuLa algorithm effectively reduces to the standard Augmented Lagrangian method (see Appendix A.1 ‣ Appendix A Background on the Augmented Lagrangian and ADMM Methods ‣ Optimizing Trajectory-Trees in Belief Space: An Application from Model Predictive Control to Task and Motion Planning")). We do not apply decomposition by default since, unlike in the MPC use case, there is no decomposition generally applicable to TAMP problems.
 
-<!-- chunk {"id": "body-0246", "role": "body", "section": "Joint Trajectory-Tree Optimization (T-KOMO)", "weight": 1.0} -->
+<!-- chunk {"id": "body-0222", "role": "body", "section": "Joint Trajectory-Tree Optimization (T-KOMO)", "weight": 1.0} -->
 
 Moreover, runtime is less critical in the TAMP use case since the joint optimization is performed only on one policy. A comparison of the optimization time with and without problem decomposition is provided in Table 5 ‣ Optimizing Trajectory-Trees in Belief Space: An Application from Model Predictive Control to Task and Motion Planning").
 
-<!-- chunk {"id": "body-0247", "role": "body", "section": "Joint Trajectory-Tree Optimization (T-KOMO)", "weight": 1.0} -->
+<!-- chunk {"id": "body-0223", "role": "body", "section": "Joint Trajectory-Tree Optimization (T-KOMO)", "weight": 1.0} -->
 
-As mentioned in the solver section, the optimization procedure consists in performing several Newton minimizations of the Augmented Lagrangian using a Gauss-Newton approximation of the Hessian. A computationally intensive part is the Hessian Cholesky decomposition. In the sequential trajectory optimization, the KOMO problem formulation leads to a banded-symmetric Hessian with bandwidth ${({{2k} + 1})}n$ where $n$ is the number of degress of freedom. This results in a complexity which is only linear in the number of timsteps $N$ for the Cholesky decomposition. We refer the reader to for more details. When optimizing a trajectory-tree, the Hessian is not banded symmetric anymore, as shown in Fig. 19 ‣ 5.2 PO-LPG Planner ‣ 5 Task and Motion Planning (TAMP) ‣ Optimizing Trajectory-Trees in Belief Space: An Application from Model Predictive Control to Task and Motion Planning").
+As mentioned in the solver section, the optimization procedure consists in performing several Newton minimizations of the Augmented Lagrangian using a Gauss-Newton approximation of the Hessian. A computationally intensive part is the Hessian Cholesky decomposition. In the sequential trajectory optimization, the KOMO problem formulation leads to a banded-symmetric Hessian with bandwidth $(2k+1)n$ where $n$ is the number of degress of freedom. This results in a complexity which is only linear in the number of timsteps $N$ for the Cholesky decomposition. We refer the reader to for more details. When optimizing a trajectory-tree, the Hessian is not banded symmetric anymore, as shown in Fig. 19 ‣ 5.2 PO-LPG Planner ‣ 5 Task and Motion Planning (TAMP) ‣ Optimizing Trajectory-Trees in Belief Space: An Application from Model Predictive Control to Task and Motion Planning").
 
-<!-- chunk {"id": "body-0248", "role": "body", "section": "Joint Trajectory-Tree Optimization (T-KOMO)", "weight": 1.0} -->
+<!-- chunk {"id": "body-0224", "role": "body", "section": "Joint Trajectory-Tree Optimization (T-KOMO)", "weight": 1.0} -->
 
 However, the Hessian is still as sparse as in the sequential trajectory case. We resort to sparse matrix arithmetic for the Hessian decomposition (instead of banded-symmetric) which leads to similar computation time in practice. In other words, optimizing a trajectory-tree of $N$ elements is as complex as optimizing a sequential trajectory with the same number of elements. The linear complexity with respect to the number of trajectory elements is verified empirically (see Fig. 27c ‣ Optimizing Trajectory-Trees in Belief Space: An Application from Model Predictive Control to Task and Motion Planning")).
 
-<!-- chunk {"id": "body-0249", "role": "body", "section": "Joint Trajectory-Tree Optimization (T-KOMO)", "weight": 1.0} -->
+<!-- chunk {"id": "body-0225", "role": "body", "section": "Joint Trajectory-Tree Optimization (T-KOMO)", "weight": 1.0} -->
 
 To reduce computation time, the optimization is warm-started with the results of the piecewise optimization.
 
-<!-- chunk {"id": "body-0250", "role": "body", "section": "Observation Actions", "weight": 1.0} -->
+<!-- chunk {"id": "body-0226", "role": "body", "section": "Observation Actions", "weight": 1.0} -->
 
 In the examples we consider in the experiments, not all actions will provide observations. We use a dedicated Look action instead. Fig.20 ‣ Optimizing Trajectory-Trees in Belief Space: An Application from Model Predictive Control to Task and Motion Planning") shows the grounding we use for this action. The cost and constraints functions determine where the sensor should be placed such that, at execution time, knowledge is gained.
 
-<!-- chunk {"id": "body-0251", "role": "body", "section": "Observation Actions", "weight": 1.0} -->
+<!-- chunk {"id": "body-0227", "role": "body", "section": "Observation Actions", "weight": 1.0} -->
 
 This grounding is formulated based on the relative pose between the sensor and the object to observe. It does not determine, by itself, if the sensor or the object should be moved during the action. The possible and most advantageous joints to action for fulfilling the action depends on the scene kinematic, and will result from the optimization. In the examples using the Baxter, this leads the robot to move both its head and arm, as shown in Fig. 1b.
 
-<!-- chunk {"id": "body-0252", "role": "body", "section": "Observation Actions", "weight": 1.0} -->
+<!-- chunk {"id": "body-0228", "role": "body", "section": "Observation Actions", "weight": 1.0} -->
 
 Under this formulation, trajectories that satisfy the geometric constraints associated with observation actions are assumed to lead to an observation according to the observation model $O$. In this example, this implicitly assumes that sufficient conditions for successful object detection are known and can be encoded through geometric constraints. In practice, additional factors (e.g., lighting conditions) may affect perception performance, potentially resulting in non-detections even when the sensor viewpoint satisfies the specified constraints. Such events fall outside the planning assumptions and would require replanning, analogously to failures of other symbolic actions such as grasping.
 
-<!-- chunk {"id": "body-0253", "role": "body", "section": "Implications of Policy Selection Based on Piecewise Optimization", "weight": 1.0} -->
+<!-- chunk {"id": "body-0229", "role": "body", "section": "Implications of Policy Selection Based on Piecewise Optimization", "weight": 1.0} -->
 
 The planning procedure described in the previous sections determines the final symbolic policy based on piecewise trajectory optimization, where actions are optimized independently. This constitutes a trade-off between computational efficiency and completeness or optimality. It is efficient because an action edge of the decision tree shared among multiple candidate policies needs to be optimized only once. This also enables the use of Dynamic Programming for generating candidate policies.
 
-<!-- chunk {"id": "body-0254", "role": "body", "section": "Implications of Policy Selection Based on Piecewise Optimization", "weight": 1.0} -->
+<!-- chunk {"id": "body-0230", "role": "body", "section": "Implications of Policy Selection Based on Piecewise Optimization", "weight": 1.0} -->
 
 However, this decomposition implies that trajectory pieces of early actions are fixed before subsequent planning, which may create unfavorable conditions for later actions, potentially resulting in infeasibility or high costs. In such cases, the propagation of infinite or high costs during Dynamic Programming may rule out otherwise viable parts of the decision tree, potentially resulting in a suboptimal final policy or, in the worst case, no feasible policy being found.
 
-<!-- chunk {"id": "body-0255", "role": "body", "section": "Implications of Policy Selection Based on Piecewise Optimization", "weight": 1.0} -->
+<!-- chunk {"id": "body-0231", "role": "body", "section": "Implications of Policy Selection Based on Piecewise Optimization", "weight": 1.0} -->
 
 This limitation is partially mitigated by the final joint re-optimization of the selected policy, although this re-optimization does not alter the choice of symbolic policy itself.
 
-<!-- chunk {"id": "body-0256", "role": "body", "section": "Implications of Policy Selection Based on Piecewise Optimization", "weight": 1.0} -->
+<!-- chunk {"id": "body-0232", "role": "body", "section": "Implications of Policy Selection Based on Piecewise Optimization", "weight": 1.0} -->
 
-Introduce symbolic action variants (e.g., grasp-from-top vs. grasp-from-side), thereby exposing geometric alternatives at the logic level. This is already supported within the current framework but only allows predetermined alternatives.
+In domains where strong causal dependencies between geometric decisions are critical, several directions may be considered: Introduce symbolic action variants (e.g., grasp-from-top vs. grasp-from-side), thereby exposing geometric alternatives at the logic level. This is already supported within the current framework but only allows predetermined alternatives.
 
-<!-- chunk {"id": "body-0257", "role": "body", "section": "Implications of Policy Selection Based on Piecewise Optimization", "weight": 1.0} -->
+<!-- chunk {"id": "body-0233", "role": "body", "section": "Implications of Policy Selection Based on Piecewise Optimization", "weight": 1.0} -->
 
 Perform the search directly over complete policies, as in classical LGP in the fully observable case, thereby relying more heavily on joint trajectory-tree optimization.
 
-<!-- chunk {"id": "body-0258", "role": "body", "section": "Implications of Policy Selection Based on Piecewise Optimization", "weight": 1.0} -->
+<!-- chunk {"id": "body-0234", "role": "body", "section": "Implications of Policy Selection Based on Piecewise Optimization", "weight": 1.0} -->
 
 Introduce mechanisms to reconsider piecewise trajectories upon failure of subsequent actions. This requires varying the optimization problem of an action (10 ‣ Optimizing Trajectory-Trees in Belief Space: An Application from Model Predictive Control to Task and Motion Planning")), for example by introducing additional parameters that may be sampled (e.g. goal pose for grasping). Related ideas of interleaving refinement and policy recomputation have been explored.
 
-<!-- chunk {"id": "body-0259", "role": "body", "section": "Experiments", "weight": 1.0} -->
+<!-- chunk {"id": "body-0235", "role": "body", "section": "Experiments", "weight": 1.0} -->
 
 The solver is implemented in C++. The source code and a supplementary video are available for reference.^77^7
 
-<!-- chunk {"id": "body-0260", "role": "body", "section": "Planning Problems", "weight": 1.0} -->
+<!-- chunk {"id": "body-0236", "role": "body", "section": "Planning Problems", "weight": 1.0} -->
 
 We consider the Baxter and Franka robots with the task to stack blocks in a given color order (blue, green and red on top). The blocks only have one side colored. The robot knows where blocks are, but it cannot see the colored side from the initial position, and therefore has to explore to identify the blocks and build the stack.
 
-<!-- chunk {"id": "body-0261", "role": "body", "section": "Planning Problems", "weight": 1.0} -->
+<!-- chunk {"id": "body-0237", "role": "body", "section": "Planning Problems", "weight": 1.0} -->
 
 We plan using using the Baxter's right arm (7 DOF) and assume a sensor is placed on the Baxter's head which is itself articulated leading to a total of 8 DOF. For Franka, we assume the sensor is mounted on the gripper resulting in 7 DOF.
 
-<!-- chunk {"id": "body-0262", "role": "body", "section": "Planning Problems", "weight": 1.0} -->
+<!-- chunk {"id": "body-0238", "role": "body", "section": "Planning Problems", "weight": 1.0} -->
 
-Look at a block: the robot must align its sensor with the colored side of the block. This is modeled by the cost and constraints functions described in Section 5.2.6 ‣ Optimizing Trajectory-Trees in Belief Space: An Application from Model Predictive Control to Task and Motion Planning") with a maximum observation angle $\alpha_{max} = {45{^\circ}}$, and a desired observation distance $d_{desired} = {20.0\ {cm}}$. These are applied during the final $200\ {ms}$ of the action, ensuring that the colored side is visible at the end of the sensor placement trajectory. In the case of Franka, the sensor is highly mobile, allowing it to move to various observation points. For Baxter, however, the sensor's movement is more restricted, often requiring the robot to move both its head and arm simultaneously (see Fig. 1b). An observation is received after this action indicating the block's color.
+There are 3 actions: Look at a block: the robot must align its sensor with the colored side of the block. This is modeled by the cost and constraints functions described in Section 5.2.6 ‣ Optimizing Trajectory-Trees in Belief Space: An Application from Model Predictive Control to Task and Motion Planning") with a maximum observation angle $\alpha_{max}=$$$, and a desired observation distance $d_{desired}=$20.0\text{\,}\mathrm{cm}$$. These are applied during the final $200\text{\,}\mathrm{ms}$ of the action, ensuring that the colored side is visible at the end of the sensor placement trajectory. In the case of Franka, the sensor is highly mobile, allowing it to move to various observation points. For Baxter, however, the sensor's movement is more restricted, often requiring the robot to move both its head and arm simultaneously (see Fig. 1b). An observation is received after this action indicating the block's color.
 
-<!-- chunk {"id": "body-0263", "role": "body", "section": "Planning Problems", "weight": 1.0} -->
+<!-- chunk {"id": "body-0239", "role": "body", "section": "Planning Problems", "weight": 1.0} -->
 
 Grasp a block: only the right Baxter's arm can grasp.
 
-<!-- chunk {"id": "body-0264", "role": "body", "section": "Planning Problems", "weight": 1.0} -->
+<!-- chunk {"id": "body-0240", "role": "body", "section": "Planning Problems", "weight": 1.0} -->
 
 Place a block at a location: the block is placed on the table, or onto another block.
 
-<!-- chunk {"id": "body-0265", "role": "body", "section": "Planning Problems", "weight": 1.0} -->
+<!-- chunk {"id": "body-0241", "role": "body", "section": "Planning Problems", "weight": 1.0} -->
 
 In addition to the cost and constraints specific to each action, the squared joint acceleration is minimized.
 
-<!-- chunk {"id": "body-0266", "role": "body", "section": "Planning Problems", "weight": 1.0} -->
+<!-- chunk {"id": "body-0242", "role": "body", "section": "Planning Problems", "weight": 1.0} -->
 
 The variations of the planning problems as well as the experiments specific purposes are summarized in Table 3 ‣ Optimizing Trajectory-Trees in Belief Space: An Application from Model Predictive Control to Task and Motion Planning"). In the subproblems using the Baxter, we assume that the colored side can be only the side opposite the robot, such that the robot knows already which side to observe, thereby largely reducing the dimensionality of the belief state. In the subproblems with Franka-A and Franka-B, we do not make this assumption and the belief state size quickly becomes large (e.g. Franka-B).
 
-<!-- chunk {"id": "body-0267", "role": "body", "section": "Planning Problems", "weight": 1.0} -->
+<!-- chunk {"id": "body-0243", "role": "body", "section": "Planning Problems", "weight": 1.0} -->
 
 The limits of tractability are quickly reached in such a combinatorial domain, as we see with the problem Franka-B. To scale further, we introduce the problem Franka-C$\times$A', where the problem is decomposed by optimizing: an overarching policy (Franka-C) which rearranges blocks without implementing the observations of the blocks's side, and a policy which identifies a block (Franka-A'), which used as a explorative macro-action. Franka-A' is similar to Franka-A but is optimized with a fixed goal configuration, enabling the handover to Franka-C once the block's color has been identified. Composed together, this gives solution policies for the combined problem (Franka-C$\times$A'). The composition breaks down the complexity of the combined problem, which would be otherwise intractable with a belief state size of 1296.
 
-<!-- chunk {"id": "body-0268", "role": "body", "section": "Planning Problems", "weight": 1.0} -->
+<!-- chunk {"id": "body-0244", "role": "body", "section": "Planning Problems", "weight": 1.0} -->
 
 The problem Baxter-D is to evaluate robustness against motion planning failures. In Baxter-B and C, the Look action has a precondition: the robot should have a block in hand before looking at it. This precondition is removed in the variation D. This causes the Look action to be symbolically possible more often. However, if the robot does not hold the block, no robot motion allows sensor alignment with the colored side causing the motion planning to fail.
 
-<!-- chunk {"id": "body-0269", "role": "body", "section": "Planning Results", "weight": 1.0} -->
+<!-- chunk {"id": "body-0245", "role": "body", "section": "Planning Results", "weight": 1.0} -->
 
 Planned policies: Fig. 21 ‣ Optimizing Trajectory-Trees in Belief Space: An Application from Model Predictive Control to Task and Motion Planning") shows example of planned policies. The planning problems with the Baxter result in policies with a sparse branching with sequences of several actions between observations. This is visible in Fig. 21b ‣ Optimizing Trajectory-Trees in Belief Space: An Application from Model Predictive Control to Task and Motion Planning") for Baxter-B. This sparse branching reflects the assumption that the colored side is opposite the robot, which limits the number of contingencies. In contrast, the policies for the Franka problems have denser branching, as Fig 21c ‣ Optimizing Trajectory-Trees in Belief Space: An Application from Model Predictive Control to Task and Motion Planning") shows. The combinatorics quickly becomes large, the policies for Franka-B contains 72 branches, with 305 actions and 43 branching points. For space considerations, the policies for Baxter-C and Franka-C$\times$A' are given in Appendix C, and the corresponding trajectory-tree executions are shown in the accompanying video provided as a multi-media extension.
 
-<!-- chunk {"id": "body-0270", "role": "body", "section": "Planning Results", "weight": 1.0} -->
+<!-- chunk {"id": "body-0246", "role": "body", "section": "Planning Results", "weight": 1.0} -->
 
-(a) Sequential policy for problem Baxter-A (full observability)
+(a) Sequential policy for problem Baxter-A (full observability) (b) Policy with one observation branching for Baxter-B (c) Policy with a cascading structure for Franka-A Figure 21: Policies obtained for the problems Baxter-A, Baxter-B and Franka-A.
 
-<!-- chunk {"id": "body-0271", "role": "body", "section": "Planning Results", "weight": 1.0} -->
-
-(b) Policy with one observation branching for Baxter-B
-
-<!-- chunk {"id": "body-0272", "role": "body", "section": "Planning Results", "weight": 1.0} -->
-
-(c) Policy with a cascading structure for Franka-A
-
-<!-- chunk {"id": "body-0273", "role": "body", "section": "Planning Results", "weight": 1.0} -->
+<!-- chunk {"id": "body-0247", "role": "body", "section": "Planning Results", "weight": 1.0} -->
 
 Fig. 22 ‣ Optimizing Trajectory-Trees in Belief Space: An Application from Model Predictive Control to Task and Motion Planning") and Fig. 1 show robot configurations at different stages of the policy execution for the Baxter and Franka problems respectively. Fig. 22d ‣ Optimizing Trajectory-Trees in Belief Space: An Application from Model Predictive Control to Task and Motion Planning") shows a configuration where the optimized observation pose is close to the boundary of the inequality constraints, the sensor's line of sight has an orientation of approximately $45{^\circ}$ with respect to the observed side. Observing the side with a lower relative angle would require the robot to further lower the gripper position which is not advantageous in terms of trajectory-cost.
 
-<!-- chunk {"id": "body-0274", "role": "body", "section": "Planning Results", "weight": 1.0} -->
+<!-- chunk {"id": "body-0248", "role": "body", "section": "Planning Results", "weight": 1.0} -->
 
-(b) Start pose for explorative policy (Franka-A’)
+(b) Start pose for explorative policy (Franka-A’) (c) Look action detecting no color (d) Look action identifying the block (e) End of Franka-A, block is identified and re-arranged (f) Goal state of Franka A×C Figure 22: Examples of configurations for Franka C×A’: Blocks colors are unknown at the start 22a. Blocks are brought to a fixed position 22b. From there, the explorative policy Franka-A’ observes the sides 22c, 22d and rearranges the block 22e. The goal state is 22f.
 
-<!-- chunk {"id": "body-0275", "role": "body", "section": "Planning Results", "weight": 1.0} -->
-
-(d) Look action identifying the block
-
-<!-- chunk {"id": "body-0276", "role": "body", "section": "Planning Results", "weight": 1.0} -->
-
-(e) End of Franka-A, block is identified and re-arranged
-
-<!-- chunk {"id": "body-0277", "role": "body", "section": "Planning Results", "weight": 1.0} -->
+<!-- chunk {"id": "body-0249", "role": "body", "section": "Planning Results", "weight": 1.0} -->
 
 Planning time: Table 4 ‣ Optimizing Trajectory-Trees in Belief Space: An Application from Model Predictive Control to Task and Motion Planning") gives an overview of the planning time. For each standalone (i.e., non-composed) problem, we consider two variations of $c_{0}$ to either aim for short planning times or optimal policies. For Franka-C$\times$A', we report the metrics for Franka-C and Franka-A' separately, as well as the total planning time, which amounts to their sum, since planning for Franka-C and Franka-A' needs to be performed only once to obtain a complete composed policy valid in all contingencies. Planning for each variation is carried out five times and we report on the average planning times and iterations. Fig. 24 ‣ Optimizing Trajectory-Trees in Belief Space: An Application from Model Predictive Control to Task and Motion Planning") provides an indication of the dispersion around the average.
 
-<!-- chunk {"id": "body-0278", "role": "body", "section": "Planning Results", "weight": 1.0} -->
+<!-- chunk {"id": "body-0250", "role": "body", "section": "Planning Results", "weight": 1.0} -->
 
-Problem $c_{0}$ Iter- ations Decision tree Dyn. prog. Piecewise motion planning Joint motion planning Total (s)
+Problem $c_{0}$ Iter- ations Decision tree Dyn. prog. Piecewise motion planning Joint motion planning Total (s) Table 4: Number of iterations and planning times. For Franka C×A’ (denoted C×A’ for compactness) the planning time is the sum of Franka-C and Franka-A’.
 
-<!-- chunk {"id": "body-0279", "role": "body", "section": "Planning Results", "weight": 1.0} -->
+<!-- chunk {"id": "body-0251", "role": "body", "section": "Planning Results", "weight": 1.0} -->
 
 For all problems, planning time is predominantly consumed by motion planning (encompassing both piecewise and joint motion planning), while task planning (comprising decision tree creation and dynamic programming) accounts for a comparatively small portion. However, Task Planning becomes significant in two specific cases: In Baxter-D, this is because the exploration parameter $c_{mcts}$ and the number of iterations for decision tree creation are significantly increased to enable sucessfull planning despite incomplete logic, and is discussed further in Section 5.3.4 ‣ Optimizing Trajectory-Trees in Belief Space: An Application from Model Predictive Control to Task and Motion Planning"); and in Franka-B, this is due to the first order logic engine employed which relies heavily on string manipulations and lacks optimization for speed, leading to notable task planning times in problems with high combinatorial complexity.
 
-<!-- chunk {"id": "body-0280", "role": "body", "section": "Planning Results", "weight": 1.0} -->
+<!-- chunk {"id": "body-0252", "role": "body", "section": "Planning Results", "weight": 1.0} -->
 
 For a very small number of policy iterations (up to approximately 5), the majority of motion planning time is spent on the final step of joint trajectory optimization. However, since joint optimization is performed only once, irrespective of the number of policy iterations, piecewise trajectory optimization becomes the dominant component as the parameter $c_{0}$ is adjusted to allow for greater exploration, resulting in an increased number of iterations.
 
-<!-- chunk {"id": "body-0281", "role": "body", "section": "Influence of $c_{0}$, Exploration vs. Exploitation", "weight": 1.0} -->
+<!-- chunk {"id": "body-0253", "role": "body", "section": "Influence of $c_{0}$, Exploration vs. Exploitation", "weight": 1.0} -->
 
-The main parameter influencing planning is $c_{0}$. A low (optimistic) value for $c_{0}$ leads to candidate policies with an "hypothetized" expected cost underestimating the actual piecewise trajectory costs. Once the piecewise trajectory costs are integrated into the decision tree, the next round of dynammic programming will tend to output a candidate policy largely composed of "unexplored" actions. This is visible in Fig. 23 ‣ Optimizing Trajectory-Trees in Belief Space: An Application from Model Predictive Control to Task and Motion Planning") with $c_{0} = 0.15$. With more exploration, the search converges to policies with a lower cost. The opposite phenomenon takes place when $c_{0}$ is an overestimate.
+The main parameter influencing planning is $c_{0}$. A low (optimistic) value for $c_{0}$ leads to candidate policies with an "hypothetized" expected cost underestimating the actual piecewise trajectory costs. Once the piecewise trajectory costs are integrated into the decision tree, the next round of dynammic programming will tend to output a candidate policy largely composed of "unexplored" actions. This is visible in Fig. 23 ‣ Optimizing Trajectory-Trees in Belief Space: An Application from Model Predictive Control to Task and Motion Planning") with $c_{0}=0.15$. With more exploration, the search converges to policies with a lower cost. The opposite phenomenon takes place when $c_{0}$ is an overestimate.
 
-<!-- chunk {"id": "body-0282", "role": "body", "section": "Influence of $c_{0}$, Exploration vs. Exploitation", "weight": 1.0} -->
+<!-- chunk {"id": "body-0254", "role": "body", "section": "Influence of $c_{0}$, Exploration vs. Exploitation", "weight": 1.0} -->
 
-Actions with a cost estimate resulting from the piecewise trajectory optimization appear comparatively advantageous and are used for the next candidate policy leading to a fast convergence to a final policy (e.g. with $c_{0} = 1.5$ in Fig. 23 ‣ Optimizing Trajectory-Trees in Belief Space: An Application from Model Predictive Control to Task and Motion Planning")), at the expense of optimality.
+Actions with a cost estimate resulting from the piecewise trajectory optimization appear comparatively advantageous and are used for the next candidate policy leading to a fast convergence to a final policy (e.g. with $c_{0}=1.5$ in Fig. 23 ‣ Optimizing Trajectory-Trees in Belief Space: An Application from Model Predictive Control to Task and Motion Planning")), at the expense of optimality.
 
-<!-- chunk {"id": "body-0283", "role": "body", "section": "Influence of $c_{0}$, Exploration vs. Exploitation", "weight": 1.0} -->
+<!-- chunk {"id": "body-0255", "role": "body", "section": "Influence of $c_{0}$, Exploration vs. Exploitation", "weight": 1.0} -->
 
 Some actions may be infeasible leading to infinite costs, such that any choice of $c_{0}$ still allows the algorithm to iterate enough to generate candidate policies circumventing infeasible actions, within the limits of decision tree. In practice, $c_{0}$ is chosen empirically. Fig. 24 ‣ Optimizing Trajectory-Trees in Belief Space: An Application from Model Predictive Control to Task and Motion Planning") shows the relation between $c_{0}$ the final piecewise trajectory costs, and the number of iterations. Planning is performed 5 times for each value of $c_{0}$. For low values of $c_{0}$, the final policy cost exhibits minimal dispersion, although the number of iterations required for convergence shows some variability. Conversely, higher values of $c_{0}$ lead to reduced variability in the number of iterations needed for convergence but increase the variability of the final policy cost.
 
-<!-- chunk {"id": "body-0284", "role": "body", "section": "Influence of $c_{0}$, Exploration vs. Exploitation", "weight": 1.0} -->
+<!-- chunk {"id": "body-0256", "role": "body", "section": "Influence of $c_{0}$, Exploration vs. Exploitation", "weight": 1.0} -->
 
 For the problem Franka-A, optimal policies are found when $c_{0}$ is below $1.0$.
 
-<!-- chunk {"id": "body-0285", "role": "body", "section": "Influence of Motion Planning Failures", "weight": 1.0} -->
+<!-- chunk {"id": "body-0257", "role": "body", "section": "Influence of Motion Planning Failures", "weight": 1.0} -->
 
 In the problem Baxter-D the logic definition is relaxed to make the Look actions available also when the robot does not grasp the block to observe, as described in Section 5.3.1 ‣ Optimizing Trajectory-Trees in Belief Space: An Application from Model Predictive Control to Task and Motion Planning"). This increases the branching factor. In addition, the large majority of the planned candidate policies do not grasp the block before executing a Look action, since it is symbolically not advantageous to do so. Piecewise trajectory optimization for such policies results in infinite costs for the Look action, because the constraints (14a ‣ Optimizing Trajectory-Trees in Belief Space: An Application from Model Predictive Control to Task and Motion Planning")) and (14b ‣ Optimizing Trajectory-Trees in Belief Space: An Application from Model Predictive Control to Task and Motion Planning")) ensuring observability of the colored side cannot be satisfied unless the object has been grasped beforehand. The propagation of infinite costs during dynamic programming effectively rules out large portions of the decision tree, eventually favoring candidate policies that grasp the block before executing a Look action, for which trajectory optimization succeeds.
 
-<!-- chunk {"id": "body-0286", "role": "body", "section": "Influence of Motion Planning Failures", "weight": 1.0} -->
+<!-- chunk {"id": "body-0258", "role": "body", "section": "Influence of Motion Planning Failures", "weight": 1.0} -->
 
 The algorithm still converges to a feasible policy as good as in Baxter-C, when $c_{mcts}$ and the number of iterations for the decision tree creation are large enough.
 
-<!-- chunk {"id": "body-0287", "role": "body", "section": "Influence of Motion Planning Failures", "weight": 1.0} -->
+<!-- chunk {"id": "body-0259", "role": "body", "section": "Influence of Motion Planning Failures", "weight": 1.0} -->
 
 This is an important quality of the proposed solution. Adding domain specific knowledge in the task planning (to ensure that motion planning will succeed) will, in general, speed up the search. However, we think that is it not always possible, nor convenient to incorporate geometric reasoning (reachability of a view point, reachability of an object) in the logical reasoning.
 
-<!-- chunk {"id": "body-0288", "role": "body", "section": "Benefits of the Joint Optimization", "weight": 1.0} -->
+<!-- chunk {"id": "body-0260", "role": "body", "section": "Benefits of the Joint Optimization", "weight": 1.0} -->
 
 Joint optimization results in trajectory-trees being optimized across observation branchings, and are more optimized towards likely contingencies as it is visible in Fig. 25a ‣ Optimizing Trajectory-Trees in Belief Space: An Application from Model Predictive Control to Task and Motion Planning"). Furthermore, the optimization spans actions and kinematic switches, like in the fully observable LGP framework. This allows trajectory elements corresponding to a given action to be influenced by subsequent actions, ultimately resulting in lower overall trajectory costs compared to piecewise optimization. This is shown in Fig. 25b ‣ Optimizing Trajectory-Trees in Belief Space: An Application from Model Predictive Control to Task and Motion Planning").
 
-<!-- chunk {"id": "body-0289", "role": "body", "section": "Benefits of the Joint Optimization", "weight": 1.0} -->
+<!-- chunk {"id": "body-0261", "role": "body", "section": "Benefits of the Joint Optimization", "weight": 1.0} -->
 
 (a) The jointly optimized traj.-tree for policy 21c is more optimized towards the likely branch.
 
-<!-- chunk {"id": "body-0290", "role": "body", "section": "Benefits of the Joint Optimization", "weight": 1.0} -->
+<!-- chunk {"id": "body-0262", "role": "body", "section": "Benefits of the Joint Optimization", "weight": 1.0} -->
 
 (b) The jointly optimized traj.-tree for 21b anticipates the Look action for t ≥ 20.
 
-<!-- chunk {"id": "body-0291", "role": "body", "section": "Benefits of the Joint Optimization", "weight": 1.0} -->
+<!-- chunk {"id": "body-0263", "role": "body", "section": "Benefits of the Joint Optimization", "weight": 1.0} -->
 
 Overall, the expected costs of the jointly optimized trajectory-trees are 40% inferior compared to the piecewise trajectory-trees, as illustrated in Fig. 24 ‣ Optimizing Trajectory-Trees in Belief Space: An Application from Model Predictive Control to Task and Motion Planning"). Similar cost reduction is observed for the problems using the Baxter. Importantly, we observe that the lowest joint trajectory costs are obtained with the policies having the lowest piecewise trajectory costs. This validates empirically the approach of selecting a policy on the basis of the piecewise cost only, and performing the joint optimization as a final step. Performing the joint optimization appear particularly advantageous when optimizing a macro-action like Franka-A', since it is typically used multiple times by the overarching task plan (Franka-C). Optimizing macro-actions to a high degree is therefore especially meaningful.
 
-<!-- chunk {"id": "body-0292", "role": "body", "section": "Benefits of the Joint Optimization", "weight": 1.0} -->
-
-With the D-AuLa solver, the joint optimization can be decomposed into sub-optimization problems, as shown in Fig. 26 ‣ Optimizing Trajectory-Trees in Belief Space: An Application from Model Predictive Control to Task and Motion Planning"). Optimization time are indicated in Table 5 ‣ Optimizing Trajectory-Trees in Belief Space: An Application from Model Predictive Control to Task and Motion Planning"). Unlike the MPC case, the decomposition does not demonstrate a clear advantage. This can be understood by considering that the planned policies are typically less decomposable than in MPC: there are potentially multiple branchings, which can take place at any depth on the tree. Franka-C is the problem which would benefit the most from optimization decomposition (with the Subtree-decomposition), but decomposition can be detrimental, e.g. for Franka-A with dense branching structure (see Fig. 21c ‣ Optimizing Trajectory-Trees in Belief Space: An Application from Model Predictive Control to Task and Motion Planning")).
-
-<!-- chunk {"id": "body-0293", "role": "body", "section": "Benefits of the Joint Optimization", "weight": 1.0} -->
-
-We therefore do not decompose by default as explained in Section 5.2.5 ‣ 5.2 PO-LPG Planner ‣ 5 Task and Motion Planning (TAMP) ‣ Optimizing Trajectory-Trees in Belief Space: An Application from Model Predictive Control to Task and Motion Planning").
-
-<!-- chunk {"id": "body-0294", "role": "body", "section": "Scalability", "weight": 1.0} -->
+<!-- chunk {"id": "body-0264", "role": "body", "section": "Scalability", "weight": 1.0} -->
 
 Fig. 27 ‣ Optimizing Trajectory-Trees in Belief Space: An Application from Model Predictive Control to Task and Motion Planning") shows the planning times observed with variations of the Baxter problems. The measurements for the belief state sizes of one, two, and six are obtained with the problems Baxter-A, Baxter-B and Baxter-C from the Table. 3 ‣ Optimizing Trajectory-Trees in Belief Space: An Application from Model Predictive Control to Task and Motion Planning"). Additional data points for belief state sizes of three, four, and five were measured by removing hypotheses from the initial belief state of the Baxter-C problem, thereby enabling a finer-grained analysis of scalability between the Baxter-B and Baxter-C problem variations.
 
-<!-- chunk {"id": "body-0295", "role": "body", "section": "Scalability", "weight": 1.0} -->
+<!-- chunk {"id": "body-0265", "role": "body", "section": "Scalability", "weight": 1.0} -->
 
 (a) Cumulated planning time and trajectory-tree size vs. the number of hypotheses |ℋ|.
 
-<!-- chunk {"id": "body-0296", "role": "body", "section": "Scalability", "weight": 1.0} -->
+<!-- chunk {"id": "body-0266", "role": "body", "section": "Scalability", "weight": 1.0} -->
 
 (b) Piecewise optimization: Performed once per iteration; the plot shows the average over iterations.
 
-<!-- chunk {"id": "body-0297", "role": "body", "section": "Scalability", "weight": 1.0} -->
+<!-- chunk {"id": "body-0267", "role": "body", "section": "Scalability", "weight": 1.0} -->
 
 (c) Joint optimization: Scales linearly with the number of actions in the trajectory-tree.
 
-<!-- chunk {"id": "body-0298", "role": "body", "section": "Scalability", "weight": 1.0} -->
+<!-- chunk {"id": "body-0268", "role": "body", "section": "Scalability", "weight": 1.0} -->
 
 The joint optimization time exhibits linear scaling with the number of hypotheses $|\mathcal{H}|$ of the belief state. This linear relationship is consistent with the theoretical scalability analysis discussed in Section 5.2.5 ‣ 5.2 PO-LPG Planner ‣ 5 Task and Motion Planning (TAMP) ‣ Optimizing Trajectory-Trees in Belief Space: An Application from Model Predictive Control to Task and Motion Planning"). It becomes even more apparent in Fig. 27c ‣ Optimizing Trajectory-Trees in Belief Space: An Application from Model Predictive Control to Task and Motion Planning"), where the data is plotted against the number of actions in the trajectory-tree. While the absolute number of actions remains relatively modest, each action comprises 20 configurations, with each configuration represented by an 8-dimensional vector (for the robot's 8 degrees of freedom). As a result, a trajectory-tree with 35 actions leads to a joint optimization problem with 5600 decision variables.
 
-<!-- chunk {"id": "body-0299", "role": "body", "section": "Scalability", "weight": 1.0} -->
+<!-- chunk {"id": "body-0269", "role": "body", "section": "Scalability", "weight": 1.0} -->
 
 The overall planning time is primarily dominated by the piecewise trajectory optimization performed during each iteration of the policy search. When averaged over the number of iterations, the optimization time exhibits a linear trend with respect to $|\mathcal{H}|$, as illustrated in Fig. 27b ‣ Optimizing Trajectory-Trees in Belief Space: An Application from Model Predictive Control to Task and Motion Planning"). It is important to note, that in each iteration, only newly introduced actions are subject to optimization; action edges that are shared with previously evaluated policies are not re-optimized. Consequently, the time required for piecewise optimization is strongly influenced by the degree of overlap between successive candidate policies. This results in a less direct correlation with the number of hypotheses, and accounts for the less monotonic behavior observed in Fig. 27b ‣ Optimizing Trajectory-Trees in Belief Space: An Application from Model Predictive Control to Task and Motion Planning"), in contrast to Fig. 27c ‣ Optimizing Trajectory-Trees in Belief Space: An Application from Model Predictive Control to Task and Motion Planning").
 
-<!-- chunk {"id": "body-0300", "role": "body", "section": "Scalability", "weight": 1.0} -->
+<!-- chunk {"id": "body-0270", "role": "body", "section": "Scalability", "weight": 1.0} -->
 
 While the observed trend with respect to the number of hypotheses is linear, it is important to note that in these block-stacking experiments, the number of hypotheses itself grows factorially with the number of blocks. This is exemplified by the experiment Franka-B, where the belief state is aready of size 72 for two blocks since the colored side can be any side. This underscores the challenge of scalability in highly combinatorial domains. The Franka-C$\times$A' experiment, discussed in the next section, investigates how hierarchical decomposition can mitigate this complexity and enhance scalability.
 
-<!-- chunk {"id": "body-0301", "role": "body", "section": "Improved Scalability via Hierarchical Planning", "weight": 1.0} -->
+<!-- chunk {"id": "body-0271", "role": "body", "section": "Improved Scalability via Hierarchical Planning", "weight": 1.0} -->
 
 As the problem Franka-B shows, one reaches the limits of tractability for problems with a large belief state size. This is inherent to the nature of the approach, since we aim for trajectory-trees covering all contingencies. Introducing hierarchy Franka-C$\times$A' breaks down the complexity and enables scaling to larger problems.
 
-<!-- chunk {"id": "body-0302", "role": "body", "section": "Improved Scalability via Hierarchical Planning", "weight": 1.0} -->
+<!-- chunk {"id": "body-0272", "role": "body", "section": "Improved Scalability via Hierarchical Planning", "weight": 1.0} -->
 
 Firstly, we plan for the higher-level policy (Franka-C), where the Look action constraining the sensor movement is replaced by an Identify-block action. This action becomes available once the robot placed a block on the second table, in a fixed configuration which will be the start configuration for Franka-A'. Symbolically, the effect of this action is that the block is identified. Motion planning for this action is not planned at this stage.
 
-<!-- chunk {"id": "body-0303", "role": "body", "section": "Improved Scalability via Hierarchical Planning", "weight": 1.0} -->
+<!-- chunk {"id": "body-0273", "role": "body", "section": "Improved Scalability via Hierarchical Planning", "weight": 1.0} -->
 
 Subsequently, we plan the low-level policy (Franka-A') implementing the Identify-Block action. It is planned from a specified start configuration and, importantly, a fixed final configuration. Fixing the final configuration is atypical in Logic-Geometric Programming (LGP), where it is generally defined implicitly and determined as part of the optimization process. However, in this case, a fixed final configuration is necessary to enable the higher-level policy (Franka-C) to be planned independently of Franka-A'. This de-facto boils down to optimizing a trajectory-graph.
 
-<!-- chunk {"id": "body-0304", "role": "body", "section": "Improved Scalability via Hierarchical Planning", "weight": 1.0} -->
+<!-- chunk {"id": "body-0274", "role": "body", "section": "Improved Scalability via Hierarchical Planning", "weight": 1.0} -->
 
 With this decomposition in place, planning is possible in approximately 36 seconds as indicated in Table 4 ‣ Optimizing Trajectory-Trees in Belief Space: An Application from Model Predictive Control to Task and Motion Planning"). The resulting trajectory-tree can handle any of the 1296 possible starting configurations.
 
-<!-- chunk {"id": "body-0305", "role": "body", "section": "Discussion", "weight": 1.5} -->
+<!-- chunk {"id": "body-0275", "role": "body", "section": "Discussion", "weight": 1.5} -->
 
 These experiments demonstrate the feasibility of planning trajectory-trees in belief space, with branchings dependent on the received observations. This enables the resolution of challenging TAMP problems characterized by a strongly multimodal partially observable structure. Trajectory-trees combine explorative actions (primarily sensor trajectories) with exploitative actions (e.g., grasping and placing). The degree of exploration over the space of all possible manipulation policies is controlled by the cost initialization parameter $c_{0}$ allowing for flexible trade-offs between exploration and planning time. For problems of moderate size (e.g., belief state sizes up to 6), planning times remain within several seconds, highlighting the method's practical applicability.
 
-<!-- chunk {"id": "body-0306", "role": "body", "section": "Discussion", "weight": 1.5} -->
+<!-- chunk {"id": "body-0276", "role": "body", "section": "Discussion", "weight": 1.5} -->
 
 One limitation of the current approach is its reliance on a predefined set of world hypotheses, which must be available at the start of planning, along with a suitable observation model. While this assumption is valid for many structured applications, its relaxation would broaden the applicability of the method to more dynamic or unstructured scenarios.
 
-<!-- chunk {"id": "body-0307", "role": "body", "section": "Discussion", "weight": 1.5} -->
+<!-- chunk {"id": "body-0277", "role": "body", "section": "Discussion", "weight": 1.5} -->
 
 The approach optimizes trajectory-trees covering all possible contingencies. This is well-suited to the presented examples, where the different modalities are of equal importance. However, in domains where some contingencies are intrinsically unlikely, this strategy may become computationally inefficient. A potential solution would be to fully optimize only a subset of the trajectory-tree that accounts for a target probability mass, accepting a trade-off in the form of occasional replanning for rare cases, thereby sharing similarities.
 
-<!-- chunk {"id": "body-0308", "role": "body", "section": "Discussion", "weight": 1.5} -->
+<!-- chunk {"id": "body-0278", "role": "body", "section": "Discussion", "weight": 1.5} -->
 
 We think that this approach is particularly well-suited for optimizing mid-term policies or macro-actions, which aim to reduce the entropy of the belief state, as exemplified by the Franka-A problem. Having only limited horizon and branching, such macro-actions are fast to optimize (potentially even online), and can be integrated into a higher-level TAMP planning outer loop, effectively decoupling the higher-level planner from the complexities of handling lower-level partial observability. This decoupling enhances scalability and simplifies the higher-level planning process. The practicality of this concept is illustrated in the Franka-C$\times$A' problem, where a total planning time of 36 seconds was achieved, for a trajectory-tree addressing 1,296 contingencies.
 
-<!-- chunk {"id": "body-0309", "role": "body", "section": "Discussion", "weight": 1.5} -->
+<!-- chunk {"id": "body-0279", "role": "body", "section": "Discussion", "weight": 1.5} -->
 
 The planning time is primarily dominated by the piecewise trajectory planning step during the policy search. A promising direction for future work could involve learning to predict promising policies, as demonstrated within the LGP framework for the fully observable case.
 
-<!-- chunk {"id": "body-0310", "role": "body", "section": "Generalizations Beyond Deterministic Dynamics", "weight": 1.0} -->
+<!-- chunk {"id": "body-0280", "role": "body", "section": "Generalizations Beyond Deterministic Dynamics", "weight": 1.0} -->
 
-The PO-LGP framework assumes deterministic transitions, of both the continuous and symbolic states, as explained in Section 3.1, and Section 5.1.2 ‣ Optimizing Trajectory-Trees in Belief Space: An Application from Model Predictive Control to Task and Motion Planning").
+The PO-LGP framework assumes deterministic transitions, of both the continuous and symbolic states, as explained in Section 3.1, and Section 5.1.2 ‣ Optimizing Trajectory-Trees in Belief Space: An Application from Model Predictive Control to Task and Motion Planning"). It can also be extended beyond these assumptions: Continuous dynamics: In cases where the continuous dynamics are stochastic but stabilizable, due to statistically bounded disturbances, such as Gaussian noise, the trajectory-tree structure can be extended by attaching feedback controllers to its edges (which may be co-optimized) to track the nominal trajectories, thereby sharing similarities with the FIRM approach. As long as the uncertainty remains sufficiently concentrated, the underlying multimodal structure and branching of the trajectory-tree remain unaffected.
 
-<!-- chunk {"id": "body-0311", "role": "body", "section": "Generalizations Beyond Deterministic Dynamics", "weight": 1.0} -->
-
-Continuous dynamics: In cases where the continuous dynamics are stochastic but stabilizable, due to statistically bounded disturbances, such as Gaussian noise, the trajectory-tree structure can be extended by attaching feedback controllers to its edges (which may be co-optimized) to track the nominal trajectories, thereby sharing similarities with the FIRM approach. As long as the uncertainty remains sufficiently concentrated, the underlying multimodal structure and branching of the trajectory-tree remain unaffected.
-
-<!-- chunk {"id": "body-0312", "role": "body", "section": "Generalizations Beyond Deterministic Dynamics", "weight": 1.0} -->
+<!-- chunk {"id": "body-0281", "role": "body", "section": "Generalizations Beyond Deterministic Dynamics", "weight": 1.0} -->
 
 Stochastic observation model: A stochastic observation model increases the branching factor at observation nodes, resulting in a larger decision tree. It also necessitates defining goal conditions probabilistically in belief space, to account for the possibility that the belief may not concentrate fully, and residual non-zero probabilities may persist across a long tail of states. While this generalization does not alter the structure of the framework, it may raise tractability challenges due to the expanded size of the trajectory-tree.
 
-<!-- chunk {"id": "body-0313", "role": "body", "section": "Generalizations Beyond Deterministic Dynamics", "weight": 1.0} -->
+<!-- chunk {"id": "body-0282", "role": "body", "section": "Generalizations Beyond Deterministic Dynamics", "weight": 1.0} -->
 
 Stochastic symbolic actions: With stochastic symbolic actions, the system may transition to different modalities after each action. This can be modeled by defining a tuple of cost and constraint functions $(c,g,h)$ for each possible outcome, thereby implicitly specifying the corresponding continuous evolution. While this formulation is feasible in principle, it may come with practical challenges when action stochasticity represents a transition to failure modes, which are often unpredictable and difficult to model.
 
-<!-- chunk {"id": "body-0314", "role": "body", "section": "Generalizations Beyond Deterministic Dynamics", "weight": 1.0} -->
+<!-- chunk {"id": "body-0283", "role": "body", "section": "Generalizations Beyond Deterministic Dynamics", "weight": 1.0} -->
 
 These considerations suggest that extending the framework to accommodate stochastic continuous dynamics and/or stochastic observation models is structurally compatible with the existing trajectory-tree formulation. By comparison, symbolic action stochasticity---particularly when involving transitions to failure modes---introduces modeling and specification challenges, and may be more naturally addressed through replanning mechanisms, rather than direct integration into the tree structure.
 
-<!-- chunk {"id": "body-0315", "role": "body", "section": "Conclusion", "weight": 1.5} -->
+<!-- chunk {"id": "body-0284", "role": "body", "section": "Conclusion", "weight": 1.5} -->
 
 In this article, we propose a new approach to trajectory optimization for problems with a multimodal partial observability, which consists in optimizing trajectory-trees in belief space.
 
-<!-- chunk {"id": "body-0316", "role": "body", "section": "Conclusion", "weight": 1.5} -->
+<!-- chunk {"id": "body-0285", "role": "body", "section": "Conclusion", "weight": 1.5} -->
 
 For MPC, the control problem is formulated with a fixed tree structure having an early branching (PO-MPC). Trajectory-trees are optimized with respect to a belief state provided externally. Given the critical runtime requirements, we developed a specialized optimization algorithm (D-AuLa) which exploits the decomposability of these trees to significantly improve computational efficiency. We believe these contributions can enable the adoption of tree-like controls (otherwise known as Multi-Stage MPC) to more robotic uses cases, such as partially observable problems.
 
-<!-- chunk {"id": "body-0317", "role": "body", "section": "Conclusion", "weight": 1.5} -->
+<!-- chunk {"id": "body-0286", "role": "body", "section": "Conclusion", "weight": 1.5} -->
 
 In TAMP, where the challenge resides in the efficient integration of the symbolic and geometric reasoning, we developed an integrated planner (PO-LGP), which incorporates belief state inference to enable the planning of information gathering actions. The planner fully encompasses the contingent nature of the partially observable problem, by reasoning on trees both at a task and motion planning level. The optimization of the trajectory-trees is performed accross observation branchings and across task modes using a new transcription (T-KOMO). These contributions enable long-term planning for TAMP problems where existing approaches are either not applicable, or would rely heavily on replanning.
 
-<!-- chunk {"id": "body-0318", "role": "body", "section": "Conclusion", "weight": 1.5} -->
+<!-- chunk {"id": "body-0287", "role": "body", "section": "Conclusion", "weight": 1.5} -->
 
 Together, these contributions are summarized in Table 6. While MPC and TAMP are addressed with distinct methodologies, certain use cases transcend this boundary. For instance, complex driving scenarios may require symbolic decision-making akin to TAMP, while object manipulation tasks may demand fast, online trajectory-tree replanning similar to MPC. From this perspective, the presented contributions form a complementary set of techniques and provide a unified perspective for addressing the challenges of trajectory optimization under multimodal partial observability.
 
-<!-- chunk {"id": "body-0319", "role": "body", "section": "Conclusion", "weight": 1.5} -->
+<!-- chunk {"id": "body-0288", "role": "body", "section": "Conclusion", "weight": 1.5} -->
 
-Belief state update
-Traj. tree structure
-Importance of joint optimization
-
-<!-- chunk {"id": "body-0320", "role": "body", "section": "Conclusion", "weight": 1.5} -->
-
-Performance vs. Conservativness - Real-time planning
-External (provided by perception module)
-Indirect single shooting or Direct (KOMO)
-PO-MPC (high-level problem formulation) D-AuLa (low-level optimization)
-
-<!-- chunk {"id": "body-0321", "role": "body", "section": "Conclusion", "weight": 1.5} -->
-
-Long term planning in highly contingent domains - Scalability
-Internal (exploration is planned)
-Determined by task planner
-PO-LGP (high-level integrated planner) T-KOMO (mid-level traj.-tree-transcription)
+Belief state update Traj. tree structure Importance of joint optimization Performance vs. Conservativness - Real-time planning External (provided by perception module) Indirect single shooting or Direct (KOMO) PO-MPC (high-level problem formulation) D-AuLa (low-level optimization) Long term planning in highly contingent domains - Scalability Internal (exploration is planned) Determined by task planner PO-LGP (high-level integrated planner) T-KOMO (mid-level traj.-tree-transcription) Table 6: Overview of research challenges and contributions. The rows 3 to 6 outline salient aspects of the method.

@@ -30,15 +30,15 @@ Genie is a generative interactive environment trained from video-only data. In t
 
 <!-- chunk {"id": "body-0008", "role": "body", "section": "Methodology", "weight": 1.0} -->
 
-Several components in the Genie architecture are based on the Vision Transformer (ViT). Notably, the quadratic memory cost of transformers poses challenges for videos, which can contain up to $O{(10^{4})}$ tokens. We thus adopt a memory efficient ST-transformer architecture (inspired by Xu et al., see Figure˜3) across all model components, balancing model capacity with computational constraints.
+Several components in the Genie architecture are based on the Vision Transformer (ViT). Notably, the quadratic memory cost of transformers poses challenges for videos, which can contain up to $O(10^{4})$ tokens. We thus adopt a memory efficient ST-transformer architecture (inspired by Xu et al., see Figure˜3) across all model components, balancing model capacity with computational constraints.
 
 <!-- chunk {"id": "body-0009", "role": "body", "section": "Methodology", "weight": 1.0} -->
 
-Unlike a traditional transformer where every token attends to all others, an ST-transformer contains $L$ spatiotemporal blocks with interleaved spatial and temporal attention layers, followed by a feed-forward layer (FFW) as standard attention blocks. The self-attention in the spatial layer attends over the $1 \times H \times W$ tokens within each time step, and in the temporal layer attends over $T \times 1 \times 1$ tokens across the $T$ time steps. Similar to sequence transformers, the temporal layer assumes a causal structure with a causal mask. Crucially, the dominating factor of computation complexity (i.e. the spatial attention layer) in our architecture scales linearly with the number of frames rather than quadratically, making it much more efficient for video generation with consistent dynamics over extended interactions. Further, note that in the ST block, we include only one FFW after both spatial and temporal components, omitting the post-spatial FFW to allow for scaling up other components of the model, which we observe to improve results significantly.
+Unlike a traditional transformer where every token attends to all others, an ST-transformer contains $L$ spatiotemporal blocks with interleaved spatial and temporal attention layers, followed by a feed-forward layer (FFW) as standard attention blocks. The self-attention in the spatial layer attends over the $1\times H\times W$ tokens within each time step, and in the temporal layer attends over $T\times 1\times 1$ tokens across the $T$ time steps. Similar to sequence transformers, the temporal layer assumes a causal structure with a causal mask. Crucially, the dominating factor of computation complexity (i.e. the spatial attention layer) in our architecture scales linearly with the number of frames rather than quadratically, making it much more efficient for video generation with consistent dynamics over extended interactions. Further, note that in the ST block, we include only one FFW after both spatial and temporal components, omitting the post-spatial FFW to allow for scaling up other components of the model, which we observe to improve results significantly.
 
 <!-- chunk {"id": "body-0010", "role": "body", "section": "Model Components", "weight": 1.0} -->
 
-As shown in Figure˜2, our model contains three key components: 1) a *latent action model* that infers the latent action $\mathbf{a}$ between each pair of frames and 2) a *video tokenizer* that converts raw video frames into discrete tokens $\mathbf{z}$ and 3) a *dynamics model* that, given a latent action and past frame tokens, predicts the next frame of the video. The model is trained in two phases following a standard autoregressive video generation pipeline: we train the video tokenizer first, which is used for the dynamics model. We then co-train the latent action model (directly from pixels) and the dynamics model (on video tokens).
+As shown in Figure˜2, our model contains three key components: 1) a *latent action model* that infers the latent action $\bm{a}$ between each pair of frames and 2) a *video tokenizer* that converts raw video frames into discrete tokens $\bm{z}$ and 3) a *dynamics model* that, given a latent action and past frame tokens, predicts the next frame of the video. The model is trained in two phases following a standard autoregressive video generation pipeline: we train the video tokenizer first, which is used for the dynamics model. We then co-train the latent action model (directly from pixels) and the dynamics model (on video tokens).
 
 <!-- chunk {"id": "body-0011", "role": "body", "section": "Model Components", "weight": 1.0} -->
 
@@ -46,39 +46,39 @@ Latent Action Model (LAM) To achieve controllable video generation, we condition
 
 <!-- chunk {"id": "body-0012", "role": "body", "section": "Model Components", "weight": 1.0} -->
 
-First, an encoder takes as inputs all previous frames ${\mathbf{x}}_{1:t} = {(x_{1},{\cdotsx_{t}})}$ as well as the next frame $x_{t + 1}$, and outputs a corresponding set of continuous latent actions ${\overset{\sim}{\mathbf{a}}}_{1:t} = {({\overset{\sim}{a}}_{1},{\cdots{\overset{\sim}{a}}_{t}})}$. A decoder then takes all previous frames and latent actions as input and predicts the next frame ${\hat{x}}_{t + 1}$.
+First, an encoder takes as inputs all previous frames $\bm{x}_{1:t}=(x_{1},\cdots x_{t})$ as well as the next frame $x_{t+1}$, and outputs a corresponding set of continuous latent actions $\tilde{\bm{a}}_{1:t}=(\tilde{a}_{1},\cdots\tilde{a}_{t})$. A decoder then takes all previous frames and latent actions as input and predicts the next frame $\hat{x}_{t+1}$.
 
 <!-- chunk {"id": "body-0013", "role": "body", "section": "Model Components", "weight": 1.0} -->
 
-To train the model, we leverage a VQ-VAE-based objective, which enables us to limit the number of predicted actions to a small discrete set of codes. We limit the vocabulary size $|A|$ of the VQ codebook, i.e. the maximum number of possible latent actions, to a small value to permit human playability and further enforce controllability (we use ${|A|} = 8$ in our experiments). As the decoder only has access to the history and latent action, ${\overset{\sim}{a}}_{t}$ should encode the most meaningful changes between the past and the future for the decoder to successfully reconstruct the future frame. Note that this decoder exists only to give the LAM training signal. In fact, apart from the VQ codebook, the entire LAM is discarded at inference time and replaced with actions from the user.
+To train the model, we leverage a VQ-VAE-based objective, which enables us to limit the number of predicted actions to a small discrete set of codes. We limit the vocabulary size $|A|$ of the VQ codebook, i.e. the maximum number of possible latent actions, to a small value to permit human playability and further enforce controllability (we use $|A|=8$ in our experiments). As the decoder only has access to the history and latent action, $\tilde{a}_{t}$ should encode the most meaningful changes between the past and the future for the decoder to successfully reconstruct the future frame. Note that this decoder exists only to give the LAM training signal. In fact, apart from the VQ codebook, the entire LAM is discarded at inference time and replaced with actions from the user.
 
 <!-- chunk {"id": "body-0014", "role": "body", "section": "Model Components", "weight": 1.0} -->
 
-We utilize our ST-transformer architecture for the latent action model. The causal mask in the temporal layer allows us to take the entire video ${\mathbf{x}}_{1:T}$ as input and generate all latent actions between each frame ${\overset{\sim}{\mathbf{a}}}_{1:{T - 1}}$.
+We utilize our ST-transformer architecture for the latent action model. The causal mask in the temporal layer allows us to take the entire video $\bm{x}_{1:T}$ as input and generate all latent actions between each frame $\tilde{\bm{a}}_{1:T-1}$.
 
 <!-- chunk {"id": "body-0015", "role": "body", "section": "Model Components", "weight": 1.0} -->
 
-Video Tokenizer Following prior work, we compress videos into discrete tokens to reduce dimensionality and enable higher quality video generation (see Figure˜5). We again make use of VQ-VAE, which takes in $T$ frames of video ${\mathbf{x}}_{1:T} = {(x_{1},x_{2},\cdots,x_{T})} \in {\mathbb{R}}^{T \times H \times W \times C}$ as input, generating discrete representations for each frame ${\mathbf{z}}_{1:T} = {(z_{1},z_{2},\cdots,z_{T})} \in {\mathbb{I}}^{T \times D}$, where $D$ is the size of the discrete latent space. The tokenizer is trained using a standard VQ-VQAE objective over the entire video sequence.
+Video Tokenizer Following prior work, we compress videos into discrete tokens to reduce dimensionality and enable higher quality video generation (see Figure˜5). We again make use of VQ-VAE, which takes in $T$ frames of video $\bm{x}_{1:T}=(x_{1},x_{2},\cdots,x_{T})\in\mathbb{R}^{T\times H\times W\times C}$ as input, generating discrete representations for each frame $\bm{z}_{1:T}=(z_{1},z_{2},\cdots,z_{T})\in\mathbb{I}^{T\times D}$, where $D$ is the size of the discrete latent space. The tokenizer is trained using a standard VQ-VQAE objective over the entire video sequence.
 
 <!-- chunk {"id": "body-0016", "role": "body", "section": "Model Components", "weight": 1.0} -->
 
-Unlike prior works that focus on spatial-only compression in the tokenization phase, we utilize the ST-transformer in both the encoder and decoder to incorporate temporal dynamics in the encodings, which improves the video generation quality. By the causal nature of the ST-transformer, each discrete encoding $z_{t}$ contains information from all previously seen frames of the video ${\mathbf{x}}_{1:t}$. Phenaki also uses a temporal-aware tokenizer, C-ViViT, but this architecture is compute intensive, as the cost grows quadratically with the number of frames---in comparison, our ST-transformer based tokenizer (ST-ViViT) is much more compute efficient with the dominating factor in its cost increasing linearly with the number of frames.
+Unlike prior works that focus on spatial-only compression in the tokenization phase, we utilize the ST-transformer in both the encoder and decoder to incorporate temporal dynamics in the encodings, which improves the video generation quality. By the causal nature of the ST-transformer, each discrete encoding $z_{t}$ contains information from all previously seen frames of the video $\bm{x}_{1:t}$. Phenaki also uses a temporal-aware tokenizer, C-ViViT, but this architecture is compute intensive, as the cost grows quadratically with the number of frames---in comparison, our ST-transformer based tokenizer (ST-ViViT) is much more compute efficient with the dominating factor in its cost increasing linearly with the number of frames.
 
 <!-- chunk {"id": "body-0017", "role": "body", "section": "Model Components", "weight": 1.0} -->
 
-Dynamics Model The dynamics model is a decoder-only MaskGIT transformer (Figure˜6). At each time step $t \in {\lbrack 1,T\rbrack}$, it takes in the tokenized video ${\mathbf{z}}_{1:{t - 1}}$ and stopgrad latent actions ${\overset{\sim}{\mathbf{a}}}_{1:{t - 1}}$ and predicts the next frame tokens ${\hat{z}}_{t}$. We again utilize an ST-transformer, whose causal structure enables us to use tokens from all $({T - 1})$ frames ${\mathbf{z}}_{1:{T - 1}}$ and latent actions ${\overset{\sim}{\mathbf{a}}}_{1:{T - 1}}$ as input, and generate predictions for all next frames ${\hat{\mathbf{z}}}_{2:T}$.
+Dynamics Model The dynamics model is a decoder-only MaskGIT transformer (Figure˜6). At each time step $t\in[1,T]$, it takes in the tokenized video $\bm{z}_{1:t-1}$ and stopgrad latent actions $\tilde{\bm{a}}_{1:t-1}$ and predicts the next frame tokens $\hat{z}_{t}$. We again utilize an ST-transformer, whose causal structure enables us to use tokens from all $(T-1)$ frames $\bm{z}_{1:T-1}$ and latent actions $\tilde{\bm{a}}_{1:T-1}$ as input, and generate predictions for all next frames $\hat{\bm{z}}_{2:T}$.
 
 <!-- chunk {"id": "body-0018", "role": "body", "section": "Model Components", "weight": 1.0} -->
 
-The model is trained with a cross-entropy loss between the predicted tokens ${\hat{\mathbf{z}}}_{2:T}$ and ground-truth tokens ${\mathbf{z}}_{2:T}$. At train time we randomly mask the input tokens ${\mathbf{z}}_{2:{T - 1}}$ according to a Bernoulli distribution masking rate sampled uniformly between $0.5$ and $1$. Note that a common practice for training world-models, including transformer-based models, is to concatenate the action at time $t$ to the corresponding frame. However, we found that treating the latent actions as *additive embeddings* for both the latent action and dynamics models helped to improve the controllability of the generations.
+The model is trained with a cross-entropy loss between the predicted tokens $\hat{\bm{z}}_{2:T}$ and ground-truth tokens $\bm{z}_{2:T}$. At train time we randomly mask the input tokens $\bm{z}_{2:T-1}$ according to a Bernoulli distribution masking rate sampled uniformly between $0.5$ and $1$. Note that a common practice for training world-models, including transformer-based models, is to concatenate the action at time $t$ to the corresponding frame. However, we found that treating the latent actions as *additive embeddings* for both the latent action and dynamics models helped to improve the controllability of the generations.
 
 <!-- chunk {"id": "body-0019", "role": "body", "section": "Inference: Action-Controllable Video Generation", "weight": 1.0} -->
 
-We now describe how to use Genie for action-controllable video generation at inference time (see Figure˜7). A player first prompts the model with an image $x_{1}$ that serves as the initial frame^11^1The model can be conditioned on a varying number of prompt frames. Here we start from one image as an example.. The image is tokenized using the video encoder, yielding $z_{1}$. The player then specifies a discrete latent action $a_{1}$ to take by choosing any integer value within $\lbrack 0,{|A|})$.^22^2When first interacting with the model, it is unclear how each latent action will impact the next frame generation. However, we found that the meaning of each action *remained consistent* across different inputs. Hence, interpreting the mapping of latent actions is akin to learning the buttons on a new controller.
+We now describe how to use Genie for action-controllable video generation at inference time (see Figure˜7). A player first prompts the model with an image $x_{1}$ that serves as the initial frame^11^1The model can be conditioned on a varying number of prompt frames. Here we start from one image as an example.. The image is tokenized using the video encoder, yielding $z_{1}$. The player then specifies a discrete latent action $a_{1}$ to take by choosing any integer value within $0,|A|)$.^22^2When first interacting with the model, it is unclear how each latent action will impact the next frame generation. However, we found that the meaning of each action *remained consistent* across different inputs. Hence, interpreting the mapping of latent actions is akin to learning the buttons on a new controller.
 
 <!-- chunk {"id": "body-0020", "role": "body", "section": "Inference: Action-Controllable Video Generation", "weight": 1.0} -->
 
-The dynamics model takes the frame tokens $z_{1}$ and corresponding latent action ${\overset{\sim}{a}}_{1}$, which is obtained by indexing into the VQ codebook with the discrete input $a_{1}$, to predict the next frame tokens $z_{2}$. This process is repeated to generate the rest of the sequence ${\hat{\mathbf{z}}}_{2:T}$ in an autoregressive manner as actions continue to be passed to the model, while tokens are decoded into video frames ${\hat{\mathbf{x}}}_{2:T}$ with the tokenizer's decoder. Note that we can regenerate ground truth videos from the dataset by passing the model the starting frame and inferred actions from the video, or generate completely new videos (or trajectories) by changing the actions.
+The dynamics model takes the frame tokens $z_{1}$ and corresponding latent action $\tilde{a}_{1}$, which is obtained by indexing into the VQ codebook with the discrete input $a_{1}$, to predict the next frame tokens $z_{2}$. This process is repeated to generate the rest of the sequence $\hat{\bm{z}}_{2:T}$ in an autoregressive manner as actions continue to be passed to the model, while tokens are decoded into video frames $\hat{\bm{x}}_{2:T}$ with the tokenizer's decoder. Note that we can regenerate ground truth videos from the dataset by passing the model the starting frame and inferred actions from the video, or generate completely new videos (or trajectories) by changing the actions.
 
 <!-- chunk {"id": "body-0021", "role": "body", "section": "Experimental Results", "weight": 1.0} -->
 
@@ -86,104 +86,108 @@ Datasets We train Genie on a large-scale dataset collected from publicly availab
 
 <!-- chunk {"id": "body-0022", "role": "body", "section": "Experimental Results", "weight": 1.0} -->
 
-To verify the generality of our method, we also consider the robotics datasets used to train RT1 Brohan et al., combining their dataset of $\sim {130k}$ robot demonstrations with a separate dataset of simulation data and the 209k episodes of real robot data from prior work. Note that we do not use actions from any of these datasets, and simply treat them as videos. For simplicity, from here on we refer to this dataset as "Robotics".
+To verify the generality of our method, we also consider the robotics datasets used to train RT1 Brohan et al., combining their dataset of ${\sim}130k$ robot demonstrations with a separate dataset of simulation data and the 209k episodes of real robot data from prior work. Note that we do not use actions from any of these datasets, and simply treat them as videos. For simplicity, from here on we refer to this dataset as "Robotics".
 
 <!-- chunk {"id": "body-0023", "role": "body", "section": "Experimental Results", "weight": 1.0} -->
 
-Metrics We examine the video generation performance of Genie via two factors, namely *video fidelity*, i.e. the quality of video generation, and *controllability*, i.e. how much impact the latent actions have in video generation. For video fidelity we use the Frechet Video Distance (FVD), a video-level metric, which has been shown to have a high level of alignment to human evaluation on video quality. For controllability, we devise a metric based on peak signal-to-noise ratio (PSNR) which we call $\Delta_{t}\text{PSNR}$, that measures how much the video generations differ when conditioned on latent actions inferred from ground-truth (${\hat{x}}_{t}$) vs.
+Metrics We examine the video generation performance of Genie via two factors, namely *video fidelity*, i.e. the quality of video generation, and *controllability*, i.e. how much impact the latent actions have in video generation. For video fidelity we use the Frechet Video Distance (FVD), a video-level metric, which has been shown to have a high level of alignment to human evaluation on video quality.
 
 <!-- chunk {"id": "body-0024", "role": "body", "section": "Experimental Results", "weight": 1.0} -->
 
-where $x_{t}$ denotes the ground-truth frame at time $t$, ${\hat{x}}_{t}$ denotes the frame from latent actions ${\overset{\sim}{\mathbf{a}}}_{1:t}$ inferred from ground-truth frames, and ${\hat{x}}_{t}^{\prime}$ the same frame generated from a sequence of latent actions randomly sampled from a categorical distribution. As such, the greater $\Delta_{t}\text{PSNR}$ is, the more the video generated from random latent actions differs from ground-truth, which indicates a higher level of controllability from the latent actions. For all experiments we report $\Delta_{t}\text{PSNR}$ with $t = 4$.
+For controllability, we devise a metric based on peak signal-to-noise ratio (PSNR) which we call $\Delta_{t}\text{PSNR}$, that measures how much the video generations differ when conditioned on latent actions inferred from ground-truth ($\hat{x}_{t}$) vs. sampled from a random distribution ($\hat{x}_{t}^{\prime}$): where $x_{t}$ denotes the ground-truth frame at time $t$, $\hat{x}_{t}$ denotes the frame from latent actions $\tilde{\bm{a}}_{1:t}$ inferred from ground-truth frames, and $\hat{x}_{t}^{\prime}$ the same frame generated from a sequence of latent actions randomly sampled from a categorical distribution.
 
 <!-- chunk {"id": "body-0025", "role": "body", "section": "Experimental Results", "weight": 1.0} -->
 
+As such, the greater $\Delta_{t}\text{PSNR}$ is, the more the video generated from random latent actions differs from ground-truth, which indicates a higher level of controllability from the latent actions. For all experiments we report $\Delta_{t}\text{PSNR}$ with $t=4$.
+
+<!-- chunk {"id": "body-0026", "role": "body", "section": "Experimental Results", "weight": 1.0} -->
+
 Training Details Our video tokenizer uses 200M parameters, a patch size of 4 and a codebook with embedding size 32 and 1024 unique codes, which we found to be the most effective given the trade-off between reconstruction quality of the tokenizer and downstream performance of video prediction. The latent action model has 300M parameters, a patch size of 16, and a codebook with embedding size 32 and 8 unique codes (latent actions). For all modelling components we use a sequence length of 16 frames with an FPS of 10. Further, we employ bfloat16 and QK norm for training our dynamics model, which has been shown to stabilize training at large scale. At inference time, we perform 25 MaskGIT steps for the sampling of each frame with a temperature of 2 using random sampling. See Appendix˜C for more details.
-
-<!-- chunk {"id": "body-0026", "role": "body", "section": "Scaling Results", "weight": 1.0} -->
-
-In this section, we investigate the scaling behavior of our model. To this end, we conduct studies that explore the impact of both model size and batch size. See Appendix˜D for more details on architecture and compute usage.
 
 <!-- chunk {"id": "body-0027", "role": "body", "section": "Scaling Results", "weight": 1.0} -->
 
-Scaling Model Size Given a fixed video tokenizer and action model architecture, we train a series of dynamics models ranging from 40M to 2.7B parameters. Figure˜8 shows our architecture scales gracefully with model parameters, with each increase in size corresponding to a consistent decrease in the final training loss. This is a strong indication that our approach benefits from scaling, which we exploit with our main Genie model.
+In this section, we investigate the scaling behavior of our model. To this end, we conduct studies that explore the impact of both model size and batch size. See Appendix˜D for more details on architecture and compute usage.
 
 <!-- chunk {"id": "body-0028", "role": "body", "section": "Scaling Results", "weight": 1.0} -->
 
-Scaling Batch Size We also investigate the effect of scaling the batch size, considering a 2.3B model with batch sizes of 128, 256, and 448, equating to 1.9M, 3.8M and 6.6M tokens. As shown in Figure 8, increasing the batch size leads to a similarly favorable gain in terms of model performance.
+Scaling Model Size Given a fixed video tokenizer and action model architecture, we train a series of dynamics models ranging from 40M to 2.7B parameters. Figure˜8 shows our architecture scales gracefully with model parameters, with each increase in size corresponding to a consistent decrease in the final training loss. This is a strong indication that our approach benefits from scaling, which we exploit with our main Genie model.
 
 <!-- chunk {"id": "body-0029", "role": "body", "section": "Scaling Results", "weight": 1.0} -->
 
+Scaling Batch Size We also investigate the effect of scaling the batch size, considering a 2.3B model with batch sizes of 128, 256, and 448, equating to 1.9M, 3.8M and 6.6M tokens. As shown in Figure 8, increasing the batch size leads to a similarly favorable gain in terms of model performance.
+
+<!-- chunk {"id": "body-0030", "role": "body", "section": "Scaling Results", "weight": 1.0} -->
+
 Genie Model It is clear that increasing both model size and batch size helps improve model performance. As a result, for our final model, we train a 10.1B dynamics model with a batch size of 512, for a total of 125k steps, using 256 TPUv5p. When combined with the tokenizer and action model this brings the total to 10.7B parameters, trained on 942B tokens, which we refer to as the Genie model. For our website, we train a larger decoder mapping tokens to 360p videos, adding additional parameters.
-
-<!-- chunk {"id": "body-0030", "role": "body", "section": "Qualitative Results", "weight": 1.0} -->
-
-We now present qualitative results from the Genie model. We showcase a 11B parameter model trained on the Platformers dataset and a smaller model trained on the Robotics dataset. Our model generates high-quality, controllable videos across diverse domains. Notably, we qualitatively evaluate our Platformers-trained model using *only out-of-distribution (OOD) image prompts*, including those generated from text-to-image models, hand-drawn sketches, and even realistic photos. The ability to generalize to such significantly OOD inputs underscores the robustness of our approach and the value of training on large-scale data, which would not have been feasible with real actions as input.
 
 <!-- chunk {"id": "body-0031", "role": "body", "section": "Qualitative Results", "weight": 1.0} -->
 
-Platformers-trained model Figure˜9 showcases examples of our model's generations prompted from OOD images, including (top row) images generated from Imagen2, (second row) hand-drawn sketches and (bottom row) real-world photos. Genie is able to bring these imagined worlds to life, as we see game-like behaviour when interacting with each example. We showcase more generations by our model in Appendix˜A, additionally highlighting the consistency of the latent actions.
+We now present qualitative results from the Genie model. We showcase a 11B parameter model trained on the Platformers dataset and a smaller model trained on the Robotics dataset. Our model generates high-quality, controllable videos across diverse domains. Notably, we qualitatively evaluate our Platformers-trained model using *only out-of-distribution (OOD) image prompts*, including those generated from text-to-image models, hand-drawn sketches, and even realistic photos. The ability to generalize to such significantly OOD inputs underscores the robustness of our approach and the value of training on large-scale data, which would not have been feasible with real actions as input.
 
 <!-- chunk {"id": "body-0032", "role": "body", "section": "Qualitative Results", "weight": 1.0} -->
 
-Another emergent capability of our model is its ability to understand 3D scenes and emulate parallax, which is commonly seen in platformer games. In Figure˜11 we show an image generated by Imagen2, where taking a latent action moves the foreground at a different rate to the background (as indicated by the length of different colored arrows).
+Platformers-trained model Figure˜9 showcases examples of our model's generations prompted from OOD images, including (top row) images generated from Imagen2, (second row) hand-drawn sketches and (bottom row) real-world photos. Genie is able to bring these imagined worlds to life, as we see game-like behaviour when interacting with each example. We showcase more generations by our model in Appendix˜A, additionally highlighting the consistency of the latent actions.
 
 <!-- chunk {"id": "body-0033", "role": "body", "section": "Qualitative Results", "weight": 1.0} -->
 
+Another emergent capability of our model is its ability to understand 3D scenes and emulate parallax, which is commonly seen in platformer games. In Figure˜11 we show an image generated by Imagen2, where taking a latent action moves the foreground at a different rate to the background (as indicated by the length of different colored arrows).
+
+<!-- chunk {"id": "body-0034", "role": "body", "section": "Qualitative Results", "weight": 1.0} -->
+
 Robotics-trained model We trained a 2.5B-parameter model on the Robotics dataset using the same hyperparameters found to be best on Platformers, achieving an FVD of 82.7 on the test split. As shown in Figure˜12, this model successfully learns distinct and consistent actions from video data, requiring neither text nor action labels (as in e.g. Yang et al. ). Notably, our model learns not only the controls of the robotic arm but also the interactions and deformations of various objects (Figure˜10). We believe this shows our approach presents a path to using larger video datasets from the Internet to create a foundational world model for robotics, with low-level controllable simulation that could be used for a variety of applications.
-
-<!-- chunk {"id": "body-0034", "role": "body", "section": "Training Agents", "weight": 1.0} -->
-
-We believe Genie could one day be used as a foundation world model for training generalist agents. In Figure 13 we show that the model can already be used for generating diverse trajectories in unseen RL environments given starting frames. We further investigate if latent actions learnt from Internet videos can be used for imitating behaviors from unseen videos. We use a frozen LAM to label a sequence of expert videos from a target environment with discrete latent actions and then train a policy that predicts the likelihood of the expert taking a latent action given an observation. We then use a small dataset with expert ground-truth actions for mapping latent to real actions (see Appendix˜E for more details).
 
 <!-- chunk {"id": "body-0035", "role": "body", "section": "Training Agents", "weight": 1.0} -->
 
+We believe Genie could one day be used as a foundation world model for training generalist agents. In Figure 13 we show that the model can already be used for generating diverse trajectories in unseen RL environments given starting frames. We further investigate if latent actions learnt from Internet videos can be used for imitating behaviors from unseen videos. We use a frozen LAM to label a sequence of expert videos from a target environment with discrete latent actions and then train a policy that predicts the likelihood of the expert taking a latent action given an observation. We then use a small dataset with expert ground-truth actions for mapping latent to real actions (see Appendix˜E for more details).
+
+<!-- chunk {"id": "body-0036", "role": "body", "section": "Training Agents", "weight": 1.0} -->
+
 We evaluate in both hard and easy settings of a procedurally generated 2D-platformer environment, CoinRun, and compare against an oracle behavioral cloning (BC) model that has access to expert actions as an upper bound, and a random agent as a lower bound (Figure 14). The LAM-based policy achieves the same score as the oracle given as few as 200 expert samples to adapt, despite almost certainly never seeing CoinRun before. This provides evidence that the learnt latent actions are consistent and meaningful for transfer, as the mapping from latent to real contains no information about the current observation.
-
-<!-- chunk {"id": "body-0036", "role": "body", "section": "Ablation Studies", "weight": 1.0} -->
-
-Design choices for latent action model In designing our latent action model, we carefully considered the type of input to use. While we ultimately chose to use the original images (pixels), we evaluated this choice against the alternative of using tokenized images (replacing x with z in Figure˜4). We refer to this alternative approach as the "token-input\" model (see Table˜2).
 
 <!-- chunk {"id": "body-0037", "role": "body", "section": "Ablation Studies", "weight": 1.0} -->
 
-While this model achieved a slightly lower FVD score on the Platformers dataset, it did not maintain this advantage on the Robotics dataset. More importantly, in both environments, the token-input model exhibited worse controllability (as measured by $\Delta_{t}\text{PSNR}$). This suggests that some information about video dynamics and movement might have been lost during tokenization, and as a result it is beneficial for the latent action model to take in raw videos as input.
+Design choices for latent action model In designing our latent action model, we carefully considered the type of input to use. While we ultimately chose to use the original images (pixels), we evaluated this choice against the alternative of using tokenized images (replacing x with z in Figure˜4). We refer to this alternative approach as the "token-input\" model (see Table˜2).
 
 <!-- chunk {"id": "body-0038", "role": "body", "section": "Ablation Studies", "weight": 1.0} -->
 
-#Params
+While this model achieved a slightly lower FVD score on the Platformers dataset, it did not maintain this advantage on the Robotics dataset. More importantly, in both environments, the token-input model exhibited worse controllability (as measured by $\Delta_{t}\text{PSNR}$). This suggests that some information about video dynamics and movement might have been lost during tokenization, and as a result it is beneficial for the latent action model to take in raw videos as input.
 
 <!-- chunk {"id": "body-0039", "role": "body", "section": "Ablation Studies", "weight": 1.0} -->
 
-Tokenizer architecture ablations We compare the performance of three choices of tokenizers, including 1) (spatial-only) ViT, 2) (spatial-temporal) ST-ViViT and 3) (spatial-temporal) C-ViViT (Table˜3). For comparison we use similar number of parameters for all tokenizers, with patch size 10, batch size 128 and sequence length 16. We then train the same dynamics and latent action model on these three different tokenizers, and report their FVD as well as $\Delta_{t}\text{PSNR}$.
+#Params
 
 <!-- chunk {"id": "body-0040", "role": "body", "section": "Ablation Studies", "weight": 1.0} -->
 
-#Params
+Tokenizer architecture ablations We compare the performance of three choices of tokenizers, including 1) (spatial-only) ViT, 2) (spatial-temporal) ST-ViViT and 3) (spatial-temporal) C-ViViT (Table˜3). For comparison we use similar number of parameters for all tokenizers, with patch size 10, batch size 128 and sequence length 16. We then train the same dynamics and latent action model on these three different tokenizers, and report their FVD as well as $\Delta_{t}\text{PSNR}$.
 
 <!-- chunk {"id": "body-0041", "role": "body", "section": "Ablation Studies", "weight": 1.0} -->
 
+#Params
+
+<!-- chunk {"id": "body-0042", "role": "body", "section": "Ablation Studies", "weight": 1.0} -->
+
 Our proposed ST-ViViT architecture provides both improved video generation (FVD) and $\Delta_{t}\text{PSNR}$, for a reasonable trade-off in memory, as compared to to C-ViViT and the spatial-only ViT. This demonstrates its ability to generate videos of high fidelity and controllability, respectively. While C-ViViT employs a full space-time attention mechanism, resulting in significantly higher memory consumption compared to the other two architectures at the same parameter count, this does not translate to improved performance. In fact, C-ViViT exhibits a tendency towards overfitting, necessitating strong regularization during training, which might explain its considerably lower performance.
-
-<!-- chunk {"id": "body-0042", "role": "body", "section": "Conclusion and Future Work", "weight": 1.5} -->
-
-We proposed Genie, a new form of generative AI that enables anyone, even children, to dream up, create, and step into generated worlds as we can with human-designed simulated environments. Genie can be prompted to generate a diverse set of interactive and controllable environments despite training from video-only data.
 
 <!-- chunk {"id": "body-0043", "role": "body", "section": "Conclusion and Future Work", "weight": 1.5} -->
 
-There are clear improvements that can be made to the model. Genie inherits some of the weaknesses of other autoregressive transformer models, and can hallucinate unrealistic futures. And while we have made progress with spatiotemporal representations, we are still limited to 16 frames of memory which makes it challenging to get consistent environments over long horizons. Finally, Genie currently operates around 1FPS and requires future advances to achieve an efficient frame rate for interaction.
+We proposed Genie, a new form of generative AI that enables anyone, even children, to dream up, create, and step into generated worlds as we can with human-designed simulated environments. Genie can be prompted to generate a diverse set of interactive and controllable environments despite training from video-only data.
 
 <!-- chunk {"id": "body-0044", "role": "body", "section": "Conclusion and Future Work", "weight": 1.5} -->
 
+There are clear improvements that can be made to the model. Genie inherits some of the weaknesses of other autoregressive transformer models, and can hallucinate unrealistic futures. And while we have made progress with spatiotemporal representations, we are still limited to 16 frames of memory which makes it challenging to get consistent environments over long horizons. Finally, Genie currently operates around 1FPS and requires future advances to achieve an efficient frame rate for interaction.
+
+<!-- chunk {"id": "body-0045", "role": "body", "section": "Conclusion and Future Work", "weight": 1.5} -->
+
 Still, we believe Genie opens up vast potential for future research. Given its generality, the model could be trained from an even larger proportion of Internet videos to simulate diverse, realistic, and imagined environments. Furthermore, we only briefly touched upon the capabilities of using Genie for training agents, but given that the lack of rich and diverse environments is one of the key limitations in RL, we could unlock new paths to creating more generally capable agents.
-
-<!-- chunk {"id": "body-0045", "role": "body", "section": "Broader Impact", "weight": 1.0} -->
-
-Societal Impact Genie could enable a large amount of people to generate their own game-like experiences. This could be positive for those who wish to express their creativity in a new way, for example children who could design and step into their own imagined worlds. We also recognize that with significant advances, it will be critical to explore the possibilities of using this technology to amplify existing human game generation and creativity---and empowering relevant industries to utilize Genie to enable their next generation of playable world development.
 
 <!-- chunk {"id": "body-0046", "role": "body", "section": "Broader Impact", "weight": 1.0} -->
 
-Training Data and Weights: We have chosen not to release the trained model checkpoints, the model's training dataset, or examples from that data to accompany this paper or the website. We would like to have the opportunity to further engage with the research (and video game) community and to ensure that any future such releases are respectful, safe and responsible.
+Societal Impact Genie could enable a large amount of people to generate their own game-like experiences. This could be positive for those who wish to express their creativity in a new way, for example children who could design and step into their own imagined worlds. We also recognize that with significant advances, it will be critical to explore the possibilities of using this technology to amplify existing human game generation and creativity---and empowering relevant industries to utilize Genie to enable their next generation of playable world development.
 
 <!-- chunk {"id": "body-0047", "role": "body", "section": "Broader Impact", "weight": 1.0} -->
+
+Training Data and Weights: We have chosen not to release the trained model checkpoints, the model's training dataset, or examples from that data to accompany this paper or the website. We would like to have the opportunity to further engage with the research (and video game) community and to ensure that any future such releases are respectful, safe and responsible.
+
+<!-- chunk {"id": "body-0048", "role": "body", "section": "Broader Impact", "weight": 1.0} -->
 
 Reproducibility: We understand that it may be challenging for researchers with fewer computational to reproduce our main results. In order to mitigate this issue, we describe a smaller scale, fully reproducible example in Appendix˜F that can run on a single mid-range TPU (or GPU). Given that many design choices translate between the two settings, we believe this will make it possible for the broader community to investigate future architectural improvements as well as additional research directions resulting from our work.

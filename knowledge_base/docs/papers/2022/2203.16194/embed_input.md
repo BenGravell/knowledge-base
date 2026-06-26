@@ -80,132 +80,124 @@ Patch Feature Tokenization via Latent Summarization. Although the patchification
 
 <!-- chunk {"id": "body-0020", "role": "body", "section": "Cost Volume Encoder", "weight": 1.0} -->
 
-The latent representations $\mathbf{T}_{\mathbf{x}}$ for summarizing $\mathbf{F}_{\mathbf{x}}$ are obtained as
+Given a 2D position $\mathbf{p}$, we encode it into a positional embedding of length $D_{p}$ following COTR. Finally, the cost map of the source pixel $\mathbf{x}$ can be summarized into $K$ latent representations $\mathbf{T}_{\mathbf{x}} \in {\mathbb{R}}^{K \times D}$ by conducting multi-head dot-product attention with the queries, keys, and values. Generally, ${K \times D} \ll {H \times W}$ and the latent summarizations $\mathbf{T}_{\mathbf{x}}$ therefore provides more compact representations than each $H \times W$ cost map for each source pixel $\mathbf{x}$. For all source pixels in the image, there are a total of $({H \times W})$ 2D cost maps.
 
 <!-- chunk {"id": "body-0021", "role": "body", "section": "Cost Volume Encoder", "weight": 1.0} -->
 
-Before projecting the cost-patch features $\mathbf{F}_{\mathbf{x}}$ to obtain keys $\mathbf{K}_{\mathbf{x}}$ and values $\mathbf{V}_{\mathbf{x}}$, the patch features are concatenated with a sequence of positional embeddings $\text{PE} \in {\mathbb{R}}^{{\lceil{H/8}\rceil} \times {\lceil{W/8}\rceil} \times D_{p}}$. Given a 2D position $\mathbf{p}$, we encode it into a positional embedding of length $D_{p}$ following COTR. Finally, the cost map of the source pixel $\mathbf{x}$ can be summarized into $K$ latent representations $\mathbf{T}_{\mathbf{x}} \in {\mathbb{R}}^{K \times D}$ by conducting multi-head dot-product attention with the queries, keys, and values.
+Their summarized representations can consequently be converted into a latent 4D cost volume $\mathbf{T} \in {\mathbb{R}}^{H \times W \times K \times D}$.
 
 <!-- chunk {"id": "body-0022", "role": "body", "section": "Cost Volume Encoder", "weight": 1.0} -->
 
-Generally, ${K \times D} \ll {H \times W}$ and the latent summarizations $\mathbf{T}_{\mathbf{x}}$ therefore provides more compact representations than each $H \times W$ cost map for each source pixel $\mathbf{x}$. For all source pixels in the image, there are a total of $({H \times W})$ 2D cost maps. Their summarized representations can consequently be converted into a latent 4D cost volume $\mathbf{T} \in {\mathbb{R}}^{H \times W \times K \times D}$.
+Attention in the latent cost space. The aforementioned two stages transform the original 4D cost volume into a latent and compact 4D cost volume $\mathbf{T}$. However, it is still too expensive to directly apply self-attention over all the vectors in the 4D volume because the computational cost quadratically increases with the number of tokens. As shown in Fig. 2, we propose an alternate-group transformer layer (AGT) that groups the tokens in two mutually orthogonal manners and apply attentions in the two groups alternatively, which reduces the cost of attention while still being able to propagate information among all tokens.
 
 <!-- chunk {"id": "body-0023", "role": "body", "section": "Cost Volume Encoder", "weight": 1.0} -->
 
-Attention in the latent cost space. The aforementioned two stages transform the original 4D cost volume into a latent and compact 4D cost volume $\mathbf{T}$. However, it is still too expensive to directly apply self-attention over all the vectors in the 4D volume because the computational cost quadratically increases with the number of tokens. As shown in Fig. 2, we propose an alternate-group transformer layer (AGT) that groups the tokens in two mutually orthogonal manners and apply attentions in the two groups alternatively, which reduces the cost of attention while still being able to propagate information among all tokens.
+The first grouping is conducted for each source pixel, i.e., each $\mathbf{T}_{\mathbf{x}} \in {\mathbb{R}}^{K \times D}$ forms a group and the self-attention is conducted within each group. where $\mathbf{T}_{\mathbf{x}}{(i)}$ denotes the $i$-th latent representation for encoding the source pixel $\mathbf{x}$'s cost map. After the self-attention is conducted between all $K$ latent tokens for each source pixel $\mathbf{x}$, updated $\mathbf{T}_{\mathbf{x}}$ are further transformed by a feed-forward network (FFN) and then re-organized back to form the updated 4D cost volume $\mathbf{T}$. Both the self-attention and FFN sub-layers adopt the common designs of residual connection and layer normalization of transformers. This self-attention operation propagates the information within each cost map and we name it as intra-cost-map self-attention.
 
 <!-- chunk {"id": "body-0024", "role": "body", "section": "Cost Volume Encoder", "weight": 1.0} -->
 
-The first grouping is conducted for each source pixel, i.e., each $\mathbf{T}_{\mathbf{x}} \in {\mathbb{R}}^{K \times D}$ forms a group and the self-attention is conducted within each group.
+The second way groups all the latent cost tokens $\mathbf{T} \in {\mathbb{R}}^{H \times W \times K \times D}$ into $K$ groups according to the $K$ different latent representations. Each group would therefore have $({H \times W})$ tokens of dimension $D$ for information propagation in the spatial domain via the spatially separable self-attention (SS-SelfAttention) proposed in Twins, where we slightly abuse the notation and denote $\mathbf{T}_{i} \in {\mathbb{R}}^{{({H \times W})} \times D}$ as the $i$-th group. The updated $\mathbf{T}_{i}$'s are then re-organized back to obtain the updated 4D latent cost volume $\mathbf{T}$. Moreover, visually similar source pixels should have coherent flows, which has been validated by previous methods.
 
 <!-- chunk {"id": "body-0025", "role": "body", "section": "Cost Volume Encoder", "weight": 1.0} -->
 
-where $\mathbf{T}_{\mathbf{x}}{(i)}$ denotes the $i$-th latent representation for encoding the source pixel $\mathbf{x}$'s cost map. After the self-attention is conducted between all $K$ latent tokens for each source pixel $\mathbf{x}$, updated $\mathbf{T}_{\mathbf{x}}$ are further transformed by a feed-forward network (FFN) and then re-organized back to form the updated 4D cost volume $\mathbf{T}$. Both the self-attention and FFN sub-layers adopt the common designs of residual connection and layer normalization of transformers. This self-attention operation propagates the information within each cost map and we name it as intra-cost-map self-attention.
+Thus, we integrate appearance affinities between different source pixels into SS-SelfAttention via concatenating the source image's context features $\mathbf{t}$ with the cost tokens when generating queries and keys. We call this layer inter-cost-map self-attention layer as it propagates information of cost volume across different source pixels. Note that these two operations are different from CATs, which augmented correlations 'intra' a level of cost map and 'inter' multi-level correlation layers.
 
 <!-- chunk {"id": "body-0026", "role": "body", "section": "Cost Volume Encoder", "weight": 1.0} -->
 
-The second way groups all the latent cost tokens $\mathbf{T} \in {\mathbb{R}}^{H \times W \times K \times D}$ into $K$ groups according to the $K$ different latent representations. Each group would therefore have $({H \times W})$ tokens of dimension $D$ for information propagation in the spatial domain via the spatially separable self-attention (SS-SelfAttention) proposed in Twins,
-
-<!-- chunk {"id": "body-0027", "role": "body", "section": "Cost Volume Encoder", "weight": 1.0} -->
-
-where we slightly abuse the notation and denote $\mathbf{T}_{i} \in {\mathbb{R}}^{{({H \times W})} \times D}$ as the $i$-th group. The updated $\mathbf{T}_{i}$'s are then re-organized back to obtain the updated 4D latent cost volume $\mathbf{T}$. Moreover, visually similar source pixels should have coherent flows, which has been validated by previous methods. Thus, we integrate appearance affinities between different source pixels into SS-SelfAttention via concatenating the source image's context features $\mathbf{t}$ with the cost tokens when generating queries and keys. We call this layer inter-cost-map self-attention layer as it propagates information of cost volume across different source pixels. Note that these two operations are different from CATs, which augmented correlations 'intra' a level of cost map and 'inter' multi-level correlation layers.
-
-<!-- chunk {"id": "body-0028", "role": "body", "section": "Cost Volume Encoder", "weight": 1.0} -->
-
 The above self-attention operations' parameters are shared across different groups and they are sequentially operated to form the proposed alternate-group attention layer. By stacking the alternate-group transformer layer multiple times, the latent cost tokens can effectively exchange information across source pixels and across latent representations to better encode the 4D cost volume. In this way, our cost volume encoder transforms the $H \times W \times H \times W$ 4D cost volume to $H \times W \times K$ latent tokens of length $D$. We call the final $H \times W \times K$ tokens as the cost memory, which is to be decoded for optical flow estimation.
 
-<!-- chunk {"id": "body-0029", "role": "body", "section": "Cost Memory Decoder for Flow Estimation", "weight": 1.0} -->
+<!-- chunk {"id": "body-0027", "role": "body", "section": "Cost Memory Decoder for Flow Estimation", "weight": 1.0} -->
 
 Given the cost memory encoded by the cost volume encoder, we propose a cost memory decoder to predict optical flows. Since the original resolution of the input image is $H_{I} \times W_{I}$, we estimate optical flow at the $H \times W$ resolution and then upsample the predicted flows to the original resolution with a learnable convex upsampler. However, in contrast to previous vision transformers that seek abstract semantic features, optical flow estimation requires recovering dense correspondences from the cost memory. Inspired by RAFT, we propose to use cost queries to retrieve cost features from the cost memory and iteratively refine flow predictions with a recurrent attention decoder layer.
 
-<!-- chunk {"id": "body-0030", "role": "body", "section": "Cost Memory Decoder for Flow Estimation", "weight": 1.0} -->
+<!-- chunk {"id": "body-0028", "role": "body", "section": "Cost Memory Decoder for Flow Estimation", "weight": 1.0} -->
 
 Cost memory aggregation. For predicting the flows of the $H \times W$ source pixels, we generate a sequence of $({H \times W})$ cost queries, each of which is responsible for estimating the flow of a single source pixel via co-attention on the cost memory. To generate the cost query $\mathbf{Q}_{\mathbf{x}}$ for a source pixel $\mathbf{x}$, we first compute its corresponding location in the target image given its current estimated flow $\mathbf{f}{(\mathbf{x})}$ as $\mathbf{p} = {\mathbf{x} + {\mathbf{f}{(\mathbf{x})}}}$.
 
-<!-- chunk {"id": "body-0031", "role": "body", "section": "Cost Memory Decoder for Flow Estimation", "weight": 1.0} -->
+<!-- chunk {"id": "body-0029", "role": "body", "section": "Cost Memory Decoder for Flow Estimation", "weight": 1.0} -->
 
-The cost query $\mathbf{Q}_{\mathbf{x}}$ is then formulated based on the features $\text{FFN}{(\mathbf{q}_{\mathbf{x}})}$ that encoded from the local costs $\mathbf{q}_{\mathbf{x}}$ and $\mathbf{p}$'s positional embedding ${PE}{(\mathbf{p})}$, which can aggregate information from source pixel $\mathbf{x}$'s cost memory $\mathbf{T}_{\mathbf{x}}$ via cross-attention,
+As $\mathbf{Q}_{\mathbf{x}}$ is dynamically updated in terms of the fed position at each iteration, we call it as dynamic positional cost query. We note that keys and values can be generated at the beginning and re-used in subsequent iterations, which saves computation as a benefit of our recurrent decoder.
 
-<!-- chunk {"id": "body-0032", "role": "body", "section": "Cost Memory Decoder for Flow Estimation", "weight": 1.0} -->
-
-The cross-attention summarizes information from the cost memory for each source pixel to predict its flow. As $\mathbf{Q}_{\mathbf{x}}$ is dynamically updated in terms of the fed position at each iteration, we call it as dynamic positional cost query. We note that keys and values can be generated at the beginning and re-used in subsequent iterations, which saves computation as a benefit of our recurrent decoder.
-
-<!-- chunk {"id": "body-0033", "role": "body", "section": "Cost Memory Decoder for Flow Estimation", "weight": 1.0} -->
+<!-- chunk {"id": "body-0030", "role": "body", "section": "Cost Memory Decoder for Flow Estimation", "weight": 1.0} -->
 
 Recurrent flow prediction. Our cost decoder iteratively regresses flow residuals $\Delta\mathbf{f}{(\mathbf{x})}$ to refine the flow of each source pixel $\mathbf{x}$ as ${\mathbf{f}{(\mathbf{x})}}\leftarrow{{\mathbf{f}{(\mathbf{x})}} + {\Delta\mathbf{f}{(\mathbf{x})}}}$. We adopt a ConvGRU module and follow the similar design to that in GMA-RAFT for flow refinement. However, the key difference of our recurrent module is the use of cost queries to adaptively aggregate information from the cost memory for more accurate flow estimation.
 
-<!-- chunk {"id": "body-0034", "role": "body", "section": "Cost Memory Decoder for Flow Estimation", "weight": 1.0} -->
+<!-- chunk {"id": "body-0031", "role": "body", "section": "Cost Memory Decoder for Flow Estimation", "weight": 1.0} -->
 
-Specifically, at each iteration, the ConvGRU unit takes as input the concatenation of retrieved cost features and cost-map patch ${Concat}{(\mathbf{c}_{\mathbf{x}},\mathbf{q}_{\mathbf{x}})}$, the source-image context feature $\mathbf{t}_{\mathbf{x}}$ from the context network, and the current estimated flow $\mathbf{f}$, and outputs the predicted flow residuals as follows,
+Specifically, at each iteration, the ConvGRU unit takes as input the concatenation of retrieved cost features and cost-map patch ${Concat}{(\mathbf{c}_{\mathbf{x}},\mathbf{q}_{\mathbf{x}})}$, the source-image context feature $\mathbf{t}_{\mathbf{x}}$ from the context network, and the current estimated flow $\mathbf{f}$, and outputs the predicted flow residuals as follows, The flows generated at each iteration are unsampled to the size of the source image via a convex upsampler following and supervised by ground-truth flows at all recurrent iterations with increasing weights.
 
-<!-- chunk {"id": "body-0035", "role": "body", "section": "Cost Memory Decoder for Flow Estimation", "weight": 1.0} -->
-
-The flows generated at each iteration are unsampled to the size of the source image via a convex upsampler following and supervised by ground-truth flows at all recurrent iterations with increasing weights.
-
-<!-- chunk {"id": "body-0036", "role": "body", "section": "Experiment", "weight": 1.0} -->
+<!-- chunk {"id": "body-0032", "role": "body", "section": "Experiment", "weight": 1.0} -->
 
 We evaluate our FlowFormer on the Sintel and the KITTI-2015 benchmarks. Following previous works, we train FlowFormer on FlyingChairs and FlyingThings, and then respectively finetune it for Sintel and KITTI benchmark. Flowformer achieves state-of-the-art performance on both benchmarks.
 
-<!-- chunk {"id": "body-0037", "role": "body", "section": "Experiment", "weight": 1.0} -->
+<!-- chunk {"id": "body-0033", "role": "body", "section": "Experiment", "weight": 1.0} -->
 
 Experimental setup. We use the average end-point-error (AEPE) and F1-All(%) metric for evaluation. The AEPE computes mean flow error over all valid pixels. The F1-all, which refers to the percentage of pixels whose flow error is larger than 3 pixels or over 5% of length of ground truth flows. The Sintel dataset is rendered from the same model but in two passes, i.e. clean pass and final pass. The clean pass is rendered with smooth shading and specular reflections. The final pass uses full rendering settings including motion blur, camera depth-of-field blur, and atmospheric effects.
 
-<!-- chunk {"id": "body-0038", "role": "body", "section": "Experiment", "weight": 1.0} -->
+<!-- chunk {"id": "body-0034", "role": "body", "section": "Experiment", "weight": 1.0} -->
 
 Implementation details. The image feature encoder of our final FlowFormer is chosen as the first two stages of ImageNet-pretrained Twins-SVT, which encodes an image into $D_{f} = 256$-channel feature map of 1/8 image size. The cost volume encoder patchifies each cost map to a $D_{p} = 64$-channel feature map and further summarizes the feature map to $N = 8$ cost tokens of $K = 128$ dimensions. Then, the cost volume encoder encodes the cost tokens with 3 AGT layers. Following previous optical flow training procedure, we pre-train FlowFormer on FlyingChairs for 120k iterations with a batch size of 8, and on FlyingThings for 120k iterations with a batch size of 6 (denoted as 'C+T').
 
-<!-- chunk {"id": "body-0039", "role": "body", "section": "Experiment", "weight": 1.0} -->
+<!-- chunk {"id": "body-0035", "role": "body", "section": "Experiment", "weight": 1.0} -->
 
 After pre-training, we finetune FlowFormer on the data combined from FlyingThings, Sintel, KITTI-2015, and HD1K (denoted as 'C+T+S+K+H') for 120k iterations with a batch size of 6. To achieve the best performance on the KITTI benchmark, we also further finetune FlowFormer on the KITTI-2015 for 50k iterations with a batch size of 6. We use the one-cycle learning rate scheduler. The highest learning rate is set as $2.5 \times 10^{- 4}$ on FlyingChairs and $1.25 \times 10^{- 4}$ on the other training sets. As positional encodings used in transformers are sensitive to image size, we crop the image pairs for flow estimation and tile them to obtain complete flows following Perceiver IO. We use the tile technique for evaluating optical flow on KITTI because the size of images in KITTI is quite different from training image size. We use fixed Gaussian weights for tile, which will be detailed in the supplementary materials.
 
-<!-- chunk {"id": "body-0040", "role": "body", "section": "Quantitative Experiment", "weight": 1.0} -->
+<!-- chunk {"id": "body-0036", "role": "body", "section": "Quantitative Experiment", "weight": 1.0} -->
 
 We evaluate FlowFormer on the well-known Sintel and KITTI benchmarks as shown in Tab. 1. GMA, an improved version of RAFT, is the most competitive flow estimation method at present. After being trained on FlyingChairs and FlyingThings, we evaluate the generalization performance of FlowFormer on the training set of Sintel and KITTI-2015. By further finetuning FlowFormer on the combination of HD1K, Sintel and KITTI training sets, we compare the dataset-specific accuracy of optical flow models. Autoflow is a dataset that provides training data covering various challenging visual disturbance, but its training code is not released yet.
 
-<!-- chunk {"id": "body-0041", "role": "body", "section": "Quantitative Experiment", "weight": 1.0} -->
+<!-- chunk {"id": "body-0037", "role": "body", "section": "Quantitative Experiment", "weight": 1.0} -->
 
 Generalization performance. We train FlowFormer on the FlyingChairs and FlyingThings (C+T), and evaluate it on the training set of Sintel and KITTI-2015. This settings evaluates the generalization performance of optical flow models. FlowFormer ranks 1st among all compared methods on both benchmarks. FlowFormer achieves 1.01 and 2.40 on the clean and final pass of Sintel. On the KITTI-2015 training set, FlowFormer achieves 4.09 F1-epe and 14.72 F1-all. Compared to GMA, FlowFormer reduces 22.3% and 12.4% errors on Sintel clean and final, and 13.9% errors on KITTI-2015 F1-all, which shows its extraordinary generalization performance. RAFT trained on the autoflow dataset (A) significantly outperforms RAFT trained on the C+T on final pass because autoflow provides training image pairs that are more challenging. We believe training FlowFormer with autoflow can achieve better accuracy but it is not released yet.
 
-<!-- chunk {"id": "body-0042", "role": "body", "section": "Quantitative Experiment", "weight": 1.0} -->
+<!-- chunk {"id": "body-0038", "role": "body", "section": "Quantitative Experiment", "weight": 1.0} -->
 
 Sintel benchmark. We finetune the pretrained FlowFormer on the combination of training data of FlyingThings, HD1K, Sintel and KITTI-2015, and then evaluate it on the Sintel test set. FlowFormer achieves 1.16 and 2.09 on the Sintel clean and final, 16.5% and 15.5% lower error compared to GMA^∗^, which ranks both 1st on the Sintel benchmark. It is noteworthy that RAFT^∗^ and GMA^∗^ use the warm-start strategy that requires image sequences while FlowFormer does not. Compared with GMA, which also does not use the warm-start, FlowFormer obtains 17.2% and 27.5% error reduction.
 
-<!-- chunk {"id": "body-0043", "role": "body", "section": "Quantitative Experiment", "weight": 1.0} -->
+<!-- chunk {"id": "body-0039", "role": "body", "section": "Quantitative Experiment", "weight": 1.0} -->
 
 KITTI-2015 benchmark. We further finetune the FlowFormer on the KITTI-2015 training set after the Sintel finetuning stage and evaluate it on the KITTI test set. FlowFormer achieves 4.68, ranking 2nd on the KITTI-2015 benchmark. S-Flow obtains slightly smaller error than FlowFormer on KITTI ($-$`<!-- -->`{=html}0.85%), which, however, is significantly worse on Sintel (31.6% and 22.5% larger error on clean and final pass). S-Flow finds corresponding points by computing the coordinate expectation weighted by refined cost maps. Images in the KITTI dataset are captured in urban traffic scenes, which contains objects that are mostly rigid. Flows on rigid objects are rather simple, which is easier for cost-based coordinate expectation, but the assumption can be easily violated in non-rigid scenarios such as Sintel.
 
-<!-- chunk {"id": "body-0044", "role": "body", "section": "Qualitative Experiment", "weight": 1.0} -->
+<!-- chunk {"id": "body-0040", "role": "body", "section": "Qualitative Experiment", "weight": 1.0} -->
 
 We visualize flows that estimated by our FlowFormer and GMA of three examples in Fig. 3 to qualitatively show how FlowFormer outperforms GMA. As transformers can encode the cost information at a large perceptive field, FlowFormer can distinguish overlapping objects via contextual information and thus reduce the leakage of flows over boundaries. Compared with GMA, the flows that are estimatd by FlowFormer on boundaries of the bamboo and the human body are more precise and clear. Besides, FlowFormer can also recover motion details that are ignored by GMA, such as the hair and the holes on the box.
 
-<!-- chunk {"id": "body-0045", "role": "body", "section": "Ablation Study", "weight": 1.0} -->
+<!-- chunk {"id": "body-0041", "role": "body", "section": "Ablation Study", "weight": 1.0} -->
+
+MCR→LCT+CMD Twins from Scratch AGT×1 (+Intra.+Inter.)
+
+<!-- chunk {"id": "body-0042", "role": "body", "section": "Ablation Study", "weight": 1.0} -->
 
 We conduct a series of ablation experiments in Tab. 2. We start from RAFT as the baseline, which directly regresses residual flows with the multi-level cost retrieval (MCR) decoder, and gradually replace its components with our proposed components. We first replace RAFT's MCR decoder with the latent cost tokenization (LCT) part of our encoder and the cost memory decoder (CMD) (denoted as 'MCR$\rightarrow$LCT+CMD'). Note that our cost memory decoder cannot be used alone on top of the 4D cost volume of RAFT because of the too large number of tokens. It must be combined with our latent cost tokens ($\mathbf{T}_{\mathbf{x}}$ from Eq. ). Encoding $K = 8$ latent tokens of $D = 128$ dimensions for each source pixel achieves the best performance. Based on LCT+CMD with $K = 8$ and $D = 128$, we replace RAFT's CNN image feature encoder with Twins-SVT (denoted as 'CNN$\rightarrow$Twins').
 
-<!-- chunk {"id": "body-0046", "role": "body", "section": "Ablation Study", "weight": 1.0} -->
+<!-- chunk {"id": "body-0043", "role": "body", "section": "Ablation Study", "weight": 1.0} -->
 
 We then further add attention layers of the proposed cost volume encoder to encode and update latent cost tokens. The proposed Alternate-Group Transformer (AGT) layer consists of two types of attention, i.e., intra-cost-map attention and inter-cost-map attention. We first add a single intra-cost-map attention layer (denoted as '+Intra.'), and then add the inter-cost-map attention (denoted as 'AGT$\times 1$ (+Intra.+Inter.)', which is equivalent to adding a single AGT layer. We then test on increasing the number of AGT layers to 2 and 3. Following RAFT, all models are trained on FlyingChairs with 100k iterations and FlyingThings with 60k iterations, and then evaluated on the training set of Sintel and KITTI-2015.
 
-<!-- chunk {"id": "body-0047", "role": "body", "section": "Ablation Study", "weight": 1.0} -->
+<!-- chunk {"id": "body-0044", "role": "body", "section": "Ablation Study", "weight": 1.0} -->
 
 MCR $\rightarrow$ LCT+MCD. The number of latent tokens $K$ and token dimension $D$ determine how much cost volume information the cost tokens can encode. From ${K = 4},{D = 32}$ to ${K = 8},{D = 128}$, the AEPE decreases because the cost tokens summarizes more cost map information and benefits the residual flow regression. The latent cost tokens are capable of summarizing whole-image information and our MCD can absorb interested information from them through co-attention, while the MCR decoder of RAFT only retrieves multi-level costs inside flow-guided local windows. Therefore, even without our AGT layers in our encoder, LCT+MCD still shows better performance than MCR decoder of RAFT.
 
-<!-- chunk {"id": "body-0048", "role": "body", "section": "Ablation Study", "weight": 1.0} -->
+<!-- chunk {"id": "body-0045", "role": "body", "section": "Ablation Study", "weight": 1.0} -->
 
 CNN vs. Transformer Image Encoder. In the CNN$\rightarrow$Twins experiment, the AEPE of Twins trained from scratch is marginally worse than CNN, but the ImageNet-pretraining is beneficial, because Twins is a transformer architecture with larger receptive field and model capacity, which requires more training examples for sufficient training.
 
-<!-- chunk {"id": "body-0049", "role": "body", "section": "Ablation Study", "weight": 1.0} -->
+<!-- chunk {"id": "body-0046", "role": "body", "section": "Ablation Study", "weight": 1.0} -->
 
 Cost Encoding. In the cost volume encoder, we encode and update the latent cost tokens with an intra-cost-map attention operation and an inter-cost-map attention operation. The two operations form an Alternate-Group Transformer (AGT) layer. Then we gradually increase the number of AGT layers to 3. From no attention layer to AGT$\times$`<!-- -->`{=html}3, the errors gradually decrease, which demonstrates that encoding latent cost tokens with our AGT layers benefits flow estimation.
 
-<!-- chunk {"id": "body-0050", "role": "body", "section": "Ablation Study", "weight": 1.0} -->
+<!-- chunk {"id": "body-0047", "role": "body", "section": "Ablation Study", "weight": 1.0} -->
 
 FlowFormer vs. GMA. We train all the models with the settings of GMA. The full version of FlowFormer has 18.2M parameters, which is larger than GMA. One of the causes is that FlowFormer uses the first two stages of ImageNet-pretrained Twins-SVT as the image feature encoder while GMA uses a CNN. We present an experiment to compare FlowFormer and GMA with aligned settings in Tab. 3. We first provide a small version of FlowFormer using GMA's CNN image encoder and also set $K = 4$, $D = 32$, and AGT$\times$`<!-- -->`{=html}1. Although the smaller version of FlowFormer (denoted as 'Ours (small)') has a significant performance drop compared to the full version of FlowFormer, it still outperforms GMA in terms of all metrics. We also design two enhanced GMA models and compare them with the full version of FlowFormer to show that the performance improvements are not simply derived from adding more parameters.
 
-<!-- chunk {"id": "body-0051", "role": "body", "section": "Ablation Study", "weight": 1.0} -->
+<!-- chunk {"id": "body-0048", "role": "body", "section": "Ablation Study", "weight": 1.0} -->
 
 The first one is denoted as 'GMA-L', a large version of GMA and the second one is denoted as 'GMA-Twins' which also adopts the pretrained Twins as the image encoder. In this experiment, we train all models on FlyingChairs with 120k iterations and FlyingThings with 120k iterations. Similar to reducing RAFT to RAFT (small), GMA-L enlarges GMA by doubling feature channels, which has 17M parameters, comparable to FlowFormer. However, its performance degrades in Sintel clean, a 33% larger error than FlowFormer. GMA-Twins replaces the CNN image encoder with the shallow Image-Net pre-trained Twins-SVT as FlowFormer does. The largest improvement of GMA-Twins upon GMA is on the Sintel clean, but it still has a 15% larger error than FlowFormer. GMA-Twins does not lead to significant error reduction on other metrics and is even worse on the KITTI-15. In conclusion, the performance improvement of FlowFormer is not derived from more parameters but the novel design of the architecture.
 
-<!-- chunk {"id": "body-0052", "role": "body", "section": "Conclusion", "weight": 1.5} -->
+<!-- chunk {"id": "body-0049", "role": "body", "section": "Conclusion", "weight": 1.5} -->
 
 We have proposed FlowFormer, a Transformer-based architecture for optical flow estimation. FlowFormer summarizes the $H \times W \times H \times W$ 4D cost volume built from a pair of images as $H \times W \times K$ tokens of length $D$, and then efficiently and effectively encodes the cost tokens via the alternate-group transformer (AGT). Thanks to such design, the generated cost memory is able to grasp essential information over the cost volume and obtain compact cost features. Finally, the cost memory decoder absorbs cost information from the cost memory with dynamic positional cost queries, which gets rid of the limitation of local windows, for residual flow regression. To our best knowledge, FlowFormer is the first method that deeply integrates transformers with cost volumes for optical flow estimation. Thanks to the compact cost tokens and long-range relation modeling ability of transformers, FlowFormer achieves state-of-the-art accuracy and shows strong cross-dataset generalization.
+
+<!-- chunk {"id": "body-0050", "role": "body", "section": "Conclusion", "weight": 1.5} -->
+
+Acknowledgements. Hongsheng Li is also a Principal Investigator of Centre for Perceptual and Interactive Intelligence Limited (CPII). This work is supported in part by CPII, in part by the General Research Fund through the Research Grants Council of Hong Kong under Grants (Nos. 14204021, 14207319), in part by CUHK Strategic Fund. Thanks Qiaole Dong and Deqing Sun for the code check.

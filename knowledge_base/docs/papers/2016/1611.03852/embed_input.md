@@ -40,39 +40,39 @@ Generative adversarial networks are an approach to generative modeling where two
 
 <!-- chunk {"id": "body-0010", "role": "body", "section": "Generative Adversarial Networks", "weight": 1.0} -->
 
-Formally, the generator takes noise as input and outputs a sample $\mathbf{x} \sim G$, while the discriminator takes as input a sample $\mathbf{x}$ and outputs the probability $D{(\mathbf{x})}$ that the sample was from the data distribution.
+Formally, the generator takes noise as input and outputs a sample $\mathbf{x} \sim G$, while the discriminator takes as input a sample $\mathbf{x}$ and outputs the probability $D{(\mathbf{x})}$ that the sample was from the data distribution. The discriminator's loss is the average log probability it assigns to the correct classification, evaluated on an equal mixture of real samples and outputs from the generator: The generator's loss can be defined one of several similar ways. The simplest definition, originally proposed, is simply the opposite of the discriminator's loss. However, this provides very little training signal if the generator's output can be easily distinguished from the real samples. It is common to instead use the log of the discriminator's confusion.
 
-<!-- chunk {"id": "body-0011", "role": "body", "section": "Generative Adversarial Networks", "weight": 1.0} -->
+<!-- chunk {"id": "body-0011", "role": "body", "section": "Energy-Based Models", "weight": 1.0} -->
 
-The generator's loss can be defined one of several similar ways. The simplest definition, originally proposed, is simply the opposite of the discriminator's loss. However, this provides very little training signal if the generator's output can be easily distinguished from the real samples. It is common to instead use the log of the discriminator's confusion.
+Energy-based models associate an energy value $E_{\theta}{(\mathbf{x})}$ with a sample $\mathbf{x}$, modeling the data as a Boltzmann distribution: The energy function parameters $\theta$ are often chosen to maximize the likelihood of the data; the main challenge in this optimization is evaluating the partition function $Z$, which is an intractable sum or integral for most high-dimensional problems. A common approach to estimating $Z$ requires sampling from the Boltzmann distribution $p_{\theta}(\mathbf{x})$ within the inner loop of learning.
 
 <!-- chunk {"id": "body-0012", "role": "body", "section": "Energy-Based Models", "weight": 1.0} -->
 
-The energy function parameters $\theta$ are often chosen to maximize the likelihood of the data; the main challenge in this optimization is evaluating the partition function $Z$, which is an intractable sum or integral for most high-dimensional problems. A common approach to estimating $Z$ requires sampling from the Boltzmann distribution $p_{\theta}(\mathbf{x})$ within the inner loop of learning.
-
-<!-- chunk {"id": "body-0013", "role": "body", "section": "Energy-Based Models", "weight": 1.0} -->
-
 Sampling from $p_{\theta}(\mathbf{x})$ can be approximated by using Markov chain Monte Carlo (MCMC) methods; however, these methods face issues when there are several distinct modes of the distribution and, as a result, can take arbitrarily large amounts of time to produce a diverse set of samples. Approximate inference methods can also be used during training, though the energy function may incorrectly assign low energy to some modes if the approximate inference method cannot find them.
 
-<!-- chunk {"id": "body-0014", "role": "body", "section": "Inverse Reinforcement Learning", "weight": 1.0} -->
+<!-- chunk {"id": "body-0013", "role": "body", "section": "Inverse Reinforcement Learning", "weight": 1.0} -->
 
 The goal of inverse reinforcement learning is to infer the cost function underlying demonstrated behavior. It is typically assumed that the demonstrations come from an expert who is behaving near-optimally under some unknown cost. In this section, we discuss MaxEnt IRL and guided cost learning, an algorithm for MaxEnt IRL.
 
+<!-- chunk {"id": "body-0014", "role": "body", "section": "Maximum entropy inverse reinforcement learning", "weight": 1.0} -->
+
+Maximum entropy inverse reinforcement learning models the demonstrations using a Boltzmann distribution, where the energy is given by the cost function $c_{\theta}$: Here, $\tau = {\{\mathbf{x}_{1},\mathbf{u}_{1},\ldots,\mathbf{x}_{T},\mathbf{u}_{T}\}}$ is a trajectory; ${c_{\theta}{(\tau)}} = {\sum_{t}{c_{\theta}{(\mathbf{x}_{t},\mathbf{u}_{t})}}}$ is a learned cost function parametrized by $\theta$; $\mathbf{x}_{t}$ and $\mathbf{u}_{t}$ are the state and action at time step $t$; and the partition function $Z$ is the integral of $\exp\left({- {c_{\theta}(\tau)}} \right)$ over all trajectories that are consistent with the
+
 <!-- chunk {"id": "body-0015", "role": "body", "section": "Maximum entropy inverse reinforcement learning", "weight": 1.0} -->
 
-A more general form of this equation can be derived for stochastic dynamics. However, the analysis largely remains the same: the probability of a trajectory can be written as the product of conditional probabilities, but the conditional probabilities of the states $\mathbf{x}_{t}$ are not affected by $\theta$ and so factor out of all likelihood ratios.
+environment dynamics.^11^1This formula assumes that $\mathbf{x}_{t + 1}$ is a deterministic function of the previous history.
 
 <!-- chunk {"id": "body-0016", "role": "body", "section": "Maximum entropy inverse reinforcement learning", "weight": 1.0} -->
 
+A more general form of this equation can be derived for stochastic dynamics. However, the analysis largely remains the same: the probability of a trajectory can be written as the product of conditional probabilities, but the conditional probabilities of the states $\mathbf{x}_{t}$ are not affected by $\theta$ and so factor out of all likelihood ratios.
+
+<!-- chunk {"id": "body-0017", "role": "body", "section": "Maximum entropy inverse reinforcement learning", "weight": 1.0} -->
+
 Under this model, the optimal trajectories have the highest likelihood, and the expert can generate suboptimal trajectories with a probability that decreases exponentially as the trajectories become more costly. As in other energy-based models, the parameters $\theta$ are optimized to maximize the likelihood of the demonstrations. Estimating the partition function $Z$ is difficult for large or continuous domains, and presents the main computational challenge. The first applications of this model computed $Z$ exactly with dynamic programming. However, this is only practical in small, discrete domains, and is impossible in domains where the system dynamics $p{(\left. \mathbf{x}_{t + 1} \middle| {\mathbf{x}_{t},\mathbf{u}_{t}} \right.)}$ are unknown.
-
-<!-- chunk {"id": "body-0017", "role": "body", "section": "Guided cost learning", "weight": 1.0} -->
-
-Guided cost learning introduces an iterative sample-based method for estimating $Z$ in the MaxEnt IRL formulation, and can scale to high-dimensional state and action spaces and nonlinear cost functions.
 
 <!-- chunk {"id": "body-0018", "role": "body", "section": "Guided cost learning", "weight": 1.0} -->
 
-Guided cost learning alternates between optimizing $c_{\theta}$ using this estimate, and optimizing $q(\tau)$ to minimize the variance of the importance sampling estimate.
+Guided cost learning introduces an iterative sample-based method for estimating $Z$ in the MaxEnt IRL formulation, and can scale to high-dimensional state and action spaces and nonlinear cost functions. The algorithm estimates $Z$ by training a new sampling distribution $q(\tau)$ and using importance sampling: Guided cost learning alternates between optimizing $c_{\theta}$ using this estimate, and optimizing $q(\tau)$ to minimize the variance of the importance sampling estimate.
 
 <!-- chunk {"id": "body-0019", "role": "body", "section": "Guided cost learning", "weight": 1.0} -->
 
@@ -112,104 +112,84 @@ We now show how generative adversarial modeling has implicitly been applied to t
 
 <!-- chunk {"id": "body-0028", "role": "body", "section": "A special form of discriminator", "weight": 1.0} -->
 
-where $p{(\tau)}$ is the actual distribution of the data.
+For a fixed generator with a \[typically unknown\] density $q(\tau)$, the optimal discriminator is the following: where $p{(\tau)}$ is the actual distribution of the data.
 
 <!-- chunk {"id": "body-0029", "role": "body", "section": "A special form of discriminator", "weight": 1.0} -->
 
-In the traditional GAN algorithm, the discriminator is trained to directly output this value. When the generator density $q(\tau)$ can be evaluated, the traditional GAN discriminator can be modified to incorporate this density information. Instead of having the discriminator estimate the value of Equation 3 directly, it can be used to estimate $p{(\tau)}$, filling in the value of $q(\tau)$ with its known value. In this case, the new form of the discriminator $D_{\theta}$ with parameters $\theta$ is
+In the traditional GAN algorithm, the discriminator is trained to directly output this value. When the generator density $q(\tau)$ can be evaluated, the traditional GAN discriminator can be modified to incorporate this density information. Instead of having the discriminator estimate the value of Equation 3 directly, it can be used to estimate $p{(\tau)}$, filling in the value of $q(\tau)$ with its known value. In this case, the new form of the discriminator $D_{\theta}$ with parameters $\theta$ is In order to make the connection to MaxEnt IRL, we also replace the estimated data density with the Boltzmann distribution. As in MaxEnt IRL, we write the energy function as $c_{\theta}$ to designate the learned cost. Now the discriminator's output is: The resulting architecture for the discriminator is very similar to a typical model for binary classification, with a sigmoid as the final layer and $\log Z$ as the bias of the sigmoid.
 
 <!-- chunk {"id": "body-0030", "role": "body", "section": "A special form of discriminator", "weight": 1.0} -->
 
-In order to make the connection to MaxEnt IRL, we also replace the estimated data density with the Boltzmann distribution. As in MaxEnt IRL, we write the energy function as $c_{\theta}$ to designate the learned cost.
+We have adjusted the architecture only by subtracting ${\log q}(\tau)$ from the input to the sigmoid. This modest change allows the optimal discriminator to be completely independent of the generator: the discriminator is optimal when ${\frac{1}{Z}{\exp\left({- {c_{\theta}(\tau)}} \right)}} = {p(\tau)}$. Independence between the generator and the optimal discriminator may significantly improve the stability of training.
 
 <!-- chunk {"id": "body-0031", "role": "body", "section": "A special form of discriminator", "weight": 1.0} -->
 
-The resulting architecture for the discriminator is very similar to a typical model for binary classification, with a sigmoid as the final layer and $\log Z$ as the bias of the sigmoid. We have adjusted the architecture only by subtracting ${\log q}(\tau)$ from the input to the sigmoid. This modest change allows the optimal discriminator to be completely independent of the generator: the discriminator is optimal when ${\frac{1}{Z}{\exp\left( {- {c_{\theta}(\tau)}} \right)}} = {p(\tau)}$. Independence between the generator and the optimal discriminator may significantly improve the stability of training.
-
-<!-- chunk {"id": "body-0032", "role": "body", "section": "A special form of discriminator", "weight": 1.0} -->
-
 This change is very simple to implement and is applicable in any setting where the density $q(\tau)$ can be cheaply evaluated. Of course this is precisely the case where we could directly maximize likelihood, and we might wonder whether it is worth the additional complexity of GAN training. But the experience of researchers in IRL has shown that maximizing log likelihood directly is not always the most effective way to learn complex behaviors, even when it is possible to implement. As we will show, there is a precise equivalence between MaxEnt IRL and this type of GAN, suggesting that the same phenomenon may occur in other domains: GAN training may provide advantages even when it would be possible to maximize likelihood directly.
 
-<!-- chunk {"id": "body-0033", "role": "body", "section": "Equivalence between generative adversarial networks and guided cost learning", "weight": 1.0} -->
+<!-- chunk {"id": "body-0032", "role": "body", "section": "Equivalence between generative adversarial networks and guided cost learning", "weight": 1.0} -->
 
 In this section, we show that GANs, when applied to IRL problems, optimize the same objective as MaxEnt IRL, and in fact the variant of GANs described in the previous section is precisely equivalent to guided cost learning.
 
+<!-- chunk {"id": "body-0033", "role": "body", "section": "Equivalence between generative adversarial networks and guided cost learning", "weight": 1.0} -->
+
+Recall that the discriminator's loss is equal to In maximum entropy IRL, the log-likelihood objective is: where we have substituted ${\overset{\sim}{p}(\tau)} = {p_{\theta}(\tau)} = {\frac{1}{Z}{\exp\left({- {c_{\theta}(\tau)}} \right)}}$, i.e. we are using the current model to estimate the importance weights.
+
 <!-- chunk {"id": "body-0034", "role": "body", "section": "Equivalence between generative adversarial networks and guided cost learning", "weight": 1.0} -->
 
-Recall that the discriminator's loss is equal to
+We will establish the following facts, which together imply that GANs optimize precisely the MaxEnt IRL problem: The value of $Z$ which minimizes the discriminator's loss is an importance-sampling estimator for the partition function, as described in Section 2.3.2.
 
 <!-- chunk {"id": "body-0035", "role": "body", "section": "Equivalence between generative adversarial networks and guided cost learning", "weight": 1.0} -->
 
-where we have substituted ${\overset{\sim}{p}(\tau)} = {p_{\theta}(\tau)} = {\frac{1}{Z}{\exp\left( {- {c_{\theta}(\tau)}} \right)}}$, i.e. we are using the current model to estimate the importance weights.
+For this value of $Z$, the derivative of the discriminator's loss with respect to $\theta$ is equal to the derivative of the MaxEnt IRL objective.
 
 <!-- chunk {"id": "body-0036", "role": "body", "section": "Equivalence between generative adversarial networks and guided cost learning", "weight": 1.0} -->
 
-The value of $Z$ which minimizes the discriminator's loss is an importance-sampling estimator for the partition function, as described in Section 2.3.2.
-
-<!-- chunk {"id": "body-0037", "role": "body", "section": "Equivalence between generative adversarial networks and guided cost learning", "weight": 1.0} -->
-
-For this value of $Z$, the derivative of the discriminator's loss with respect to $\theta$ is equal to the derivative of the MaxEnt IRL objective.
-
-<!-- chunk {"id": "body-0038", "role": "body", "section": "Equivalence between generative adversarial networks and guided cost learning", "weight": 1.0} -->
-
 The generator's loss is exactly equal to the cost $c_{\theta}$ minus the entropy of $q(\tau)$, i.e. the MaxEnt policy loss defined in Equation 2 in Section 2.3.2.
 
-<!-- chunk {"id": "body-0039", "role": "body", "section": "$Z$ estimates the partition function", "weight": 1.0} -->
+<!-- chunk {"id": "body-0037", "role": "body", "section": "$Z$ estimates the partition function", "weight": 1.0} -->
 
-Only the first and last terms depend on $Z$.
+We can compute the discriminator's loss: Only the first and last terms depend on $Z$. At the minimizing value of $Z$, the derivative of these term with respect to $Z$ will be zero: Thus the minimizing $Z$ is precisely the importance sampling estimate of the partition function in Equation 4.
 
-<!-- chunk {"id": "body-0040", "role": "body", "section": "$Z$ estimates the partition function", "weight": 1.0} -->
-
-Thus the minimizing $Z$ is precisely the importance sampling estimate of the partition function in Equation 4.
-
-<!-- chunk {"id": "body-0041", "role": "body", "section": "$c_{\\theta}$ optimizes the IRL objective", "weight": 1.0} -->
+<!-- chunk {"id": "body-0038", "role": "body", "section": "$c_{\\theta}$ optimizes the IRL objective", "weight": 1.0} -->
 
 We return to the discriminator's loss as computed in Equation 8, and consider the derivative with respect to the parameters $\theta$. We will show that this is exactly the same as the derivative of the IRL objective.
 
-<!-- chunk {"id": "body-0042", "role": "body", "section": "$c_{\\theta}$ optimizes the IRL objective", "weight": 1.0} -->
+<!-- chunk {"id": "body-0039", "role": "body", "section": "$c_{\\theta}$ optimizes the IRL objective", "weight": 1.0} -->
 
-Only the second and fourth terms in the sum depend on $\theta$.
+Only the second and fourth terms in the sum depend on $\theta$. When we differentiate those terms we obtain: On the other hand, when we differentiate the MaxEnt IRL objective, we obtain: In the third equality, we used the definition of $Z$ as an importance sampling estimate. Note that in the second equality, we have treated $\overset{\sim}{\mu}(\tau)$ as a constant rather than as a quantity that depends on $\theta$. This is because the IRL optimization is minimizing ${\log Z} = {\log{\sum_{\tau}{\exp\left({- {c_{\theta}(\tau)}} \right)}}}$ and using $\overset{\sim}{\mu}(\tau)$ as the weights for an importance sampling estimator of $Z$. For this purpose we do not want to differentiate through the importance weights.
 
-<!-- chunk {"id": "body-0043", "role": "body", "section": "$c_{\\theta}$ optimizes the IRL objective", "weight": 1.0} -->
+<!-- chunk {"id": "body-0040", "role": "body", "section": "The generator optimizes the MaxEnt IRL objective", "weight": 1.0} -->
 
-In the third equality, we used the definition of $Z$ as an importance sampling estimate. Note that in the second equality, we have treated $\overset{\sim}{\mu}(\tau)$ as a constant rather than as a quantity that depends on $\theta$. This is because the IRL optimization is minimizing ${\log Z} = {\log{\sum_{\tau}{\exp\left( {- {c_{\theta}(\tau)}} \right)}}}$ and using $\overset{\sim}{\mu}(\tau)$ as the weights for an importance sampling estimator of $Z$. For this purpose we do not want to differentiate through the importance weights.
+Finally, we compute the generator's loss: The term $\log Z$ is a parameter of the discriminator that is held fixed while optimizing the generator, this loss is exactly equivalent the sampler loss from MaxEnt IRL, defined in Equation 2.
 
-<!-- chunk {"id": "body-0044", "role": "body", "section": "The generator optimizes the MaxEnt IRL objective", "weight": 1.0} -->
-
-The term $\log Z$ is a parameter of the discriminator that is held fixed while optimizing the generator, this loss is exactly equivalent the sampler loss from MaxEnt IRL, defined in Equation 2.
-
-<!-- chunk {"id": "body-0045", "role": "body", "section": "Discussion", "weight": 1.5} -->
+<!-- chunk {"id": "body-0041", "role": "body", "section": "Discussion", "weight": 1.5} -->
 
 There are many apparent differences between MaxEnt IRL and the GAN optimization problem. But, we have shown that after making a single key change---using a generator $q(\tau)$ for which densities can be evaluated efficiently, and incorporating this information into the discriminator in a natural way---generative adversarial networks can be viewed as a sample-based algorithm for the MaxEnt IRL problem. By connecting GANs to the empirical literature on inverse reinforcement learning, this demonstrates that GAN training can improve the quality of samples even when the generator's density can be evaluated exactly. By generalizing this connection, we can derive a new adversarial training strategy for energy-based models, which we discuss in the next section.
 
-<!-- chunk {"id": "body-0046", "role": "body", "section": "GANs for training EBMs", "weight": 1.0} -->
+<!-- chunk {"id": "body-0042", "role": "body", "section": "GANs for training EBMs", "weight": 1.0} -->
 
 Now that we have highlighted the connection between GANs and guided cost learning, the application of GANs to EBMs follows directly. As discussed in Section 2.2, the primary challenge in training EBMs is estimating the partition function, which is done by approximately sampling from the distribution induced by the energy $E_{\theta}$. Two recent papers have proposed to use adversarial training to derive fast estimates of the partition function. In particular, these methods alternate between training a generator to produce samples with minimal energy $E_{\theta}{(\mathbf{x})}$, and optimizing the parameters of the energy function using the samples to estimate the partition function.
 
-<!-- chunk {"id": "body-0047", "role": "body", "section": "GANs for training EBMs", "weight": 1.0} -->
+<!-- chunk {"id": "body-0043", "role": "body", "section": "GANs for training EBMs", "weight": 1.0} -->
 
-When the density of the generator is available, however, we can derive an unbiased estimate of the partition function as
+When the density of the generator is available, however, we can derive an unbiased estimate of the partition function as where $\mu$ denotes an equal mixture of generated and real data points, $q{(\mathbf{x})}$ denotes the density under the generator, and $\overset{\sim}{p}(\mathbf{x})$ denotes an estimate for the data density.
 
-<!-- chunk {"id": "body-0048", "role": "body", "section": "GANs for training EBMs", "weight": 1.0} -->
+<!-- chunk {"id": "body-0044", "role": "body", "section": "GANs for training EBMs", "weight": 1.0} -->
 
-where $\mu$ denotes an equal mixture of generated and real data points, $q{(\mathbf{x})}$ denotes the density under the generator, and $\overset{\sim}{p}(\mathbf{x})$ denotes an estimate for the data density.
+This gives a loss function As before, the generator is updated to minimize energy and maximize entropy: If we set ${\overset{\sim}{p}(\mathbf{x})} = {p_{\theta}(\mathbf{x})}$, the resulting model is a special case of a GAN which is straightforward to implement. The discriminator's output is $\sigma\left({{E_{\theta}(\mathbf{x})} - {{\log q}(\mathbf{x})}} \right)$, where $\sigma$ is a sigmoid with a trainable bias. The discriminator's loss is the log probability and the generator's loss is the discriminator's log odds, as defined in Section 2.1.
 
-<!-- chunk {"id": "body-0049", "role": "body", "section": "GANs for training EBMs", "weight": 1.0} -->
-
-If we set ${\overset{\sim}{p}(\mathbf{x})} = {p_{\theta}(\mathbf{x})}$, the resulting model is a special case of a GAN which is straightforward to implement. The discriminator's output is $\sigma\left( {{E_{\theta}(\mathbf{x})} - {{\log q}(\mathbf{x})}} \right)$, where $\sigma$ is a sigmoid with a trainable bias. The discriminator's loss is the log probability and the generator's loss is the discriminator's log odds, as defined in Section 2.1.
-
-<!-- chunk {"id": "body-0050", "role": "body", "section": "GANs for training EBMs", "weight": 1.0} -->
+<!-- chunk {"id": "body-0045", "role": "body", "section": "GANs for training EBMs", "weight": 1.0} -->
 
 Kim & Bengio proposed a similar energy-based model for generative image modeling, but did not assume they could compute the generator's density. As a result, they do not use importance weights, and work with a biased estimator of the partition function which converges to the true partition function when the generator correctly samples from the energy-based model. In contrast, by using the generator density, we can get an unbiased estimate of the partition function that does not rely on any assumptions about the generator. Thus, even if the generator cannot learn to sample exactly from the data distribution, our training procedure is consistent.
 
-<!-- chunk {"id": "body-0051", "role": "body", "section": "GANs for training EBMs", "weight": 1.0} -->
+<!-- chunk {"id": "body-0046", "role": "body", "section": "GANs for training EBMs", "weight": 1.0} -->
 
 Zhao et al. also proposed an energy-based GAN model with an autoencoder discriminator where the energy is given by the mean-squared error between the data example (generated or real) and the discriminator's reconstruction. The energy function is optimized with a margin loss, and the generator is trained to minimize energy. This method also did not use the form of discriminator presented above. An interesting direction for future exploration is to consider combining the GAN training algorithm discussed here with an objective other than log-likelihood, such as one used with EBMs or different $f$-divergences used with GANs.
 
-<!-- chunk {"id": "body-0052", "role": "body", "section": "Discussion", "weight": 1.5} -->
+<!-- chunk {"id": "body-0047", "role": "body", "section": "Discussion", "weight": 1.5} -->
 
 In this work, we showed an equivalence between generative adversarial modeling and an algorithm for performing maximum entropy inverse reinforcement learning. Our derivation used a special form of discriminator that leverages likelihood values from the generator, leading to an unbiased estimate of the underlying energy function. A natural direction for future work is to experiment with combining deep generators that can provide densities, such as autoregressive models or models that use invertible transformations, with generative adversarial modeling. Such an approach may provide more stable training, better generators, and wider applicability to discrete problems such as language.
 
-<!-- chunk {"id": "body-0053", "role": "body", "section": "Discussion", "weight": 1.5} -->
+<!-- chunk {"id": "body-0048", "role": "body", "section": "Discussion", "weight": 1.5} -->
 
 This work also suggests a new algorithm for training energy-based models using generative adversarial networks, that trains a neural network model to sample from the distribution induced by the current energy. This method could reduce the computational challenges of existing MCMC-based solutions.

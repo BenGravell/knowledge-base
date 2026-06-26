@@ -56,41 +56,35 @@ To our knowledge, there is no explicit consideration for variation operators in 
 
 <!-- chunk {"id": "body-0014", "role": "body", "section": "The CVT-MAP-Elites Algorithm", "weight": 1.0} -->
 
-2: 𝒞← CVT(k) ⊳ Run CVT and get the centroids
-3: (𝒳,𝒫)← create_empty_archive(k)
-4: for i = 1 → G do ⊳ Initialization: G random x
-7: for i = 1 → I do ⊳ Main loop, I iterations
-12:procedure add_to_archive(x, 𝒳, 𝒫)
-14: c← get_index_of_closest_centroid(b, 𝒞)
-Algorithm 1 CVT-MAP-Elites algorithm
+2: 𝒞← CVT(k) ⊳ Run CVT and get the centroids 3: (𝒳, 𝒫)← create_empty_archive(k) 4: for i = 1 → G do ⊳ Initialization: G random x 7: for i = 1 → I do ⊳ Main loop, I iterations 12:procedure add_to_archive(x, 𝒳, 𝒫) 14: c← get_index_of_closest_centroid(b, 𝒞) Algorithm 1 CVT-MAP-Elites algorithm We here use the CVT-MAP-Elites algorithm with uniform selection, which generalizes MAP-Elites to arbitrary dimensions and provides explicit control over the desired number of niches.
 
 <!-- chunk {"id": "body-0015", "role": "body", "section": "The CVT-MAP-Elites Algorithm", "weight": 1.0} -->
 
-We here use the CVT-MAP-Elites algorithm with uniform selection, which generalizes MAP-Elites to arbitrary dimensions and provides explicit control over the desired number of niches.
-
-<!-- chunk {"id": "body-0016", "role": "body", "section": "The CVT-MAP-Elites Algorithm", "weight": 1.0} -->
-
 CVT-Map-Elites first partitions the behavior space into $k$ well-spread centroids (niches) using a CVT (Alg. 1, line 2). It then creates an empty archive with capacity $k$ ($\mathcal{X}$ and $\mathcal{P}$ store the genotypes and performances, respectively). At the first generation, the algorithm samples a set of random genotypes (line 5) and evaluates them by recording their performance and behavior descriptor (line 13); it calculates the centroid closest to each behavior descriptor (line 14) and stores the individual in the archive only if the corresponding region is empty or has a less fit solution (lines 15,16). The main loop of the algorithm corresponds to selecting a random parent (line 8), varying the parent to create the offspring (line 9) and attempting to insert it in the archive as above. Note that there is no specific strategy for variation, which we address in this paper.
 
-<!-- chunk {"id": "body-0017", "role": "body", "section": "Exploiting Correlations in Evolutionary Algorithms", "weight": 1.0} -->
+<!-- chunk {"id": "body-0016", "role": "body", "section": "Exploiting Correlations in Evolutionary Algorithms", "weight": 1.0} -->
 
 In evolution strategies (ES), correlations between variables can be exploited by allowing each population member to maintain a multivariate Gaussian distribution (in the form of different mutation strengths and rotation angles). Modern variants of ES (such as or ) and other estimation of distribution algorithms (EDAs), exploit such correlations by building probabilistic models (that act as search distributions) from which they sample the next population. EDAs have been augmented with niching mechanisms to address multimodal optimization problems; however, they have never been used for illumination^11^1A combination of ES and techniques from illumination algorithms have been proposed recently, but not for the purpose of illumination..
 
-<!-- chunk {"id": "body-0018", "role": "body", "section": "Exploiting Correlations in Evolutionary Algorithms", "weight": 1.0} -->
+<!-- chunk {"id": "body-0017", "role": "body", "section": "Exploiting Correlations in Evolutionary Algorithms", "weight": 1.0} -->
 
 In GAs, commonalities between solutions can be exploited by the recombination operator. In real-coded GAs, parent-centric operators, i.e., ones that create solutions near the parent with more probability, can be more beneficial than mean-centric ones (e.g., ), especially when the population has not surrounded the optimum. One of the most successful parent-centric operators is the simulated binary crossover (SBX), which creates two offspring from two randomly selected parents using a polynomial distribution. By spreading the offspring in proportion to the spread of the parents, SBX endows GAs with self-adaptive properties similar to ES. A variant of SBX produces the offspring along a line that joins two parents, thus, being able to exploit linear correlations between them. To our knowledge, there has not been any study about exploiting correlations with a crossover operator when niching is performed either in phenotype or in behavior space.
 
-<!-- chunk {"id": "body-0019", "role": "body", "section": "Tasks", "weight": 1.0} -->
+<!-- chunk {"id": "body-0018", "role": "body", "section": "Tasks", "weight": 1.0} -->
 
 We perform our experiments in the following tasks, where $\mathbf{x} \in {\lbrack 0,1\rbrack}^{n}$ is the genotype, $\mathbf{y}$ is the phenotype, and the genotype-phenotype map is a linear scaling to the range described below.
 
-<!-- chunk {"id": "body-0020", "role": "body", "section": "Schwefel's Function 1.2", "weight": 1.0} -->
+<!-- chunk {"id": "body-0019", "role": "body", "section": "Schwefel's Function 1.2", "weight": 1.0} -->
 
 This is a classic function used when benchmarking optimization algorithms. The objective is to maximize ${f{(\mathbf{y})}} = {- {\sum_{i = 1}^{n}\left( {\sum_{j = 1}^{i}y_{j}} \right)^{2}}}$. We use a 100-dimensional genotype space ($\mathbf{y} \in {\lbrack{- 5},5\rbrack}^{100}$) and set the behavior descriptor to be the first 2 phenotypic dimensions (${\mathbf{b}{(\mathbf{y})}} \in {\lbrack{- 5},5\rbrack}^{2}$).
 
-<!-- chunk {"id": "body-0021", "role": "body", "section": "Arm Repertoire", "weight": 1.0} -->
+<!-- chunk {"id": "body-0020", "role": "body", "section": "Arm Repertoire", "weight": 1.0} -->
 
 The purpose of this experiment is to create a repertoire of joint angles for a redundant robotic arm for which the resulting end effector positions cover its reachable space. After convergence, each filled niche will contain a solution to its corresponding inverse kinematics (IK) problem, i.e., a joint configuration that takes the end effector inside the region; the goal of the illumination algorithm is, thus, to collect solutions for thousands of IK problems (one per region) in a single run.
+
+<!-- chunk {"id": "body-0021", "role": "body", "section": "Arm Repertoire", "weight": 1.0} -->
+
+We use a 12-degree of freedom (DOF) arm in 2D space, where each joint is a revolute one (no joint limit), and we find the end effector position using the forward kinematics equations: where $n = 12$, each link length $l_{i} = {1/n}$, $y_{i}$ is a joint angle (thus, the phenotype space is the joint space, $\mathbf{y} \in {\lbrack{- \pi},\pi\rbrack}^{12}$), and ${\mathbf{b}{(\mathbf{y})}} \in {\lbrack{- 1},1\rbrack}^{2}$ is the behavior descriptor.
 
 <!-- chunk {"id": "body-0022", "role": "body", "section": "Hexapod Locomotion", "weight": 1.0} -->
 
@@ -102,59 +96,59 @@ The behavior descriptor ${\mathbf{b}{(\mathbf{y})}} \in {\lbrack 0,1\rbrack}^{6}
 
 <!-- chunk {"id": "body-0024", "role": "body", "section": "Metrics", "weight": 1.0} -->
 
-Spread can be interpreted as the mean distance to the nearest neighbor normalized by the maximum possible distance (in the bounding volume of the genotype space ${\lbrack 0,1\rbrack}^{n}$), and similarity is the mean of the average pairwise distances normalized by the maximum possible distance, thus, representing a fraction, and subtracted from 1 so that a higher value means more similar in terms of percentage.
+We study each elite hypervolume, $E{(t)}$, using the archives provided by CVT-MAP-Elites at a given time $t$ (number of evaluations), with the following metrics: Figure 3. Example with a 2-DOF robotic arm that needs to reach thousands of points in 2D space (upper row; task/behavior space, where niching is performed). Each white region in task space is an empty niche, whereas each colored region corresponds to a genotype, i.e., 2 joint angles (bottom row; genotype/parameter space). The number of points in genotype space show the archive size at a given generation, since only one, elite genotype can occupy a niche. The fitness is the negative variance of the joints, thus, solutions along the diagonal (bottom row) have higher fitness. The color reflects the fitness value. The elites of each generation are noisy samples from the volume we are interested in finding (gen. 5000, bottom row).
 
 <!-- chunk {"id": "body-0025", "role": "body", "section": "Metrics", "weight": 1.0} -->
 
+Spread can be interpreted as the mean distance to the nearest neighbor normalized by the maximum possible distance (in the bounding volume of the genotype space ${\lbrack 0,1\rbrack}^{n}$), and similarity is the mean of the average pairwise distances normalized by the maximum possible distance, thus, representing a fraction, and subtracted from 1 so that a higher value means more similar in terms of percentage.
+
+<!-- chunk {"id": "body-0026", "role": "body", "section": "Metrics", "weight": 1.0} -->
+
 When taken together, these two metrics^55^5Other metrics can be considered, such as number of clusters, correlation of solutions in each cluster, volume, geometric span, or others based on manifold learning algorithms, however, the ones we present here are representative for our objective in this paper. can roughly characterize three different situations: a uniformly spaced set of points has high spread and low similarity (Fig. 2, left); a single cluster of points has low spread and high similarity (Fig. 2, middle); and multiple clusters of points have low spread and low similarity (Fig. 2, right).
-
-<!-- chunk {"id": "body-0026", "role": "body", "section": "Elite Hypervolume for each task", "weight": 1.0} -->
-
-We run the CVT-MAP-Elites algorithm in each task to study the corresponding elite hypervolume. Any other illumination/quality diversity algorithm could be used instead of CVT-MAP-Elites.
 
 <!-- chunk {"id": "body-0027", "role": "body", "section": "Elite Hypervolume for each task", "weight": 1.0} -->
 
-We first run the kinematic arm task with a 2-DOF arm (Fig. 3), which allows us to visualize the elite hypervolume in 2D. The initial, randomly generated elites are evenly spread in the genotypic space (generation 0); however, once CVT-MAP-Elites has converged (here after 5000 generations), the elites are concentrated in a very particular (non-convex) volume in the genotype space (Fig. 3, last panel). The highest performing solutions are on a diagonal line (they correspond to a fitness of $0$, for which the two joint angles are equal), but occupying the other behavioral niches requires to have a lower fitness.
+We run the CVT-MAP-Elites algorithm in each task to study the corresponding elite hypervolume. Any other illumination/quality diversity algorithm could be used instead of CVT-MAP-Elites.
 
 <!-- chunk {"id": "body-0028", "role": "body", "section": "Elite Hypervolume for each task", "weight": 1.0} -->
 
-We then move on with the tasks described in Section 3. For the experiments with the Schwefel function and the robotic arm, we use 30 replicates of 100k evaluations. The hexapod experiment is a more difficult task, therefore, we use 500k evaluations; since it is computationally more expensive, we use 20 replicates.
+We first run the kinematic arm task with a 2-DOF arm (Fig. 3), which allows us to visualize the elite hypervolume in 2D. The initial, randomly generated elites are evenly spread in the genotypic space (generation 0); however, once CVT-MAP-Elites has converged (here after 5000 generations), the elites are concentrated in a very particular (non-convex) volume in the genotype space (Fig. 3, last panel). The highest performing solutions are on a diagonal line (they correspond to a fitness of $0$, for which the two joint angles are equal), but occupying the other behavioral niches requires to have a lower fitness.
 
 <!-- chunk {"id": "body-0029", "role": "body", "section": "Elite Hypervolume for each task", "weight": 1.0} -->
 
+We then move on with the tasks described in Section 3. For the experiments with the Schwefel function and the robotic arm, we use 30 replicates of 100k evaluations. The hexapod experiment is a more difficult task, therefore, we use 500k evaluations; since it is computationally more expensive, we use 20 replicates.
+
+<!-- chunk {"id": "body-0030", "role": "body", "section": "Elite Hypervolume for each task", "weight": 1.0} -->
+
 In all tasks, the spread of the solutions becomes lower as we increase the number of evaluations (Fig.4; the differences between pairs are highly significant, $p < 10^{- 7}$ Mann-Whitney U test). On the other hand, the similarity of the elites (Fig.5) increases with the number of evaluations in the Schwefel function and the arm task ($p < 10^{- 11}$), but not in the hexapod task ($p = 0.64$ between 250k and 500k, $p < 10^{- 7}$ for the other pairs). This shows that in the Schwefel function and the arm task, the elites become more concentrated into an elite hypervolume, thus, it should be possible to easily exploit their similarities and accelerate illumination. In the hexapod task, however, we should not expect to be able to do so, as the solutions seem to be split into several hypervolumes (clusters).
-
-<!-- chunk {"id": "body-0030", "role": "body", "section": "Principle and motivation", "weight": 1.0} -->
-
-When elites share a large part of their genome (here in the first two tasks), it becomes possible to bias the variation operator (the mutation) to make it more likely to generate new candidates in the elite hypervolume. To exploit these inter-species similarities, a simple approach is to extract genotypic correlations and sample new candidates accordingly. In evolutionary computation, this is typically achieved by sampling from a multivariate Gaussian distribution $\mathcal{N}{(\mu,\mathbf{\Sigma})}$, where the covariance matrix $\mathbf{\Sigma}$ models the correlations.
 
 <!-- chunk {"id": "body-0031", "role": "body", "section": "Principle and motivation", "weight": 1.0} -->
 
-A first idea is to estimate the distribution of all the elites at each generation, that is, to attempt to capture "global correlations". However, if we except purely artificial tasks, it is unlikely that all the elites follow the same correlation (this would mean that all the elites lie on a single line in the genotypic space). An alternative is to estimate a multivariate Gaussian distribution from a neighborhood around a parent $\mathbf{x}_{i}^{(t)}$ (i.e., the objective vector of the elite stored in the $i$th niche), thus, centering the distribution on $\mathbf{x}_{i}^{(t)}$. Nevertheless, this approach would require to select the appropriate neighborhood, which is likely to be specific to the task and the generation number.
+When elites share a large part of their genome (here in the first two tasks), it becomes possible to bias the variation operator (the mutation) to make it more likely to generate new candidates in the elite hypervolume. To exploit these inter-species similarities, a simple approach is to extract genotypic correlations and sample new candidates accordingly. In evolutionary computation, this is typically achieved by sampling from a multivariate Gaussian distribution $\mathcal{N}{(\mu,\mathbf{\Sigma})}$, where the covariance matrix $\mathbf{\Sigma}$ models the correlations.
 
 <!-- chunk {"id": "body-0032", "role": "body", "section": "Principle and motivation", "weight": 1.0} -->
 
-We propose a third approach that exploits the existence of a hypervolume without constructing it, and which is inspired by the success of crossover in extracting the common features of successful individuals (see Sec. 2.3).
+A first idea is to estimate the distribution of all the elites at each generation, that is, to attempt to capture "global correlations". However, if we except purely artificial tasks, it is unlikely that all the elites follow the same correlation (this would mean that all the elites lie on a single line in the genotypic space). An alternative is to estimate a multivariate Gaussian distribution from a neighborhood around a parent $\mathbf{x}_{i}^{(t)}$ (i.e., the objective vector of the elite stored in the $i$th niche), thus, centering the distribution on $\mathbf{x}_{i}^{(t)}$. Nevertheless, this approach would require to select the appropriate neighborhood, which is likely to be specific to the task and the generation number.
 
 <!-- chunk {"id": "body-0033", "role": "body", "section": "Principle and motivation", "weight": 1.0} -->
 
-the variance along $\mathbf{d}_{ji}^{(t)}$ depends on the distance $\|\mathbf{d}_{ji}^{(t)}\|$, so that the mutation is self-adjusting (when the volume shrinks, the variance decreases); this follows from the literature on crossover in real-valued GAs;
+We propose a third approach that exploits the existence of a hypervolume without constructing it, and which is inspired by the success of crossover in extracting the common features of successful individuals (see Sec. 2.3).
 
 <!-- chunk {"id": "body-0034", "role": "body", "section": "Principle and motivation", "weight": 1.0} -->
 
-to mitigate premature convergence, exploration is performed not only along $\mathbf{d}_{ji}^{(t)}$, but also in all other directions;
+Once a parent is selected (here we select uniformly among the elites), it is mutated according to the following principles: the direction of correlation $\mathbf{d}_{ji}^{(t)}$ is defined by a randomly chosen elite $\mathbf{x}_{j}^{(t)}$: $\mathbf{d}_{ji}^{(t)} = {{({\mathbf{x}_{j}^{(t)} - \mathbf{x}_{i}^{(t)}})}/{\|{\mathbf{x}_{j}^{(t)} - \mathbf{x}_{i}^{(t)}}\|}}$; the variance along $\mathbf{d}_{ji}^{(t)}$ depends on the distance $\|\mathbf{d}_{ji}^{(t)}\|$, so that the mutation is self-adjusting (when the volume shrinks, the variance decreases); this follows from the literature on crossover in
 
 <!-- chunk {"id": "body-0035", "role": "body", "section": "Principle and motivation", "weight": 1.0} -->
 
-when $\|\mathbf{d}_{ji}^{(t)}\|$ is small, the variance does not decrease to zero, to ensure continual exploration in the spirit of illumination algorithms which are inherently exploratory.
+real-valued GAs; to mitigate premature convergence, exploration is performed not only along $\mathbf{d}_{ji}^{(t)}$, but also in all other directions; when $\|\mathbf{d}_{ji}^{(t)}\|$ is small, the variance does not decrease to zero, to ensure continual exploration in the spirit of illumination algorithms which are inherently exploratory.
 
 <!-- chunk {"id": "body-0036", "role": "body", "section": "Principle and motivation", "weight": 1.0} -->
 
-We can implement these four principles by convolving two Gaussian distributions (since the result is still a Gaussian distribution). The first distribution is an isotropic one, which has small variance in all directions (satisfying principles and ); the second distribution is a directional one, which adds a Gaussian elongation (satisfying principles and ).
+We can implement these four principles by convolving two Gaussian distributions (since the result is still a Gaussian distribution). The first distribution is an isotropic one, which has small variance in all directions (satisfying principles and); the second distribution is a directional one, which adds a Gaussian elongation (satisfying principles and). Under this operator, the offspring is sampled as follows: where $\sigma_{1}$ and $\sigma_{2}$ are user-defined parameters. Note that when $\sigma_{2} = 0$ the effect of the directional distribution disappears and the distribution becomes isotropic (Fig. 6A). Conversely, when $\sigma_{1} = 0$ the effect of the isotropic distribution disappears and the distribution takes a directional form (Fig. 6B). When $\sigma_{1} > 0$ and $\sigma_{2} > 0$ the distribution becomes correlated (Fig. 6C), and as $\|\mathbf{d}_{ji}^{(t)}\|$ goes to zero, the distribution becomes more and more isotropic.
 
 <!-- chunk {"id": "body-0037", "role": "body", "section": "Principle and motivation", "weight": 1.0} -->
 
-where $\sigma_{1}$ and $\sigma_{2}$ are user-defined parameters. Note that when $\sigma_{2} = 0$ the effect of the directional distribution disappears and the distribution becomes isotropic (Fig. 6A). Conversely, when $\sigma_{1} = 0$ the effect of the isotropic distribution disappears and the distribution takes a directional form (Fig. 6B). When $\sigma_{1} > 0$ and $\sigma_{2} > 0$ the distribution becomes correlated (Fig. 6C), and as $\|\mathbf{d}_{ji}^{(t)}\|$ goes to zero, the distribution becomes more and more isotropic. Alternatively, Eq. 3 can be interpreted as the combination of an isotropic Gaussian mutation and a mutation similar to differential evolution whose scaling factor follows a Gaussian distribution.
+Alternatively, Eq. 3 can be interpreted as the combination of an isotropic Gaussian mutation and a mutation similar to differential evolution whose scaling factor follows a Gaussian distribution.
 
 <!-- chunk {"id": "body-0038", "role": "body", "section": "Evaluation", "weight": 1.0} -->
 
@@ -186,48 +180,52 @@ At every generation, we estimate the direction of global correlation by fitting 
 
 <!-- chunk {"id": "body-0045", "role": "body", "section": "Simulated Binary Crossover with One Offspring (SBX)", "weight": 1.0} -->
 
-Since our variation operator resembles a crossover operator for real-coded GAs, we compare it with SBX, which is also parent-centric, and self-adjusting according to the distance between the two parents. To have a fairer comparison, instead of creating two offspring (each one near its corresponding parent), we generate only one as follows: $x_{ik}^{({t + 1})} = {0.5\left\lbrack {{{({1 + \beta_{k}})}x_{ik}^{(t)}} + {{({1 - \beta_{k}})}x_{jk}^{(t)}}} \right\rbrack}$, where $x_{ik}^{(t)}$ is the $k$th element of solution $\mathbf{x}_{i}^{(t)}$ ($k = {1,2,\ldots,n}$), and
+Since our variation operator resembles a crossover operator for real-coded GAs, we compare it with SBX, which is also parent-centric, and self-adjusting according to the distance between the two parents.
 
 <!-- chunk {"id": "body-0046", "role": "body", "section": "Simulated Binary Crossover with One Offspring (SBX)", "weight": 1.0} -->
 
-where $\eta \geq 0$ is the distribution index and $u_{k}$ is a random number generated from a uniform distribution in $\lbrack 0,1)$. In addition, each variable has a $0.5$ chance of not being recombined in which case $x_{ik}^{({t + 1})} = x_{ik}^{(t)}$. In our experiments, we set $\eta = 10$.
+To have a fairer comparison, instead of creating two offspring (each one near its corresponding parent), we generate only one as follows: $x_{ik}^{({t + 1})} = {0.5\left\lbrack {{{({1 + \beta_{k}})}x_{ik}^{(t)}} + {{({1 - \beta_{k}})}x_{jk}^{(t)}}} \right\rbrack}$, where $x_{ik}^{(t)}$ is the $k$th element of solution $\mathbf{x}_{i}^{(t)}$ ($k = {1,2,\ldots,n}$), and where $\eta \geq 0$ is the distribution index and $u_{k}$ is a random number generated from a uniform distribution in $\lbrack 0,1)$.
 
-<!-- chunk {"id": "body-0047", "role": "body", "section": "Results", "weight": 1.0} -->
+<!-- chunk {"id": "body-0047", "role": "body", "section": "Simulated Binary Crossover with One Offspring (SBX)", "weight": 1.0} -->
 
-As in Sec. 3, we use 30 replicates of 100k evaluations for the Schwefel function and the arm task and 20 replicates of 500k evaluations for the hexapod task. All the reported results are medians over these runs. The results (Fig. 7) confirm our conclusions when measuring the spread (Fig. 4) and similarity (Fig.5) of the corresponding elite hypervolume (Sec. 4.3). In particular, Iso+LineDD and LineDD accelerate illumination in Schwefel's function (in terms of mean and max performance; Fig. 7, left column, 2nd and 3rd panel) and the arm task (in all metrics; Fig. 7, middle column), while for the hexapod task they only provide marginal benefits (slightly better progress in archive size; Fig. 7, right column, 1st panel).
+In addition, each variable has a $0.5$ chance of not being recombined in which case $x_{ik}^{({t + 1})} = x_{ik}^{(t)}$. In our experiments, we set $\eta = 10$.
 
 <!-- chunk {"id": "body-0048", "role": "body", "section": "Results", "weight": 1.0} -->
 
-More specifically, in Schwefel's function, Iso+LineDD and LineDD, reach a level of maximum performance at 10k evaluations (-416.5 and -419.7 respectively) that is only reached at 60k evaluations with Line (-439.7) and never reached by any other operator at 100k evaluations. This demonstrates an order of magnitude faster improvement. It also shows that DD variance is beneficial when coupled with the line operators, since IsoDD has the worst overall performance. The archive size increases at the same rate with all operators (1st panel); however, this is expected since the behavior space is just a subset (rather than a function) of the genotype space.
+As in Sec. 3, we use 30 replicates of 100k evaluations for the Schwefel function and the arm task and 20 replicates of 500k evaluations for the hexapod task. All the reported results are medians over these runs. The results (Fig. 7) confirm our conclusions when measuring the spread (Fig. 4) and similarity (Fig.5) of the corresponding elite hypervolume (Sec. 4.3). In particular, Iso+LineDD and LineDD accelerate illumination in Schwefel's function (in terms of mean and max performance; Fig. 7, left column, 2nd and 3rd panel) and the arm task (in all metrics; Fig. 7, middle column), while for the hexapod task they only provide marginal benefits (slightly better progress in archive size; Fig. 7, right column, 1st panel).
 
 <!-- chunk {"id": "body-0049", "role": "body", "section": "Results", "weight": 1.0} -->
 
-In the arm task, all line operators have the best progress rates in all 3 metrics, followed by SBX. Self-adaptation (SA) helps the Iso operator in attaining better progress rates for archive size and mean fitness, and DD helps to accelerate its progress even more in contrast to the previous task. While GC always surpasses Iso in terms of mean fitness, Iso has better overall max fitness and reaches the archive size of GC at 100k evaluations.
+More specifically, in Schwefel's function, Iso+LineDD and LineDD, reach a level of maximum performance at 10k evaluations (-416.5 and -419.7 respectively) that is only reached at 60k evaluations with Line (-439.7) and never reached by any other operator at 100k evaluations. This demonstrates an order of magnitude faster improvement. It also shows that DD variance is beneficial when coupled with the line operators, since IsoDD has the worst overall performance. The archive size increases at the same rate with all operators (1st panel); however, this is expected since the behavior space is just a subset (rather than a function) of the genotype space.
 
 <!-- chunk {"id": "body-0050", "role": "body", "section": "Results", "weight": 1.0} -->
 
-Finally, in the hexapod task, Iso+LineDD and LineDD have the lead in terms of archive size (7274 and 7169 at 500k evaluations respectively), significantly outperforming the Iso operators which come second (6710-6725; $p < 10^{- 4}$ Mann Whitney U test); Line does not perform as well (5483.5) and displays high variance, while SBX and GC come last (4173.5 and 3977 respectively). However, in terms of mean fitness, the Line operator starts off faster than the other operators, however, at 500k evaluations Iso+LineDD manages to reach a similar level, with their difference not being statistically significant (Line: 0.412, Iso+LineDD: 0.402, $p = 0.18$ Mann-Whitney U test). Although this shows that making smaller steps along the direction of correlation helps in improving the solutions in Line's archive, note that the archive size of Line at 500k evaluations (5483.5) is even lower than the one of Iso+LineDD at 150k evaluations.
+In the arm task, all line operators have the best progress rates in all 3 metrics, followed by SBX. Self-adaptation (SA) helps the Iso operator in attaining better progress rates for archive size and mean fitness, and DD helps to accelerate its progress even more in contrast to the previous task. While GC always surpasses Iso in terms of mean fitness, Iso has better overall max fitness and reaches the archive size of GC at 100k evaluations.
 
 <!-- chunk {"id": "body-0051", "role": "body", "section": "Results", "weight": 1.0} -->
 
-SA does not significantly affect the performance of Iso, whereas, DD negatively impacts it both in terms of mean and max fitness. In all three metrics, GC is consistently worse than the other operators.
+Finally, in the hexapod task, Iso+LineDD and LineDD have the lead in terms of archive size (7274 and 7169 at 500k evaluations respectively), significantly outperforming the Iso operators which come second (6710-6725; $p < 10^{- 4}$ Mann Whitney U test); Line does not perform as well (5483.5) and displays high variance, while SBX and GC come last (4173.5 and 3977 respectively). However, in terms of mean fitness, the Line operator starts off faster than the other operators, however, at 500k evaluations Iso+LineDD manages to reach a similar level, with their difference not being statistically significant (Line: 0.412, Iso+LineDD: 0.402, $p = 0.18$ Mann-Whitney U test). Although this shows that making smaller steps along the direction of correlation helps in improving the solutions in Line's archive, note that the archive size of Line at 500k evaluations (5483.5) is even lower than the one of Iso+LineDD at 150k evaluations.
 
 <!-- chunk {"id": "body-0052", "role": "body", "section": "Results", "weight": 1.0} -->
 
+SA does not significantly affect the performance of Iso, whereas, DD negatively impacts it both in terms of mean and max fitness. In all three metrics, GC is consistently worse than the other operators.
+
+<!-- chunk {"id": "body-0053", "role": "body", "section": "Results", "weight": 1.0} -->
+
 When plotting the final solutions found by the operators in terms of median of the mean fitness against the median of the archive size (Pareto plot; Fig. 7, bottom row), we observe that Iso+LineDD is never Pareto dominated in all three tasks.
-
-<!-- chunk {"id": "body-0053", "role": "body", "section": "Conclusion and Discussion", "weight": 1.5} -->
-
-In this paper, we demonstrated that when using illumination algorithms in certain tasks (here the Schwefel function and the arm experiment), the set of solutions returned by the algorithms form an elite hypervolume in genotype space. We introduced two metrics, the genotypic spread and the genotypic similarity, to empirically characterize this hypervolume, as well as a variation operator that can exploit correlations between solutions. We then showed that in case the elite solutions display high genotypic similarity, the operator can significantly increase the progress rate of MAP-Elites in terms of performance (without reducing diversity, e.g., in the Schwefel function) or both performance and diversity (e.g., in the arm task); in case the elite solutions display low genotypic similarity, the operator can significantly increase the diversity (without reducing performance, e.g., in the hexapod task).
 
 <!-- chunk {"id": "body-0054", "role": "body", "section": "Conclusion and Discussion", "weight": 1.5} -->
 
-The variation operator we introduced here resembles a parent-centric crossover for real-coded GAs. It plays a significant role in illumination algorithms because it provides them with a better balance between exploration and exploitation. In other words, the niching scheme provides the exploration, while this operator provides the exploitation because it has the "right" bias. Thus, we expect it to be more useful in cases where there is a good diversity of solutions. To our knowledge, such results are lacking in the field of real-coded GAs.
+In this paper, we demonstrated that when using illumination algorithms in certain tasks (here the Schwefel function and the arm experiment), the set of solutions returned by the algorithms form an elite hypervolume in genotype space. We introduced two metrics, the genotypic spread and the genotypic similarity, to empirically characterize this hypervolume, as well as a variation operator that can exploit correlations between solutions. We then showed that in case the elite solutions display high genotypic similarity, the operator can significantly increase the progress rate of MAP-Elites in terms of performance (without reducing diversity, e.g., in the Schwefel function) or both performance and diversity (e.g., in the arm task); in case the elite solutions display low genotypic similarity, the operator can significantly increase the diversity (without reducing performance, e.g., in the hexapod task).
 
 <!-- chunk {"id": "body-0055", "role": "body", "section": "Conclusion and Discussion", "weight": 1.5} -->
 
-It is likely that selective biases for illumination algorithms, will complement the variation biases we introduced here, thus, further accelerating illumination. For instance, we could minimize the chances of sampling the regions outside the elite hypervolume by restricting the selection of the second elite which would define the direction of correlation. Such an approach bears similarities to the restricted tournament selection method from multimodal optimization. Taking more inspiration from the multimodal optimization literature, we could select the second elite to be the nearest better neighbor of the first, in which case we would bias for performance.
+The variation operator we introduced here resembles a parent-centric crossover for real-coded GAs. It plays a significant role in illumination algorithms because it provides them with a better balance between exploration and exploitation. In other words, the niching scheme provides the exploration, while this operator provides the exploitation because it has the "right" bias. Thus, we expect it to be more useful in cases where there is a good diversity of solutions. To our knowledge, such results are lacking in the field of real-coded GAs.
 
 <!-- chunk {"id": "body-0056", "role": "body", "section": "Conclusion and Discussion", "weight": 1.5} -->
+
+It is likely that selective biases for illumination algorithms, will complement the variation biases we introduced here, thus, further accelerating illumination. For instance, we could minimize the chances of sampling the regions outside the elite hypervolume by restricting the selection of the second elite which would define the direction of correlation. Such an approach bears similarities to the restricted tournament selection method from multimodal optimization. Taking more inspiration from the multimodal optimization literature, we could select the second elite to be the nearest better neighbor of the first, in which case we would bias for performance.
+
+<!-- chunk {"id": "body-0057", "role": "body", "section": "Conclusion and Discussion", "weight": 1.5} -->
 
 One might wonder whether the findings of this work apply for variable-sized genotypes, such as the ones used by the NeuroEvolution of Augmenting Topologies (NEAT) algorithm. While the crossover operator of NEAT is effective in recombining variable-sized neural networks, or compositional pattern producing networks, it resembles a disruptive, mean-centric approach to recombination (e.g., see ), rather than a parent-centric one (e.g., ). Thus, an interesting research direction would be to study how correlations between graphs can be modeled and exploited. Model-building approaches for genetic programming could provide a fruitful inspiration for such an endeavor.

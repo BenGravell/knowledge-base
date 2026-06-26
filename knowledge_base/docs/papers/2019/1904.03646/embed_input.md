@@ -66,7 +66,7 @@ The simulation policy depends on these statistics, as well as prior information 
 
 <!-- chunk {"id": "body-0017", "role": "body", "section": "Monte Carlo Tree Search", "weight": 1.0} -->
 
-When an action $a$ in a state $s_{L}$ is chosen that takes us to a position $s^{\prime}$ not yet in the search tree, we perform an expansion, adding $s^{\prime}$ to the tree as a child of $s_{L}$. We estimate the value of the state $s^{\prime}$, either with a Monte Carlo rollout following some default policy, or, in more recent works, with a neural-network value estimate. This reward signal is propagated through the tree (a backup), with each node and edge updating statistics for visit counts $n{(s)}$, $n{(s,a)}$ and total returns $r{(s,a)}$.
+When an action $a$ in a state $s_{L}$ is chosen that takes us to a position $s'$ not yet in the search tree, we perform an expansion, adding $s'$ to the tree as a child of $s_{L}$. We estimate the value of the state $s'$, either with a Monte Carlo rollout following some default policy, or, in more recent works, with a neural-network value estimate. This reward signal is propagated through the tree (a backup), with each node and edge updating statistics for visit counts $n{(s)}$, $n{(s,a)}$ and total returns $r{(s,a)}$.
 
 <!-- chunk {"id": "body-0018", "role": "body", "section": "Monte Carlo Search", "weight": 1.0} -->
 
@@ -114,164 +114,132 @@ Because evaluating our simulation policy is expensive, we do not simulate to a t
 
 <!-- chunk {"id": "body-0029", "role": "body", "section": "Policy Gradient Search", "weight": 1.0} -->
 
-Reasonable strategies could include simulating for a fixed horizon $H$; or for a gradually increasing horizon $H{(n)}$ on the $n$th simulation; or simulating until a threshold on the probability density of the action sequence is reached, to induce deeper search down the principle variation. For Hex, we use the same strategy as employed by MCTS algorithms: running each simulation until the action sequence of the simulation is unique.^11^1Noting that an alternative would be needed in domains with very large action spaces
+Reasonable strategies could include simulating for a fixed horizon $H$; or for a gradually increasing horizon $H{(n)}$ on the $n$th simulation; or simulating until a threshold on the probability density of the action sequence is reached, to induce deeper search down the principle variation. For Hex, we use the same strategy as employed by MCTS algorithms: running each simulation until the action sequence of the simulation is unique.^11^1Noting that an alternative would be needed in domains with very large action spaces Once we reach a final state for the simulation $s_{L}$ after $t$ steps, we estimate the value of this state using the global value network $V$, and use this estimate to update the simulation policy parameters $\theta$ using Reinforce: Where $\alpha$ is a learning rate. In Hex, values are scaled between -1 and 1, for other problems, a non-zero baseline may be necessary. These updates can be seen as fine-tuning the global policy to the current sub-game.
 
 <!-- chunk {"id": "body-0030", "role": "body", "section": "Policy Gradient Search", "weight": 1.0} -->
 
-Where $\alpha$ is a learning rate. In Hex, values are scaled between -1 and 1, for other problems, a non-zero baseline may be necessary. These updates can be seen as fine-tuning the global policy to the current sub-game.
+Because the root node is visited in every simulation, as with MCS, we can use a bandit-based approach to select the first action $a_{0}$ of each simulation. We adopt the PUCT formula for this, greedily choosing the action that maximises: Where $c_{puct}$ is a hyperparameter. $Q{(s_{0},a)}$ is the average return from all simulations so far that started with the action $a$. $\pi{(s_{0},a)}$ is the original global policy at $s_{0}$. Every subsequent action of the simulation $a_{1:t}$ is sampled from $\pi_{sim}$.
 
-<!-- chunk {"id": "body-0031", "role": "body", "section": "Policy Gradient Search", "weight": 1.0} -->
-
-Because the root node is visited in every simulation, as with MCS, we can use a bandit-based approach to select the first action $a_{0}$ of each simulation.
-
-<!-- chunk {"id": "body-0032", "role": "body", "section": "Policy Gradient Search", "weight": 1.0} -->
-
-Where $c_{puct}$ is a hyperparameter. $Q{(s_{0},a)}$ is the average return from all simulations so far that started with the action $a$. $\pi{(s_{0},a)}$ is the original global policy at $s_{0}$. Every subsequent action of the simulation $a_{1:t}$ is sampled from $\pi_{sim}$.
-
-<!-- chunk {"id": "body-0033", "role": "body", "section": "Parameter Freezing during Online Adaptation", "weight": 1.0} -->
+<!-- chunk {"id": "body-0031", "role": "body", "section": "Parameter Freezing during Online Adaptation", "weight": 1.0} -->
 
 During testing, online search algorithms are usually used under a time constraint, so, compared to standard RL problems, orders of magnitude fewer simulations will be used. It is also important to ensure that our algorithm does not require too much computation per simulation step. When used for offline training in Expert Iteration, the efficiency of the search method is still crucial: too slow, and it would be more efficient to use a worse but faster planner, and run for a greater number of iterations.
 
-<!-- chunk {"id": "body-0034", "role": "body", "section": "Parameter Freezing during Online Adaptation", "weight": 1.0} -->
+<!-- chunk {"id": "body-0032", "role": "body", "section": "Parameter Freezing during Online Adaptation", "weight": 1.0} -->
 
 We use a residual neural network with the architecture introduced by Silver et al., with 19 residual blocks and separate policy and value heads. In order to learn a policy effective across the entire state space from a dataset of millions of positions, the global neural network is very large and expensive to evaluate. Far fewer parameters are sufficient for the online adaptation, or even preferable if it regularises the fine-tuning.
 
-<!-- chunk {"id": "body-0035", "role": "body", "section": "Parameter Freezing during Online Adaptation", "weight": 1.0} -->
+<!-- chunk {"id": "body-0033", "role": "body", "section": "Parameter Freezing during Online Adaptation", "weight": 1.0} -->
 
 PGS is more expensive than MCS because it must perform the policy gradient update to the neural network parameters. The backward pass through our network takes approximately twice as long as the forward pass, making PGS 3-4 times more expensive than MCS. In order to reduce the computational cost of the algorithm, during policy gradient search, we adapt the parameters of the policy head only. This reduces the flops used by the backward pass by a factor of over 100, making the difference in computational cost between MCS and PGS negligible.
 
-<!-- chunk {"id": "body-0036", "role": "body", "section": "Parameter Freezing during Online Adaptation", "weight": 1.0} -->
+<!-- chunk {"id": "body-0034", "role": "body", "section": "Parameter Freezing during Online Adaptation", "weight": 1.0} -->
 
 (In games such as Hex where states are visited multiple times, an additional optimisation can then be made: the forward pass through the fixed part of the network can be cached, rather than being recalculated for every visit of each simulation. This is similar to storing the prior policy at each node of MCTS, and substantially reduced the runtime of our experiments.)
 
-<!-- chunk {"id": "body-0037", "role": "body", "section": "Note on Batch Normalisation", "weight": 1.0} -->
+<!-- chunk {"id": "body-0035", "role": "body", "section": "Note on Batch Normalisation", "weight": 1.0} -->
 
 Our neural network uses batch normalisation. In all instances, the global neural networks have been trained on datasets of states from many independently sampled games of Hex.
 
-<!-- chunk {"id": "body-0038", "role": "body", "section": "Note on Batch Normalisation", "weight": 1.0} -->
+<!-- chunk {"id": "body-0036", "role": "body", "section": "Note on Batch Normalisation", "weight": 1.0} -->
 
 During search, the input distribution is substantially changed to consist of many highly correlated states. Using mini-batch statistics for batch normalisation therefore results in a large shift in the policy. So during PGS we freeze the parameters for batch normalisation, and calculate the normalisation using population rather than mini-batch statistics, as is usual for inference.
 
-<!-- chunk {"id": "body-0039", "role": "body", "section": "Policy Gradient Search as an Online Planner", "weight": 1.0} -->
+<!-- chunk {"id": "body-0037", "role": "body", "section": "Policy Gradient Search as an Online Planner", "weight": 1.0} -->
 
 We evaluate Policy Gradient Search on the game of Hex. Hex has a moderate branching factor and deterministic transitions, meaning MCTS is very effective in this domain, this allows us to directly compare the strength of PGS to MCTS. As noted in section 3.1, faster experimentation is possible in such domains, too. In this section we measure the performance of PGS for maximising agent performance at test time.
 
-<!-- chunk {"id": "body-0040", "role": "body", "section": "Baselines", "weight": 1.0} -->
+<!-- chunk {"id": "body-0038", "role": "body", "section": "Baselines", "weight": 1.0} -->
 
 In our experiments we use two baseline search algorithms: MCTS and MCS. MCTS provides a strong baseline, but becomes harder to use in some MDPs with very large branching factors. In contrast, MCS is easier to apply to general MDPs, but is weaker than MCTS in Hex.
 
-<!-- chunk {"id": "body-0041", "role": "body", "section": "Baselines", "weight": 1.0} -->
+<!-- chunk {"id": "body-0039", "role": "body", "section": "Baselines", "weight": 1.0} -->
 
 Our MCTS algorithm is the same as used by AlphaZero. That is, we use the PUCT formula for our tree policy, $c_{puct} = 5$, and use a value network for leaf evaluations. Our MCS is as described in section 2.4, the same as the MCTS but sampling from the prior policy instead of using PUCT at every node except the root. It is therefore also the same as our PGS algorithm with a learning rate of 0.
 
-<!-- chunk {"id": "body-0042", "role": "body", "section": "Baselines", "weight": 1.0} -->
+<!-- chunk {"id": "body-0040", "role": "body", "section": "Baselines", "weight": 1.0} -->
 
 For all search algorithms, simulations are completed in batches of 32, with virtual losses added wherever the PUCT formula was used to encourage diversity in the simulations.
 
-<!-- chunk {"id": "body-0043", "role": "body", "section": "Description of the Neural Networks", "weight": 1.0} -->
+<!-- chunk {"id": "body-0041", "role": "body", "section": "Description of the Neural Networks", "weight": 1.0} -->
 
-To show general applicability, we test using multiple different global neural networks, trained with different variants of Expert Iteration. In each case, we tune the PGS learning rate before testing, and compare PGS to MCS and MCTS using the same neural network.
+To show general applicability, we test using multiple different global neural networks, trained with different variants of Expert Iteration. In each case, we tune the PGS learning rate before testing, and compare PGS to MCS and MCTS using the same neural network. The networks used are: A residual neural network for 9x9 Hex trained on the dataset generated in the distributed training run from Anthony et al.
 
-<!-- chunk {"id": "body-0044", "role": "body", "section": "Description of the Neural Networks", "weight": 1.0} -->
+<!-- chunk {"id": "body-0042", "role": "body", "section": "Description of the Neural Networks", "weight": 1.0} -->
 
-A residual neural network for 9x9 Hex trained on the dataset generated in the distributed training run from Anthony et al.
+The network at the end of training for our version of AlphaZero (see section 5) applied to 9x9 Hex A network from early in training with Policy Gradient Search Expert Iteration (PGS-ExIt, section 5), applied to 9x9 Hex i.e. at epoch 10 of 450 A network from approximately half way through training with PGS-ExIt on 9x9 Hex, i.e. at epoch 230 of 450 The network at the end of training with PGS-ExIt applied to 9x9 Hex, i.e. at epoch 450 of 450 The network at the end of training with our version of AlphaZero, applied to 13x13 Hex
 
-<!-- chunk {"id": "body-0045", "role": "body", "section": "Description of the Neural Networks", "weight": 1.0} -->
-
-The network at the end of training for our version of AlphaZero (see section 5) applied to 9x9 Hex
-
-<!-- chunk {"id": "body-0046", "role": "body", "section": "Description of the Neural Networks", "weight": 1.0} -->
-
-A network from early in training with Policy Gradient Search Expert Iteration (PGS-ExIt, section 5), applied to 9x9 Hex i.e. at epoch 10 of 450
-
-<!-- chunk {"id": "body-0047", "role": "body", "section": "Description of the Neural Networks", "weight": 1.0} -->
-
-A network from approximately half way through training with PGS-ExIt on 9x9 Hex, i.e. at epoch 230 of 450
-
-<!-- chunk {"id": "body-0048", "role": "body", "section": "Description of the Neural Networks", "weight": 1.0} -->
-
-The network at the end of training with PGS-ExIt applied to 9x9 Hex, i.e. at epoch 450 of 450
-
-<!-- chunk {"id": "body-0049", "role": "body", "section": "Description of the Neural Networks", "weight": 1.0} -->
-
-The network at the end of training with our version of AlphaZero, applied to 13x13 Hex
-
-<!-- chunk {"id": "body-0050", "role": "body", "section": "Results", "weight": 1.0} -->
+<!-- chunk {"id": "body-0043", "role": "body", "section": "Results", "weight": 1.0} -->
 
 For each neural network, we ran a round-robin tournament between the raw neural network and four search algorithms MCS, MCTS, PGS, and PGS without parameter freezing (PGS-UF). To overcome Hex's first player advantage, each pair of agents played $2n^{2}$ games against each other, one per colour per legal first more. Note that this compresses the Elo scale compared to tournament play, as many legal opening moves give one or other player a significant advantage.
 
-<!-- chunk {"id": "body-0051", "role": "body", "section": "Results", "weight": 1.0} -->
+<!-- chunk {"id": "body-0044", "role": "body", "section": "Results", "weight": 1.0} -->
 
 Each searcher used 800 search iterations per move, with no pondering between moves. Elo ratings were calculated using BayesElo, with the scale shifted so the mean estimate for the raw neural network's Elo was 0 in each case, giving a different Elo scale for each tournament. Results are presented in the table below, along with the values of $\alpha$ used in PGS.
 
-<!-- chunk {"id": "body-0052", "role": "body", "section": "Results", "weight": 1.0} -->
+<!-- chunk {"id": "body-0045", "role": "body", "section": "Results", "weight": 1.0} -->
 
-NN NN Elo MCS Elo MCTS Elo PGS Elo PGS $\alpha$ PGS-UF Elo PGS-UF $\alpha$
+NN NN Elo MCS Elo MCTS Elo PGS Elo PGS $\alpha$ PGS-UF Elo PGS-UF $\alpha$ In all cases, all search algorithms significantly outperformed the raw neural network. Most differences between the search algorithms are smaller, but overall trends are clear: on average PGS is $\sim 65$ Elo stronger than MCS, and MCTS is $\sim 20$ Elo stronger than PGS. PGS without freezing parameters (PGS-UF) was found to be weaker than PGS, even disregarding the additional computational cost.
 
-<!-- chunk {"id": "body-0053", "role": "body", "section": "Results", "weight": 1.0} -->
-
-In all cases, all search algorithms significantly outperformed the raw neural network. Most differences between the search algorithms are smaller, but overall trends are clear: on average PGS is $\sim 65$ Elo stronger than MCS, and MCTS is $\sim 20$ Elo stronger than PGS. PGS without freezing parameters (PGS-UF) was found to be weaker than PGS, even disregarding the additional computational cost.
-
-<!-- chunk {"id": "body-0054", "role": "body", "section": "Results", "weight": 1.0} -->
+<!-- chunk {"id": "body-0046", "role": "body", "section": "Results", "weight": 1.0} -->
 
 We also tested how the performance of the different search algorithms scales with different numbers of search iterations, in a range from 200 to 1600 search iterations per move, our results are plotted in figure 2. In both cases we see that the adaptive search algorithms, PGS and MCTS, scale much more effectively with number of search iterations than does MCS.
 
-<!-- chunk {"id": "body-0055", "role": "body", "section": "Results", "weight": 1.0} -->
+<!-- chunk {"id": "body-0047", "role": "body", "section": "Results", "weight": 1.0} -->
 
 PGS might scale less well than MCTS if the capacity for the policy head to represent adaptations were saturated. We find no evidence that this occurs, but note that 1600 iterations per move is still a fairly short search, such an effect may still take place in longer searches.
 
-<!-- chunk {"id": "body-0056", "role": "body", "section": "Policy Gradient Search Expert Iteration", "weight": 1.0} -->
+<!-- chunk {"id": "body-0048", "role": "body", "section": "Policy Gradient Search Expert Iteration", "weight": 1.0} -->
 
 One motivation of this work is the value of online planning algorithms during training of RL agents. To this end, we used PGS as an expert in ExIt, comparing again to the baseline MCS and MCTS agents.
 
-<!-- chunk {"id": "body-0057", "role": "body", "section": "Expert Iteration Setup", "weight": 1.0} -->
+<!-- chunk {"id": "body-0049", "role": "body", "section": "Expert Iteration Setup", "weight": 1.0} -->
 
-We closely follow the self-play and distillation schemes of AlphaZero, which we summarise here. Data is generated via self-play of the expert search algorithm on multiple workers. Whenever a game is finished, all states $s_{i}$ from the game are added to a replay buffer, with the game result $z$ and expert search policy ${p{(s_{i},a)}} = {{{n{(s_{i},a)}}/n}{(s_{i})}}$ for each state. Asynchronously, the neural network is trained on the data in the replay buffer. ^22^2Asynchronous training and data generation was implemented with Ray
+We closely follow the self-play and distillation schemes of AlphaZero, which we summarise here. Data is generated via self-play of the expert search algorithm on multiple workers. Whenever a game is finished, all states $s_{i}$ from the game are added to a replay buffer, with the game result $z$ and expert search policy ${p{(s_{i},a)}} = {{{n{(s_{i},a)}}/n}{(s_{i})}}$ for each state. Asynchronously, the neural network is trained on the data in the replay buffer. ^22^2Asynchronous training and data generation was implemented with Ray For the first 30 moves of each self-play game, the expert takes actions according to the search distribution, i.e. ${\pi_{expert}{(s,a)}} = {{{n{(s,a)}}/n}{(s)}}$. Thereafter actions are chosen greedily.
 
-<!-- chunk {"id": "body-0058", "role": "body", "section": "Expert Iteration Setup", "weight": 1.0} -->
+<!-- chunk {"id": "body-0050", "role": "body", "section": "Expert Iteration Setup", "weight": 1.0} -->
 
-For the first 30 moves of each self-play game, the expert takes actions according to the search distribution, i.e. ${\pi_{expert}{(s,a)}} = {{{n{(s,a)}}/n}{(s)}}$. Thereafter actions are chosen greedily. At the root node, Dirichlet noise is added to the prior policy in the PUCT formula: ${\pi^{\prime}{(s_{0},a)}} = {{0.75\pi{(s_{0},a)}} + {0.25\eta}}$, $\eta \sim {Dir{(0.12)}}$. In $90\%$ of games, resignation is used: if the average return of search simulations from the current state is below a resignation threshold, the game is resigned. In the other $10\%$ of games no resignation is used, these games are used to calculate a threshold with a false positive rate below $5\%$.
+At the root node, Dirichlet noise is added to the prior policy in the PUCT formula: ${\pi'{(s_{0},a)}} = {{0.75\pi{(s_{0},a)}} + {0.25\eta}}$, $\eta \sim {Dir{(0.12)}}$. In $90\%$ of games, resignation is used: if the average return of search simulations from the current state is below a resignation threshold, the game is resigned. In the other $10\%$ of games no resignation is used, these games are used to calculate a threshold with a false positive rate below $5\%$.
 
-<!-- chunk {"id": "body-0059", "role": "body", "section": "Expert Iteration Setup", "weight": 1.0} -->
+<!-- chunk {"id": "body-0051", "role": "body", "section": "Expert Iteration Setup", "weight": 1.0} -->
 
 The replay buffer stored the 10,000,000 most recent states. The neural network was trained with a batch size of 1024, optimised with fixed learning rate of 0.01. We used momentum with a momentum parameter of 0.9. A cross-entropy loss was used for optimising the policy, mean square error for optimising the value function, and an L2 weight regulariser with weight $10^{- 4}$ was used.
 
-<!-- chunk {"id": "body-0060", "role": "body", "section": "Expert Iteration Setup", "weight": 1.0} -->
+<!-- chunk {"id": "body-0052", "role": "body", "section": "Expert Iteration Setup", "weight": 1.0} -->
 
 For all search algorithms, $c_{puct} = 5$ wherever the PUCT formula is used. For PGS-ExIt, we used an 'inner' learning rate during PGS of $\alpha =$ 5e-4.
 
-<!-- chunk {"id": "body-0061", "role": "body", "section": "Results", "weight": 1.0} -->
+<!-- chunk {"id": "body-0053", "role": "body", "section": "Results", "weight": 1.0} -->
 
 Our results are in line with those from section 4, with PGS performing better than MCS, but not as well as MCTS. Over the course of training, the differences in strength of the agents has compounded through repeated application of better or worse experts. AlphaZero (i.e. MCTS-ExIt) significantly outperforms PGS-ExIt, which in turn significantly outperforms Approximate Policy Iteration (i.e. MCS-ExIt). We show the strength of the raw policy networks (with no search) throughout training in figure 3.
 
-<!-- chunk {"id": "body-0062", "role": "body", "section": "Results", "weight": 1.0} -->
+<!-- chunk {"id": "body-0054", "role": "body", "section": "Results", "weight": 1.0} -->
 
 The 'inner' learning rate $\alpha$ for PGS-ExIt was chosen based on the optimum value for Network 1 from section 4.2. Subsequent tests showed this not to be optimal for networks trained by PGS-ExIt. Indeed, the benefit of using PGS over MCS is much reduced by this sub-optimal $\alpha$. Presumably, with a better setting for this parameter, the performance of PGS-ExIt could be improved. Over the course of training, approximately 2 million games were played. In contrast, tuning this hyperparameter requires 2000 games; automatic tuning would not significantly increase the cost of the algorithm.
 
-<!-- chunk {"id": "body-0063", "role": "body", "section": "Comparison to MoHex", "weight": 1.0} -->
+<!-- chunk {"id": "body-0055", "role": "body", "section": "Comparison to MoHex", "weight": 1.0} -->
 
 MoHex 2.0 is the strongest open-source Hex agent.^33^3More recently, stronger agents have been published, but are not available for benchmarking. 9x9 is a smaller boardsize than is used for tournament play, and has been weakly solved. It is a classical MCTS program with many Hex specific improvements, including an end-game solver, virtual connection calculator, and pattern based rollouts. In contrast, all agents in this paper were trained tabula rasa. We played a head-to-head match between MoHex 2.0, with 10,000 iterations, and PGS-ExIt with 800 iterations. Playing 4 games from each first move with each colour, PGS-ExIt won by $375$ games to $273$, 55 Elo stronger. The final agent trained with Policy Iteration lost by $540$ games to $108$, a gap of 280 Elo, though both API and PGS-ExIt were still improving at the end of training.
 
-<!-- chunk {"id": "body-0064", "role": "body", "section": "Comparison to MoHex", "weight": 1.0} -->
+<!-- chunk {"id": "body-0056", "role": "body", "section": "Comparison to MoHex", "weight": 1.0} -->
 
 All previous competitive Hex agents have used explicit tree search algorithms at test time, and many also use them during training, did not learn to play tabula rasa, or both; we present here the first competitive agents that entirely forgo both tree search and prior Hex knowledge.
 
-<!-- chunk {"id": "body-0065", "role": "body", "section": "Discussion and Future Work", "weight": 1.5} -->
+<!-- chunk {"id": "body-0057", "role": "body", "section": "Discussion and Future Work", "weight": 1.5} -->
 
 In this work, we have presented Policy Gradient Search, a search algorithm for online planning that does not require an explicit search tree. We have shown that PGS is an effective planning algorithm. In our tests, it was slightly weaker than, but competitive, MCTS, while significantly outperforming MCS for test-time decision making, in both 9x9 and 13x13 Hex.
 
-<!-- chunk {"id": "body-0066", "role": "body", "section": "Discussion and Future Work", "weight": 1.5} -->
+<!-- chunk {"id": "body-0058", "role": "body", "section": "Discussion and Future Work", "weight": 1.5} -->
 
 PGS is also effective during training when used within the Expert Iteration framework, resulting in the first competitive Hex agent trained tabula rasa without use of a search tree. In contrast, similar Reinforce algorithm alone was previously been found to not be competitve with an ExIt algorithm that used MCTS experts.
 
-<!-- chunk {"id": "body-0067", "role": "body", "section": "Discussion and Future Work", "weight": 1.5} -->
+<!-- chunk {"id": "body-0059", "role": "body", "section": "Discussion and Future Work", "weight": 1.5} -->
 
 Ablations show that PGS-ExIt, significantly outperforms MCS in the Expert Iteration framework, and also provide the first empirical data showing that MCTS-ExIt algorithms outperform traditional policy iteration approaches.
 
-<!-- chunk {"id": "body-0068", "role": "body", "section": "Discussion and Future Work", "weight": 1.5} -->
+<!-- chunk {"id": "body-0060", "role": "body", "section": "Discussion and Future Work", "weight": 1.5} -->
 
 The results presented in this work are on the deterministic, discrete action space domain of Hex. This allowed for direct comparison to MCTS, but the most exciting potential applications of PGS are to problems where MCTS cannot be readily used, such as problems with stochastic state transitions or continuous action spaces. We leave extending PGS and PGS-ExIt to such domains to future work.
 
-<!-- chunk {"id": "body-0069", "role": "body", "section": "Discussion and Future Work", "weight": 1.5} -->
+<!-- chunk {"id": "body-0061", "role": "body", "section": "Discussion and Future Work", "weight": 1.5} -->
 
 The implementation of PGS presented in this work is in some ways rudimentary, using vanilla REINFORCE with stochastic gradient descent. Policy gradient algorithms for model-free RL have benefited from the use of more advanced optimisation algorithms such as ADAM, and enhancements such as PPO. Similar techniques might also improve the performance of PGS.

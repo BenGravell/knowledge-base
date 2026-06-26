@@ -138,104 +138,92 @@ The symbolic planning loop is a typical incremental SAT-based planner. We first 
 
 <!-- chunk {"id": "body-0035", "role": "body", "section": "IV-B5 Generating alternative plan candidates", "weight": 1.0} -->
 
-TMIT\* has two methods of generating alternative symbolic plan candidates. The first enumerates all candidate symbolic plans by requiring new plans to differ from previous plans by at least one action, ensuring completeness.
+TMIT\* has two methods of generating alternative symbolic plan candidates. The first enumerates all candidate symbolic plans by requiring new plans to differ from previous plans by at least one action, ensuring completeness. This method adds constraints: for a current solution with length $n$, and where $\text{value}_{k}$ returns the value of a variable in the $k$-th candidate plan.
 
 <!-- chunk {"id": "body-0036", "role": "body", "section": "IV-B5 Generating alternative plan candidates", "weight": 1.0} -->
 
-for a current solution with length $n$, and where $\text{value}_{k}$ returns the value of a variable in the $k$-th candidate plan.
-
-<!-- chunk {"id": "body-0037", "role": "body", "section": "IV-B5 Generating alternative plan candidates", "weight": 1.0} -->
-
 A *prefix* of a symbolic plan is a subsequence of the actions in the plan starting with the initial action. The second method forces new plans to avoid *failing prefixes* of symbolic plan candidates by adding constraints of the same form as Eq. 4 ‣ Task and Motion Informed Trees (TMIT*): Almost-Surely Asymptotically Optimal Integrated Task and Motion Planning"), but only until the first step for which precondition-satisfying state sampling failed. Precondition-satisfying state sampling may fail if sample projection (Sec. IV-A ‣ Task and Motion Informed Trees (TMIT*): Almost-Surely Asymptotically Optimal Integrated Task and Motion Planning")) fails to converge, if it converges to a local minimum off the precondition-satisfying manifold, or if the resulting state is invalid (i.e., in collision). This can quickly eliminate broader groups of candidate symbolic plans and find a solution more efficiently, but may remove prefixes that would prove feasible with more computation. We use this prefix-blocking method in the experiments of Sec. VI: Almost-Surely Asymptotically Optimal Integrated Task and Motion Planning").
 
-<!-- chunk {"id": "body-0038", "role": "body", "section": "IV-C Motion Planner Integration", "weight": 1.0} -->
+<!-- chunk {"id": "body-0037", "role": "body", "section": "IV-C Motion Planner Integration", "weight": 1.0} -->
 
 TMIT\* solves the motion planning subproblem by building upon AIT\*, an almost-surely asymptotically optimal batch-sampling-based motion planner, to find geometrically valid instantiations of candidate symbolic plans. We extend AIT\*'s batch sampling to 1. sample states in each reachable mode and 2. sample action precondition-satisfying states only if a uniform sample is within a tunable distance threshold (e.g., the connection radius ) of the precondition-satisfying region.
 
-<!-- chunk {"id": "body-0039", "role": "body", "section": "IV-C Motion Planner Integration", "weight": 1.0} -->
+<!-- chunk {"id": "body-0038", "role": "body", "section": "IV-C Motion Planner Integration", "weight": 1.0} -->
 
 A mode is *reachable* if either it is the initial mode (i.e., the initial discrete state and scene) or we have sampled a precondition-satisfying state for an action that transitions to it from a reachable mode. Sampling batches across the reachable modes uniformly increases the resolution of AIT\*'s RGG (Sec. II-C: Almost-Surely Asymptotically Optimal Integrated Task and Motion Planning")) and allows TMIT\* to implicitly reevaluate old candidate symbolic plans without backtracking.
 
-<!-- chunk {"id": "body-0040", "role": "body", "section": "IV-C Motion Planner Integration", "weight": 1.0} -->
+<!-- chunk {"id": "body-0039", "role": "body", "section": "IV-C Motion Planner Integration", "weight": 1.0} -->
 
 The set of precondition-satisfying states for an action is often a manifold of measure zero in the ambient configuration space due to dimensionality-reducing constraints and therefore has zero probability of being sampled with uniform-random sampling. Computing precondition-satisfying states is computationally expensive relative to uniform-random sampling, and many such states are challenging to reach with a motion plan (e.g., states close to objects being manipulated).
 
-<!-- chunk {"id": "body-0041", "role": "body", "section": "IV-C Motion Planner Integration", "weight": 1.0} -->
+<!-- chunk {"id": "body-0040", "role": "body", "section": "IV-C Motion Planner Integration", "weight": 1.0} -->
 
 We avoid wasted effort by projecting uniform-random samples onto precondition-satisfying manifolds only when the samples are within a tunable distance threshold (e.g., ) of the manifold^44^4Sampling a precondition-satisfying state takes on the order of 10--100 optimizer iterations; testing the distance takes less than one., which effectively *inflates* the manifold to positive measure. This strategy avoids computing unusable precondition-satisfying samples by only invoking this process starting from states that are 1. in the RGG and 2. close enough to a precondition region to improve the solution cost. Starting from valid states close to a precondition region may additionally improve the likelihood that the resulting precondition-satisfying sample will be valid.
 
+<!-- chunk {"id": "body-0041", "role": "body", "section": "IV-C Motion Planner Integration", "weight": 1.0} -->
+
+Input: Mode queue ω, connection radius μ, goal ϕg Output: Batch of samples B 2 while |ω| > 0: // All reachable modes 16 if not AtGoal or NoActions: NewTaskPlan Algorithm 1 Multimodal batch sampling Alg. 1 ‣ Task and Motion Informed Trees (TMIT*): Almost-Surely Asymptotically Optimal Integrated Task and Motion Planning") shows the multimodal batch sampling function. SampleValid draws each state uniformly at random from the valid configuration space of a given mode. The viable actions (Alg. 1 ‣ Task and Motion Informed Trees (TMIT*): Almost-Surely Asymptotically Optimal Integrated Task and Motion Planning")) of a mode, $\mathcal{M} \in {\mathbb{M}}$, are symbolic actions that are used at $\mathbb{M}$ in a candidate symbolic plan and have been attempted less than a heuristically determined number of times. Attempting an action means trying to sample a valid state satisfying its precondition constraint.
+
 <!-- chunk {"id": "body-0042", "role": "body", "section": "IV-C Motion Planner Integration", "weight": 1.0} -->
 
-Input: Mode queue ω, connection radius μ, goal ϕg
-Output: Batch of samples B
-2 while |ω| &gt; 0: // All reachable modes
-16 if not AtGoal or NoActions: NewTaskPlan
-Algorithm 1 Multimodal batch sampling
+The heuristic limit on attempts per action provides a budget of computation per candidate symbolic plan; IncreaseBudget increments this heuristic threshold. NoActions tests if any actions in any reachable mode are viable, and $d{(\cdot, \cdot)}$ returns the distance from a state to the nearest precondition-satisfying state. SamplePrecond projects the given state onto the manifold of precondition-satisfying states by gradient-based optimization. UpdateModes adds newly reached modes to the mode queue, AtGoal checks if the total set of samples contains goal mode states, and NewTaskPlan invokes the task planner (Secs. IV-B4 ‣ Task and Motion Informed Trees (TMIT*): Almost-Surely Asymptotically Optimal Integrated Task and Motion Planning") and IV-B5 ‣ Task and Motion Informed Trees (TMIT*): Almost-Surely Asymptotically Optimal Integrated Task and Motion Planning")).
 
 <!-- chunk {"id": "body-0043", "role": "body", "section": "IV-C Motion Planner Integration", "weight": 1.0} -->
 
-Alg. 1 ‣ Task and Motion Informed Trees (TMIT*): Almost-Surely Asymptotically Optimal Integrated Task and Motion Planning") shows the multimodal batch sampling function. SampleValid draws each state uniformly at random from the valid configuration space of a given mode. The viable actions (Alg. 1 ‣ Task and Motion Informed Trees (TMIT*): Almost-Surely Asymptotically Optimal Integrated Task and Motion Planning")) of a mode, $\mathcal{M} \in {\mathbb{M}}$, are symbolic actions that are used at $\mathbb{M}$ in a candidate symbolic plan and have been attempted less than a heuristically determined number of times. Attempting an action means trying to sample a valid state satisfying its precondition constraint. The heuristic limit on attempts per action provides a budget of computation per candidate symbolic plan; IncreaseBudget increments this heuristic threshold. NoActions tests if any actions in any reachable mode are viable, and $d{( \cdot, \cdot )}$ returns the distance from a state to the nearest precondition-satisfying state.
-
-<!-- chunk {"id": "body-0044", "role": "body", "section": "IV-C Motion Planner Integration", "weight": 1.0} -->
-
-SamplePrecond projects the given state onto the manifold of precondition-satisfying states by gradient-based optimization. UpdateModes adds newly reached modes to the mode queue, AtGoal checks if the total set of samples contains goal mode states, and NewTaskPlan invokes the task planner (Secs. IV-B4 ‣ Task and Motion Informed Trees (TMIT*): Almost-Surely Asymptotically Optimal Integrated Task and Motion Planning") and IV-B5 ‣ Task and Motion Informed Trees (TMIT*): Almost-Surely Asymptotically Optimal Integrated Task and Motion Planning")).
-
-<!-- chunk {"id": "body-0045", "role": "body", "section": "IV-C Motion Planner Integration", "weight": 1.0} -->
-
 The mode queue is ordered to prioritize recently reached modes. This ordering creates behavior akin to the "enforced hill climbing" of the FastForward (FF) task planner by continuing the search in the resulting mode when an action succeeds, effectively following the corresponding task plan candidate as far as possible. Alg. 1 ‣ Task and Motion Informed Trees (TMIT*): Almost-Surely Asymptotically Optimal Integrated Task and Motion Planning") returns early if it reaches a goal-satisfying state. The mode queue persists across invocations of Alg. 1 ‣ Task and Motion Informed Trees (TMIT*): Almost-Surely Asymptotically Optimal Integrated Task and Motion Planning") for the same batch.
 
-<!-- chunk {"id": "body-0046", "role": "body", "section": "IV-D Considerations for Multimodal AIT\\*", "weight": 1.0} -->
+<!-- chunk {"id": "body-0044", "role": "body", "section": "IV-D Considerations for Multimodal AIT\\*", "weight": 1.0} -->
 
 Computing exact distance in the hybrid configuration space is PSPACE-complete^55^5The distance between two states is a function of the shortest sequence of mode transitions between them, which is an optimal symbolic plan.. We conservatively over-approximate configuration space distance by assuming states in different modes are infinitely far apart if we do not have a successful transition between their modes. This approximation is not a metric, but suffices in practice.
 
-<!-- chunk {"id": "body-0047", "role": "body", "section": "IV-D Considerations for Multimodal AIT\\*", "weight": 1.0} -->
+<!-- chunk {"id": "body-0045", "role": "body", "section": "IV-D Considerations for Multimodal AIT\\*", "weight": 1.0} -->
 
 AIT\* uses the reverse search to calculate a heuristic to guide the forward search (see for details). This approximation must account for the conservative over-approximation of intermode distance. The reverse search therefore uses forward-direction transitions and distances between modes (distances are directionally symmetric within a mode).
 
-<!-- chunk {"id": "body-0048", "role": "body", "section": "IV-E Implementation", "weight": 1.0} -->
+<!-- chunk {"id": "body-0046", "role": "body", "section": "IV-E Implementation", "weight": 1.0} -->
 
 We provide a proof-of-concept implementation of TMIT\* in C++^66^6 We use the implementation of AIT\* and associated sampling-based motion planning utilities from the Open Motion Planning Library and use Bullet for collision checking. The geometric predicate implementation is an improved version of using the Autodiff library for automatic differentiation, NLOpt for optimization, and a bespoke dual-number automatic differentiation implementation in LuaJIT for predicate functions.
 
-<!-- chunk {"id": "body-0049", "role": "body", "section": "IV-E Implementation", "weight": 1.0} -->
+<!-- chunk {"id": "body-0047", "role": "body", "section": "IV-E Implementation", "weight": 1.0} -->
 
 The planner's input is simpler than most other TMP solvers and does not include specialized samplers or planners, or prediscretized state. It requires only a description of the initial scene, a specification of the robot morphology and kinematics, object and robot geometries, the symbolic planning domain and problem, and functions for geometric predicates.
 
-<!-- chunk {"id": "body-0050", "role": "body", "section": "Analysis", "weight": 1.0} -->
+<!-- chunk {"id": "body-0048", "role": "body", "section": "Analysis", "weight": 1.0} -->
 
 The probabilistic completeness and almost-sure asymptotic optimality of TMIT\* follow from the corresponding properties of AIT\*. We sketch proofs of these properties for TMIT\*. In the following, assume that precondition regions are convex, and that all precondition-satisfying states in a complete feasible plan are surrounded by a valid hyperball.
 
-<!-- chunk {"id": "body-0051", "role": "body", "section": "Evaluation", "weight": 1.0} -->
+<!-- chunk {"id": "body-0049", "role": "body", "section": "Evaluation", "weight": 1.0} -->
 
 Directly comparing TMP solvers is challenging due to differing definitions of the TMP problem. TMIT\* does not assume prediscretization of continuous state or specialized blackbox precondition samplers, which makes its problems harder. We perform a cold-data comparison to Planet, as its problem definition and assumptions are closest to TMIT\*'s. All experiments were run on an AMD Ryzen 7 2700X CPU with 32 GB of RAM and use a PR2 robot model with 14 controllable joints and a planar mobile base (17 total degrees of freedom). We evaluate on two common TMP tasks: clutter clearing and shelf rearrangement. We use batches of 50 samples per mode, a batch budget (the number of batches before requesting a new symbolic plan candidate) of five for clutter clearing and two for shelf rearrangement, and an initial action-attempt budget of one. We use Euclidean distance within modes and optimize path length.
 
-<!-- chunk {"id": "body-0052", "role": "body", "section": "Clutter Clearing", "weight": 1.0} -->
+<!-- chunk {"id": "body-0050", "role": "body", "section": "Clutter Clearing", "weight": 1.0} -->
 
 A set of colored sticks is initially scattered on one of two tables (Fig. 1: Almost-Surely Asymptotically Optimal Integrated Task and Motion Planning")). The goal is to place each stick on one of two other tables corresponding to its color. Every stick must be manipulated, and sticks occlude others in their initial positions, so solutions require reasoning over a long series of symbolic actions to move the sticks in a geometrically valid order. The action space contains $16 \times {|\mathcal{O}|}$ symbolic actions for each instance size and each symbolic action has an infinite number of possible continuous instantiations. Fig. 4: Almost-Surely Asymptotically Optimal Integrated Task and Motion Planning") shows results for clutter clearing.
 
-<!-- chunk {"id": "body-0053", "role": "body", "section": "Shelf rearrangement", "weight": 1.0} -->
+<!-- chunk {"id": "body-0051", "role": "body", "section": "Shelf rearrangement", "weight": 1.0} -->
 
 The robot must retrieve and move a set of objects between two stacked shelf surfaces (Fig. 2: Almost-Surely Asymptotically Optimal Integrated Task and Motion Planning")). The target objects are initially placed deep within the shelves and are surrounded by increasing numbers of distractor objects. Motions are geometrically constrained by the shelves and the distractor objects must either be moved out of the way or maneuvered around to reach the target objects. The action space contains $6 \times {|\mathcal{O}|}$ symbolic actions for each instance size. Fig. 5: Almost-Surely Asymptotically Optimal Integrated Task and Motion Planning") shows results for shelf rearrangement.
 
-<!-- chunk {"id": "body-0054", "role": "body", "section": "VI-A Qualitative Discussion", "weight": 1.0} -->
+<!-- chunk {"id": "body-0052", "role": "body", "section": "VI-A Qualitative Discussion", "weight": 1.0} -->
 
 LABEL:fig:clutter.time shows that TMIT\* significantly outperforms Planet in initial solution time, often by an order of magnitude. The results for Planet constitute 10 successful trials of each instance size; in contrast, the TMIT\* results constitute 100 trials where timeouts are considered to have taken infinite time. LABEL:fig:clutter.percent shows that TMIT\* finds initial solutions for most instances quickly but that larger problem instances are more likely to either time out or have higher variance in initial solution times. This distribution reflects the greater geometric and symbolic challenge of the more complex instances. LABEL:fig:clutter.optimizing shows median solution costs for 100 trials of TMIT\* on instances of clutter clearing with 3--5 target objects. While the largest drop in median cost corresponds to initial solution discovery, the trends show that TMIT\* makes consistent progress toward lower-cost solutions.
 
-<!-- chunk {"id": "body-0055", "role": "body", "section": "VI-A Qualitative Discussion", "weight": 1.0} -->
+<!-- chunk {"id": "body-0053", "role": "body", "section": "VI-A Qualitative Discussion", "weight": 1.0} -->
 
 LABEL:fig:shelves.time demonstrates the relative effect of minimum solution length versus the number of objects in a problem environment on TMIT\*'s initial solution performance. Although there are more objects present in large shelf rearrangement instances than large clutter clearing instances, the number of actions necessary to solve a shelf rearrangement problem is generally lower than the number required for a comparably large clutter clearing problem. This results in TMIT\* finding solutions for large shelf rearrangement instances faster than for large clutter clearing problems. TMIT\*'s motion-planner-guided sampling of continuous action parameters also sometimes allows it to find grasp poses for the target blocks that carefully reach past the distractor objects and reduce the overall plan length. LABEL:fig:shelves.optimizing shows TMIT\* optimizing costs for instances of the shelf rearrangement problem.
 
-<!-- chunk {"id": "body-0056", "role": "body", "section": "Conclusions", "weight": 1.0} -->
+<!-- chunk {"id": "body-0054", "role": "body", "section": "Conclusions", "weight": 1.0} -->
 
 TMIT\* is a novel approach to almost-surely asymptotically optimal TMP. It extends work on constraint-based symbolic planning, distance-based predicate representation, and batch-sampling-based optimal motion planning. TMIT\* solves a relaxed symbolic planning problem with a novel SMT-based makespan-optimal symbolic planner to generate candidate sequences of actions, then attempts to find geometrically valid instantiations of these actions through asymmetric bidirectional batch-sampling-based motion planning in a hybrid multimodal state space. It uses a differentiable distance-based representation of geometric predicates to guide parameter sampling and sample action-precondition-satisfying states through gradient-based optimization. When candidate symbolic plans are not feasible, it generates alternatives by blocking invalid action sequence prefixes; however, it is able to continue to consider older candidate plans without backtracking by continuing the motion planning process.
 
-<!-- chunk {"id": "body-0057", "role": "body", "section": "Conclusions", "weight": 1.0} -->
+<!-- chunk {"id": "body-0055", "role": "body", "section": "Conclusions", "weight": 1.0} -->
 
 Asymmetric bidirectional motion planning is well-suited to TMP because it gains information about action feasibility before paying the cost of validating a candidate plan's edges. Incrementally improving a RGG further allows planners to reuse motion planning effort across candidate plans. Future work may investigate using asymmetric bidirectional motion planning algorithms better suited for complex cost functions, such as Effort Informed Trees (EIT\*).
 
-<!-- chunk {"id": "body-0058", "role": "body", "section": "Conclusions", "weight": 1.0} -->
+<!-- chunk {"id": "body-0056", "role": "body", "section": "Conclusions", "weight": 1.0} -->
 
 Encoding task planning as SMT via a custom theory offers untapped potential performance improvements for TMP. It provides an easy extension point for a "theory of TMP", incorporating geometric information such as reachability or action feasibility into the symbolic planner. We leave exploration of this capacity for future work.
 
-<!-- chunk {"id": "body-0059", "role": "body", "section": "Conclusions", "weight": 1.0} -->
+<!-- chunk {"id": "body-0057", "role": "body", "section": "Conclusions", "weight": 1.0} -->
 
 Future work could also investigate accelerating the discovery of initial solutions by explicitly biasing RGG growth toward task-relevant regions.

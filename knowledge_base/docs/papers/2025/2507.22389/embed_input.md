@@ -60,51 +60,51 @@ We now present a rigorous mathematical framework to bridge the probabilistic and
 
 <!-- chunk {"id": "body-0015", "role": "body", "section": "Equivalence of Deterministic and Stochastic Notions of FRS", "weight": 1.0} -->
 
-In practice, however, the precise control sets $\mathcal{U}_{i}$ and disturbance sets $\mathcal{W}_{i}$ are unknown and influenced by hard-to-model aspects such as driver intent, road geometry, and local context. Classical reachability methods often adopt worst-case assumptions over these sets, resulting in overly conservative FRSs. Such assumptions are unnecessarily pessimistic - for instance, it is unreasonable to expect that a stopped vehicle at a red light will suddenly accelerate through the intersection while the traffic light is still red. A more realistic alternative is to infer the agent's behavior from data. In what follows, we introduce a probabilistic formulation of the FRS that facilitates using data-driven trajectory predictors to estimate likely future states of an agent, thereby, reducing the conservatism of the FRS.
+Let $x_{t}\in\mathcal{X}\subseteq\mathbb{R}^{n_{x}}$ denote the state of an agent at discrete time $t\in\mathbb{Z}_{+}$. The agent's control inputs are denoted by $u_{t}\in\mathcal{U}_{t}\subseteq\mathbb{R}^{n_{u}}$, while other disturbances arising from exogenous factors and uncertainties are captured by $w_{t}\in\mathcal{W}_{t}\subseteq\mathbb{R}^{n_{w}}$.
 
 <!-- chunk {"id": "body-0016", "role": "body", "section": "Equivalence of Deterministic and Stochastic Notions of FRS", "weight": 1.0} -->
 
-We now reformulate the FRS using a probabilistic lens, as inspired by prior work. As we highlight later in this paper, this probabilistic viewpoint is readily compatible with modern multi-modal trajectory predictors. Let $vol$ represent the volume (Lebesgue measure) of a measurable set $\omega \in \Omega$, where $\Omega$ is the collection of all measurable subsets of $\mathcal{X}$. Let $\mu_{t}:{\Omega\rightarrow{\lbrack 0,1\rbrack}}$ represent a probability measure describing the distribution over the agent's state at time $t$. This measure arises as the push-forward of absolutely continuous probability distributions over the sequences of control and disturbance inputs, with support on $\mathcal{U}_{i}$ and $\mathcal{W}_{i}$, mapped through the composed dynamics.
+The agent's dynamics evolve according to a discrete-time function $f:\mathbb{Z}_{+}\times\mathcal{X}\times\mathcal{U}\times\mathcal{W}\rightarrow\mathcal{X}$, which is assumed to be continuously differentiable in its arguments: For notational brevity, we define $\hat{f}_{t,u_{t},w_{t}}(x_{t}):=f(t,x_{t},u_{t},w_{t})$.
 
 <!-- chunk {"id": "body-0017", "role": "body", "section": "Equivalence of Deterministic and Stochastic Notions of FRS", "weight": 1.0} -->
 
-Intuitively, returns the smallest (i.e., minimal-volume) set that captures all the future states of the agent under the distribution $\mu_{t}$. Remarkably, this probabilistic formulation is equivalent to the classical deterministic definition in almost everywhere (i.e., excluding a set of measure zero) as formalized in the following theorem.
+The *forward-reachable set* (FRS) $F_{t}$ at time $t$, starting from an initial state $x_{0}\in\mathcal{X}$, is the set of all states that the agent can reach under a set of possible control actions and disturbances: In practice, however, the precise control sets $\mathcal{U}_{i}$ and disturbance sets $\mathcal{W}_{i}$ are unknown and influenced by hard-to-model aspects such as driver intent, road geometry, and local context. Classical reachability methods often adopt worst-case assumptions over these sets, resulting in overly conservative FRSs. Such assumptions are unnecessarily pessimistic - for instance, it is unreasonable to expect that a stopped vehicle at a red light will suddenly accelerate through the intersection while the traffic light is still red. A more realistic alternative is to infer the agent's behavior from data. In what follows, we introduce a probabilistic formulation of the FRS that facilitates using data-driven trajectory predictors to estimate likely future states of an agent, thereby, reducing the conservatism of the FRS.
 
-<!-- chunk {"id": "body-0018", "role": "body", "section": "FORCE-OPT", "weight": 1.0} -->
+<!-- chunk {"id": "body-0018", "role": "body", "section": "Equivalence of Deterministic and Stochastic Notions of FRS", "weight": 1.0} -->
+
+We now reformulate the FRS using a probabilistic lens, as inspired by prior work. As we highlight later in this paper, this probabilistic viewpoint is readily compatible with modern multi-modal trajectory predictors. Let $\mathrm{vol}$ represent the volume (Lebesgue measure) of a measurable set $\omega\in\Omega$, where $\Omega$ is the collection of all measurable subsets of $\mathcal{X}$. Let $\mu_{t}:\Omega\to$ represent a probability measure describing the distribution over the agent's state at time $t$. This measure arises as the push-forward of absolutely continuous probability distributions over the sequences of control and disturbance inputs, with support on $\mathcal{U}_{i}$ and $\mathcal{W}_{i}$, mapped through the composed dynamics. The probabilistic FRS can then be defined through the following optimization problem: Intuitively, returns the smallest (i.e., minimal-volume) set that captures all the future states of the agent under the distribution $\mu_{t}$.
+
+<!-- chunk {"id": "body-0019", "role": "body", "section": "Equivalence of Deterministic and Stochastic Notions of FRS", "weight": 1.0} -->
+
+Remarkably, this probabilistic formulation is equivalent to the classical deterministic definition in almost everywhere (i.e., excluding a set of measure zero) as formalized in the following theorem.
+
+<!-- chunk {"id": "body-0020", "role": "body", "section": "FORCE-OPT", "weight": 1.0} -->
 
 We now present FORCE-OPT, our algorithm for estimating FRS from trajectory predictors and calibrating them using conformal prediction. FORCE-OPT combines learned generative models with convex optimization to efficiently compute calibrated FRSs, and uses Bayesian filtering to hedge against out-of-distribution (OOD) deployment failures.
 
-<!-- chunk {"id": "body-0019", "role": "body", "section": "IV-A Trajectory Predictors", "weight": 1.0} -->
+<!-- chunk {"id": "body-0021", "role": "body", "section": "IV-A Trajectory Predictors", "weight": 1.0} -->
 
-Without loss of generality, let the current time be $0$. Denote the state of all agents in the scene by $\xi \in \mathcal{X}^{n_{agents}}$, and their historical trajectories over a horizon $H$ by $\xi_{{- H}:0} \in \mathcal{X}^{Hn_{agents}}$. Let $m \in \mathcal{M}$ represent map and other contextual scene information. A traffic scene is then denoted by $s:={(\xi_{{- H}:0},m)} \in \mathcal{X}^{H} \times \mathcal{M} =:\mathcal{S}$.
-
-<!-- chunk {"id": "body-0020", "role": "body", "section": "IV-B Extracting FRS from Trajectory Predictors", "weight": 1.0} -->
-
-We treat ${\hat{\mu}}_{t}$ as a learned approximation of the push-forward distribution $\mu_{t}$. However, given that GMMs have an unbounded support, these measures make it infeasible to find a bounded set $\omega$ satisfying ${{\hat{\mu}}_{t}{(\omega)}} = 1$.
-
-<!-- chunk {"id": "body-0021", "role": "body", "section": "IV-B Extracting FRS from Trajectory Predictors", "weight": 1.0} -->
-
-Ideally, we would choose a $\tau$ that is very close to 1. However, at this level of generality, this problem is very challenging to solve. Leveraging the fact that the distribution over each timestep is a GMM, we solve a tractable proxy for this problem by restricting the search to unions of sub-level sets of the GMM modes. For a given mode ${\hat{\mu}}_{t,i}$, define the Mahalanobis energy function ${V_{i}{(x)}}:={{({x - {\overline{x}}_{i}})}^{T}\Sigma_{i}^{- 1}{({x - {\overline{x}}_{i}})}}$, and its sublevel set ${E_{i}{(c_{i})}}:={\{ x:{{V_{i}{(x)}} \leq c_{i}}\}}$ for $c_{i} \geq 0$.
+Without loss of generality, let the current time be $0$. Denote the state of all agents in the scene by $\xi\in\mathcal{X}^{n_{\rm agents}}$, and their historical trajectories over a horizon $H$ by $\xi_{-H:0}\in\mathcal{X}^{Hn_{\rm agents}}$. Let $m\in\mathcal{M}$ represent map and other contextual scene information. A traffic scene is then denoted by $s:=(\xi_{-H:0},m)\in\mathcal{X}^{H}\times\mathcal{M}=:\mathcal{S}$.
 
 <!-- chunk {"id": "body-0022", "role": "body", "section": "IV-B Extracting FRS from Trajectory Predictors", "weight": 1.0} -->
 
-The resulting FRS is $E^{\ast} = {\bigcup_{i = 1}^{K}{E_{i}{(c_{i}^{\ast})}}}$. Although $E^{\ast}$ is not necessarily the smallest such set, it is a feasible solution to, and tight in practice. When $\mathcal{X} \subseteq {\mathbb{R}}^{2}$, it takes the form of a convex optimization, as detailed in the following theorem.
+We treat $\hat{\mu}_{t}$ as a learned approximation of the push-forward distribution $\mu_{t}$. However, given that GMMs have an unbounded support, these measures make it infeasible to find a bounded set $\omega$ satisfying $\hat{\mu}_{t}(\omega)=1$. To make the problem tractable, we relax the constraint to require only a minimum mass $\tau\in$: Ideally, we would choose a $\tau$ that is very close to 1. However, at this level of generality, this problem is very challenging to solve. Leveraging the fact that the distribution over each timestep is a GMM, we solve a tractable proxy for this problem by restricting the search to unions of sub-level sets of the GMM modes.
 
-<!-- chunk {"id": "body-0023", "role": "body", "section": "IV-C Conformalizing FRS from Trajectory Predictors", "weight": 1.0} -->
+<!-- chunk {"id": "body-0023", "role": "body", "section": "IV-B Extracting FRS from Trajectory Predictors", "weight": 1.0} -->
 
-The FRS obtained from ) assumes the predictor's distribution ${\hat{\mu}}_{t}$ closely matches the true transition dynamics. In reality, due to modeling choices and limited training data, ${\hat{\mu}}_{t}$ may fail to cover the true ground-truth distribution. We address this by applying split conformal prediction to calibrate the reachable set to achieve high-probability coverage of the ground truth future.
+Although $E^{*}$ is not necessarily the smallest such set, it is a feasible solution to, and tight in practice. When $\mathcal{X}\subseteq\mathbb{R}^{2}$, it takes the form of a convex optimization, as detailed in the following theorem.
 
 <!-- chunk {"id": "body-0024", "role": "body", "section": "IV-C Conformalizing FRS from Trajectory Predictors", "weight": 1.0} -->
 
-We calibrate our FRS by scaling the covariance of the GMM modes.
+The FRS obtained from (6 ‣ IV-B Extracting FRS from Trajectory Predictors ‣ IV FORCE-OPT ‣ Safety Evaluation of Motion Plans Using Trajectory Predictors as Forward Reachable Set Estimators")) assumes the predictor's distribution $\hat{\mu}_{t}$ closely matches the true transition dynamics. In reality, due to modeling choices and limited training data, $\hat{\mu}_{t}$ may fail to cover the true ground-truth distribution. We address this by applying split conformal prediction to calibrate the reachable set to achieve high-probability coverage of the ground truth future.
 
 <!-- chunk {"id": "body-0025", "role": "body", "section": "IV-C Conformalizing FRS from Trajectory Predictors", "weight": 1.0} -->
 
-where $s$ is the scene information as defined in Section IV-A and $E^{\ast}{({\{\Sigma_{i}\}}_{i = 1}^{K})}$ be the FRS obtained by solving ) for GMM covariances ${\{\Sigma_{i}\}}_{i = 1}^{K}$. Thanks to Corollary ‣ IV-B Extracting FRS from Trajectory Predictors ‣ IV FORCE-OPT ‣ Safety Evaluation of Motion Plans Using Trajectory Predictors as Forward Reachable Set Estimators"), we only need to solve ) once to obtain $c_{i}^{\ast}$, after which we can compute $\psi{(s,x)}$ analytically: ${\psi{(s,x)}} = {\min{\{{\left. {{V_{i}{(x)}}/c_{i}^{\ast}} \middle| i \right.
+We calibrate our FRS by scaling the covariance of the GMM modes. To do so, we define a non-conformity score function $\psi(s,x)$ as the smallest scaling factor $\alpha>0$ such that the ground-truth $x$ lies inside the FRS computed using covariances ${\alpha\Sigma_{i}}$: where $s$ is the scene information as defined in Section IV-A and $E^{*}(\{\Sigma_{i}\}_{i=1}^{K})$ be the FRS obtained by solving (6 ‣ IV-B Extracting FRS from Trajectory Predictors ‣ IV FORCE-OPT ‣ Safety Evaluation of Motion Plans Using Trajectory Predictors as Forward Reachable Set Estimators")) for GMM covariances $\{\Sigma_{i}\}_{i=1}^{K}$.
 
 <!-- chunk {"id": "body-0026", "role": "body", "section": "IV-C Conformalizing FRS from Trajectory Predictors", "weight": 1.0} -->
 
-= 1},\cdots,K\}}}$ where $V_{i}$ is as defined in Section IV-B for $\Sigma_{i}$ that are outputted by the trajectory predictor.
+Thanks to Corollary 1 to Covariance Scaling) ‣ IV-B Extracting FRS from Trajectory Predictors ‣ IV FORCE-OPT ‣ Safety Evaluation of Motion Plans Using Trajectory Predictors as Forward Reachable Set Estimators"), we only need to solve (6 ‣ IV-B Extracting FRS from Trajectory Predictors ‣ IV FORCE-OPT ‣ Safety Evaluation of Motion Plans Using Trajectory Predictors as Forward Reachable Set Estimators")) once to obtain $c_{i}^{*}$, after which we can compute $\psi(s,x)$ analytically: $\psi(s,x)=\min\{V_{i}(x)/c_{i}^{*}~|~i=1,\cdots,K\}$ where $V_{i}$ is as defined in Section IV-B for $\Sigma_{i}$ that are outputted by the trajectory predictor.
 
 <!-- chunk {"id": "body-0027", "role": "body", "section": "IV-D Hedging Against OOD Failures via Bayesian Filtering", "weight": 1.0} -->
 
@@ -112,15 +112,15 @@ The conformalization process in Section IV-C allows FORCE-OPT to provide statist
 
 <!-- chunk {"id": "body-0028", "role": "body", "section": "IV-D Hedging Against OOD Failures via Bayesian Filtering", "weight": 1.0} -->
 
-To address this challenge, we augment FORCE-OPT with a Bayesian filtering mechanism that dynamically adjusts uncertainty in the reachable set when the trajectory predictor appears unreliable. Specifically, we introduce a model confidence parameter $\beta \in {\lbrack\beta_{\text{low}},\beta_{\text{high}}\rbrack}$ that reflects our trust in the predictor. This parameter scales the covariance of the GMMs used in the FRS adaptively, effectively dilating the predicted reachable sets to reflect greater uncertainty..
+To address this challenge, we augment FORCE-OPT with a Bayesian filtering mechanism that dynamically adjusts uncertainty in the reachable set when the trajectory predictor appears unreliable. Specifically, we introduce a model confidence parameter $\beta\in[\beta_{\text{low}},\beta_{\text{high}}]$ that reflects our trust in the predictor. This parameter scales the covariance of the GMMs used in the FRS adaptively, effectively dilating the predicted reachable sets to reflect greater uncertainty..
 
 <!-- chunk {"id": "body-0029", "role": "body", "section": "IV-D Hedging Against OOD Failures via Bayesian Filtering", "weight": 1.0} -->
 
-To track this confidence online, we adopt the Bayesian update scheme proposed. At each timestep $t$, we maintain a belief distribution over $\beta$, denoted by $\text{bel}^{t}{(\beta)}$. The belief is initialized uniformly: ${bel^{0}{(\beta_{low})}} = {bel^{0}{(\beta_{high})}} = 0.5$.
+To track this confidence online, we adopt the Bayesian update scheme proposed. At each timestep $t$, we maintain a belief distribution over $\beta$, denoted by $\text{bel}^{t}(\beta)$. The belief is initialized uniformly: $bel^{0}(\beta_{low})=bel^{0}(\beta_{high})=0.5$. The belief is then updated at every timestep using the likelihood of the observed agent state $x_{t}$ under the conformalized GMM, whose covariances are additionally scaled by the inverse of $\beta$: where $\tilde{\beta}\in\{\beta_{\text{low}},\beta_{\text{high}}\}$. Here $\varphi(x,GMM(\cdot))$ denotes the likelihood of state $x$ under the given GMM.
 
 <!-- chunk {"id": "body-0030", "role": "body", "section": "IV-D Hedging Against OOD Failures via Bayesian Filtering", "weight": 1.0} -->
 
-where $\overset{\sim}{\beta} \in {\{\beta_{\text{low}},\beta_{\text{high}}\}}$. Here $\varphi{(x,{GMM{( \cdot )}})}$ denotes the likelihood of state $x$ under the given GMM. Note that the GMM covariances are already scaled by the conformal calibration factor $\eta$; the inverse $\beta$ scaling further adjusts the uncertainty based on current trust in the predictor. Finally, we compute the effective model confidence as the expected value under the belief: $\hat{\beta} = {{\mathbb{E}}{\lbrack\beta\rbrack}}$, and use this $\hat{\beta}$ to further scale the covariances of the distribution to adjust the final FRS returned by FORCE-OPT.
+Note that the GMM covariances are already scaled by the conformal calibration factor $\eta$; the inverse $\beta$ scaling further adjusts the uncertainty based on current trust in the predictor. Finally, we compute the effective model confidence as the expected value under the belief: $\hat{\beta}=\mathbb{E}[\beta]$, and use this $\hat{\beta}$ to further scale the covariances of the distribution to adjust the final FRS returned by FORCE-OPT.
 
 <!-- chunk {"id": "body-0031", "role": "body", "section": "IV-D Hedging Against OOD Failures via Bayesian Filtering", "weight": 1.0} -->
 
@@ -152,7 +152,7 @@ The primary objective of this paper is to assess the safety of motion plans. To 
 
 <!-- chunk {"id": "body-0038", "role": "body", "section": "V-C Metrics", "weight": 1.0} -->
 
-Coverage (Cov): The fraction of ground-truth future trajectories that fall within the predicted reachable set. High coverage indicates that the predicted FRS captures the actual future behavior well.
+Completeness is quantified using two key metrics: Coverage (Cov): The fraction of ground-truth future trajectories that fall within the predicted reachable set. High coverage indicates that the predicted FRS captures the actual future behavior well.
 
 <!-- chunk {"id": "body-0039", "role": "body", "section": "V-C Metrics", "weight": 1.0} -->
 
@@ -168,20 +168,19 @@ Balance between Completeness and Soundness is evaluated using the *Balanced Erro
 
 <!-- chunk {"id": "body-0042", "role": "body", "section": "V-C Metrics", "weight": 1.0} -->
 
-Uncalibrated Trajectory Predictor
-Calibrated Trajectory Predictor with Conformal Prediction
+Uncalibrated Trajectory Predictor Calibrated Trajectory Predictor with Conformal Prediction TABLE I: Performance comparison across methods (best-performing values in bold) in Singapore (ID).
 
 <!-- chunk {"id": "body-0043", "role": "body", "section": "V-D Baselines and Variants", "weight": 1.0} -->
 
-Uncalibrated Trajectory Predictor: The methods that fall under this class directly use the trajectory predictor without calibrating them. 99% CI: The original predictor where the sets occupy 99% of GMM probability mass. $E = {\bigcup_{i = 1}^{K}{E_{i}{(C)}}}$ where C = value at 99th Percentile of a $\chi^{2}$ distribution. Parametric Worst Case-FRS (pWC-FRS): We obtain the control bounds as the $3\sigma$ (or 99% confidence interval) support of the Gaussian control distribution for each mode predicted by a trajectory predictor and then estimate a worst-case FRS for each mode and take the union of the sets. (the parameter is the velocity and the control bound of he agent) Nakamura et al.: Adapts FRS via belief tracking of a trajectory predictor's performance. In this case the control bounds enclose the 3% probaility mass around the mean of the normal distribution predicted by the trajectory predictor.
+We categorize all methods in three broad categories: Uncalibrated Trajectory Predictor: The methods that fall under this class directly use the trajectory predictor without calibrating them. 99% CI: The original predictor where the sets occupy 99% of GMM probability mass. $E=\bigcup_{i=1}^{K}E_{i}(C)$ where C = value at 99th Percentile of a $\chi^{2}$ distribution. Parametric Worst Case-FRS (pWC-FRS): We obtain the control bounds as the $3\sigma$ (or 99% confidence interval) support of the Gaussian control distribution for each mode predicted by a trajectory predictor and then estimate a worst-case FRS for each mode and take the union of the sets. (the parameter is the velocity and the control bound of he agent) Nakamura et al.: Adapts FRS via belief tracking of a trajectory predictor's performance. In this case the control bounds enclose the 3% probaility mass around the mean of the normal distribution predicted by the trajectory predictor.
 
 <!-- chunk {"id": "body-0044", "role": "body", "section": "V-D Baselines and Variants", "weight": 1.0} -->
 
-Calibrated Trajectory Predictor: The methods within this class leverage trajectory predictors that are calibrated using CP. We use a dataset with a cardinality of 35220 for calibration and set the desired coverage probability in CP to 0.95. Lindemann et al.: Provides coverage guarantees via conformalization between the highest likelihood trajectory and the ground truth. FORCE-OPT (Ours): Solves the convex optimization from Sec. IV-B using GMMs from learned predictors, along with the calibration schemes in Sec.IV-C. FORCE-OPT + belief: Additionally adjusts the GMM covariances of FORCE-OPT using Bayesian filtering approach in Sec. IV-D. For this and all the subsequent methods that use belief-based adaptation, we set $\beta_{low} = 0.3$ and $\beta_{high} = 1$. FORCE-OPT + pWC-FRS: A hybrid approach that switches from FORCE-OPT to Parametric WC-FRS when $\beta < 0.75$ indicating a drop in the predictor's performance.
+Calibrated Trajectory Predictor: The methods within this class leverage trajectory predictors that are calibrated using CP. We use a dataset with a cardinality of 35220 for calibration and set the desired coverage probability in CP to 0.95. Lindemann et al.: Provides coverage guarantees via conformalization between the highest likelihood trajectory and the ground truth. FORCE-OPT (Ours): Solves the convex optimization from Sec. IV-B using GMMs from learned predictors, along with the calibration schemes in Sec.IV-C. FORCE-OPT + belief: Additionally adjusts the GMM covariances of FORCE-OPT using Bayesian filtering approach in Sec. IV-D. For this and all the subsequent methods that use belief-based adaptation, we set $\beta_{\rm low}=0.3$ and $\beta_{\rm high}=1$. FORCE-OPT + pWC-FRS: A hybrid approach that switches from FORCE-OPT to Parametric WC-FRS when $\beta<0.75$ indicating a drop in the predictor's performance.
 
 <!-- chunk {"id": "body-0045", "role": "body", "section": "V-D Baselines and Variants", "weight": 1.0} -->
 
-FORCE-OPT + WC-FRS: This approach switches from FORCE-OPT to worst-case FRS when $\beta < 0.75$.
+FORCE-OPT + WC-FRS: This approach switches from FORCE-OPT to worst-case FRS when $\beta<0.75$.
 
 <!-- chunk {"id": "body-0046", "role": "body", "section": "V-D Baselines and Variants", "weight": 1.0} -->
 
@@ -197,12 +196,11 @@ From Table I we observe that FORCE-OPT achieves the lowest BER, indicating the b
 
 <!-- chunk {"id": "body-0049", "role": "body", "section": "V-E1 Balance between Completeness and Soundness (Q1)", "weight": 1.0} -->
 
-These additional gains are the outcome of the Theorem ‣ III Equivalence of Deterministic and Stochastic Notions of FRS ‣ Safety Evaluation of Motion Plans Using Trajectory Predictors as Forward Reachable Set Estimators")-inspired convex optimization ) that more precisely models the forward reachable space while leveraging multi-modality; this is discussed in greater detail in Section V-E3 ‣ V-E Results and Discussion ‣ V Experimental Results ‣ Safety Evaluation of Motion Plans Using Trajectory Predictors as Forward Reachable Set Estimators"). FORCE-OPT has lower FPR and slightly worse FNR than its belief-based variants, which is in alignment with our expectations as the belief-based approaches introduce greater conservatism in the event when the predictor's performance deteriorates.
+These additional gains are the outcome of the Theorem 1 ‣ III Equivalence of Deterministic and Stochastic Notions of FRS ‣ Safety Evaluation of Motion Plans Using Trajectory Predictors as Forward Reachable Set Estimators")-inspired convex optimization (6 ‣ IV-B Extracting FRS from Trajectory Predictors ‣ IV FORCE-OPT ‣ Safety Evaluation of Motion Plans Using Trajectory Predictors as Forward Reachable Set Estimators")) that more precisely models the forward reachable space while leveraging multi-modality (unlike which uses a single mode); this is discussed in greater detail in Section V-E3 ‣ V-E Results and Discussion ‣ V Experimental Results ‣ Safety Evaluation of Motion Plans Using Trajectory Predictors as Forward Reachable Set Estimators"). FORCE-OPT has lower FPR and slightly worse FNR than its belief-based variants, which is in alignment with our expectations as the belief-based approaches introduce greater conservatism in the event when the predictor's performance deteriorates.
 
 <!-- chunk {"id": "body-0050", "role": "body", "section": "V-E1 Balance between Completeness and Soundness (Q1)", "weight": 1.0} -->
 
-Uncalibrated Trajectory Predictor
-Calibrated Trajectory Predictor with Conformal Prediction
+Uncalibrated Trajectory Predictor Calibrated Trajectory Predictor with Conformal Prediction TABLE II: Performance comparison across methods (best-performing values in bold) in Boston (OOD).
 
 <!-- chunk {"id": "body-0051", "role": "body", "section": "V-E2 Out-of-distribution Robustness (Q2)", "weight": 1.0} -->
 
@@ -224,14 +222,22 @@ The drop in BER in different methods is fueled by different reasons: for 99% CI,
 
 If a mode other than the most-likely one is nearer to the ground truth in the calibration set, then the amount of set inflation needed to cover that ground-truth position would have to be less than the inflation needed for the most-likely mode that is further away. Overall, our ablations suggest that greater multi-modality promotes better safety assessment by allowing us to reason about multiple plausible future outcomes which could be closer to the ground truth behavior than whatever the model deems to be the most likely.
 
-<!-- chunk {"id": "body-0056", "role": "body", "section": "V-E4 Compuational Efficiency (Q4)", "weight": 1.0} -->
+<!-- chunk {"id": "body-0056", "role": "body", "section": "Modes", "weight": 1.0} -->
+
+(a) BER vs. Number of Modes (b) FPR vs. Number of Modes (c) FNR vs. Number of Modes Figure 2: Ablation with different number of GMM modes from the trajectory predictor. The performance of FORCE-OPT and its belief-based variants improves with more GMM modes.
+
+<!-- chunk {"id": "body-0057", "role": "body", "section": "V-E4 Compuational Efficiency (Q4)", "weight": 1.0} -->
 
 In Table IV ‣ V-E Results and Discussion ‣ V Experimental Results ‣ Safety Evaluation of Motion Plans Using Trajectory Predictors as Forward Reachable Set Estimators"), we show the computation time for all the methods presented in Section V-D along with their performance on BER in Tables I and II ‣ V-E Results and Discussion ‣ V Experimental Results ‣ Safety Evaluation of Motion Plans Using Trajectory Predictors as Forward Reachable Set Estimators"). FORCE-OPT demonstrates fast runtimes while achieving strong BER results in both ID and OOD settings, outperforming faster baselines such as 99% CI and. Notably, adding belief tracking adds negligible overhead---FORCE-OPT + belief is only 0.001 seconds slower than FORCE-OPT alone. With the exception of FORCE-OPT + pWC-FRS, all other variants of FORCE-OPT are faster than 0.1 seconds, suggesting that these algorithms are well-suited for deployment in real-time, safety-critical applications.
 
-<!-- chunk {"id": "body-0057", "role": "body", "section": "Conclusion and Future Work", "weight": 1.5} -->
+<!-- chunk {"id": "body-0058", "role": "body", "section": "V-E4 Compuational Efficiency (Q4)", "weight": 1.0} -->
+
+FORCE-OPT + belief (ours) FORCE-OPT + pWC-FRS (ours) FORCE-OPT + WC-FRS (ours) TABLE IV: Computation Time for Different FRS Methods
+
+<!-- chunk {"id": "body-0059", "role": "body", "section": "Conclusion and Future Work", "weight": 1.5} -->
 
 This paper introduced FORCE-OPT, a principled framework for evaluating the safety of motion plans using trajectory predictors as estimators of forward reachable sets. By combining convex optimization, conformal prediction, and Bayesian filtering, our method generates calibrated uncertainty sets that balance completeness (low false negatives) with soundness (low false positives). Empirical results on nuScenes demonstrate that FORCE-OPT significantly outperforms both conservative model-based and raw learning-based baselines, while gracefully handling out-of-distribution scenarios. We believe FORCE-OPT offers a promising building block for runtime safety monitoring in learned autonomy stacks.
 
-<!-- chunk {"id": "body-0058", "role": "body", "section": "Conclusion and Future Work", "weight": 1.5} -->
+<!-- chunk {"id": "body-0060", "role": "body", "section": "Conclusion and Future Work", "weight": 1.5} -->
 
 4This work opens up several directions for exploration: (i) While the trajectory predictor conditions on scene context, FORCE-OPT itself operates independently for each agent when computing FRS. Joint multi-agent reachability, especially in dense traffic scenarios with interdependent behaviors, remains an open direction. (ii) Trajectory predictors are trained to distributionally mimic the observed data, not to facilitate the extraction of FRS. Training a neural FRS generator that directly outputs sets is another exciting open direction.

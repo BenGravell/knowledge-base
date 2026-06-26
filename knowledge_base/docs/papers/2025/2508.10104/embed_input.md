@@ -34,552 +34,570 @@ In practice, the promise of SSL, namely producing arbitrarily large and powerful
 
 Addressing the problems above leads to this work, *DINOv3*, which advances SSL training at scale. We demonstrate that a *single frozen SSL backbone* can serve as a universal visual encoder that achieves state-of-the-art performance on challenging downstream tasks, outperforming supervised and metadata-reliant pre-training strategies. Our research is guided by the following objectives: training a foundational model versatile across tasks and domains, improving the shortcomings of existing SSL models on dense features, disseminating a family of models that can be used off-the-shelf. We discuss the three aims in the following.
 
-<!-- chunk {"id": "body-0009", "role": "body", "section": "Strong & Versatile Foundational Models", "weight": 1.0} -->
+<!-- chunk {"id": "body-0009", "role": "body", "section": "Introduction", "weight": 1.5} -->
+
+(b) 3D keypoint matching (NAVI) (c) OOD classif. (ObjectNet) Figure 2: Performance of the DINOv3 family of models, compared to other families of self- or weakly-supervised models, on different benchmarks. DINOv3 significantly surpasses others on dense benchmarks, including models that leverage mask annotation priors such as AM-RADIO.
+
+<!-- chunk {"id": "body-0010", "role": "body", "section": "Strong & Versatile Foundational Models", "weight": 1.0} -->
 
 DINOv3 aims to offer a high level of versatility along two axes, which is enabled by the scaling of the model size and training data. First, a key desirable property for SSL models is to achieve excellent performance while being kept frozen, ideally reaching similar state-of-the-art results as specialized models. In that case, a single forward pass can deliver cutting-edge results across multiple tasks, leading to substantial computational savings---an essential advantage for practical applications, particularly on edge devices. We show the wide breadth of tasks that DINOv3 can successfully be applied to in Sec.˜6. Second, a scalable SSL training pipeline that does not depend on metadata unlocks numerous scientific applications. By pre-training on a diverse set of images, whether web images or observational data, SSL models generalize across a large set of domains and tasks. As illustrated in Fig.˜1(d), the PCA of DINOv3 features extracted from a high-resolution aerial image clearly allows to separates roads, houses, and greenery, highlighting the model's feature quality.
 
-<!-- chunk {"id": "body-0010", "role": "body", "section": "Superior Feature Maps Through Gram Anchoring", "weight": 1.0} -->
+<!-- chunk {"id": "body-0011", "role": "body", "section": "Superior Feature Maps Through Gram Anchoring", "weight": 1.0} -->
 
 Another key feature of DINOv3 is a significant improvement of its dense feature maps. The DINOv3 SSL training strategy aims at producing models excelling at high-level semantic tasks while producing excellent feature maps amenable to solving geometric tasks such as depth estimation, or 3D matching. In particular, the models should produce dense features that can be used off-the-shelf or with little post-processing. The compromise between dense and global representation is especially difficult to optimize when training with vast amounts of images, since the objective of high-level understanding can conflict with the quality of the dense feature maps. These contradictory objectives lead to a collapse of dense features with large models and long training schedules. Our new Gram anchoring strategy effectively mitigates this collapse (see Sec.˜4). As a result, DINOv3 obtains significantly better dense feature maps than DINOv2, staying clean even at high resolutions (see Fig.˜3).
 
-<!-- chunk {"id": "body-0011", "role": "body", "section": "The DINOv3 Family of Models", "weight": 1.0} -->
+<!-- chunk {"id": "body-0012", "role": "body", "section": "The DINOv3 Family of Models", "weight": 1.0} -->
 
 Solving the degradation of dense feature map with Gram anchoring unlocks the power of scaling. As a consequence, training a much larger model with SSL leads to significant performance improvements. In this work, we successfully train a DINO model with 7B parameters. Since such a large model requires significant resources to run, we apply distillation to compress its knowledge into smaller variants. As a result, we present the *DINOv3 family of vision models*, a comprehensive suite designed to address a wide spectrum of computer vision challenges. This model family aims to advance the state of the art by offering scalable solutions adaptable to diverse resource constraints and deployment scenarios. The distillation process produces model variants at multiple scales, including Vision Transformer (ViT) Small, Base, and Large, as well as ConvNeXt-based architectures. Notably, the efficient and widely adopted ViT-L model achieves performance close to that of the original 7B teacher across a variety of tasks. Overall, the DINOv3 family demonstrates strong performance on a broad range of benchmarks, matching or exceeding the accuracy of competing models on global tasks, while significantly outperforming them on dense prediction tasks, as visible in Fig.˜2.
 
-<!-- chunk {"id": "body-0012", "role": "body", "section": "Overview of Contributions", "weight": 1.0} -->
+<!-- chunk {"id": "body-0013", "role": "body", "section": "Overview of Contributions", "weight": 1.0} -->
 
 In this work, we introduce multiple contributions to address the challenge of scaling SSL towards a large frontier model. We build upon recent advances in automatic data curation to obtain a large "background" training dataset that we carefully mix with a bit of specialized data (ImageNet-1k). This allows leveraging large amounts of unconstrained data to improve the model performance. This contribution (i) around data scaling will be described in Sec.˜3.1.
 
-<!-- chunk {"id": "body-0013", "role": "body", "section": "Overview of Contributions", "weight": 1.0} -->
+<!-- chunk {"id": "body-0014", "role": "body", "section": "Overview of Contributions", "weight": 1.0} -->
 
 We increase our main model size to 7B parameters by defining a custom variant of the ViT architecture. We include modern position embeddings (axial RoPE) and develop a regularization technique to avoid positional artifacts. Departing from the multiple cosine schedules in DINOv2, we train with constant hyperparameter schedules for 1M iterations. This allows producing models with stronger performance. This contribution (ii) on model architecture and training will be described in Sec.˜3.2.
 
-<!-- chunk {"id": "body-0014", "role": "body", "section": "Overview of Contributions", "weight": 1.0} -->
+<!-- chunk {"id": "body-0015", "role": "body", "section": "Overview of Contributions", "weight": 1.0} -->
 
 With the above techniques, we are able to train a model following the DINOv2 algorithm at scale. However, as mentioned previously, scale leads to a degradation of dense features. To address this, we propose a core improvement of the pipeline with a Gram anchoring training phase. This cleans the noise in the feature maps, leading to impressive similarity maps, and drastically improving the performance on both parametric and non-parametric dense tasks. This contribution (iii) on Gram training will be described in Sec.˜4.
 
-<!-- chunk {"id": "body-0015", "role": "body", "section": "Overview of Contributions", "weight": 1.0} -->
+<!-- chunk {"id": "body-0016", "role": "body", "section": "Overview of Contributions", "weight": 1.0} -->
 
 Following previous practice, the last steps of our pipeline consist of a high-resolution post-training phase and distillation into a series of high-performance models of various sizes. For the latter, we develop a novel and efficient single-teacher multiple-students distillation procedure. This contribution (iv) transfers the power of our 7B frontier model to a family of smaller practical models for common usage, that we describe in Sec.˜5.2.
 
-<!-- chunk {"id": "body-0016", "role": "body", "section": "Overview of Contributions", "weight": 1.0} -->
+<!-- chunk {"id": "body-0017", "role": "body", "section": "Overview of Contributions", "weight": 1.0} -->
 
 As measured in our thorough benchmarking, results in Sec.˜6 show that our approach defines a new standard in dense tasks and performs comparably to CLIP derivatives on global tasks. In particular, with a frozen vision backbone, we achieve state-of-the-art performance on longstanding computer vision problems such as object detection (COCO detection, mAP 66.1) and image segmentation (, mIoU 63.0), outperforming specialized fine-tuned pipelines. Moreover, we provide evidence of the generality of our approach across domains by applying the DINOv3 algorithm to satellite imagery, in Sec.˜8, surpassing all prior approaches.
 
-<!-- chunk {"id": "body-0017", "role": "body", "section": "Self-Supervised Learning", "weight": 1.0} -->
+<!-- chunk {"id": "body-0018", "role": "body", "section": "Self-Supervised Learning", "weight": 1.0} -->
 
 Learning without annotations requires an artificial learning task that provides supervision in lieu for training. The art and challenge of SSL lies in carefully designing these so-called pre-text tasks in order to learn powerful representations for downstream tasks. The language domain, by its discrete nature, offers straightforward ways to set up such tasks, which led to many successful unsupervised pre-training approaches for text data. Examples include word embeddings, sentence representations, and plain language models. In contrast, computer vision presents greater challenges due to the continuous nature of the signal. Early attempts mimicking language approaches extracted supervisory signals from parts of an image to predict other parts, *e.g*. by predicting relative patch position, patch re-ordering, or inpainting. Other tasks involve re-colorizing images or predicting image transformations.
 
-<!-- chunk {"id": "body-0018", "role": "body", "section": "Self-Supervised Learning", "weight": 1.0} -->
+<!-- chunk {"id": "body-0019", "role": "body", "section": "Self-Supervised Learning", "weight": 1.0} -->
 
 Among these tasks, *inpainting-based* approaches have gathered significant interest thanks to the flexibility of the patch-based ViT architecture. The objective is to reconstruct corrupted regions of an image, which can be viewed as a form of denoising auto-encoding and is conceptually related to the masked token prediction task in BERT pretraining. Notably, He et al. demonstrated that pixel-based masked auto-encoders (MAE) can be used as strong initializations for finetuning on downstream tasks. In the following, Baevski et al.; Assran et al. showed that predicting a *learned latent space* instead of the pixel space leads to more powerful, higher-level features---a learning paradigm called JEPA: "Joint-Embedding Predictive Architecture". Recently, JEPAs have also been extended to video training.
 
-<!-- chunk {"id": "body-0019", "role": "body", "section": "Self-Supervised Learning", "weight": 1.0} -->
+<!-- chunk {"id": "body-0020", "role": "body", "section": "Self-Supervised Learning", "weight": 1.0} -->
 
 A second line of work, closer to ours, leverages *discriminative signals between images* to learn visual representations. This family of methods traces its origins to early deep learning research, but gained popularity with the introduction of instance classification techniques. Subsequent advancements introduced contrastive objectives and information-theoretic criteria, as well as self clustering-based strategies. More recent approaches, such as iBOT, combine these discriminative losses with masked reconstruction objectives. All of these methods show the ability to learn strong features and achieve high performance on standard benchmarks like ImageNet. However, most face challenges scaling to larger model sizes.
 
-<!-- chunk {"id": "body-0020", "role": "body", "section": "Vision Foundation Models", "weight": 1.0} -->
+<!-- chunk {"id": "body-0021", "role": "body", "section": "Vision Foundation Models", "weight": 1.0} -->
 
 The deep learning revolution began with the AlexNet breakthrough, a deep convolutional neural network that outperformed all previous methods on the ImageNet challenge. Already early, features learned end-to-end on the large manually-labeled ImageNet dataset were found to be highly effective for a wide range of transfer learning tasks. Early work on vision *foundation models* then focused on architecture development, including VGG, GoogleNet, and ResNets.
 
-<!-- chunk {"id": "body-0021", "role": "body", "section": "Vision Foundation Models", "weight": 1.0} -->
+<!-- chunk {"id": "body-0022", "role": "body", "section": "Vision Foundation Models", "weight": 1.0} -->
 
 Given the effectiveness of *scaling*, subsequent works explored training larger models on big datasets. Sun et al. expanded supervised training data with the proprietary JFT dataset containing 300 million labeled images, showing impressive results. JFT also enabled significant performance gains for Kolesnikov et al.. In parallel, scaling was explored using a combination of supervised and unsupervised data. For instance, an ImageNet-supervised model can be used to produce pseudo-labels for unsupervised data, which then serve to train larger networks. Subsequently, the availability of large supervised datasets such as JFT also facilitated the adaptation of the transformer architecture to computer vision. In particular, achieving performance comparable to that of the original vision transformer (ViT) without access to JFT requires substantial effort. Due to the learning capacity of ViTs, scaling efforts were further extended by Zhai et al., culminating in the very large ViT-22B encoder.
 
-<!-- chunk {"id": "body-0022", "role": "body", "section": "Vision Foundation Models", "weight": 1.0} -->
+<!-- chunk {"id": "body-0023", "role": "body", "section": "Vision Foundation Models", "weight": 1.0} -->
 
 Given the complexity of manually labeling large datasets, *weakly-supervised training*---where annotations are derived from metadata associated with images---provides an effective alternative to supervised training. Early, Joulin et al. demonstrated that a network can be pre-trained by simply predicting all words in the image caption as targets. This initial approach was further refined by leveraging sentence structures, incorporating other types of metadata and involve curation, and scaling. However, weakly-supervised algorithms only reached their full potential with the introduction of contrastive losses and the joint-training of caption representations, as exemplified by Align and CLIP.
 
-<!-- chunk {"id": "body-0023", "role": "body", "section": "Vision Foundation Models", "weight": 1.0} -->
+<!-- chunk {"id": "body-0024", "role": "body", "section": "Vision Foundation Models", "weight": 1.0} -->
 
 This highly successful approach inspired numerous *open-source reproductions and scaling efforts*. OpenCLIP was the first open-source effort to replicate CLIP by training on the LAION dataset; following works leverage pre-trained backbones by fine-tuning them in a CLIP-style manner. Recognizing that data collection is a critical factor in the success of CLIP training, MetaCLIP precisely follows the original CLIP procedure to reproduce its results, whereas Fang et al. use supervised datasets to curate pretraining data. Other works focus on improving the training loss, *e.g*. using a sigmoid loss in SigLIP, or leveraging a pre-trained image encoder. Ultimately though, the most critical components for obtaining cutting-edge foundation models are abundant high-quality data and substantial compute resources. In this vein, SigLIP 2 and Perception Encoder (PE) achieve impressive results after training on more than $40$B image-text pairs.
 
-<!-- chunk {"id": "body-0024", "role": "body", "section": "Vision Foundation Models", "weight": 1.0} -->
+<!-- chunk {"id": "body-0025", "role": "body", "section": "Vision Foundation Models", "weight": 1.0} -->
 
 The largest PE model is trained on $86$B billion samples with a global batch size of $131$K. Finally, a range of more complex and natively multimodal approaches have been proposed; these include contrastive captioning, masked modeling in the latent space, and auto-regressive training.
 
-<!-- chunk {"id": "body-0025", "role": "body", "section": "Vision Foundation Models", "weight": 1.0} -->
+<!-- chunk {"id": "body-0026", "role": "body", "section": "Vision Foundation Models", "weight": 1.0} -->
 
 In contrast, relatively little work has focused on *scaling unsupervised image pretraining*. Early efforts include Caron et al. and Goyal et al. utilizing the YFCC dataset. Further progress has been achieved by focusing on larger datasets and models, as well as initial attempts at data curation for SSL. Careful tuning of the training algorithms, larger architectures, and more extensive training data lead to the impressive results of DINOv2; for the first time, an SSL model matched or surpassed open-source CLIP variants on a range of tasks. This direction has recently been further pushed by Fan et al. by scaling to larger models without data curation, or by Venkataramanan et al. using open datasets and improved training recipes.
 
-<!-- chunk {"id": "body-0026", "role": "body", "section": "Dense Transformer Features", "weight": 1.0} -->
+<!-- chunk {"id": "body-0027", "role": "body", "section": "Dense Transformer Features", "weight": 1.0} -->
 
 A broad range of modern vision applications consume *dense features* of pre-trained transformers, including multi-modal models, generative models, 3D understanding, video understanding, and robotics. On top of that, traditional vision tasks such as detection, segmentation, or depth estimation require accurate local descriptors. To enhance the quality of SSL-trained local descriptors, a substantial body of work focuses on developing *local SSL losses*. Examples include leveraging spatio-temporal consistency in videos, *e.g*. using point track loops as training signal, exploiting the spatial alignment between different crops of the same image, or enforcing consistency between neighboring patches. Darcet et al. show that predicting clustered local patches leads to improved dense representations. DetCon and ORL perform contrastive learning on region proposals but assume that such proposals exist *a priori*; this assumption is relaxed by approaches such as ODIN and SlotCon. Without changing the training objective, Darcet et al. show that adding register tokens to the input sequence greatly improves dense feature maps, and recent works find this can be done without model training.
 
-<!-- chunk {"id": "body-0027", "role": "body", "section": "Dense Transformer Features", "weight": 1.0} -->
+<!-- chunk {"id": "body-0028", "role": "body", "section": "Dense Transformer Features", "weight": 1.0} -->
 
 A recent trend are distillation-based, "*agglomerative*" methods that combine information from multiple image encoders with varying in global and local feature quality, trained using different levels of supervision: AM-RADIO combines the strengths of the fully-supervised SAM, the weakly-supervised CLIP, and the self-supervised DINOv2 into a unified backbone. The Perception Encoder similarly distills SAM(v2) into a specialized dense variant called PEspatial. They use an objective enforcing cosine similarity between student and teacher patches to be high, where their teacher is trained with mask annotations. Similar losses were shown to be effective in the context of style transfer, by reducing the inconsistency between the Gram matrices of feature dimensions. In this work, we adopt a Gram objective to regularize cosine similarity between student and teacher patches, favoring them being close. In our case, we use earlier iterations of the SSL model itself as the teacher, demonstrating that early-stage SSL models effectively guides SSL training for both global and dense tasks.
 
-<!-- chunk {"id": "body-0028", "role": "body", "section": "Dense Transformer Features", "weight": 1.0} -->
+<!-- chunk {"id": "body-0029", "role": "body", "section": "Dense Transformer Features", "weight": 1.0} -->
 
 Other works focus on post-hoc improvements to the local features of SSL-trained models. For example, Ziegler and Asano fine-tune a pre-trained model with a dense clustering objective; similarly, Salehi et al. fine-tune by aligning patch features temporally, in both cases enhance the quality of local features. Closer to us, Pariza et al. propose a patch-sorting based objective to encourage the student and teacher to produce features with consistent neighbor ordering. Without finetuning, STEGO learns a non-linear projection on top of frozen SSL features to form compact clusters and amplify correlation patterns. Alternatively, Simoncini et al. augment self-supervised features by concatenating gradients from different self-supervised objectives to frozen SSL features. Recently, Wysoczańska et al. show that noisy feature maps are significantly improved through a weighted average of patches.
 
-<!-- chunk {"id": "body-0029", "role": "body", "section": "Dense Transformer Features", "weight": 1.0} -->
+<!-- chunk {"id": "body-0030", "role": "body", "section": "Dense Transformer Features", "weight": 1.0} -->
 
 Related, but not specific to SSL, some recent works generate high-resolution feature maps from ViT feature maps, which are often low-resolution due to patchification of images. In contrast with this body of work, our models natively deliver high-quality dense feature maps that remain stable and consistent across resolutions, as shown in Fig.˜4.
 
-<!-- chunk {"id": "body-0030", "role": "body", "section": "Training at Scale Without Supervision", "weight": 1.0} -->
+<!-- chunk {"id": "body-0031", "role": "body", "section": "Training at Scale Without Supervision", "weight": 1.0} -->
 
 DINOv3 is a next-generation model designed to produce the most robust and flexible visual representations to date by pushing the boundaries of self-supervised learning. We draw inspiration from the success of large language models (LLMs), for which scaling-up the model capacity leads to outstanding *emerging properties*. By leveraging models and training datasets that are an order of magnitude larger, we seek to unlock the full potential of SSL and drive a similar paradigm shift for computer vision, unencumbered by the limitations inherent to traditional supervised or task-specific approaches. In particular, SSL produces rich, high-quality visual features that are not biased toward any specific supervision or task, thereby providing a versatile foundation for a wide range of downstream applications. While previous attempts at scaling SSL models have been hindered by issues of instability, this section describes how we harness the benefits of scaling with careful data preparation, design, and optimization. We first describe the dataset creation procedure (Sec.˜3.1), then present the self-supervised SSL recipe used for this first training phase of DINOv3 (Sec.˜3.2). This includes the choice of architecture, loss functions, and optimization techniques.
 
-<!-- chunk {"id": "body-0031", "role": "body", "section": "Training at Scale Without Supervision", "weight": 1.0} -->
+<!-- chunk {"id": "body-0032", "role": "body", "section": "Training at Scale Without Supervision", "weight": 1.0} -->
 
 The second training phase, focusing on dense features, will be described in Sec.˜4.
 
-<!-- chunk {"id": "body-0032", "role": "body", "section": "Data Preparation", "weight": 1.0} -->
+<!-- chunk {"id": "body-0033", "role": "body", "section": "Data Preparation", "weight": 1.0} -->
 
 Data scaling is one of the driving factors behind the success of large foundation models. However, increasing naively the size of the training data does not necessarily translate into higher model quality and better performance on downstream benchmarks: Successful data scaling efforts typically involve careful data curation pipelines. These algorithms may have different objectives: either focusing on improving data diversity and balance, or data usefulness---its relevance to common practical applications. For the development of DINOv3, we combine two complementary approaches to improve both the generalizability and performance of the model, striking a balance between the two objectives.
 
-<!-- chunk {"id": "body-0033", "role": "body", "section": "Data Collection and Curation", "weight": 1.0} -->
+<!-- chunk {"id": "body-0034", "role": "body", "section": "Data Collection and Curation", "weight": 1.0} -->
 
 We build our large-scale pre-training dataset by leveraging a large data pool of web images collected from public posts on Instagram. These images already went through platform-level content moderation to help prevent harmful contents and we obtain an initial data pool of approximately 17 billions of images. Using this raw data pool, we create three dataset *parts*. We construct the first part by applying the automatic curation method based on hierarchical $k$-means from Vo et al.. We employ DINOv2 as image embeddings, and use 5 levels of clustering with the number of clusters from the lowest to highest levels being $200$M, $8$M, $800$k, $100$k, and $25$k respectively. After building the hierarchy of clusters, we apply the balanced sampling algorithm proposed in Vo et al.. This results in a curated subset of 1,689 million images (named LVD-1689M) that guarantees a balanced coverage of all visual concepts appearing on the web. For the second part, we adopt a retrieval-based curation system similar to the procedure proposed by Oquab et al..
 
-<!-- chunk {"id": "body-0034", "role": "body", "section": "Data Collection and Curation", "weight": 1.0} -->
+<!-- chunk {"id": "body-0035", "role": "body", "section": "Data Collection and Curation", "weight": 1.0} -->
 
 We retrieve images from the data pool that are similar to those from selected seed datasets, creating a dataset that covers visual concepts relevant for downstream tasks. For the third part, we use raw publicly available computer vision datasets including ImageNet1k and Mapillary Street-level Sequences. This final part allows us to optimize our model's performance, following Oquab et al..
 
-<!-- chunk {"id": "body-0035", "role": "body", "section": "Data Sampling", "weight": 1.0} -->
+<!-- chunk {"id": "body-0036", "role": "body", "section": "Data Sampling", "weight": 1.0} -->
 
 During pre-training, we use a sampler to mix different data parts together. There are several different options for mixing the above data components. One is to train with homogeneous batches of data that come from a single, randomly selected component in each iteration. Alternatively, we can optimize the model on heterogeneous batches that are assembled by data from all components, selected using certain ratios. Inspired by Charton and Kempe, who observed that it is beneficial to have homogeneous batches consisting of very high quality data from a small dataset, we randomly sample in each iteration either a homogeneous batch from ImageNet1k alone or a heterogeneous batch mixing data from all other components. In our training, homogeneous batches from ImageNet1k account for 10% of training.
 
-<!-- chunk {"id": "body-0036", "role": "body", "section": "Data Ablation", "weight": 1.0} -->
+<!-- chunk {"id": "body-0037", "role": "body", "section": "Data Ablation", "weight": 1.0} -->
 
 To assess the impact of our data curation technique, we perform an ablation study to compare our data mix against datasets curated with clustering or retrieval-based methods alone, and the raw data pool. To this end, we train a model on each dataset and compare their performance on standard downstream tasks. For efficiency, we use a shorter schedule of 200k iterations instead of 1M iterations. In Tab.˜1, it can be seen that no single curation technique works best across all benchmarks, and that our full pipeline allows us to obtain the best of both worlds.
 
-<!-- chunk {"id": "body-0037", "role": "body", "section": "Large-Scale Training with Self-Supervision", "weight": 1.0} -->
+<!-- chunk {"id": "body-0038", "role": "body", "section": "Large-Scale Training with Self-Supervision", "weight": 1.0} -->
 
 While models trained with SSL have demonstrated interesting properties, most SSL algorithms have not been scaled-up to larger models sizes. This is either due to issues with training stability, or overly simplistic solutions that fail to capture the full complexity of the visual world. When trained at scale, models trained with SSL do not necessarily show impressive performance. One notable exception is DINOv2, a model with 1.1 billion parameters trained on curated data, matching the performance of weakly-supervised models like CLIP. A recent effort to scale DINOv2 to 7 billion parameters demonstrates promising results on global tasks, but with disappointing results on dense prediction. Here, we aim to scale up the model and data, and obtain even more powerful visual representations with both improved global and local properties.
 
-<!-- chunk {"id": "body-0038", "role": "body", "section": "Large-Scale Training with Self-Supervision", "weight": 1.0} -->
+<!-- chunk {"id": "body-0039", "role": "body", "section": "Large-Scale Training with Self-Supervision", "weight": 1.0} -->
 
 #Params
 
-<!-- chunk {"id": "body-0039", "role": "body", "section": "Large-Scale Training with Self-Supervision", "weight": 1.0} -->
+<!-- chunk {"id": "body-0040", "role": "body", "section": "Large-Scale Training with Self-Supervision", "weight": 1.0} -->
 
 #Blocks
 
-<!-- chunk {"id": "body-0040", "role": "body", "section": "Learning Objective", "weight": 1.0} -->
+<!-- chunk {"id": "body-0041", "role": "body", "section": "Large-Scale Training with Self-Supervision", "weight": 1.0} -->
 
-We train the model with a discriminative self-supervised strategy which is a mix of several self-supervised objectives with both global and local loss terms. Following DINOv2, we use an image-level objective $\mathcal{L}_{DINO}$, and balance it with a patch-level latent reconstruction objective $\mathcal{L}_{iBOT}$. We also replace the centering from DINO with the Sinkhorn-Knopp from SwAV in both objectives. Each objective is computed using the output of a dedicated head on top of the backbone network, allowing for some specialization of features before the computation of the losses. Additionally, we use a dedicated layer normalization applied to the backbone outputs of the local and global crops. Empirically, we found this change to stabilize ImageNet kNN-classification late in training (+0.2 accuracy) and improve dense performance (*e.g*. +1 mIoU on segmentation, -0.02 RMSE on NYUv2 depth estimation).
+DINO Head MLP iBOT Head MLP Table 2: Comparison of the teacher architectures used in DINOv2 and DINOv3 models. We keep the model 40 blocks deep, and increase the embedding dimension to 4096. Importantly, we use a patch size of 16 pixels, changing the effective sequence length for a given resolution.
 
-<!-- chunk {"id": "body-0041", "role": "body", "section": "Learning Objective", "weight": 1.0} -->
+<!-- chunk {"id": "body-0042", "role": "body", "section": "Learning Objective", "weight": 1.0} -->
 
-In addition, a Koleo regularizer $\mathcal{L}_{Koleo}$ is added to encourage the features within a batch to spread uniformly in the space. We use a distributed implementation of Koleo in which the loss is applied in small batches of $16$ samples---possibly across GPUs.
+We train the model with a discriminative self-supervised strategy which is a mix of several self-supervised objectives with both global and local loss terms. Following DINOv2, we use an image-level objective $\mathcal{L_{\mathrm{DINO}}}$, and balance it with a patch-level latent reconstruction objective $\mathcal{L_{\mathrm{iBOT}}}$. We also replace the centering from DINO with the Sinkhorn-Knopp from SwAV in both objectives. Each objective is computed using the output of a dedicated head on top of the backbone network, allowing for some specialization of features before the computation of the losses. Additionally, we use a dedicated layer normalization applied to the backbone outputs of the local and global crops. Empirically, we found this change to stabilize ImageNet kNN-classification late in training (+0.2 accuracy) and improve dense performance (*e.g*. +1 mIoU on segmentation, -0.02 RMSE on NYUv2 depth estimation).
 
-<!-- chunk {"id": "body-0042", "role": "body", "section": "Updated Model Architecture", "weight": 1.0} -->
+<!-- chunk {"id": "body-0043", "role": "body", "section": "Learning Objective", "weight": 1.0} -->
 
-For the model scaling aspect of this work, we increase the size of the model to 7B parameters, and provide in Tab.˜2 a comparison of the corresponding hyperparameters with the 1.1B parameter model trained in the DINOv2 work. We also employ a custom variant of RoPE: our base implementation assigns coordinates in a normalized $\lbrack{- 1},1\rbrack$ box to each patch, then applies a bias in the multi-head attention operation depending on the relative position of two patches. In order to improve the robustness of the model to resolutions, scales and aspect ratios, we employ RoPE-box jittering. The coordinate box $\lbrack{- 1},1\rbrack$ is randomly scaled to $\lbrack{- s},s\rbrack$, where $s \in {\lbrack 0.5,2\rbrack}$. Together, these changes enable DINOv3 to better learn detailed and robust visual features, improving its performance and scalability.
+In addition, a Koleo regularizer $\mathcal{L}_{\mathrm{Koleo}}$ is added to encourage the features within a batch to spread uniformly in the space. We use a distributed implementation of Koleo in which the loss is applied in small batches of $16$ samples---possibly across GPUs.
 
-<!-- chunk {"id": "body-0043", "role": "body", "section": "Optimization", "weight": 1.0} -->
+<!-- chunk {"id": "body-0044", "role": "body", "section": "Updated Model Architecture", "weight": 1.0} -->
 
-Training large models on very large datasets represents a complicated experimental workflow. Because the interplay between model capacity and training data complexity is hard to assess *a priori*, it is impossible to guess the right optimization horizon. To overcome this, we get rid of all parameter scheduling, and train with constant learning rate, weight decay, and teacher EMA momentum. This has two main benefits. First, we can continue training as long as downstream performance continues to improve. Second, the number of optimization hyperparameters is reduced, making it easier to choose them properly. For the training to start properly, we still use a linear warmup for learning rate and teacher temperature. Following common practices, we use AdamW, and set the total batch size to $4096$ images split across $256$ GPUs. We train our models using the multi-crop strategy, taking $2$ global crops and $8$ local crops per image.
-
-<!-- chunk {"id": "body-0044", "role": "body", "section": "Optimization", "weight": 1.0} -->
-
-We use square images with a side length of $256$/$112$ pixels for global/local crops, which, along with the change in patch size, results in the same effective sequence length per image as in DINOv2 and a total sequence length of $3.7$M tokens per batch. Additional hyperparameters can be found in App.˜C and in the code release.
+For the model scaling aspect of this work, we increase the size of the model to 7B parameters, and provide in Tab.˜2 a comparison of the corresponding hyperparameters with the 1.1B parameter model trained in the DINOv2 work. We also employ a custom variant of RoPE: our base implementation assigns coordinates in a normalized $$ box to each patch, then applies a bias in the multi-head attention operation depending on the relative position of two patches. In order to improve the robustness of the model to resolutions, scales and aspect ratios, we employ RoPE-box jittering. The coordinate box $$ is randomly scaled to $[-s,s]$, where $s\in[0.5,2]$. Together, these changes enable DINOv3 to better learn detailed and robust visual features, improving its performance and scalability.
 
 <!-- chunk {"id": "body-0045", "role": "body", "section": "Optimization", "weight": 1.0} -->
 
+Training large models on very large datasets represents a complicated experimental workflow. Because the interplay between model capacity and training data complexity is hard to assess *a priori*, it is impossible to guess the right optimization horizon. To overcome this, we get rid of all parameter scheduling, and train with constant learning rate, weight decay, and teacher EMA momentum. This has two main benefits. First, we can continue training as long as downstream performance continues to improve. Second, the number of optimization hyperparameters is reduced, making it easier to choose them properly. For the training to start properly, we still use a linear warmup for learning rate and teacher temperature. Following common practices, we use AdamW, and set the total batch size to $4096$ images split across $256$ GPUs. We train our models using the multi-crop strategy, taking $2$ global crops and $8$ local crops per image.
+
+<!-- chunk {"id": "body-0046", "role": "body", "section": "Optimization", "weight": 1.0} -->
+
+We use square images with a side length of $256$/$112$ pixels for global/local crops, which, along with the change in patch size, results in the same effective sequence length per image as in DINOv2 and a total sequence length of $3.7$M tokens per batch. Additional hyperparameters can be found in App.˜C and in the code release.
+
+<!-- chunk {"id": "body-0047", "role": "body", "section": "Optimization", "weight": 1.0} -->
+
 (a) Cosine similarities between the CLS and output patches.
 
-<!-- chunk {"id": "body-0046", "role": "body", "section": "Gram Anchoring: A Regularization for Dense Features", "weight": 1.0} -->
+<!-- chunk {"id": "body-0048", "role": "body", "section": "Gram Anchoring: A Regularization for Dense Features", "weight": 1.0} -->
 
 To fully leverage the benefits of large-scale training, we aim to train the 7B model for an extended duration, with the notion that it could potentially train indefinitely. As expected, prolonged training leads to improvements on global benchmarks. However, as training progresses, the performance degrades on dense tasks (Figs.˜5 and 5). This phenomenon, which is due to the emergence of patch-level inconsistencies in feature representations, undermines the interest behind extended training.^11^1We also observed different types of outliers appearing with continued training; we provide a discussion in App. A. In this section, we first analyze the loss of patch-level consistency, then propose a new objective to mitigate it, called *Gram anchoring*. We finally discuss the impact of our approach on both training stability and model performance.
 
-<!-- chunk {"id": "body-0047", "role": "body", "section": "Loss of Patch-Level Consistency Over Training", "weight": 1.0} -->
+<!-- chunk {"id": "body-0049", "role": "body", "section": "Loss of Patch-Level Consistency Over Training", "weight": 1.0} -->
 
 During extended training, we observe consistent improvements in global metrics but a notable decline in performance on dense prediction tasks. This behavior was previously observed, to a lesser extent, during the training of DINOv2, and also discussed in the scaling effort of Fan et al.. However, to the best of our knowledge, it remains unresolved to date. We illustrate the phenomenon in Figs.˜5 and 5, which present the performance of the model across iterations on both image classification and segmentation tasks. For classification, we train a linear classifier on ImageNet-1k using the CLS token and report top-1 accuracy. For segmentation, we train a linear layer on patch features extracted from Pascal VOC and report mean Intersection over Union (mIoU). We observe that both for the ViT-g and the ViT-7B, the classification accuracy monotonically improves throughout training. However, segmentation performance declines in both cases after approximately 200k iterations, falling below its early levels in the case of the ViT-7B.
 
-<!-- chunk {"id": "body-0048", "role": "body", "section": "Loss of Patch-Level Consistency Over Training", "weight": 1.0} -->
+<!-- chunk {"id": "body-0050", "role": "body", "section": "Loss of Patch-Level Consistency Over Training", "weight": 1.0} -->
 
 To better understand this degradation, we analyze the quality of patch features by visualizing cosine similarities between patches. Fig.˜6 shows the cosine similarity maps between the backbone's output patch features and a reference patch (highlighted in red). At 200k iterations, the similarity maps are smooth and well-localized, indicating consistent patch-level representations. However, by 600k iterations and beyond, the maps degrade substantially, with an increasing number of irrelevant patches with high similarity to the reference patch. This loss of patch-level consistency correlates with the drop in dense task performance.
 
-<!-- chunk {"id": "body-0049", "role": "body", "section": "Loss of Patch-Level Consistency Over Training", "weight": 1.0} -->
+<!-- chunk {"id": "body-0051", "role": "body", "section": "Loss of Patch-Level Consistency Over Training", "weight": 1.0} -->
 
 These patch-level irregularities differ from the high-norm patch outliers described in Darcet et al.. Specifically, with the integration of register tokens, patch norms remain stable throughout training. However, we notice that the cosine similarity between the CLS token and the patch outputs gradually increases during training. This is expected, yet it means that the locality of the patch features diminishes. We visualize this phenomenon in Fig.˜5, which depicts the cosine maps at 200k and 1M iterations. In order to mitigate the drop on dense tasks, we propose a new objective specifically designed to regularize the patch features and ensure a good patch-level consistency, while preserving high global performance.
 
-<!-- chunk {"id": "body-0050", "role": "body", "section": "Gram Anchoring Objective", "weight": 1.0} -->
-
-Throughout our experiments, we have identified a relative independence between learning strong discriminative features and maintaining local consistency, as observed in the lack of correlation between global and dense performance. While combining the global DINO loss with the local iBOT loss has begun to address this issue, we observe that the balance is unstable, with global representation dominating as training progresses. Building on this insight, we propose a novel solution that explicitly leverages this independence.
-
-<!-- chunk {"id": "body-0051", "role": "body", "section": "Gram Anchoring Objective", "weight": 1.0} -->
-
-We introduce a new objective which mitigates the degradation of patch-level consistency by enforcing the quality of the patch-level consistency, without impacting the features themselves. This new loss function operates on the Gram matrix: the matrix of all pairwise dot products of patch features in an image. We want to push the Gram matrix of the student towards that of an earlier model, referred to as the *Gram teacher*. We select the Gram teacher by taking an early iteration of the teacher network, which exhibits superior dense properties. By operating on the Gram matrix rather than the feature themselves, the local features are free to move, provided the structure of similarities remains the same. Suppose we have an image composed of $P$ patches, and a network that operates in dimension $d$. Let us denote by $\mathbf{X}_{S}$ (respectively $\mathbf{X}_{G}$) the $P \times d$ matrix of $\mathbf{L}_{2}$-normalized local features of the student (respectively the Gram teacher).
-
 <!-- chunk {"id": "body-0052", "role": "body", "section": "Gram Anchoring Objective", "weight": 1.0} -->
 
-We only compute this loss on the global crops. Even though it can be applied early on during the training, for efficiency, we start only after $1$M iterations. Interestingly, we observe that the late application of $\mathcal{L}_{\text{Gram}}$ still manages to "repair" very degraded local features. In order to further improve performance, we update the Gram teacher every 10k iterations at which the Gram teacher becomes identical to the main EMA teacher. We call this second step of training the *refinement step*, which optimizes the objective $\mathcal{L}_{Ref}$, with
+(b) DINO global loss Figure 7: Evolution trough the training iterations of the patch-level iBOT loss, the global loss DINO (applied to the global crops) and the newly introduced Gram loss. We highlight the iterations of the refinement step ℒRef which uses the Gram objective.
 
 <!-- chunk {"id": "body-0053", "role": "body", "section": "Gram Anchoring Objective", "weight": 1.0} -->
 
-We visualize the evolution of different losses in Fig.˜7 and observe that applying the Gram objective significantly influences the iBOT loss, causing it to decrease more rapidly. This suggests that the stability introduced by the stable Gram teacher positively impacts the iBOT objective. In contrast, the Gram objective does not have a significant effect on the DINO losses. This observation implies that the Gram and iBOT objectives impact the features in a similar way, whereas the DINO losses affect them differently.
+Throughout our experiments, we have identified a relative independence between learning strong discriminative features and maintaining local consistency, as observed in the lack of correlation between global and dense performance. While combining the global DINO loss with the local iBOT loss has begun to address this issue, we observe that the balance is unstable, with global representation dominating as training progresses. Building on this insight, we propose a novel solution that explicitly leverages this independence.
 
 <!-- chunk {"id": "body-0054", "role": "body", "section": "Gram Anchoring Objective", "weight": 1.0} -->
 
+We introduce a new objective which mitigates the degradation of patch-level consistency by enforcing the quality of the patch-level consistency, without impacting the features themselves. This new loss function operates on the Gram matrix: the matrix of all pairwise dot products of patch features in an image. We want to push the Gram matrix of the student towards that of an earlier model, referred to as the *Gram teacher*. We select the Gram teacher by taking an early iteration of the teacher network, which exhibits superior dense properties. By operating on the Gram matrix rather than the feature themselves, the local features are free to move, provided the structure of similarities remains the same. Suppose we have an image composed of $P$ patches, and a network that operates in dimension $d$. Let us denote by $\mathbf{X}_{S}$ (respectively $\mathbf{X}_{G}$) the $P\times d$ matrix of $\mathbf{L}_{2}$-normalized local features of the student (respectively the Gram teacher).
+
+<!-- chunk {"id": "body-0055", "role": "body", "section": "Gram Anchoring Objective", "weight": 1.0} -->
+
+We define the loss $\mathcal{L}_{\text{Gram}}$ as follows: We only compute this loss on the global crops. Even though it can be applied early on during the training, for efficiency, we start only after $1$M iterations. Interestingly, we observe that the late application of $\mathcal{L}_{\text{Gram}}$ still manages to "repair" very degraded local features. In order to further improve performance, we update the Gram teacher every 10k iterations at which the Gram teacher becomes identical to the main EMA teacher. We call this second step of training the *refinement step*, which optimizes the objective $\mathcal{L}_{\mathrm{Ref}}$, with We visualize the evolution of different losses in Fig.˜7 and observe that applying the Gram objective significantly influences the iBOT loss, causing it to decrease more rapidly. This suggests that the stability introduced by the stable Gram teacher positively impacts the iBOT objective. In contrast, the Gram objective does not have a significant effect on the DINO losses.
+
+<!-- chunk {"id": "body-0056", "role": "body", "section": "Gram Anchoring Objective", "weight": 1.0} -->
+
+This observation implies that the Gram and iBOT objectives impact the features in a similar way, whereas the DINO losses affect them differently.
+
+<!-- chunk {"id": "body-0057", "role": "body", "section": "Gram Anchoring Objective", "weight": 1.0} -->
+
 Regarding performance, we observe the impact of the new loss is almost immediate. As shown in Fig.˜8, incorporating Gram anchoring leads to significant improvements on dense tasks within the first 10k iterations. We also see notable gains on the benchmark following the Gram teacher updates. Additionally, longer training further benefits performance on the ObjectNet benchmark and other global benchmarks show mild impact from the new loss.
-
-<!-- chunk {"id": "body-0055", "role": "body", "section": "Leveraging Higher-Resolution Features", "weight": 1.0} -->
-
-Recent work shows that a weighted average of patch features can yield stronger local representations by smoothing outlier patches and enhancing patch-level consistency. On the other hand, feeding higher-resolution images into the backbone produces finer and more detailed feature maps. We leverage the benefits of both observations to compute high-quality features for Gram teacher. Specifically, we first input images at twice the normal resolution into the Gram teacher, then $2 \times$ down-sample the resulting feature maps with the bicubic interpolation to achieve the desired smooth feature maps that match the size of the student output. Fig.˜9(a) visualizes the Gram matrices of patch features obtained with images at resolutions 256 and 512, as well as those obtained after $2 \times$ down-sampling features from the 512-resolution (denoted as 'downsamp.'). We observe that the superior patch-level consistency in the higher-resolution features is preserved through down-sampling, resulting in smoother and more coherent patch-level representations. As a side note, our model can seamlessly process images at varying resolutions without requiring adaptation, thanks to the adoption of Rotary Positional Embeddings (RoPE) introduced by Su et al..
-
-<!-- chunk {"id": "body-0056", "role": "body", "section": "Leveraging Higher-Resolution Features", "weight": 1.0} -->
-
-We compute the Gram matrix of the down-sampled features and use it to replace $\mathbf{X}_{G}$ in the objective $\mathcal{L}_{Gram}$. We note the new resulting refinement objective as $\mathcal{L}_{HRef}$. This approach enables the Gram objective to effectively distill the improved patch consistency of smoothed high-resolution features into the student model. As shown in Fig.˜8 and Fig.˜9(b), this distillation translates into better predictions on dense tasks, yielding additional gains on top of the benefit brought by $\mathcal{L}_{Ref}$ (+2 mIoU on ). We also ablate the choice of Gram teacher in Fig.˜9(b). Interestingly, choosing the Gram teacher from 100k or 200k does not significantly impact the results, but using a much later Gram teacher (1M iterations) is detrimental because the patch-level consistency of such a teacher is inferior.
-
-<!-- chunk {"id": "body-0057", "role": "body", "section": "Leveraging Higher-Resolution Features", "weight": 1.0} -->
-
-Finally, we qualitatively illustrate the effect of Gram anchoring to patch-level consistency in Fig.˜10 which visualizes the Gram matrices patch features obtained with the initial training and high-resolution Gram anchoring refinement. We observe great improvements in feature correlations that our high-resolution refinement procedure brings about.
 
 <!-- chunk {"id": "body-0058", "role": "body", "section": "Leveraging Higher-Resolution Features", "weight": 1.0} -->
 
-(a) Gram matrices at different input resolutions.
+Recent work shows that a weighted average of patch features can yield stronger local representations by smoothing outlier patches and enhancing patch-level consistency. On the other hand, feeding higher-resolution images into the backbone produces finer and more detailed feature maps. We leverage the benefits of both observations to compute high-quality features for Gram teacher. Specifically, we first input images at twice the normal resolution into the Gram teacher, then $2\times$ down-sample the resulting feature maps with the bicubic interpolation to achieve the desired smooth feature maps that match the size of the student output. Fig.˜9(a) visualizes the Gram matrices of patch features obtained with images at resolutions 256 and 512, as well as those obtained after $2\times$ down-sampling features from the 512-resolution (denoted as 'downsamp.'). We observe that the superior patch-level consistency in the higher-resolution features is preserved through down-sampling, resulting in smoother and more coherent patch-level representations. As a side note, our model can seamlessly process images at varying resolutions without requiring adaptation, thanks to the adoption of Rotary Positional Embeddings (RoPE) introduced by Su et al..
 
 <!-- chunk {"id": "body-0059", "role": "body", "section": "Leveraging Higher-Resolution Features", "weight": 1.0} -->
 
+We compute the Gram matrix of the down-sampled features and use it to replace $\mathbf{X}_{G}$ in the objective $\mathcal{L_{\mathrm{Gram}}}$. We note the new resulting refinement objective as $\mathcal{L}_{\mathrm{HRef}}$. This approach enables the Gram objective to effectively distill the improved patch consistency of smoothed high-resolution features into the student model. As shown in Fig.˜8 and Fig.˜9(b), this distillation translates into better predictions on dense tasks, yielding additional gains on top of the benefit brought by $\mathcal{L}_{\mathrm{Ref}}$ (+2 mIoU on ). We also ablate the choice of Gram teacher in Fig.˜9(b). Interestingly, choosing the Gram teacher from 100k or 200k does not significantly impact the results, but using a much later Gram teacher (1M iterations) is detrimental because the patch-level consistency of such a teacher is inferior.
+
+<!-- chunk {"id": "body-0060", "role": "body", "section": "Leveraging Higher-Resolution Features", "weight": 1.0} -->
+
+Finally, we qualitatively illustrate the effect of Gram anchoring to patch-level consistency in Fig.˜10 which visualizes the Gram matrices patch features obtained with the initial training and high-resolution Gram anchoring refinement. We observe great improvements in feature correlations that our high-resolution refinement procedure brings about.
+
+<!-- chunk {"id": "body-0061", "role": "body", "section": "Leveraging Higher-Resolution Features", "weight": 1.0} -->
+
+(a) Gram matrices at different input resolutions.
+
+<!-- chunk {"id": "body-0062", "role": "body", "section": "Leveraging Higher-Resolution Features", "weight": 1.0} -->
+
 (b) Ablation of Gram teachers and resolutions.
 
-<!-- chunk {"id": "body-0060", "role": "body", "section": "Post-Training", "weight": 1.0} -->
+<!-- chunk {"id": "body-0063", "role": "body", "section": "Post-Training", "weight": 1.0} -->
 
 This section presents *post-training* stages. This includes a high-resolution adaptation phase enabling effective inference at different input resolutions (Sec.˜5.1), model distillation producing quality and efficient smaller-sized models (Sec.˜5.2), and text alignment adding zero-shot capabilities to DINOv3 (Sec.˜5.3).
 
-<!-- chunk {"id": "body-0061", "role": "body", "section": "Resolution Scaling", "weight": 1.0} -->
+<!-- chunk {"id": "body-0064", "role": "body", "section": "Resolution Scaling", "weight": 1.0} -->
 
-We train our model at a relatively small resolution of $256$, which gives us a good trade-off between speed and effectiveness. For a patch size of $16$, this setup leads to the same input sequence length as DINOv2, which was trained with resolution $224$ and patch size $14$. However, many contemporary computer vision applications require processing images at significantly higher resolutions, often $512 \times 512$ pixels or greater, to capture intricate spatial information. The inference image resolution is also not fixed in practice and varies depending on specific use cases. To address this, we extend our training regime with a high-resolution adaptation step. To ensure high performance across a range of resolutions, we utilize *mixed resolutions*, sampling differently-sized pairs of global and local crops per mini-batch. Specifically, we consider global crop sizes from $\{ 512,768\}$ and local crop sizes from $\{ 112,168,224,336\}$ and train the model for 10k additional iterations.
+We train our model at a relatively small resolution of $256$, which gives us a good trade-off between speed and effectiveness. For a patch size of $16$, this setup leads to the same input sequence length as DINOv2, which was trained with resolution $224$ and patch size $14$. However, many contemporary computer vision applications require processing images at significantly higher resolutions, often $512\times 512$ pixels or greater, to capture intricate spatial information. The inference image resolution is also not fixed in practice and varies depending on specific use cases. To address this, we extend our training regime with a high-resolution adaptation step. To ensure high performance across a range of resolutions, we utilize *mixed resolutions*, sampling differently-sized pairs of global and local crops per mini-batch. Specifically, we consider global crop sizes from $\{512,768\}$ and local crop sizes from $\{112,168,224,336\}$ and train the model for 10k additional iterations.
 
-<!-- chunk {"id": "body-0062", "role": "body", "section": "Resolution Scaling", "weight": 1.0} -->
+<!-- chunk {"id": "body-0065", "role": "body", "section": "Resolution Scaling", "weight": 1.0} -->
 
 Similar to the main training, a key component of this high-resolution adaptation phase is the addition of Gram anchoring, using the 7B teacher as Gram teacher. We found this component to be essential: without it, the model performance on dense prediction tasks degrades significantly. The Gram anchoring encourages the model to maintain consistent and robust feature correlations across spatial locations, which is crucial when dealing with the increased complexity of high-resolution inputs.
 
-<!-- chunk {"id": "body-0063", "role": "body", "section": "Resolution Scaling", "weight": 1.0} -->
+<!-- chunk {"id": "body-0066", "role": "body", "section": "Resolution Scaling", "weight": 1.0} -->
 
 Empirically, we observe that this relatively brief but targeted high-resolution step substantially enhances the overall model's quality and allows it to generalize across a wide range of input sizes, as shown visually in Fig.˜4. In Fig.˜11, we compare our 7B model before and after adaptation. We find that resolution scaling leads to a small gain on ImageNet classification (a) with relatively stable performance w.r.t. resolution. However, in ObjectNet OOD transfer (b), we observe that the performance tends to degrade slightly for lower resolutions, while improving for higher resolutions. This is largely compensated by the improvement in the quality of local features at high resolution, shown by the positive trend in segmentation on (c) and tracking on DAVIS (d). Adaptation leads to local features that *improve with image size*, leveraging the richer spatial information available at larger resolutions and effectively enabling high-resolution inference. Interestingly, the adapted model supports resolutions way beyond the maximum training resolution of 768---we visually observe stable feature maps at resolutions above 4k (*c.f*. Fig.˜4).
 
-<!-- chunk {"id": "body-0064", "role": "body", "section": "Family of Models for Multiple Use-Cases", "weight": 1.0} -->
+<!-- chunk {"id": "body-0067", "role": "body", "section": "Family of Models for Multiple Use-Cases", "weight": 1.0} -->
 
 We perform knowledge distillation of the ViT-7B model into smaller Vision Transformer variants (ViT-S, ViT-B, and ViT-L), which are highly valued by the community for their improved manageability and efficiency. Our distillation approach uses the same training objective as in the first training phase, ensuring consistency in learning signals. However, instead of relying on an exponential moving average (EMA) of model weights, we use the 7B model directly as the teacher to guide the smaller student models. In this case, the teacher model is fixed. We do not observe patch-level consistency issues and therefore do not apply the Gram anchoring technique. This strategy enables the distilled models to inherit the rich representational power of the large teacher while being more practical for deployment and experimentation.
 
-<!-- chunk {"id": "body-0065", "role": "body", "section": "Family of Models for Multiple Use-Cases", "weight": 1.0} -->
+<!-- chunk {"id": "body-0068", "role": "body", "section": "Family of Models for Multiple Use-Cases", "weight": 1.0} -->
 
 Our ViT-7B model is distilled into a series of ViT models with sizes covering a broad range of compute budgets, and allowing proper comparison with concurrent models. They include the standard ViT-S (21M params), B (86M), L (0.3B), along with a custom ViT-S+ (29M) and a custom ViT-H+ (0.8B) model to close the performance gap with the self-distilled 7B teacher model. Indeed, we observe in DINOv2 that smaller student models can reach a performance on par with their teacher as the distillation. As a result, the distilled models deliver frontier-level performance for a fraction of the inference compute as we see in Tab.˜14. We train the models for 1M iterations then perform 250k iterations of learning-rate cooldown following a cosine schedule before applying the high-resolution phase described in Sec.˜5.1 above without Gram anchoring.
 
-<!-- chunk {"id": "body-0066", "role": "body", "section": "Efficient Multi-Student Distillation", "weight": 1.0} -->
+<!-- chunk {"id": "body-0069", "role": "body", "section": "Efficient Multi-Student Distillation", "weight": 1.0} -->
 
-As the inference cost for a large teacher can be orders of magnitude higher than for students (see Fig.˜16(a)), we design a parallel distillation pipeline that allows training multiple students at the same time and sharing the teacher inference across all nodes involved in the training (see Fig.˜12 for a diagram). Let $C_{T}$ and $C_{S}$ be respectively the cost of running the teacher inference and the student training on a single sample, in single-teacher/single-student distillation with batch-size $B$ where each of the $N$ GPUs processes a $B/N$ slice of the data, the teacher inference costs ${B/N} \times C_{T}$ and the student training costs ${B/N} \times C_{S}$ per GPU. In multi-student distillation, we proceed as follows. Each student $Si$ is assigned a set of $N_{Si}$ GPUs for training, and all $N_{T} = {\sum N_{Si}}$ GPUs are part of the global inference group.
+As the inference cost for a large teacher can be orders of magnitude higher than for students (see Fig.˜16(a)), we design a parallel distillation pipeline that allows training multiple students at the same time and sharing the teacher inference across all nodes involved in the training (see Fig.˜12 for a diagram). Let $C_{T}$ and $C_{S}$ be respectively the cost of running the teacher inference and the student training on a single sample, in single-teacher/single-student distillation with batch-size $B$ where each of the $N$ GPUs processes a $B/N$ slice of the data, the teacher inference costs $B/N\times C_{T}$ and the student training costs $B/N\times C_{S}$ per GPU. In multi-student distillation, we proceed as follows. Each student $Si$ is assigned a set of $N_{Si}$ GPUs for training, and all $N_{T}=\sum{N_{Si}}$ GPUs are part of the global inference group.
 
-<!-- chunk {"id": "body-0067", "role": "body", "section": "Efficient Multi-Student Distillation", "weight": 1.0} -->
+<!-- chunk {"id": "body-0070", "role": "body", "section": "Efficient Multi-Student Distillation", "weight": 1.0} -->
 
-At each iteration, we first run the teacher inference on the global group for a ${B/N_{T}} \times C_{T}$ compute cost per GPU. We then run an all-gather collective operation to share the input data and inference result with all compute nodes. Finally, each student group separately performs student training for a ${B/N_{Si}} \times C_{Si}$ cost.
+At each iteration, we first run the teacher inference on the global group for a $B/N_{T}\times C_{T}$ compute cost per GPU. We then run an all-gather collective operation to share the input data and inference result with all compute nodes. Finally, each student group separately performs student training for a $B/N_{Si}\times C_{Si}$ cost.
 
-<!-- chunk {"id": "body-0068", "role": "body", "section": "Efficient Multi-Student Distillation", "weight": 1.0} -->
+<!-- chunk {"id": "body-0071", "role": "body", "section": "Efficient Multi-Student Distillation", "weight": 1.0} -->
 
 The above calculations shows that adding an additional student to the distillation pipeline will reduce the per-GPU compute at each iteration, thus globally improving distillation speed, and increase the overall compute only by the training cost of the new student, since the total teacher inference cost is now fixed. The implementation only requires setting up GPU process groups carefully, adapting data-loaders and teacher inference to ensure inputs and outputs are synchronized across groups using NCCL collectives. As the groups are synchronized at each iteration, in order to maximize speed, we adapt the number of GPUs for each student such that their iteration times are roughly the same. With this procedure, we seamlessly train multiple students, and produce a whole family of distilled models from our flagship 7B model.
 
-<!-- chunk {"id": "body-0069", "role": "body", "section": "Aligning DINOv3 with Text", "weight": 1.0} -->
+<!-- chunk {"id": "body-0072", "role": "body", "section": "Aligning DINOv3 with Text", "weight": 1.0} -->
 
 Open-vocabulary image-text alignment has received significant interest and enthusiasm from the research community, thanks to its potential to enable flexible and scalable multimodal understanding. A large body of work has focused on improving the quality of CLIP, which originally learned only a global alignment between image and text representations. While CLIP has demonstrated impressive zero-shot capabilities, its focus on global features limits its ability to capture fine-grained, localized correspondences. More recent works have shown that effective image-text alignment can be achieved with pre-trained self-supervised visual backbones. This makes it possible to leverage these powerful models in multi-modal settings, facilitating richer and more precise text-to-image associations that extend beyond global semantics while also reducing computational costs, since the visual encoding is already learned.
 
-<!-- chunk {"id": "body-0070", "role": "body", "section": "Aligning DINOv3 with Text", "weight": 1.0} -->
+<!-- chunk {"id": "body-0073", "role": "body", "section": "Aligning DINOv3 with Text", "weight": 1.0} -->
 
 We align a text encoder with our DINOv3 model by adopting the training strategy previously proposed in Jose et al.. This approach follows the LiT training paradigm, training a text representation from scratch to match images to their captions with a contrastive objective, while keeping the vision encoder frozen. To allow for some flexibility on the vision side, two transformer layers are introduced on top of the frozen visual backbone. A key enhancement of this method is the concatenation of the mean-pooled patch embeddings with the output CLS token before matching to the text embeddings. This enables aligning both global and local visual features to text, leading to improved performance on dense prediction tasks without requiring additional heuristics or tricks. Furthermore, we use to the same data curation protocol as established in Jose et al. to ensure consistency and comparability.
 
-<!-- chunk {"id": "body-0071", "role": "body", "section": "Results", "weight": 1.0} -->
+<!-- chunk {"id": "body-0074", "role": "body", "section": "Results", "weight": 1.0} -->
 
 In this section, we evaluate our flagship DINOv3 7B model on a variety of computer vision tasks. Throughout our experiments, unless otherwise specified, *we keep DINOv3 frozen* and solely use its representations. We demonstrate that with DINOv3, finetuning is not necessary to obtain strong performance. This section is organized as follows. We first probe the quality of DINOv3's dense (Sec.˜6.1) and global (Sec.˜6.2) image representations using lightweight evaluation protocols and compare it to the strongest available vision encoders. We show that DINOv3 learns exceptional dense features while offering robust and versatile global image representations. Then, we consider DINOv3 as a basis for developing more complex computer vision systems (Sec.˜6.3). We show with little effort on top of DINOv3, we are able to achieve results competitive with or exceeding the state of the art in tasks as diverse as object detection, semantic segmentation, 3D view estimation, or relative monocular depth estimation.
 
-<!-- chunk {"id": "body-0072", "role": "body", "section": "DINOv3 provides Exceptional Dense Features", "weight": 1.0} -->
+<!-- chunk {"id": "body-0075", "role": "body", "section": "DINOv3 provides Exceptional Dense Features", "weight": 1.0} -->
 
 We first investigate the raw quality of DINOv3's dense representations using a diverse set of lightweight evaluations. In all cases, we utilize the frozen patch features of the last layer, and evaluate them using qualitative visualizations (Sec.˜6.1.1), dense linear probing (Sec.˜6.1.2: segmentation, depth estimation), non-parametric approaches (Sec.˜6.1.3: 3D correspondence estimation, Sec.˜6.1.4: object discovery, Sec.˜6.1.5: tracking), and lightweight attentive probing (Sec.˜6.1.6: video classification).
 
-<!-- chunk {"id": "body-0073", "role": "body", "section": "Baselines", "weight": 1.0} -->
+<!-- chunk {"id": "body-0076", "role": "body", "section": "Baselines", "weight": 1.0} -->
 
 We compare the dense features of DINOv3 with those of the strongest publicly available image encoders, both weakly- and self-supervised ones. We consider the weakly-supervised encoders Perception Encoder (PE) Core and SigLIP 2, which use CLIP-style image-text contrastive learning. We also compare to the strongest self-supervised methods: DINOv3's predecessor DINOv2 with registers, Web-DINO, a recent scaling effort of DINO, and Franca, the best open-data SSL model. Finally, we compare to the agglomerative models AM-RADIOv2.5, distilled from DINOv2, CLIP, DFN, and Segment Anything (SAM), and to PEspatial, distilling SAM 2 into PEcore. For each baseline, we report the performance of the strongest model available and specify the architecture in the tables.
 
-<!-- chunk {"id": "body-0074", "role": "body", "section": "Qualitative Analysis", "weight": 1.0} -->
+<!-- chunk {"id": "body-0077", "role": "body", "section": "Qualitative Analysis", "weight": 1.0} -->
 
 We start by analyzing DINOv3's dense feature maps qualitatively. To this end, we project the dense feature space into 3 dimensions using principal component analysis (PCA), and map the resulting 3D space into RGB. Because of the sign ambiguity in PCA (eight variants) and the arbitrary mapping between principal components and colors (six variants), we explore all combinations and report the visually most compelling one. The resulting visualization is shown in Fig.˜13. Compared to other vision backbones, it can be seen that the features of DINOv3 are sharper, containing much less noise, and showing superior semantical coherence.
 
-<!-- chunk {"id": "body-0075", "role": "body", "section": "Dense Linear Probing", "weight": 1.0} -->
+<!-- chunk {"id": "body-0078", "role": "body", "section": "Dense Linear Probing", "weight": 1.0} -->
 
 We perform linear probing on top of the dense features for two tasks: semantic segmentation and monocular depth estimation. In both cases, we train a linear transform on top of the frozen patch outputs of DINOv3. For semantic segmentation, we evaluate on the, Cityscapes, and PASCAL VOC 2012 datasets and report the mean intersection-over-union (mIoU) metric. For depth estimation, we use the NYUv2 and KITTI datasets and report the root mean squared error (RMSE).
 
-<!-- chunk {"id": "body-0076", "role": "body", "section": "Results (Tab.˜3)", "weight": 1.0} -->
+<!-- chunk {"id": "body-0079", "role": "body", "section": "Results (Tab.˜3)", "weight": 1.0} -->
 
 The segmentation results demonstrate the superior quality of our dense features. On the general dataset, DINOv3 outperforms the self-supervised baselines by more than 6 mIoU points, and the weakly supervised baselines by more than 13 points. Furthermore, DINOv3 surpasses PEspatial by more than 6 points, and AM-RADIOv2.5 by nearly 3 points. These results are remarkable as both are strong baselines, being distilled from the heavily supervised segmentation model SAM. Similar results are observed on the self-driving benchmark Cityscapes, with DINOv3 achieving the best mIoU of $81.1$, surpassing AM-RADIOv2.5 by 2.5 points, and all other backbones by at least 5.5 points.
 
-<!-- chunk {"id": "body-0077", "role": "body", "section": "Results (Tab.˜3)", "weight": 1.0} -->
+<!-- chunk {"id": "body-0080", "role": "body", "section": "Results (Tab.˜3)", "weight": 1.0} -->
 
 On monocular depth estimation, DINOv3 again outperforms all other models by significant margins: the weakly-supervised models PEcore and SigLIP 2 are still lagging, with DINOv2 and the more advanced models derived from SAM are the closest competitors. Interestingly, while PEspatial and AM-RADIO show strong performance on NYU, their performance is lower than DINOv2's on KITTI. Even there, DINOv3 outperforms its predecessor DINOv2 by 0.278 RMSE.
 
-<!-- chunk {"id": "body-0078", "role": "body", "section": "Results (Tab.˜3)", "weight": 1.0} -->
+<!-- chunk {"id": "body-0081", "role": "body", "section": "Results (Tab.˜3)", "weight": 1.0} -->
 
 Both sets of evaluations show the outstanding representation power of the dense features of DINOv3 and reflect the visual results from Fig.˜13. With only a linear predictor, DINOv3 allows robust prediction of object categories and masks, as well as physical measurements of the scene such as relative depth. These results show that the features are not only visually sharp and properly localized, they also represent many important properties of the underlying observations in a linearly separable way. Finally, the absolute performance obtained with a linear classifier on (55.9 mIoU) is itself impressive, as it is not far from the absolute the state-of-the-art (63.0 mIoU) on this dataset.
 
-<!-- chunk {"id": "body-0079", "role": "body", "section": "3D Correspondence Estimation", "weight": 1.0} -->
+<!-- chunk {"id": "body-0082", "role": "body", "section": "3D Correspondence Estimation", "weight": 1.0} -->
 
 Understanding the 3D world has always been an important goal of computer vision Image foundation models have recently fueled research in 3D understanding by offering *3D-aware features*. In this section, we evaluate the *multi-view consistency* of DINOv3---that is, whether patch features of the same keypoint in different views of an object are similar---following the protocol defined in Probe3D. We distinguish between *geometric* and *semantic* correspondence estimation. The former refers to matching keypoints for the *same object instance* while the latter refers to matching keypoints for different instances of the *same object class*. We evaluate geometric correspondence on the NAVI dataset and semantic correspondence on the SPair dataset, and measure performance with correspondence recall in both cases. Please refer to Sec.˜D.3 for more experimental details.
 
-<!-- chunk {"id": "body-0080", "role": "body", "section": "Results (Tab.˜4)", "weight": 1.0} -->
+<!-- chunk {"id": "body-0083", "role": "body", "section": "Results (Tab.˜4)", "weight": 1.0} -->
 
-For geometric correspondences, DINOv3 outperforms all other models and improves over the second best model (DINOv2) by 4.3% recall. Other SSL scaling endeavors (Franca and WebSSL) lag behind DINOv2, showing that it is still a strong baseline. Weakly-supervised models (PEcore and SigLIP 2) do not fare well on this task, indicating a lack of 3D awareness. For models with SAM distillation, AM-RADIO nearly reaches the performance of DINOv2, but PEspatial still lags behind it ($- 11.6$% recall), and even falls behind Franca ($- 0.8$% recall). This suggests that self-supervised learning is a key component for strong performance on this task. For semantic correspondences, the same conclusions apply. DINOv3 performs best, outperforming both its predecessor ($+ 2.6$% recall) and AM-RADIO ($+ 1.9$% recall). Overall, these impressive performance on keypoint matching are very promising signals for downstream use of DINOv3 in other 3D-heavy applications.
+For geometric correspondences, DINOv3 outperforms all other models and improves over the second best model (DINOv2) by 4.3% recall. Other SSL scaling endeavors (Franca and WebSSL) lag behind DINOv2, showing that it is still a strong baseline. Weakly-supervised models (PEcore and SigLIP 2) do not fare well on this task, indicating a lack of 3D awareness. For models with SAM distillation, AM-RADIO nearly reaches the performance of DINOv2, but PEspatial still lags behind it ($-11.6$% recall), and even falls behind Franca ($-0.8$% recall). This suggests that self-supervised learning is a key component for strong performance on this task. For semantic correspondences, the same conclusions apply. DINOv3 performs best, outperforming both its predecessor ($+2.6$% recall) and AM-RADIO ($+1.9$% recall). Overall, these impressive performance on keypoint matching are very promising signals for downstream use of DINOv3 in other 3D-heavy applications.
 
-<!-- chunk {"id": "body-0081", "role": "body", "section": "Unsupervised Object Discovery", "weight": 1.0} -->
+<!-- chunk {"id": "body-0084", "role": "body", "section": "Unsupervised Object Discovery", "weight": 1.0} -->
 
 Powerful self-supervised features facilitate discovering object instances in images without requiring *any* annotations. We test this capability for different vision encoders via the task of unsupervised object discovery, which requires class-agnostic segmentation of objects in images. In particular, we use the non-parametric graph-based TokenCut algorithm, which has shown strong performance on a variety of backbones. We run it on three widely used datasets: VOC 2007, VOC 2012, and COCO-20k. We follow the evaluation protocol defined by Siméoni et al. and report the CorLoc metric. To properly compare backbones with different feature distributions, we perform a search over the main TokenCut hyperparameter, namely the cosine similarity threshold applied when constructing the patch graph used for partitioning. Originally, the best object discovery results were obtained with DINO using the keys of the last attention layer. However, this hand-crafted choice does not consistently generalize to other backbones. For simplicity, we always employ the output features for all models.
 
-<!-- chunk {"id": "body-0082", "role": "body", "section": "Results (Fig.˜14 ‣ 6.1.4 Unsupervised Object Discovery ‣ 6.1 DINOv3 provides Exceptional Dense Features ‣ 6 Results ‣ DINOv3\"))", "weight": 1.0} -->
+<!-- chunk {"id": "body-0085", "role": "body", "section": "Results (Fig.˜14 ‣ 6.1.4 Unsupervised Object Discovery ‣ 6.1 DINOv3 provides Exceptional Dense Features ‣ 6 Results ‣ DINOv3\"))", "weight": 1.0} -->
 
 The original DINO has set a very high bar for this task. Interestingly, while DINOv2 has shown very strong performance for pixel-wise dense tasks, it fails at object discovery. This can in part be attributed to the artifacts present in the dense features (*c.f*. Fig.˜13). DINOv3, with its clean and precise output feature maps outperforms both its predecessors, with a $5.9$ CorLoc improvement on VOC 2007, and all other backbones, whether self-, weakly-supervised or agglomerative. This evaluation confirms that DINOv3's dense features are both semantically strong and well localized. We believe that this will pave the way for more class-agnostic object detection approaches, especially in scenarios where annotations are costly or unavailable, and where the set of relevant classes is not confined to a predefined subset.
 
-<!-- chunk {"id": "body-0083", "role": "body", "section": "Video Segmentation Tracking", "weight": 1.0} -->
+<!-- chunk {"id": "body-0086", "role": "body", "section": "Video Segmentation Tracking", "weight": 1.0} -->
 
 Beyond static images, an important property of visual representations is their *temporal consistency*, *i.e*. whether the features evolve in a stable manner through time. To test for this property, we evaluate DINOv3 on the task of video segmentation tracking: given ground-truth instance segmentation masks in the first frame of a video, the goal is to propagate these masks to subsequent frames. We use the DAVIS 2017, YouTube-VOS, and MOSE datasets. We evaluate performance using the standard $\mathcal{J}\&\mathcal{F}$-mean metric, which combines region similarity ($\mathcal{J}$) and contour accuracy ($\mathcal{F}$). Following Jabri et al., we use a non-parametric label propagation algorithm that considers the similarity between patch features across frames. We evaluate at three input resolutions, using a short side length of 420/480 (S), 840/960 (M), and 1260/1440 (L) pixels for models with patch size 14/16 (matching the number of patch tokens).
 
-<!-- chunk {"id": "body-0084", "role": "body", "section": "Video Segmentation Tracking", "weight": 1.0} -->
+<!-- chunk {"id": "body-0087", "role": "body", "section": "Video Segmentation Tracking", "weight": 1.0} -->
 
 The $\mathcal{J}\&\mathcal{F}$ score is always computed at the native resolution of the videos. See Sec.˜D.5 for more detailed experimental settings.
 
-<!-- chunk {"id": "body-0085", "role": "body", "section": "Results (Tab.˜5)", "weight": 1.0} -->
+<!-- chunk {"id": "body-0088", "role": "body", "section": "Results (Tab.˜5)", "weight": 1.0} -->
 
 Aligned with all previous results, weakly-supervised backbones do not deliver convincing performance. PEspatial, distilled from the video model SAMv2, provides satisfactory performance, surpassing DINOv2 on smaller resolutions, but falling short on larger ones. Across resolutions, DINOv3 outperforms all competitors, with a staggering $83.3$ $\mathcal{J}\&\mathcal{F}$ on DAVIS-L, $6.7$ points above DINOv2. Furthermore, performance as a function of resolution follows a healthy trend, confirming that our model is able to make use of more input pixels to output precise, high-resolution feature maps (*c.f*. Figs.˜3 and 4). In contrast, performance at higher resolutions stays almost flat for SigLIP 2 and PEcore, and degrades for PEspatial. Interestingly, our image model, without any tuning on video, allows to properly track objects in time (see Fig.˜15 ‣ 6.1.5 Video Segmentation Tracking ‣ 6.1 DINOv3 provides Exceptional Dense Features ‣ 6 Results ‣ DINOv3")).
 
-<!-- chunk {"id": "body-0086", "role": "body", "section": "Results (Tab.˜5)", "weight": 1.0} -->
+<!-- chunk {"id": "body-0089", "role": "body", "section": "Results (Tab.˜5)", "weight": 1.0} -->
 
 This makes it a great candidate to embed videos, allowing to build strong video models on top.
 
-<!-- chunk {"id": "body-0087", "role": "body", "section": "Video Classification", "weight": 1.0} -->
+<!-- chunk {"id": "body-0090", "role": "body", "section": "Video Classification", "weight": 1.0} -->
 
 The previous results have shown the low-level temporal consistency of DINOv3's representations, allowing to accurately track objects in time. Going beyond, we evaluate in this section the suitability of its dense features for high-level video classification. Similar to the setup of V-JEPA 2, we train an *attentive probe*---a shallow 4-layer transformer-based classifier---on top of patch features extracted from each frame. This enables reasoning over temporal and spatial dimensions as the features are extracted independently per frame. During evaluation, we either take a single clip per video, or use test-time augmentation (TTA) by averaging the predictions of 3 spatial and 2 temporal crops per video. See Sec.˜D.6 for experimental details. We run this evaluation on three datasets: UCF101, Something-Something V2, and Kinetics-400, and report top-1 accuracy. As an additional baseline, we report the performance of V-JEPA v2, a state-of-the-art SSL model for video understanding.
 
-<!-- chunk {"id": "body-0088", "role": "body", "section": "Results (Tab.˜6)", "weight": 1.0} -->
+<!-- chunk {"id": "body-0091", "role": "body", "section": "Results (Tab.˜6)", "weight": 1.0} -->
 
 In line with the conclusion of the previous experiment, we find that DINOv3 can be successfully used for extracting strong video features. As this evaluation involves training several layers of self-attention, the differences between models are less visible. However, DINOv3 lands in the same range as PEcore and SigLIP 2, and clearly outperforms other models (DINOv2, AM-RADIO) across datasets. UCF101 and K400 are appearance-focused, where strong category-level understanding of objects gives most of the performance. SSv2 on the other hand, requires better understanding of motion---the dedicated video model V-JEPA v2 shines on this dataset. Interestingly, the gap between DINOv3 and the weakly-supervised models is slightly bigger on this dataset. This again confirms the suitability of DINOv3 to video tasks.
 
-<!-- chunk {"id": "body-0089", "role": "body", "section": "DINOv3 has Robust and Versatile Global Image Descriptors", "weight": 1.0} -->
+<!-- chunk {"id": "body-0092", "role": "body", "section": "DINOv3 has Robust and Versatile Global Image Descriptors", "weight": 1.0} -->
 
 In this section, we evaluate DINOv3's ability to capture global image statistics. To this end, we consider classic classification benchmarks using linear probes (Sec.˜6.2.1) and instance retrieval benchmarks (Sec.˜6.2.2). Again, we compare to the strongest publicly available image encoders. In addition to the models from the previous section, we evaluate the two weakly supervised models AIMv2, trained using joint auto-regressive pixel and text prediction, and the massive EVA-CLIP-18B.
 
-<!-- chunk {"id": "body-0090", "role": "body", "section": "Image Classification with Linear Probing", "weight": 1.0} -->
+<!-- chunk {"id": "body-0093", "role": "body", "section": "Image Classification with Linear Probing", "weight": 1.0} -->
 
 We train a linear classifier on top of DINOv3's output CLS token to evaluate the model on classification benchmarks. We consider the ImageNet1k dataset and its variants to evaluate out-of-distribution robustness, and a suite of datasets from different domains to understand DINOv3's ability to distinguish fine-grained classes. See Sec.˜D.7 for evaluation details.
 
-<!-- chunk {"id": "body-0091", "role": "body", "section": "Domain Generalization from ImageNet (Tab.˜7 ‣ 6.2.1 Image Classification with Linear Probing ‣ 6.2 DINOv3 has Robust and Versatile Global Image Descriptors ‣ 6 Results ‣ DINOv3\"))", "weight": 1.0} -->
+<!-- chunk {"id": "body-0094", "role": "body", "section": "Domain Generalization from ImageNet (Tab.˜7 ‣ 6.2.1 Image Classification with Linear Probing ‣ 6.2 DINOv3 has Robust and Versatile Global Image Descriptors ‣ 6 Results ‣ DINOv3\"))", "weight": 1.0} -->
 
 In this experiment, we train on ImageNet-*train*, use ImageNet-*val* as a *validation set* to select hyperparameters, and transfer the best found classifier to different test datasets: ImageNet-V2 and ReaL are alternative sets of images and labels for ImageNet, used to test overfitting on the ImageNet validation set; Rendition and Sketch show stylized and artificial versions of the ImageNet classes; Adversarial and ObjectNet contain deliberately-chosen difficult examples; Corruptions measures robustness to common image corruptions. For reference, we also list linear probing results from Dehghani et al. for ViTs trained using supervised classification on the massive JFT dataset (3B--4B images). Note that these results follow a slightly different evaluation protocol and are not directly comparable to our results.
 
-<!-- chunk {"id": "body-0092", "role": "body", "section": "Domain Generalization from ImageNet (Tab.˜7 ‣ 6.2.1 Image Classification with Linear Probing ‣ 6.2 DINOv3 has Robust and Versatile Global Image Descriptors ‣ 6 Results ‣ DINOv3\"))", "weight": 1.0} -->
+<!-- chunk {"id": "body-0095", "role": "body", "section": "Domain Generalization from ImageNet (Tab.˜7 ‣ 6.2.1 Image Classification with Linear Probing ‣ 6.2 DINOv3 has Robust and Versatile Global Image Descriptors ‣ 6 Results ‣ DINOv3\"))", "weight": 1.0} -->
 
 DINOv3 significantly surpasses all previous self-supervised backbones, with gains of +10% on ImageNet-R, +6% on -Sketch, +13% on ObjectNet over the previously strongest SSL model DINOv2. We note that the strongest weakly-supervised models, SigLIP 2 and PE, are now better than the strongest supervised ones (ViT-22B) on hard OOD tasks like ImageNet-A and ObjectNet. DINOv3 reaches comparable results on ImageNet-R and -Sketch, and, on the hard tasks ImageNet-A and ObjectNet, is closely behind PE, while exceeding SigLIPv2. On ImageNet, while validation scores are 0.7--0.9 points behind SigLIPv2 and PE, the performance on the "cleaner" test sets -V2 and -ReaL is virtually the same. Notably, DINOv3 achieves the best robustness to corruptions (ImageNet-C).
 
-<!-- chunk {"id": "body-0093", "role": "body", "section": "Domain Generalization from ImageNet (Tab.˜7 ‣ 6.2.1 Image Classification with Linear Probing ‣ 6.2 DINOv3 has Robust and Versatile Global Image Descriptors ‣ 6 Results ‣ DINOv3\"))", "weight": 1.0} -->
+<!-- chunk {"id": "body-0096", "role": "body", "section": "Domain Generalization from ImageNet (Tab.˜7 ‣ 6.2.1 Image Classification with Linear Probing ‣ 6.2 DINOv3 has Robust and Versatile Global Image Descriptors ‣ 6 Results ‣ DINOv3\"))", "weight": 1.0} -->
 
 All in all, *this is the first time that a SSL model has reached comparable results to weakly- and supervised models on image classification*---a domain which used to be the strong point of (weakly-)supervised training approaches. This is a remarkable result, given that models like ViT-22B, SigLIP 2, and PE are trained using massive human-annotated datasets. In contrast, DINOv3 learns purely from images, which makes it feasible to further scale/improve the approach in the future.
 
-<!-- chunk {"id": "body-0094", "role": "body", "section": "Finegrained Classification (Tab.˜9 ‣ 6.2.1 Image Classification with Linear Probing ‣ 6.2 DINOv3 has Robust and Versatile Global Image Descriptors ‣ 6 Results ‣ DINOv3\"))", "weight": 1.0} -->
+<!-- chunk {"id": "body-0097", "role": "body", "section": "Finegrained Classification (Tab.˜9 ‣ 6.2.1 Image Classification with Linear Probing ‣ 6.2 DINOv3 has Robust and Versatile Global Image Descriptors ‣ 6 Results ‣ DINOv3\"))", "weight": 1.0} -->
 
 We also measure DINOv3's performance when training linear probes on several datasets for fine-grained classification. In particular, we report the accuracy on 3 large datasets, namely Places205 for scene recognition, and iNaturalist 2018 and iNaturalist 2021 ) for detailed plant and animal-species recognition, as well as the average over 12 smaller datasets covering scenes, objects, and textures (as in Oquab et al., here termed Fine-S). See also Tab.˜22 for individual results on those datasets.
 
-<!-- chunk {"id": "body-0095", "role": "body", "section": "Finegrained Classification (Tab.˜9 ‣ 6.2.1 Image Classification with Linear Probing ‣ 6.2 DINOv3 has Robust and Versatile Global Image Descriptors ‣ 6 Results ‣ DINOv3\"))", "weight": 1.0} -->
+<!-- chunk {"id": "body-0098", "role": "body", "section": "Finegrained Classification (Tab.˜9 ‣ 6.2.1 Image Classification with Linear Probing ‣ 6.2 DINOv3 has Robust and Versatile Global Image Descriptors ‣ 6 Results ‣ DINOv3\"))", "weight": 1.0} -->
 
 We find that, again, DINOv3 surpasses all previous SSL methods. It also shows competitive results compared to the weakly-supervised methods, indicating its robustness and generalization capability across diverse finegrained classification tasks. Notably, DINOv3 attains the highest accuracy on the difficult iNaturalist21 dataset at 89.8%, outperforming even the best weakly-supervised model PEcore with 87.0%.
 
-<!-- chunk {"id": "body-0096", "role": "body", "section": "Instance Recognition", "weight": 1.0} -->
+<!-- chunk {"id": "body-0099", "role": "body", "section": "Instance Recognition", "weight": 1.0} -->
 
 To evaluate the instance-level recognition capabilities of our model, we adopted a non-parametric retrieval approach. Here, database images are ranked by their cosine similarity to a given query image, using the output CLS token. We benchmark performance across several datasets: the Oxford and Paris datasets for landmark recognition, the Met dataset featuring artworks from the Metropolitan Museum, and AmsterTime, which consists of modern street view images matched to historical archival images of Amsterdam. Retrieval effectiveness is quantified using mean average precision for Oxford, Paris, and AmsterTime, and global average precision for Met. See Sec.˜D.8 for more evaluation details.
 
-<!-- chunk {"id": "body-0097", "role": "body", "section": "Results (Tabs.˜9 ‣ 6.2.1 Image Classification with Linear Probing ‣ 6.2 DINOv3 has Robust and Versatile Global Image Descriptors ‣ 6 Results ‣ DINOv3\") and 23)", "weight": 1.0} -->
+<!-- chunk {"id": "body-0100", "role": "body", "section": "Results (Tabs.˜9 ‣ 6.2.1 Image Classification with Linear Probing ‣ 6.2 DINOv3 has Robust and Versatile Global Image Descriptors ‣ 6 Results ‣ DINOv3\") and 23)", "weight": 1.0} -->
 
 Across all evaluated benchmarks, DINOv3 achieves the strongest performance by large margins, *e.g*. improving over the second best model DINOv2 by +10.8 points on Met and +7.6 points on AmsterTime. On this benchmark, weakly-supervised models are lagging far behind DINOv3, with the exception of AM-RADIO, which is distilled from DINOv2 features. These findings highlight the robustness and versatility of DINOv3 for instance-level retrieval tasks, spanning both traditional landmark datasets and more challenging domains such as art and historical image retrieval.
 
-<!-- chunk {"id": "body-0098", "role": "body", "section": "DINOv3 is a Foundation for Complex Computer Vision Systems", "weight": 1.0} -->
+<!-- chunk {"id": "body-0101", "role": "body", "section": "DINOv3 is a Foundation for Complex Computer Vision Systems", "weight": 1.0} -->
 
 The previous two sections already provided solid signal for the quality of DINOv3 in both dense and global tasks. However, these results were obtained under "model probing" experimental protocols, using lightweight linear adapters or even non-parametric algorithms to assess the quality of features. While such simple evaluations allowed to remove confounding factors from involved experimental protocols, they are not enough to evaluate the full potential of DINOv3 as a foundational component in a larger computer vision system. Thus, in this section, we depart from the lightweight protocols, and instead train more involved downstream decoders and consider stronger, task-specific baselines. In particular, we use DINOv3 as a basis for object detection with Plain-DETR (Sec.˜6.3.1), semantic segmentation with Mask2Former (Sec.˜6.3.2), monocular depth estimation with Depth Anything (Sec.˜6.3.3), and 3D understanding with the Visual Geometry Grounded Transformer (Sec.˜6.3.4). These tasks are only intended as explorations for what is possible with DINOv3.
 
-<!-- chunk {"id": "body-0099", "role": "body", "section": "DINOv3 is a Foundation for Complex Computer Vision Systems", "weight": 1.0} -->
+<!-- chunk {"id": "body-0102", "role": "body", "section": "DINOv3 is a Foundation for Complex Computer Vision Systems", "weight": 1.0} -->
 
 Still, we find that building on DINOv3 unlocks competitive or even state-of-the-art results with little effort.
 
-<!-- chunk {"id": "body-0100", "role": "body", "section": "Object Detection", "weight": 1.0} -->
+<!-- chunk {"id": "body-0103", "role": "body", "section": "Object Detection", "weight": 1.0} -->
 
 As a first task, we tackle the long-standing computer vision problem of object detection. Given an image, the goal is to provide bounding boxes for all instances of objects of pre-defined categories. This task requires both precise localization and good recognition, as boxes need to match the object boundaries and correspond to the correct category. While performance on standard benchmarks like COCO is mostly saturated, we propose to tackle this task with a *frozen* backbone, only training a small decoder on top.
 
-<!-- chunk {"id": "body-0101", "role": "body", "section": "Datasets and Metrics", "weight": 1.0} -->
+<!-- chunk {"id": "body-0104", "role": "body", "section": "Datasets and Metrics", "weight": 1.0} -->
 
-We evaluate DINOv3 on object detection capabilities with the COCO dataset, reporting results on the COCO-VAL2017 split. Additionally, we evaluate out-of-distribution performance on the COCO-O evaluation dataset. This dataset contains the same classes but provides input images under six distribution shift settings. For both datasets, we report mean Average Precision (mAP) with IoU thresholds in $\lbrack{0.5:0.05:0.95}\rbrack$. For COCO-O, we additionally report the effective robustness (ER). Since COCO is a small dataset, comprising only 118k training images, we leverage the larger Objects365 dataset for pre-training the decoder, as is common practice.
+We evaluate DINOv3 on object detection capabilities with the COCO dataset, reporting results on the COCO-VAL2017 split. Additionally, we evaluate out-of-distribution performance on the COCO-O evaluation dataset. This dataset contains the same classes but provides input images under six distribution shift settings. For both datasets, we report mean Average Precision (mAP) with IoU thresholds in $[0.5:0.05:0.95]$. For COCO-O, we additionally report the effective robustness (ER). Since COCO is a small dataset, comprising only 118k training images, we leverage the larger Objects365 dataset for pre-training the decoder, as is common practice.
 
-<!-- chunk {"id": "body-0102", "role": "body", "section": "Implementation", "weight": 1.0} -->
+<!-- chunk {"id": "body-0105", "role": "body", "section": "Implementation", "weight": 1.0} -->
 
 We build upon the Plain-DETR, but make the following modification: We do not fuse the transformer encoder into the backbone, but keep it as a separate module, similar to the original DETR, which allows us to keep the DINOv3 backbone completely frozen during training and inference. To the best of our knowledge, this makes it *the first competitive detection model to use a frozen backbone*. We train the Plain-DETR detector on Objects365 for 22 epochs at resolution 1536, then one epoch at resolution 2048, followed by 12 epochs on COCO at resolution 2048. At inference time, we run at resolution 2048. Optionally, we also apply test-time augmentation (TTA) by forwarding the image at multiple resolutions (from 1536 to 2880). See Sec.˜D.9 for full experimental details.
 
-<!-- chunk {"id": "body-0103", "role": "body", "section": "Results (Tab.˜10 ‣ 6.3.1 Object Detection ‣ 6.3 DINOv3 is a Foundation for Complex Computer Vision Systems ‣ 6 Results ‣ DINOv3\"))", "weight": 1.0} -->
+<!-- chunk {"id": "body-0106", "role": "body", "section": "Results (Tab.˜10 ‣ 6.3.1 Object Detection ‣ 6.3 DINOv3 is a Foundation for Complex Computer Vision Systems ‣ 6 Results ‣ DINOv3\"))", "weight": 1.0} -->
 
 We compare our system with four models: EVA-02 with a Cascade detector, EVA-02 with Co-DETR, InternImage-G with DINO, and PEspatial with DETA. We find that our lightweight detector (100M parameters) trained on top of a frozen DINOv3 backbone manages to reach state-of-the-art performance. For COCO-O, the gap is pronounced, showing that the detection model can effectively leverage the robustness of the DINOv3. Interestingly, our model outperforms all previous models with much fewer trained parameters, with the smallest comparison point still using more than 300M trainable parameters. We argue that achieving such strong performance without specializing the backbone is an enabler for various practical applications: A single backbone forward can provide features that support multiple tasks, reducing compute requirements.
 
-<!-- chunk {"id": "body-0104", "role": "body", "section": "Semantic Segmentation", "weight": 1.0} -->
+<!-- chunk {"id": "body-0107", "role": "body", "section": "Semantic Segmentation", "weight": 1.0} -->
 
 Following the previous experiment, we now evaluate on semantic segmentation, another long-standing computer vision problem. This task also requires strong, well localized representations, and expects a dense per-pixel prediction. However, opposed to object detection, the model does not need to differentiate instances of the same object. Similar to detection, we train a decoder on top of a *frozen* DINOv3 model.
 
-<!-- chunk {"id": "body-0105", "role": "body", "section": "Datasets and Metrics", "weight": 1.0} -->
+<!-- chunk {"id": "body-0108", "role": "body", "section": "Datasets and Metrics", "weight": 1.0} -->
 
 We focus our evaluation on the dataset, which contains 150 semantic categories across 20k training images and 2k validation images. We measure performance using the mean Intersection over Union (mIoU). To train the segmentation model, we additionally use the COCO-Stuff and Hypersim datasets. Those contain 164k images with 171 semantic categories, and 77k images with 40 categories respectively.
 
-<!-- chunk {"id": "body-0106", "role": "body", "section": "Implementation", "weight": 1.0} -->
+<!-- chunk {"id": "body-0109", "role": "body", "section": "Implementation", "weight": 1.0} -->
 
-To build a decoder that maps DINOv3 features to semantic categories, we combine ViT-Adapter and Mask2Former, similar to prior work. However, in our case, the DINOv3 backbone remains frozen during training. In order to avoid altering the backbone features, we further modify the original ViT-Adapter architecture by removing the injector component. Compared to baselines, we also increase the embedding dimensions from $1024$ to $2048$, to support processing the $4096$-dimensional output of the DINOv3 backbone. We start by pre-training the segmentation decoder on COCO-Stuff for $80$k iterations, followed by $10$k iterations on Hypersim. Finally, we train for 20k iterations on the training split of and report results on the validation split. All training is done at an input resolution of 896. At inference time we consider two setups: single-scale, *i.e*. we forward images at training resolution, or multi-scale, *i.e*. we average predictions at multiple image ratios between $\times 0.9$ and $1.1$ the original training resolution.
+To build a decoder that maps DINOv3 features to semantic categories, we combine ViT-Adapter and Mask2Former, similar to prior work. However, in our case, the DINOv3 backbone remains frozen during training. In order to avoid altering the backbone features, we further modify the original ViT-Adapter architecture by removing the injector component. Compared to baselines, we also increase the embedding dimensions from $1024$ to $2048$, to support processing the $4096$-dimensional output of the DINOv3 backbone. We start by pre-training the segmentation decoder on COCO-Stuff for $80$k iterations, followed by $10$k iterations on Hypersim. Finally, we train for 20k iterations on the training split of and report results on the validation split. All training is done at an input resolution of 896. At inference time we consider two setups: single-scale, *i.e*. we forward images at training resolution, or multi-scale, *i.e*.
 
-<!-- chunk {"id": "body-0107", "role": "body", "section": "Implementation", "weight": 1.0} -->
+<!-- chunk {"id": "body-0110", "role": "body", "section": "Implementation", "weight": 1.0} -->
 
-We refer to Sec.˜D.10 for more experimental details.
+we average predictions at multiple image ratios between ${\times}0.9$ and $1.1$ the original training resolution. We refer to Sec.˜D.10 for more experimental details.
 
-<!-- chunk {"id": "body-0108", "role": "body", "section": "Results (Tab.˜11 ‣ 6.3.2 Semantic Segmentation ‣ 6.3 DINOv3 is a Foundation for Complex Computer Vision Systems ‣ 6 Results ‣ DINOv3\"))", "weight": 1.0} -->
+<!-- chunk {"id": "body-0111", "role": "body", "section": "Results (Tab.˜11 ‣ 6.3.2 Semantic Segmentation ‣ 6.3 DINOv3 is a Foundation for Complex Computer Vision Systems ‣ 6 Results ‣ DINOv3\"))", "weight": 1.0} -->
 
 We compare our model's performance with several state-of-the-art baselines, including BEIT-3, InternImage-H and ONE-PEACE, and report results on additional datasets in Tab.˜24. Our segmentation model based on the frozen DINOv3 backbone reaches state-of-the-art performance, equaling that of ONE-PEACE ($63.0$ mIoU). It also improves over all prior models on the COCO-Stuff and VOC 2012 datasets. As semantic segmentation requires accurate per-pixel predictions, vision transformer backbones pose a fundamental problem. Indeed, the 16 pixel-wide input patches make the granularity of the prediction relatively coarse---encouraging solutions like ViT-Adapter. On the other hand, we have shown that we can obtain high-quality feature maps, even at very high resolutions up to 4096 (*c.f*. Figs.˜3 and 4); this corresponds to dense feature maps 512-tokens wide.
 
-<!-- chunk {"id": "body-0109", "role": "body", "section": "Results (Tab.˜11 ‣ 6.3.2 Semantic Segmentation ‣ 6.3 DINOv3 is a Foundation for Complex Computer Vision Systems ‣ 6 Results ‣ DINOv3\"))", "weight": 1.0} -->
+<!-- chunk {"id": "body-0112", "role": "body", "section": "Results (Tab.˜11 ‣ 6.3.2 Semantic Segmentation ‣ 6.3 DINOv3 is a Foundation for Complex Computer Vision Systems ‣ 6 Results ‣ DINOv3\"))", "weight": 1.0} -->
 
 We hope that future work will be able to leverage these high-resolution features to reach state-of-the-art performance without having to rely on heavy decoders like ViT-Adapter with Mask2Former.
 
-<!-- chunk {"id": "body-0110", "role": "body", "section": "Monocular Depth Estimation", "weight": 1.0} -->
+<!-- chunk {"id": "body-0113", "role": "body", "section": "Monocular Depth Estimation", "weight": 1.0} -->
 
 We now consider building a system for monocular depth estimation. To do so, we follow the setup of Depth Anything V2 (DAv2), a recent state-of-the-art method. The key innovation of DAv2 is to use a large collection of synthetically generated images with ground truth depth annotations. Critically, this relies on DINOv2 as a feature extractor that is able to bridge the *sim-to-real* gap, a capability that other vision backbones like SAM do not show. Thus, we swap DINOv2 with DINOv3 in the DAv2 pipeline to see if we can achieve similar results.
 
-<!-- chunk {"id": "body-0111", "role": "body", "section": "Implementation", "weight": 1.0} -->
+<!-- chunk {"id": "body-0114", "role": "body", "section": "Implementation", "weight": 1.0} -->
 
-Like DAv2, we use a Dense Prediction Transformer (DPT) to predict a pixelwise depth field, using features from four equally spaced layers of DINOv3 as input. We train the model using the set of losses from DAv2 on DAv2's synthetic dataset, increasing the training resolution to $1024 \times 768$ to make use of DINOv3's high resolution capabilities. In contrast to DAv2, we *keep the backbone frozen* instead of finetuning it, testing the out-of-the-box capabilities of DINOv3. We also found it beneficial to scale up the DPT head to obtain the full potential DINOv3 7B's larger features. See Sec.˜D.11 for details.
+Like DAv2, we use a Dense Prediction Transformer (DPT) to predict a pixelwise depth field, using features from four equally spaced layers of DINOv3 as input. We train the model using the set of losses from DAv2 on DAv2's synthetic dataset, increasing the training resolution to $1024\times 768$ to make use of DINOv3's high resolution capabilities. In contrast to DAv2, we *keep the backbone frozen* instead of finetuning it, testing the out-of-the-box capabilities of DINOv3. We also found it beneficial to scale up the DPT head to obtain the full potential DINOv3 7B's larger features. See Sec.˜D.11 for details.
 
-<!-- chunk {"id": "body-0112", "role": "body", "section": "Datasets and Metrics", "weight": 1.0} -->
+<!-- chunk {"id": "body-0115", "role": "body", "section": "Datasets and Metrics", "weight": 1.0} -->
 
 We evaluate our model on 5 real-world datasets (NYUv2, KITTI, ETH3D, ScanNet (from Ke et al. ) and DIODE ) in the zero-shot scale-invariant depth setup, similar to Ranftl et al.; Ke et al.; Yang et al.. We report the standard metrics absolute relative error (ARel) (lower is better) and $\delta_{1}$ (higher is better). We refer to Yang et al. for a description of those metrics.
 
-<!-- chunk {"id": "body-0113", "role": "body", "section": "Results (Tab.˜12 ‣ 6.3.3 Monocular Depth Estimation ‣ 6.3 DINOv3 is a Foundation for Complex Computer Vision Systems ‣ 6 Results ‣ DINOv3\"))", "weight": 1.0} -->
+<!-- chunk {"id": "body-0116", "role": "body", "section": "Results (Tab.˜12 ‣ 6.3.3 Monocular Depth Estimation ‣ 6.3 DINOv3 is a Foundation for Complex Computer Vision Systems ‣ 6 Results ‣ DINOv3\"))", "weight": 1.0} -->
 
 We compare to the state of the art for relative depth estimation: MiDaS, LeReS, Omnidata, DPT, Marigold in the ensemble version and DAv2. Our depth estimation model reaches a new state-of-the-art on all datasets, only lacking behind in ARel on DIODE compared to DPT. Remarkably, this is possible using a *frozen backbone*, whereas all other baselines need to finetune the backbone for depth estimation. In addition, this validates that DINOv3 inherits DINOv2's *strong sim-to-real capabilities*, a desirable property that opens up the possibility for downstream tasks to use synthetically generated training data.
 
-<!-- chunk {"id": "body-0114", "role": "body", "section": "Visual Geometry Grounded Transformer with DINOv3", "weight": 1.0} -->
+<!-- chunk {"id": "body-0117", "role": "body", "section": "Visual Geometry Grounded Transformer with DINOv3", "weight": 1.0} -->
 
 Finally, we consider 3D understanding with the recent Visual Geometry Grounded Transformer (VGGT). Trained on a large set of 3D-annotated data, VGGT learns to estimate all important 3D attributes of a scene, such as camera intrinsics and extrinsics, point maps, or depth maps, in a single forward pass. Using a simple, unified pipeline, it reaches state-of-the-art results on many 3D tasks while being more efficient than specialized methods---constituting a major advance in 3D understanding.
 
-<!-- chunk {"id": "body-0115", "role": "body", "section": "Implementation", "weight": 1.0} -->
+<!-- chunk {"id": "body-0118", "role": "body", "section": "Implementation", "weight": 1.0} -->
 
-VGGT uses a DINOv2-pretrained backbone to obtain representations for different views of a scene, before fusing them with a transformer. Here, we simply swap the DINOv2 backbone with DINOv3, using our ViT-L variant (see Sec.˜7) to match DINOv2 ViT-L/14 in the original work. We run the same training pipeline as VGGT, including finetuning of the image backbone. We switch the image resolution from $518 \times 518$ to $592 \times 592$ to accommodate DINOv3's patch size 16 and keep the the results comparable to VGGT. We additionally adopt a small number of hyperparameter changes detailed in Sec.˜D.12.
+VGGT uses a DINOv2-pretrained backbone to obtain representations for different views of a scene, before fusing them with a transformer. Here, we simply swap the DINOv2 backbone with DINOv3, using our ViT-L variant (see Sec.˜7) to match DINOv2 ViT-L/14 in the original work. We run the same training pipeline as VGGT, including finetuning of the image backbone. We switch the image resolution from $518\times 518$ to $592\times 592$ to accommodate DINOv3's patch size 16 and keep the the results comparable to VGGT. We additionally adopt a small number of hyperparameter changes detailed in Sec.˜D.12.
 
-<!-- chunk {"id": "body-0116", "role": "body", "section": "Datasets and Metrics", "weight": 1.0} -->
+<!-- chunk {"id": "body-0119", "role": "body", "section": "Datasets and Metrics", "weight": 1.0} -->
 
 Following Wang et al., we evaluate on camera pose estimation on the Re10K and CO3Dv2 datasets, dense multi-view estimation on DTU, and two-view matching on ScanNet-1500. For camera pose estimation and two-view matching, we report the standard area-under-curve (AUC) metric. For multi-view estimation, we report the smallest L2-distance between prediction to ground truth as "Accuracy", the smallest L2-distance from ground truth to prediction as "Completeness" and their average as 'Overall". We refer to Wang et al. for details about method and evaluation.
 
-<!-- chunk {"id": "body-0117", "role": "body", "section": "Results (Tab.˜13)", "weight": 1.0} -->
+<!-- chunk {"id": "body-0120", "role": "body", "section": "Results (Tab.˜13)", "weight": 1.0} -->
 
 We find that VGGT equipped with DINOv3 *further improves over the previous state-of-the-art* set by VGGT on all three considered tasks---using DINOv3 leads to clear and consistent gains. This is encouraging, given that we only applied minimal tuning for DINOv3. These tasks span different levels of visual understanding: high-level abstraction of scene content (camera pose estimation), dense geometric prediction (multi-view depth estimation), and fine-grained pixel-level correspondence (view matching). Together with the previous results on correspondence estimation (Sec.˜6.1.3) and depth estimation (Sec.˜6.3.3), we take this as further empirical evidence for the strong suitability of DINOv3 as a basis for 3D tasks. Additionally, we anticipate further improvements from using the larger DINOv3 7B model.
 
-<!-- chunk {"id": "body-0118", "role": "body", "section": "Evaluating the Full Family of DINOv3 Models", "weight": 1.0} -->
+<!-- chunk {"id": "body-0121", "role": "body", "section": "Evaluating the Full Family of DINOv3 Models", "weight": 1.0} -->
 
 In this section, we provide quantitative evaluations on the family of models distilled from our 7B-parameters model (See Sec.˜5.2). This family includes variants based on the Vision Transformer (ViT) and the ConvNeXt (CNX) architectures. We provide the detailed parameter counts and inference FLOPs for all models in Fig.˜16(a). These models cover a wide range of computational budgets to accommodate a broad spectrum of users and deployment scenarios. We conduct a thorough evaluation of all ViT (Sec.˜7.1) and ConvNeXt variants to assess their performance across tasks.
 
-<!-- chunk {"id": "body-0119", "role": "body", "section": "Evaluating the Full Family of DINOv3 Models", "weight": 1.0} -->
+<!-- chunk {"id": "body-0122", "role": "body", "section": "Evaluating the Full Family of DINOv3 Models", "weight": 1.0} -->
 
 Figure˜2 provides an overview comparison of the DINOv3 family versus other model collections. The DINOv3 family significantly outperforms all others on dense prediction tasks. This includes specialized models distilled from supervised backbones like AM-RADIO and PEspatial. At the same time, our models achieve similar results on classification tasks, making them the optimal choice across compute budgets.
 
-<!-- chunk {"id": "body-0120", "role": "body", "section": "Evaluating the Full Family of DINOv3 Models", "weight": 1.0} -->
+<!-- chunk {"id": "body-0123", "role": "body", "section": "Evaluating the Full Family of DINOv3 Models", "weight": 1.0} -->
 
 In Sec.˜7.1 detail our ViT models and compare them to other open-source alternatives. Then, in Sec.˜7.2, we discuss the ConvNeXt models. Finally, following Sec.˜5.3, we trained a text encoder aligned with the output of our ViT-L model. We present multi-modal alignment results for this model in Sec.˜7.3.
 
-<!-- chunk {"id": "body-0121", "role": "body", "section": "Evaluating the Full Family of DINOv3 Models", "weight": 1.0} -->
+<!-- chunk {"id": "body-0124", "role": "body", "section": "Evaluating the Full Family of DINOv3 Models", "weight": 1.0} -->
 
 #Params
 
-<!-- chunk {"id": "body-0122", "role": "body", "section": "Vision Transformer for Every Use Case", "weight": 1.0} -->
+<!-- chunk {"id": "body-0125", "role": "body", "section": "Vision Transformer for Every Use Case", "weight": 1.0} -->
 
-Our ViT family spans architectures from the compact ViT-S to the larger 840 million parameter ViT-H+ models. The former is designed to run efficiently on resource-constrained devices such as laptops, the latter delivers state-of-the-art performance for more demanding applications. We compare our ViT models to the best open-source image encoders of corresponding size, namely DINOv2, SigLIP 2 and Perception Encoder. For a fair comparison, we ensure that the input sequence length is equivalent across models. Specifically, for model with a patch size of 16 we input images of size $512 \times 512$ versus $448 \times 448$ when models are using patch size 14.
+Our ViT family spans architectures from the compact ViT-S to the larger 840 million parameter ViT-H+ models. The former is designed to run efficiently on resource-constrained devices such as laptops, the latter delivers state-of-the-art performance for more demanding applications. We compare our ViT models to the best open-source image encoders of corresponding size, namely DINOv2, SigLIP 2 and Perception Encoder. For a fair comparison, we ensure that the input sequence length is equivalent across models. Specifically, for model with a patch size of 16 we input images of size $512\times 512$ versus $448\times 448$ when models are using patch size 14.
 
-<!-- chunk {"id": "body-0123", "role": "body", "section": "Vision Transformer for Every Use Case", "weight": 1.0} -->
+<!-- chunk {"id": "body-0126", "role": "body", "section": "Vision Transformer for Every Use Case", "weight": 1.0} -->
 
 Our empirical study clearly demonstrates that DINOv3 models consistently outperform their counterparts on dense prediction tasks. Most notably, on the benchmark, the DINOv3 ViT-L model achieves an improvement of over 6 mIoU points compared to the best competitor DINOv2. The ViT-B variant shows a gain of approximately 3 mIoU points against the next best competitor. These substantial improvements highlight the effectiveness of DINOv3's local features in capturing fine-grained spatial details. Furthermore, evaluations on depth estimation tasks also reveal consistent performance gains over competing approaches. This underscores the versatility of the DINOv3 family across different dense vision problems. Importantly, our models achieve competitive results on global recognition benchmarks such as ObjectNet and ImageNet-1k. This indicates that the enhanced dense task performance does not come at the expense of global task accuracy. This balance confirms that DINOv3 models provide a robust and well-rounded solution, excelling across both dense and global vision tasks without compromise.
 
-<!-- chunk {"id": "body-0124", "role": "body", "section": "Vision Transformer for Every Use Case", "weight": 1.0} -->
+<!-- chunk {"id": "body-0127", "role": "body", "section": "Vision Transformer for Every Use Case", "weight": 1.0} -->
 
 On another note, we want to also validate if the largest models that we distill capture all the information from the teacher. To this end, we run a comparison of our largest ViT-H+ with the 7B teacher. As shown in Fig.˜16(b), the largest student achieves performance that is on par with the 8 times larger ViT-7B model. This result not only validates the effectiveness of our distillation process but also demonstrates that, when guided by a high-quality teacher, smaller models can learn to deliver comparable levels of performance. This finding reinforces our belief that *training very large models benefits the broader community*. The strength of larger models can be successfully distilled into more efficient, smaller models with little or no loss of quality.
 
-<!-- chunk {"id": "body-0125", "role": "body", "section": "Efficient ConvNeXts for Resource-Constrained Environments", "weight": 1.0} -->
+<!-- chunk {"id": "body-0128", "role": "body", "section": "Efficient ConvNeXts for Resource-Constrained Environments", "weight": 1.0} -->
 
 In this section, we evaluate the quality of our ConvNeXt (CNX) models distilled from the 7B teacher. ConvNeXt models are highly efficient in terms of FLOPs and are well-suited for deployment on devices optimized for convolutional computations. Furthermore, transformer models often do not lend themselves well to quantization, whereas quantization of convolutional nets is a well explored subject. We distill CNX architectures of size T, S, B, and L (see Fig.˜16(a)) and compare them to the original ConvNeXt models. These baselines achieve high performance on ImageNet-1k as they were trained in a supervised fashion using ImageNet-22k labels, and thus represent a strong competitor. For this experiment, we provide results for global tasks at input resolutions 256 and 512, for at resolution 512, and for NYU at resolution 640.
 
-<!-- chunk {"id": "body-0126", "role": "body", "section": "Results (Tab.˜15)", "weight": 1.0} -->
+<!-- chunk {"id": "body-0129", "role": "body", "section": "Results (Tab.˜15)", "weight": 1.0} -->
 
-We find that on in-distribution image classification, our models slightly lag behind the supervised ones at resolution 256 (*e.g*. $- 0.7$ IN-ReAL for CNX-T). However, the trend is reversed at resolution 512, with the supervised ConvNeXts significantly degrading, whereas our models scale with increased input resolution. For out-of-distribution classification (IN-R, ObjectNet), there are significant gaps between the two model families for all sizes---a testament to the robustness of the DINOv3 CNX models. Furthermore, the DINOv3 models offer very large improvement on dense tasks. Indeed, for CNX-T, our model yields a $+ 17.9$ mIoU (42.7 versus 24.8) improvement, and for CNX-L, our model gets $+ 14.5$ mIoU (47.8 versus 33.3). The combination of high performance and computational efficiency makes the distilled ConvNeXt models especially promising for real-world applications where resource constraints are critical.
+We find that on in-distribution image classification, our models slightly lag behind the supervised ones at resolution 256 (*e.g*. $-0.7$ IN-ReAL for CNX-T). However, the trend is reversed at resolution 512, with the supervised ConvNeXts significantly degrading, whereas our models scale with increased input resolution. For out-of-distribution classification (IN-R, ObjectNet), there are significant gaps between the two model families for all sizes---a testament to the robustness of the DINOv3 CNX models. Furthermore, the DINOv3 models offer very large improvement on dense tasks. Indeed, for CNX-T, our model yields a $+17.9$ mIoU (42.7 versus 24.8) improvement, and for CNX-L, our model gets $+14.5$ mIoU (47.8 versus 33.3). The combination of high performance and computational efficiency makes the distilled ConvNeXt models especially promising for real-world applications where resource constraints are critical.
 
-<!-- chunk {"id": "body-0127", "role": "body", "section": "Results (Tab.˜15)", "weight": 1.0} -->
+<!-- chunk {"id": "body-0130", "role": "body", "section": "Results (Tab.˜15)", "weight": 1.0} -->
 
 Aside from that, the distillation of the ViT-7B model into smaller ConvNeXt models is particularly exciting, as it bridges two fundamentally different architectures. While ViT-7B is based on transformer blocks with a CLS token, ConvNeXt relies on convolutional operations without a CLS token, making this transfer of knowledge non-trivial. This achievement highlights the versatility and effectiveness of our distillation process.
 
-<!-- chunk {"id": "body-0128", "role": "body", "section": "Zero-shot Inference with DINOv3-based dino.txt", "weight": 1.0} -->
+<!-- chunk {"id": "body-0131", "role": "body", "section": "Zero-shot Inference with DINOv3-based dino.txt", "weight": 1.0} -->
 
 As detailed in Sec.˜5.3, we train a text encoder to align both the CLS token and the output patches of the distilled DINOv3 ViT-L model to text, following the recipe of dino.txt Jose et al.. We evaluate the quality of the alignment both at the global- and patch-level on standard benchmarks. We report the zero-shot classification accuracy using the CLIP protocol on the ImageNet-1k, ImageNet-Adversarial, ImageNet-Rendition and ObjectNet benchmarks. For image-text retrieval, we evaluate on the COCO2017 dataset and report Recall@1 on both image-to-text (I $\rightarrow$ T) and text-to-image (T $\rightarrow$ I) tasks. To probe the quality of patch-level alignment, we evaluate our model on the open-vocabulary segmentation task using the common benchmarks and Cityscapes, for which we report the mIoU metric.
 
-<!-- chunk {"id": "body-0129", "role": "body", "section": "Results (Tab.˜16 ‣ 7.3 Zero-shot Inference with DINOv3-based dino.txt ‣ 7 Evaluating the Full Family of DINOv3 Models ‣ DINOv3\"))", "weight": 1.0} -->
+<!-- chunk {"id": "body-0132", "role": "body", "section": "Results (Tab.˜16 ‣ 7.3 Zero-shot Inference with DINOv3-based dino.txt ‣ 7 Evaluating the Full Family of DINOv3 Models ‣ DINOv3\"))", "weight": 1.0} -->
 
 We compare our text-aligned DINOv3 ViT-L with competitors in the same size class. Compared to Jose et al., which aligns DINOv2 to text, DINOv3 leads to significantly better performance on all benchmarks. On global alignment tasks, we compare favorably to the original CLIP and strong baselines such as EVA-02-CLIP but slightly behind SigLIP2 and Perception Encoder. On dense alignment tasks, our text-aligned model shows excellent performance on two challenging benchmarks ADE20K and Cityscapes thanks to clean feature maps of DINOv3.
 
-<!-- chunk {"id": "body-0130", "role": "body", "section": "DINOv3 on Geospatial Data", "weight": 1.0} -->
+<!-- chunk {"id": "body-0133", "role": "body", "section": "Results (Tab.˜16 ‣ 7.3 Zero-shot Inference with DINOv3-based dino.txt ‣ 7 Evaluating the Full Family of DINOv3 Models ‣ DINOv3\"))", "weight": 1.0} -->
+
+DINOv3 dino.txt Table 16: Comparing our text-aligned DINOv3 ViT-L to the state-of-the-art. Our model achieves excellent dense alignment performance while staying competitive in global alignment tasks. All compared models are of ViT-L size and operate on the same sequence length of 576.
+
+<!-- chunk {"id": "body-0134", "role": "body", "section": "DINOv3 on Geospatial Data", "weight": 1.0} -->
 
 Our self-supervised learning recipe is generic and can be applied to any image domain. In this section, we showcase this universality by building a DINOv3 7B model for satellite images, which have very different characteristics (*e.g*. object texture, sensor noise, and focal views) than the web images on which DINOv3 was initially developed.
 
-<!-- chunk {"id": "body-0131", "role": "body", "section": "Pre-Training Data and Benchmarks", "weight": 1.0} -->
+<!-- chunk {"id": "body-0135", "role": "body", "section": "Pre-Training Data and Benchmarks", "weight": 1.0} -->
 
-Our satellite DINOv3 7B model is pre-trained on SAT-493M, a dataset of 493 millions of $512 \times 512$ images sampled randomly from Maxar RGB ortho-rectified imagery at 0.6 meter resolution. We use the exact same set of hyper-parameters that are used for the web DINOv3 7B model, except for the RGB mean and std normalization that are adapted for satellite images, and the training length. Similar to the web model, our training pipeline for the satellite model consists of 100k iterations of initial pre-training with global crops ($256 \times 256$), followed by 10k iterations using Gram regularization, and finalized with 8k steps of high resolution fine-tuning at resolution $512$. Also similar to the web model, we distill our 7B satellite model into a more manageable ViT-Large model to facilitate its use in low-budget regime.
+Our satellite DINOv3 7B model is pre-trained on SAT-493M, a dataset of 493 millions of $512\times 512$ images sampled randomly from Maxar RGB ortho-rectified imagery at 0.6 meter resolution. We use the exact same set of hyper-parameters that are used for the web DINOv3 7B model, except for the RGB mean and std normalization that are adapted for satellite images, and the training length. Similar to the web model, our training pipeline for the satellite model consists of 100k iterations of initial pre-training with global crops ($256\times 256$), followed by 10k iterations using Gram regularization, and finalized with 8k steps of high resolution fine-tuning at resolution $512$. Also similar to the web model, we distill our 7B satellite model into a more manageable ViT-Large model to facilitate its use in low-budget regime.
 
-<!-- chunk {"id": "body-0132", "role": "body", "section": "Pre-Training Data and Benchmarks", "weight": 1.0} -->
+<!-- chunk {"id": "body-0136", "role": "body", "section": "Pre-Training Data and Benchmarks", "weight": 1.0} -->
 
-We evaluate DINOv3 satellite and web models on multiple earth observation tasks. For the task of global canopy height mapping, we use the Satlidar dataset described in Sec.˜D.13, which consists of one million $512 \times 512$ images with LiDAR ground truths split into train/val/test splits with ratios 8/1/1. The splits include the Neon and São Paulo dataset used by Tolan et al.. For national-scale canopy height mapping, we evaluate on Open-Canopy, which combines SPOT 6-7 satellite imagery and aerial LiDAR data over 87,000 km^2^ across France. Since images in this dataset have 4 channels including the additional infra-red (IR) channel, we adapt our backbone by taking the average of the three channels in the weights of the patch embed module and adding it to the weights as the fourth channel. We trained a DPT decoder on $512 \times 512$ crops of images resized to 1667 to match the Maxar ground sample resolution.
+We evaluate DINOv3 satellite and web models on multiple earth observation tasks. For the task of global canopy height mapping, we use the Satlidar dataset described in Sec.˜D.13, which consists of one million $512\times 512$ images with LiDAR ground truths split into train/val/test splits with ratios 8/1/1. The splits include the Neon and São Paulo dataset used by Tolan et al.. For national-scale canopy height mapping, we evaluate on Open-Canopy, which combines SPOT 6-7 satellite imagery and aerial LiDAR data over 87,000 km^2^ across France. Since images in this dataset have 4 channels including the additional infra-red (IR) channel, we adapt our backbone by taking the average of the three channels in the weights of the patch embed module and adding it to the weights as the fourth channel. We trained a DPT decoder on $512\times 512$ crops of images resized to 1667 to match the Maxar ground sample resolution.
 
-<!-- chunk {"id": "body-0133", "role": "body", "section": "Pre-Training Data and Benchmarks", "weight": 1.0} -->
+<!-- chunk {"id": "body-0137", "role": "body", "section": "Pre-Training Data and Benchmarks", "weight": 1.0} -->
 
 Semantic geospatial tasks are assessed with GEO-Bench, which comprises six classification and six segmentation tasks spanning various spatial resolutions and optical bands. The GEO-Bench tasks are diverse, including the detection of rooftop-mounted photovoltaic systems, classifying local climate zones, measuring drivers of deforestation, and detecting tree crowns. For high-resolution semantic tasks, we consider the land cover segmentation dataset LoveDA, the object segmentation dataset iSAID, and the horizontal detection dataset DIOR.
 
-<!-- chunk {"id": "body-0134", "role": "body", "section": "Canopy Height Estimation", "weight": 1.0} -->
+<!-- chunk {"id": "body-0138", "role": "body", "section": "Canopy Height Estimation", "weight": 1.0} -->
 
 Estimating canopy height from satellite imagery is a challenging metric task, requiring accurate recovery of continuous spatial structure despite random variations in slope, viewing geometry, sun angle, atmospheric scattering, and quantization artifacts. This task is critical for global carbon monitoring and for forest and agriculture management. Following Tolan et al., the first work to leverage a SSL backbone trained on satellite images for this task, we train a DPT head on top of frozen DINOv3 on the SatLidar1M training set, then evaluate it on i.i.d. samples on SatLidar1M validation set as well as out-of-distribution test sets including SatLidar1M test, Neon and Sao Paulo. We additionally train and evaluate on the Open-Canopy dataset.
 
-<!-- chunk {"id": "body-0135", "role": "body", "section": "Results (Tab.˜17)", "weight": 1.0} -->
+<!-- chunk {"id": "body-0139", "role": "body", "section": "Results (Tab.˜17)", "weight": 1.0} -->
 
 We compare different SSL backbones, denoting with "DINOv3 Sat" the model trained the SAT-493M dataset, and with "DINOv3 Web" the model trained on LVD-1689M (see Sec.˜3.1). It can be seen that DINOv3 satellite models yield state-of-the-art performance on most benchmarks. Our 7B satellite model sets the new state of the art on SatLidar1M val, SatLidar1M test and Open-Canopy, reducing MAE from $2.4$ to $2.2$, from $3.4$ to $3.2$ and from $2.42$ to $2.02$ respectively. These results show that DINOv3 training recipe is generic and can be effectively applied out-of-the-box to other domains.
 
-<!-- chunk {"id": "body-0136", "role": "body", "section": "Results (Tab.˜17)", "weight": 1.0} -->
+<!-- chunk {"id": "body-0140", "role": "body", "section": "Results (Tab.˜17)", "weight": 1.0} -->
 
 Interestingly, our distilled ViT-L satellite model performs comparably to its 7B counterpart, achieving comparable results on SatLidar1M and Open-Canopy while faring surprisingly better on Neon test set, reaching the lowest MAE of $2.4$ compared to $2.6$ of the 7B model and $2.9$ of Tolan et al.. Our DINOv3 7B web model reaches decent performance on the benchmarks, outperforming Tolan et al. on SatLidar1M val, Neon and Open-Canopy but stays behind the satellite model. This highlights the strength of domain-specific pretraining for physically grounded tasks like canopy height estimation, where sensor-specific priors and radiometric consistency are important.
 
-<!-- chunk {"id": "body-0137", "role": "body", "section": "Comparison to the Earth Observation State of the Art", "weight": 1.0} -->
+<!-- chunk {"id": "body-0141", "role": "body", "section": "Comparison to the Earth Observation State of the Art", "weight": 1.0} -->
 
-∗Conversion to 6 classes following Szwarcman et al..
-Table 18: Comparison of our DINOv3 models against strong baselines DOFA, Prithvi-v2, and Tolan et al. in Geo-Bench tasks. While Privthi-v2 and DOFA leverage all available optical bands, our models achieve significantly better performance with only RGB inputs.
+∗Conversion to 6 classes following Szwarcman et al.. Table 18: Comparison of our DINOv3 models against strong baselines DOFA, Prithvi-v2, and Tolan et al. in Geo-Bench tasks. While Privthi-v2 and DOFA leverage all available optical bands, our models achieve significantly better performance with only RGB inputs.
 
-<!-- chunk {"id": "body-0138", "role": "body", "section": "Comparison to the Earth Observation State of the Art", "weight": 1.0} -->
+<!-- chunk {"id": "body-0142", "role": "body", "section": "Comparison to the Earth Observation State of the Art", "weight": 1.0} -->
 
 We compare the performance of different methods for Earth observation tasks in Tab.˜18 and Tab.˜19. The frozen DINOv3 satellite and web models set new state-of-the-art results on 12 out of 15 classification, segmentation, and horizontal object detection tasks. Our Geo-Bench results surpass prior models, including Prithvi-v2 and DOFA, which use 6+ bands for Sentinel-2 and Landsat tasks, as well as task-specific fine-tuning (Tab.˜18). Despite using a frozen backbone with RGB-only input, the DINOv3 satellite model outperforms previous methods on the three unsaturated classification tasks and on five of six segmentation tasks. Interestingly, the DINOv3 7B web model is very competitve on these benchmarks. It achieves comparable or stronger performance on many GEO-Bench tasks as well as on large-scale, high-resolution remote sensing benchmarks for segmentation and detection. As shown in Tab.˜18 and Tab.˜19, the frozen DINOv3 web model establishes new leading results Geo-Bench tasks as well as for segmentation and detection tasks on the LoveDA and DIOR datasets.
 
-<!-- chunk {"id": "body-0139", "role": "body", "section": "Comparison to the Earth Observation State of the Art", "weight": 1.0} -->
+<!-- chunk {"id": "body-0143", "role": "body", "section": "Comparison to the Earth Observation State of the Art", "weight": 1.0} -->
 
 These findings have broader implications for the design of geospatial foundation models. Those have recently emphasized heuristic techniques such as multitemporal aggregation, multisensor fusion, or incorporating satellite-specific metadata. Our results show that general-purpose SSL can match or exceed satellite-specific approaches for tasks that depend on precise object boundaries (segmentation or object detection). This supports emerging evidence finding that domain-agnostic pretraining can offer strong generalization even in specialized downstream domains.
 
-<!-- chunk {"id": "body-0140", "role": "body", "section": "Comparison to the Earth Observation State of the Art", "weight": 1.0} -->
+<!-- chunk {"id": "body-0144", "role": "body", "section": "Comparison to the Earth Observation State of the Art", "weight": 1.0} -->
 
 Collectively, our results suggest task-dependent benefits of domain-specific pretraining. The DINOv3 satellite model excels in metric tasks like depth estimation, leveraging satellite-specific priors. In contrast, the DINOv3 web model achieves state-of-the-art results on semantic geospatial tasks through diverse, universal representations. The complementary strengths of both models illustrate the broad applicability and effectiveness of the DINOv3 SSL paradigm.
 
-<!-- chunk {"id": "body-0141", "role": "body", "section": "Comparison to the Earth Observation State of the Art", "weight": 1.0} -->
+<!-- chunk {"id": "body-0145", "role": "body", "section": "Comparison to the Earth Observation State of the Art", "weight": 1.0} -->
 
-∗Uses modified DINOv2 SSL with supervised pretraining alignment on OpenStreetMap, reporting +0.8 mIoU on iSAID.
-Table 19: We compare the performance of DINOv3 to state-of-the-art models Privthi-v2, BillionFM and SkySense V2 for high resolution semantic geospatial tasks. We report mIoU for the segmentation datasets LoveDA (1024×) and iSAID (896×), and mAP for the detection dataset DIOR (800×).
+∗Uses modified DINOv2 SSL with supervised pretraining alignment on OpenStreetMap, reporting +0.8 mIoU on iSAID. Table 19: We compare the performance of DINOv3 to state-of-the-art models Privthi-v2, BillionFM and SkySense V2 for high resolution semantic geospatial tasks. We report mIoU for the segmentation datasets LoveDA (1024×) and iSAID (896×), and mAP for the detection dataset DIOR (800×).
 
-<!-- chunk {"id": "body-0142", "role": "body", "section": "Environmental Impact", "weight": 1.0} -->
+<!-- chunk {"id": "body-0146", "role": "body", "section": "Comparison to the Earth Observation State of the Art", "weight": 1.0} -->
+
+Image from OpenCanopy Figure 19: A qualitative comparison of the DINOv3 7B satellite model to Tolan et al. on the Open Canopy dataset. For both models, the decoder is trained on 448×448 input images. It can be seen that DINOv3 produces more accurate maps, for example the accurate height for the trees on the field.
+
+<!-- chunk {"id": "body-0147", "role": "body", "section": "Environmental Impact", "weight": 1.0} -->
 
 To estimate the carbon emission of our pre-training, we follow the methodology used in previous work in natural language processing and SSL. We fix the value of all exogenous variables, *i.e*. the Power Usage Effectiveness (PUE) and carbon intensity factor of a power grid to the same value as used by Touvron et al., *i.e*. we assume a PUE of 1.1 and a carbon intensity factor of the US average of 0.385 kg CO~2~eq/KWh. For the power consumption of GPUs, we take their thermal design power: 400W for A100 GPUs and 700W for H100 GPUs. We report the details of the computation for the pre-training of our ViT-7B in Tab.˜20. For reference, we provide the analogous data for DINOv2 and MetaCLIP. As another point of comparison, the energy required to train one DINOv3 model (47 MWh) is roughly equivalent to that required for 240,000 km of driving with an average electric vehicle.
 
-<!-- chunk {"id": "body-0143", "role": "body", "section": "Carbon Footprint of the Whole Project", "weight": 1.0} -->
+<!-- chunk {"id": "body-0148", "role": "body", "section": "Carbon Footprint of the Whole Project", "weight": 1.0} -->
 
 In order to compute the carbon footprint of the whole project, we use a rough estimate of a total 9M GPU hours. Using the same grid parameters as presented above, we estimate the total footprint to be roughly 2600 tCO~2~eq. For comparison, a full Boeing 777 return flight between Paris and New York corresponds to approximately 560 tCO~2~eq. Supposing 12 such flights per day, the environmental impact of our project represents half of all flights between these two cities for one day. This estimate only considers the electricity for powering the GPUs and ignores other emissions, such as cooling, manufacturing, and disposal.
 
-<!-- chunk {"id": "body-0144", "role": "body", "section": "Conclusion", "weight": 1.5} -->
+<!-- chunk {"id": "body-0149", "role": "body", "section": "Conclusion", "weight": 1.5} -->
 
 DINOv3 represents a significant advancement in the field of self-supervised learning, demonstrating the potential to revolutionize the way visual representations are learned across various domains. By scaling dataset and model size through meticulous data preparation, design, and optimization, DINOv3 showcases the power of self-supervised learning to eliminate the dependency on manual annotations. The introduction of the Gram anchoring method effectively mitigates the degradation of dense feature maps over extended training periods, ensuring robust and reliable performance.
 
-<!-- chunk {"id": "body-0145", "role": "body", "section": "Conclusion", "weight": 1.5} -->
+<!-- chunk {"id": "body-0150", "role": "body", "section": "Conclusion", "weight": 1.5} -->
 
 Together with the implementation of post-hoc polishing strategies, such as high-resolution post-training and distillation, we achieve state-of-the-art performance across a wide range of visual tasks with no fine-tuning of the image encoder. The DINOv3 suite of vision models not only sets new benchmarks but also offers a versatile solution across various resource constraints, deployment scenarios, and application use cases. The progress made with DINOv3 is a testament to the promise of self-supervised learning in advancing the state of the art in computer vision and beyond.

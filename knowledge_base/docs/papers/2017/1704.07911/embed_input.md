@@ -12,7 +12,7 @@ As part of a complete software stack for autonomous driving, NVIDIA has created 
 
 <!-- chunk {"id": "body-0003", "role": "body", "section": "Introduction", "weight": 1.5} -->
 
-A previous report described an end-to-end learning system for self-driving cars in which a convolutional neural network (CNN) was trained to output steering angles given input images of the road ahead. This system is now called PilotNet. The training data were images from a front-facing camera in a data collection car coupled with the time-synchronized steering angle recorded from a human driver. The motivation for PilotNet was to eliminate the need for hand-coding rules and instead create a system that learns by observing. Initial results were encouraging, although major improvements are required before such a system can drive without the need for human intervention. To gain insight into how the learned system decides what to do, and thus both enable further system improvements and create trust that the system is paying attention to the essential cues for safe steering, we developed a simple method for highlighting those parts of an image that are most salient in determining steering angles. We call these salient image sections the salient objects. A detailed report describing our saliency detecting method can be found in
+A previous report described an end-to-end learning system for self-driving cars in which a convolutional neural network (CNN) was trained to output steering angles given input images of the road ahead. This system is now called PilotNet. The training data were images from a front-facing camera in a data collection car coupled with the time-synchronized steering angle recorded from a human driver. The motivation for PilotNet was to eliminate the need for hand-coding rules and instead create a system that learns by observing. Initial results were encouraging, although major improvements are required before such a system can drive without the need for human intervention. To gain insight into how the learned system decides what to do, and thus both enable further system improvements and create trust that the system is paying attention to the essential cues for safe steering, we developed a simple method for highlighting those parts of an image that are most salient in determining steering angles. We call these salient image sections the salient objects. A detailed report describing our saliency detecting method can be found in Figure 1: PilotNet architecture.
 
 <!-- chunk {"id": "body-0004", "role": "body", "section": "Introduction", "weight": 1.5} -->
 
@@ -44,7 +44,7 @@ The central idea in discerning the salient objects is finding parts of the image
 
 <!-- chunk {"id": "body-0011", "role": "body", "section": "Finding the Salient Objects", "weight": 1.0} -->
 
-In each layer, the activations of the feature maps are averaged.
+The activations of the higher-level maps become masks for the activations of lower levels using the following algorithm: In each layer, the activations of the feature maps are averaged.
 
 <!-- chunk {"id": "body-0012", "role": "body", "section": "Finding the Salient Objects", "weight": 1.0} -->
 

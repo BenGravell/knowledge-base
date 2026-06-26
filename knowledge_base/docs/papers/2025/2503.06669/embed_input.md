@@ -52,79 +52,79 @@ Beyond its immediate impact, AgiBot World lays a strong foundation for future re
 
 <!-- chunk {"id": "body-0013", "role": "body", "section": "Introduction", "weight": 1.5} -->
 
-Contribution. 1) We construct AgiBot World dataset, a multifarious robot learning dataset accompanied by open-source tools to advance research on policy learning at scale. As a pioneering initiative, AgiBot World employs an inclusive optimized pipeline, from scene configuration, task design, data collection, to human-in-the-loop verification, which ensures unparalleled data quality. 2) We propose GO-1, a robot foundation policy using latent action representations to unlock web-scale pre-training on web data. Empowered by AgiBot World dataset, it outperforms prior generalist policies in generalization and dexterity.
+AgiBot World Dataset TABLE I: Comparison to existing datasets. AgiBot World features the largest number of trajectories to date. We replicate real-world environment at a 1:1 scale for the industrial and retail scenarios, which are barely present before. Extensive human annotations are offered, including item, scene, skill (sub-task segmented), and task-level annotations. Notably, to expand data applicability and potential, we include imperfect data (i.e., failure recovery data with annotated error states) and tasks with dexterous hands. To ensure data quality, we adopt a human-in-the-loop philosophy: the policy learning is performed on collected demonstrations. The deployment results are adopted as feedback to improve the collection protocol.
 
 <!-- chunk {"id": "body-0014", "role": "body", "section": "Introduction", "weight": 1.5} -->
 
+Contribution. 1) We construct AgiBot World dataset, a multifarious robot learning dataset accompanied by open-source tools to advance research on policy learning at scale. As a pioneering initiative, AgiBot World employs an inclusive optimized pipeline, from scene configuration, task design, data collection, to human-in-the-loop verification, which ensures unparalleled data quality. 2) We propose GO-1, a robot foundation policy using latent action representations to unlock web-scale pre-training on web data. Empowered by AgiBot World dataset, it outperforms prior generalist policies in generalization and dexterity.
+
+<!-- chunk {"id": "body-0015", "role": "body", "section": "Introduction", "weight": 1.5} -->
+
 Limitation. All evaluations are conducted in real-world scenarios. We are currently developing the simulation environment, aligning with the real-world setup and aiming to reflect real-world policy deployment outcome. It would thereby facilitate fast and reproducible evaluation.
-
-<!-- chunk {"id": "body-0015", "role": "body", "section": "AgiBot World: Platform and Data", "weight": 1.0} -->
-
-AgiBot World is a full-stack and open-source embodied intelligence ecosystem. Based on the hardware platform developed by us, AgiBot G1, we construct AgiBot World--- an open-source robot manipulation dataset collected by more than 100 homogeneous robots, providing high-quality data for challenging tasks spanning a wide spectrum of real-life scenarios. The latest version contains 1,001,552 trajectories, with a total duration of 2976.4 hours, covering 217 specific tasks, 87 skills, and 106 scenes. We go beyond basic tabletop tasks such as pick-and-place in lab environments; instead, concentrate on real-world scenarios involving dual-arm manipulation, dexterous hands, and collaborative tasks. AgiBot World aims to provide an inclusive benchmark to drive the future development of advanced and robust algorithms.
 
 <!-- chunk {"id": "body-0016", "role": "body", "section": "AgiBot World: Platform and Data", "weight": 1.0} -->
 
+AgiBot World is a full-stack and open-source embodied intelligence ecosystem. Based on the hardware platform developed by us, AgiBot G1, we construct AgiBot World--- an open-source robot manipulation dataset collected by more than 100 homogeneous robots, providing high-quality data for challenging tasks spanning a wide spectrum of real-life scenarios. The latest version contains 1,001,552 trajectories, with a total duration of 2976.4 hours, covering 217 specific tasks, 87 skills, and 106 scenes. We go beyond basic tabletop tasks such as pick-and-place in lab environments; instead, concentrate on real-world scenarios involving dual-arm manipulation, dexterous hands, and collaborative tasks. AgiBot World aims to provide an inclusive benchmark to drive the future development of advanced and robust algorithms.
+
+<!-- chunk {"id": "body-0017", "role": "body", "section": "AgiBot World: Platform and Data", "weight": 1.0} -->
+
 We plan to release all resources to enable the community build upon AgiBot World. The dataset is available under the CC BY-NC-SA 4.0 license, along with the model checkpoints and code.
-
-<!-- chunk {"id": "body-0017", "role": "body", "section": "III-A Hardware: A Versatile Humanoid Robot", "weight": 1.0} -->
-
-The hardware platform is the cornerstone of AgiBot World, determining the lower limit of its quality. The standardization of hardware is also the key to streamlining distributed data collection and ensuring reproducible results. We meticulously develop a novel hardware platform for AgiBot World, distinguished by visuo-tactile sensors, durable 6-DoF dexterous hands with humanoid configuration.
 
 <!-- chunk {"id": "body-0018", "role": "body", "section": "III-A Hardware: A Versatile Humanoid Robot", "weight": 1.0} -->
 
-As illustrated in Fig. 1, our robotic platform features dual 7-DoF arms, a mobile chassis, and an adjustable waist. The end effectors are modular, allowing for the use of either a standard gripper or a 6-DoF dexterous hand, depending on task requirements. For tasks necessitating tactile feedback, a gripper equipped with visuo-tactile sensors is utilized. The robot is outfitted with eight cameras: an RGB-D camera and three fisheye cameras for the front view, RGB-D or fisheye cameras mounted on each end-effector, and two fisheye cameras positioned at the rear. Image observations and proprioceptive states, including joint and end-effector positions, are recorded at a control frequency of 30 Hz.
+The hardware platform is the cornerstone of AgiBot World, determining the lower limit of its quality. The standardization of hardware is also the key to streamlining distributed data collection and ensuring reproducible results. We meticulously develop a novel hardware platform for AgiBot World, distinguished by visuo-tactile sensors, durable 6-DoF dexterous hands with humanoid configuration.
 
 <!-- chunk {"id": "body-0019", "role": "body", "section": "III-A Hardware: A Versatile Humanoid Robot", "weight": 1.0} -->
 
+As illustrated in Fig. 1, our robotic platform features dual 7-DoF arms, a mobile chassis, and an adjustable waist. The end effectors are modular, allowing for the use of either a standard gripper or a 6-DoF dexterous hand, depending on task requirements. For tasks necessitating tactile feedback, a gripper equipped with visuo-tactile sensors is utilized. The robot is outfitted with eight cameras: an RGB-D camera and three fisheye cameras for the front view, RGB-D or fisheye cameras mounted on each end-effector, and two fisheye cameras positioned at the rear. Image observations and proprioceptive states, including joint and end-effector positions, are recorded at a control frequency of 30 Hz.
+
+<!-- chunk {"id": "body-0020", "role": "body", "section": "III-A Hardware: A Versatile Humanoid Robot", "weight": 1.0} -->
+
 We employ two teleoperation systems: VR headset control and whole-body motion capture control. The VR controller maps the hand gesture to the end-effector translation and rotation, which is subsequently converted to joint angles through inverse kinematics. The thumbsticks and buttons on the controller enable robot base and body movement, while the trigger buttons control end-effector actuation. However, the VR controller restricts the dexterous hand to only a few predefined gestures. To extensively unlock our robot's capabilities, we adapt a motion capture system which records the data of human joints, including the fingers, and maps them to robot posture, enabling more nuanced control, including individual finger movements, torso pose, and head orientation. This system provides posture flexibility and execution precision that are required in achieving more complex manipulation tasks.
-
-<!-- chunk {"id": "body-0020", "role": "body", "section": "III-B Data Collection: Protocol and Quality", "weight": 1.0} -->
-
-The data collection session, as shown in Fig. 2, can be broadly divided into three phases. Before formally commencing data collection, we first conduct preliminary data acquisition to validate the feasibility of each task and establish corresponding collection standards. After feasibility validation and review of the collection standards, skilled teleoperators arrange the initial scene and formally begin data collection according to the established standards. All data undergoes an initial validity verification locally, such as verifying the absence of missing frames. Once the data is confirmed to be complete, it is uploaded to the cloud for the next phase. During post-processing, the data annotators will verify whether each episode meets the collection standards established in phase 1 and provide language annotations.
 
 <!-- chunk {"id": "body-0021", "role": "body", "section": "III-B Data Collection: Protocol and Quality", "weight": 1.0} -->
 
-Failure recovery. During data collection, teleoperators may occasionally commit errors, such as inadvertently dropping objects while manipulating the robotic arms. However, they are often able to recover from these errors and successfully complete the task without requiring a full reconfiguration of the setup. Rather than discarding such trajectories, we retain them and manually annotate each with corresponding failure reasons and timestamps. These trajectories, referred to as failure recovery data, constitute approximately one percent of the dataset. We consider them invaluable for achieving policy alignment and failure reflection, essential for advancing the next generation of robot foundation models.
+The data collection session, as shown in Fig. 2, can be broadly divided into three phases. Before formally commencing data collection, we first conduct preliminary data acquisition to validate the feasibility of each task and establish corresponding collection standards. After feasibility validation and review of the collection standards, skilled teleoperators arrange the initial scene and formally begin data collection according to the established standards. All data undergoes an initial validity verification locally, such as verifying the absence of missing frames. Once the data is confirmed to be complete, it is uploaded to the cloud for the next phase. During post-processing, the data annotators will verify whether each episode meets the collection standards established in phase 1 and provide language annotations.
 
 <!-- chunk {"id": "body-0022", "role": "body", "section": "III-B Data Collection: Protocol and Quality", "weight": 1.0} -->
 
+Failure recovery. During data collection, teleoperators may occasionally commit errors, such as inadvertently dropping objects while manipulating the robotic arms. However, they are often able to recover from these errors and successfully complete the task without requiring a full reconfiguration of the setup. Rather than discarding such trajectories, we retain them and manually annotate each with corresponding failure reasons and timestamps. These trajectories, referred to as failure recovery data, constitute approximately one percent of the dataset. We consider them invaluable for achieving policy alignment and failure reflection, essential for advancing the next generation of robot foundation models.
+
+<!-- chunk {"id": "body-0023", "role": "body", "section": "III-B Data Collection: Protocol and Quality", "weight": 1.0} -->
+
 Human-in-the-loop. Concurrent with feedback collection from data annotators, we adopt a human-in-the-loop approach to assess and refine data quality. This process involves an iterative cycle of collecting a small set of demonstrations, training a policy, and deploying the resulting policy to evaluate data availability. Based on the policy's performance, we iteratively refine the data collection pipeline to address identified gaps or inefficiencies. For instance, during real-world deployment, the model exhibits prolonged pauses at the onset of actions, aligning with data annotator feedback highlighting inconsistent transitions and excessive idle time in the collected data. In response, we revise the data collection protocols and introduce a post-processing step to eliminate idle frames, thereby enhancing the dataset's overall utility for policy learning. This feedback-driven methodology ensures continuous improvement in data quality.
-
-<!-- chunk {"id": "body-0023", "role": "body", "section": "III-C Dataset Statistics and Analysis: Beyond Scale", "weight": 1.0} -->
-
-AgiBot World is developed through a large-scale data collection facility, which spans over 4,000 square meters. This extensive environment contains over 3,000 unique objects in a variety of scenes, meticulously designed to reflect real-world settings. The dataset covers a wide range of scenarios and scene setups, ensuring both scale and diversity in the pursuit of generalizable robot policy.
 
 <!-- chunk {"id": "body-0024", "role": "body", "section": "III-C Dataset Statistics and Analysis: Beyond Scale", "weight": 1.0} -->
 
-Reconstructing the diversity of the real world. Key statistics of our dataset are presented in Fig. 3. AgiBot World provides extensive coverage across five key domains: domestic, retail, industrial, restaurant, and office environments. Within each domain, we further define specific scene categories. For instance, the domestic domain includes detailed environments such as bedrooms, kitchens, living rooms, and balconies, while the retail domain features distinct areas like shelving units and fresh produce sections. Our dataset also features over 3,000 distinct objects, systematically categorized across various scenes. These objects span a wide range of everyday items, including food, furniture, clothing, electronic devices, and more. The distribution of object categories, as illustrated in Fig. 3(a), highlights the relative frequency of different object types within each scene.
+AgiBot World is developed through a large-scale data collection facility, which spans over 4,000 square meters. This extensive environment contains over 3,000 unique objects in a variety of scenes, meticulously designed to reflect real-world settings. The dataset covers a wide range of scenarios and scene setups, ensuring both scale and diversity in the pursuit of generalizable robot policy.
 
 <!-- chunk {"id": "body-0025", "role": "body", "section": "III-C Dataset Statistics and Analysis: Beyond Scale", "weight": 1.0} -->
 
-Long-horizon manipulation. A distinguishing feature of the AgiBot World dataset is its emphasis on long-horizon manipulation. As shown in Fig. 3(b), prior datasets predominantly focus on tasks involving single atomic skills, with most trajectories lasting no more than 5 seconds. In contrast, AgiBot World is built upon continuous and complete tasks composed by multiple atomic skills, like "make a coffee". Trajectories in our dataset typically span approximately 30 seconds, some of which last over 2 minutes. We also provide key-frame and instruction annotation for each sub-step to facilitate policy learning in such challenging scenarios.
+Reconstructing the diversity of the real world. Key statistics of our dataset are presented in Fig. 3. AgiBot World provides extensive coverage across five key domains: domestic, retail, industrial, restaurant, and office environments. Within each domain, we further define specific scene categories. For instance, the domestic domain includes detailed environments such as bedrooms, kitchens, living rooms, and balconies, while the retail domain features distinct areas like shelving units and fresh produce sections. Our dataset also features over 3,000 distinct objects, systematically categorized across various scenes. These objects span a wide range of everyday items, including food, furniture, clothing, electronic devices, and more. The distribution of object categories, as illustrated in Fig. 3(a), highlights the relative frequency of different object types within each scene.
 
 <!-- chunk {"id": "body-0026", "role": "body", "section": "III-C Dataset Statistics and Analysis: Beyond Scale", "weight": 1.0} -->
 
+Long-horizon manipulation. A distinguishing feature of the AgiBot World dataset is its emphasis on long-horizon manipulation. As shown in Fig. 3(b), prior datasets predominantly focus on tasks involving single atomic skills, with most trajectories lasting no more than 5 seconds. In contrast, AgiBot World is built upon continuous and complete tasks composed by multiple atomic skills, like "make a coffee". Trajectories in our dataset typically span approximately 30 seconds, some of which last over 2 minutes. We also provide key-frame and instruction annotation for each sub-step to facilitate policy learning in such challenging scenarios.
+
+<!-- chunk {"id": "body-0027", "role": "body", "section": "III-C Dataset Statistics and Analysis: Beyond Scale", "weight": 1.0} -->
+
 Comprehensive skill coverage. In terms of task design, while generic atomic skills, such as "pick-and-place", dominate the majority of tasks, we have intentionally incorporated tasks that emphasize less frequently used but highly valuable skills, such as "chop" and "plug" (as shown in Fig. 3(c)). This ensures that our dataset adequately represents a broad spectrum of skills, providing sufficient data for each to support robust policy learning.
-
-<!-- chunk {"id": "body-0027", "role": "body", "section": "AgiBot World: Model", "weight": 1.0} -->
-
-To effectively utilize our high-quality AgiBot World dataset and enhance the policy's generalizability, we propose a hierarchical Vision-Language-Latent-Action (ViLLA) framework with three training stages, as depicted in Fig. 4. Compared to Vision-Language-Action (VLA) model where action is vision-language conditioned, the ViLLA model predicts latent action tokens, conditioned on the generation of subsequent robot control actions.
 
 <!-- chunk {"id": "body-0028", "role": "body", "section": "AgiBot World: Model", "weight": 1.0} -->
 
+To effectively utilize our high-quality AgiBot World dataset and enhance the policy's generalizability, we propose a hierarchical Vision-Language-Latent-Action (ViLLA) framework with three training stages, as depicted in Fig. 4. Compared to Vision-Language-Action (VLA) model where action is vision-language conditioned, the ViLLA model predicts latent action tokens, conditioned on the generation of subsequent robot control actions.
+
+<!-- chunk {"id": "body-0029", "role": "body", "section": "AgiBot World: Model", "weight": 1.0} -->
+
 In Stage 1, we project consecutive images into a latent action space by training an encoder-decoder latent action model (LAM) on internet-scale heterogeneous data. This allows the latent action to serve as an intermediate representation, bridging the gap between general image-text inputs and robotic actions. In Stage 2, these latent actions act as pseudo-labels for the latent planner, facilitating embodiment-agnostic long-horizon planning and leveraging the generalizability of the pre-trained VLM. Finally, in Stage 3, we introduce the action expert and jointly train it with the latent planner to support the learning of dexterous manipulation.
-
-<!-- chunk {"id": "body-0029", "role": "body", "section": "IV-A Latent Action Model", "weight": 1.0} -->
-
-Despite considerable advancements in gathering diverse robot demonstrations, the volume of action-labeled robot data remains limited relative to web-scale datasets. To broaden the data pool by incorporating internet-scale human videos lacking action labels and cross-embodiment robot data, we employ latent actions in Stage 1 to model the inverse dynamics of consecutive frames. This approach enables the transfer of real-world dynamics from heterogeneous data sources into universal manipulation knowledge.
 
 <!-- chunk {"id": "body-0030", "role": "body", "section": "IV-A Latent Action Model", "weight": 1.0} -->
 
-To extract latent actions from video frames $\{ I_{t},I_{t + H}\}$, the latent action model is constructed around an inverse dynamics model-based encoder $\mathbf{I}{(\left. z_{t} \middle| {I_{t},I_{t + H}} \right.)}$ and a forward dynamics model-based decoder $\mathbf{F}{(\left. I_{t + H} \middle| {I_{t},z_{t}} \right.)}$.
+Despite considerable advancements in gathering diverse robot demonstrations, the volume of action-labeled robot data remains limited relative to web-scale datasets. To broaden the data pool by incorporating internet-scale human videos lacking action labels and cross-embodiment robot data, we employ latent actions in Stage 1 to model the inverse dynamics of consecutive frames. This approach enables the transfer of real-world dynamics from heterogeneous data sources into universal manipulation knowledge.
 
 <!-- chunk {"id": "body-0031", "role": "body", "section": "IV-A Latent Action Model", "weight": 1.0} -->
 
-The encoder employs a spatial-temporal transformer with casual temporal masks following Bruce et al., while the decoder is a spatial transformer that takes the initial frame and discretized latent action tokens $z_{t} = {\lbrack z_{t}^{0},\ldots,z_{t}^{k - 1}\rbrack}$ as input, with $k$ set to 4. The latent action tokens are quantized using a VQ-VAE objective, with a codebook of size $|C|$.
+To extract latent actions from video frames $\{I_{t},I_{t+H}\}$, the latent action model is constructed around an inverse dynamics model-based encoder $\mathbf{I}(z_{t}|I_{t},I_{t+H})$ and a forward dynamics model-based decoder $\mathbf{F}(I_{t+H}|I_{t},z_{t})$. The encoder employs a spatial-temporal transformer with casual temporal masks following Bruce et al., while the decoder is a spatial transformer that takes the initial frame and discretized latent action tokens $z_{t}=[z_{t}^{0},...,z_{t}^{k-1}]$ as input, with $k$ set to 4. The latent action tokens are quantized using a VQ-VAE objective, with a codebook of size $|C|$.
 
 <!-- chunk {"id": "body-0032", "role": "body", "section": "IV-B Latent Planner", "weight": 1.0} -->
 
@@ -132,7 +132,7 @@ With the aim of establishing a solid foundation for scene and object understandi
 
 <!-- chunk {"id": "body-0033", "role": "body", "section": "IV-B Latent Planner", "weight": 1.0} -->
 
-Specifically, given multiview input images $\left( I_{t}^{h},I_{t}^{l},I_{t}^{r} \right)$ (typically from the head, left wrist, and right wrist) at timestep $t$, along with a language instruction $l$ describing the ongoing task, the latent planner predicts latent action tokens: $\mathbf{P}\left( z_{t} \middle| {I_{t}^{h},I_{t}^{l},I_{t}^{r},l} \right)$, with supervision produced by the LAM encoder based on the head view: $z_{t}:={\mathbf{I}{(I_{t}^{h},I_{t + H}^{h})}}$. Since the latent action space is orders of magnitude smaller than the discretized low-level actions used in OpenVLA, this approach also facilitates the efficient adaptation of general-purpose VLMs into robot policies.
+Specifically, given multiview input images $\left(I_{t}^{h},I_{t}^{l},I_{t}^{r}\right)$ (typically from the head, left wrist, and right wrist) at timestep $t$, along with a language instruction $l$ describing the ongoing task, the latent planner predicts latent action tokens: $\mathbf{P}\left(z_{t}|I_{t}^{h},I_{t}^{l},I_{t}^{r},l\right)$, with supervision produced by the LAM encoder based on the head view: $z_{t}:=\mathbf{I}(I_{t}^{h},I_{t+H}^{h})$. Since the latent action space is orders of magnitude smaller than the discretized low-level actions used in OpenVLA, this approach also facilitates the efficient adaptation of general-purpose VLMs into robot policies.
 
 <!-- chunk {"id": "body-0034", "role": "body", "section": "IV-C Action Expert", "weight": 1.0} -->
 
@@ -140,7 +140,7 @@ To achieve high-frequency and dexterous manipulation, Stage 3 integrates an acti
 
 <!-- chunk {"id": "body-0035", "role": "body", "section": "IV-C Action Expert", "weight": 1.0} -->
 
-The action expert decodes low-level action chunks, denoted by $A_{t} = {\lbrack a_{t},a_{t + 1},\ldots,a_{t + H}\rbrack}$ with $H = 30$, using proprioceptive state $p_{t}$ over an interval of $H$ timesteps: $\mathbf{A}\left( A_{t} \middle| {I_{t}^{h},I_{t}^{l},I_{t}^{r},p_{t},l} \right)$. During inference, the VLM, latent planner, and action expert are synergistically combined within the generalist policy GO-1, which initially predicts $k$ latent action tokens and subsequently conditions the denoising process to produce the final control signals.
+The action expert decodes low-level action chunks, denoted by ${A}_{t}=[{a}_{t},{a}_{t+1},...,{a}_{t+H}]$ with $H=30$, using proprioceptive state $p_{t}$ over an interval of $H$ timesteps: $\mathbf{A}\left(A_{t}|I_{t}^{h},I_{t}^{l},I_{t}^{r},p_{t},l\right)$. During inference, the VLM, latent planner, and action expert are synergistically combined within the generalist policy GO-1, which initially predicts $k$ latent action tokens and subsequently conditions the denoising process to produce the final control signals.
 
 <!-- chunk {"id": "body-0036", "role": "body", "section": "Experiment and Analysis", "weight": 1.0} -->
 
@@ -168,7 +168,7 @@ We evaluate GO-1 on five tasks of varying complexity, categorized by their visua
 
 <!-- chunk {"id": "body-0042", "role": "body", "section": "V-D Does GO-1's ability scale with data size?", "weight": 1.0} -->
 
-To investigate whether a power-law scaling relationship exists between the size of pre-training data and policy capability, we conduct an analysis using 10% subsets of the alpha, 100% alpha, and beta dataset, where the number of training trajectories are ranged from 9.2k to 1M. We evaluate the out-of-the-box performance of resulting policies on four seen tasks in pre-training. As shown in Fig. 7(a), the policy's performance exhibits a predictable power-law scaling relationship with the number of trajectories, supported by a Pearson correlation coefficient of $r = 0.97$.
+To investigate whether a power-law scaling relationship exists between the size of pre-training data and policy capability, we conduct an analysis using 10% subsets of the alpha, 100% alpha, and beta dataset, where the number of training trajectories are ranged from 9.2k to 1M. We evaluate the out-of-the-box performance of resulting policies on four seen tasks in pre-training. As shown in Fig. 7(a), the policy's performance exhibits a predictable power-law scaling relationship with the number of trajectories, supported by a Pearson correlation coefficient of $r=0.97$.
 
 <!-- chunk {"id": "body-0043", "role": "body", "section": "V-E How does data quality impact policy learning?", "weight": 1.0} -->
 

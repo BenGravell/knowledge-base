@@ -28,7 +28,7 @@ In this work, we propose a data generation framework that leverages the strength
 
 <!-- chunk {"id": "body-0007", "role": "body", "section": "Introduction", "weight": 1.5} -->
 
-We present an intuitive, embodiment-flexible demonstration interface based on virtual reality and physics simulation, enabling fast data collection for dexterous contact-rich manipulation.
+Our key contributions include: We present an intuitive, embodiment-flexible demonstration interface based on virtual reality and physics simulation, enabling fast data collection for dexterous contact-rich manipulation.
 
 <!-- chunk {"id": "body-0008", "role": "body", "section": "Introduction", "weight": 1.5} -->
 
@@ -96,7 +96,7 @@ We present a Virtual Reality (VR)-based data collection pipeline designed for in
 
 <!-- chunk {"id": "body-0024", "role": "body", "section": "Data Collection", "weight": 1.0} -->
 
-Our data collection pipeline is a human-hand demonstration interface in VR. We use an Apple Vision Pro to track the poses of the human demonstrator's hands and stream the poses to the Drake physics simulator, which simulates the contact interaction between the object and the hands. The updated object pose is then sent back to Apple Vision Pro for real-time visualization in VR using Vuer.
+Our data collection pipeline (Fig. 1) is a human-hand demonstration interface in VR. We use an Apple Vision Pro to track the poses of the human demonstrator's hands and stream the poses to the Drake physics simulator, which simulates the contact interaction between the object and the hands. The updated object pose is then sent back to Apple Vision Pro for real-time visualization in VR using Vuer.
 
 <!-- chunk {"id": "body-0025", "role": "body", "section": "Data Collection", "weight": 1.0} -->
 
@@ -108,11 +108,11 @@ We demonstrate our pipeline on two different classes of robot embodiments: a dex
 
 <!-- chunk {"id": "body-0027", "role": "body", "section": "Data Collection", "weight": 1.0} -->
 
-Floating Allegro Hand For the dexterous hand, we consider a 22-DOF free-floating Allegro hand manipulating a cube on a table as shown in Fig.. Since the Allegro hand only has four fingers, we restrict the VR-based demonstrations to using four fingers on the right hand to interact with the object in simulation.
+Floating Allegro Hand For the dexterous hand, we consider a 22-DOF free-floating Allegro hand manipulating a cube on a table as shown in Fig. 2. Since the Allegro hand only has four fingers, we restrict the VR-based demonstrations to using four fingers on the right hand to interact with the object in simulation.
 
 <!-- chunk {"id": "body-0028", "role": "body", "section": "Data Collection", "weight": 1.0} -->
 
-Bimanual Robot Arms For the bimanual manipulation setup, we consider two different fixed-base bimanual manipulators: a pair of 7-DOF Kuka LBR iiwa arms, and a pair of Franka Emika Panda arms. Each pair of arms collaboratively manipulates a big box. During the VR demonstrations, the human demonstrator uses both index fingers to manipulate a small cube in VR and constrains their wrist movement to mimic the fixed base. During kinematic motion retargeting (detailed in Sec. IV-A), the small cube and fingers are scaled to match the size of the larger box and the robot manipulators.
+Bimanual Robot Arms For the bimanual manipulation setup, we consider two different fixed-base bimanual manipulators: a pair of 7-DOF Kuka LBR iiwa arms, and a pair of Franka Emika Panda arms. Each pair of arms collaboratively manipulates a big box (Fig. 2). During the VR demonstrations, the human demonstrator uses both index fingers to manipulate a small cube in VR and constrains their wrist movement to mimic the fixed base. During kinematic motion retargeting (detailed in Sec. IV-A), the small cube and fingers are scaled to match the size of the larger box and the robot manipulators.
 
 <!-- chunk {"id": "body-0029", "role": "body", "section": "Data Collection", "weight": 1.0} -->
 
@@ -128,23 +128,23 @@ Our method starts out by retargeting kinematic motions from the original embodim
 
 <!-- chunk {"id": "body-0032", "role": "body", "section": "IV-A Kinematic Motion Retargeting", "weight": 1.0} -->
 
-Given a sequence of demonstrations $x_{0:T}^{\text{demo}}$ with horizon $T$, we aim to find the robot configurations $q_{0:T}^{\text{retarget}}$ that match the positioning of the demonstrator while avoiding penetration and obeying joint limits.
+Given a sequence of demonstrations $x^{\text{demo}}_{0:T}$ with horizon $T$, we aim to find the robot configurations $q^{\text{retarget}}_{0:T}$ that match the positioning of the demonstrator while avoiding penetration and obeying joint limits. At each time step, we solve the following nonconvex program: where $w_{i}>0$ are weight parameters, and $\psi_{i}$ and $\tilde{\psi}_{i}$ represent the $i$-th mappings from the robot configuration and demonstrator state to corresponding points on the embodiments. The corresponding points of interest for each robot/demonstrator pair are manually defined. For example, on the bimanual robot arm system, $\psi_{0}$ is the forward kinematics from the robot joint angles to the left robot arm's end effector position, while $\tilde{\psi}_{0}$ is a map from the hand pose to the fingertip of the left index finger.
 
 <!-- chunk {"id": "body-0033", "role": "body", "section": "IV-A Kinematic Motion Retargeting", "weight": 1.0} -->
 
-where $w_{i} > 0$ are weight parameters, and $\psi_{i}$ and ${\overset{\sim}{\psi}}_{i}$ represent the $i$-th mappings from the robot configuration and demonstrator state to corresponding points on the embodiments. The corresponding points of interest for each robot/demonstrator pair are manually defined. For example, on the bimanual robot arm system, $\psi_{0}$ is the forward kinematics from the robot joint angles to the left robot arm's end effector position, while ${\overset{\sim}{\psi}}_{0}$ is a map from the hand pose to the fingertip of the left index finger. We find the resulting plans generated by trajectory optimization relatively robust to the correspondence and weight parameter selection. $\phi_{j}$ denotes the signed distance function between the $j$-th collision pair and (1b) enforces nonpenetration constraints.
+We find the resulting plans generated by trajectory optimization relatively robust to the correspondence and weight parameter selection. $\phi_{j}$ denotes the signed distance function between the $j$-th collision pair and (1b) enforces nonpenetration constraints. $q_{\text{min}}$ and $q_{\text{max}}$ are the lower and upper bounds on the joint angles. Notice that $q^{\text{retarget}}$ and $x^{\text{demo}}$ can have different dimensions as long as both $\psi_{i}$ and $\tilde{\psi}_{i}$ map them to vectors in the same space (e.g., Apple Vision Pro captures 5 landmarks on the index finger while each robot arm has 7 DOF in the bimanual robot arm system). We solve using a Sequential Quadratic Programming (SQP)-style algorithm: during each iteration, the nonpenetration constraint (1b) is linearized and the matching objective (1a) is quadratically approximated around the solution to the previous iteration.
 
 <!-- chunk {"id": "body-0034", "role": "body", "section": "IV-A Kinematic Motion Retargeting", "weight": 1.0} -->
 
-$q_{\text{min}}$ and $q_{\text{max}}$ are the lower and upper bounds on the joint angles. Notice that $q^{\text{retarget}}$ and $x^{\text{demo}}$ can have different dimensions as long as both $\psi_{i}$ and ${\overset{\sim}{\psi}}_{i}$ map them to vectors in the same space (e.g., Apple Vision Pro captures 5 landmarks on the index finger while each robot arm has 7 DOF in the bimanual robot arm system). We solve using a Sequential Quadratic Programming (SQP)-style algorithm: during each iteration, the nonpenetration constraint (1b) is linearized and the matching objective (1a) is quadratically approximated around the solution to the previous iteration. We warmstart the solution of the nonlinear program at time $t$ with the optimal solution from the previous timestep ${}_{t - 1}^{}$ to encourage faster convergence and temporal consistency.
+We warmstart the solution of the nonlinear program at time $t$ with the optimal solution from the previous timestep ${q_{t-1}^{\text{retarget}}}^{\star}$ to encourage faster convergence and temporal consistency.
 
 <!-- chunk {"id": "body-0035", "role": "body", "section": "IV-B Demonstration-Guided Trajectory Optimization", "weight": 1.0} -->
 
-The kinematically consistent robot trajectories ${}_{0:T}^{}$ are generally not dynamically feasible due to the embodiment gap and differences in physical parameters. However, they can provide good guidance on generating dynamically feasible trajectories with complex multi-contact interactions. In particular, human demonstrations provide global information about when and where to make contact with the object, which model-based planning can then locally refine. We define the retargeted system state $x_{t}^{\text{retarget}}$ to incorporate both the object state $x_{t}^{\text{object}}$, which is a subset of $x_{t}^{\text{demo}}$, and the robot state as a function of ${}_{}^{}$.
+The kinematically consistent robot trajectories ${q_{0:T}^{\text{retarget}}}^{\star}$ are generally not dynamically feasible due to the embodiment gap and differences in physical parameters. However, they can provide good guidance on generating dynamically feasible trajectories with complex multi-contact interactions. In particular, human demonstrations provide global information about when and where to make contact with the object, which model-based planning can then locally refine. We define the retargeted system state $x_{t}^{\text{retarget}}$ to incorporate both the object state $x_{t}^{\text{object}}$, which is a subset of $x_{t}^{\text{demo}}$, and the robot state as a function of ${q_{t}^{\text{retarget}}}^{\star}$.
 
 <!-- chunk {"id": "body-0036", "role": "body", "section": "IV-B Demonstration-Guided Trajectory Optimization", "weight": 1.0} -->
 
-Here, $u$ is the control input, $f$ is obtained by time-stepping the dynamics engine, $x_{\text{min}}/x_{\text{max}}$ ($u_{\text{min}}/u_{\text{max}}$) are the lower and upper bounds on the state (input), $Q_{t},R_{t}$ are the cost matrices for the state and input, respectively, and $Q_{T}$ is the cost matrix for the terminal state. To encourage precise tracking of the object trajectory, we assign higher weights to the entries of $Q_{t}$ which correspond to $x_{t}^{\text{object}}$. The detailed parameters can be found in Appendix X-A.
+The trajectory $x_{0:T}^{\text{retarget}}$ is then locally refined by solving the following nonconvex optimization program: Here, $u$ is the control input, $f$ is obtained by time-stepping the dynamics engine, $x_{\text{min}}/x_{\text{max}}$ ($u_{\text{min}}/u_{\text{max}}$) are the lower and upper bounds on the state (input), $Q_{t},R_{t}$ are the cost matrices for the state and input, respectively, and $Q_{T}$ is the cost matrix for the terminal state. To encourage precise tracking of the object trajectory, we assign higher weights to the entries of $Q_{t}$ which correspond to $x_{t}^{\text{object}}$. The detailed parameters can be found in Appendix X-A.
 
 <!-- chunk {"id": "body-0037", "role": "body", "section": "IV-B Demonstration-Guided Trajectory Optimization", "weight": 1.0} -->
 
@@ -152,44 +152,39 @@ In general, model-based planners can struggle to discover high-quality long-hori
 
 <!-- chunk {"id": "body-0038", "role": "body", "section": "IV-B Demonstration-Guided Trajectory Optimization", "weight": 1.0} -->
 
-Thanks to access to the system dynamics $f$ in simulation, we can locally perturb the physical parameters as well as robot and object states around a nominal demonstration. From the single demonstration, we can solve for a distribution of tasks with different dynamics $f{(x_{t},u_{t},\theta_{t})}$, where $\theta_{t} \sim \rho$ represents all the perturbations. We assume the kinematically retargeted trajectory $x_{0:T}^{\text{retarget}}$ still provides good guidance on achieving the task in the vicinity of the nominal demonstration. This way, a large number of physically consistent trajectories with various physical properties and initial conditions can be generated from a single human demonstration. We outline our data generation pipeline in Algorithm.
+Thanks to access to the system dynamics $f$ in simulation, we can locally perturb the physical parameters as well as robot and object states around a nominal demonstration. From the single demonstration, we can solve for a distribution of tasks with different dynamics $f(x_{t},u_{t},\theta_{t})$, where $\theta_{t}\sim\rho$ represents all the perturbations. We assume the kinematically retargeted trajectory $x_{0:T}^{\text{retarget}}$ still provides good guidance on achieving the task in the vicinity of the nominal demonstration. This way, a large number of physically consistent trajectories with various physical properties and initial conditions can be generated from a single human demonstration. We outline our data generation pipeline in Algorithm 1.
 
 <!-- chunk {"id": "body-0039", "role": "body", "section": "IV-B Demonstration-Guided Trajectory Optimization", "weight": 1.0} -->
 
-1Input: Probability distribution ρ, augmentation number N, demo trajectory x0: Tdemo;
-2 Output: N dynamically consistent trajectories on target embodiments {(x0: T⋆,u0: T − 1⋆)};
-3 0: T← Solve for x0: Tdemo;
-6 (x0: T⋆,u0: T − 1⋆)← Solve with x0: Tretarget, θ0: T and xt + 1 = f (xt,ut,θt);
-Algorithm 1 Automated Data Generation
+1Input: Probability distribution ρ, augmentation number N, demo trajectory x0: Tdemo; 2 Output: N dynamically consistent trajectories on target embodiments {(x0: T⋆, u0: T − 1⋆)}; 3 q0: Tretarget⋆← Solve for x0: Tdemo; 6 (x0: T⋆, u0: T − 1⋆)← Solve with x0: Tretarget, θ0: T and xt + 1 = f(xt, ut, θt); Algorithm 1 Automated Data Generation Floating Allegro Hand Bimanual Robot Arms Init. obj. trans. pert. (cm) Init. obj. rot. pert. (rad) Object side length (cm) TABLE I: Ranges of different physical parameters θ. The initial object pose is only perturbed in yaw, x, and y to ensure the object sits stably on the table.
 
-<!-- chunk {"id": "body-0040", "role": "body", "section": "IV-B Demonstration-Guided Trajectory Optimization", "weight": 1.0} -->
-
-Floating Allegro Hand
-Bimanual Robot Arms
-
-<!-- chunk {"id": "body-0041", "role": "body", "section": "IV-B Demonstration-Guided Trajectory Optimization", "weight": 1.0} -->
-
-Init. obj. rot. pert. (rad)
-
-<!-- chunk {"id": "body-0042", "role": "body", "section": "Trajectory Optimization Experiments", "weight": 1.0} -->
+<!-- chunk {"id": "body-0040", "role": "body", "section": "Trajectory Optimization Experiments", "weight": 1.0} -->
 
 While kinematic retargeting of demonstrations might suffice to generate data for simpler manipulation tasks such as pick and place, it often falls short for the more challenging contact-rich tasks requiring frequent contact mode switches and fine-grained actions. In this section, we demonstrate that trajectory optimization is crucial for generating diverse, dynamically feasible contact-rich trajectories on three high-dimensional dexterous manipulation systems: a floating Allegro hand, bimanual iiwa arms, and bimanual Panda arms.
 
-<!-- chunk {"id": "body-0043", "role": "body", "section": "Trajectory Optimization Experiments", "weight": 1.0} -->
+<!-- chunk {"id": "body-0041", "role": "body", "section": "Trajectory Optimization Experiments", "weight": 1.0} -->
 
 Our data generation framework is agnostic to the choice of the trajectory optimizer. We implement the cross-entropy method (CEM) to solve over a distribution of physical parameters and initial conditions, as specified in Table I.
 
+<!-- chunk {"id": "body-0042", "role": "body", "section": "Trajectory Optimization Experiments", "weight": 1.0} -->
+
+Task Manipulating the object to a target pose on the table (Fig. 5). The object is initially placed randomly on the table with an arbitrary face upward. Task success is defined as the object reaching within 3 cm and 0.2 rad of the target pose for the Allegro hand, and within 10 cm and 0.2 rad for the bimanual robot arms. This task requires long-horizon reasoning of complex multi-contact interactions between the robot and the object. The necessary frequent contact mode switches and high-dimensional action space pose great challenges for traditional model-based planners, while the precise contact interactions require fine-grained control actions.
+
+<!-- chunk {"id": "body-0043", "role": "body", "section": "Trajectory Optimization Experiments", "weight": 1.0} -->
+
+Initial object translation Initial object orientation TABLE II: Success rates of replaying kinematically retargeted trajectories of the 24 original human demos, and trajectory optimization under random perturbations in physical parameters and object initial conditions.
+
 <!-- chunk {"id": "body-0044", "role": "body", "section": "Trajectory Optimization Experiments", "weight": 1.0} -->
-
-Task Manipulating the object to a target pose on the table. The object is initially placed randomly on the table with an arbitrary face upward. Task success is defined as the object reaching within 3 cm and 0.2 rad of the target pose for the Allegro hand, and within 10 cm and 0.2 rad for the bimanual robot arms. This task requires long-horizon reasoning of complex multi-contact interactions between the robot and the object. The necessary frequent contact mode switches and high-dimensional action space pose great challenges for traditional model-based planners, while the precise contact interactions require fine-grained control actions.
-
-<!-- chunk {"id": "body-0045", "role": "body", "section": "Trajectory Optimization Experiments", "weight": 1.0} -->
 
 Dynamic Feasibility While kinematic motion retargeting can generate visually plausible robot and object trajectories, these trajectories often lack dynamical consistency due to the differences in physical parameters and embodiment between the human demonstrator and the target robot. To illustrate this, we replay the kinematically retargeted trajectories of the original 24 human demos and record the success rates for each system in Table II. Furthermore, we randomly sample object sizes and perturbations of initial object poses according to Table I and roll out the nominal kinematically retargeted trajectories. Some trajectories still succeed under certain perturbations thanks to caging grasps or other strategies that encourage robustness during the human demonstration. For all the systems, the successful rollouts are relatively short, manipulating the object to the goal pose within only 1 or 2 rotations.
 
+<!-- chunk {"id": "body-0045", "role": "body", "section": "Trajectory Optimization Experiments", "weight": 1.0} -->
+
+The low success rate of purely kinematically retargeted trajectories highlights the importance of trajectory optimization for locally refining the demos for the particular embodiments and physical parameters. Before trajectory optimization, the floating Allegro hand lightly touches the cube and easily loses contact when rotating it clockwise (demonstrated in Fig. 3a). After trajectory optimization, the hand increases the contact area, establishing a stable grip for rotation. In Fig. 3b, similar behavior that encourages contact can be observed for the bimanual iiwa arms: the demo trajectory tries to rotate the box clockwise only using a single arm, while trajectory optimization encourages the other arm to help hold the box and reorient the box more stably. These refinements that encourage contact are particularly helpful when the object is heavier or smaller, or when the friction coefficients are lower than expected. In addition, replaying the kinematically retargeted trajectory often fails when the object pose deviates slightly from the demonstration, driving the object out of reach (visualized in Fig. 3c). In contrast, trajectory optimization accounts for the system's true dynamics and can adjust the robot's actions accordingly.
+
 <!-- chunk {"id": "body-0046", "role": "body", "section": "Trajectory Optimization Experiments", "weight": 1.0} -->
 
-The low success rate of purely kinematically retargeted trajectories highlights the importance of trajectory optimization for locally refining the demos for the particular embodiments and physical parameters. Before trajectory optimization, the floating Allegro hand lightly touches the cube and easily loses contact when rotating it clockwise. After trajectory optimization, the hand increases the contact area, establishing a stable grip for rotation. In Fig. b, similar behavior that encourages contact can be observed for the bimanual iiwa arms: the demo trajectory tries to rotate the box clockwise only using a single arm, while trajectory optimization encourages the other arm to help hold the box and reorient the box more stably. These refinements that encourage contact are particularly helpful when the object is heavier or smaller, or when the friction coefficients are lower than expected. In addition, replaying the kinematically retargeted trajectory often fails when the object pose deviates slightly from the demonstration, driving the object out of reach. In contrast, trajectory optimization accounts for the system's true dynamics and can adjust the robot's actions accordingly. The success rates of trajectory optimization under random perturbations in physical parameters and object initial conditions for each system are recorded in Table II.
+The success rates of trajectory optimization under random perturbations in physical parameters and object initial conditions for each system are recorded in Table II.
 
 <!-- chunk {"id": "body-0047", "role": "body", "section": "Trajectory Optimization Experiments", "weight": 1.0} -->
 
@@ -197,7 +192,7 @@ We compare our method to MimicGen, an automatic data generation pipeline that ad
 
 <!-- chunk {"id": "body-0048", "role": "body", "section": "Trajectory Optimization Experiments", "weight": 1.0} -->
 
-Cross-Embodiment Generalization We demonstrate that a single set of human demonstrations can be effectively repurposed to generate dynamically consistent, contact-rich trajectories across different robotic embodiments with varying task horizons. Specifically, human demonstrations involving two index fingers manipulating a small cube are retargeted to fixed-base bimanual Kuka LBR iiwa and Franka Emika Panda arms manipulating a larger box. This approach addresses key challenges in data collection for contact-rich tasks: directly teleoperating two real robot arms to flip a large box would be both physically demanding and cost-prohibitive due to hardware latency, limited feedback, and the embodiment gap--differences in kinematic structure, degrees of freedom, and workspace between human and robotic arms. In contrast, performing the same task on a smaller scale using human fingers is more intuitive, reduces physical effort, and enables faster, more consistent demonstration collection.
+Cross-Embodiment Generalization We demonstrate that a single set of human demonstrations can be effectively repurposed to generate dynamically consistent, contact-rich trajectories across different robotic embodiments with varying task horizons. Specifically, human demonstrations involving two index fingers manipulating a small cube are retargeted to fixed-base bimanual Kuka LBR iiwa and Franka Emika Panda arms manipulating a larger box (visualized in Fig. 2). This approach addresses key challenges in data collection for contact-rich tasks: directly teleoperating two real robot arms to flip a large box would be both physically demanding and cost-prohibitive due to hardware latency, limited feedback, and the embodiment gap--differences in kinematic structure, degrees of freedom, and workspace between human and robotic arms. In contrast, performing the same task on a smaller scale using human fingers is more intuitive, reduces physical effort, and enables faster, more consistent demonstration collection.
 
 <!-- chunk {"id": "body-0049", "role": "body", "section": "Trajectory Optimization Experiments", "weight": 1.0} -->
 
@@ -205,7 +200,7 @@ The iiwa and Panda arms differ in contact geometry, velocity limits, and joint c
 
 <!-- chunk {"id": "body-0050", "role": "body", "section": "Trajectory Optimization Experiments", "weight": 1.0} -->
 
-Data Diversity Trajectory optimization efficiently augments a single demonstration to a wide distribution of trajectories with locally perturbed physical parameters and initial conditions as visualized in Fig.. The diverse states in the generated dataset cover a larger training distribution and encourage smoother learned policies, as will be discussed in the next section.
+Data Diversity Trajectory optimization efficiently augments a single demonstration to a wide distribution of trajectories with locally perturbed physical parameters and initial conditions as visualized in Fig. 4. The diverse states in the generated dataset cover a larger training distribution and encourage smoother learned policies, as will be discussed in the next section.
 
 <!-- chunk {"id": "body-0051", "role": "body", "section": "Behavior Cloning Experiments", "weight": 1.0} -->
 
@@ -213,7 +208,7 @@ We illustrate our framework's capability to efficiently produce diverse, high-qu
 
 <!-- chunk {"id": "body-0052", "role": "body", "section": "VI-A Policy Evaluation in Simulation", "weight": 1.0} -->
 
-From only 24 human demonstrations, our data generation pipeline can efficiently generate thousands of dynamically feasible contact-rich trajectories using trajectory optimization. We train state-based diffusion policies on the 24 original demo trajectories, as well as 500 and 1000 generated trajectories. While our method is compatible with any Behavior Cloning algorithm, we adopt diffusion policies due to its recent success in contact-rich tasks. Fig. visualizes the policy rollouts. We evaluate the performance by conducting 48 policy rollouts for each embodiment in simulation and record the success rates in Fig.. The success criteria are the same as specified in the trajectory optimization experiments.
+From only 24 human demonstrations, our data generation pipeline can efficiently generate thousands of dynamically feasible contact-rich trajectories using trajectory optimization. We train state-based diffusion policies on the 24 original demo trajectories, as well as 500 and 1000 generated trajectories. While our method is compatible with any Behavior Cloning algorithm, we adopt diffusion policies due to its recent success in contact-rich tasks. Fig. 5 visualizes the policy rollouts. We evaluate the performance by conducting 48 policy rollouts for each embodiment in simulation and record the success rates in Fig. 7. The success criteria are the same as specified in the trajectory optimization experiments.
 
 <!-- chunk {"id": "body-0053", "role": "body", "section": "VI-A1 Floating Allegro Hand", "weight": 1.0} -->
 
@@ -221,11 +216,11 @@ While the human demonstrator completes the task in approximately 5 seconds on av
 
 <!-- chunk {"id": "body-0054", "role": "body", "section": "VI-A1 Floating Allegro Hand", "weight": 1.0} -->
 
-The baseline behavior cloning policy trained on the original set of 24 demonstrations achieves a success rate of ${10/48} = {21\%}$ and exhibits significant jittery behavior when encountering out-of-distribution states. The workspace, characterized by diverse object orientations and translations, is sufficiently large that minor deviations during policy rollouts often drive the trajectory out of the demonstrated distribution. Common failure modes include the Allegro hand repeatedly missing contact with the cube or becoming stuck on its surface while attempting reorientation, which often result in the object being trapped in intermediate orientations. In contrast, policies trained on the expanded dataset generated by our pipeline demonstrate a higher likelihood of re-establishing contact with the object after initial misses, resulting in significantly improved success rates up to ${39/48} = {81\%}$.
+The baseline behavior cloning policy trained on the original set of 24 demonstrations achieves a success rate of $10/48=21\%$ and exhibits significant jittery behavior when encountering out-of-distribution states. The workspace, characterized by diverse object orientations and translations, is sufficiently large that minor deviations during policy rollouts often drive the trajectory out of the demonstrated distribution. Common failure modes include the Allegro hand repeatedly missing contact with the cube or becoming stuck on its surface while attempting reorientation (visualized in Fig. 6a), which often result in the object being trapped in intermediate orientations. In contrast, policies trained on the expanded dataset generated by our pipeline demonstrate a higher likelihood of re-establishing contact with the object after initial misses, resulting in significantly improved success rates up to $39/48=81\%$.
 
 <!-- chunk {"id": "body-0055", "role": "body", "section": "VI-A2 Bimanual Robot Arms", "weight": 1.0} -->
 
-The baseline policy trained on the original set of 24 human demonstrations achieves a success rate of ${27/48} = {56\%}$ on the bimanual iiwa system. We hypothesize that the restrictive velocity limits encourage more quasi-static behavior, leading to longer trajectories with a higher density of state-action pairs in the training data. In contrast, the baseline policy yields a success rate of ${14/48} = {29\%}$ on the bimanual Panda system, likely due to the more dynamic nature of the learned behavior under its looser velocity constraints. Both baseline policies exhibit remarkably jittery motion, frequently kicking the box out of reach, losing contact, or running into and getting stuck on the box surface during reorientation. Policies trained on the augmented dataset, however, generate significantly smoother trajectories and are capable of re-establishing contact with the object after initial misses, resulting in as high as ${44/48} = {92\%}$ success rates for bimanual iiwa arms and ${42/48} = {87.5\%}$ for bimanual Panda arms.
+The baseline policy trained on the original set of 24 human demonstrations achieves a success rate of $27/48=56\%$ on the bimanual iiwa system. We hypothesize that the restrictive velocity limits encourage more quasi-static behavior, leading to longer trajectories with a higher density of state-action pairs in the training data. In contrast, the baseline policy yields a success rate of $14/48=29\%$ on the bimanual Panda system, likely due to the more dynamic nature of the learned behavior under its looser velocity constraints. Both baseline policies exhibit remarkably jittery motion, frequently kicking the box out of reach, losing contact, or running into and getting stuck on the box surface during reorientation (visualized in Fig. 6b and c). Policies trained on the augmented dataset, however, generate significantly smoother trajectories and are capable of re-establishing contact with the object after initial misses, resulting in as high as $44/48=92\%$ success rates for bimanual iiwa arms and $42/48=87.5\%$ for bimanual Panda arms.
 
 <!-- chunk {"id": "body-0056", "role": "body", "section": "VI-A2 Bimanual Robot Arms", "weight": 1.0} -->
 
@@ -233,11 +228,11 @@ Additionally, the learned policies capture multimodal behaviors observed in the 
 
 <!-- chunk {"id": "body-0057", "role": "body", "section": "VI-B Policy Evaluation on Hardware", "weight": 1.0} -->
 
-We zero-shot deploy the trained policies on hardware for bimanual iiwa arms to flip a 30 cm cubic box on a table. An OptiTrack motion capture system is employed to estimate the object pose. The baseline behavior cloning policy only achieves ${6/23} = {26\%}$ success rate, with most successful rollouts being relatively short-horizon, involving only 1 or 2 rotations. Common failure modes of the baseline policy include: 1) deviation from the demonstration trajectory, causing the arms to collide with the box surface, and 2) significant box sliding during rolling, resulting in the policy encountering out-of-distribution states and failing to recover. In contrast, as shown in Fig. b, the policy trained on 500 generated trajectories achieves ${17/23} = {74\%}$ success rate, while the policy trained on 1000 generated trajectories achieves ${16/23} = {70\%}$ success rate. Despite occasional box sliding during rolling, these policies demonstrate an improved ability to stabilize the box by using one arm to hold the opposite side more firmly to prevent further sliding.
+We zero-shot deploy the trained policies on hardware for bimanual iiwa arms to flip a 30 cm cubic box on a table (Fig. 8). An OptiTrack motion capture system is employed to estimate the object pose. The baseline behavior cloning policy only achieves $6/23=26\%$ success rate, with most successful rollouts being relatively short-horizon, involving only 1 or 2 rotations. Common failure modes of the baseline policy include: 1) deviation from the demonstration trajectory, causing the arms to collide with the box surface (Fig. 9a), and 2) significant box sliding during rolling, resulting in the policy encountering out-of-distribution states and failing to recover (Fig. 9b). In contrast, as shown in Fig. 7b, the policy trained on 500 generated trajectories achieves $17/23=74\%$ success rate, while the policy trained on 1000 generated trajectories achieves $16/23=70\%$ success rate. Despite occasional box sliding during rolling, these policies demonstrate an improved ability to stabilize the box by using one arm to hold the opposite side more firmly to prevent further sliding (Fig 9d).
 
 <!-- chunk {"id": "body-0058", "role": "body", "section": "VI-B Policy Evaluation on Hardware", "weight": 1.0} -->
 
-However, as visualized in Fig c, both policies trained on the augmented datasets exhibit failure modes originating from unmodeled collision geometries on iiwa arms, which lead to significant undesired yaw motions of the box during pitch actions.
+However, as visualized in Fig 9c, both policies trained on the augmented datasets exhibit failure modes originating from unmodeled collision geometries on iiwa arms, which lead to significant undesired yaw motions of the box during pitch actions.
 
 <!-- chunk {"id": "body-0059", "role": "body", "section": "Limitations and Future Work", "weight": 1.5} -->
 

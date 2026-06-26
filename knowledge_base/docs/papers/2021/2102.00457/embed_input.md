@@ -112,111 +112,111 @@ Drawing inspiration from DrCIF, we first inject diversity into MiniRocket by tra
 
 <!-- chunk {"id": "body-0028", "role": "body", "section": "Time series representations", "weight": 1.0} -->
 
-The first order difference of a time series describes the rate of change of the time series between each unit time step. This gives additional information about the time series, such as identifying the slope of a time series or the presence of certain outliers (or patterns) in a time series that maybe easier to discriminate between two classes. A given time series $X = {\{ x_{1},x_{2},\ldots,x_{l}\}}$ is transformed into its first order difference, $X^{\prime}$ using Equation 1. We will use this notation to refer to a time series throughout the paper.
+The first order difference of a time series describes the rate of change of the time series between each unit time step. This gives additional information about the time series, such as identifying the slope of a time series or the presence of certain outliers (or patterns) in a time series that maybe easier to discriminate between two classes. A given time series $X = {\{ x_{1},x_{2},\ldots,x_{l}\}}$ is transformed into its first order difference, $X'$ using Equation 1. We will use this notation to refer to a time series throughout the paper.
 
 <!-- chunk {"id": "body-0029", "role": "body", "section": "Convolutional kernels", "weight": 1.0} -->
 
-Now, we describe the convolutional kernels used in MultiRocket. MultiRocket uses the same fixed set of kernels as used in MiniRocket, producing high classification accuracy and allowing for a highly optimised transform. Note that the enhancement used in MultiRocket is also applicable to improve the classification accuracy of Rocket. However, MiniRocket is preferable over Rocket due to its scalability. We refer interested readers to for details of the kernels used in Rocket.
+Now, we describe the convolutional kernels used in MultiRocket. MultiRocket uses the same fixed set of kernels as used in MiniRocket, producing high classification accuracy and allowing for a highly optimised transform. Note that the enhancement used in MultiRocket is also applicable to improve the classification accuracy of Rocket. However, MiniRocket is preferable over Rocket due to its scalability. We refer interested readers to for details of the kernels used in Rocket. The kernels for MultiRocket are characterised in terms of their length, weights, bias, dilation, and padding: Length and weights: As per MiniRocket, MultiRocket uses kernels of length 9, with weights restricted to two values and, in particular, the subset of such kernels where six weights have the value $- 1$, and three weights have the value $2$, e.g., $W = {\lbrack{- 1},{- 1},{- 1},{- 1},{- 1},{- 1},2,2,2\rbrack}$. This gives a total of 84 fixed kernels.
 
 <!-- chunk {"id": "body-0030", "role": "body", "section": "Convolutional kernels", "weight": 1.0} -->
 
-Length and weights: As per MiniRocket, MultiRocket uses kernels of length 9, with weights restricted to two values and, in particular, the subset of such kernels where six weights have the value $- 1$, and three weights have the value $2$, e.g., $W = {\lbrack{- 1},{- 1},{- 1},{- 1},{- 1},{- 1},2,2,2\rbrack}$. This gives a total of 84 fixed kernels.
+Dilation: Each kernel uses the same (fixed) set of dilations. Dilations are set in the range $\{{\lfloor 2^{0}\rfloor},\ldots,{\lfloor 2^{\text{max}}\rfloor}\}$, with the exponents spread uniformly between 0 and $\text{max} = {{\log_{2}{({l_{\text{input}} - 1})}}/{({l_{\text{kernel}} - 1})}}$, where $l_{\text{input}}$ is the length of the input time series and $l_{\text{kernel}}$ is kernel length.
 
 <!-- chunk {"id": "body-0031", "role": "body", "section": "Convolutional kernels", "weight": 1.0} -->
 
-Dilation: Each kernel uses the same (fixed) set of dilations. Dilations are set in the range $\{{\lfloor 2^{0}\rfloor},\ldots,{\lfloor 2^{\text{max}}\rfloor}\}$, with the exponents spread uniformly between 0 and $\text{max} = {{\log_{2}{({l_{\text{input}} - 1})}}/{({l_{\text{kernel}} - 1})}}$, where $l_{\text{input}}$ is the length of the input time series and $l_{\text{kernel}}$ is kernel length.
+Bias: Bias values for each kernel/dilation combination are drawn from the convolution output. For each kernel/dilation combination, we compute the convolution output for a randomly-selected training example, and take the quantiles of this output as bias values. (The random selection of training examples is the only random aspect of these kernels.)
 
 <!-- chunk {"id": "body-0032", "role": "body", "section": "Convolutional kernels", "weight": 1.0} -->
 
-Bias: Bias values for each kernel/dilation combination are drawn from the convolution output. For each kernel/dilation combination, we compute the convolution output for a randomly-selected training example, and take the quantiles of this output as bias values. (The random selection of training examples is the only random aspect of these kernels.)
-
-<!-- chunk {"id": "body-0033", "role": "body", "section": "Convolutional kernels", "weight": 1.0} -->
-
 Padding: Padding is alternated between kernel/dilation combinations, such that half of the kernel/dilation combinations use padding (standard zero padding), and half do not.
 
-<!-- chunk {"id": "body-0034", "role": "body", "section": "Convolution operation", "weight": 1.0} -->
+<!-- chunk {"id": "body-0033", "role": "body", "section": "Convolution operation", "weight": 1.0} -->
 
 The base and first order difference time series use different set of dilations and biases to produce the feature maps. The first order difference time series is shorter by one value than the base time series. Hence, the maximum dilation for the first order difference time series will be shorter than the base time series, resulting in a slightly different set of kernels than the base time series. Additionally, it has a different range of values from the base time series, resulting in a different set of bias values. Apart from these, the length, weights and padding are the same for both base and first order difference time series. The convolution operation then involves a sliding dot product between a kernel and a time series.
 
-<!-- chunk {"id": "body-0035", "role": "body", "section": "Pooling operators", "weight": 1.0} -->
+<!-- chunk {"id": "body-0034", "role": "body", "section": "Pooling operators", "weight": 1.0} -->
 
 After the convolution operations, MultiRocket then computes four features per convolution output, $Z$, with length $n$. These features summarise the values in $Z$ and are also known as pooling operators. Table 1 shows a summary of the pooling operators used in MultiRocket, *Proportion of Positive Values* (PPV), *Mean of Positive Values* (MPV), *Mean of Indices of Positive Values* (MIPV) and *Longest Stretch of Positive Values* (LSPV). The features are illustrated in Figure 3. Algorithm 1 in Appendix A illustrates the procedure to calculate all four features for a given convolution output, $Z$.
 
-<!-- chunk {"id": "body-0036", "role": "body", "section": "Proportion of positive values", "weight": 1.0} -->
+<!-- chunk {"id": "body-0035", "role": "body", "section": "Proportion of positive values", "weight": 1.0} -->
 
 PPV was introduced in Rocket and was found to be an exceptional feature for MiniRocket. It calculates the *proportion of positive values* from a convolution output $Z$. PPV is directly related to the bias term which can be seen as a 'threshold' for PPV, as described in Equation 2. A positive bias value means that PPV is able to capture the proportion of the time series reflecting even weak matches between the input and a given pattern, while a negative bias value means that PPV only captures the proportion of the input reflecting strong matches between the input and the given pattern. It is important to note that given PPV, computing the proportion of negative values would not add any extra information as they are complementary to each other. Given the exceptional performance and importance of PPV in MiniRocket, we retain PPV in MultiRocket.
 
-<!-- chunk {"id": "body-0037", "role": "body", "section": "Proportion of positive values", "weight": 1.0} -->
+<!-- chunk {"id": "body-0036", "role": "body", "section": "Proportion of positive values", "weight": 1.0} -->
 
 We augment PPV with three further pooling operators that capture forms of information about the convolutional output to which PPV is blind.
 
-<!-- chunk {"id": "body-0038", "role": "body", "section": "Mean of positive values", "weight": 1.0} -->
+<!-- chunk {"id": "body-0037", "role": "body", "section": "Mean of positive values", "weight": 1.0} -->
 
 First, we propose the *Mean of Positive Values* (MPV) to capture the magnitude of the positive values in a convolution output, $Z$ of length $n$, for example, distinguishing A from E in Table 1. MPV is calculated using Equation 3 where $Z^{+}$ represents a vector of positive values of length $m$ and ${\text{PPV}{(Z)}} = {{|Z^{+}|}/n} = {m/n}$.
 
-<!-- chunk {"id": "body-0039", "role": "body", "section": "Mean of positive values", "weight": 1.0} -->
+<!-- chunk {"id": "body-0038", "role": "body", "section": "Mean of positive values", "weight": 1.0} -->
 
 Similar to PPV, MPV is related to the bias term. It captures the intensity of the matches between an input time series and a given pattern -- an information that is available when computing PPV but discarded. This means that MPV can be computed with negligible additional computational cost.
 
-<!-- chunk {"id": "body-0040", "role": "body", "section": "Mean of indices of positive values", "weight": 1.0} -->
+<!-- chunk {"id": "body-0039", "role": "body", "section": "Mean of indices of positive values", "weight": 1.0} -->
 
 The *Mean of Indices of Positive Values* (MIPV) captures information about the relative location of positive values in the convolution outputs, for example, distinguishing A from B in Table 1. Consider the convolution output $Z$ as an array of values, MIPV is computed by first recording the relative location of all positive values in the array, i.e., its indices in the array. Then the mean of the indices is calculated using Equation 4, where $I^{+}$ indicates the indices of positive values. Note that ${\text{PPV}{(Z)}} = {{|I^{+}|}/n} = {m/n}$, where $m$ is the number of positive values in $Z$.
 
-<!-- chunk {"id": "body-0041", "role": "body", "section": "Mean of indices of positive values", "weight": 1.0} -->
+<!-- chunk {"id": "body-0040", "role": "body", "section": "Mean of indices of positive values", "weight": 1.0} -->
 
 In the case where there are no positive values, $m = 0$, MIPV returns -1 to differentiate from the first index, considering we start with index 0. For example, the convolution output $A$ in the dummy example in Table 1 has positive values at locations $I^{+} = {\lbrack 6,7,8,9\rbrack}$ giving $\text{MIPV} = 7.5$.
 
-<!-- chunk {"id": "body-0042", "role": "body", "section": "Mean of indices of positive values", "weight": 1.0} -->
+<!-- chunk {"id": "body-0041", "role": "body", "section": "Mean of indices of positive values", "weight": 1.0} -->
 
 Since ${\text{PPV}{(Z)}} = {{|I^{+}|}/n}$, the indices of positive values are also available when we are calculating PPV, but currently not used in MiniRocket. Thus, like MPV, MIPV can also be computed with negligible additional cost.
 
-<!-- chunk {"id": "body-0043", "role": "body", "section": "Longest stretch of positive values", "weight": 1.0} -->
+<!-- chunk {"id": "body-0042", "role": "body", "section": "Longest stretch of positive values", "weight": 1.0} -->
 
 MIPV pools all positive values and hence fails to distinguish between many small sequences of successive positive values and a small number of long sequences. This can provide information of the underlying time series as shown in the example in Appendix B. The *Longest Stretch of Positive Values* (LSPV) returns the maximum length of any subsequence of positive values in a convolution output, calculated using Equation 5.
 
-<!-- chunk {"id": "body-0044", "role": "body", "section": "Longest stretch of positive values", "weight": 1.0} -->
+<!-- chunk {"id": "body-0043", "role": "body", "section": "Longest stretch of positive values", "weight": 1.0} -->
 
 This provides a different form of information about the positive values in the convolutional output than is provided by any of the other features, for example, distinguishing C from the remaining series in Table 1. Note that calculating LSPV comes with a slight overhead over both MPV and MIPV.
 
-<!-- chunk {"id": "body-0045", "role": "body", "section": "Classifier", "weight": 1.0} -->
+<!-- chunk {"id": "body-0044", "role": "body", "section": "Classifier", "weight": 1.0} -->
 
 By default, MultiRocket produces 50,000 features (49,728 to be exact, using 6,216 kernels, 2 representations and 4 pooling operators). Like MiniRocket, the transformed features are used to train a linear classifier. MultiRocket uses a ridge regression classifier by default. As suggested in Dempster et al., a logistic regression classifier is preferable for larger datasets as it is faster to train. All of our experiments in Section 4 were conducted with the ridge classifier. The software also supports the logistic regression classifier if required.
 
-<!-- chunk {"id": "body-0046", "role": "body", "section": "Experiments", "weight": 1.0} -->
+<!-- chunk {"id": "body-0045", "role": "body", "section": "Experiments", "weight": 1.0} -->
 
 In this section, we evaluate MultiRocket on the datasets in the UCR univariate time series archive. We show that MultiRocket is significantly more accurate than its predecessor, MiniRocket and not significantly less accurate than the current most accurate TSC classifier, HIVE-COTE 2.0. By default, MultiRocket generates $50,000$ features. We show that even with $50,000$ features, MultiRocket is only about 10 times slower than MiniRocket, but orders of magnitude faster than other current state of the art methods. Our experiments also show that the smaller variant of MultiRocket with $10,000$ features (same number of features as MiniRocket) is as fast as MiniRocket while being significantly more accurate. Finally, we explore key design choices, including the choice of transformations, features and the number of features. These design choices are tuned on the 40 "development" datasets as used in to reduce overfitting of the whole UCR archive.
 
-<!-- chunk {"id": "body-0047", "role": "body", "section": "Experiments", "weight": 1.0} -->
+<!-- chunk {"id": "body-0046", "role": "body", "section": "Experiments", "weight": 1.0} -->
 
 MultiRocket is implemented in Python, compiled via Numba and we use the ridge regression classifier from scikit-learn. Our code and results are all publicly available in the accompanying website, All of our experiments were conducted on a cluster with AMD EPYC 7702 CPU, 32 threads and 64 GB memory.
 
-<!-- chunk {"id": "body-0048", "role": "body", "section": "Comparing with current state of the art", "weight": 1.0} -->
+<!-- chunk {"id": "body-0047", "role": "body", "section": "Comparing with current state of the art", "weight": 1.0} -->
 
 First, we evaluate MultiRocket and compare it with the current most accurate TSC algorithms, namely HIVE-COTE 2.0, TS-CHIEF, InceptionTime, MiniRocket, Arsenal, DrCIF, TDE, STC and ProximityForest. These algorithms^11^1We obtained the results from for MiniRocket and for the rest. are chosen because they are the most accurate in their respective domains. ProximityForest represents the distance-based algorithms; STC represents shapelet-based algorithms; While TDE and DrCIF represent dictionary-based and interval-based algorithms respectively.
 
-<!-- chunk {"id": "body-0049", "role": "body", "section": "Comparing with current state of the art", "weight": 1.0} -->
+<!-- chunk {"id": "body-0048", "role": "body", "section": "Comparing with current state of the art", "weight": 1.0} -->
 
 For consistency and direct comparability with the SOTA TSC algorithms, we evaluate MultiRocket on the same 30 resamples of 109 datasets from the UCR archive as reported and used. Note that each resample creates a different distribution for the train and test sets. Resampling of each dataset is achieved by first mixing the train and test sets, then performing a stratified sampling for train and test sets and maintaining the same number of instances for each resample.
 
-<!-- chunk {"id": "body-0050", "role": "body", "section": "Comparing with current state of the art", "weight": 1.0} -->
+<!-- chunk {"id": "body-0049", "role": "body", "section": "Comparing with current state of the art", "weight": 1.0} -->
 
 Although HIVE-COTE 2.0 is significantly more accurate than MultiRocket with 59 wins out of 109 datasets, the difference in accuracy between HIVE-COTE 2.0 and MultiRocket lies within $\pm {5\%}$, as shown in Figure 6(a), indicating that there is relatively little difference between the two methods. On the other hand, MultiRocket and InceptionTime are not significantly different from each other, despite MultiRocket having more larger wins, as depicted in Figure 6(b). For instance, MultiRocket is most accurate against InceptionTime on the SemgHandMovementCh2 dataset with accuracy of 0.792 and 0.551. While InceptionTime is the most accurate against MultiRocket on the PigAirwayPressure dataset with accuracy of 0.922 and 0.647. The large variance in the difference in accuracy between MultiRocket and InceptionTime implies that both methods are strong in their own ways and that MultiRocket can potentially be improved on datasets where InceptionTime performed much better.
 
-<!-- chunk {"id": "body-0051", "role": "body", "section": "Comparing with current state of the art", "weight": 1.0} -->
+<!-- chunk {"id": "body-0050", "role": "body", "section": "Comparing with current state of the art", "weight": 1.0} -->
 
 HIVE-COTE 2.0, TS-CHIEF and InceptionTime are able to capture the different time series representations that have not been able to be captured by MultiRocket. This shows the importance of diversity in classifiers to achieve high classification accuracy. However, as shown in Figure 2(a), MultiRocket only takes 5 minutes (using 32 threads) to complete training and classification on all 109 datasets, a time that is at least an order of magnitude faster than HIVE-COTE 2.0, TS-CHIEF and InceptionTime.
 
-<!-- chunk {"id": "body-0052", "role": "body", "section": "Comparing with current state of the art", "weight": 1.0} -->
+<!-- chunk {"id": "body-0051", "role": "body", "section": "Comparing with current state of the art", "weight": 1.0} -->
 
 As seen on both Figures 6(a) and 6(b), MultiRocket performed the worst on the PigAirwayPressure dataset, with the largest difference of 0.308 and 0.275 compared to HIVE-COTE 2.0 and InceptionTime respectively. Rocket achieved poor performance on this dataset as pointed out in due to the way the bias values are sampled. This issue has been mitigated in MiniRocket by sampling the bias values from the convolution output instead of a uniform distribution, $U{({- 1},1)}$ in Rocket. MultiRocket samples different sets of bias for the base and first order difference series. It is possible that the first order differences gives rise to the poor performance on this dataset.
 
-<!-- chunk {"id": "body-0053", "role": "body", "section": "Runtime analysis", "weight": 1.0} -->
+<!-- chunk {"id": "body-0052", "role": "body", "section": "Runtime analysis", "weight": 1.0} -->
 
 The addition of the first order difference transform and additional 3 features increases the total compute time of MiniRocket. Figures 7(a) and 7(b) show the total compute time (training and testing) of both MultiRocket and MiniRocket with 10,000 and 50,000 features using an AMD EPYC 7702 CPU with a single thread. The default MultiRocket with 50,000 features is about an order of magnitude slower than the default MiniRocket with 10,000 features. Comparing with the same number of 50,000 features, MultiRocket is only 4 times slower than MiniRocket. This makes sense since MultiRocket computes four features per kernel instead of one. Taking approximately 40 minutes to complete all 109 datasets, MultiRocket is still significantly faster than all other SOTA methods, as shown in Table 2. However, running MultiRocket with 32 threads significantly reduces this time to 5 minutes as shown in Figure 2(a). Hence it is recommended to use MultiRocket in a multi-threaded setting. Note that MultiRocket with 10,000 features is significantly more accurate than MiniRocket as shown in Appendix D.
 
-<!-- chunk {"id": "body-0054", "role": "body", "section": "Runtime analysis", "weight": 1.0} -->
+<!-- chunk {"id": "body-0053", "role": "body", "section": "Runtime analysis", "weight": 1.0} -->
 
 All the other SOTA methods have a long run time as reported. We took the total train time on 112 UCR datasets from and show them in Table 2 together with a few variants of MultiRocket and MiniRocket with 10,000 and 50,000 features as comparison. As expected, MiniRocket is the fastest, taking just under 3 minutes to train. This is followed by MultiRocket that took around 16 minutes. Rocket took approximately 3 hours to train, while Arsenal, an ensemble of Rocket took 28 hours. The fastest non-Rocket algorithm is DrCIF, taking about 2 days to train, followed by TDE with 3 days. Finally, the collective ensembles are the slowest taking at least 14 days to train. Note that the time for InceptionTime is not directly comparable as it was trained on a GPU.
+
+<!-- chunk {"id": "body-0054", "role": "body", "section": "Runtime analysis", "weight": 1.0} -->
+
+Total train time MiniRocket (default 10k features) MultiRocket (default 50k features) Table 2: Run time to train single resample of 112 UCR problem. MultiRocket and MiniRocket variants are run on a single thread on a cluster using AMD EPYC 7702 CPU with a single thread. The other algorithms are reported.
 
 <!-- chunk {"id": "body-0055", "role": "body", "section": "Ablation study", "weight": 1.0} -->
 

@@ -16,7 +16,7 @@ The results show that AnglE outperforms the state-of-the-art (SOTA) STS models t
 
 <!-- chunk {"id": "body-0004", "role": "body", "section": "Introduction", "weight": 1.5} -->
 
-The development of text embeddings (Kiros et al. Hill et al. Conneau et al. Cer et al. Reimers & Gurevych Gao et al., ) is an essential research challenge in the NLP community. Text embeddings effectively feature key semantic and syntactic information in language, which broadly affects the performance of downstream tasks, such as text classification, sentiment analysis (Suresh & Ong Zhang et al., ), semantic matching (Grill et al. Lu et al., ), clustering (Reimers & Gurevych Xu et al., ), and question-answering (QA) system. In particular, text embedding models play a crucial role in LLMs such as ChatGPT (OpenAI ), LLaMA, and ChatGLM -based applications. These LLM-based applications heavily rely on high-quality text embeddings for tasks such as vector search, where related documents are retrieved for LLM QA.
+The development of text embeddings is an essential research challenge in the NLP community. Text embeddings effectively feature key semantic and syntactic information in language, which broadly affects the performance of downstream tasks, such as text classification, sentiment analysis, semantic matching, clustering, and question-answering (QA) system. In particular, text embedding models play a crucial role in LLMs such as ChatGPT, LLaMA, and ChatGLM -based applications. These LLM-based applications heavily rely on high-quality text embeddings for tasks such as vector search, where related documents are retrieved for LLM QA.
 
 <!-- chunk {"id": "body-0005", "role": "body", "section": "Introduction", "weight": 1.5} -->
 
@@ -28,7 +28,7 @@ While most existing supervised STS datasets only provide pairs ($x_{i}$, $x_{i}^
 
 <!-- chunk {"id": "body-0007", "role": "body", "section": "Introduction", "weight": 1.5} -->
 
-For supervised STS (Reimers & Gurevych Su, ), most efforts to date employed the cosine function in their training objective to measure the pairwise semantic similarity. However, the cosine function has saturation zones, as shown in Figure. It can impede the optimization due to the gradient vanishing issue and hinder the ability to learn subtle distinctions between texts in backpropagation. Additionally, many STS datasets such as MRPC and QQP provide binary labels representing dissimilar ($0$) and similar ($1$), which naturally fall within the saturation zone of the cosine function. To overcome this challenge, this paper proposes a novel angle-optimized text embedding. It optimizes not only the cosine similarity between texts but also the angle to mitigate the negative impact of the saturation zones of the cosine function on the learning process. Specifically, it first divides the text embedding into real and imaginary parts in a complex space. Then, it follows the division rule in complex space to compute the angle difference between two text embeddings. After normalization, the angle difference becomes an objective to be optimized.
+For supervised STS, most efforts to date employed the cosine function in their training objective to measure the pairwise semantic similarity. However, the cosine function has saturation zones, as shown in Figure 1. It can impede the optimization due to the gradient vanishing issue and hinder the ability to learn subtle distinctions between texts in backpropagation. Additionally, many STS datasets such as MRPC and QQP provide binary labels representing dissimilar ($0$) and similar ($1$), which naturally fall within the saturation zone of the cosine function. To overcome this challenge, this paper proposes a novel angle-optimized text embedding. It optimizes not only the cosine similarity between texts but also the angle to mitigate the negative impact of the saturation zones of the cosine function on the learning process. Specifically, it first divides the text embedding into real and imaginary parts in a complex space. Then, it follows the division rule in complex space to compute the angle difference between two text embeddings. After normalization, the angle difference becomes an objective to be optimized.
 
 <!-- chunk {"id": "body-0008", "role": "body", "section": "Introduction", "weight": 1.5} -->
 
@@ -44,126 +44,120 @@ We first experimented with both short and long-text datasets and showed that Ang
 
 <!-- chunk {"id": "body-0011", "role": "body", "section": "Introduction", "weight": 1.5} -->
 
-$\bullet$ We investigate the negative effects of saturation zone in the cosine function widely applied in STS and propose a novel angle-optimized text embedding model to mitigate this issue.
+In summary, the contributions of this paper are listed as follows: $\bullet$ We investigate the negative effects of saturation zone in the cosine function widely applied in STS and propose a novel angle-optimized text embedding model to mitigate this issue. $\bullet$ We extend the existing STS benchmark with a newly collected long-text dataset from Github Issues to allow a more comprehensive empirical study in STS. $\bullet$ We present extensive experiments on STS and demonstrate that AnglE can substantially improve the text embedding quality in various scenarios.
 
-<!-- chunk {"id": "body-0012", "role": "body", "section": "Introduction", "weight": 1.5} -->
+<!-- chunk {"id": "body-0012", "role": "body", "section": "Unsupervised Approaches", "weight": 1.0} -->
 
-$\bullet$ We extend the existing STS benchmark with a newly collected long-text dataset from Github Issues to allow a more comprehensive empirical study in STS.
+Early studies have demonstrated the efficacy of augmenting word2vec with n-gram embeddings, yielding strong results in text embeddings. Recently, BERT-flow has introduced a flow-based approach that maps BERT embeddings to a standard Gaussian latent space. On the other hand, BERT-whitening applies the whitening operation to BERT embeddings to enhance text embeddings. Furthermore, very recent research has focused on leveraging contrastive objectives to improve the quality of text embeddings.
 
-<!-- chunk {"id": "body-0013", "role": "body", "section": "Introduction", "weight": 1.5} -->
-
-$\bullet$ We present extensive experiments on STS and demonstrate that AnglE can substantially improve the text embedding quality in various scenarios.
-
-<!-- chunk {"id": "body-0014", "role": "body", "section": "Unsupervised Approaches", "weight": 1.0} -->
-
-Early studies (Hill et al. Pagliardini et al., ) have demonstrated the efficacy of augmenting word2vec with n-gram embeddings, yielding strong results in text embeddings. Recently, BERT-flow has introduced a flow-based approach that maps BERT embeddings to a standard Gaussian latent space. On the other hand, BERT-whitening applies the whitening operation to BERT embeddings to enhance text embeddings. Furthermore, very recent research has focused on leveraging contrastive objectives to improve the quality of text embeddings.
-
-<!-- chunk {"id": "body-0015", "role": "body", "section": "Supervised Approaches", "weight": 1.0} -->
+<!-- chunk {"id": "body-0013", "role": "body", "section": "Supervised Approaches", "weight": 1.0} -->
 
 Supervised text embeddings usually perform better than their unsupervised counterparts. Various studies have effectively utilized supervised datasets to enhance the learning of text embeddings. In particular, Conneau et al. introduced a method that leverages supervised Natural Language Inference (NLI) tasks for this purpose. Building on a transformer backbone, USE incorporates the SNLI dataset to augment unsupervised training, resulting in improved performance. Furthermore, SBERT enhances text embedding by combining BERT with a siamese architecture. Jiang et al. proposed the use of prompt engineering to improve text embeddings.
 
-<!-- chunk {"id": "body-0016", "role": "body", "section": "Supervised Approaches", "weight": 1.0} -->
+<!-- chunk {"id": "body-0014", "role": "body", "section": "Supervised Approaches", "weight": 1.0} -->
 
 However, most existing models optimize the cosine similarity but neglect the negative effect of the saturation zone of the cosine function. To address this issue, this paper proposes a novel angle-optimized text embedding model to improve the quality of text embedding.
 
-<!-- chunk {"id": "body-0017", "role": "body", "section": "Methodology", "weight": 1.0} -->
+<!-- chunk {"id": "body-0015", "role": "body", "section": "Methodology", "weight": 1.0} -->
 
 This section will introduce the components of the proposed angle-optimized text embedding model, including the input layer, cosine objective, in-batch negative objective, and angle objective.
 
-<!-- chunk {"id": "body-0018", "role": "body", "section": "Input Layer", "weight": 1.0} -->
+<!-- chunk {"id": "body-0016", "role": "body", "section": "Input Layer", "weight": 1.0} -->
 
 For the input sentences, we first apply padding to ensure a consistent length $l$. Next, we map each word to a continuous $d$-dimensional space to produce word embeddings $\mathbf{e}_{i} \in {\mathbb{R}}^{d}$. These word embeddings are then concatenated to form the model input: $\mathbf{E} = {\lbrack\mathbf{e}_{1},\mathbf{e}_{2},\ldots,\mathbf{e}_{l}\rbrack} \in {\mathbb{R}}^{l \times d}$. Subsequently, the model input is passed through an encoder such as BERT, RoBERTa, and LLaMA to obtain the contextual representation $\mathbf{X}$.
 
-<!-- chunk {"id": "body-0019", "role": "body", "section": "Cosine Objective", "weight": 1.0} -->
+<!-- chunk {"id": "body-0017", "role": "body", "section": "Cosine Objective", "weight": 1.0} -->
 
-where $\tau$ is a temperature hyperparameter, $\cos{( \cdot )}$ is the cosine similarity function, and $s{(u,v)}$ is the similarity between $u$ and $v$. By optimizing the $\mathcal{L}_{cos}$, we expect the cosine similarity of the high similarity pair to be greater than that of the low similarity pair.
+Following the prior study, we employ the cosine objective function for end-to-end optimization of cosine similarity between representations, as follows: where $\tau$ is a temperature hyperparameter, $\cos{(\cdot)}$ is the cosine similarity function, and $s{(u,v)}$ is the similarity between $u$ and $v$. By optimizing the $\mathcal{L}_{cos}$, we expect the cosine similarity of the high similarity pair to be greater than that of the low similarity pair.
 
-<!-- chunk {"id": "body-0020", "role": "body", "section": "In-batch Negative Objective", "weight": 1.0} -->
+<!-- chunk {"id": "body-0018", "role": "body", "section": "In-batch Negative Objective", "weight": 1.0} -->
 
-To further improve performance, we integrate the in-batch negative objective function. Because in-batch negative samples can serve as a data augmentation technique, which can benefit the generalization. Unlike existing contrastive learning models (Gao et al. Yan et al., ) that generate positive samples through data augmentation, we use supervised positive samples. Recognizing that there might be identical sentences within a batch that are not explicitly labeled as positive samples, causing them to become in-batch negatives, we identify these duplicate sentences and assign them as positive samples, thereby reducing potential noise.
+To further improve performance, we integrate the in-batch negative objective function. Because in-batch negative samples can serve as a data augmentation technique, which can benefit the generalization. Unlike existing contrastive learning models that generate positive samples through data augmentation, we use supervised positive samples. Recognizing that there might be identical sentences within a batch that are not explicitly labeled as positive samples, causing them to become in-batch negatives, we identify these duplicate sentences and assign them as positive samples, thereby reducing potential noise.
 
-<!-- chunk {"id": "body-0021", "role": "body", "section": "In-batch Negative Objective", "weight": 1.0} -->
+<!-- chunk {"id": "body-0019", "role": "body", "section": "In-batch Negative Objective", "weight": 1.0} -->
 
-where $\tau$ is a temperature hyperparameter, $b$ stands for the $b$-th batch, $\mathbf{X}_{b_{i}}^{+}$ and $\mathbf{X}_{b_{j}}^{+}$ are the respective positive samples of $\mathbf{X}_{b_{i}}$ and $\mathbf{X}_{b_{j}}$, $m$ represents the number of positive pairs in $b$-th batch, $N$ is the batch size, and $\cos{( \cdot )}$ is the cosine similarity function.
+The formulation for the in-batch negative objective function (ibn) is as follows: where $\tau$ is a temperature hyperparameter, $b$ stands for the $b$-th batch, $\mathbf{X}_{b_{i}}^{+}$ and $\mathbf{X}_{b_{j}}^{+}$ are the respective positive samples of $\mathbf{X}_{b_{i}}$ and $\mathbf{X}_{b_{j}}$, $m$ represents the number of positive pairs in $b$-th batch, $N$ is the batch size, and $\cos{(\cdot)}$ is the cosine similarity function.
 
-<!-- chunk {"id": "body-0022", "role": "body", "section": "Angle Objective", "weight": 1.0} -->
+<!-- chunk {"id": "body-0020", "role": "body", "section": "Angle Objective", "weight": 1.0} -->
 
 We found that both the cosine and in-batch negative objectives employ the cosine function to measure similarity. However, it is important to note that the cosine function includes saturation zones, which can hinder the optimization process. We optimize the angle difference in complex space to mitigate these adverse effects. Figure 2(a) draws the division in complex space, and Figure 2(b) depicts how angle optimization works in cosine saturation zones. To optimize the angle difference, we define $\mathbf{X}^{re}$ and $\mathbf{X}^{im}$ are the real part and the imaginary part of $\mathbf{X}$. We follow the implementation of to obtain $\mathbf{X}^{re}$ and $\mathbf{X}^{im}$ by the chunking strategy.
 
+<!-- chunk {"id": "body-0021", "role": "body", "section": "Angle Objective", "weight": 1.0} -->
+
+To compute the angle difference between $\mathbf{z}$ and $\mathbf{w}$, we calculate division in complex space in polar coordinates, as follows: where $r_{\mathbf{z}}$ and $r_{\mathbf{w}}$ represent the magnitudes of $\mathbf{z}$ and $\mathbf{w}$, while $\theta_{\mathbf{z}}$ and $\theta_{\mathbf{w}}$ denote the respective angles of $\mathbf{z}$ and $\mathbf{w}$. Next, we compute the value of $\frac{\mathbf{z}}{\mathbf{w}}$ by the division rule in complex space, as follows: By employing Eq. 4 and Eq. 5, we can calculate the angle difference between $\mathbf{z}$ and $\mathbf{w}$ by multiplying both sides by $\frac{1}{\gamma}$, which can be seen as a normalization operation.
+
+<!-- chunk {"id": "body-0022", "role": "body", "section": "Angle Objective", "weight": 1.0} -->
+
+In this paper, we determine the absolute normalized angle difference using the following expression: Then, the angle difference can be optimized by the following objective function: where $\tau$ is a temperature hyperparameter and $s{(u,v)}$ is the similarity between $u$ and $v$. By optimizing the $\mathcal{L}_{angle}$, our objective is to minimize the normalized angle difference for pairs with high similarity compared to those with low similarity.
+
 <!-- chunk {"id": "body-0023", "role": "body", "section": "Angle Objective", "weight": 1.0} -->
 
-By employing Eq. and Eq., we can calculate the angle difference between $\mathbf{z}$ and $\mathbf{w}$ by multiplying both sides by $\frac{1}{\gamma}$, which can be seen as a normalization operation.
+Finally, we combine the aforementioned three objective functions in the following manner to form the final objective function: where $w_{1}$, $w_{2}$, and $w_{3}$ are constants.
 
-<!-- chunk {"id": "body-0024", "role": "body", "section": "Angle Objective", "weight": 1.0} -->
+<!-- chunk {"id": "body-0024", "role": "body", "section": "Existing STS Benchmarks", "weight": 1.0} -->
 
-where $\tau$ is a temperature hyperparameter and $s{(u,v)}$ is the similarity between $u$ and $v$. By optimizing the $\mathcal{L}_{angle}$, our objective is to minimize the normalized angle difference for pairs with high similarity compared to those with low similarity.
+We mainly evaluate our model on several widely-adopted STS datasets, namely: MRPC, QQP, QNLI ^11^1 STS 2012-2016, SICK-R, and STS-B. These datasets mainly consist of short text, but real-world scenarios often involve long text documents. Thus, we introduce a newly long-text dataset called GitHub Issues Similarity Dataset to comprehensively evaluate the STS task.
 
-<!-- chunk {"id": "body-0025", "role": "body", "section": "Existing STS Benchmarks", "weight": 1.0} -->
+<!-- chunk {"id": "body-0025", "role": "body", "section": "GitHub Issues Similarity Dataset", "weight": 1.0} -->
 
-We mainly evaluate our model on several widely-adopted STS datasets, namely: MRPC, QQP, QNLI ^11^1 STS 2012-2016 (Agirre et al. ), SICK-R, and STS-B. These datasets mainly consist of short text, but real-world scenarios often involve long text documents. Thus, we introduce a newly long-text dataset called GitHub Issues Similarity Dataset to comprehensively evaluate the STS task.
+We observed the presence of many duplicate issues on GitHub. Typically, the maintainers of open source organizations tend to mark these duplicate issues as closed with a comment like "closing as a duplicate of #id". Consequently, these duplicate issues inherently serve as a source of the STS task. It is also worth noting that most issues contain long texts because of the inclusion of extensive code within the issues. To compile the dataset, we extracted duplicated issues from $55$ popular open-source projects (see A.1) on GitHub using GitHub API ^22^2 The duplicated issues were used as positive samples, while the remaining issues were considered negative samples. Table 4 presents statistics of the GitHub Issues Similarity Dataset, while Figure 4 shows a violin plot illustrating the token-level text length distribution. The visualization reveals a substantial number of long texts. Specifically, the proportion of long texts (token length $> 512$) for the train, validation, and test sets is at $61.03\%$, $60.85\%$, and $60.50\%$, respectively.
 
-<!-- chunk {"id": "body-0026", "role": "body", "section": "GitHub Issues Similarity Dataset", "weight": 1.0} -->
+<!-- chunk {"id": "body-0026", "role": "body", "section": "Evaluation Metrics", "weight": 1.0} -->
 
-We observed the presence of many duplicate issues on GitHub. Typically, the maintainers of open source organizations tend to mark these duplicate issues as closed with a comment like "closing as a duplicate of #id". Consequently, these duplicate issues inherently serve as a source of the STS task. It is also worth noting that most issues contain long texts because of the inclusion of extensive code within the issues. To compile the dataset, we extracted duplicated issues from $55$ popular open-source projects (see A.1) on GitHub using GitHub API ^22^2 The duplicated issues were used as positive samples, while the remaining issues were considered negative samples. Table presents statistics of the GitHub Issues Similarity Dataset, while Figure shows a violin plot illustrating the token-level text length distribution. The visualization reveals a substantial number of long texts. Specifically, the proportion of long texts (token length $> 512$) for the train, validation, and test sets is at $61.03\%$, $60.85\%$, and $60.50\%$, respectively.
+To ensure a fair comparison, we follow previous studies and use Spearman's correlation for evaluation. We use SentEval to compute Spearman's correlation and report the results in the "all" setting, which is consistent with the baselines. [\FBwidth] \killfloatstyle\ttabbox[\Xhsize] Split Train Validation Test #Positive 9457 774 807 #Negative 9108 773 741 Total 18565 1547 1548 Figure 3: Log token length distribution of the GitHub Issue Similarity Dataset. Figure 4: Statistics of the proposed GitHub Issues Similarity Dataset. #Positive denotes the count of positive pairs, and #Negative represents the number of negative pairs.
 
-<!-- chunk {"id": "body-0027", "role": "body", "section": "Evaluation Metrics", "weight": 1.0} -->
-
-To ensure a fair comparison, we follow previous studies and use Spearman's correlation for evaluation. We use SentEval to compute Spearman's correlation and report the results in the "all" setting, which is consistent with the baselines.
-
-<!-- chunk {"id": "body-0028", "role": "body", "section": "Evaluation Metrics", "weight": 1.0} -->
-
-[\FBwidth] \killfloatstyle\ttabbox[\Xhsize] Split Train Validation Test #Positive 9457 774 807 #Negative 9108 773 741 Total 18565 1547 1548
-Figure 3: Log token length distribution of the GitHub Issue Similarity Dataset.
-Figure 4: Statistics of the proposed GitHub Issues Similarity Dataset. #Positive denotes the count of positive pairs, and #Negative represents the number of negative pairs.
-
-<!-- chunk {"id": "body-0029", "role": "body", "section": "Implementation Details", "weight": 1.0} -->
+<!-- chunk {"id": "body-0027", "role": "body", "section": "Implementation Details", "weight": 1.0} -->
 
 In this paper, we use the pre-trained uncased BERT base model (110M parameters) as the backbone model. For a fair comparison, all BERT-based baselines also adopt this setting. We set the value of $\tau$ for the cosine objective and the in-batch negative objective to $0.05$, based on prior research. Additionally, we determined the value of $\tau$ for the angle objective to be $1.0$ through grid search.
 
-<!-- chunk {"id": "body-0030", "role": "body", "section": "Main Results", "weight": 1.0} -->
+<!-- chunk {"id": "body-0028", "role": "body", "section": "Main Results", "weight": 1.0} -->
 
 In this section, we will first introduce the baselines, then the results of the transfer STS tasks, then the results of the non-transfer STS tasks, and finally a summary.
 
-<!-- chunk {"id": "body-0031", "role": "body", "section": "Baselines", "weight": 1.0} -->
+<!-- chunk {"id": "body-0029", "role": "body", "section": "Baselines", "weight": 1.0} -->
 
 We compare our proposed model with widely used baselines, encompassing both unsupervised and supervised models. The unsupervised models are average GloVe, BERT-flow, BERT-whitening, LLaMA2, and contrastive learning models including IS-BERT, CT-BERT, SimCSE, ConSERT, and DiffCSE. On the other hand, the chosen supervised models are InferSent, USE, SBERT, CoSENT, as well as supervised versions of SimCSE and ConSERT.
 
-<!-- chunk {"id": "body-0032", "role": "body", "section": "Transfer STS Tasks", "weight": 1.0} -->
+<!-- chunk {"id": "body-0030", "role": "body", "section": "Transfer STS Tasks", "weight": 1.0} -->
 
-For a fair comparison, we train AnglE with the NLI datasets MNLI and SNLI and then transfer it to evaluate seven STS benchmark datasets. The evaluation results are presented in Table. It is evident that AnglE-BERT and AnglE-LLaMA consistently outperform the baselines with a gain of $0.80\%$ and $0.72\%$ in average score, respectively, over the previous SOTA SimCSE-BERT and SimCSE-LLaMA. Note that supervised SBERT and CoSENT show lower results than other unsupervised contrastive learning models like SimCSE and DiffCSE. This difference might arise from the difference in data distributions between the training and test data in the transfer STS tasks. They struggle to effectively generalize to STS tasks when trained solely with NLI datasets. In contrast, contrastive learning models exhibit better generalization capabilities due to their alignment and uniformity features. Because AnglE optimizes both the supervised cosine objective and the in-batch negative objective. This can allow AnglE to generalize well in transfer STS tasks.
+For a fair comparison, we train AnglE with the NLI datasets MNLI and SNLI and then transfer it to evaluate seven STS benchmark datasets. The evaluation results are presented in Table 1. It is evident that AnglE-BERT and AnglE-LLaMA consistently outperform the baselines with a gain of $0.80\%$ and $0.72\%$ in average score, respectively, over the previous SOTA SimCSE-BERT and SimCSE-LLaMA. Note that supervised SBERT and CoSENT show lower results than other unsupervised contrastive learning models like SimCSE and DiffCSE. This difference might arise from the difference in data distributions between the training and test data in the transfer STS tasks. They struggle to effectively generalize to STS tasks when trained solely with NLI datasets. In contrast, contrastive learning models exhibit better generalization capabilities due to their alignment and uniformity features. Because AnglE optimizes both the supervised cosine objective and the in-batch negative objective. This can allow AnglE to generalize well in transfer STS tasks.
 
-<!-- chunk {"id": "body-0033", "role": "body", "section": "Transfer STS Tasks", "weight": 1.0} -->
+<!-- chunk {"id": "body-0031", "role": "body", "section": "Transfer STS Tasks", "weight": 1.0} -->
 
 Additionally, the angle optimization in AnglE mitigates the negative impact of the saturation zone in the cosine function to produce better performance than other baselines.
 
-<!-- chunk {"id": "body-0034", "role": "body", "section": "Non-transfer STS Tasks", "weight": 1.0} -->
+<!-- chunk {"id": "body-0032", "role": "body", "section": "Non-transfer STS Tasks", "weight": 1.0} -->
 
-To provide a comprehensive analysis, we also evaluate the performance of the baselines in the non-transfer setting. We train the baselines on the train set and evaluate them on the test or validation set. Two typical models, SimCSE and SBERT, representing contrastive and supervised learning, are compared with our model. The results of the non-transfer STS tasks are listed in Table, where we evaluate the baselines on four short-text datasets (MRPC, STS-B, QQP, and QNLI) and one long-text dataset (GitHub Issues Similarity Dataset). SimCSE notably performs poorly compared to SBERT and AnglE in the non-transfer setting. This is due to the limitation of the small-scale training set, as there are not enough samples for SimCSE to effectively learn representations. Furthermore, the datasets only provide pair-supervised data, namely $(x,x^{+})$ or $(x,x^{-})$, which prevents SimCSE from utilizing its hard negative objective that relies on triple-supervised data $(x,x^{+},x^{-})$.
+To provide a comprehensive analysis, we also evaluate the performance of the baselines in the non-transfer setting. We train the baselines on the train set and evaluate them on the test or validation set. Two typical models, SimCSE and SBERT, representing contrastive and supervised learning, are compared with our model. The results of the non-transfer STS tasks are listed in Table 2, where we evaluate the baselines on four short-text datasets (MRPC, STS-B, QQP, and QNLI) and one long-text dataset (GitHub Issues Similarity Dataset). SimCSE notably performs poorly compared to SBERT and AnglE in the non-transfer setting. This is due to the limitation of the small-scale training set, as there are not enough samples for SimCSE to effectively learn representations. Furthermore, the datasets only provide pair-supervised data, namely $(x,x^{+})$ or $(x,x^{-})$, which prevents SimCSE from utilizing its hard negative objective that relies on triple-supervised data $(x,x^{+},x^{-})$.
 
-<!-- chunk {"id": "body-0035", "role": "body", "section": "Non-transfer STS Tasks", "weight": 1.0} -->
+<!-- chunk {"id": "body-0033", "role": "body", "section": "Non-transfer STS Tasks", "weight": 1.0} -->
 
 This limitation might affect its performance. On the other hand, AnglE consistently outperforms SBERT, achieving an absolute gain of $5.52\%$. This can support the idea that angle-optimized text embedding can mitigate the negative impact of the cosine function, resulting in better performance. Furthermore, we explore applying the long text model RAN~base~ (86M parameters) as the backbone to test the performance on long text. The results show that AnglE-BERT outperforms AnglE-RAN across all short text datasets. This advantage might be attributed to the larger parameter size of BERT and its proficiency in handling short texts. However, we observe a remarkable shift in long-text STS. AnglE-RAN outperforms AnglE-BERT in this scenario, suggesting that AnglE-RAN can handle long texts well despite having fewer parameters.
 
-<!-- chunk {"id": "body-0036", "role": "body", "section": "Non-transfer STS Tasks", "weight": 1.0} -->
+<!-- chunk {"id": "body-0034", "role": "body", "section": "Non-transfer STS Tasks", "weight": 1.0} -->
 
 In short, this evidence suggests AnglE's superiority in transfer and non-transfer settings, its ability to produce high-quality text embeddings, and its robustness and adaptability to different backbones.
 
-<!-- chunk {"id": "body-0037", "role": "body", "section": "Ablation Study", "weight": 1.0} -->
+<!-- chunk {"id": "body-0035", "role": "body", "section": "Ablation Study", "weight": 1.0} -->
 
-To gain a deeper understanding of AnglE, we conducted an ablation study examining different objectives and their effects. The results in table indicate that AnglE shows improved performance with all three objectives. In particular, we observe that AnglE experiences a greater drop in performance without the angle objective than without the in-batch negative (ibn) objective. This suggests that angle optimization is more important than ibn in improving text embedding. Additionally, we find that using the angle objective alone yields performance close to that of using the cosine objective alone, demonstrating the effectiveness of angle optimization. We also evaluated five different pooling strategies and found that the "cls" strategy performed the best. Finally, we compared the ibn with/without identical sentence pair (ISP) detection and found that ibn without ISP detection has about $0.18\%$ performance drop than. This indicates that ibn with ISP detection is effective.
+To gain a deeper understanding of AnglE, we conducted an ablation study examining different objectives and their effects. The results in table 3 indicate that AnglE shows improved performance with all three objectives. In particular, we observe that AnglE experiences a greater drop in performance without the angle objective than without the in-batch negative (ibn) objective. This suggests that angle optimization is more important than ibn in improving text embedding. Additionally, we find that using the angle objective alone yields performance close to that of using the cosine objective alone, demonstrating the effectiveness of angle optimization. We also evaluated five different pooling strategies and found that the "cls" strategy performed the best. Finally, we compared the ibn with/without identical sentence pair (ISP) detection and found that ibn without ISP detection has about $0.18\%$ performance drop than. This indicates that ibn with ISP detection is effective.
 
-<!-- chunk {"id": "body-0038", "role": "body", "section": "Discussion of LLM-supervised Learning", "weight": 1.5} -->
+<!-- chunk {"id": "body-0036", "role": "body", "section": "Ablation Study", "weight": 1.0} -->
 
-AnglE, a supervised learning model, must be trained on labeled data. However, the limited availability of domain-supervised data poses a challenge in real-world applications. To overcome this problem, we propose LLM-supervised learning. This approach applies LLMs as data annotators to label the pseudo-supervised data for AnglE training. Figure outlines the procedures involved in LLM-supervised learning. In this study, we compare the LLM-supervised AnglE and unsupervised contrastive learning models. To simulate domain application, we extract all "sentence1" texts from the STS-B train set and employ LLM-supervised learning to train the AnglE model. Table 4.4 shows the results on the STS-B test set. It is evident from the results that LLM-supervised AnglE performs better than unsupervised contrastive baselines, and the ensemble of LLMs shows the best results. This evidence suggests the effectiveness of LLM-supervised learning and indicates that it can alleviate the domain-supervised data scarcity problem.
+| Model | Spearman's Correlation | Table 3: Ablation study of AnglE. The results are Spearman’s correlations on the STS-B test set.
 
-<!-- chunk {"id": "body-0039", "role": "body", "section": "Discussion of Text Retrieval", "weight": 1.5} -->
+<!-- chunk {"id": "body-0037", "role": "body", "section": "Discussion of LLM-supervised Learning", "weight": 1.5} -->
+
+AnglE, a supervised learning model, must be trained on labeled data. However, the limited availability of domain-supervised data poses a challenge in real-world applications. To overcome this problem, we propose LLM-supervised learning. This approach applies LLMs as data annotators to label the pseudo-supervised data for AnglE training. Figure 5 outlines the procedures involved in LLM-supervised learning. In this study, we compare the LLM-supervised AnglE and unsupervised contrastive learning models. To simulate domain application, we extract all "sentence1" texts from the STS-B train set and employ LLM-supervised learning to train the AnglE model. Table 4.4 shows the results on the STS-B test set. It is evident from the results that LLM-supervised AnglE performs better than unsupervised contrastive baselines, and the ensemble of LLMs shows the best results. This evidence suggests the effectiveness of LLM-supervised learning and indicates that it can alleviate the domain-supervised data scarcity problem.
+
+<!-- chunk {"id": "body-0038", "role": "body", "section": "Discussion of Text Retrieval", "weight": 1.5} -->
 
 We also evaluate the performance of the text retrieval task by experimenting on the test split of the flickr30k dataset. This dataset consists of five caption texts for each photo, and these texts are similar to each other. We use the first caption text vector to retrieve the top 5 similar sentences using faiss ^33^3 The strict accuracy ^44^4Strict accuracy means only all the top five sentences retrieved are equal to the five reference sentences considered correct of AnglE, SimCSE (supervised), and SBERT are $12.9\%$, $10.4\%$, and $5.2\%$, respectively. This evidence indicates the effectiveness of using AnglE for the retrieval task.
 
-<!-- chunk {"id": "body-0040", "role": "body", "section": "Discussion of Transfer Tasks", "weight": 1.5} -->
+<!-- chunk {"id": "body-0039", "role": "body", "section": "Discussion of Transfer Tasks", "weight": 1.5} -->
 
 In addition, we evaluate the performance of text embedding in transfer tasks. In particular, our approach involves training text embedding on STS tasks and then transferring it to seven other kinds of tasks. Notably, AnglE outperforms baselines, showing a significant improvement of $4.34\%$ and $4.48\%$ over DiffCSE and SimCSE, respectively. These results suggest that AnglE can produce better embeddings that effectively improve performance in various tasks. A more detailed description of the experiment can be found in section A.2.
 
-<!-- chunk {"id": "body-0041", "role": "body", "section": "Conclusion and Future Work", "weight": 1.5} -->
+<!-- chunk {"id": "body-0040", "role": "body", "section": "Conclusion and Future Work", "weight": 1.5} -->
 
 In this paper, we have presented a novel text embedding model called AnglE, which optimizes the angle difference in complex space to overcome the adverse impact of the saturation zone of the cosine function, thereby improving text embeddings. To comprehensively evaluate the STS tasks, we have introduced the GitHub Issues Similarity Dataset to evaluate model performance on the long-text STS task. Furthermore, we have proposed an LLM-supervised learning method to cope with the scarcity of domain-supervised data. Extensive experimental results have demonstrated that AnglE outperforms baselines, indicating that AnglE can handle both short and long-text STS tasks and work effectively in various scenarios. In future work, we plan to explore the application of AnglE in real-world scenarios and provide further insights into AnglE.

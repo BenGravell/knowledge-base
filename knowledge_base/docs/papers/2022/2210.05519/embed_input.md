@@ -76,15 +76,15 @@ Among many possible training objective choices (e.g., maximum likelihood trainin
 
 <!-- chunk {"id": "body-0019", "role": "body", "section": "Learning and Inference", "weight": 1.0} -->
 
-Input: Image data x ∈ ℝDx, number of latent variables K, number of MCMC iterations T, step size ϵ Parameters: EGO E (x,z;θ), decoder Decoder(z;ϕ) Output: Training loss for unsupervised object discovery ## Infer object-centric latent variables by Langevin MCMC sampling Draw random initialization z0 ∼ 𝒩 (0,I) ## Using permutation-invariant energy functions from Eq. 1 or Eq. 5 $\mathbf{z}^{t + 1} = {\mathbf{z}^{t} + {\epsilon{\nabla_{\mathbf{z}}E}{(\mathbf{x},\mathbf{z}^{t};{\mathbf{θ}})}} + {\sqrt{2\epsilon}{\mathbf{η}}^{t}}}$ ## Decode the latent variables to create reconstructions $\overset{\sim}{\mathbf{x}} =
+Input: Image data x ∈ ℝDx, number of latent variables K, number of MCMC iterations T, step size ϵ Parameters: EGO E (x, z; θ), decoder Decoder(z; ϕ) Output: Training loss for unsupervised object discovery
 
 <!-- chunk {"id": "body-0020", "role": "body", "section": "Encoding object-centric representations by MCMC sampling", "weight": 1.0} -->
 
-To infer the set of object-centric latent variables $\mathbf{z}$ from the input $\mathbf{x}$, we use gradient-based MCMC sampling methods to sample from the posterior distribution $\mathbf{z} \sim {p{(\left. \mathbf{z} \middle| \mathbf{x} \right.)}} \propto e^{- {E{(\mathbf{x},\mathbf{z};{\mathbf{θ}})}}}$. Specifically, in this work we utilize the Langevin MCMC method.
+To infer the set of object-centric latent variables $\mathbf{z}$ from the input $\mathbf{x}$, we use gradient-based MCMC sampling methods to sample from the posterior distribution $\mathbf{z} \sim {p{(\left. \mathbf{z} \middle| \mathbf{x} \right.)}} \propto e^{- {E{(\mathbf{x},\mathbf{z};{\mathbf{θ}})}}}$. Specifically, in this work we utilize the Langevin MCMC method. Starting from a random initialization $\mathbf{z}^{0}$ drawn from a simple prior distribution, we iteratively update the latent variables by simulating the Langevin diffusion process for $T$ steps, with step size $\epsilon$, as follows: where $\mathbf{z}^{t}$ denotes the latent variables at the $t$-th iteration.
 
 <!-- chunk {"id": "body-0021", "role": "body", "section": "Encoding object-centric representations by MCMC sampling", "weight": 1.0} -->
 
-where $\mathbf{z}^{t}$ denotes the latent variables at the $t$-th iteration. When $\epsilon\rightarrow 0$ and $T\rightarrow\infty$, the sampling process converges to the true posterior distribution $p{(\left. \mathbf{z} \middle| \mathbf{x} \right.)}$ under some regularity conditions.
+When $\epsilon\rightarrow 0$ and $T\rightarrow\infty$, the sampling process converges to the true posterior distribution $p{(\left. \mathbf{z} \middle| \mathbf{x} \right.)}$ under some regularity conditions.
 
 <!-- chunk {"id": "body-0022", "role": "body", "section": "Encoding object-centric representations by MCMC sampling", "weight": 1.0} -->
 
@@ -160,8 +160,7 @@ Similarly, we also illustrate the intermediate results at each sampling step, wh
 
 <!-- chunk {"id": "body-0040", "role": "body", "section": "Scene manipulation", "weight": 1.0} -->
 
-(b) Energy evaluation during sampling.
-(c) Scene reconstructions at each step.
+(b) Energy evaluation during sampling. (c) Scene reconstructions at each step.
 
 <!-- chunk {"id": "body-0041", "role": "body", "section": "Robustness and Generalization Evaluation", "weight": 1.0} -->
 

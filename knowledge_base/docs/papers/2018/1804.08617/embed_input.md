@@ -30,141 +30,120 @@ The approach taken in this work starts from the DDPG algorithm and includes a nu
 
 <!-- chunk {"id": "body-0008", "role": "body", "section": "Distributed Distributional DDPG", "weight": 1.0} -->
 
-First, and perhaps most crucially, we consider the inclusion of a distributional critic as introduced in Bellemare et al.. In order to introduce the distributional update we first revisit in terms of the return as a random variable $Z_{\pi}$, such that ${Q_{\pi}{(\mathbf{x},\mathbf{a})}} = {{\mathbb{E}}Z_{\pi}{(\mathbf{x},\mathbf{a})}}$. The distributional Bellman operator can be defined as
+First, and perhaps most crucially, we consider the inclusion of a distributional critic as introduced in Bellemare et al.. In order to introduce the distributional update we first revisit in terms of the return as a random variable $Z_{\pi}$, such that ${Q_{\pi}{(\mathbf{x},\mathbf{a})}} = {{\mathbb{E}}Z_{\pi}{(\mathbf{x},\mathbf{a})}}$. The distributional Bellman operator can be defined as where equality is with respect to the probability law of the random variables; note that this expectation is taken with respect to distribution of $Z$ as well as the transition dynamics.
 
 <!-- chunk {"id": "body-0009", "role": "body", "section": "Distributed Distributional DDPG", "weight": 1.0} -->
 
-where equality is with respect to the probability law of the random variables; note that this expectation is taken with respect to distribution of $Z$ as well as the transition dynamics.
+While the definition of this operator looks very similar to the canonical Bellman operator defined, it differs in the types of functions it acts. The distributional variant takes functions which map from state-action pairs to distributions, and returns a function of the same form. In order to use this function within the context of the actor-critic architecture introduced above, we must parameterize this distribution and define a loss similar to that of Equation 4. We will write the loss as for some metric $d$ that measures the distance between two distributions. Two components that can have a significant impact on the performance of this algorithm are the specific parameterization used for $Z_{w}$ and the metric $d$ used to measure the distributional TD error. In both cases we will give further details in Appendix A; in the experiments that follow we will use the Categorical distribution detailed in that section.
 
 <!-- chunk {"id": "body-0010", "role": "body", "section": "Distributed Distributional DDPG", "weight": 1.0} -->
 
-While the definition of this operator looks very similar to the canonical Bellman operator defined, it differs in the types of functions it acts. The distributional variant takes functions which map from state-action pairs to distributions, and returns a function of the same form. In order to use this function within the context of the actor-critic architecture introduced above, we must parameterize this distribution and define a loss similar to that of Equation 4. We will write the loss as
+We can complete this distributional policy gradient algorithm by including the action-value distribution inside the actor update from Equation 2. This is done by taking the expectation with respect to the action-value distribution, i.e.
 
 <!-- chunk {"id": "body-0011", "role": "body", "section": "Distributed Distributional DDPG", "weight": 1.0} -->
 
-for some metric $d$ that measures the distance between two distributions. Two components that can have a significant impact on the performance of this algorithm are the specific parameterization used for $Z_{w}$ and the metric $d$ used to measure the distributional TD error. In both cases we will give further details in Appendix A; in the experiments that follow we will use the Categorical distribution detailed in that section.
+As before, this update can be empirically evaluated by replacing the outer expectation with a sample-based approximation.
 
 <!-- chunk {"id": "body-0012", "role": "body", "section": "Distributed Distributional DDPG", "weight": 1.0} -->
 
-We can complete this distributional policy gradient algorithm by including the action-value distribution inside the actor update from Equation 2. This is done by taking the expectation with respect to the action-value distribution, i.e.
+Next, we consider a modification to the DDPG update which utilizes $N$-step returns when estimating the TD error. This can be seen as replacing the Bellman operator with an $N$-step variant where the expectation is with respect to the $N$-step transition dynamics. Although not used by Lillicrap et al., $N$-step returns are widely used in the context of many policy gradient algorithms as well as Q-learning variants. This modification can be applied analogously to the distributional Bellman operator in order to make use of it when updating the distributional critic.
 
 <!-- chunk {"id": "body-0013", "role": "body", "section": "Distributed Distributional DDPG", "weight": 1.0} -->
 
-As before, this update can be empirically evaluated by replacing the outer expectation with a sample-based approximation.
+Finally, we also modify the standard training procedure in order to distribute the process of gathering experience. Note from Equations that the actor and critic updates rely entirely on sampling from some state-visitation distribution $\rho$. We can parallelize this process by using $K$ independent actors, each writing to the same replay table. A learner process can then sample from some replay table of size $R$ and perform the necessary network updates using this data. Additionally sampling can be implemented using non-uniform priorities $p_{i}$ as in Schaul et al.. Note that this requires the use of importance sampling, implemented by weighting the critic update by a factor of ${1/R}p_{i}$. We implement this procedure using the ApeX framework and refer the reader there for more details.
 
 <!-- chunk {"id": "body-0014", "role": "body", "section": "Distributed Distributional DDPG", "weight": 1.0} -->
 
-Next, we consider a modification to the DDPG update which utilizes $N$-step returns when estimating the TD error. This can be seen as replacing the Bellman operator with an $N$-step variant
+Algorithm pseudocode for the D4PG algorithm which includes all the above-mentioned modifications can be found in Algorithm 1. Here the actor and critic parameters are updated using stochastic gradient descent with learning rates, $\alpha_{t}$ and $\beta_{t}$ respectively, which are adjusted online using ADAM. While this pseudocode focuses on the learning process, also shown is pseudocode for actor processes which in parallel fill the replay table with data.
 
 <!-- chunk {"id": "body-0015", "role": "body", "section": "Distributed Distributional DDPG", "weight": 1.0} -->
 
-where the expectation is with respect to the $N$-step transition dynamics. Although not used by Lillicrap et al., $N$-step returns are widely used in the context of many policy gradient algorithms as well as Q-learning variants. This modification can be applied analogously to the distributional Bellman operator in order to make use of it when updating the distributional critic.
+0: batch size M, trajectory length N, number of actors K, replay size R, exploration constant ϵ, initial learning rates α0 and β0 1: Initialize network weights (θ, w) at random 2: Initialize target weights (θ′, w′) ← (θ, w) 3: Launch K actors and replicate network weights (θ, w) to each actor 5: Sample M transitions (xi: i + N, ai: i + N − 1, ri: i + N − 1) of length N from replay with priority pi 6: Construct the target distributions $Y_{i} = {\left({\sum_{n = 0}^{N - 1}{\gamma^{n}r_{i + n}}} \right) + {\gamma^{N}Z_{w'}{(\mathbf{x}_{i + N},{\pi_{\theta'}{(\mathbf{x}_{i + N})}})}}}$ Note, although not denoted the target Yi may be projected (e.g. for Categorical value distributions).
 
 <!-- chunk {"id": "body-0016", "role": "body", "section": "Distributed Distributional DDPG", "weight": 1.0} -->
 
-Finally, we also modify the standard training procedure in order to distribute the process of gathering experience. Note from Equations that the actor and critic updates rely entirely on sampling from some state-visitation distribution $\rho$. We can parallelize this process by using $K$ independent actors, each writing to the same replay table. A learner process can then sample from some replay table of size $R$ and perform the necessary network updates using this data. Additionally sampling can be implemented using non-uniform priorities $p_{i}$ as in Schaul et al.. Note that this requires the use of importance sampling, implemented by weighting the critic update by a factor of ${1/R}p_{i}$. We implement this procedure using the ApeX framework and refer the reader there for more details.
+{\frac{1}{M}{\sum\limits_{i}{{\nabla_{\theta}\pi_{\theta}}{(\mathbf{x}_{i})}{\mathbb{E}}{\lbrack{{\nabla_{\mathbf{a}}Z_{w}}{(\mathbf{x}_{i},\mathbf{a})}}\rbrack}}}} \right|_{\mathbf{a} = {\pi_{\theta}{(\mathbf{x}_{i})}}}$ 8: Update network parameters θ ← θ + αt δθ, w ← w + βt δw 9: If t = 0mod ttarget, update the target networks (θ′, w′) ← (θ, w) 10: If t = 0mod tactors, replicate network weights to the actors 12: return policy parameters θ 3: Execute action a, observe reward r and state x′ 5: until learner finishes
 
-<!-- chunk {"id": "body-0017", "role": "body", "section": "Distributed Distributional DDPG", "weight": 1.0} -->
-
-Algorithm pseudocode for the D4PG algorithm which includes all the above-mentioned modifications can be found in Algorithm 1. Here the actor and critic parameters are updated using stochastic gradient descent with learning rates, $\alpha_{t}$ and $\beta_{t}$ respectively, which are adjusted online using ADAM. While this pseudocode focuses on the learning process, also shown is pseudocode for actor processes which in parallel fill the replay table with data.
-
-<!-- chunk {"id": "body-0018", "role": "body", "section": "Distributed Distributional DDPG", "weight": 1.0} -->
-
-0: batch size M, trajectory length N, number of actors K, replay size R, exploration constant ϵ, initial learning rates α0 and β0 1: Initialize network weights (θ,w) at random 2: Initialize target weights (θ′,w′) ← (θ,w) 3: Launch K actors and replicate network weights (θ,w) to each actor 5: Sample M transitions (xi: i + N,ai: i + N − 1,ri: i + N − 1) of length N from replay with priority pi 6: Construct the target distributions $Y_{i} = {\left( {\sum_{n = 0}^{N - 1}{\gamma^{n}r_{i + n}}} \right) + {\gamma^{N}Z_{w^{\prime}}{(\mathbf{x}_{i + N},{\pi_{\theta^{\prime}}{(\mathbf{x}_{i + N})}})}}}$ Note, although not denoted the target Yi may be projected (e.g. for Categorical
-
-<!-- chunk {"id": "body-0019", "role": "body", "section": "Distributed Distributional DDPG", "weight": 1.0} -->
-
-value distributions). 7: Compute the actor and critic updates
-
-<!-- chunk {"id": "body-0020", "role": "body", "section": "Distributed Distributional DDPG", "weight": 1.0} -->
-
-8: Update network parameters θ ← θ + αt δθ, w ← w + βt δw
-9: If t = 0mod ttarget, update the target networks (θ′,w′) ← (θ,w)
-10: If t = 0mod tactors, replicate network weights to the actors
-12: return policy parameters θ
-3: Execute action a, observe reward r and state x′
-5: until learner finishes
-
-<!-- chunk {"id": "body-0021", "role": "body", "section": "Results", "weight": 1.0} -->
+<!-- chunk {"id": "body-0017", "role": "body", "section": "Results", "weight": 1.0} -->
 
 In this section we describe the performance of the D4PG algorithm across a variety of continuous control tasks. To do so, in each environment we run our learning procedure and periodically snapshot the policy in order to test it without exploration noise. We will primarily be interested in the performance as a function of wall clock time, however we will also examine the data efficiency. Most interestingly, from a scientific perspective, we also perform a number of ablations which individually remove components of the D4PG algorithm in order to determine their specific contributions.
 
-<!-- chunk {"id": "body-0022", "role": "body", "section": "Results", "weight": 1.0} -->
+<!-- chunk {"id": "body-0018", "role": "body", "section": "Results", "weight": 1.0} -->
 
 First, we experiment with and without distributional updates. In this setting we focus on use of a categorical distribution as we found in preliminary experiments that the use of a mixture of Gaussians performed worse and was less stable with respect to hyperparameter values across different tasks; a selection of these runs can be found in Appendix C. Across all tasks---except for one which we will introduce later---we use 51 atoms for the categorical distribution. In what follows we will refer to non-distributional variants of this algorithm as Distributed DDPG (D3PG).
 
-<!-- chunk {"id": "body-0023", "role": "body", "section": "Results", "weight": 1.0} -->
+<!-- chunk {"id": "body-0019", "role": "body", "section": "Results", "weight": 1.0} -->
 
 Next, we consider prioritized and non-prioritized versions of these algorithm variants. For the non-prioritized variants, transitions are sampled from replay uniformly. For prioritized variants we use the absolute TD-error to sample from replay in the case of D3PG, and for D4PG we use the absolute distributional TD-error as described in Section A. We also vary the trajectory length $N \in {\{ 1,5\}}$.
 
-<!-- chunk {"id": "body-0024", "role": "body", "section": "Results", "weight": 1.0} -->
+<!-- chunk {"id": "body-0020", "role": "body", "section": "Results", "weight": 1.0} -->
 
 In all experiments we use a replay table of size $R = {1 \times 10^{6}}$ and only consider behavior policies which add fixed Gaussian noise $\epsilon\mathcal{N}{}$ to the current online policy; in all experiments we use a value of $\epsilon = 0.3$. We experimented with correlated noise drawn from an Ornstein-Uhlenbeck process, as suggested, however we found this was unnecessary and did not add to performance. For all algorithms we initialize the learning rates for both actor and critic updates to the same value. In the next section we will present a suite of simple control problems for which this value corresponds to $\alpha_{0} = \beta_{0} = {1 \times 10^{- 4}}$; for the following, harder problems we set this to a smaller value of $\alpha_{0} = \beta_{0} = {5 \times 10^{- 5}}$. Similarly for the control suite we utilize a batch size of $M = 256$ and for all subsequent problems we will increase this to $M = 512$.
 
-<!-- chunk {"id": "body-0025", "role": "body", "section": "Standard control suite", "weight": 1.0} -->
+<!-- chunk {"id": "body-0021", "role": "body", "section": "Standard control suite", "weight": 1.0} -->
 
 We first consider evaluating performance on a number of simple, physical control tasks by utilizing a suite of benchmark tasks developed in the MuJoCo physics simulator. Each task is run for exactly 1000 steps and provides either an immediate dense reward $r_{t} \in {\lbrack 0,1\rbrack}$ or sparse reward $r_{t} \in {\{ 0,1\}}$ depending on the particular task. For each domain, the inputs presented to the agent consist of reasonably low-dimensional observations, many consisting of physical state, joint angles, etc. These observations range between 6 and 60 dimensions, however note that the difficulty of the task is not immediately associated with its dimensionality. For example the acrobot is one of the lowest dimensional tasks in this suite which, due to its level of controllability, can prove much more difficult to learn than other, higher dimensional tasks. For an illustration of these domains see Figure 9; see Appendix D for more details.
 
-<!-- chunk {"id": "body-0026", "role": "body", "section": "Standard control suite", "weight": 1.0} -->
+<!-- chunk {"id": "body-0022", "role": "body", "section": "Standard control suite", "weight": 1.0} -->
 
 For algorithms in these experiments we consider actor and critic architectures of the form given in Figure 1 and for each experiment we use $K = 32$ actors. Figure 2 shows the performance of D4PG and its various ablations across the entire suite of control tasks. This set of plots is quite busy, however it serves as a broad set of tasks with which we can obtain a general idea of the algorithms performance. Later experiments on harder domains look more closely at the difference between algorithms. Here we also compare against the canonical (non-distributed) DDPG algorithm as a baseline, shown as a dotted black line. This removes all the enhancements proposed in this paper, and we can see that except on the simplest domain, Cartpole (Swingup), it performs worse than all other methods. This performance disparity worsens as we increase the difficulty of tasks, and hence for further experiments we will drop this line from the plot.
 
-<!-- chunk {"id": "body-0027", "role": "body", "section": "Standard control suite", "weight": 1.0} -->
+<!-- chunk {"id": "body-0023", "role": "body", "section": "Standard control suite", "weight": 1.0} -->
 
 Next, across all tasks we see that the best performance is obtained by the full D4PG algorithm (shown in purple and bold). Here we see that the longer unroll length of $N = 5$ is uniformly better (we show these as solid lines), and in particular we sometimes see for both D3PG and D4PG that an unroll length of $N = 1$ (shown as dashed lines) can occasionally result in instability. This is especially apparent in the Cheetah (Walk) and Cartpole (Swingup Sparse) tasks.
 
-<!-- chunk {"id": "body-0028", "role": "body", "section": "Standard control suite", "weight": 1.0} -->
+<!-- chunk {"id": "body-0024", "role": "body", "section": "Standard control suite", "weight": 1.0} -->
 
 The next biggest gain is arguably due to the inclusion of the distributional critic update, where it is particularly helpful on the hardest tasks e.g. Humanoid (Run) and Acrobot. The manipulator is also quite difficult among this suite of tasks, and here we see that the inclusion of the distributional update does not help as much as in other tasks, although note that here the D3PG and D4PG variants obtain approximately the same performance. As far as the use of prioritization is concerned, it does not appear to contribute significantly to the performance of D4PG. This is not the case for D3PG, however, which on many tasks is helped significantly by the inclusion of prioritization.
 
-<!-- chunk {"id": "body-0029", "role": "body", "section": "Manipulation", "weight": 1.0} -->
+<!-- chunk {"id": "body-0025", "role": "body", "section": "Manipulation", "weight": 1.0} -->
 
 Next, we consider a set of tasks designed to highlight the ability of the D4PG agent to learn dexterous manipulation. Tasks of this form can prove difficult for many reasons, most notably the higher dimensionality of the control task, intermittent contact dynamics, and potential under-actuation of the manipulator.
 
-<!-- chunk {"id": "body-0030", "role": "body", "section": "Manipulation", "weight": 1.0} -->
+<!-- chunk {"id": "body-0026", "role": "body", "section": "Manipulation", "weight": 1.0} -->
 
 Here we use a simulated hand model implemented within MuJoCo, consisting of 13 actuators which control 22 degrees of freedom. For these experiments the wrist site is attached to a fixed location in space, about which it is allowed to rotate axially. In particular this allows the hand to pick up objects, rotate into a palm-up position, and manipulate them. We first consider a task in which a cylinder is dropped onto the hand from a random height, and the goal of the task is to catch the falling cylinder. The next task requires the agent to pick up an object from the tabletop and then maneuver it to a target position and orientation. The final task is one wherein a broad cylinder must be rotated in-hand in order to match a target orientation. See Appendix E for further details regarding both the model and the tasks. For these tasks we use the same network architectures as in the previous section as well as $K = 64$ actors.
 
-<!-- chunk {"id": "body-0031", "role": "body", "section": "Manipulation", "weight": 1.0} -->
+<!-- chunk {"id": "body-0027", "role": "body", "section": "Manipulation", "weight": 1.0} -->
 
 In Figure 3 we again compare the D4PG algorithm against ablations of its constituent components. Here we split the algorithms between $N = 1$ in the top row and $N = 5$ in the bottom row, and in particular we can see that across all algorithms $N = 5$ is uniformly better. For all tasks, the full D4PG algorithm performs either at the same level or better than other ablations; this is particularly apparent in the $N = 5$ case. Overall the use of priorization never seems to harm D4PG, however it does appear to be of limited additional value. Interestingly this is not necessarily the case with the D3PG variant (i.e. without distributional updates). Here we can see that prioritization sometimes harms the performance of D3PG, and this is very readily seen in the $N = 1$ case where the algorithm can either become unstable, or in the case of the Pickup and Orient task it completely fails to learn.
 
-<!-- chunk {"id": "body-0032", "role": "body", "section": "Parkour", "weight": 1.0} -->
+<!-- chunk {"id": "body-0028", "role": "body", "section": "Parkour", "weight": 1.0} -->
 
 Finally, we consider the *parkour* domain introduced. In this setting the agent controls a simplified robotic walker which is rewarded for forward movement, but is impeded by a number of randomly sampled obstacles; see Figure 4 for a visualization and refer to the earlier work for further details. The first of our experiments considers a two-dimensional walker, i.e. a domain in which the walker is allowed to move horizontally and vertically, but is constrained to a fixed depth position. In this domain the obstacles presented to the agent include gaps in the floor surface, barriers it must jump over, and platforms that it can either run over or underneath. The agent is presented with proprioceptive observations $\mathbf{x}_{\text{proprio}} \in {\mathbb{R}}^{19}$ corresponding to the angles of its limbs and other functions of these quantities.
 
-<!-- chunk {"id": "body-0033", "role": "body", "section": "Parkour", "weight": 1.0} -->
+<!-- chunk {"id": "body-0029", "role": "body", "section": "Parkour", "weight": 1.0} -->
 
 It is also given access to observations $\mathbf{x}_{\text{terrain}} \in {\mathbb{R}}^{101}$ which includes features such as a depth map of the upcoming terrain, etc. In order to accommodate these inputs we utilize a network architecture as specified in Figure 1. In particular we make use of a stack of feed-forward layers which process the terrain information to reduce it to a smaller number of hidden units before concatenating with the proporioceptive information for further processing. The actions in this domain take the form of torque controls $\mathbf{a} \in {\mathbb{R}}^{6}$.
 
-<!-- chunk {"id": "body-0034", "role": "body", "section": "Parkour", "weight": 1.0} -->
+<!-- chunk {"id": "body-0030", "role": "body", "section": "Parkour", "weight": 1.0} -->
 
 In order to examine the performance of the D4PG algorithm in this setting we consider the ablations of the previous sections and we have further introduced a PPO baseline as utilized in the earlier paper of. For all algorithms, including PPO, we use $K = 64$ actors. These results are shown in Figure 5 in the top row. As before we examine the performance separately for $N = 1$ and $N = 5$, and again we see that the higher unroll length results in better performance. Note that we show the PPO baseline on both plots for consistency, but in both plots this is the same algorithm, with settings proposed in the earlier paper and unrolls of length 50.
 
-<!-- chunk {"id": "body-0035", "role": "body", "section": "Parkour", "weight": 1.0} -->
+<!-- chunk {"id": "body-0031", "role": "body", "section": "Parkour", "weight": 1.0} -->
 
 Here we again see a clear delineation and clear gains for each of the other algorithm components. The biggest gain comes from the inclusion of the distributional update, which we can see by comparing the non-prioritized D3PG/D4PG variants. We see marginal benefit to using prioritization for D3PG, but this gain disappears when we consider the distributional update. Finally, we can see when comparing to the PPO baseline that this algorithm compares favorably to D3PG in the case of $N = 1$, however is outperformed by D4PG; when $N = 5$ all algorithms outperform PPO.
 
-<!-- chunk {"id": "body-0036", "role": "body", "section": "Parkour", "weight": 1.0} -->
+<!-- chunk {"id": "body-0032", "role": "body", "section": "Parkour", "weight": 1.0} -->
 
 Next, in the plots shown in Figure 5 on the bottom row we also consider the performance not just in terms of training time, but also in terms of the sample complexity. In order to do so we plot the performance of each algorithm versus the number of actor steps, i.e. the quantity of transitions collected. This is perhaps more favorable to PPO, as the parallel actors considered in this work are not necessarily tuned for sample efficiency. Here we see that PPO is able to out-perform the non-prioritized version of D3PG, and early on in training is favorable compared to the prioritized version, although this trails off. However, we still see significant performance gains by utilizing the distributional updates, both in a prioritized and non-prioritized setting. Interestingly we see that the use of prioritization does not gain much, if any over the non-prioritized D4PG version. Early in the trajectory for $N = 5$, in fact, we see that the non-prioritized D4PG exhibits better performance, however later these performance curves level out.
 
-<!-- chunk {"id": "body-0037", "role": "body", "section": "Parkour", "weight": 1.0} -->
+<!-- chunk {"id": "body-0033", "role": "body", "section": "Parkour", "weight": 1.0} -->
 
 With respect to wall-clock time these small differences may be due to small latencies in the scheduling of different runs, as we see that this difference is less for the plot with respect to actor steps.
 
-<!-- chunk {"id": "body-0038", "role": "body", "section": "Parkour", "weight": 1.0} -->
+<!-- chunk {"id": "body-0034", "role": "body", "section": "Parkour", "weight": 1.0} -->
 
 Finally we consider a humanoid walker which is able to move in all three dimensions. The obstacles in this domain consist of gaps in the floor, barriers that must be jumped over, and walls with gaps that allow the agent to run through. For this experiment we utilize the same network architecture as in the previous experiment, except now the observations are of size $\mathbf{x}_{\text{proprio}} \in {\mathbb{R}}^{79}$ and $\mathbf{x}_{\text{terrain}} \in {\mathbb{R}}^{461}$. Again actions are torque controls, but in 21 dimensions. In this task we also increased the number of atoms for the categorical distribution from 51 to 101. This change increases the level of resolution for the distribution in order to keep the resolution roughly consistent with other tasks. This is a much higher dimensional problem than the previous parkour task with a significantly more difficult control task: the walker is more unstable and there are many more ways for the agent to fail than in the previous experiment.
 
-<!-- chunk {"id": "body-0039", "role": "body", "section": "Parkour", "weight": 1.0} -->
+<!-- chunk {"id": "body-0035", "role": "body", "section": "Parkour", "weight": 1.0} -->
 
 The results for this particular domain are displayed in Figure 6, and here we concentrate on performance as a function of wall-clock time, restricted to the previously best performing roll-out length of $N = 5$. In this setting we see a clear delineation between first the PPO results which are the poorest performing, the D3PG results where the prioritized version has a slight edge, and finally the D4PG results. Interestingly for D4PG we again see as in the two-dimensional walker case, the use of prioritization seems to have no benefit, with both versions have almost identical performance curves; in fact the performance here is perhaps even closer than that of the previous set of experiments.
 
-<!-- chunk {"id": "body-0040", "role": "body", "section": "Discussion", "weight": 1.5} -->
+<!-- chunk {"id": "body-0036", "role": "body", "section": "Discussion", "weight": 1.5} -->
 
 In this work we introduced the D4PG, or Distributed Distributional DDPG, algorithm. Our main contributions include the inclusion of a distributional updates to the DDPG algorithm, combined with the use of multiple distributed workers all writing into the same replay table. We also consider a number of other, smaller changes to the algorithm. All of these simple modifications contribute to the overall performance of the D4PG algorithm; the biggest performance gain of these simple changes is arguably the use of $N$-step returns. Interestingly we found that the use of priority was less crucial to the overall D4PG algorithm especially on harder problems. While the use of prioritization was definitely able to increase the performance of the D3PG algorithm, we found that it can also lead to unstable updates. This was most apparent in the manipulation tasks.
 
-<!-- chunk {"id": "body-0041", "role": "body", "section": "Discussion", "weight": 1.5} -->
+<!-- chunk {"id": "body-0037", "role": "body", "section": "Discussion", "weight": 1.5} -->
 
 Finally, as our results can attest, the D4PG algorithm is capable of state-of-the-art performance on a number of very difficult continuous control problems.

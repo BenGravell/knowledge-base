@@ -26,7 +26,7 @@ This shift is currently driving us toward a promising and transformative path to
 
 <!-- chunk {"id": "body-0007", "role": "body", "section": "Introduction", "weight": 1.5} -->
 
-Unlike static LLMs, which remain constrained by their inability to adapt to novel and evolving contexts, self-evolving agents are designed to overcome these limitations by continuously learning from real-world feedback. This progression reshapes our understanding of agents. Self-evolving agents, as a core concept, represent a significant step forward in the evolution of intelligent systems, acting as intermediaries that pave the way for more adaptive and autonomous AI, as shown in Figure. Recent research initiatives have increasingly focused on developing adaptive agent architectures capable of continually learning and adapting from experience, such as recent advancements in agent frameworks, prompting strategies, and different optimization ways to evolve. Notwithstanding these advances, existing surveys predominantly address agent evolution as a subsidiary component within comprehensive agent taxonomies. Previous surveys primarily provide systematic overviews of general agent development, while offering limited coverage of self-evolving mechanisms across constrained scenarios in self-evolving agents. For example, Luo et al. discuss several ways to evolve, such as self-learning and multi-agent co-evolution, while Liu et al. explicitly introduce the evolution in terms of different components of agents, such as tools and prompts.
+Unlike static LLMs, which remain constrained by their inability to adapt to novel and evolving contexts, self-evolving agents are designed to overcome these limitations by continuously learning from real-world feedback. This progression reshapes our understanding of agents. Self-evolving agents, as a core concept, represent a significant step forward in the evolution of intelligent systems, acting as intermediaries that pave the way for more adaptive and autonomous AI, as shown in Figure 1. Recent research initiatives have increasingly focused on developing adaptive agent architectures capable of continually learning and adapting from experience, such as recent advancements in agent frameworks, prompting strategies, and different optimization ways to evolve. Notwithstanding these advances, existing surveys predominantly address agent evolution as a subsidiary component within comprehensive agent taxonomies. Previous surveys primarily provide systematic overviews of general agent development, while offering limited coverage of self-evolving mechanisms across constrained scenarios in self-evolving agents. For example, Luo et al. discuss several ways to evolve, such as self-learning and multi-agent co-evolution, while Liu et al. explicitly introduce the evolution in terms of different components of agents, such as tools and prompts.
 
 <!-- chunk {"id": "body-0008", "role": "body", "section": "Introduction", "weight": 1.5} -->
 
@@ -38,1376 +38,1080 @@ To the best of our knowledge, this is the first systematic and comprehensive sur
 
 <!-- chunk {"id": "body-0010", "role": "body", "section": "Introduction", "weight": 1.5} -->
 
-We finally summarize different signals to guide the evolution of agents, such as textual feedback or scalar rewards, and also different architectures of agents to evolve, such as single-agent and multi-agent evolution (how to evolve in Section 5). Furthermore, we review certain evaluation metrics and benchmarks to track existing advancements of self-evolving agents, emphasizing the importance of co-evolution between evaluation and agents (Section 6). We also examine emerging applications in domains such as coding, education, and healthcare, where continual adaptation and evolution are essential (Section 7). Finally, we identify persistent challenges and outline promising research directions to guide the development of self-evolving agents (Section 8). Through this systematic decomposition of self-evolutionary processes across orthogonal dimensions, we provide a structured and practical framework enabling researchers to systematically analyze, compare, and design more robust and adaptive agentic systems.
+We finally summarize different signals to guide the evolution of agents, such as textual feedback or scalar rewards, and also different architectures of agents to evolve, such as single-agent and multi-agent evolution (how to evolve in Section 5). Furthermore, we review certain evaluation metrics and benchmarks to track existing advancements of self-evolving agents, emphasizing the importance of co-evolution between evaluation and agents (Section 6). We also examine emerging applications in domains such as coding, education, and healthcare, where continual adaptation and evolution are essential (Section 7). Finally, we identify persistent challenges and outline promising research directions to guide the development of self-evolving agents (Section 8). Through this systematic decomposition of self-evolutionary processes across orthogonal dimensions, we provide a structured and practical framework enabling researchers to systematically analyze, compare, and design more robust and adaptive agentic systems. To sum up, our key contributions are as follows: We establish a unified theoretical framework for characterizing self-evolutionary processes in agent systems, anchored around three fundamental dimensions: what evolves, how it evolves, and when it evolves, providing clear design guidance for future self-evolving agentic systems.
 
 <!-- chunk {"id": "body-0011", "role": "body", "section": "Introduction", "weight": 1.5} -->
 
-We establish a unified theoretical framework for characterizing self-evolutionary processes in agent systems, anchored around three fundamental dimensions: what evolves, how it evolves, and when it evolves, providing clear design guidance for future self-evolving agentic systems.
+We further investigate the evaluation benchmark or environment tailored for self-evolving agents, highlighting emerging metrics and challenges related to adaptability, robustness, and real-world complexity.
 
 <!-- chunk {"id": "body-0012", "role": "body", "section": "Introduction", "weight": 1.5} -->
 
-We further investigate the evaluation benchmark or environment tailored for self-evolving agents, highlighting emerging metrics and challenges related to adaptability, robustness, and real-world complexity.
+We showcase several key real-world applications across various domains, including autonomous software engineering, personalized education, healthcare, and intelligent virtual assistance, illustrating the practical potential of self-evolving agents.
 
 <!-- chunk {"id": "body-0013", "role": "body", "section": "Introduction", "weight": 1.5} -->
 
-We showcase several key real-world applications across various domains, including autonomous software engineering, personalized education, healthcare, and intelligent virtual assistance, illustrating the practical potential of self-evolving agents.
+We identify critical open challenges and promising future research directions, emphasizing aspects like safety, personalization, multi-agent co-evolution, and scalability.
 
 <!-- chunk {"id": "body-0014", "role": "body", "section": "Introduction", "weight": 1.5} -->
 
-We identify critical open challenges and promising future research directions, emphasizing aspects like safety, personalization, multi-agent co-evolution, and scalability.
-
-<!-- chunk {"id": "body-0015", "role": "body", "section": "Introduction", "weight": 1.5} -->
-
 In doing so, our survey provides researchers and practitioners with a more structured taxonomy for understanding, comparing, and advancing research of self-evolving agents from different perspectives. As LLM-based agents are increasingly integrated into mission-critical applications, understanding their evolutionary dynamics becomes essential, extending beyond academic research to encompass industrial applications, regulatory considerations, and broader societal implications.
 
-<!-- chunk {"id": "body-0016", "role": "body", "section": "Definitions and Foundations", "weight": 1.0} -->
+<!-- chunk {"id": "body-0015", "role": "body", "section": "Definitions and Foundations", "weight": 1.0} -->
 
 Before delving into a comprehensive survey, we first present a formal definition of self-evolving agents and introduce a taxonomy of the key aspects in self-evolving agents. We also discuss the relationships between self-evolving agents and other renowned learning paradigms, such as curriculum learning, lifelong learning, model editing, and unlearning, highlighting the adaptive, dynamic, and autonomous nature of self-evolving agents.
 
+<!-- chunk {"id": "body-0016", "role": "body", "section": "Environment", "weight": 1.0} -->
+
+We first define the environment (including the user and the execution environment, e.g., Linux shell) of an agent system as a partially observable Markov Decision Process (POMDP), represented as a tuple $E=(\mathcal{G},\mathcal{S},\mathcal{A},T,R,\Omega,O,\gamma)$, where: $\mathcal{G}$ is a set of potential goals. Each $g\in\mathcal{G}$ is a task objective that the agent needs to achieve, e.g., a user query. $\mathcal{S}$ is a set of states. Each $s\in\mathcal{S}$ represents the internal state of the environment. $\mathcal{A}$ is a set of actions. Each action $a\in\mathcal{A}$ can be a combination of textual reasoning, retrieval of external knowledge, and tool calls.
+
 <!-- chunk {"id": "body-0017", "role": "body", "section": "Environment", "weight": 1.0} -->
 
-We first define the environment (including the user and the execution environment, e.g.,
+$T$ is the state transition probability function which takes a state-action pair $(s,a)$ and outputs the probability distribution $T(s^{\prime}|s,a)$ of the next state. $R:\mathcal{S}\times\mathcal{A}\times\mathcal{G}\rightarrow\mathcal{R}$ is the feedback/reward function, conditioned on the specific goal $g\in\mathcal{G}$. The feedback $r=R(s,a,g)$ typically takes the form of a scalar score or textual feedback. $\Omega$ is a set of observations accessible to the agent. $O$ is the observation probability function which takes a state-action pair $(s,a)$ and outputs the probability distribution $O(o^{\prime}|s,a)$ of the next observation for the agent. $\gamma$ is the discount factor.
 
-<!-- chunk {"id": "body-0018", "role": "body", "section": "Environment", "weight": 1.0} -->
+<!-- chunk {"id": "body-0018", "role": "body", "section": "Agent system", "weight": 1.0} -->
 
-$\mathcal{G}$ is a set of potential goals. Each $g \in \mathcal{G}$ is a task objective that the agent needs to achieve, e.g., a user query.
+We define a (multi-)agent system as $\Pi=(\Gamma,\{\psi_{i}\},\{C_{i}\},\{\mathcal{W}_{i}\})$. The architecture $\Gamma$ determines the control flow of the agent system or collaborative structures between multiple agents. It is typically represented as a sequence of nodes $(N_{1},N_{2},...)$ organized by graph or code structures. Each node $N_{i}$ consists of the following components: $\psi_{i}$: the underlying LLM/MLLM. $C_{i}$: the context information, e.g., prompt $P_{i}$ and memory $M_{i}$. $\mathcal{W}_{i}$: the set of available tools/APIs.
 
-<!-- chunk {"id": "body-0019", "role": "body", "section": "Environment", "weight": 1.0} -->
+<!-- chunk {"id": "body-0019", "role": "body", "section": "Agent system", "weight": 1.0} -->
 
-$\mathcal{S}$ is a set of states. Each $s \in \mathcal{S}$ represents the internal state of the environment.
+At each node, the agent policy is a function $\pi_{\theta_{i}}(\cdot|o)$ that takes an observation and outputs the probability distribution of the next action, where $\theta_{i}=(\psi_{i},C_{i})$. The actual action space here is the union of the natural language space and the tool space $\mathcal{W}_{i}$.
 
-<!-- chunk {"id": "body-0020", "role": "body", "section": "Environment", "weight": 1.0} -->
+<!-- chunk {"id": "body-0020", "role": "body", "section": "Agent system", "weight": 1.0} -->
 
-$\mathcal{A}$ is a set of actions. Each action $a \in \mathcal{A}$ can be a combination of textual reasoning, retrieval of external knowledge, and tool calls.
+For a given task $\mathcal{T}=(E,g)$, represented by an environment $E$ and a corresponding goal $g\in\mathcal{G}$, the agent system follows the topology $\Gamma$ to generate a trajectory $\tau=(o_{0},a_{0},o_{1},a_{1},...)$, and receives a feedback $r$ either from the external environment or from internal signals (e.g., self-confidence or feedback from an evaluator).
 
-<!-- chunk {"id": "body-0021", "role": "body", "section": "Environment", "weight": 1.0} -->
+<!-- chunk {"id": "body-0021", "role": "body", "section": "Objective of self-evolving agents", "weight": 1.0} -->
 
-$T$ is the state transition probability function which takes a state-action pair $(s,a)$ and outputs the probability distribution $T{(\left. s^{\prime} \middle| {s,a} \right.)}$ of the next state.
+Let $U$ be a utility function that measures the performance of an agent system $\Pi$ on a given task $\mathcal{T}$ by assigning a scalar score $U(\Pi,\mathcal{T})\in\mathbb{R}$. The utility may be derived from the task-specific feedback $r$, such as a reward signal or textual evaluation, possibly combined with other performance indicators (e.g., completion time, accuracy, or robustness). Given a sequence of tasks $(\mathcal{T}_{0},\mathcal{T}_{1},...,\mathcal{T}_{n})$ and an initial agent system $\Pi_{0}$, a self-evolving strategy $f$ recurrently generates an evolving sequence of agent systems $(\Pi_{1},\Pi_{2},...,\Pi_{n})$ via where $\tau_{j}$ and $r_{j}$ are the trajectory and feedback on task $\mathcal{T}_{j}$.
 
-<!-- chunk {"id": "body-0022", "role": "body", "section": "Environment", "weight": 1.0} -->
-
-$R:{{\mathcal{S} \times \mathcal{A} \times \mathcal{G}}\rightarrow\mathcal{R}}$ is the feedback/reward function, conditioned on the specific goal $g \in \mathcal{G}$. The feedback $r = {R{(s,a,g)}}$ typically takes the form of a scalar score or textual feedback.
-
-<!-- chunk {"id": "body-0023", "role": "body", "section": "Environment", "weight": 1.0} -->
-
-$\Omega$ is a set of observations accessible to the agent.
-
-<!-- chunk {"id": "body-0024", "role": "body", "section": "Environment", "weight": 1.0} -->
-
-$O$ is the observation probability function which takes a state-action pair $(s,a)$ and outputs the probability distribution $O{(\left. o^{\prime} \middle| {s,a} \right.)}$ of the next observation for the agent.
-
-<!-- chunk {"id": "body-0025", "role": "body", "section": "Agent system", "weight": 1.0} -->
-
-We define a (multi-)agent system as $\Pi = {(\Gamma,{\{\psi_{i}\}},{\{ C_{i}\}},{\{\mathcal{W}_{i}\}})}$. The architecture $\Gamma$ determines the control flow of the agent system or collaborative structures between multiple agents. It is typically represented as a sequence of nodes $(N_{1},N_{2},\ldots)$ organized by graph or code structures.
-
-<!-- chunk {"id": "body-0026", "role": "body", "section": "Agent system", "weight": 1.0} -->
-
-$\psi_{i}$: the underlying LLM/MLLM.
-
-<!-- chunk {"id": "body-0027", "role": "body", "section": "Agent system", "weight": 1.0} -->
-
-$\mathcal{W}_{i}$: the set of available tools/APIs.
-
-<!-- chunk {"id": "body-0028", "role": "body", "section": "Agent system", "weight": 1.0} -->
-
-At each node, the agent policy is a function $\pi_{\theta_{i}}{( \cdot |o)}$ that takes an observation and outputs the probability distribution of the next action, where $\theta_{i} = {(\psi_{i},C_{i})}$. The actual action space here is the union of the natural language space and the tool space $\mathcal{W}_{i}$.
-
-<!-- chunk {"id": "body-0029", "role": "body", "section": "Agent system", "weight": 1.0} -->
-
-For a given task $\mathcal{T} = {(E,g)}$, represented by an environment $E$ and a corresponding goal $g \in \mathcal{G}$, the agent system follows the topology $\Gamma$ to generate a trajectory $\tau = {(o_{0},a_{0},o_{1},a_{1},\ldots)}$, and receives a feedback $r$ either from the external environment or from internal signals (e.g., self-confidence or feedback from an evaluator).
-
-<!-- chunk {"id": "body-0030", "role": "body", "section": "Objective of self-evolving agents", "weight": 1.0} -->
-
-Let $U$ be a utility function that measures the performance of an agent system $\Pi$ on a given task $\mathcal{T}$ by assigning a scalar score ${U{(\Pi,\mathcal{T})}} \in {\mathbb{R}}$. The utility may be derived from the task-specific feedback $r$, such as a reward signal or textual evaluation, possibly combined with other performance indicators (e.g., completion time, accuracy, or robustness). Given a sequence of tasks $(\mathcal{T}_{0},\mathcal{T}_{1},\ldots,\mathcal{T}_{n})$ and an initial agent system $\Pi_{0}$, a self-evolving strategy $f$ recurrently generates an evolving sequence of agent systems $(\Pi_{1},\Pi_{2},\ldots,\Pi_{n})$ via
-
-<!-- chunk {"id": "body-0031", "role": "body", "section": "Operational definition of self-evolving agents", "weight": 1.0} -->
+<!-- chunk {"id": "body-0022", "role": "body", "section": "Operational definition of self-evolving agents", "weight": 1.0} -->
 
 To provide a conceptual boundary, we introduce an operational definition of self-evolving agents. A self-evolving agent is the agent that *modifies its internal parameters, contextual state, toolset, or architectural topology based on its own trajectories or feedback signals, with the explicit objective of improving future performance*.
 
-<!-- chunk {"id": "body-0032", "role": "body", "section": "Operational definition of self-evolving agents", "weight": 1.0} -->
+<!-- chunk {"id": "body-0023", "role": "body", "section": "Operational definition of self-evolving agents", "weight": 1.0} -->
 
 This definition entails three inclusion criteria: (i) updates must be *experience-dependent*, driven by trajectories, self-generated data, or environment feedback, specifically targeting the agent's policy limitations or capability boundaries rather than generic data synthesis; (ii) updates must produce a *persistent, policy-changing* effect rather than a transient instruction-following behavior; (iii) the system must possess mechanisms for *autonomous exploration or self-initiated learning*, even if it also leverages pre-collected data. For clarity, we use \"passive\" to denote learning triggered exclusively by externally provided data or schedules, and \"active\" to denote self-initiated exploration, reflection, or structural modification (i.e., using self-reflection to collect data), explicitly excluding static pipelines (e.g., standard distillation) where data generation is agnostic to the agent's interaction history.
 
-<!-- chunk {"id": "body-0033", "role": "body", "section": "Operational definition of self-evolving agents", "weight": 1.0} -->
+<!-- chunk {"id": "body-0024", "role": "body", "section": "Operational definition of self-evolving agents", "weight": 1.0} -->
 
 As this field is rapidly forming, fully autonomous self-evolution without human intervention represents an aspirational goal rather than the current norm. In this survey, we do not impose a rigid exclusion threshold that would disregard early-stage developments. Instead, we analyze the mechanisms contributing to the self-evolving paradigm ranging from proto-evolution (e.g., iterative bootstrapping or feedback-driven prompting) to strong self-evolution (fully autonomous diagnosis and reconfiguration), allowing us to provide a comprehensive view of how diverse methods contribute to the \"What, When, and How\" of the paradigm's progression toward full autonomy.
 
-<!-- chunk {"id": "body-0034", "role": "body", "section": "Relationships with Other Works", "weight": 1.0} -->
+<!-- chunk {"id": "body-0025", "role": "body", "section": "Relationships with Other Works", "weight": 1.0} -->
 
-Table summarizes the key distinctions between self-evolving agents and other paradigms (including curriculum learning, lifelong learning, model editing, and unlearning). We provide a brief introduction to each paradigm below, highlighting the differences among these paradigms, as well as the differences with self-evolving agents.
+Table 1 summarizes the key distinctions between self-evolving agents and other paradigms (including curriculum learning, lifelong learning, model editing, and unlearning). We provide a brief introduction to each paradigm below, highlighting the differences among these paradigms, as well as the differences with self-evolving agents.
 
-<!-- chunk {"id": "body-0035", "role": "body", "section": "Curriculum Learning", "weight": 1.0} -->
+<!-- chunk {"id": "body-0026", "role": "body", "section": "Curriculum Learning", "weight": 1.0} -->
 
-Curriculum learning is a training strategy in which data are presented in order of increasing difficulty (Bengio et al. Wang et al., ). This strategy resembles human curricula where concepts are introduced progressively from simple to complex. Curriculum learning has been widely adopted across diverse domains, including computer vision, natural language processing (Platanios et al. Tay et al., ), speech recognition (Braun et al. Lotfian and Busso, ), etc. Recently, several curriculum learning-based methods have been proposed to fine-tune LLMs during the post-training phase. The framework for curriculum learning generally comprises two key components: a difficulty measurer that quantifies the difficulty level of each training data point, and a training scheduler that reorganizes the order of data points received by the model according to the difficulty level. Unlike curriculum learning, which operates on a static dataset, self-evolving agents aim to handle sequential tasks in dynamic environments. Additionally, curriculum learning updates only model parameters, whereas self-evolving agents are able to adjust non-parametric components like memory and tools.
+Curriculum learning is a training strategy in which data are presented in order of increasing difficulty. This strategy resembles human curricula where concepts are introduced progressively from simple to complex. Curriculum learning has been widely adopted across diverse domains, including computer vision, natural language processing, speech recognition, etc. Recently, several curriculum learning-based methods have been proposed to fine-tune LLMs during the post-training phase. The framework for curriculum learning generally comprises two key components: a difficulty measurer that quantifies the difficulty level of each training data point, and a training scheduler that reorganizes the order of data points received by the model according to the difficulty level. Unlike curriculum learning, which operates on a static dataset, self-evolving agents aim to handle sequential tasks in dynamic environments. Additionally, curriculum learning updates only model parameters, whereas self-evolving agents are able to adjust non-parametric components like memory and tools.
 
-<!-- chunk {"id": "body-0036", "role": "body", "section": "Lifelong Learning", "weight": 1.0} -->
+<!-- chunk {"id": "body-0027", "role": "body", "section": "Lifelong Learning", "weight": 1.0} -->
 
 Lifelong learning refers to the ability of AI models to continuously and adaptively learn when exposed to new tasks and environments, while retaining previously acquired knowledge and abilities. This learning paradigm, also known as continual learning or incremental learning, is crucial for AI models to operate in dynamic and complex environments. The primary goal of lifelong learning for AI models is to achieve a balance between preserving existing knowledge (stability) and acquiring new knowledge (plasticity) when exposed to new data or tasks. Though it shares the sequential task setting with self-evolving agents, lifelong learning differs in two fundamental ways: Memory functionality and usage timing: While continual learning methods extensively employ memory mechanisms (e.g., experience replay buffers, episodic memory ) to mitigate catastrophic forgetting, these mechanisms primarily serve as *training-time* tools for parameter optimization through gradient computation. In contrast, self-evolving agents leverage *runtime context* (prompts, working memory, conversation history) that directly influences action generation at test-time without requiring parameter updates. The distinction lies not in the presence of non-parametric components, but in their functional role: training-time replay vs. test-time state adaptation.
 
-<!-- chunk {"id": "body-0037", "role": "body", "section": "Lifelong Learning", "weight": 1.0} -->
+<!-- chunk {"id": "body-0028", "role": "body", "section": "Lifelong Learning", "weight": 1.0} -->
 
 Learning initiative: Lifelong learning primarily acquires knowledge passively through externally provided task sequences, whereas self-evolving agents actively explore their environment and incorporate internal reflection or self-evaluation mechanisms to guide their own learning trajectory. Recent self-improving LLM methods, which iteratively refine models through self-generated data and self-critique, can be viewed as instances of lifelong learning focused on model-centric improvement. Self-evolving agents extend beyond this paradigm to encompass system-wide evolution including tool acquisition, architectural reconfiguration, and environmental exploration.
 
-<!-- chunk {"id": "body-0038", "role": "body", "section": "Model Editing and Unlearning", "weight": 1.0} -->
+<!-- chunk {"id": "body-0029", "role": "body", "section": "Model Editing and Unlearning", "weight": 1.0} -->
 
-Model editing and unlearning aim to efficiently and precisely modify specific knowledge in AI models while preserving irrelevant knowledge and avoiding full retraining; Zhang et al., 2024d; Wang et al., 2025h full stack safety: data, training and deployment"); Nguyen et al. Geng et al., 2025a). A canonical application of model editing is to perform efficient and precise localized factual updates. Early methods focused on triples of atomic knowledge and later expanded into various trustworthy-related tasks. Recent studies also propose lifelong model editing that sequentially performs model editing. For model unlearning, early efforts mainly focus on the removal of privacy-related information. With the rapid development of LLMs, model unlearning is also used to enhance LLMs' safety. Compared to lifelong learning, model editing shares an aligned objective: both aim to acquire new knowledge or capabilities while mitigating catastrophic forgetting. However, lifelong learning typically relies on extensive gradient-based fine-tuning across all model parameters, whereas model editing often modifies only a small subset of parameters in a targeted manner.
+Model editing and unlearning aim to efficiently and precisely modify specific knowledge in AI models while preserving irrelevant knowledge and avoiding full retraining; Zhang et al., 2024d; Wang et al., 2025h full stack safety: data, training and deployment"); Nguyen et al., 2022; Geng et al., 2025a). A canonical application of model editing is to perform efficient and precise localized factual updates. Early methods focused on triples of atomic knowledge and later expanded into various trustworthy-related tasks. Recent studies also propose lifelong model editing that sequentially performs model editing. For model unlearning, early efforts mainly focus on the removal of privacy-related information. With the rapid development of LLMs, model unlearning is also used to enhance LLMs' safety. Compared to lifelong learning, model editing shares an aligned objective: both aim to acquire new knowledge or capabilities while mitigating catastrophic forgetting. However, lifelong learning typically relies on extensive gradient-based fine-tuning across all model parameters, whereas model editing often modifies only a small subset of parameters in a targeted manner.
 
-<!-- chunk {"id": "body-0039", "role": "body", "section": "Model Editing and Unlearning", "weight": 1.0} -->
+<!-- chunk {"id": "body-0030", "role": "body", "section": "Model Editing and Unlearning", "weight": 1.0} -->
 
 Compared to self-evolving agents, model editing cannot modify non-parametric components such as memory or tools, and relies on a pre-defined pipeline from the algorithm designer, whereas self-evolving agents can spontaneously employ more diverse and flexible strategies based on the observation of the environment or internal feedback signals.
 
-<!-- chunk {"id": "body-0040", "role": "body", "section": "Positioning Self-Evolving Agents", "weight": 1.0} -->
+<!-- chunk {"id": "body-0031", "role": "body", "section": "Positioning Self-Evolving Agents", "weight": 1.0} -->
 
 To clarify the relationships among these paradigms and to motivate the role of self-evolving agents, we examine them through two complementary perspectives: a *problem-setting* lens and a *solution-paradigm* lens. This distinction clarifies the basis of each paradigm - whether it emerges from constraints and challenges inherent to the learning setting, or from methodological proposals for how the model or agent itself can be updated.
 
-<!-- chunk {"id": "body-0041", "role": "body", "section": "Positioning Self-Evolving Agents", "weight": 1.0} -->
+<!-- chunk {"id": "body-0032", "role": "body", "section": "Positioning Self-Evolving Agents", "weight": 1.0} -->
 
 Problem-setting view. Curriculum learning and lifelong learning arise from concrete learning problems. Curriculum learning addresses how to structure training examples of varying difficulty so a model can handle complex samples more effectively; lifelong learning focuses on acquiring new abilities over time while mitigating catastrophic forgetting. These paradigms are therefore driven by the *problems* they aim to solve and primarily specify how experience is organized for the learner, rather than how the agent itself may adapt beyond parameter updates.
 
-<!-- chunk {"id": "body-0042", "role": "body", "section": "Positioning Self-Evolving Agents", "weight": 1.0} -->
+<!-- chunk {"id": "body-0033", "role": "body", "section": "Positioning Self-Evolving Agents", "weight": 1.0} -->
 
 Solution-paradigm view. Model editing and self-evolving agents, in contrast, originate as *solutions*: they propose mechanisms for updating or modifying a system. Model editing provides targeted procedures---typically localized parameter adjustments---to correct or insert knowledge. Self-evolving agents generalize this idea by treating adaptation as a first-class capability, allowing not only parameter updates but also changes to runtime context, memory, tools, and workflow structures, driven by the agent's own trajectories and feedback signals.
 
-<!-- chunk {"id": "body-0043", "role": "body", "section": "Positioning Self-Evolving Agents", "weight": 1.0} -->
+<!-- chunk {"id": "body-0034", "role": "body", "section": "Positioning Self-Evolving Agents", "weight": 1.0} -->
 
 Viewed through this two-lens framework, curriculum and lifelong learning are anchored in the nature of the learning *problems* they address, whereas model editing and self-evolving agents are defined by the *methods* they provide for effecting change. Self-evolving agents thus represent a system-level solution paradigm: they include parameter-level editing as one update pathway while enabling broader, persistent, and interaction-driven evolution across multiple components of an agent.
 
-<!-- chunk {"id": "body-0044", "role": "body", "section": "What to Evolve?", "weight": 1.0} -->
+<!-- chunk {"id": "body-0035", "role": "body", "section": "What to Evolve?", "weight": 1.0} -->
 
-A self-evolving agent differs from a static agent not by *what* components it contains, but by *which internal states* can be autonomously modified based on its own trajectories, reflections, and feedback signals. Thus, the key question of this section is to identify the evolutionary loci within an agent system $\Pi = {(\Gamma,{\{\psi_{i}\}},{\{ C_{i}\}},{\{\mathcal{W}_{i}\}})}$---the parts of the system whose states can be rewritten in an experience-driven and persistent manner, enabling cumulative self-improvement.
+A self-evolving agent differs from a static agent not by *what* components it contains, but by *which internal states* can be autonomously modified based on its own trajectories, reflections, and feedback signals. Thus, the key question of this section is to identify the evolutionary loci within an agent system $\Pi=(\Gamma,\{\psi_{i}\},\{C_{i}\},\{\mathcal{W}_{i}\})$---the parts of the system whose states can be rewritten in an experience-driven and persistent manner, enabling cumulative self-improvement.
 
-<!-- chunk {"id": "body-0045", "role": "body", "section": "What to Evolve?", "weight": 1.0} -->
+<!-- chunk {"id": "body-0036", "role": "body", "section": "What to Evolve?", "weight": 1.0} -->
 
-Following the formulation in Section 2.1, these evolutionary loci align with four major pillars of an agent system. Our investigation starts at the agent's cognitive core, namely the Models $\{\psi_{i}\}$, whose parameters can be continuously updated through self-generated supervision, execution traces, or environmental feedback. We then consider the Context $\{ C_{i}\}$ --including instructions (Xiang et al. Khattab et al., ) and long-term memory --which evolves as agents reflect, store, and retrieve experience in ways that shape future decision-making. From this internal foundation, we examine the evolution of Tools $\{\mathcal{W}_{i}\}$, where agents autonomously create, refine, and managing executable skills based on verifiable interaction signals Finally, we scale to the Agentic Architecture, where the system's architecture and collaborative structures are optimized over time, enabling structural adaptation beyond individual components. We present representative examples of these evolutionary loci in Table.
+Following the formulation in Section 2.1, these evolutionary loci align with four major pillars of an agent system. Our investigation starts at the agent's cognitive core, namely the Models $\{\psi_{i}\}$, whose parameters can be continuously updated through self-generated supervision, execution traces, or environmental feedback. We then consider the Context $\{C_{i}\}$ --including instructions and long-term memory --which evolves as agents reflect, store, and retrieve experience in ways that shape future decision-making. From this internal foundation, we examine the evolution of Tools $\{\mathcal{W}_{i}\}$, where agents autonomously create, refine, and managing executable skills based on verifiable interaction signals Finally, we scale to the Agentic Architecture, where the system's architecture and collaborative structures are optimized over time, enabling structural adaptation beyond individual components. We present representative examples of these evolutionary loci in Table 2.
 
-<!-- chunk {"id": "body-0046", "role": "body", "section": "Models", "weight": 1.0} -->
+<!-- chunk {"id": "body-0037", "role": "body", "section": "Models", "weight": 1.0} -->
 
 Models constitute a primary *locus of self-evolution*, as their parameters can be autonomously rewritten based on the agent's own trajectories, reflections, and interaction outcomes. The ability of these models to evolve by continually adapting their internal parameters and expanding their functional capabilities is essential for the development of autonomous, general-purpose agents. Unlike static systems that rely heavily on human-annotated datasets and fixed training regimes, self-evolving models can improve through interaction, self-supervised data generation, and dynamic learning loops, thereby achieving greater efficiency, adaptability, and scalability.
 
-<!-- chunk {"id": "body-0047", "role": "body", "section": "Models", "weight": 1.0} -->
+<!-- chunk {"id": "body-0038", "role": "body", "section": "Models", "weight": 1.0} -->
 
 In detail, we outline the principal axes along which model evolution unfolds. These include learning from self-generated supervision to refine model weights, evolving through interaction with constructed or external environments, and integrating feedback signals that directly reshape future reasoning behaviors. Together, these strategies represent a shift from passive learning paradigms toward active self-improvement.
 
-<!-- chunk {"id": "body-0048", "role": "body", "section": "Policy", "weight": 1.0} -->
+<!-- chunk {"id": "body-0039", "role": "body", "section": "Models", "weight": 1.0} -->
+
+Agent Workflow Memory Table 2: Representative self-evolving agent methods positioned along four evolutionary pillars; a filled bullet (•) marks dimensions where the approach actively evolves.
+
+<!-- chunk {"id": "body-0040", "role": "body", "section": "Policy", "weight": 1.0} -->
 
 A self-evolving agent can refine its parameters to perform better on targeted tasks. Traditional methods of data collection for training agents on tool-use benchmarks are costly and often yield limited coverage, while purely synthetic data-generation pipelines typically suffer from inadequate quality. Consequently, recent studies emphasize enabling agents to autonomously generate data to improve their own model weights. One representative approach is the Self-Challenging Agent (SCA), where a language model alternates roles between a challenger generating executable Code-as-Task problems and an executor solving them. The model then fine-tunes its parameters using trajectories derived from successful solutions, resulting in significant performance gains on complex, multi-step tasks. Similarly, the Self-Rewarding Self-Improving framework implements an internal self-judging mechanism, allowing the model to autonomously generate problems, solve them, and assess its performance, thus producing self-contained fine-tuning data without external annotations. This method demonstrated notable improvements, particularly in complex reasoning tasks. Beyond task creation, another promising research direction involves leveraging interaction feedback directly for parameter updates.
 
-<!-- chunk {"id": "body-0049", "role": "body", "section": "Policy", "weight": 1.0} -->
+<!-- chunk {"id": "body-0041", "role": "body", "section": "Policy", "weight": 1.0} -->
 
 For instance, SELF, SCoRe, and PAG interpret execution traces or natural-language critiques as reward signals within an online Supervised Fine-Tuning (SFT) combined with Reinforcement Learning (RL) framework, enabling continuous policy improvement. TextGrad further extends this concept by treating unstructured textual feedback as a differentiable training signal capable of directly influencing both prompt design and model parameters. Additionally, AutoRule converts language-model reasoning traces and preference feedback into explicit rule-based training rewards, enhancing the quality of model outputs through structured reward signals. Collectively, these advancements chart a clear trajectory---from agents autonomously crafting their training tasks to directly refining their parameters based on execution feedback, highlighting the capacity of models to evolve continuously by learning from the data they produce.
 
-<!-- chunk {"id": "body-0050", "role": "body", "section": "Experience", "weight": 1.0} -->
+<!-- chunk {"id": "body-0042", "role": "body", "section": "Experience", "weight": 1.0} -->
 
 Agents can evolve not only by adjusting their internal parameters but also by actively interacting with or even constructing their environments, capturing experiences, and transforming them into learning signals that drive iterative improvement. This environmental loop provides agents with the complexity and diversity required for scalable self-adaptation. The Self-Challenging Agent (SCA) exemplifies this dynamic at the task level, where the agent autonomously generates novel Code-as-Task problems, executes them, and then filters successful trajectories for retraining itself. AgentGen extends this concept to full-environment generation, synthesizing diverse simulation worlds (in PDDL or Gym-style formats) derived from an initial corpus. It implements a bidirectional evolution loop that progressively adjusts task difficulty, enabling the agent to continuously grow within a dynamically structured curriculum. Reflexion complements this by introducing self-reflective mechanisms, where agents iteratively record natural-language critiques of their previous actions, guiding future behavior to avoid recurring mistakes. Additionally, AdaPlanner introduces closed-loop adaptive planning, allowing agents to refine their strategies on-the-fly based on environmental feedback, effectively reshaping action sequences in response to immediate outcomes.
 
-<!-- chunk {"id": "body-0051", "role": "body", "section": "Experience", "weight": 1.0} -->
+<!-- chunk {"id": "body-0043", "role": "body", "section": "Experience", "weight": 1.0} -->
 
 Similarly, Self-Refine employs an iterative refinement loop in which the agent repeatedly critiques and revises its initial outputs, significantly improving task accuracy without explicit retraining. SICA (Self-Improving Coding Agent) further pushes the boundary by enabling agents to autonomously edit their underlying code and tools, iteratively enhancing their core reasoning abilities through direct self-modification. From a reinforcement learning perspective, frameworks such as RAGEN and DYSTIL conceptualize multi-step tool-use tasks as Markov Decision Processes, optimizing agent policies through rich environmental rewards and strategy induction loops. RAGEN leverages dense feedback from the environment to iteratively fine-tune action policies, while DYSTIL utilizes high-level strategy advice generated by language models to progressively internalize complex decision-making skills into reinforcement learning agents. Collectively, these approaches highlight a compelling paradigm where self-evolving agents not only leverage self-generated data but actively reshape their environments and internal mechanisms to fuel ongoing learning. Such dynamic interaction loops point toward autonomous, open-ended improvement cycles deeply grounded in experiential adaptation.
 
-<!-- chunk {"id": "body-0052", "role": "body", "section": "Context", "weight": 1.0} -->
+<!-- chunk {"id": "body-0044", "role": "body", "section": "Context", "weight": 1.0} -->
 
 An essential component of an LLM agent to be evolved is the context, which shapes how an agent behaves. To start, we want to interpret two terms, \"prompt optimization\" and \"memory evolution\", which have been used in different literature. In most cases, these two terms can be used interchangeably because they both refer to what is included in the context window. Prompt optimization asks \"how can we phrase or structure the instructions so the LLM behaves better?\", and attends to details such as the wording, ordering. On the other hand, memory evolution asks \"how should we store, forget, and retrieve context so that the agent can stay informed and perform better?\", which focuses on what past information to surface or archive.
 
-<!-- chunk {"id": "body-0053", "role": "body", "section": "Memory Evolution", "weight": 1.0} -->
+<!-- chunk {"id": "body-0045", "role": "body", "section": "Memory Evolution", "weight": 1.0} -->
 
 LLM-based agents are increasingly designed with long-term memory mechanisms that grow and adapt as the agent continues to solve tasks and interacts with its environment. An evolving memory enables the agent to accumulate knowledge, recall past events, and adjust its behavior based on experience. Many works stress that effective memory management is crucial for agent performance. SAGE uses the Ebbinghaus forgetting curve to decide what to remember or forget. A-mem updates the agent memory structure to create interconnected knowledge networks through dynamic indexing and linking, following the basic principles of the Zettelkasten method. Mem0 introduces a two-phase pipeline where the agent first extracts salient facts from recent dialogue and then decides how to update the long-term memory: the agent can ADD new facts, MERGE/UPDATE redundant ones, or DELETE contradictions. Furthermore, Memory-R1 presents a reinforcement learning framework to train a dedicated Memory Manager agent that learns to select structured operations like ADD, UPDATE, and DELETE. Such a mechanism ensures the agent's long-term memory is coherent and up-to-date. MemInsight augments raw memories with semantic structure, which summarizes and tags past interactions for retrieval later.
 
-<!-- chunk {"id": "body-0054", "role": "body", "section": "Memory Evolution", "weight": 1.0} -->
+<!-- chunk {"id": "body-0046", "role": "body", "section": "Memory Evolution", "weight": 1.0} -->
 
 REMEMBER combines an LLM with a memory of experiences and uses reinforcement learning signals to decide how to update that memory after each episode. Memento enables continual adaptation without fine-tuning the LLM's parameters by employing online reinforcement learning to optimize a case-retrieval policy, which allows the agent to learn from past experiences stored in an evolving memory bank. MemGen introduces a dynamic generative memory that operates in a latent space. It uses a learned memory trigger to decide when to invoke memory and a weaver to construct latent token sequences, enabling a fluid interweaving of reasoning and memory.
 
-<!-- chunk {"id": "body-0055", "role": "body", "section": "Memory Evolution", "weight": 1.0} -->
+<!-- chunk {"id": "body-0047", "role": "body", "section": "Memory Evolution", "weight": 1.0} -->
 
 A critical aspect of memory evolution is enabling agents to learn heuristics or skills from past experiences. Rather than only retrieving exact past instances, advanced agents distill experiences into more general guidance. Expel processes past trajectories to generate insights and rules to guide further interactions. This experiential knowledge accumulation leads to measurable gains, as the agent steadily performs better with more experience. ReasoningBank further develops this idea by distilling generalizable reasoning strategies from both successful and failed experiences into a structured memory. It also introduces memory-aware test-time scaling to generate diverse experiences on each task. Other systems focus on storing higher-level building blocks of problem-solving. For instance, Agent Workflow Memory records common sub-task sequences (workflows) so that an agent solving a complex task can retrieve and reuse a proven sequence of actions rather than plan from scratch. Similarly, MUSE introduces an experience-driven agent for long-horizon tasks, centered on a hierarchical memory module that organizes experience into strategic, procedural, and tool-use memories. The agent populates this memory through a Plan-Execute-Reflect-Memorize loop, enabling it to learn on the job.
 
-<!-- chunk {"id": "body-0056", "role": "body", "section": "Memory Evolution", "weight": 1.0} -->
+<!-- chunk {"id": "body-0048", "role": "body", "section": "Memory Evolution", "weight": 1.0} -->
 
 In the Richelieu diplomacy agent, the system improves its negotiation strategies by augmenting its memory through self-play games, storing the insights from simulated interactions to refine future decisions. By generalizing from specific episodes to reusable knowledge, these approaches illustrate how memory evolution turns an agent's one-time experiences into long-term competencies, which leads to agents evolving.
 
-<!-- chunk {"id": "body-0057", "role": "body", "section": "Prompt Optimization", "weight": 1.0} -->
+<!-- chunk {"id": "body-0049", "role": "body", "section": "Prompt Optimization", "weight": 1.0} -->
 
 While memory evolution focused on what knowledge an agent retains, Prompt Optimization (PO) enables LLM agents to self-evolve by refining the instructions it feeds to the backbone model, which directly alters the model's behavior without modifying model weights. Early research treats instruction design as a search problem. APE generates candidate prompts, scores them on validation examples, and selects the best. ORPO extends this idea by letting the model iteratively rewrite its own prompt, guided by feedback on prior outputs. ADO introduces DSP that imposes semantic constraints on iteratively proposed prompts to facilitate finding the optimal prompt. ProTeGi generates natural language \"corrections\" that are applied as edits to the prompt, forming a textual analogue of gradient descent. PromptAgent casts prompt discovery as Monte-Carlo Tree Search, exploring instruction space strategically, while evolutionary approaches like PromptBreeder maintain a population to discover increasingly effective instructions. REVOLVE further stabilizes long optimization runs by tracking the trajectory of model responses and applying smoothed updates.
 
-<!-- chunk {"id": "body-0058", "role": "body", "section": "Prompt Optimization", "weight": 1.0} -->
+<!-- chunk {"id": "body-0050", "role": "body", "section": "Prompt Optimization", "weight": 1.0} -->
 
 Pushing this autonomy to its limit, SPO creates a fully self-contained loop where the model generates its training data and uses pairwise preference comparison on its outputs to refine the prompt, eliminating the need for any external labeled data or human feedback. Collectively, these techniques demonstrate that an agent can autonomously improve its prompting policy, turning prompt text into a learnable component that co-evolves with the agent's experience. To address the brevity bias and context collapse of some optimizers, Agentic Context Engineering (ACE) treats contexts as comprehensive playbooks that accumulate strategies over time. It uses a modular agentic process with incremental updates to evolve contexts for both offline prompt optimization and online memory adaptation.
 
-<!-- chunk {"id": "body-0059", "role": "body", "section": "Prompt Optimization", "weight": 1.0} -->
+<!-- chunk {"id": "body-0051", "role": "body", "section": "Prompt Optimization", "weight": 1.0} -->
 
 In complex systems, an agent often orchestrates a sequence of LLM calls or collaborates with other agents, making prompt design a multi-node problem. Frameworks such as DSPy represent an entire workflow as a graph whose sub-prompts are jointly tuned for a global objective. Trace, TextGrad, and LLM-AutoDiff generalize this idea by treating each prompt as a parameter in a differentiable program and propagating natural-language "gradients" to refine every step. In collaborative scenarios, Multi-Agent System Search (MASS) first optimizes individual role prompts and then refines inter-agent communication patterns, while MAS-ZERO dynamically proposes and revises role prompts to assemble an effective team for each new problem. Evolutionary systems such as EvoAgent and AgentSquare treat each agent along with prompts as the modules and use mutation and selection to discover specialized teams that outperform hand-crafted designs. These approaches extend PO from a single instruction to the language that defines whole workflows or societies of agents.
 
-<!-- chunk {"id": "body-0060", "role": "body", "section": "Tools", "weight": 1.0} -->
+<!-- chunk {"id": "body-0052", "role": "body", "section": "Tools", "weight": 1.0} -->
 
 An agent's capabilities are fundamentally defined by the tools it can wield. The trajectory of agent development is marked by a crucial evolution: from being mere tool users to becoming autonomous tool makers. This transition from relying on predefined, static toolsets to enabling agents to autonomously expand and refine their own skills is a critical leap towards cognitive self-sufficiency. This paradigm, where agents dynamically adapt their capabilities, allows them to solve a long tail of complex problems not envisioned by their initial designers. This evolution unfolds across three interconnected fronts: tool discovery, mastery, and management, as detailed in the subsections below.
 
-<!-- chunk {"id": "body-0061", "role": "body", "section": "Autonomous Discovery and Creation", "weight": 1.0} -->
+<!-- chunk {"id": "body-0053", "role": "body", "section": "Autonomous Discovery and Creation", "weight": 1.0} -->
 
 The primary impetus for autonomous tool creation is to overcome the inherent limitations of a fixed toolset, granting agents the flexibility to innovate on demand. Methodologies for this now span a spectrum from opportunistic discovery to formalized synthesis. At one end, agents like Voyager build an ever-expanding library of skills through emergent trial-and-error, driven by an intrinsic motivation to explore complex, open-ended environments like Minecraft. This exploratory approach is powerful for generating a wide array of skills but may lack precision. In contrast, systems like ATLASS, Alita, and Live-SWE-Agent take a more reactive approach, often creating new tools from scratch or employing retrieval-augmented generation (RAG) to search open-source code repositories the moment a capability gap is identified; Qiu et al., 2025b; a; Xia et al., 2025a). At the other end of the spectrum lie highly structured frameworks that treat tool creation as a deliberate engineering process.
 
-<!-- chunk {"id": "body-0062", "role": "body", "section": "Autonomous Discovery and Creation", "weight": 1.0} -->
+<!-- chunk {"id": "body-0054", "role": "body", "section": "Autonomous Discovery and Creation", "weight": 1.0} -->
 
 CREATOR, for example, disentangles abstract tool creation (e.g., reasoning about the general structure of a reusable function for averaging temperatures over N days) from concrete tool usage (e.g., deciding how to apply that function to a specific city and time range), which enhances modularity and reusability. Even more formally, SkillWeaver analyzes successful human or agent task trajectories to propose, synthesize, and hone new skills into robust, reusable APIs, ensuring a higher degree of initial quality. Furthermore, frameworks like CRAFT demonstrate that creating specialized toolsets for specific domains is essential to complement general-purpose models, enabling expert-level performance without sacrificing adaptability. RL-GPT integrates generated code implementations into the RL pipeline, leveraging these as tools to tackle complex tasks while addressing simpler ones directly using a Code-as-Policy approach. This integration dynamically adapts and evolves in response to environmental feedback, enabling continuous improvement. However, this burgeoning autonomy introduces significant challenges, particularly around safety and security.
 
-<!-- chunk {"id": "body-0063", "role": "body", "section": "Autonomous Discovery and Creation", "weight": 1.0} -->
+<!-- chunk {"id": "body-0055", "role": "body", "section": "Autonomous Discovery and Creation", "weight": 1.0} -->
 
 The unconstrained generation of code risks creating tools with exploitable vulnerabilities or unintended harmful behaviors, making automated verification and sandboxing critical areas for future research.
 
-<!-- chunk {"id": "body-0064", "role": "body", "section": "Mastery Through Iterative Refinement", "weight": 1.0} -->
+<!-- chunk {"id": "body-0056", "role": "body", "section": "Mastery Through Iterative Refinement", "weight": 1.0} -->
 
 The proliferation of self-created tools necessitates a robust mechanism for their mastery; a newly generated tool is often a brittle script, not a reliable function. This is where iterative refinement becomes essential. Frameworks like LearnAct and From Exploration to Mastery establish a critical self-correction loop where the agent learns from its own experience. This involves tackling the difficult \"credit assignment\" problem: determining precisely which line of code or which parameter was responsible for a failure. To do this, the agent analyzes a rich variety of feedback signals---including compiler errors, unexpected API return values, environmental state changes, or even implicit signals from a user's subsequent actions. The goal is not only to debug the tool's underlying code but also to refine its documentation (e.g., its docstring and argument descriptions), which is crucial for improving the agent's ability to understand and correctly use the tool in the future. This refinement process also opens the door for valuable human-agent collaboration.
 
-<!-- chunk {"id": "body-0065", "role": "body", "section": "Mastery Through Iterative Refinement", "weight": 1.0} -->
+<!-- chunk {"id": "body-0057", "role": "body", "section": "Mastery Through Iterative Refinement", "weight": 1.0} -->
 
 While full autonomy is the ultimate goal, many systems can be designed with a \"human in the loop,\" where a human expert can provide corrections, offer high-level suggestions, or validate a newly created tool. This collaborative approach can significantly accelerate the mastery process and ensure that the agent's skills align with human intentions and safety standards. Ultimately, this self-honing process is what elevates a nascent skill into a dependable capability, ensuring the agent's growing skill library increases not just in quantity, but more importantly, in quality and robustness.
 
-<!-- chunk {"id": "body-0066", "role": "body", "section": "Scalable Management and Selection", "weight": 1.0} -->
+<!-- chunk {"id": "body-0058", "role": "body", "section": "Scalable Management and Selection", "weight": 1.0} -->
 
 As an agent's mastered skill library grows into the hundreds or thousands, it faces a \"curse of abundance.\" The challenge shifts from creating tools to efficiently managing and selecting from them. A large library creates a massive search space, making traditional retrieval methods slow and inaccurate. To overcome this, ToolGen represents a fundamental paradigm shift by encoding tools as unique tokens within the language model's vocabulary. This elegantly reframes tool retrieval as a generation problem, leveraging the transformer's immense pattern-recognition capabilities to predict the most appropriate tool as a natural continuation of its thought process. TOOLMEM enables agents to learn and store the strengths and weaknesses of different tools in a dedicated memory. At inference, the agent retrieves this knowledge to make more informed decisions, optimizing tool selection for specific task requirements. Beyond selecting a single tool, advanced agents must also excel at tool composition---learning to chain multiple tools in novel sequences to solve multi-step problems. This is a higher-order management task.
 
-<!-- chunk {"id": "body-0067", "role": "body", "section": "Scalable Management and Selection", "weight": 1.0} -->
+<!-- chunk {"id": "body-0059", "role": "body", "section": "Scalable Management and Selection", "weight": 1.0} -->
 
 Architectural approaches like AgentSquare engage in a form of meta-learning, automatically searching the modular design space of an agent---including its planning, memory, and tool-use components---to find an optimal configuration for complex task execution. As a logical endpoint to this evolutionary trend, visionary concepts like the Darwin Godel Machine propose a framework for open-ended evolution, where the agent can fundamentally rewrite its own core code. In this vision, the distinction between the agent and its tools blurs, leading to a recursive cascade of self-improvement that transcends tool enhancement alone. In essence, this entire evolutionary path aims to establish a closed and virtuous cycle: a truly autonomous agent that can perceive gaps in its capabilities, create novel solutions, master them through practice, and seamlessly integrate them into a coherently managed and ever-expanding repertoire.
 
-<!-- chunk {"id": "body-0068", "role": "body", "section": "Architecture", "weight": 1.0} -->
+<!-- chunk {"id": "body-0060", "role": "body", "section": "Architecture", "weight": 1.0} -->
 
 The defining feature of next-generation agentic systems is their intrinsic capacity for self-improvement. This marks a fundamental shift from systems with fixed capabilities to those that can autonomously enhance their performance. By treating their own internal logic and collaborative structures as optimizable components, these systems can adapt their behavior and design in response to feedback, achieving a level of efficiency and effectiveness that static designs cannot match. This section details how this self-optimization is realized, first by examining improvements within single-agent systems and then by exploring the co-evolution of complex multi-agent systems.
 
-<!-- chunk {"id": "body-0069", "role": "body", "section": "LLM-Invoking Node Optimization", "weight": 1.0} -->
+<!-- chunk {"id": "body-0061", "role": "body", "section": "LLM-Invoking Node Optimization", "weight": 1.0} -->
 
 Optimizing a single LLM call is straightforward in isolation, but within an agentic system, it becomes a difficult credit assignment problem, as the effect of any single change is obscured by subsequent steps. Research addresses this by making node-level components optimizable, following two main strategies. The first focuses on refining nodes within a fixed agentic topology. A prime example is TextGrad, which, inspired by backpropagation, uses \"textual gradients\" to propagate feedback from the final output backward through the workflow, guiding systematic, local refinements at each node without altering the system's overall structure. The second, parallel strategy integrates this component-level optimization directly into the search for the system's architecture itself. Under this approach, node characteristics become tunable parameters in a larger search space. For instance, frameworks can embed prompt engineering directly into the search loop, allowing the system to discover not just the optimal workflow but also the most effective instruction for each agent simultaneously. Similarly, EvoFlow uses evolutionary algorithms to construct heterogeneous workflows by selecting the most suitable LLM for each task from a diverse pool.
 
-<!-- chunk {"id": "body-0070", "role": "body", "section": "LLM-Invoking Node Optimization", "weight": 1.0} -->
+<!-- chunk {"id": "body-0062", "role": "body", "section": "LLM-Invoking Node Optimization", "weight": 1.0} -->
 
 This holistic strategy enables the discovery of systems that are co-optimized for both their structure and individual agent capabilities, effectively balancing metrics like overall performance and cost.
 
-<!-- chunk {"id": "body-0071", "role": "body", "section": "Autonomous-Agent Optimization", "weight": 1.0} -->
+<!-- chunk {"id": "body-0063", "role": "body", "section": "Autonomous-Agent Optimization", "weight": 1.0} -->
 
 Building upon the optimization of individual LLM-invoking nodes, a more profound level of self-improvement targets the autonomous agent as a holistic entity. This evolution proceeds along two main fronts: optimizing the agent's high-level architectural design and enabling the agent to directly modify its own source code. The first approach focuses on discovering the optimal agent structure. AgentSquare exemplifies this by defining a modular design space of components like planners and memory modules, then using an evolutionary algorithm to find the most effective combination for a given task. The second front involves agents that dynamically rewrite their own operational code. This is seen in radical systems like the Darwin Gödel Machine, which recursively modifies its own Python codebase, and AlphaEvolve, which uses evolutionary coding to improve specific algorithms. Similarly, Gödel Agent provides a self-referential framework for agents to analyze and alter their logic. Together, these two directions (optimizing the agent's architectural "blueprint" and its functional code) demonstrate a key trend toward turning the agent's fundamental structure and logic into learnable components.
 
-<!-- chunk {"id": "body-0072", "role": "body", "section": "Autonomous-Agent Optimization", "weight": 1.0} -->
+<!-- chunk {"id": "body-0064", "role": "body", "section": "Autonomous-Agent Optimization", "weight": 1.0} -->
 
 MemEvolve introduces a meta-evolutionary framework that evolves not just the agent's experiential memory, but the memory system's architecture itself. Through a bilevel optimization process, it adapts the mechanisms for encoding, storing, and retrieving information to better suit specific task domains.
 
-<!-- chunk {"id": "body-0073", "role": "body", "section": "Multi-Agent System Optimization", "weight": 1.0} -->
+<!-- chunk {"id": "body-0065", "role": "body", "section": "Multi-Agent System Optimization", "weight": 1.0} -->
 
 How agents are organized and communicate within a system (its topology) fundamentally determines its capacity for solving complex problems. The field has evolved from using fixed, human-designed communication structures to creating dynamic systems that automatically adapt their organization to a given task, allowing them to discover and exploit the most effective collaboration patterns. This evolution is explored along two major fronts: the optimization of static, explicit workflows and the co-evolution of dynamic, internal policies.
 
-<!-- chunk {"id": "body-0074", "role": "body", "section": "Agentic Workflow Optimization", "weight": 1.0} -->
+<!-- chunk {"id": "body-0066", "role": "body", "section": "Agentic Workflow Optimization", "weight": 1.0} -->
 
 The optimization of agentic workflows focuses on finding the most effective, often static, structure of communication and task delegation for a given problem. Early research established important foundations, with studies like AutoFlow demonstrating the automated creation of linear workflows from natural language, and GPTSwarm proposing a unifying graph-based framework. Concurrently, other foundational work explored how agents could evolve by using symbolic learning to distill their interaction experiences into an explicit, interpretable set of logical rules to guide future decisions. This abstraction of systems into tunable components---whether nodes, edges, or symbolic rules---was crucial. However, these early systems often lacked a formal method for efficiently navigating the vast space of possible configurations and interactions.
 
-<!-- chunk {"id": "body-0075", "role": "body", "section": "Agentic Workflow Optimization", "weight": 1.0} -->
+<!-- chunk {"id": "body-0067", "role": "body", "section": "Agentic Workflow Optimization", "weight": 1.0} -->
 
 The major breakthrough came when ADAS and AFlow formally defined this challenge as a search and optimization problem. ADAS set a theoretical vision by framing system design as a search through a Turing-complete space of code-based configurations. Building on this, AFlow made it practical by introducing reusable operators that represent common agentic patterns and by employing Monte Carlo Tree Search (MCTS) to efficiently navigate the enormous design space. Together, these works established a core methodology for treating agent system design as a tractable optimization problem, proving that automatically discovered workflows could outperform human-designed ones.
 
-<!-- chunk {"id": "body-0076", "role": "body", "section": "Agentic Workflow Optimization", "weight": 1.0} -->
+<!-- chunk {"id": "body-0068", "role": "body", "section": "Agentic Workflow Optimization", "weight": 1.0} -->
 
-Following this formalization, research rapidly diversified toward creating customized agent systems for each specific query. Two primary strategies emerged: search-based and learning-based generation. Search-based methods, such as MaAS, create a \"supernet\" of potential architectures and then sample a specialized system from it. In parallel, learning-based methods train models to generate effective topologies directly. ScoreFlow, for instance, trains a generator using a novel preference optimization method, while FlowReasoner uses reinforcement learning to train a meta-agent that constructs a bespoke workflow on the fly. This line of query-specific generation continues to be an active area of research (Ye and others Ke et al., ). Furthermore, it is important to note that this process is not limited to the topology alone; many of these frameworks also perform node-level optimization in tandem, such as co-optimizing prompts or selecting heterogeneous models as an integral part of the architectural generation process.
+Following this formalization, research rapidly diversified toward creating customized agent systems for each specific query. Two primary strategies emerged: search-based and learning-based generation. Search-based methods, such as MaAS, create a \"supernet\" of potential architectures and then sample a specialized system from it. In parallel, learning-based methods train models to generate effective topologies directly. ScoreFlow, for instance, trains a generator using a novel preference optimization method, while FlowReasoner uses reinforcement learning to train a meta-agent that constructs a bespoke workflow on the fly. This line of query-specific generation continues to be an active area of research. Furthermore, it is important to note that this process is not limited to the topology alone; many of these frameworks also perform node-level optimization in tandem, such as co-optimizing prompts or selecting heterogeneous models as an integral part of the architectural generation process.
 
-<!-- chunk {"id": "body-0077", "role": "body", "section": "Agentic Workflow Optimization", "weight": 1.0} -->
+<!-- chunk {"id": "body-0069", "role": "body", "section": "Agentic Workflow Optimization", "weight": 1.0} -->
 
 A key challenge for all search and learning methods is the computational cost of evaluating each potential workflow. To address this, researchers have developed lightweight prediction models. Agentic Predictor is a prime example, training a model to accurately estimate a workflow's performance based on its structural and semantic features without a full execution. By providing a fast and inexpensive evaluation proxy, these predictors significantly accelerate the optimization process, making the exploration of vast design spaces feasible.
 
-<!-- chunk {"id": "body-0078", "role": "body", "section": "Multi-Autonomous-Agent Optimization", "weight": 1.0} -->
+<!-- chunk {"id": "body-0070", "role": "body", "section": "Multi-Autonomous-Agent Optimization", "weight": 1.0} -->
 
 Distinct from optimizing a system's explicit workflow structure, this line of research focuses on how multiple autonomous agents can co-evolve their internal behavioral policies through interaction. This approach enables emergent capabilities like coordination, task delegation, and beneficial competition. For instance, ReMA uses multi-agent reinforcement learning (MARL) to collaboratively train a high-level meta-thinker and a low-level executor, significantly improving performance on reasoning benchmarks. Building on this, GiGPO enhances MARL training by aggregating trajectories to provide more precise credit assignment, boosting success rates on long-horizon tasks. To support this direction, platforms like MARTI provide open-source infrastructure for orchestrating and scaling the training of these language-model collectives. Collectively, these studies underscore multi-agent reinforcement learning as a promising route for cultivating group-level competencies unattainable by individual agents alone.
 
-<!-- chunk {"id": "body-0079", "role": "body", "section": "When to Evolve", "weight": 1.0} -->
+<!-- chunk {"id": "body-0071", "role": "body", "section": "When to Evolve", "weight": 1.0} -->
 
 The temporal dimension of self-evolution in LLM-based agents mainly concerns the relationship between learning processes and task execution. Therefore, the second key aspect of a self-evolving agent is identifying the evolving timing, i.e., at which stage the self-evolving strategy $f$ is invoked and applied to the agent system. To this end, we propose a taxonomy that distinguishes between two temporal modes of self-evolution: Intra-test-time self-evolution and inter-test-time self-evolution.
 
-<!-- chunk {"id": "body-0080", "role": "body", "section": "When to Evolve", "weight": 1.0} -->
+<!-- chunk {"id": "body-0072", "role": "body", "section": "When to Evolve", "weight": 1.0} -->
 
-Intra-test-time self-evolution refers to adaptive processes that occur during task execution, where agents recognize their limitations on a specific problem and initiate targeted learning mechanisms to enhance their capabilities in real-time (Xi et al. Bi et al., ). This mode of evolution is characterized by its immediate coupling with the task at hand: the agent improves its problem-solving abilities for a specific problem encountered, creating a dynamic interplay between performance and adaptation.
+Intra-test-time self-evolution refers to adaptive processes that occur during task execution, where agents recognize their limitations on a specific problem and initiate targeted learning mechanisms to enhance their capabilities in real-time. This mode of evolution is characterized by its immediate coupling with the task at hand: the agent improves its problem-solving abilities for a specific problem encountered, creating a dynamic interplay between performance and adaptation.
 
-<!-- chunk {"id": "body-0081", "role": "body", "section": "When to Evolve", "weight": 1.0} -->
+<!-- chunk {"id": "body-0073", "role": "body", "section": "When to Evolve", "weight": 1.0} -->
 
-Inter-test-time self-evolution refers to learning processes that occur between task completions, leveraging accumulated experiences to improve future performance. This category encompasses diverse methodological approaches: offline learning paradigms that extract knowledge from pre-collected datasets through iterative refinement (Zelikman et al. ), and online learning paradigms that continuously adapt based on streaming interaction data.
+Inter-test-time self-evolution refers to learning processes that occur between task completions, leveraging accumulated experiences to improve future performance. This category encompasses diverse methodological approaches: offline learning paradigms that extract knowledge from pre-collected datasets through iterative refinement, and online learning paradigms that continuously adapt based on streaming interaction data.
 
-<!-- chunk {"id": "body-0082", "role": "body", "section": "When to Evolve", "weight": 1.0} -->
+<!-- chunk {"id": "body-0074", "role": "body", "section": "When to Evolve", "weight": 1.0} -->
 
-The implementation of self-evolution across these temporal phases leverages three fundamental learning paradigms in LLMs: in-context learning (ICL) (Dong et al. Min et al. Wies et al., ), which adapts behavior through contextual examples without modifying parameters; supervised fine-tuning (SFT), which updates model weights through gradient-based optimization on labeled data (Devlin et al. Shen Dong et al., ); and reinforcement learning (RL), which shapes behavior through reward-driven policy optimization.
+The implementation of self-evolution across these temporal phases leverages three fundamental learning paradigms in LLMs: in-context learning (ICL), which adapts behavior through contextual examples without modifying parameters; supervised fine-tuning (SFT), which updates model weights through gradient-based optimization on labeled data; and reinforcement learning (RL), which shapes behavior through reward-driven policy optimization. While these learning paradigms remain conceptually consistent across temporal contexts, their instantiation differs in terms of data availability and learning objectives: Intra-test-time is characterized by its online nature: learning data emerges dynamically during task execution, with optimization directly targeting performance enhancement on the immediate problem instance. This real-time coupling necessitates rapid adaptation mechanisms that can process learning data and feedback signals and modify behavior within the temporal constraints of active task-solving. On the other hand, inter-test-time is characterized by its retrospective nature: learning algorithms operate on historical data, whether from curated datasets or accumulated behavioral trajectories, with optimization objectives oriented toward improving expected performance across the task distribution rather than maximizing success on any specific problem instance.
 
-<!-- chunk {"id": "body-0083", "role": "body", "section": "When to Evolve", "weight": 1.0} -->
+<!-- chunk {"id": "body-0075", "role": "body", "section": "When to Evolve", "weight": 1.0} -->
 
-Intra-test-time is characterized by its online nature: learning data emerges dynamically during task execution, with optimization directly targeting performance enhancement on the immediate problem instance. This real-time coupling necessitates rapid adaptation mechanisms that can process learning data and feedback signals and modify behavior within the temporal constraints of active task-solving. On the other hand, inter-test-time is characterized by its retrospective nature: learning algorithms operate on historical data, whether from curated datasets or accumulated behavioral trajectories, with optimization objectives oriented toward improving expected performance across the task distribution rather than maximizing success on any specific problem instance. This temporal decoupling enables more sophisticated learning procedures that can identify cross-task patterns, consolidate diverse experiences, and develop generalizable capabilities without the immediacy constraints of active task execution.
+This temporal decoupling enables more sophisticated learning procedures that can identify cross-task patterns, consolidate diverse experiences, and develop generalizable capabilities without the immediacy constraints of active task execution.
 
-<!-- chunk {"id": "body-0084", "role": "body", "section": "Intra-Test-Time Self-Evolution", "weight": 1.0} -->
+<!-- chunk {"id": "body-0076", "role": "body", "section": "Intra-Test-Time Self-Evolution", "weight": 1.0} -->
 
 In intra-test-time self-evolution, agents engage in self-improvement processes that are intrinsically coupled with solving the immediate task at hand. The distinguishing characteristic of this temporal phase is its synchronous nature: feedback signals are generated and processed during task execution, with optimization objectives specifically targeted at improving performance on the current problem instance rather than generalizing to future tasks. Here, we introduce how the three learning paradigms are realized in this temporal phase.
 
-<!-- chunk {"id": "body-0085", "role": "body", "section": "In-Context Learning", "weight": 1.0} -->
+<!-- chunk {"id": "body-0077", "role": "body", "section": "In-Context Learning", "weight": 1.0} -->
 
 Intra-test-time ICL methods leverage the model's context window as a dynamic memory system for immediate adaptation without parameter modification. These approaches typically employ self-reflective mechanisms where agents analyze their own performance, generate verbal critiques or insights, and maintain these reflections in episodic memory buffers to guide subsequent decisions within the same task context. Some methods extend beyond simple reflection to include dynamic planning revision, where agents can modify their entire approach based on environmental feedback, switching between action execution and plan modification as needed. For instance, AdaPlanner decomposes tasks into manageable sub-goals and predicts environmental feedback for each. During execution, its refiner component distinguishes between in-plan feedback (observations aligning with predictions) and out-of-plan feedback (deviating observations). For in-plan feedback, the refiner dynamically queries the LLM through a specialized ask_LLM action to parse observations and extract pertinent information. For out-of-plan feedback, the refiner proactively revises the entire plan and resumes solving from an intermediate point, rather than restarting from scratch.
 
-<!-- chunk {"id": "body-0086", "role": "body", "section": "In-Context Learning", "weight": 1.0} -->
+<!-- chunk {"id": "body-0078", "role": "body", "section": "In-Context Learning", "weight": 1.0} -->
 
 This adaptive closed-loop framework eliminates the need for prior knowledge about feedback structures and enables more efficient decision-making. Similarly, TrustAgent employs rule-based plan revision during execution, modifying its approach based on language feedback to evolve toward safer planning strategies. These ICL methods demonstrate how test-time adaptation can achieve sophisticated behavioral modification without permanent model changes, maintaining flexibility while preserving the model's general capabilities.
 
-<!-- chunk {"id": "body-0087", "role": "body", "section": "Supervised Fine-Tuning", "weight": 1.0} -->
+<!-- chunk {"id": "body-0079", "role": "body", "section": "Supervised Fine-Tuning", "weight": 1.0} -->
 
 Intra-test-time SFT represents a paradigm shift where models perform immediate self-modification through learned meta-adaptation strategies. Self-adaptive language modeling exemplifies this approach by generating "self-edits", which are meta-level instructions that can restructure information representations, specify optimization hyperparameters, or invoke tools for data augmentation and gradient computation. These self-edits trigger immediate supervised fine-tuning, resulting in persistent weight updates that adapt the model to the current task. The key innovation lies in the meta-learning phase, where reinforcement learning trains models to produce effective self-edits by using the downstream performance of the updated model as the reward signal, essentially teaching models how to teach themselves. Acikgoz et al. introduce a Test-Time Self-Improvement (TT-SI) framework that enables agents to adapt on-the-fly by first identifying uncertain test samples through self-awareness. For these challenging inputs, the agent then generates a single synthetic training example and performs a temporary, lightweight parameter update to improve its immediate performance before resetting its weights.
 
-<!-- chunk {"id": "body-0088", "role": "body", "section": "Reinforcement Learning", "weight": 1.0} -->
+<!-- chunk {"id": "body-0080", "role": "body", "section": "Reinforcement Learning", "weight": 1.0} -->
 
 Intra-test-time RL enables models to develop new capabilities on-demand when encountering problems beyond their current competence. LADDER demonstrates this through its test-time reinforcement learning (TTRL) mechanism: upon identifying a particularly challenging problem, the system generates a focused set of related problem variants and conducts intensive, targeted reinforcement learning specifically for that problem class. This approach transforms insurmountable challenges into learning opportunities, allowing models to expand their problem-solving repertoire during deployment rather than failing or providing suboptimal solutions. The method represents a form of just-in-time skill acquisition, where computational resources are invested precisely when and where they are needed most.
 
-<!-- chunk {"id": "body-0089", "role": "body", "section": "Inter-Test-Time Self-Evolution", "weight": 1.0} -->
+<!-- chunk {"id": "body-0081", "role": "body", "section": "Inter-Test-Time Self-Evolution", "weight": 1.0} -->
 
-Inter-test-time self-evolution represents the predominant learning process in autonomous agents, wherein adaptation occurs following task execution rather than during it. In this temporal mode, agents complete a given task, extract feedback signals, including explicit rewards, gradients (Amari Bottou, ), and performance metrics, and subsequently leverage this information to enhance their capabilities for future problem-solving. This retrospective learning process decouples task performance from capability improvement, allowing agents to consolidate experiences, identify patterns of success and failure, and systematically refine their behavioral policies without the computational constraints imposed by real-time task demands.
+Inter-test-time self-evolution represents the predominant learning process in autonomous agents, wherein adaptation occurs following task execution rather than during it. In this temporal mode, agents complete a given task, extract feedback signals, including explicit rewards, gradients, and performance metrics, and subsequently leverage this information to enhance their capabilities for future problem-solving. This retrospective learning process decouples task performance from capability improvement, allowing agents to consolidate experiences, identify patterns of success and failure, and systematically refine their behavioral policies without the computational constraints imposed by real-time task demands.
 
-<!-- chunk {"id": "body-0090", "role": "body", "section": "In-Context Learning", "weight": 1.0} -->
+<!-- chunk {"id": "body-0082", "role": "body", "section": "In-Context Learning", "weight": 1.0} -->
 
-Inter-test-time in-context learning has emerged as a widely adopted approach for agent self-improvement. This paradigm leverages execution results and feedback from previous tasks as contextual information for future problem-solving. Wang et al. demonstrate this principle by inducing workflows from agent action histories and incorporating them into the context for subsequent tasks. The field of in-context reinforcement learning (ICRL) (Moeini et al. Laskin et al. Lee et al., ) extends this concept by maintaining histories of observations and actions within the agent's context window. These methods exploit the hypothesis that pre-trained neural networks can implement implicit reinforcement learning algorithms within their forward pass, processing contextual information to adapt behavior without parameter updates. A defining characteristic of ICRL is in-context improvement: the phenomenon whereby agent performance progressively enhances as task-relevant information accumulates in the context, enabling sophisticated adaptation through attention mechanisms rather than gradient-based learning.
+Inter-test-time in-context learning has emerged as a widely adopted approach for agent self-improvement. This paradigm leverages execution results and feedback from previous tasks as contextual information for future problem-solving. Wang et al. demonstrate this principle by inducing workflows from agent action histories and incorporating them into the context for subsequent tasks. The field of in-context reinforcement learning (ICRL) extends this concept by maintaining histories of observations and actions within the agent's context window. These methods exploit the hypothesis that pre-trained neural networks can implement implicit reinforcement learning algorithms within their forward pass, processing contextual information to adapt behavior without parameter updates. A defining characteristic of ICRL is in-context improvement: the phenomenon whereby agent performance progressively enhances as task-relevant information accumulates in the context, enabling sophisticated adaptation through attention mechanisms rather than gradient-based learning.
 
-<!-- chunk {"id": "body-0091", "role": "body", "section": "Supervised Fine-Tuning", "weight": 1.0} -->
+<!-- chunk {"id": "body-0083", "role": "body", "section": "Supervised Fine-Tuning", "weight": 1.0} -->
 
 Inter-test-time SFT methods establish a paradigm of iterative self-improvement through synthetic data generation and self-evaluation. SELF pioneered meta-cognitive training, where models first acquire self-feedback and self-refinement capabilities, then iteratively generate responses to unlabeled instructions and enhance them through self-critique. STaR and Quiet-STaR focus on reasoning improvement through rationalization---models attempt problems, then generate explanations for correct answers they initially failed to solve, creating augmented training data that combines successful attempts with post-hoc reasoning. SiriuS extends this to sequential problem-solving, maintaining repositories of correct solutions while augmenting failures through multi-stage refinement involving feedback incorporation, regeneration, and rephrasing. These methods share a core insight: models can bootstrap their own improvement by learning to evaluate and enhance their outputs, creating high-quality training signals from initially imperfect attempts without extensive human supervision. Recent frameworks such as ARIA further extend this paradigm by incorporating human-in-the-loop guidance into test-time adaptation, allowing agents to proactively identify knowledge gaps and request expert feedback.
 
-<!-- chunk {"id": "body-0092", "role": "body", "section": "Reinforcement Learning", "weight": 1.0} -->
+<!-- chunk {"id": "body-0084", "role": "body", "section": "Reinforcement Learning", "weight": 1.0} -->
 
 Inter-test-time RL leverages unconstrained computational resources to optimize agents through extensive environmental interaction and sophisticated curriculum design. RAGEN and DYSTIL employ online reinforcement learning for multi-turn interactive tasks, continuously refining policies through on-policy learning in simulated dialogues. Learning Like Humans introduces cognitive-inspired training with adaptive difficulty progression, combining on-policy exploration with off-policy efficiency and expert demonstrations to accelerate learning. Domain-specific applications demonstrate the versatility of inter-test-time RL: WebRL develops web navigation agents through self-evolving curricula that automatically adjust task complexity based on performance, while DigiRL enables device-control agents to master in-the-wild interactions through autonomous reinforcement learning. These approaches exploit the pre-deployment phase to engage in extensive trial-and-error learning, developing robust policies through thousands of interactions that would be impractical during real-time deployment.
 
-<!-- chunk {"id": "body-0093", "role": "body", "section": "How to Evolve", "weight": 1.0} -->
+<!-- chunk {"id": "body-0085", "role": "body", "section": "How to Evolve", "weight": 1.0} -->
 
-Imitation and Demonstration Learning Methods
+Reward-based Evolution Methods pre-test time + test-time pre-test time / test-time codebase(tools, workflows, prompts) pre-test time + test-time Let’s Verify Step-by-Step pre-test time + test-time Imitation and Demonstration Learning Methods Population-based and Evolutionary Methods codebase (tools, workflows, prompts) team composition, workflow, prompts pre-test time + test-time pre-test time / between tasks context (knowledge base) context (knowledge base) Table 3: Overview of Reward-based, Imitation/Demonstration, and Population-based Learning Methods for Self-Evolving Agents. This table categorizes key approaches based on the following criteria: Feedback Type: the type of feedback used, including language-based rationales and numerical rewards. Feedback Source: the origin of the feedback, either internal (model-generated) or external (provided externally).
 
-<!-- chunk {"id": "body-0094", "role": "body", "section": "How to Evolve", "weight": 1.0} -->
+<!-- chunk {"id": "body-0086", "role": "body", "section": "How to Evolve", "weight": 1.0} -->
 
-The pursuit of self-evolution lies at the heart of building advanced, autonomous, and increasingly general artificial intelligence. For large language models (LLMs) and their agentic extensions, the question of how to continually, autonomously, and efficiently evolve their capabilities has become a central challenge. Therefore, the third key aspect of a self-evolving agent is to instantiate an effective evolving strategy $f$, i.e., how to transform an agent system $\Pi = {(\Gamma,{\{\psi_{i}\}},{\{ C_{i}\}},{\{\mathcal{W}_{i}\}})}$ to its new state $\Pi^{\prime} = {(\Gamma^{\prime},{\{\psi_{i}^{\prime}\}},{\{ C_{i}^{\prime}\}},{\{\mathcal{W}_{i}^{\prime}\}})}$.
+Learning Method: the learning paradigm applied, such as in-context learning (ICL), supervised fine-tuning (SFT), reinforcement learning (RL), and evolutionary algorithms; Updated Components: which parts of the model are updated, either full parameters or a subset of the model. Update Timing: the stage during the agent’s evolution when updates are applied, such as pre-training, pre-test, or test-time.
 
-<!-- chunk {"id": "body-0095", "role": "body", "section": "How to Evolve", "weight": 1.0} -->
+<!-- chunk {"id": "body-0087", "role": "body", "section": "How to Evolve", "weight": 1.0} -->
+
+The pursuit of self-evolution lies at the heart of building advanced, autonomous, and increasingly general artificial intelligence. For large language models (LLMs) and their agentic extensions, the question of how to continually, autonomously, and efficiently evolve their capabilities has become a central challenge. Therefore, the third key aspect of a self-evolving agent is to instantiate an effective evolving strategy $f$, i.e., how to transform an agent system $\Pi=(\Gamma,\{\psi_{i}\},\{C_{i}\},\{\mathcal{W}_{i}\})$ to its new state $\Pi^{\prime}=(\Gamma^{\prime},\{\psi^{\prime}_{i}\},\{C^{\prime}_{i}\},\{\mathcal{W}^{\prime}_{i}\})$.
+
+<!-- chunk {"id": "body-0088", "role": "body", "section": "How to Evolve", "weight": 1.0} -->
 
 Unlike traditional approaches that rely on static datasets or one-time supervised fine-tuning, self-evolution emphasizes an ongoing process where models learn from real-world interactions, actively seek feedback, self-reflect, generate or curate new data, and adapt their strategies in response to dynamic environments. This continuous evolution is not merely a matter of scaling up data or computation; it requires the agent to acquire a spectrum of meta-capabilities, including self-correction, autonomous data generation, knowledge transfer, and multi-agent collaboration. As a result, the landscape of self-evolution has become increasingly rich and multi-faceted, with each methodological branch exploring different axes of feedback, learning paradigms, data sources, and evolutionary scales.
 
-<!-- chunk {"id": "body-0096", "role": "body", "section": "How to Evolve", "weight": 1.0} -->
+<!-- chunk {"id": "body-0089", "role": "body", "section": "How to Evolve", "weight": 1.0} -->
 
 Over time, research on self-evolving agents has progressed through three major paradigms---reward-based, imitation-based, and population-based evolution---each emerging to address the limitations of the previous one. Reward-based methods first closed the feedback loop through explicit signals but suffered from brittleness and high cost. Imitation-based learning stabilized evolution by leveraging high-quality demonstrations, though sometimes at the expense of exploration. Population-based evolution then extended adaptation to collective scales, emphasizing diversity and emergent coordination. Together, these paradigms outline a coherent trajectory from individual self-improvement toward collective intelligence.
 
-<!-- chunk {"id": "body-0097", "role": "body", "section": "How to Evolve", "weight": 1.0} -->
+<!-- chunk {"id": "body-0090", "role": "body", "section": "How to Evolve", "weight": 1.0} -->
 
 This chapter aims to systematically map and analyze the major families of self-evolution methods, providing a unified framework for understanding their principles, mechanisms, and interactions. We begin with reward-based evolution, which centers on the design of reward signals---ranging from natural language feedback and internal confidence metrics to external or implicit signals---to guide iterative self-improvement.
 
-<!-- chunk {"id": "body-0098", "role": "body", "section": "How to Evolve", "weight": 1.0} -->
+<!-- chunk {"id": "body-0091", "role": "body", "section": "How to Evolve", "weight": 1.0} -->
 
 Next, we examine imitation and demonstration learning, where agents learn by mimicking complete, high-quality behavioral exemplars (i.e., demonstrations). While traditionally sourced from human experts, in the context of self-evolving agents, these exemplars are often generated by the agent itself or by other agents. This paradigm is particularly powerful when demonstrations are abundant or can be autonomously synthesized, and it has driven significant progress in both reasoning and multimodal domains.
 
-<!-- chunk {"id": "body-0099", "role": "body", "section": "How to Evolve", "weight": 1.0} -->
+<!-- chunk {"id": "body-0092", "role": "body", "section": "How to Evolve", "weight": 1.0} -->
 
 Finally, we introduce population-based and evolutionary methods, which draw inspiration from biological evolution and collective intelligence. These approaches maintain populations of agent variants or collaborating agents, leveraging mechanisms such as selection, mutation, crossover, and competition to explore the solution space in parallel, foster diversity, and enable the emergence of novel strategies or architectural innovations.
 
-<!-- chunk {"id": "body-0100", "role": "body", "section": "Reward-based Self-Evolution", "weight": 1.0} -->
+<!-- chunk {"id": "body-0093", "role": "body", "section": "Reward-based Self-Evolution", "weight": 1.0} -->
 
 The capacity for self-improvement is a cornerstone of advanced intelligence. In the context of Large Language Models (LLMs), this manifests as a dynamic process of reward-driven evolution, where models iteratively learn from their own outputs and interactions to refine their capabilities. The design of the reward signal, which serves as the guiding feedback, is crucial; it determines the nature, efficiency, and effectiveness of the learning process. In this section, we systematically review the main methodologies for reward design, categorized by the nature of the feedback: textual feedback, internal confidence, external rewards, and implicit rewards.
 
-<!-- chunk {"id": "body-0101", "role": "body", "section": "Textual Feedback", "weight": 1.0} -->
+<!-- chunk {"id": "body-0094", "role": "body", "section": "Textual Feedback", "weight": 1.0} -->
 
 Textual Feedback leverages the native modality of LLMs---natural language---to provide detailed, interpretable instructions for refinement. Unlike scalar rewards, textual feedback encapsulates nuanced critiques and actionable suggestions. Recent frameworks such as Reflexion, AdaPlanner, AgentS2, SELF, Self-Refine, SCoRe, PAG, and TextGrad exemplify this direction. For instance, Reflexion proposes "verbal reinforcement learning," where agents reflect in natural language on their past trials, storing these reflections as episodic memory to guide future decisions. AdaPlanner enables closed-loop adaptive planning by allowing LLM agents to revise their plans based on both in-plan and out-of-plan feedback, while also mitigating hallucination via code-style prompts and leveraging skill discovery. Self-Refine and SELF further explore iterative self-feedback and self-correction, demonstrating that even state-of-the-art models can be improved via multi-turn, language-based self-critique, without additional supervised data or external reinforcement.
 
-<!-- chunk {"id": "body-0102", "role": "body", "section": "Textual Feedback", "weight": 1.0} -->
+<!-- chunk {"id": "body-0095", "role": "body", "section": "Textual Feedback", "weight": 1.0} -->
 
 Such frameworks highlight the power of language as a reward channel, enabling nuanced, flexible, and sample-efficient self-improvement.
 
-<!-- chunk {"id": "body-0103", "role": "body", "section": "Internal Rewards", "weight": 1.0} -->
+<!-- chunk {"id": "body-0096", "role": "body", "section": "Internal Rewards", "weight": 1.0} -->
 
 Internal Confidence-based rewards move away from external signals and instead exploit internal metrics such as the model's probability estimates or certainty. This paradigm leverages the model's intrinsic understanding to guide improvement without relying on external supervision. Methods such as Confidence-Informed Self-Consistency (CISC), Self-Ensemble, Self-Rewarding Self-Improving, scalable best-of-N selection via self-certainty, and Self-Rewarding Language Models allow models to self-evaluate and calibrate their responses based on internal confidence metrics. For example, CISC weights reasoning paths by confidence scores to improve both accuracy and computational efficiency, effectively filtering high-quality solutions from multiple candidates. Self-Ensemble mitigates confidence distortion by dividing choices into smaller, more manageable groups and aggregating predictions to reduce overconfidence bias. Self-Rewarding Language Models demonstrate that models can act as their own reward function, generating training data through self-instruction and self-evaluation cycles. These approaches can reduce reliance on human labels and external evaluators, enabling scalable and autonomous self-improvement loops that can operate continuously without human intervention.
 
-<!-- chunk {"id": "body-0104", "role": "body", "section": "Internal Rewards", "weight": 1.0} -->
+<!-- chunk {"id": "body-0097", "role": "body", "section": "Internal Rewards", "weight": 1.0} -->
 
 AgentEvolver proposes a comprehensive framework to improve agent training efficiency through three synergistic mechanisms: self-questioning for autonomous task generation, self-navigating for experience-guided exploration, and self-attributing for fine-grained credit assignment. In particular, its self-attributing mechanism uses an LLM's reasoning to retrospectively assign step-wise rewards that are dense and semantically grounded for policy optimization.
 
-<!-- chunk {"id": "body-0105", "role": "body", "section": "External Rewards", "weight": 1.0} -->
+<!-- chunk {"id": "body-0098", "role": "body", "section": "External Rewards", "weight": 1.0} -->
 
 External Rewards are derived from sources outside the model, such as the environment, majority voting, or explicit rules. Majority voting uses consensus among multiple model outputs as a proxy for correctness, providing a self-generated but grounded reward signal. Environment feedback, including tool-based signals, is central to agentic LLM research (e.g., SWE-Dev, SICA, Feedback Friction, USEagent, DYSTIL ), where agents learn through direct interaction with real-world environments and tools. Rule-based rewards use explicit constraints or logical rules as verifiable signals, particularly effective in the domains of mathematical reasoning, game play, and structured problem solving. These methods offer objective, reliable supervision but may require significant engineering or be limited in expressiveness.
 
-<!-- chunk {"id": "body-0106", "role": "body", "section": "Implicit Rewards", "weight": 1.0} -->
+<!-- chunk {"id": "body-0099", "role": "body", "section": "Implicit Rewards", "weight": 1.0} -->
 
 Implicit Reward frameworks hypothesize that LLMs can learn from feedback signals even when not explicitly labeled as rewards. For instance, "Reward Is Enough" demonstrates that LLMs can perform in-context reinforcement learning using simple scalar signals embedded in the context window, improving their responses over rounds without explicit RL fine-tuning or supervision. This reveals an inherent capacity for models to interpret and learn from implicit feedback cues present in their input context. Recent work has expanded this concept by showing that LLMs inherently encode reward-like signals through their standard training objectives. Endogenous reward reveal that standard next-token prediction implicitly learns a generalist reward function, which can be extracted from model logits without additional training. Moreover, ImPlicit Self-ImprovemenT (PIT) framework implicitly learns the improvement goal from human preference data without extra human efforts by maximizing the quality gap of the response conditioned on a reference response. Unlike rule-based or environment-derived external rewards, implicit reward methods offer unique advantages by discovering and utilizing reward signals that are inherently present in language modeling.
 
-<!-- chunk {"id": "body-0107", "role": "body", "section": "Implicit Rewards", "weight": 1.0} -->
+<!-- chunk {"id": "body-0100", "role": "body", "section": "Implicit Rewards", "weight": 1.0} -->
 
 In summary, reward-based evolution provides explicit optimization and strong autonomy but remains sensitive to reward design, often trading stability and safety for adaptability and openness.
 
-<!-- chunk {"id": "body-0108", "role": "body", "section": "Imitation and Demonstration Learning", "weight": 1.0} -->
+<!-- chunk {"id": "body-0101", "role": "body", "section": "Imitation and Demonstration Learning", "weight": 1.0} -->
 
 Imitation and demonstration learning traditionally involves an agent that learns to mimic the behavior of an expert (typically a human) from a set of demonstrations. In the context of self-evolving agents, this paradigm is adapted and generalized, which is the focus of our survey. Here, the role of the \"expert\" is not necessarily a fixed, external entity (e.g., human) but rather any source of high-quality demonstration. In self-evolving agents, these \"expert exemplars\" are typically generated by the agent itself (e.g., a past successful trajectory), by other more capable agents, or synthesized from environmental interactions.
 
-<!-- chunk {"id": "body-0109", "role": "body", "section": "Imitation and Demonstration Learning", "weight": 1.0} -->
+<!-- chunk {"id": "body-0102", "role": "body", "section": "Imitation and Demonstration Learning", "weight": 1.0} -->
 
 The key distinction between imitation learning and reward-based methods lies in the nature of the feedback. Imitation learning is prescriptive and exemplar-based: the agent is provided with a complete, successful guide (e.g., a full reasoning trace) and learns to reproduce this behavior. In contrast, reward-based methods are evaluative and signal-based: the agent explores on its own and receives a scalar or textual critique, forcing it to infer the path to improvement through trial-and-error and credit assignment.
 
-<!-- chunk {"id": "body-0110", "role": "body", "section": "Imitation and Demonstration Learning", "weight": 1.0} -->
+<!-- chunk {"id": "body-0103", "role": "body", "section": "Imitation and Demonstration Learning", "weight": 1.0} -->
 
 Furthermore, the evolutionary mechanism differs fundamentally from population-based methods that will be introduced later. While both imitation and reward-based learning typically focus on optimizing a single agent's improvement through iterative refinement, population-based methods evolve a collection of agents in parallel. Their progress typically comes from selection pressure across a diverse gene pool, rather than the direct knowledge transfer from an exemplar to an individual. Therefore, imitation learning occupies a unique niche: it relies on the availability of high-quality solutions to directly guide and accelerate the evolution of an individual agent, making it exceptionally powerful when such demonstrations can be reliably and autonomously generated.
 
-<!-- chunk {"id": "body-0111", "role": "body", "section": "Self-Generated Demonstration Learning", "weight": 1.0} -->
+<!-- chunk {"id": "body-0104", "role": "body", "section": "Self-Generated Demonstration Learning", "weight": 1.0} -->
 
 Self-generated demonstration learning involves agents creating their own training data through iterative refinement processes, where the models learn to improve by generating and selecting high-quality examples from their own outputs.
 
-<!-- chunk {"id": "body-0112", "role": "body", "section": "Self-Generated Demonstration Learning", "weight": 1.0} -->
+<!-- chunk {"id": "body-0105", "role": "body", "section": "Self-Generated Demonstration Learning", "weight": 1.0} -->
 
 Bootstrapping Reasoning Capabilities. Zelikman et al. introduces the foundational framework for self-generated demonstration learning, enabling language models to bootstrap their reasoning capabilities through iterative self-training. This process involves generating reasoning chains for problems, fine-tuning on correct solutions, and repeating this cycle to progressively improve performance without the need for ground-truth reasoning paths. Building on this framework, recent advancements have refined the bootstrapping process through more sophisticated training strategies. For instance, Hosseini et al. proposes a verifier-guided self-training approach, where separate verifier models assess the quality of generated reasoning chains before they are incorporated into the training data, enhancing the reliability of self-improvement. Additionally, Koh et al. introduces adaptive data sampling strategies that dynamically adjust the composition of training data based on model performance across various reasoning tasks, thereby mitigating overfitting to specific problem types. The \"Explore to Evolve\" paradigm extends this concept to deep research web agents by proposing an automated pipeline for generating complex, verifiable training data.
 
-<!-- chunk {"id": "body-0113", "role": "body", "section": "Self-Generated Demonstration Learning", "weight": 1.0} -->
+<!-- chunk {"id": "body-0106", "role": "body", "section": "Self-Generated Demonstration Learning", "weight": 1.0} -->
 
 The framework directs an agent to first perform proactive online exploration to gather grounded information from the live web, and then to evolve a sophisticated aggregation logic to synthesize question-answer pairs that require both information-seeking and deep reasoning.
 
-<!-- chunk {"id": "body-0114", "role": "body", "section": "Self-Generated Demonstration Learning", "weight": 1.0} -->
+<!-- chunk {"id": "body-0107", "role": "body", "section": "Self-Generated Demonstration Learning", "weight": 1.0} -->
 
 Multimodal Self-Training. Extending self-training to multimodal domains presents unique challenges in generating high-quality demonstrations that span both visual and textual modalities. Deng et al. demonstrates how vision-language models can improve iteratively by training on their own generated image descriptions and visual reasoning chains. The approach leverages the model's existing visual understanding to generate detailed image descriptions, which are subsequently used to fine-tune the model's visual perception in a bootstrapping manner. Zhao et al. builds on this concept by empowering multimodal large language models to serve as powerful data generators, producing diverse training examples across different modalities and tasks through advanced prompt engineering and quality filtering mechanisms.
 
-<!-- chunk {"id": "body-0115", "role": "body", "section": "Cross-Agent Demonstration Learning", "weight": 1.0} -->
+<!-- chunk {"id": "body-0108", "role": "body", "section": "Cross-Agent Demonstration Learning", "weight": 1.0} -->
 
 Cross-agent demonstration learning involves agents learning from demonstrations provided by other agents, either within the same system or from external sources, enabling knowledge transfer and collaborative improvement.
 
-<!-- chunk {"id": "body-0116", "role": "body", "section": "Cross-Agent Demonstration Learning", "weight": 1.0} -->
+<!-- chunk {"id": "body-0109", "role": "body", "section": "Cross-Agent Demonstration Learning", "weight": 1.0} -->
 
 Multi-Agent Bootstrapped Reasoning. Zhao et al. presents a framework for multi-agent systems to learn from each other's successful demonstrations through bootstrapped reasoning. The system maintains an experience library containing successful interaction trajectories generated by different agents, facilitating efficient knowledge sharing and collaborative improvement. Each agent can leverage the collective experience of the entire system, thereby accelerating the learning process and enabling the discovery of diverse solution strategies. This framework illustrates how agents can specialize in different aspects of complex tasks while benefiting from the accumulated knowledge of the entire system.
 
-<!-- chunk {"id": "body-0117", "role": "body", "section": "Cross-Agent Demonstration Learning", "weight": 1.0} -->
+<!-- chunk {"id": "body-0110", "role": "body", "section": "Cross-Agent Demonstration Learning", "weight": 1.0} -->
 
 Domain-Specific Demonstration Learning. Domain-specific applications of demonstration learning have proven especially effective in specialized fields where expert knowledge can be effectively transferred through demonstrations. In recommendation systems, techniques such as self-optimized fine-tuning enable LLM-based recommender systems to learn from their own successful recommendation patterns, creating a feedback loop that enhances personalization over time. The system generates high-quality recommendation demonstrations from successful user interactions and uses these to fine-tune the underlying language model, ultimately leading to more accurate and personalized recommendations.
 
-<!-- chunk {"id": "body-0118", "role": "body", "section": "Hybrid Demonstration Learning", "weight": 1.0} -->
+<!-- chunk {"id": "body-0111", "role": "body", "section": "Hybrid Demonstration Learning", "weight": 1.0} -->
 
 Hybrid demonstration learning combines both self-generated and external demonstrations to create more robust and diverse training regimens that leverage the strengths of each approach.
 
-<!-- chunk {"id": "body-0119", "role": "body", "section": "Hybrid Demonstration Learning", "weight": 1.0} -->
+<!-- chunk {"id": "body-0112", "role": "body", "section": "Hybrid Demonstration Learning", "weight": 1.0} -->
 
 Recursive Self-Improvement. Qu et al. demonstrates how agents can be trained to systematically improve their behavior through structured self-reflection and demonstration generation. This approach enables language model agents to introspect on their reasoning processes, identify areas for improvement, and generate corrective demonstrations to address these weaknesses. This recursive process establishes a continuous improvement loop, where agents become increasingly skilled at self-diagnosis and self-correction, leading to more robust and adaptable behavior.
 
-<!-- chunk {"id": "body-0120", "role": "body", "section": "Hybrid Demonstration Learning", "weight": 1.0} -->
+<!-- chunk {"id": "body-0113", "role": "body", "section": "Hybrid Demonstration Learning", "weight": 1.0} -->
 
 Confidence-Guided Demonstration Selection. Recent developments have focused on more sophisticated mechanisms for selecting high-quality demonstrations from both self-generated and external sources. Confidence-based approaches utilize the model's uncertainty estimates to determine which demonstrations are most likely to contribute positively to learning, filtering out potentially detrimental or low-quality examples. This method addresses a critical challenge in demonstration learning: poor-quality demonstrations can degrade performance. By ensuring that only high-confidence, high-quality examples are used for training, this approach helps to maintain the integrity of the learning process.
 
-<!-- chunk {"id": "body-0121", "role": "body", "section": "Hybrid Demonstration Learning", "weight": 1.0} -->
+<!-- chunk {"id": "body-0114", "role": "body", "section": "Hybrid Demonstration Learning", "weight": 1.0} -->
 
 The effectiveness of imitation and demonstration learning approaches is highly dependent on the quality and diversity of the available demonstrations. While these methods can yield impressive results when high-quality exemplars are present, they face challenges in domains where good demonstrations are scarce or where the optimal behavior is not well-represented in the available data. Future research directions include developing more sophisticated demonstration selection and generation strategies, improving the robustness of learning from imperfect demonstrations, and creating better mechanisms for combining demonstrations from multiple sources.
 
-<!-- chunk {"id": "body-0122", "role": "body", "section": "Hybrid Demonstration Learning", "weight": 1.0} -->
+<!-- chunk {"id": "body-0115", "role": "body", "section": "Hybrid Demonstration Learning", "weight": 1.0} -->
 
 Overall, imitation-based evolution stabilizes learning through high-quality exemplars but often trades exploration and generalization for reliability and sample efficiency.
 
-<!-- chunk {"id": "body-0123", "role": "body", "section": "Population-based and Evolutionary Methods", "weight": 1.0} -->
+<!-- chunk {"id": "body-0116", "role": "body", "section": "Population-based and Evolutionary Methods", "weight": 1.0} -->
 
-Population-based and evolutionary methods are a paradigm with a long history in improving agent behavior that complements modern learning-based techniques. This approach, drawing inspiration from biological evolution, has deep roots in AI. The concept was formalized into a practical computational tool by John Holland, whose seminal work on the Genetic Algorithm (GA) established the core operators of selection, crossover, and mutation for refining a population of solutions. Building on this, John Koza pioneered Genetic Programming (GP), a powerful extension that directly evolves executable programs or symbolic expressions, which makes it appropriate for generating agent logic. This paradigm's power was demonstrated by automatically synthesizing novel, human-competitive results, such as patented analog electrical circuits. This success extended into diverse domains, from evolving competitive agents for strategic games like backgammon and chess (Hauptman and Sipper Azaria and Sipper, ) to discovering complex, interpretable policies in agent-based simulations, such as evolving dynamic taxation rules that outperformed static, human-designed strategies.
+Population-based and evolutionary methods are a paradigm with a long history in improving agent behavior that complements modern learning-based techniques. This approach, drawing inspiration from biological evolution, has deep roots in AI. The concept was formalized into a practical computational tool by John Holland, whose seminal work on the Genetic Algorithm (GA) established the core operators of selection, crossover, and mutation for refining a population of solutions. Building on this, John Koza pioneered Genetic Programming (GP), a powerful extension that directly evolves executable programs or symbolic expressions, which makes it appropriate for generating agent logic. This paradigm's power was demonstrated by automatically synthesizing novel, human-competitive results, such as patented analog electrical circuits. This success extended into diverse domains, from evolving competitive agents for strategic games like backgammon and chess to discovering complex, interpretable policies in agent-based simulations, such as evolving dynamic taxation rules that outperformed static, human-designed strategies.
 
-<!-- chunk {"id": "body-0124", "role": "body", "section": "Population-based and Evolutionary Methods", "weight": 1.0} -->
+<!-- chunk {"id": "body-0117", "role": "body", "section": "Population-based and Evolutionary Methods", "weight": 1.0} -->
 
 This paradigm led to landmark achievements in evolving agent systems. For example, the classic \"Evolved Synthetic Creatures\" co-evolved agent morphology and neural controllers in a simulated 3D world, leading to the discovery of a wide variety of novel and effective locomotion strategies. Later, the influential NEAT algorithm addressed a critical challenge by demonstrating how to evolve not just the weights but the entire topology of a neural network. This enabled the autonomous discovery of complex agent \"brains\" from simple initial structures, a principle that has had an enduring impact on neuroevolution. These seminal works illustrated that evolution could construct both an agent's physical form and its complex control systems, establishing a powerful alternative to manual design.
 
-<!-- chunk {"id": "body-0125", "role": "body", "section": "Population-based and Evolutionary Methods", "weight": 1.0} -->
+<!-- chunk {"id": "body-0118", "role": "body", "section": "Population-based and Evolutionary Methods", "weight": 1.0} -->
 
 Building on this foundation, these methods represent a different paradigm for agent evolution compared to the reward-based and imitation-based approaches discussed in previous sections. While reward-based methods typically optimize individual agents through iterative reward signals and imitation learning relies on learning from demonstrations, population-based methods maintain multiple agent variants simultaneously. This allows for parallel exploration of the solution space and the emergence of diverse capabilities through mechanisms such as selection, mutation, crossover, and competitive interaction. By leveraging parallel search and genetic variation, these methods enable broader search coverage and the discovery of novel solutions that might be missed by gradient-based optimization. This approach is particularly valuable when the solution space is complex, multimodal, or when the optimal strategy requires fundamental architectural changes rather than parameter fine-tuning.
 
-<!-- chunk {"id": "body-0126", "role": "body", "section": "Single Agent Evolution", "weight": 1.0} -->
+<!-- chunk {"id": "body-0119", "role": "body", "section": "Single Agent Evolution", "weight": 1.0} -->
 
 Single-agent evolutionary approaches focus on evolving individual agents through population-based mechanisms, where multiple variants of an agent compete and evolve over time. These methods can be broadly categorized into two main paradigms: learning from evolution and self-play from multiple rollouts.
 
-<!-- chunk {"id": "body-0127", "role": "body", "section": "Single Agent Evolution", "weight": 1.0} -->
+<!-- chunk {"id": "body-0120", "role": "body", "section": "Single Agent Evolution", "weight": 1.0} -->
 
 Learning from Evolution. This paradigm draws directly from biological evolution, maintaining populations of agent variants and applying evolutionary operators to discover improved capabilities. The Darwin Gödel Machine (DGM) exemplifies this approach through open-ended evolution of self-improving agents that maintain an archive of all historical versions, enabling branching from any past \"species\" rather than linear optimization. The system achieves self-referential improvement by allowing agents to directly modify their own Python codebase, with evolution driven by empirical performance on coding benchmarks and parent selection balancing performance scores with novelty rewards for diverse exploration. Recent work has further explored using LLMs themselves to implement core evolutionary operators. For instance, LLM_GP uses the LLM to perform mutation, crossover, and selection directly on programs represented as text, leveraging the model's innate knowledge of code to inform the evolutionary search. Similarly, open-source frameworks like CodeEvolve have demonstrated that evolutionary coding agents can achieve state-of-the-art results on mathematical benchmarks, sometimes outperforming proprietary systems like AlphaEvolve by using an island-based genetic algorithm and inspiration-based crossover.
 
-<!-- chunk {"id": "body-0128", "role": "body", "section": "Single Agent Evolution", "weight": 1.0} -->
+<!-- chunk {"id": "body-0121", "role": "body", "section": "Single Agent Evolution", "weight": 1.0} -->
 
 This principle is also explored in Self-Referential Graph HyperNetworks, where networks learn to generate their own weight mutations, allowing the rate of evolution itself to become selectable and adaptable.
 
-<!-- chunk {"id": "body-0129", "role": "body", "section": "Single Agent Evolution", "weight": 1.0} -->
+<!-- chunk {"id": "body-0122", "role": "body", "section": "Single Agent Evolution", "weight": 1.0} -->
 
 Beyond evolving code and architecture, this paradigm extends to evolving the model's parameters and internal logic. The Nature-Inspired Population-Based Evolution (GENOME) framework directly applies genetic algorithms to language model parameter evolution, maintaining populations and using crossover, mutation, and selection operators on model weights. GENOME+ extends this with particle swarm optimization concepts, adding inheritance mechanisms and ensemble methods that demonstrate gradient-free evolutionary optimization can effectively improve model capabilities through parameter space exploration. EvoLLM-JP takes this further by using evolutionary algorithms to optimally merge multiple foundation models into a single, specialized model with superior performance. Furthermore, some frameworks create a tightly integrated feedback loop where evolution helps model fine-tuning. SOAR, for example, alternates between an evolutionary search phase to generate candidate programs and a \"hindsight learning\" phase that uses all attempts (both successful and failed) to generate a rich dataset for fine-tuning the agent model, creating a virtuous cycle of self-improvement.
 
-<!-- chunk {"id": "body-0130", "role": "body", "section": "Single Agent Evolution", "weight": 1.0} -->
+<!-- chunk {"id": "body-0123", "role": "body", "section": "Single Agent Evolution", "weight": 1.0} -->
 
 Self-Play. Self-play is a paradigm where agents improve through iterative interaction with versions of themselves, creating a dynamic and self-sustaining learning process. Its principles were famously demonstrated by systems like AlphaZero, which achieved superior performance in complex games by learning entirely without human data. The core mechanism is co-evolutionary learning: as an agent improves, its opponents (past or concurrent versions of itself) also become stronger, generating a perpetual and adaptive curriculum of increasing difficulty. This avoids the stagnation that can occur when training against a fixed environment and enables the discovery of novel, emergent strategies.
 
-<!-- chunk {"id": "body-0131", "role": "body", "section": "Single Agent Evolution", "weight": 1.0} -->
+<!-- chunk {"id": "body-0124", "role": "body", "section": "Single Agent Evolution", "weight": 1.0} -->
 
 This powerful principle has been adapted for LLMs and LLM Agents, enabling them to bootstrap their capabilities from zero or minimal external data. A prominent approach involves a single model or two model instances adopting distinct, co-evolving roles. For instance, Absolute Zero and R-Zero employ a \"challenger\" or \"proposer\" agent that generates problems at the frontier of a \"solver\" agent's capabilities. A more complex multi-agent dynamic is seen in Socratic-Zero, where a Solver co-evolves with a powerful Teacher that creates challenges and a Generator that distills the Teacher's strategy for scalable curriculum creation. To address the instability of purely autonomous systems, R-Few introduces a guided approach where the challenger is grounded by a small set of human examples to prevent concept drift and diversity collapse. The system improves through a closed loop where the solver is rewarded for correctness (often verified by execution) and the challenger is rewarded for posing difficult yet solvable problems, thus driving continuous improvement without external labels.
 
-<!-- chunk {"id": "body-0132", "role": "body", "section": "Single Agent Evolution", "weight": 1.0} -->
+<!-- chunk {"id": "body-0125", "role": "body", "section": "Single Agent Evolution", "weight": 1.0} -->
 
 Similarly, Self-Challenging Language Model Agents establishes a framework where an agent alternates between generating and solving complex, multi-step coding tasks, using successful trajectories to fine-tune itself. The paradigm also extends to more specialized, collaborative roles, as seen in the Sol-Ver framework, where an LLM co-evolves its ability to both generate code (solver) and create corresponding unit tests (verifier). Likewise, SPELL applies this principle to long-context reasoning, with a single model cyclically adopting questioner, responder, and verifier roles to provide reliable reward signals in a domain where programmatic verification is difficult.
 
-<!-- chunk {"id": "body-0133", "role": "body", "section": "Single Agent Evolution", "weight": 1.0} -->
+<!-- chunk {"id": "body-0126", "role": "body", "section": "Single Agent Evolution", "weight": 1.0} -->
 
 Across these approaches, improvement is driven by self-generated learning signals derived from the agent's own trajectories. Self-Play Fine-Tuning (SPIN) establishes a foundational approach where current models compete against previous versions, creating evolutionary pressure for improvement. SPC advances this with a more sophisticated adversarial co-evolution, featuring a \"sneaky generator\" that creates deceptive errors and a \"step critic\" that learns to detect them. STL demonstrates self-teaching through iterative lookahead search, where value models generate training data from their own exploratory rollouts. Recent work, such as EvoTest, extends these ideas by introducing a gradient-free, evolutionary framework that revises an agent's prompt, memory, and tools between episodes.
 
-<!-- chunk {"id": "body-0134", "role": "body", "section": "Single Agent Evolution", "weight": 1.0} -->
+<!-- chunk {"id": "body-0127", "role": "body", "section": "Single Agent Evolution", "weight": 1.0} -->
 
 Self-play is distinguished by a unique self-improvement mechanism: an agent learns through direct interaction with variations of itself. This typically manifests in two ways: a model competes against its own past versions to drive iterative refinement (as in SPIN), or a single model adopts distinct, interacting roles, such as a \"challenger\" generating novel problems for a \"solver\" (as in Absolute Zero). This principle of learning from dynamic interaction is different from imitation-based bootstrapping. While methods like STaR also learn from an agent's own outputs, they do so by filtering and training on static, successful trajectories. Self-play, in contrast, generates its learning signal from the process of the game-like interaction itself, learning from relative success even when no perfect exemplar exists. This focus on a single agent's lineage also sets it apart from broader population-based methods: instead of evolving a large, diverse population, self-play creates a highly focused evolutionary pressure between a minimal set of policies derived from the same agent.
 
-<!-- chunk {"id": "body-0135", "role": "body", "section": "Multi-Agent Evolution", "weight": 1.0} -->
+<!-- chunk {"id": "body-0128", "role": "body", "section": "Multi-Agent Evolution", "weight": 1.0} -->
 
 Multi-agent evolutionary methods extend population-based approaches to evolving entire teams or networks of agents, focusing on optimizing collective behavior, coordination strategies, and collaborative architectures. These approaches can be categorized into two main paradigms based on their evolution mechanisms: System Architecture Evolution and Knowledge-Based Evolution.
 
-<!-- chunk {"id": "body-0136", "role": "body", "section": "Multi-Agent Evolution", "weight": 1.0} -->
+<!-- chunk {"id": "body-0129", "role": "body", "section": "Multi-Agent Evolution", "weight": 1.0} -->
 
 System Architecture Evolution. This paradigm focuses on evolving the structural and coordination aspects of multi-agent systems, including team composition, orchestration strategies, and workflow optimization. EvoMAC introduces a framework that mimics neural network training for multi-agent systems, implementing \"textual backpropagation\" where compilation errors and test failures serve as loss signals to drive iterative modifications of agent team composition and individual prompts. A specialized \"updating team\" analyzes textual feedback to identify problematic agents and generate modification instructions, effectively implementing gradient-based optimization in the space of agent configurations rather than model parameters. The FELA framework applies this concept to a practical industrial problem, using a multi-agent system with specialized \"Idea,\" \"Code,\" and \"Critic\" agents that collaboratively evolve to generate high-performing features from complex data, guided by principles from both reinforcement learning and genetic algorithms. Puppeteer takes a different approach by focusing on coordination strategy evolution rather than team composition changes. The system employs a centralized orchestrator that evolves its decision policy through reinforcement learning, dynamically selecting which agents to activate at each step while balancing task performance with computational cost.
 
-<!-- chunk {"id": "body-0137", "role": "body", "section": "Multi-Agent Evolution", "weight": 1.0} -->
+<!-- chunk {"id": "body-0130", "role": "body", "section": "Multi-Agent Evolution", "weight": 1.0} -->
 
 This \"puppeteer-puppet\" paradigm demonstrates how architectural evolution can occur at the coordination level, discovering efficient collaboration patterns and emergent behaviors such as tighter coordination among core agents and sophisticated cyclic interaction patterns. Agent0 introduces a framework that evolves agents from zero data via a co-evolutionary loop between a curriculum agent and an executor agent. The curriculum agent is trained to generate frontier tasks that challenge the executor. Then, the improved tool-use capabilities of the executor in turn drive the creation of a more complex, tool-aware curriculum, establishing a virtuous cycle of self-improvement.
 
-<!-- chunk {"id": "body-0138", "role": "body", "section": "Multi-Agent Evolution", "weight": 1.0} -->
+<!-- chunk {"id": "body-0131", "role": "body", "section": "Multi-Agent Evolution", "weight": 1.0} -->
 
 Knowledge-Based Evolution. This paradigm emphasizes evolving the collective knowledge and experience of multi-agent teams through memory accumulation and case-based learning, primarily operating through in-context learning or in-context-like adaptation rather than parameter updates. MDTeamGPT establishes the foundation for this approach through a dual knowledge base system, implementing CorrectKB for storing successful cases and ChainKB for capturing failure reflections, enabling the system to learn from both successes and mistakes through structured case retrieval and reasoning enhancement. Extending this medical consultation framework, MedAgentSim demonstrates how such knowledge-based evolution can be applied to real-world diagnostic scenarios, accumulating experience from patient interactions and using retrieval-augmented generation to improve consultation quality over time. PiFlow applies this paradigm to scientific discovery, maintaining a trajectory of principle-outcome pairs and using them to steer hypothesis generation through information-theoretical optimization.
 
-<!-- chunk {"id": "body-0139", "role": "body", "section": "Multi-Agent Evolution", "weight": 1.0} -->
+<!-- chunk {"id": "body-0132", "role": "body", "section": "Multi-Agent Evolution", "weight": 1.0} -->
 
 In summary, population-based and self-play evolution enhance diversity and open-ended discovery, yet typically incur higher computational cost and lower interpretability compared with single-agent paradigms.
 
-<!-- chunk {"id": "body-0140", "role": "body", "section": "Cross-cutting Evolutionary Dimensions", "weight": 1.0} -->
+<!-- chunk {"id": "body-0133", "role": "body", "section": "Cross-cutting Evolutionary Dimensions", "weight": 1.0} -->
 
 After outlining the three core evolutionary paradigms, we now analyze their cross-cutting dimensions---revealing how different design choices balance feedback type, data source, and learning stability.
 
-<!-- chunk {"id": "body-0141", "role": "body", "section": "Cross-cutting Evolutionary Dimensions", "weight": 1.0} -->
+<!-- chunk {"id": "body-0134", "role": "body", "section": "Cross-cutting Evolutionary Dimensions", "weight": 1.0} -->
 
-Agent self-evolution is a multifaceted process characterized by a number of cross-cutting dimensions that shape how agents learn, adapt, and improve over time. Beyond any single learning algorithm or supervision signal, these dimensions define the core principles underlying the design and analysis of autonomous agents. In this section, we systematically compare the major families of self-evolution methods---reward-based, imitation/demonstration-based, and population-based---along several key axes, such as learning paradigm (online vs. offline), policy consistency (on-policy vs. off-policy), and reward granularity (process-based, outcome-based, or hybrid). We further highlight additional dimensions, including feedback types, data sources, sample efficiency, stability, and scalability, as summarized in Table. This comprehensive comparison provides a unified perspective for understanding the strengths, limitations, and design trade-offs inherent in different approaches to agent evolution.
+Agent self-evolution is a multifaceted process characterized by a number of cross-cutting dimensions that shape how agents learn, adapt, and improve over time. Beyond any single learning algorithm or supervision signal, these dimensions define the core principles underlying the design and analysis of autonomous agents. In this section, we systematically compare the major families of self-evolution methods---reward-based, imitation/demonstration-based, and population-based---along several key axes, such as learning paradigm (online vs. offline), policy consistency (on-policy vs. off-policy), and reward granularity (process-based, outcome-based, or hybrid). We further highlight additional dimensions, including feedback types, data sources, sample efficiency, stability, and scalability, as summarized in Table 4. This comprehensive comparison provides a unified perspective for understanding the strengths, limitations, and design trade-offs inherent in different approaches to agent evolution.
 
-<!-- chunk {"id": "body-0142", "role": "body", "section": "Cross-cutting Evolutionary Dimensions", "weight": 1.0} -->
+<!-- chunk {"id": "body-0135", "role": "body", "section": "Cross-cutting Evolutionary Dimensions", "weight": 1.0} -->
 
-Scalar reward, natural language, confidence, external signals
-Demonstration trajectories, exemplars, rationales
-Fitness scores, task success, competitive signals
+Scalar reward, natural language, confidence, external signals Demonstration trajectories, exemplars, rationales Fitness scores, task success, competitive signals Self-generated, environment, external rules Self-generated or other agents, humans Population generations, multi-agent systems Outcome/process/hybrid (flexible) Usually outcome/process (via demo steps) Often outcome-level, sometimes process via competition Both (reward learning, RL, DPO, SFT) Typically offline, sometimes online demo mining Online evolution or batch population updates Both (DPO, Reflexion, GRPO) Primarily off-policy, but online variants can be on-policy Off-policy (population); self-play is on-policy Moderate (depends on reward sparsity) High (if demo quality is high) Usually low (needs many trials) Sensitive to reward design Sensitive to demo quality/diversity Sensitive to population size/diversity Good with automation Limited by demo collection High but resource-intensive Table 4: Comparison of self-evolution method families along key dimensions.
 
-<!-- chunk {"id": "body-0143", "role": "body", "section": "Cross-cutting Evolutionary Dimensions", "weight": 1.0} -->
-
-Self-generated, environment, external rules
-Self-generated or other agents, humans
-Population generations, multi-agent systems
-
-<!-- chunk {"id": "body-0144", "role": "body", "section": "Cross-cutting Evolutionary Dimensions", "weight": 1.0} -->
-
-Outcome/process/hybrid (flexible)
-Usually outcome/process (via demo steps)
-Often outcome-level, sometimes process via competition
-
-<!-- chunk {"id": "body-0145", "role": "body", "section": "Cross-cutting Evolutionary Dimensions", "weight": 1.0} -->
-
-Both (reward learning, RL, DPO, SFT)
-Typically offline, sometimes online demo mining
-Online evolution or batch population updates
-
-<!-- chunk {"id": "body-0146", "role": "body", "section": "Cross-cutting Evolutionary Dimensions", "weight": 1.0} -->
-
-Both (DPO, Reflexion, GRPO)
-Primarily off-policy, but online variants can be on-policy
-Off-policy (population); self-play is on-policy
-
-<!-- chunk {"id": "body-0147", "role": "body", "section": "Cross-cutting Evolutionary Dimensions", "weight": 1.0} -->
-
-Moderate (depends on reward sparsity)
-High (if demo quality is high)
-Usually low (needs many trials)
-
-<!-- chunk {"id": "body-0148", "role": "body", "section": "Cross-cutting Evolutionary Dimensions", "weight": 1.0} -->
-
-Sensitive to reward design
-Sensitive to demo quality/diversity
-Sensitive to population size/diversity
-
-<!-- chunk {"id": "body-0149", "role": "body", "section": "Cross-cutting Evolutionary Dimensions", "weight": 1.0} -->
-
-Good with automation
-Limited by demo collection
-High but resource-intensive
-
-<!-- chunk {"id": "body-0150", "role": "body", "section": "Online and Offline Learning", "weight": 1.0} -->
+<!-- chunk {"id": "body-0136", "role": "body", "section": "Online and Offline Learning", "weight": 1.0} -->
 
 Another fundamental dimension in the design of self-evolving agents is the learning paradigm, which can be broadly categorized as either offline or online. This distinction depends on whether the agent's evolutionary updates are performed on a static, pre-collected dataset of experiences (offline) or through continuous, direct interaction with a live environment (online).
 
-<!-- chunk {"id": "body-0151", "role": "body", "section": "Online and Offline Learning", "weight": 1.0} -->
+<!-- chunk {"id": "body-0137", "role": "body", "section": "Online and Offline Learning", "weight": 1.0} -->
 
 Offline Learning In the offline learning paradigm, the learning phase is decoupled from live task execution. The offline process typically involves cycles of offline data generation, filtering, and model fine-tuning, focusing on building a powerful and generalist foundational model before deployment. A primary strategy in this domain is LLM bootstrapping, where a model enhances its own capabilities using its self-generated content. For example, Self-Instruct shows how a language model can bootstrap its own instruction-following ability by generating new instructions, paired with its own responses, creating a synthetic dataset for fine-tuning. Building on this, WizardLM demonstrates how to progressively evolve the complexity of these self-generated instructions, pushing the model's capabilities on more challenging tasks. Although these methods primarily focus on broad capability expansion via synthetic heuristics, acting as a bootstrapping phase, they lay the necessary groundwork for closed-loop, experience-driven evolution defined in our framework. In the context of GUI and Web agents, offline learning often involves leveraging pre-collected high-quality trajectories for supervised fine-tuning (SFT). OS-Genesis introduced a reverse task synthesis method for automatic trajectory creation.
 
-<!-- chunk {"id": "body-0152", "role": "body", "section": "Online and Offline Learning", "weight": 1.0} -->
+<!-- chunk {"id": "body-0138", "role": "body", "section": "Online and Offline Learning", "weight": 1.0} -->
 
 Similarly, UI-Genie employs a unified reward model for trajectory evaluation and a self-improving loop to generate high-quality trajectories iteratively. Both approaches focus on curating a rich SFT dataset to enhance the agent's capabilities to solve complex tasks. Beyond SFT, offline methods also incorporate reinforcement learning performed on a static dataset of agent-environment interactions. For example, GUI-R1 and InfiGUI-R1 utilize rule-based rewards and apply R1-style training on offline GUI datasets.
 
-<!-- chunk {"id": "body-0153", "role": "body", "section": "Online and Offline Learning", "weight": 1.0} -->
+<!-- chunk {"id": "body-0139", "role": "body", "section": "Online and Offline Learning", "weight": 1.0} -->
 
 Online Learning In contrast, online learning enables an agent to learn and adapt continuously while it interacts with a live or simulated environment. Feedback from each action is used to update the agent's policy, plan, or knowledge base in real-time. This allows for greater adaptability to dynamic or unseen situations. Some agents evolve online not by updating their model weights, but by refining their plans and skill libraries on the fly. For example, Voyager presents an LLM-powered agent that learns to play Minecraft by continuously exploring, generating its own curriculum of tasks, and building a persistent skill library from direct experience. AdaPlanner focuses on adapting its plan within a task; it generates an initial plan, receives feedback from the environment, and refines the plan online. Similarly, SwiftSage operates with a fast-and-slow thinking process, where it can reflect on failures of its fast, intuitive mode and switch to a more deliberate, tool-using slow mode, adapting its strategy online based on task difficulty. Reinforcement Learning serves as a fundamental mechanism for online learning, enabling agents to learn from environmental reward signals.
 
-<!-- chunk {"id": "body-0154", "role": "body", "section": "Online and Offline Learning", "weight": 1.0} -->
+<!-- chunk {"id": "body-0140", "role": "body", "section": "Online and Offline Learning", "weight": 1.0} -->
 
 DigiRL demonstrates how to train device-control agents in the wild using autonomous RL, while DistRL proposes an asynchronous distributed framework to make such on-device training feasible. MobileGUI-RL addresses the specific challenges of training GUI agents in online mobile environments by introducing a synthetic task generation pipeline combined with group relative policy optimization (GRPO) through trajectory-aware rewards.
 
-<!-- chunk {"id": "body-0155", "role": "body", "section": "On-policy and Off-policy Learning", "weight": 1.0} -->
+<!-- chunk {"id": "body-0141", "role": "body", "section": "On-policy and Off-policy Learning", "weight": 1.0} -->
 
 While the previous section examined the timing of data collection and learning (online vs offline), this section focuses on the policy consistency aspect of agent evolution - specifically, whether agents learn from experiences generated by the same policy they are trying to improve (on-policy) or from experiences generated by different policies (off-policy). This distinction is crucial for understanding how agents utilize their experiential data and manage the trade-offs between learning stability and sample efficiency during the evolutionary process.
 
-<!-- chunk {"id": "body-0156", "role": "body", "section": "On-policy and Off-policy Learning", "weight": 1.0} -->
+<!-- chunk {"id": "body-0142", "role": "body", "section": "On-policy and Off-policy Learning", "weight": 1.0} -->
 
 On-policy Learning. On-policy approaches require agents to learn exclusively from experiences generated by their current policy, ensuring policy consistency but often at the cost of sample efficiency. Reflexion exemplifies this approach through its iterative self-reflection mechanism. The agent generates responses using its current policy, receives feedback on failures, and immediately incorporates this feedback to update its reasoning process for the next iteration. GRPO and DAPO continue this path and show the effectiveness of multiple rollouts. The agent always learns from its current behavior, maintaining strict policy consistency. In agent settings, on-policy methods provide excellent learning stability and avoid distribution mismatch issues that plague off-policy methods. However, they suffer from low sample efficiency, as each policy update requires fresh data collection, making them computationally expensive for complex multi-step reasoning or tool use scenarios where generating high-quality trajectories is costly.
 
-<!-- chunk {"id": "body-0157", "role": "body", "section": "On-policy and Off-policy Learning", "weight": 1.0} -->
+<!-- chunk {"id": "body-0143", "role": "body", "section": "On-policy and Off-policy Learning", "weight": 1.0} -->
 
-Off-policy Learning. Off-policy approaches allow agents to learn from experiences generated by different policies, including previous versions, other agents, or human demonstrations, significantly improving sample efficiency at the cost of potential distribution mismatch. Yuan et al. demonstrates a sophisticated off-policy approach where model $M_{t + 1}$ learns from preference data generated by the previous version $M_{t}$. The system handles distribution shift through DPO's built-in KL divergence constraint with the reference policy, preventing the new policy from deviating too far from the data-generating policy. Yuan et al. showcases another powerful off-policy paradigm by learning from diverse response sources---including other models, humans, and different sampling strategies---through ranking-based supervision. The method elegantly sidesteps distribution shift by treating alignment as a ranking problem rather than requiring policy consistency. Zhao et al. illustrates off-policy learning in multi-agent settings, where agents learn from an \"experience library\" containing successful interaction trajectories generated by previous policy versions, enabling efficient reuse of expensive multi-agent coordination data.
+Off-policy Learning. Off-policy approaches allow agents to learn from experiences generated by different policies, including previous versions, other agents, or human demonstrations, significantly improving sample efficiency at the cost of potential distribution mismatch. Yuan et al. demonstrates a sophisticated off-policy approach where model $M_{t+1}$ learns from preference data generated by the previous version $M_{t}$. The system handles distribution shift through DPO's built-in KL divergence constraint with the reference policy, preventing the new policy from deviating too far from the data-generating policy. Yuan et al. showcases another powerful off-policy paradigm by learning from diverse response sources---including other models, humans, and different sampling strategies---through ranking-based supervision. The method elegantly sidesteps distribution shift by treating alignment as a ranking problem rather than requiring policy consistency. Zhao et al. illustrates off-policy learning in multi-agent settings, where agents learn from an \"experience library\" containing successful interaction trajectories generated by previous policy versions, enabling efficient reuse of expensive multi-agent coordination data.
 
-<!-- chunk {"id": "body-0158", "role": "body", "section": "On-policy and Off-policy Learning", "weight": 1.0} -->
+<!-- chunk {"id": "body-0144", "role": "body", "section": "On-policy and Off-policy Learning", "weight": 1.0} -->
 
 In agent settings, off-policy methods excel in sample efficiency, allowing agents to leverage historical data, expert demonstrations, and cross-agent learning. They are particularly valuable for multi-step reasoning where successful trajectories are rare and expensive to generate, and for tool use scenarios where agents can learn from diverse execution examples without repeated environmental interaction. However, they face challenges with distribution shift, reward hacking (where agents exploit inconsistencies between training and deployment policies), and the need for careful regularization to maintain training stability.
 
-<!-- chunk {"id": "body-0159", "role": "body", "section": "Reward Granularity", "weight": 1.0} -->
+<!-- chunk {"id": "body-0145", "role": "body", "section": "Reward Granularity", "weight": 1.0} -->
 
 Another critical choice in the reward design is its granularity, which determines at what level of detail the agent receives its learning signal. Reward granularity ranges from coarse-grained outcome-based rewards, which evaluate the overall task completion, to fine-grained process-based rewards that assess each step of the agent's trajectory. Current self-evolution frameworks adopt these varying levels of granularity to tailor feedback mechanisms according to task complexity and the desired learning outcomes.
 
-<!-- chunk {"id": "body-0160", "role": "body", "section": "Reward Granularity", "weight": 1.0} -->
+<!-- chunk {"id": "body-0146", "role": "body", "section": "Reward Granularity", "weight": 1.0} -->
 
 Outcome-based Reward Outcome-based Reward is a feedback mechanism that evaluates an agent based on the successful completion of predefined tasks. This reward is determined solely by the final state of the agent's trajectory, regardless of the intermediate steps. A central challenge, particularly in dynamic environments like web or GUI navigation, is to effectively learn from both successful trajectories and the much more frequent failure trajectories. To address this, Direct Preference Optimization (DPO) is designed to directly maximize the likelihood of preferred responses while minimizing the KL-divergence with the reference policy. Similarly, RRHF employs a ranking loss approach that aligns model probabilities of multiple responses with human preferences by ranking response probabilities without requiring auxiliary value models. Moreover, several works have developed specialized frameworks for agent self-evolution that are built upon outcome-based rewards. A straightforward approach is rejection sampling finetuning, as used in AutoWebGLM. This method employs a pre-designed reward model to evaluate trajectory outcomes, identify the successful trajectories, and update the model with this high-quality data.
 
-<!-- chunk {"id": "body-0161", "role": "body", "section": "Reward Granularity", "weight": 1.0} -->
+<!-- chunk {"id": "body-0147", "role": "body", "section": "Reward Granularity", "weight": 1.0} -->
 
 DigiRL models the GUI navigation task as a Markov Decision Process (MDP) and obtains a final, sparse reward at the end of an episode using a VLM-based evaluator. WebRL develops a robust outcome-supervised reward model (ORM) to address the feedback sparsity inherent in dynamic web environments. The ORM evaluates task success within a self-evolving curriculum framework, enabling agents to learn from unsuccessful attempts and progressively improve.
 
-<!-- chunk {"id": "body-0162", "role": "body", "section": "Reward Granularity", "weight": 1.0} -->
+<!-- chunk {"id": "body-0148", "role": "body", "section": "Reward Granularity", "weight": 1.0} -->
 
 Process-based Reward In contrast to outcome-based rewards, which provide a single, delayed signal, the process-based reward paradigm offers more precise and granular feedback by evaluating each step in an agent's trajectory. Process-supervised reward models (PRMs) have been demonstrated to be significantly more reliable than outcome-supervised reward models (ORMs), particularly in domains requiring complex reasoning like solving math problems. However, obtaining such fine-grained step-level feedback traditionally requires extensive human annotations, which are both time-consuming and expensive to scale. To address this annotation bottleneck, Math-Shepherd proposes an automatic process annotation framework that utilizes Monte Carlo Tree Search (MCTS) to gather step-wise supervision by assessing each step's potential to derive the correct final answer. Similarly, AlphaMath trains a value model to evaluate the step correctness in solution paths and updates both the policy and value model through exploration and exploitation within an MCTS framework. By leveraging process-based rewards, agents can improve their capabilities in a progressive, step-by-step manner.
 
-<!-- chunk {"id": "body-0163", "role": "body", "section": "Reward Granularity", "weight": 1.0} -->
+<!-- chunk {"id": "body-0149", "role": "body", "section": "Reward Granularity", "weight": 1.0} -->
 
 rStar-Math and AgentPRM both propose methods to iteratively evolve the policy and the process reward model, generating progressively higher-quality reasoning paths without manual labels. Agent Q integrates a step-wise verification mechanism into its MCTS process to collect high-quality trajectories, which are then used to iteratively refine the policy via DPO training.
 
-<!-- chunk {"id": "body-0164", "role": "body", "section": "Reward Granularity", "weight": 1.0} -->
+<!-- chunk {"id": "body-0150", "role": "body", "section": "Reward Granularity", "weight": 1.0} -->
 
 Hybrid Reward The hybrid methods aim to provide more comprehensive learning signals by incorporating both the clarity of final task success (outcome-based) and the granular guidance of intermediate steps (process-based). These methods overcome the sparsity of outcome-only signals while grounding the agent's step-by-step reasoning in the ultimate task goal. For example, GiGPO addresses the instability of training long-horizon agents by introducing a dual-level reward mechanism. It provides an episode-level reward based on the final success of entire trajectories, while simultaneously assigning a localized, step-level reward for intermediate actions. This dual signal provides both a high-level directional goal and low-level corrective guidance. Similarly, SPA-RL proposes a reward decomposition method that bridges the gap between sparse outcome signals and dense process feedback. It attributes incremental progress to each step within multi-step trajectories based on the final task completion, effectively distributing the outcome-based reward across the process steps. This approach creates dense intermediate progress rewards that enhance reinforcement learning effectiveness while maintaining alignment with the ultimate task objectives.
 
-<!-- chunk {"id": "body-0165", "role": "body", "section": "Other Dimensions of Self-Evolution Methods", "weight": 1.0} -->
+<!-- chunk {"id": "body-0151", "role": "body", "section": "Other Dimensions of Self-Evolution Methods", "weight": 1.0} -->
 
-Feedback Type. The nature of feedback varies widely: reward-based methods leverage scalar rewards, natural language signals, or model confidence; imitation methods focus on demonstration trajectories and rationales; population-based methods use fitness scores or competitive signals. The feedback type fundamentally determines what information the agent uses to improve.
+In addition to the core axes of learning paradigm, policy consistency, and reward granularity, Table 4 highlights several other important dimensions that differentiate self-evolution methods: Feedback Type. The nature of feedback varies widely: reward-based methods leverage scalar rewards, natural language signals, or model confidence; imitation methods focus on demonstration trajectories and rationales; population-based methods use fitness scores or competitive signals. The feedback type fundamentally determines what information the agent uses to improve.
 
-<!-- chunk {"id": "body-0166", "role": "body", "section": "Other Dimensions of Self-Evolution Methods", "weight": 1.0} -->
+<!-- chunk {"id": "body-0152", "role": "body", "section": "Other Dimensions of Self-Evolution Methods", "weight": 1.0} -->
 
 Data Source. Reward-based methods typically generate data through agent-environment interaction or engineered rules, while imitation learning often relies on human or expert-generated demonstrations. Population-based approaches draw from the collective experience of multiple agents or generations, enabling diverse exploration but requiring significant coordination.
 
-<!-- chunk {"id": "body-0167", "role": "body", "section": "Other Dimensions of Self-Evolution Methods", "weight": 1.0} -->
+<!-- chunk {"id": "body-0153", "role": "body", "section": "Other Dimensions of Self-Evolution Methods", "weight": 1.0} -->
 
 Sample Efficiency. Imitation learning is generally the most sample-efficient, provided high-quality demonstrations are available, as agents can directly mimic expert behavior. Reward-based methods are moderately efficient, with efficiency highly sensitive to reward sparsity. Population-based evolution tends to be sample-inefficient, as it often requires evaluating a large number of agent variants through many trials.
 
-<!-- chunk {"id": "body-0168", "role": "body", "section": "Other Dimensions of Self-Evolution Methods", "weight": 1.0} -->
+<!-- chunk {"id": "body-0154", "role": "body", "section": "Other Dimensions of Self-Evolution Methods", "weight": 1.0} -->
 
 Stability. Reward-based learning is sensitive to the quality and design of reward functions, risking reward hacking or unintended behaviors. Imitation learning depends heavily on the quality and diversity of demonstrations. Population-based methods are sensitive to population size and diversity, with small or homogeneous populations at risk of premature convergence.
 
-<!-- chunk {"id": "body-0169", "role": "body", "section": "Other Dimensions of Self-Evolution Methods", "weight": 1.0} -->
+<!-- chunk {"id": "body-0155", "role": "body", "section": "Other Dimensions of Self-Evolution Methods", "weight": 1.0} -->
 
 Scalability. Scalability is determined by the feasibility of data or feedback collection and the ability to parallelize learning. Reward-based methods scale well when feedback is automated (e.g., via simulators). Imitation learning is often bottlenecked by the cost of collecting demonstrations. Population-based approaches can scale to large compute but are highly resource-intensive.
 
-<!-- chunk {"id": "body-0170", "role": "body", "section": "Other Dimensions of Self-Evolution Methods", "weight": 1.0} -->
+<!-- chunk {"id": "body-0156", "role": "body", "section": "Other Dimensions of Self-Evolution Methods", "weight": 1.0} -->
 
 Together, these dimensions offer a more nuanced, multidimensional view of self-evolution strategies, guiding practitioners in selecting and designing agent learning pipelines that are best matched to the challenges of their specific domains.
 
-<!-- chunk {"id": "body-0171", "role": "body", "section": "Where to Evolve?", "weight": 1.0} -->
+<!-- chunk {"id": "body-0157", "role": "body", "section": "Where to Evolve?", "weight": 1.0} -->
 
 Self-evolving agents have facilitated advancements across a diverse array of domains and applications. Broadly, most of these applications can be systematically categorized into two groups: general domain evolution, where agent systems evolve to expand their capabilities across a wide variety of tasks, mostly within the digital realm, and specialized domain evolution, which evolves specifically to enhance their proficiency within particular task domains. In essence, evolution in general-purpose assistants focuses on transferring learned experience to a broader set of tasks, while evolution in specialized agents emphasizes deepening expertise within a specific domain.
 
-<!-- chunk {"id": "body-0172", "role": "body", "section": "General Domain Evolution", "weight": 1.0} -->
+<!-- chunk {"id": "body-0158", "role": "body", "section": "General Domain Evolution", "weight": 1.0} -->
 
 The first category, general domain evolution, refers to self-evolving agents designed for general-purpose applications, particularly as versatile digital assistants. These agents progressively enhance their capabilities to address a broad spectrum of user queries, especially in dynamic and diverse digital environments. Technically speaking, these general assistant agent enhance their abilities primarily via three mechanisms: memory optimization, curriculum-driven training, and model-agent co‑evolution. These mechanisms collectively enable the agents to continuously adapt and effectively respond to increasingly complex user demands.
 
-<!-- chunk {"id": "body-0173", "role": "body", "section": "Memory Mechanism", "weight": 1.0} -->
+<!-- chunk {"id": "body-0159", "role": "body", "section": "Memory Mechanism", "weight": 1.0} -->
 
 The most common mechanism facilitating agent evolution is the memory mechanism, wherein agents summarize historical success/failure experiences into memory representations, anticipating that these distilled experiences will be beneficial when addressing previously unseen tasks. For instance, Mobile-Agent-E employs a long-term memory structure consisting of \"Tips,\" which provide general guidelines, and \"Shortcuts,\" representing reusable action sequences derived from past experiences. This self-evolutionary module supports the continuous enhancement of performance on complex smartphone tasks. Another typical example is MobileSteward, which coordinates multiple app-specific Agents under a central Agent, with specialized modules for task scheduling, execution, and evaluation. It also incorporates a memory-based self-evolution mechanism that summarizes successful executions to improve future cross-app instruction handling. Meanwhile, Generative Agents store episodic memories of their experiences, synthesize higher-level reflections, and condition future planning on this self-reflection. In these examples, memory serves as the foundation that enables agents to internalize past experiences, abstract high-level patterns, and refine their future behavior.
 
-<!-- chunk {"id": "body-0174", "role": "body", "section": "Model-Agent Co‑Evolution", "weight": 1.0} -->
+<!-- chunk {"id": "body-0160", "role": "body", "section": "Model-Agent Co‑Evolution", "weight": 1.0} -->
 
 Another line of work is to perform Model-Agent Co‑evolution for LLM agents. UI‑Genie constructs a specialized image-text reward model that scores trajectories at both step and task levels. It jointly fine-tunes the agent and reward model using synthetic trajectories---generated by controlled corruption and hard-negative mining---across multiple generations. WebEvolver introduces a co-evolving world model LLM that simulates web environments. It generates synthetic training data by predicting next observations and enables look-ahead reasoning during inference, which greatly improves real-web task success. Absolute Zero co‑evolves a reasoning agent and its internal self‑reward model through reinforced self‑play. By adversarially generating increasingly challenging reasoning problems and optimizing the agent using internal self‑certainty as a reward signal, the framework simultaneously updates both the agent's policy and the self-rewarding mechanism. Together, these methods demonstrate the effectiveness of co-evolving agents and auxiliary models (e.g., reward or world models) to achieve more robust, generalizable, and scalable learning in LLM agentic systems.
 
-<!-- chunk {"id": "body-0175", "role": "body", "section": "Curriculum-Driven Training", "weight": 1.0} -->
+<!-- chunk {"id": "body-0161", "role": "body", "section": "Curriculum-Driven Training", "weight": 1.0} -->
 
 Curriculum-driven training also serves as a critical mechanism for building a self-evolving general assistant. For example, WebRL uses a self-evolving curriculum: when an agent fails, similar but manageable tasks are automatically generated. Coupled with a learned reward model and adaptive policy updates, this yields a success rate uplift on WebArena benchmarks. Voyager similarly leverages an automatic, bottom‑up curriculum in Minecraft, where GPT‑4 proposes appropriate next tasks based on agent progress, building a growing code-based skill library through iterative prompting and environmental feedback. These approaches highlight how curriculum learning enables agents to autonomously expand their capabilities through iterative task adaptation.
 
-<!-- chunk {"id": "body-0176", "role": "body", "section": "Specialized Domain Evolution", "weight": 1.0} -->
+<!-- chunk {"id": "body-0162", "role": "body", "section": "Specialized Domain Evolution", "weight": 1.0} -->
 
 In addition to general digital agents, self-evolving agents have also been effectively applied within specialized domains, where their evolution is tailored to significantly enhance performance within narrower task sets.
 
-<!-- chunk {"id": "body-0177", "role": "body", "section": "Coding", "weight": 1.0} -->
+<!-- chunk {"id": "body-0163", "role": "body", "section": "Coding", "weight": 1.0} -->
 
 The power of self-evolving agents extends directly to practical applications like coding, where their ability to autonomously adapt and improve offers a transformative approach to software development. SICA demonstrates that a self-improving coding agent can autonomously edit its own codebase and improve its performance on benchmark tasks. EvoMAC introduces a self-evolving paradigm on multi-agent collaboration networks, which automatically optimizes individual agent prompts and multi-agent workflows, significantly improving code generation performance by overcoming the limitations of manually designed systems. AgentCoder also focuses on a multi-agent code generation framework that self-evolves through iterative refinement. A programmer agent continuously improves code based on feedback from a test executor agent, validated against independent test cases from a test designer, significantly boosting effectiveness and efficiency. Zhang et al. enable LLM agents to continuously evolve by filtering high-quality answers, stratifying earned experiences by difficulty, and adaptively selecting demonstrations from self-generated data, leading to significant performance improvements and the construction of ML libraries.
 
-<!-- chunk {"id": "body-0178", "role": "body", "section": "Coding", "weight": 1.0} -->
+<!-- chunk {"id": "body-0164", "role": "body", "section": "Coding", "weight": 1.0} -->
 
 While these instances differ in their specific mechanisms---ranging from single-agent self-editing to complex multi-agent collaborative networks and experience-based learning---they commonly share the core principle of iterative self-improvement and autonomous adaptation to enhance coding capabilities. These advancements highlight how self-evolving agents can dramatically enhance coding efficiency and code quality by continuously learning and optimizing.
 
-<!-- chunk {"id": "body-0179", "role": "body", "section": "Graphical User Interfaces (GUI)", "weight": 1.0} -->
+<!-- chunk {"id": "body-0165", "role": "body", "section": "Graphical User Interfaces (GUI)", "weight": 1.0} -->
 
 Self‑evolving GUI agents extend LLM capabilities from pure text reasoning to direct manipulation of desktop, web, and mobile interfaces, where they must cope with large discrete action spaces, heterogeneous layouts, and partial visual observability. Yuan et al. couple pixel‑level vision with self‑reinforcement, enabling the agent to iteratively refine click--type grounding accuracy without additional human labels. On real desktop software, the Navi agent from WindowsAgentArena replays and critiques its own failure trajectories, ultimately doubling its task‑completion rate across 150 Windows challenges. For open‑web automation, WebVoyager fuses screenshot features with chain‑of‑thought reflection; successive self‑fine‑tuning raises its end‑to‑end success on unseen sites from 30 % to 59 %, while ReAP adds episodic memories of past outcomes, recovering a further 29‑percentage‑point margin on previously failed queries ).
 
-<!-- chunk {"id": "body-0180", "role": "body", "section": "Graphical User Interfaces (GUI)", "weight": 1.0} -->
+<!-- chunk {"id": "body-0166", "role": "body", "section": "Graphical User Interfaces (GUI)", "weight": 1.0} -->
 
 Beyond RL and memory, AutoGUI continuously mines functionality annotations from live interfaces to expand a reusable skill library each training cycle, and MobileUse deploys a hierarchical self‑reflection stack that monitors, verifies, and revises smartphone actions in situ. Collectively, these systems epitomize the full triad of self‑evolution--- what evolves (grounding modules, skill memories), when it evolves (offline consolidation vs. online reflection), and how it evolves (reinforcement learning, synthetic data, hierarchical monitoring)---charting a path toward universally competent interface agents.
 
-<!-- chunk {"id": "body-0181", "role": "body", "section": "Financial", "weight": 1.0} -->
+<!-- chunk {"id": "body-0167", "role": "body", "section": "Financial", "weight": 1.0} -->
 
 The primary bottleneck in customizing agents for specialized domains like financial tasks lies in efficiently constructing and integrating a domain-specific knowledge base into the agent's learning process---a challenge that can be effectively mitigated by incorporating self-evolving mechanisms. QuantAgent proposed a two-layer framework that iteratively refines the agent's responses and automatically enhances its domain-specific knowledge base using feedback from simulated and real-world environments. This iterative process helps the agent progressively approximate optimal behavior, reduces reliance on costly human-curated datasets, and demonstrably improves its predictive accuracy and signal quality in trading tasks. TradingAgents incorporates dynamic processes such as reflection, reinforcement learning, and a feedback loop from real-world trading results, alongside collaborative debates, to continuously refine its strategies and enhance trading performance. These developments underscore the potential of self-evolving agents to revolutionize the financial domain by autonomously building domain expertise, adapting to dynamic market conditions, and continuously improving decision-making and trading performance.
 
-<!-- chunk {"id": "body-0182", "role": "body", "section": "Medical", "weight": 1.0} -->
+<!-- chunk {"id": "body-0168", "role": "body", "section": "Medical", "weight": 1.0} -->
 
 Self-evolving agents have become a powerful paradigm in medical AI, where adaptability and the ability to evolve are essential for managing the complexity and ever-changing nature of real-world clinical practice. One of the most prominent applications is hospital-scale simulation. For example, Agent Hospital creates closed environments with LLM-driven doctors, patients, and nurses, allowing the doctor agent to treat thousands of virtual cases. This process helps these agents autonomously refine and evolve their diagnostic strategies without manual labeling, ultimately achieving strong performance on USMLE-style exams. Similarly, MedAgentSim integrates an LLM doctor, patient, and tool agent. It records successful consultations as reusable trajectories and employs chain-of-thought reflection and consensus to drive self-evolution, improving success rates over successive interactions. Another example is EvoPatient places a doctor agent and a patient agent in continuous dialogue. With each generation, they update their memory with high-quality exchanges: the patient develops more realistic symptom narratives, while the doctor learns to ask sharper questions. Notably, this happens without explicit gradient updates or hand-crafted rewards. Reinforcement learning is also central to building adaptive medical agents.
 
-<!-- chunk {"id": "body-0183", "role": "body", "section": "Medical", "weight": 1.0} -->
+<!-- chunk {"id": "body-0169", "role": "body", "section": "Medical", "weight": 1.0} -->
 
 For instance, DoctorAgent-RL models consultations as a Markov decision process, using a reward function that scores diagnostic accuracy, coverage, and efficiency. This guides policy-gradient updates that help the agent ask more relevant questions and reach correct diagnoses faster than imitation-based approaches, thus achieving self-improvement. In addition, automated architecture‑search approaches like Learning to Be a Doctor treat the workflow itself as an evolvable object, iteratively inserting specialist sub‑agents or new reasoning hops to cover observed failure modes and improve multimodal diagnostic accuracy. Finally, beyond clinical decision-making, self-evolving agents have also been extended to biomedical discovery. OriGene functions as a virtual disease biologist that evolves by iteratively refining its analytical process. It leverages human and experimental feedback to update core reasoning templates, adjust tool usage strategies, and refine analytical protocols. Similarly, STELLA is a self-evolving biomedical research agent that improves over time by distilling successful reasoning workflows into reusable templates through its Template Library and expanding its Tool Ocean with external or newly assembled tools to meet emerging analytical needs.
 
-<!-- chunk {"id": "body-0184", "role": "body", "section": "Education", "weight": 1.0} -->
+<!-- chunk {"id": "body-0170", "role": "body", "section": "Education", "weight": 1.0} -->
 
 Self-evolving LLM agents have also found strong applications in the education domain. At the learner level, self-evolving agents like the personalized tutor PACE adjust their prompts based on detailed student profiles and continually refine their questioning during conversations. Meanwhile, an LLM-to-LLM self-play framework generates diverse tutor--student dialogues that further fine-tune the agent, allowing its teaching strategies to evolve both during and after interactions. Another example is MathVC, which employs symbolic persona profiles for virtual students and a meta-planner that orchestrates realistic problem-solving stages. This setup enables the agent's conversational process to evolve step by step toward correct solutions, closely mirroring how collaborative learning naturally unfolds. On the instructor side, self-evolving agent systems like the professional-development platform i‑vip deploy a team of cooperating LLM agents---a coach, assessor, and feedback generator---that critique and enhance each other's outputs in real time.
 
-<!-- chunk {"id": "body-0185", "role": "body", "section": "Education", "weight": 1.0} -->
+<!-- chunk {"id": "body-0171", "role": "body", "section": "Education", "weight": 1.0} -->
 
 These agents adapt their explanations based on teacher-learners' responses and continue to evolve by incorporating expert feedback after deployment, thereby refining their prompt strategies over time Similarly, EduPlanner frames lesson-plan creation as an adversarial loop where a planner's draft is repeatedly reviewed and refined by evaluator and optimizer agents until it meets diverse educational goals. Similarly, SEFL uses teacher--student self-play to generate large sets of homework--feedback examples, which then fine-tune a lightweight feedback model. This self-evolving process significantly improves the clarity and usefulness of the comments. Collectively, these examples illustrate how self-evolving LLM agents can dynamically adapt to both learners and instructors, driving more personalized, effective, and scalable educational experiences.
 
-<!-- chunk {"id": "body-0186", "role": "body", "section": "Others", "weight": 1.0} -->
+<!-- chunk {"id": "body-0172", "role": "body", "section": "Others", "weight": 1.0} -->
 
 Beyond the four major verticals discussed above, self-evolving agents demonstrate broader applicability, delivering superior adaptability and performance in specialized domains where conventional agents often fall short. For instance, Arxiv Copilot learns and adapts by incorporating historical user interactions, including generated answers, research trends, and ideas, into its thought database, enhancing its ability to provide personalized and augmented academic assistance. In a very different context, Voyager, an agent in the game Minecraft, excels at solving novel tasks from scratch in new worlds through a process of self-evolution. It continually refines its task goals via an automatic curriculum, expands its skill library, and enhances its actions using an iterative prompting mechanism without human intervention. Transitioning to domains that require explicit strategic planning, Agents-of-Change autonomously refines prompts and rewrites code based on iterative performance analysis and strategic research, thereby helping agents overcome inherent limitations in long-term strategic planning and achieve consistently superior and more coherent gameplay in complex environments like Settlers of Catan.
 
-<!-- chunk {"id": "body-0187", "role": "body", "section": "Others", "weight": 1.0} -->
+<!-- chunk {"id": "body-0173", "role": "body", "section": "Others", "weight": 1.0} -->
 
 Lastly, in the realm of diplomacy, Richelieu introduces AI diplomacy agents that can self-evolve through their self-play mechanism, which allows the agent to augment its memory by acquiring diverse experiences without human data, thereby enhancing its strategic planning, reflection, and overall performance in diplomacy activities. While these diverse examples operate in distinct environments---from academic research and virtual game worlds to strategic board games and complex diplomatic negotiations---they all share the fundamental characteristic of leveraging continuous learning, self-refinement, and autonomous adaptation to achieve increasingly sophisticated and effective performance within their respective domains. These diverse examples reinforce the versatility of self-evolving agents, showcasing their growing potential to excel in a wide range of complex, dynamic, and human-like tasks beyond traditional domains.
 
-<!-- chunk {"id": "body-0188", "role": "body", "section": "Evaluation of Self-evolving Agents", "weight": 1.0} -->
+<!-- chunk {"id": "body-0174", "role": "body", "section": "Evaluation of Self-evolving Agents", "weight": 1.0} -->
 
 Evaluating self-evolving agents presents a unique set of challenges that extend beyond the traditional assessment of static AI systems. Unlike conventional agents typically evaluated on a fixed set of tasks at a single point in time, self-evolving agents are designed to continuously learn, adapt, and improve through ongoing interaction with dynamic environments. Consequently, their evaluation must capture not only immediate task success but also crucial aspects such as adaptation over time, knowledge accumulation and retention, long-term generalization, and the ability to transfer learned skills across sequential or novel tasks, all while mitigating catastrophic forgetting. This requires a fundamental shift from conventional "single-shot" *scoring* to a longitudinal, cost-aware trajectory view.
 
-<!-- chunk {"id": "body-0189", "role": "body", "section": "Evaluation Goals, Metrics, and Benchmark Coverage", "weight": 1.0} -->
+<!-- chunk {"id": "body-0175", "role": "body", "section": "Evaluation Goals, Metrics, and Benchmark Coverage", "weight": 1.0} -->
 
-To effectively evaluate self-evolving agents, we must move beyond traditional metrics and establish a comprehensive framework that captures their dynamic, adaptive, and long-term learning capabilities. A truly capable and desirable self-evolving agent must not only learn and improve but also remember past knowledge, transfer it to new situations, operate sustainably, and behave responsibly. Grounded in these critical requirements for continuous and robust AI, we categorize the key evaluation goals into five core dimensions: Adaptivity, Retention, Generalization, Efficiency, and Safety, as illustrated in Table. Each dimension addresses a vital aspect of an agent's self-evolutionary process and is assessed through its corresponding metrics and benchmark coverage analysis. While Table provides a comprehensive catalog of evaluation resources, we synthesize these limitations to map coverage gaps across these five-goal framework and identify directions for trajectory-centric, cost-aware assessment at Table.
+To effectively evaluate self-evolving agents, we must move beyond traditional metrics and establish a comprehensive framework that captures their dynamic, adaptive, and long-term learning capabilities. A truly capable and desirable self-evolving agent must not only learn and improve but also remember past knowledge, transfer it to new situations, operate sustainably, and behave responsibly. Grounded in these critical requirements for continuous and robust AI, we categorize the key evaluation goals into five core dimensions: Adaptivity, Retention, Generalization, Efficiency, and Safety, as illustrated in Table 6. Each dimension addresses a vital aspect of an agent's self-evolutionary process and is assessed through its corresponding metrics and benchmark coverage analysis. While Table 7 provides a comprehensive catalog of evaluation resources, we synthesize these limitations to map coverage gaps across these five-goal framework and identify directions for trajectory-centric, cost-aware assessment at Table 8.
 
-<!-- chunk {"id": "body-0190", "role": "body", "section": "Goals & Metrics", "weight": 1.0} -->
+<!-- chunk {"id": "body-0176", "role": "body", "section": "Goals & Metrics", "weight": 1.0} -->
 
 Adaptivity serves as a foundational evaluation criterion for any self-evolving agent, measuring its ability to improve performance on in-domain tasks through experience. This dimension focuses on quantifying the learning curve and the extent of performance enhancement as an agent iterates and evolves within a specific domain. Rather than a static success rate, adaptivity is gauged over time, steps, or iterations. Typical metrics include the Success Rate by Iteration Steps, which tracks performance in downstream tasks as a function of the agent's interaction history.
 
-<!-- chunk {"id": "body-0191", "role": "body", "section": "Coverage Gaps", "weight": 1.0} -->
+<!-- chunk {"id": "body-0177", "role": "body", "section": "Coverage Gaps", "weight": 1.0} -->
 
 Although adaptivity has the richest benchmark ecosystem---spanning code generation (SWE-bench, MLE-Bench ), web navigation (WebArena, WebShop ), and general reasoning (GAIA, AgentBench evaluations remain constrained by practical design choices. ScienceAgentBench limits tasks to a single programming language and imposes execution-time bounds, excluding computationally intensive scientific workflows. MLE-Bench offers well-structured tasks but diverges from authentic research scenarios where problem formulation is itself part of the challenge. These simplifications permit controlled in-domain assessment but confine evaluation to narrow, static task distributions. Moreover, most benchmarks measure improvement under pre-specified learning protocols (e.g., fixed iteration budgets or predetermined replay schedules) rather than assessing whether agents autonomously discover effective adaptation strategies. AgentBench further reports weaknesses in sustained reasoning and strategic decision-making, yet evaluation horizons remain limited to short-term improvement curves.
 
-<!-- chunk {"id": "body-0192", "role": "body", "section": "Goals & Metrics", "weight": 1.0} -->
+<!-- chunk {"id": "body-0178", "role": "body", "section": "Goals & Metrics", "weight": 1.0} -->
 
-Retention is a crucial criterion for evaluating the stability of a self-evolving agent's knowledge base. This dimension specifically focuses on the challenge of catastrophic forgetting, a common issue in lifelong learning where new knowledge acquisition erodes previously learned information, and knowledge retention within extended interactions. Two key metrics can be used to quantify this stability from different perspectives: Forgetting (FGT) and Backward Transfer (BWT).
+Retention is a crucial criterion for evaluating the stability of a self-evolving agent's knowledge base. This dimension specifically focuses on the challenge of catastrophic forgetting, a common issue in lifelong learning where new knowledge acquisition erodes previously learned information, and knowledge retention within extended interactions. Two key metrics can be used to quantify this stability from different perspectives: Forgetting (FGT) and Backward Transfer (BWT). Specifically, let $J_{i,t}$ denote the performance on task $i$ after completing $t$ tasks: A positive BWT indicates that new learning positively benefits old tasks, signifying successful knowledge transfer and a more robust, stable learning process.
 
-<!-- chunk {"id": "body-0193", "role": "body", "section": "Goals & Metrics", "weight": 1.0} -->
-
-A positive BWT indicates that new learning positively benefits old tasks, signifying successful knowledge transfer and a more robust, stable learning process.
-
-<!-- chunk {"id": "body-0194", "role": "body", "section": "Coverage Gaps", "weight": 1.0} -->
+<!-- chunk {"id": "body-0179", "role": "body", "section": "Coverage Gaps", "weight": 1.0} -->
 
 Retention remains the most underserved dimension. Current memory mechanisms struggle significantly with dynamic state updates and maintaining consistency across extended interactions. Experience replay exhibits an inherent tension: while replay buffers can improve learning, scaling them beyond optimal thresholds triggers performance degradation through context overflow and resource exhaustion. Economic and computational constraints limit evaluation robustness, with some benchmarks conducting minimal repetitions that may not capture stochastic variation. Most critically, the overwhelming majority of existing benchmarks adopt episodic evaluation where agent state resets between tasks, fundamentally precluding measurement of knowledge accumulation or degradation---precisely the phenomena that distinguish self-evolving agents from static systems.
 
-<!-- chunk {"id": "body-0195", "role": "body", "section": "Goals & Metrics", "weight": 1.0} -->
+<!-- chunk {"id": "body-0180", "role": "body", "section": "Goals & Metrics", "weight": 1.0} -->
 
 While Adaptivity and Retention focus on in-domain performance, Generalization is a pivotal measure of a self-evolving agent's ability to apply its accumulated knowledge to new, unseen domains or tasks. A truly intelligent agent should not only perform well within its familiar territory but also demonstrate a capacity for cross-domain generalization. This capability can be evaluated by assessing an agent's performance on a diverse set of tasks that span multiple task distributions and domains. Common approaches include computing aggregate performance metrics (e.g., mean success rates) across multi-domain test suites, and conducting out-of-domain evaluations using held-out task distributions that simulate real-world novelty scenarios.
 
-<!-- chunk {"id": "body-0196", "role": "body", "section": "Coverage Gaps", "weight": 1.0} -->
+<!-- chunk {"id": "body-0181", "role": "body", "section": "Coverage Gaps", "weight": 1.0} -->
 
 Generalization is typically evaluated through multi-domain test suites (AgentBench, TheAgentCompany and held-out task distributions, measuring an agent's ability to transfer knowledge across domains. Current evaluations, however, rely on static snapshots: agents are tested once on diverse tasks without tracking whether cross-domain transfer degrades as they evolve over extended learning trajectories. Technological progress further reduces the discriminative power of older tasks, as modern agents benefit from algorithmic advances unavailable to earlier systems, while training data contamination complicates cross-domain assessment. No existing benchmark examines whether agents preserve generalization breadth as they specialize within domains, or whether knowledge acquired in one domain continues to transfer after hundreds of learning episodes.
 
-<!-- chunk {"id": "body-0197", "role": "body", "section": "Goals & Metrics", "weight": 1.0} -->
+<!-- chunk {"id": "body-0182", "role": "body", "section": "Goals & Metrics", "weight": 1.0} -->
 
 Efficiency quantifies the resourcefulness of a self-evolving agent during its learning and operation. As agents operate continuously and make decisions autonomously, it is essential to evaluate the cost and speed of their evolutionary process.
 
-<!-- chunk {"id": "body-0198", "role": "body", "section": "Goals & Metrics", "weight": 1.0} -->
+<!-- chunk {"id": "body-0183", "role": "body", "section": "Goals & Metrics", "weight": 1.0} -->
 
-Token consumption: Total tokens used in reasoning, generation, and memory operations
+These metrics in Table 5 are particularly important for practical, real-world applications where resources like computation, memory, time, and human effort are finite: Token consumption: Total tokens used in reasoning, generation, and memory operations Time consumption: Wall-clock time required to complete tasks or reach performance thresholds Step count: Number of interaction rounds needed for task completion Tool calls: Number of external API/environment invocations, can be combined with performance gains to assess *Tool Productivity* (TP), formulated as: Memory growth: Expansion of persistent memory and context window over the agent's operational duration Human oversight: Time and effort required for human intervention, including review, labeling, and corrective guidance
 
-<!-- chunk {"id": "body-0199", "role": "body", "section": "Goals & Metrics", "weight": 1.0} -->
-
-Time consumption: Wall-clock time required to complete tasks or reach performance thresholds
-
-<!-- chunk {"id": "body-0200", "role": "body", "section": "Goals & Metrics", "weight": 1.0} -->
-
-Step count: Number of interaction rounds needed for task completion
-
-<!-- chunk {"id": "body-0201", "role": "body", "section": "Goals & Metrics", "weight": 1.0} -->
-
-Memory growth: Expansion of persistent memory and context window over the agent's operational duration
-
-<!-- chunk {"id": "body-0202", "role": "body", "section": "Goals & Metrics", "weight": 1.0} -->
-
-Human oversight: Time and effort required for human intervention, including review, labeling, and corrective guidance
-
-<!-- chunk {"id": "body-0203", "role": "body", "section": "Goals & Metrics", "weight": 1.0} -->
+<!-- chunk {"id": "body-0184", "role": "body", "section": "Goals & Metrics", "weight": 1.0} -->
 
 #tokens
-Prompt + completion tokens per episode/step
-440K vs. 8.1M tokens per task; 18× difference
 
-<!-- chunk {"id": "body-0204", "role": "body", "section": "Goals & Metrics", "weight": 1.0} -->
+<!-- chunk {"id": "body-0185", "role": "body", "section": "Goals & Metrics", "weight": 1.0} -->
 
-Step count / latency
+Prompt + completion tokens per episode/step 440K vs. 8.1M tokens per task; 18× difference Step count / latency
+
+<!-- chunk {"id": "body-0186", "role": "body", "section": "Goals & Metrics", "weight": 1.0} -->
+
 #turns / rounds
-Reasoning/interaction turns
-35 vs. 181 API calls per task; Quality vs. quantity trade-off
 
-<!-- chunk {"id": "body-0205", "role": "body", "section": "Goals & Metrics", "weight": 1.0} -->
+<!-- chunk {"id": "body-0187", "role": "body", "section": "Goals & Metrics", "weight": 1.0} -->
+
+Reasoning/interaction turns 35 vs. 181 API calls per task; Quality vs. quantity trade-off
+
+<!-- chunk {"id": "body-0188", "role": "body", "section": "Goals & Metrics", "weight": 1.0} -->
 
 #seconds
-End-to-end elapsed runtime incl. I/O
-12 vs. 200+ turns per task; Simple vs. complex bugs
 
-<!-- chunk {"id": "body-0206", "role": "body", "section": "Goals & Metrics", "weight": 1.0} -->
+<!-- chunk {"id": "body-0189", "role": "body", "section": "Goals & Metrics", "weight": 1.0} -->
 
-Tool/API calls
+End-to-end elapsed runtime incl. I/O 12 vs. 200+ turns per task; Simple vs. complex bugs Tool/API calls
+
+<!-- chunk {"id": "body-0190", "role": "body", "section": "Goals & Metrics", "weight": 1.0} -->
+
 #calls
-External function/environment calls
-15 vs. 38 calls (AutoCodeRover); High-quality reasoning reduces iterations
 
-<!-- chunk {"id": "body-0207", "role": "body", "section": "Goals & Metrics", "weight": 1.0} -->
+<!-- chunk {"id": "body-0191", "role": "body", "section": "Goals & Metrics", "weight": 1.0} -->
+
+External function/environment calls 15 vs. 38 calls (AutoCodeRover); High-quality reasoning reduces iterations
+
+<!-- chunk {"id": "body-0192", "role": "body", "section": "Goals & Metrics", "weight": 1.0} -->
 
 #tokens / MB
-Persistent memory; context window expansion
-Linear growth per call; Token snowball effect amplifies invalid context
 
-<!-- chunk {"id": "body-0208", "role": "body", "section": "Goals & Metrics", "weight": 1.0} -->
+<!-- chunk {"id": "body-0193", "role": "body", "section": "Goals & Metrics", "weight": 1.0} -->
+
+Persistent memory; context window expansion Linear growth per call; Token snowball effect amplifies invalid context
+
+<!-- chunk {"id": "body-0194", "role": "body", "section": "Goals & Metrics", "weight": 1.0} -->
 
 #hours / tokens
-Review, labeling, red-team; guidance tokens
-Failed attempts: 4× cost vs. successful ones; Expensive failures pattern
 
-<!-- chunk {"id": "body-0209", "role": "body", "section": "Goals & Metrics", "weight": 1.0} -->
+<!-- chunk {"id": "body-0195", "role": "body", "section": "Goals & Metrics", "weight": 1.0} -->
 
-where cost can be measured in tokens, time, memory, human effort, or a normalized composite (e.g., monetary cost), and performance gain is the improvement over baseline at horizon $t$. Lower CPG indicates more efficient learning.
+Review, labeling, red-team; guidance tokens Failed attempts: 4× cost vs. successful ones; Expensive failures pattern Table 5: Refined cost taxonomy and units for self-evolving agents, with Real-world example: On SWE-bench, SWE-Agent + Qwen3-32B (440K tokens, 35 calls, 28% success) vs. GPT-4o-mini (8.1M tokens, 181 calls, 10% success)—model-scaffold synergy critical for efficiency.
 
-<!-- chunk {"id": "body-0210", "role": "body", "section": "Coverage Gaps", "weight": 1.0} -->
+<!-- chunk {"id": "body-0196", "role": "body", "section": "Goals & Metrics", "weight": 1.0} -->
+
+To relate efficiency to performance gains, we report *Cost-per-Gain* (CPG) as: where cost can be measured in tokens, time, memory, human effort, or a normalized composite (e.g., monetary cost), and performance gain is the improvement over baseline at horizon $t$. Lower CPG indicates more efficient learning.
+
+<!-- chunk {"id": "body-0197", "role": "body", "section": "Coverage Gaps", "weight": 1.0} -->
 
 Efficiency suffers from sparse and inconsistent reporting of evolution costs. While benchmark papers occasionally document aggregate resource consumption during evaluation, they rarely decompose costs into evolution-specific components: tokens consumed during self-reflection or experience replay, wall-clock time spent on architecture search or memory updates, tool invocations triggered by autonomous exploration. Cost constraints in human baseline collection reflect broader accessibility challenges but do not illuminate the efficiency of the evolution process itself. More fundamentally, standard evaluation protocols permit unconstrained optimization---agents maximize task success without facing the hard token budgets, iteration limits, or latency constraints that govern real-world deployment.
 
-<!-- chunk {"id": "body-0211", "role": "body", "section": "Goals & Metrics", "weight": 1.0} -->
+<!-- chunk {"id": "body-0198", "role": "body", "section": "Goals & Metrics", "weight": 1.0} -->
 
-From the perspective of self-evolving, the Safety domain critically examines whether these agents develop unsafe or undesirable behavioral patterns throughout their continuous evolution. This dimension assesses an agent's adherence to predefined rules and its propensity for harmful actions. Key metrics in evaluating safety of self-evolving agents may include: Safety Score, which measures the proportion of test cases where the agent's behavior is labeled "safe"; Harm Score, computed via a detailed manually written grading rubric where outputs earn partial credit whenever some but not all harmful criteria are triggered; Completion Under Policy (CuP), which assesses whether an agent successfully completes a task while strictly adhering to a given set of rules or policies; Risk Ratio, which calculates the frequency of an agent's rule violations along a specific dimension, providing a quantitative measure of non-compliance; Refusal Rate; Andriushchenko et al., ), which evaluates the proportion of tasks an agent refuses to perform due to their aggressive, malicious, or otherwise unsafe nature; Leakage Rate, which tracks how often an agent unintentionally leaks sensitive or private information.
+From the perspective of self-evolving, the Safety domain critically examines whether these agents develop unsafe or undesirable behavioral patterns throughout their continuous evolution. This dimension assesses an agent's adherence to predefined rules and its propensity for harmful actions. Key metrics in evaluating safety of self-evolving agents may include: Safety Score, which measures the proportion of test cases where the agent's behavior is labeled "safe"; Harm Score, computed via a detailed manually written grading rubric where outputs earn partial credit whenever some but not all harmful criteria are triggered; Completion Under Policy (CuP), which assesses whether an agent successfully completes a task while strictly adhering to a given set of rules or policies; Risk Ratio, which calculates the frequency of an agent's rule violations along a specific dimension, providing a quantitative measure of non-compliance; Refusal Rate; Andriushchenko et al., 2024), which evaluates the proportion of tasks an agent refuses to perform due to their aggressive, malicious, or otherwise unsafe nature; Leakage Rate, which tracks how often an agent unintentionally leaks sensitive or private information.
 
-<!-- chunk {"id": "body-0212", "role": "body", "section": "Coverage Gaps", "weight": 1.0} -->
+<!-- chunk {"id": "body-0199", "role": "body", "section": "Coverage Gaps", "weight": 1.0} -->
 
 Safety evaluation predominantly captures risks in isolated episodes. Agent-SafetyBench identifies two core deficiencies: inadequate robustness when deploying tools across varied contexts, and limited recognition of potential hazards in specific operational scenarios. In multi-agent settings, SwarmBench reveals fundamental coordination challenges where local interactions fail to produce coherent collective strategies, with agents unable to maintain shared situational understanding necessary for safe collaborative operation. Yet no benchmark tracks safety trajectories over extended evolution---whether risks accumulate through repeated exposure to edge cases, or whether unsafe behaviors emerge through autonomous exploration and self-directed learning.
 
-<!-- chunk {"id": "body-0213", "role": "body", "section": "Coverage Gaps", "weight": 1.0} -->
+<!-- chunk {"id": "body-0200", "role": "body", "section": "Coverage Gaps", "weight": 1.0} -->
 
-Success Rate by Iteration Steps
-Performance in downstream tasks as a function of the agent’s interaction history
+Success Rate by Iteration Steps Performance in downstream tasks as a function of the agent’s interaction history How quickly an agent reaches a certain performance threshold or converges to an optimal strategy within a given adaptation period The average accuracy drop on old tasks after an agent learns a new one, measuring whether useful experience is successfully maintained Backward Transfer (BWT) The average accuracy improvement on old tasks due to the experience gained from new tasks Mean success rates or other performance indicators across multi-domain test suites to gauge overall proficiency Out-of-Domain (OOD) Performance The agent’s performance in held-out task distributions Computational overhead in reasoning and generation steps Total duration required for task completion Minimal actions needed to accomplish objectives The ratio between task benefit (e.g., answer accuracy) and tool usage cost (e.g., number of tool calls) Proportion of test cases where agent behavior meets predefined safety criteria Graded assessment of harmful outputs based on violation severity Completion Under Policy (CuP) Task success rate while complying with specified constraints Frequency of policy violations per interaction opportunity Percentage of tasks declined due to safety concerns Incidence of unintended sensitive information disclosure Table 6: Overview of Agent Evaluation Metrics Across Core Dimensions Scientific Data Analysis Valid Execution Rate, Success Rate,
 
-<!-- chunk {"id": "body-0214", "role": "body", "section": "Coverage Gaps", "weight": 1.0} -->
+<!-- chunk {"id": "body-0201", "role": "body", "section": "Coverage Gaps", "weight": 1.0} -->
 
-How quickly an agent reaches a certain performance threshold or converges to an optimal strategy within a given adaptation period
+CodeBERTScore, API Cost Task Success Rate, Cost, Inference Time, Competition-level Accuracy Action Accuracy, Reflection Accuracy, Termination Error Web Search / Browse Web Search / Browse Web Search / Browse Accuracy, Action Count Web Search / Browse Completion under Policy Web Search / Browse Web Search / Browse Adaptivity, Retention, Generalization Success Rate, F1, Reward, Game Progress Completion Score, Steps, Cost per Instance Accuracy, Slope, Position of 1st solution, Num of consecutive solutions Pass Rate, Win Rate Score, Accuracy, GoodAI LTM Score, Speed, Cost, Verbosity Accuracy, First-Try Accuracy, Longest Corr, Retry Count, Runtime Cost, Token Consumption 311 scene nodes, 86 choice nodes SubEM, Recall, ROUGE F1, Accuracy, Recall@5, Model-based Acc/F1 KPI, Text-Based Score, Communication Score, Planning Score, Coordination Score Table 7: Representative Benchmarks for Evaluating Self-Evolving Agents SWE-bench, WebArena, MLE-Bench, ScienceAgentBench, GAIA Restricted programming languages and execution time limits; Simplified problem specifications vs. authentic R&D ambiguity; Weak sustained reasoning and decision-making Open-ended exploration without
 
-<!-- chunk {"id": "body-0215", "role": "body", "section": "Coverage Gaps", "weight": 1.0} -->
+<!-- chunk {"id": "body-0202", "role": "body", "section": "Coverage Gaps", "weight": 1.0} -->
 
-The average accuracy drop on old tasks after an agent learns a new one, measuring whether useful experience is successfully maintained
+predetermined objectives; Long-horizon adaptation under non-stationary distributions LifelongAgentBench, LTMBenchmark, MemoryAgentBench Persistent challenges in dynamic memory and long-range consistency; Replay buffer trade-offs with context overflow; Limited robustness testing due to costs Episodic designs reset state between tasks; No retention with safety constraints AgentBench, GAIA, TheAgentCompany, MLE-Bench Progressive task obsolescence from algorithmic advances; Training data contamination risks Temporal robustness under distribution drift; Adversarial co-evolutionary assessment High resource demands limit accessibility; Cost constraints prevent baseline collection No enforced budgets during evolution; Multi-objective constraints absent Inadequate tool robustness and risk awareness; Local-global coordination disconnect Static evaluation only; No long-horizon safety drift tracking; Co-evolutionary safety unexplored Table 8: Goal-to-benchmark mapping with limitations and coverage gaps.
 
-<!-- chunk {"id": "body-0216", "role": "body", "section": "Coverage Gaps", "weight": 1.0} -->
-
-Backward Transfer (BWT)
-The average accuracy improvement on old tasks due to the experience gained from new tasks
-
-<!-- chunk {"id": "body-0217", "role": "body", "section": "Coverage Gaps", "weight": 1.0} -->
-
-Mean success rates or other performance indicators across multi-domain test suites to gauge overall proficiency
-
-<!-- chunk {"id": "body-0218", "role": "body", "section": "Coverage Gaps", "weight": 1.0} -->
-
-Out-of-Domain (OOD) Performance
-The agent’s performance in held-out task distributions
-
-<!-- chunk {"id": "body-0219", "role": "body", "section": "Coverage Gaps", "weight": 1.0} -->
-
-Computational overhead in reasoning and generation steps
-
-<!-- chunk {"id": "body-0220", "role": "body", "section": "Coverage Gaps", "weight": 1.0} -->
-
-Total duration required for task completion
-
-<!-- chunk {"id": "body-0221", "role": "body", "section": "Coverage Gaps", "weight": 1.0} -->
-
-Minimal actions needed to accomplish objectives
-
-<!-- chunk {"id": "body-0222", "role": "body", "section": "Coverage Gaps", "weight": 1.0} -->
-
-The ratio between task benefit (e.g., answer accuracy) and tool usage cost (e.g., number of tool calls)
-
-<!-- chunk {"id": "body-0223", "role": "body", "section": "Coverage Gaps", "weight": 1.0} -->
-
-Proportion of test cases where agent behavior meets predefined safety criteria
-
-<!-- chunk {"id": "body-0224", "role": "body", "section": "Coverage Gaps", "weight": 1.0} -->
-
-Graded assessment of harmful outputs based on violation severity
-
-<!-- chunk {"id": "body-0225", "role": "body", "section": "Coverage Gaps", "weight": 1.0} -->
-
-Completion Under Policy (CuP)
-Task success rate while complying with specified constraints
-
-<!-- chunk {"id": "body-0226", "role": "body", "section": "Coverage Gaps", "weight": 1.0} -->
-
-Frequency of policy violations per interaction opportunity
-
-<!-- chunk {"id": "body-0227", "role": "body", "section": "Coverage Gaps", "weight": 1.0} -->
-
-Percentage of tasks declined due to safety concerns
-
-<!-- chunk {"id": "body-0228", "role": "body", "section": "Coverage Gaps", "weight": 1.0} -->
-
-Incidence of unintended sensitive information disclosure
-
-<!-- chunk {"id": "body-0229", "role": "body", "section": "Coverage Gaps", "weight": 1.0} -->
-
-Scientific Data Analysis
-Valid Execution Rate, Success Rate, CodeBERTScore, API Cost
-
-<!-- chunk {"id": "body-0230", "role": "body", "section": "Coverage Gaps", "weight": 1.0} -->
-
-Task Success Rate, Cost, Inference Time, Competition-level Accuracy
-
-<!-- chunk {"id": "body-0231", "role": "body", "section": "Coverage Gaps", "weight": 1.0} -->
-
-Action Accuracy, Reflection Accuracy, Termination Error
-
-<!-- chunk {"id": "body-0232", "role": "body", "section": "Coverage Gaps", "weight": 1.0} -->
-
-Web Search / Browse
-Accuracy, Action Count
-
-<!-- chunk {"id": "body-0233", "role": "body", "section": "Coverage Gaps", "weight": 1.0} -->
-
-Web Search / Browse
-Completion under Policy
-
-<!-- chunk {"id": "body-0234", "role": "body", "section": "Coverage Gaps", "weight": 1.0} -->
-
-Success Rate, F1, Reward, Game Progress
-
-<!-- chunk {"id": "body-0235", "role": "body", "section": "Coverage Gaps", "weight": 1.0} -->
-
-Completion Score, Steps, Cost per Instance
-
-<!-- chunk {"id": "body-0236", "role": "body", "section": "Coverage Gaps", "weight": 1.0} -->
-
-Accuracy, Slope, Position of 1st solution, Num of consecutive solutions
-
-<!-- chunk {"id": "body-0237", "role": "body", "section": "Coverage Gaps", "weight": 1.0} -->
-
-Score, Accuracy, GoodAI LTM Score, Speed, Cost, Verbosity
-
-<!-- chunk {"id": "body-0238", "role": "body", "section": "Coverage Gaps", "weight": 1.0} -->
-
-Accuracy, First-Try Accuracy, Longest Corr, Retry Count, Runtime Cost, Token Consumption
-311 scene nodes, 86 choice nodes
-
-<!-- chunk {"id": "body-0239", "role": "body", "section": "Coverage Gaps", "weight": 1.0} -->
-
-SubEM, Recall, ROUGE F1, Accuracy, Recall@5, Model-based Acc/F1
-
-<!-- chunk {"id": "body-0240", "role": "body", "section": "Coverage Gaps", "weight": 1.0} -->
-
-KPI, Text-Based Score, Communication Score, Planning Score, Coordination Score
-
-<!-- chunk {"id": "body-0241", "role": "body", "section": "Coverage Gaps", "weight": 1.0} -->
-
-SWE-bench, WebArena, MLE-Bench, ScienceAgentBench, GAIA
-Restricted programming languages and execution time limits; Simplified problem specifications vs. authentic R&amp;D ambiguity; Weak sustained reasoning and decision-making
-Open-ended exploration without predetermined objectives; Long-horizon adaptation under non-stationary distributions
-
-<!-- chunk {"id": "body-0242", "role": "body", "section": "Coverage Gaps", "weight": 1.0} -->
-
-LifelongAgentBench, LTMBenchmark, MemoryAgentBench
-Persistent challenges in dynamic memory and long-range consistency; Replay buffer trade-offs with context overflow; Limited robustness testing due to costs
-Episodic designs reset state between tasks; No retention with safety constraints
-
-<!-- chunk {"id": "body-0243", "role": "body", "section": "Coverage Gaps", "weight": 1.0} -->
-
-AgentBench, GAIA, TheAgentCompany, MLE-Bench
-Progressive task obsolescence from algorithmic advances; Training data contamination risks
-Temporal robustness under distribution drift; Adversarial co-evolutionary assessment
-
-<!-- chunk {"id": "body-0244", "role": "body", "section": "Coverage Gaps", "weight": 1.0} -->
-
-High resource demands limit accessibility; Cost constraints prevent baseline collection
-No enforced budgets during evolution; Multi-objective constraints absent
-
-<!-- chunk {"id": "body-0245", "role": "body", "section": "Coverage Gaps", "weight": 1.0} -->
-
-Inadequate tool robustness and risk awareness; Local-global coordination disconnect
-Static evaluation only; No long-horizon safety drift tracking; Co-evolutionary safety unexplored
-
-<!-- chunk {"id": "body-0246", "role": "body", "section": "Self-Directedness and Evaluation Trade-offs", "weight": 1.0} -->
+<!-- chunk {"id": "body-0203", "role": "body", "section": "Self-Directedness and Evaluation Trade-offs", "weight": 1.0} -->
 
 A defining characteristic of self-evolving agents is their capacity for autonomous exploration and self-directed evolution, distinguishing them from passive learning paradigms. The degree of self-directedness, specifically whether the agent autonomously generates tasks and evolution strategies or follows externally provided curricula, creates fundamental trade-offs across evaluation dimensions.
 
-<!-- chunk {"id": "body-0247", "role": "body", "section": "Self-Directedness and Evaluation Trade-offs", "weight": 1.0} -->
+<!-- chunk {"id": "body-0204", "role": "body", "section": "Self-Directedness and Evaluation Trade-offs", "weight": 1.0} -->
 
 Highly self-directed systems demonstrate substantial performance gains through autonomous curriculum generation. WebRL improved from 4.8% to 42.4% by self-generating tasks from exploration failures, while SEAgent achieved 23.2 percentage point improvements, advancing from 11.3% to 34.5% via autonomous software exploration and curriculum evolution. However, autonomous evolution incurs measurable risks. Alignment faking rates escalated from 12% to 78% when agents autonomously evolved under conflicting objectives, illustrating safety challenges when evolution proceeds with minimal external oversight.
 
-<!-- chunk {"id": "body-0248", "role": "body", "section": "Self-Directedness and Evaluation Trade-offs", "weight": 1.0} -->
+<!-- chunk {"id": "body-0205", "role": "body", "section": "Self-Directedness and Evaluation Trade-offs", "weight": 1.0} -->
 
 Despite these documented impacts, the field lacks standardized metrics for quantifying self-directedness in evolution. To enable fair comparison, we recommend transparently reporting three aspects of the evolution process. specify whether evolution strategies and task sequences are predetermined, procedurally sampled, or autonomously generated by the agent; Document the source of feedback signals, indicating whether they come from external human labels, rule-based evaluators, or self-generated reflection; Report the frequency of external interventions in the evolution process. Clearly documenting the degree of autonomous control is essential for interpreting performance claims, as gains may reflect true self-evolution capability or extensive external guidance.
 
-<!-- chunk {"id": "body-0249", "role": "body", "section": "Self-Directedness and Evaluation Trade-offs", "weight": 1.0} -->
+<!-- chunk {"id": "body-0206", "role": "body", "section": "Self-Directedness and Evaluation Trade-offs", "weight": 1.0} -->
 
 Such trajectory-centric evaluation aligns with the core objective of assessing self-evolving agents: measuring not just what they achieve, but how autonomously they learn to evolve.
 
-<!-- chunk {"id": "body-0250", "role": "body", "section": "Evaluation Paradigm", "weight": 1.0} -->
+<!-- chunk {"id": "body-0207", "role": "body", "section": "Evaluation Paradigm", "weight": 1.0} -->
 
 The evaluation of self-evolving agents, given their continuous learning paradigm, necessitates a multi-faceted approach that extends beyond traditional static assessments. Current evaluation paradigm can be broadly categorized based on the temporal scope of the assessment: Static Assessment, Short-horizon Adaptive Assessment, and Long-horizon Lifelong Learning Ability Assessment. Each category addresses different aspects of an agent's evolving capabilities, from its instantaneous performance to its long-term learning trajectory. Terminology note. Here, "continuous" refers to *system-level self‑evolution* (changes in policies, memories, skills, tools, or procedures across episodes), not necessarily *model‑parameter continual learning*. Our evaluation therefore traces trajectories across interaction episodes and evolving environments, independent of whether weights are updated.
 
-<!-- chunk {"id": "body-0251", "role": "body", "section": "Static Assessment", "weight": 1.0} -->
+<!-- chunk {"id": "body-0208", "role": "body", "section": "Static Assessment", "weight": 1.0} -->
 
 Static assessment evaluates the instantaneous performance of self-evolving agents at a specific point in time. Although these agents are designed for continuous improvement, static methods remain crucial for establishing baseline performance, comparing different agent architectures on fixed task sets, or evaluating capabilities after discrete training phases. This approach aligns with conventional AI evaluation, focusing on immediate performance in fixed environments. While useful for assessing generalization in an "in-domain evolving, out-of-domain evaluation" paradigm, static assessment inherently does not capture the dynamic, continuous learning, or long-term evolutionary aspects central to self-evolving agents.
 
-<!-- chunk {"id": "body-0252", "role": "body", "section": "Static Assessment", "weight": 1.0} -->
+<!-- chunk {"id": "body-0209", "role": "body", "section": "Static Assessment", "weight": 1.0} -->
 
 For evaluating an agent's general capabilities at a given moment, standard benchmarks designed for static AI systems are often employed. These benchmarks offer diverse task domains and test various core agent competencies, providing a snapshot of an agent's proficiency before or at specific stages of its evolution. These assessments can be systematically categorized into External Task-Solving Evaluation and Internal Agent Components Evaluation, where External Task-Solving Evaluation measures end-to-end performance in completing domain-specific or cross-domain tasks, and Internal Capability Evaluation focuses on fundamental components in the agent, including planning, tool utilization, memory management, multi-agent coordination, etc.
 
-<!-- chunk {"id": "body-0253", "role": "body", "section": "External Task-Solving Evaluation", "weight": 1.0} -->
+<!-- chunk {"id": "body-0210", "role": "body", "section": "External Task-Solving Evaluation", "weight": 1.0} -->
 
-This category assesses an agent's end-to-end proficiency in completing tasks across various real-world or simulated environments. In scientific data analysis and machine learning engineering, benchmarks like ScienceAgentBench and MLE-Bench test agents' ability to generate and execute code for data analysis and solve Kaggle-style problems. For web search/browsing, environments such as WebShop, WebArena, X-WebAgentBench, Mind2Web, and BrowseComp simulate realistic web interactions, complex browsing scenarios, and task completion under security constraints. In software engineering, the SWE-bench series (Jimenez et al. Openai Aleithan et al. Yang et al., ) uses real GitHub issues to assess agents' code repair capabilities. For computer-use interactions, OSWorld offers a unified environment for open-ended tasks involving various desktop and web applications. Specialized domains like marketing also feature benchmarks such as xbench. Beyond specific domains, generalist agent benchmarks like AgentBench, GAIA, and TheAgentCompany evaluate broad problem-solving abilities across multiple knowledge domains and professional tasks, simulating real-world demands on general AI assistants.
+This category assesses an agent's end-to-end proficiency in completing tasks across various real-world or simulated environments. In scientific data analysis and machine learning engineering, benchmarks like ScienceAgentBench and MLE-Bench test agents' ability to generate and execute code for data analysis and solve Kaggle-style problems. For web search/browsing, environments such as WebShop, WebArena, X-WebAgentBench, Mind2Web, and BrowseComp simulate realistic web interactions, complex browsing scenarios, and task completion under security constraints. In software engineering, the SWE-bench series uses real GitHub issues to assess agents' code repair capabilities. For computer-use interactions, OSWorld offers a unified environment for open-ended tasks involving various desktop and web applications. Specialized domains like marketing also feature benchmarks such as xbench. Beyond specific domains, generalist agent benchmarks like AgentBench, GAIA, and TheAgentCompany evaluate broad problem-solving abilities across multiple knowledge domains and professional tasks, simulating real-world demands on general AI assistants.
 
-<!-- chunk {"id": "body-0254", "role": "body", "section": "Internal Agent Components Evaluation", "weight": 1.0} -->
+<!-- chunk {"id": "body-0211", "role": "body", "section": "Internal Agent Components Evaluation", "weight": 1.0} -->
 
 Beyond end-to-end task completion, assessing an agent's underlying core competencies is crucial. These benchmarks evaluate fundamental capabilities that contribute to an agent's overall intelligence and self-evolutionary potential. As for Planning, benchmarks such as PlanBench, Natural Plan, AutoPlanBench, and ACPBench comprehensively evaluate an agent's ability to understand dynamic environments, devise strategies, decompose complex problems, and execute reasoning in various planning domains. For Tool Usage, simple benchmarks like ToolAlpaca and ToolBench test basic selection and parameter mapping, while more complex ones like ToolSandbox, Seal-Tools, API-Bank, T-Eval, $\tau$-Bench, AceBench simulate real-world scenarios involving multi-turn interactions, implicit state dependencies, and nested calls. Memory Management benchmarks such as LTMBenchmark, MemoryAgentBench, and StoryBench evaluate the agent's capacity to retain and utilize information across multi-turn interactions, dynamic scenarios, and long-range dependencies.
 
-<!-- chunk {"id": "body-0255", "role": "body", "section": "Internal Agent Components Evaluation", "weight": 1.0} -->
+<!-- chunk {"id": "body-0212", "role": "body", "section": "Internal Agent Components Evaluation", "weight": 1.0} -->
 
 For evaluating Multi-Agent Collaboration, benchmarks such as MultiAgentBench and SwarmBench assess coordination, communication, and emergent swarm intelligence in both collaborative and competitive settings.
 
-<!-- chunk {"id": "body-0256", "role": "body", "section": "Internal Agent Components Evaluation", "weight": 1.0} -->
+<!-- chunk {"id": "body-0213", "role": "body", "section": "Internal Agent Components Evaluation", "weight": 1.0} -->
 
 Typical metrics for static assessment include accuracy, success rate, progress rate, completion rate, and various domain-specific performance indicators (e.g., CodeBertScore, Valid Execution Rate, Pass Rate, F1 score). These metrics provide a singular performance score for an isolated invocation or a fixed set of tasks.
 
-<!-- chunk {"id": "body-0257", "role": "body", "section": "Internal Agent Components Evaluation", "weight": 1.0} -->
+<!-- chunk {"id": "body-0214", "role": "body", "section": "Internal Agent Components Evaluation", "weight": 1.0} -->
 
-Short-horizon Adaptation Assessment
-Long-horizon Lifelong Learning Ability Assessment
+Short-horizon Adaptation Assessment Long-horizon Lifelong Learning Ability Assessment Immediate learning and incremental improvement within consistent or slightly varying tasks Continuous knowledge accumulation and sustained performance across diverse, evolving tasks and environments.
 
-<!-- chunk {"id": "body-0258", "role": "body", "section": "Internal Agent Components Evaluation", "weight": 1.0} -->
+<!-- chunk {"id": "body-0215", "role": "body", "section": "Internal Agent Components Evaluation", "weight": 1.0} -->
 
-Immediate learning and incremental improvement within consistent or slightly varying tasks
-Continuous knowledge accumulation and sustained performance across diverse, evolving tasks and environments.
+Rapid adaptation to minor changes; Improving on similar, repeated tasks Mitigating catastrophic forgetting; Robust knowledge transfer; Maintaining efficiency/safety over time; handling true novelty and significant distribution shifts Small number of sequential tasks or iterations over a short period; Improvement on the same or similar task types. Large, potentially unbounded sequence of diverse, cross-domain tasks; Very long interaction periods requiring integration of new skills with old Table 9: Differences between Short-horizon Adaptive Assessment and Long-horizon Lifelong Learning Ability Assessment
 
-<!-- chunk {"id": "body-0259", "role": "body", "section": "Internal Agent Components Evaluation", "weight": 1.0} -->
-
-Rapid adaptation to minor changes; Improving on similar, repeated tasks
-Mitigating catastrophic forgetting; Robust knowledge transfer; Maintaining efficiency/safety over time; handling true novelty and significant distribution shifts
-
-<!-- chunk {"id": "body-0260", "role": "body", "section": "Internal Agent Components Evaluation", "weight": 1.0} -->
-
-Small number of sequential tasks or iterations over a short period; Improvement on the same or similar task types.
-Large, potentially unbounded sequence of diverse, cross-domain tasks; Very long interaction periods requiring integration of new skills with old
-
-<!-- chunk {"id": "body-0261", "role": "body", "section": "Short-Horizon Adaptive Assessment", "weight": 1.0} -->
+<!-- chunk {"id": "body-0216", "role": "body", "section": "Short-Horizon Adaptive Assessment", "weight": 1.0} -->
 
 Short-horizon adaptations extend beyond static evaluations by assessing an agent's ability to adapt and improve over a relatively short period or a limited number of interactions. The agent might improve performance on the same task instance with more attempts, or adapt to new instances of the same task type. This category focuses on capturing the capacity of the self-evolving agent for immediate adaptability and incremental learning within a relatively consistent or slightly varying task distribution. These evaluation schemes can be broadly categorized into two ways: augment traditional benchmarks with a temporal dimension, and specially design benchmarks and metrics that can inherently support Short-Horizon dynamic learning.
 
-<!-- chunk {"id": "body-0262", "role": "body", "section": "Augmented Traditional Benchmarks", "weight": 1.0} -->
+<!-- chunk {"id": "body-0217", "role": "body", "section": "Augmented Traditional Benchmarks", "weight": 1.0} -->
 
 Many studies leverage existing benchmarks but introduce a new dimension to track performance over time. This typically involves analyzing performance as a function of the number of iterations, steps, or examples. For example, ADAS evaluated the held-out test accuracy with the number of agent system iterations on the ARC benchmark; AWM studied the cumulative success rate over the process of online evaluation under WebArena map test split, using a number of examples to mark the evolution progress; WebEvolver studied the success rate with self-improving iterations under Mind2web-Live. This approach allows for tracking the Adaptivity of the agent within a confined scope.
 
-<!-- chunk {"id": "body-0263", "role": "body", "section": "Benchmarks with Built-in Dynamic Evaluation", "weight": 1.0} -->
+<!-- chunk {"id": "body-0218", "role": "body", "section": "Benchmarks with Built-in Dynamic Evaluation", "weight": 1.0} -->
 
 Some benchmarks are designed with short-horizon dynamic learning in mind. MemoryAgentBench, for example, includes a "Test-Time Learning" (TTL) dimension that evaluates an agent's ability to learn new tasks directly from conversation within a single interaction session. In practice, TTL is evaluated through two types of tasks: Multi-Class Classification and Recommendation. In these settings, the agent must utilize previously provided information---such as labeled examples in context or a long movie-related dialogue history---to perform new tasks like mapping sentences to class labels or recommending relevant movies. This assesses immediate adaptation and knowledge acquisition during ongoing interaction.
 
-<!-- chunk {"id": "body-0264", "role": "body", "section": "Metrics and Methods for Evaluating Short-Horizon Adaptations", "weight": 1.0} -->
+<!-- chunk {"id": "body-0219", "role": "body", "section": "Metrics and Methods for Evaluating Short-Horizon Adaptations", "weight": 1.0} -->
 
 The primary metrics and methods for short-horizon adaptations are designed to quantify Adaptivity. These include: Success Rate by Iteration Steps, which tracks performance improvements as the agent interacts more with the environment or attempts a task multiple times; Learning Curve Analysis, which visualizes how performance (e.g., success rate, accuracy) changes over a limited number of training steps, episodes, or interactions; Adaptation Speed, which measures how quickly an agent reaches a certain performance threshold or converges to an optimal strategy within the short horizon.
 
-<!-- chunk {"id": "body-0265", "role": "body", "section": "Metrics and Methods for Evaluating Short-Horizon Adaptations", "weight": 1.0} -->
+<!-- chunk {"id": "body-0220", "role": "body", "section": "Metrics and Methods for Evaluating Short-Horizon Adaptations", "weight": 1.0} -->
 
 Short-horizon adaptations are well-suited for evaluating the initial learning capabilities and immediate adaptability of self-evolving agents. They can effectively demonstrate whether an agent can learn from recent experiences and improve its performance on in-domain tasks. This category is widely used for current self-evolving agents. However, the limited temporal window makes it challenging to assess long-term knowledge retention (mitigating catastrophic forgetting) and true lifelong learning capabilities across vastly different or sequentially presented tasks.
 
-<!-- chunk {"id": "body-0266", "role": "body", "section": "Long-Horizon Lifelong Learning Ability Assessment", "weight": 1.0} -->
+<!-- chunk {"id": "body-0221", "role": "body", "section": "Long-Horizon Lifelong Learning Ability Assessment", "weight": 1.0} -->
 
-Long-horizon lifelong learning ability assessment is crucial for truly assessing self-evolving agents, as they focus on the agent's ability to continuously acquire, retain, and reuse knowledge across diverse environments and over extended periods. As shown in Table, it mainly focuses on continuous learning, knowledge accumulation, and sustained performance across a diverse and potentially ever-changing stream of tasks or environments over an extended period. This is a nascent but critical area, where unique challenges include catastrophic forgetting, robust knowledge transfer across disparate tasks, efficient resource management over extended durations, and mitigating data leakage when continuously evaluating on evolving data distributions. Specialized benchmarks are emerging to tackle these complexities.
+Long-horizon lifelong learning ability assessment is crucial for truly assessing self-evolving agents, as they focus on the agent's ability to continuously acquire, retain, and reuse knowledge across diverse environments and over extended periods. As shown in Table 9, it mainly focuses on continuous learning, knowledge accumulation, and sustained performance across a diverse and potentially ever-changing stream of tasks or environments over an extended period. This is a nascent but critical area, where unique challenges include catastrophic forgetting, robust knowledge transfer across disparate tasks, efficient resource management over extended durations, and mitigating data leakage when continuously evaluating on evolving data distributions. Specialized benchmarks are emerging to tackle these complexities.
 
-<!-- chunk {"id": "body-0267", "role": "body", "section": "Long-Horizon Lifelong Learning Ability Assessment", "weight": 1.0} -->
+<!-- chunk {"id": "body-0222", "role": "body", "section": "Long-Horizon Lifelong Learning Ability Assessment", "weight": 1.0} -->
 
 Currently, there are few benchmarks of this type. LTMBenchmark is a specialized benchmark focusing on long-term memory (LTM) evaluation. It assesses LLM agents' memory retention and continual learning through dynamic conversational tests, using interleaved dialogues with controlled distractions to simulate real-world recall challenges. Key metrics include task accuracy, memory-span-weighted LTM Score, and efficiency measures (tests/hour, cost) for cross-architecture comparison. LifelongAgentBench is another pioneering benchmark specifically designed to evaluate agent lifelong learning. It constructs sequences of interdependent tasks across domains like Database (DB), Operating System (OS), and Knowledge Graph (KG), requiring agents to progressively build upon previously acquired skills. This allows for systematic tracking of performance improvement and knowledge retention across a prolonged learning trajectory. To address the lack of diverse environments for testing generalization, AutoEnv introduces a framework for automatically generating heterogeneous worlds from factorizable rule distributions. This work also contributes the AUTOENV-36 dataset to systematically measure an agent's cross-environment learning and adaptation capabilities.
 
-<!-- chunk {"id": "body-0268", "role": "body", "section": "Long-Horizon Lifelong Learning Ability Assessment", "weight": 1.0} -->
+<!-- chunk {"id": "body-0223", "role": "body", "section": "Long-Horizon Lifelong Learning Ability Assessment", "weight": 1.0} -->
 
 In addition, there is a solution that constructs a dynamic benchmark through continuously updating benchmark datasets or evolving the benchmark itself by reconstructing original benchmarks to evaluate self-evolving agents, which can alleviate data leakage to some extent. Benchmark Self-Evolving, for example, proposes a solution to continuously update the existing benchmark through iteration. Similarly, the TRACE framework addresses benchmark saturation by enabling agents to evolve tasks to higher difficulty through test-time exploration. The validity of these new, more complex tasks is ensured by a \"validate-by-reproducing\" paradigm, which confirms the agent's recorded trajectory is reproducible. Preliminary findings from such dynamic benchmark scenarios have shown that model performance can degrade as the benchmark evolves, highlighting the difficulty of continuous adaptation.
 
-<!-- chunk {"id": "body-0269", "role": "body", "section": "Long-Horizon Lifelong Learning Ability Assessment", "weight": 1.0} -->
+<!-- chunk {"id": "body-0224", "role": "body", "section": "Long-Horizon Lifelong Learning Ability Assessment", "weight": 1.0} -->
 
 Metrics for long-horizon lifelong learning go beyond simple success rates to quantify the agent's evolving ability, such as Forgetting (FGT), Backward Transfer (BWT), and Cost-per-Gain. Long-term Generalization metrics could involve assessing performance on a continuously evolving set of out-of-distribution tasks or measuring the breadth of tasks an agent can still perform effectively after prolonged learning across many domains.
 
-<!-- chunk {"id": "body-0270", "role": "body", "section": "Long-Horizon Lifelong Learning Ability Assessment", "weight": 1.0} -->
+<!-- chunk {"id": "body-0225", "role": "body", "section": "Long-Horizon Lifelong Learning Ability Assessment", "weight": 1.0} -->
 
 Long-horizon lifelong learning ability assessment is essential for comprehensively evaluating the core promise of self-evolving agents: their ability to learn continuously, retain knowledge, and generalize effectively over extended periods. They are critical for assessing Retention, Generalization to truly novel scenarios, and the Efficiency of long-term operation. This area remains a key frontier for research in evaluating self-evolving agents. Beyond fixed long-horizon streams, an *open-ended* variant continuously evolves tasks/tools/environments.
 
-<!-- chunk {"id": "body-0271", "role": "body", "section": "Standardized Evaluation Protocols", "weight": 1.0} -->
+<!-- chunk {"id": "body-0226", "role": "body", "section": "Standardized Evaluation Protocols", "weight": 1.0} -->
 
-Work Example for Long-horizon (EvoAgent )
+Work Example for Long-horizon (EvoAgent) Retention, generalization, efficiency, long-term safety Optimizes long-horizon Success Rate (SR) and Exploration Efficiency (EE) on 67 Minecraft tasks (five tiers) plus Atari; e.g., Overall SR improves from 21.80% to 30.29% (relative gain ≈ 105.9%).
 
-<!-- chunk {"id": "body-0272", "role": "body", "section": "Standardized Evaluation Protocols", "weight": 1.0} -->
+<!-- chunk {"id": "body-0227", "role": "body", "section": "Standardized Evaluation Protocols", "weight": 1.0} -->
 
-Retention, generalization, efficiency, long-term safety
-Optimizes long-horizon Success Rate (SR) and Exploration Efficiency (EE) on 67 Minecraft tasks (five tiers) plus Atari; e.g., Overall SR improves from 21.80% to 30.29% (relative gain ≈ 105.9%).
+No persistence across tasks; all updates reset after each episode Full persistence of model / prompt / memory / tools across tasks Maintains a persistent Multimodal Experience Pool and continual World Model, updating parameters and experience after each subtask and reusing them across subsequent tasks without reset.
 
-<!-- chunk {"id": "body-0273", "role": "body", "section": "Standardized Evaluation Protocols", "weight": 1.0} -->
+<!-- chunk {"id": "body-0228", "role": "body", "section": "Standardized Evaluation Protocols", "weight": 1.0} -->
 
-No persistence across tasks; all updates reset after each episode
-Full persistence of model / prompt / memory / tools across tasks
-Maintains a persistent Multimodal Experience Pool and continual World Model, updating parameters and experience after each subtask and reusing them across subsequent tasks without reset.
+Fixed benchmark or episodic sampling; IID or near-IID task variants Streamed sequences with non-stationary distributions; versioned tasks; explicit OOD clusters for transfer Uses a fixed long-horizon Minecraft benchmark (67 tasks split into Wood/Stone/Iron/Gold/Diamond tiers) plus Atari as a cross-environment test set; tasks are pre-defined rather than streamed or versioned.
 
-<!-- chunk {"id": "body-0274", "role": "body", "section": "Standardized Evaluation Protocols", "weight": 1.0} -->
+<!-- chunk {"id": "body-0229", "role": "body", "section": "Standardized Evaluation Protocols", "weight": 1.0} -->
 
-Fixed benchmark or episodic sampling; IID or near-IID task variants
-Streamed sequences with non-stationary distributions; versioned tasks; explicit OOD clusters for transfer
-Uses a fixed long-horizon Minecraft benchmark (67 tasks split into Wood/Stone/Iron/Gold/Diamond tiers) plus Atari as a cross-environment test set; tasks are pre-defined rather than streamed or versioned.
+Per-task cap Kshort (iterations, tool calls, tokens, wall-clock) Stage cap Kstage + cumulative cap Ktotal; explicit memory/tool growth policy Enforces a per-subtask step cap Lmax and matches DreamerV3’s environment-step budget, reporting wall-clock of ∼ 2.7 days vs. ∼ 7 days on one A100, but without explicit formulas for Kstage/Ktotal or a formal memory/tool growth policy.
 
-<!-- chunk {"id": "body-0275", "role": "body", "section": "Standardized Evaluation Protocols", "weight": 1.0} -->
+<!-- chunk {"id": "body-0230", "role": "body", "section": "Standardized Evaluation Protocols", "weight": 1.0} -->
 
-Per-task cap Kshort (iterations, tool calls, tokens, wall-clock)
-Stage cap Kstage + cumulative cap Ktotal; explicit memory/tool growth policy
-Enforces a per-subtask step cap Lmax and matches DreamerV3’s environment-step budget, reporting wall-clock of ∼ 2.7 days vs. ∼ 7 days on one A100, but without explicit formulas for Kstage/Ktotal or a formal memory/tool growth policy.
+Per-iteration: seeds, prompts, model/tool versions, full reasoning/action traces, cost breakdown Above + persistent state checkpoints, replayable trajectories, scheduled retention probes, evolution decision logs Logs each terminated subtask as a trajectory (states, rewards, completion ratios) into the experience pool for CL-based sampling and world-model updates, but does not publish full replayable per-iteration logs, checkpoints, or scheduled retention probes.
 
-<!-- chunk {"id": "body-0276", "role": "body", "section": "Standardized Evaluation Protocols", "weight": 1.0} -->
+<!-- chunk {"id": "body-0231", "role": "body", "section": "Standardized Evaluation Protocols", "weight": 1.0} -->
 
-Per-iteration: seeds, prompts, model/tool versions, full reasoning/action traces, cost breakdown
-Above + persistent state checkpoints, replayable trajectories, scheduled retention probes, evolution decision logs
-Logs each terminated subtask as a trajectory (states, rewards, completion ratios) into the experience pool for CL-based sampling and world-model updates, but does not publish full replayable per-iteration logs, checkpoints, or scheduled retention probes.
+Adaptivity: success-by-iteration curves, AULC; Generalization: within-distribution transfer Retention: BWT/FGT, forgetting curves; Generalization: temporal & cluster-OOD; Efficiency: Cost-per-Gain (CPG) Uses SR and EE per tier plus an Overall aggregate; e.g., on Gold and Diamond tiers EvoAgent roughly doubles SR over baselines, but no BWT/FGT or explicit forgetting curves are reported.
 
-<!-- chunk {"id": "body-0277", "role": "body", "section": "Standardized Evaluation Protocols", "weight": 1.0} -->
+<!-- chunk {"id": "body-0232", "role": "body", "section": "Standardized Evaluation Protocols", "weight": 1.0} -->
 
-Adaptivity: success-by-iteration curves, AULC; Generalization: within-distribution transfer
-Retention: BWT/FGT, forgetting curves; Generalization: temporal &amp; cluster-OOD; Efficiency: Cost-per-Gain (CPG)
-Uses SR and EE per tier plus an Overall aggregate; e.g., on Gold and Diamond tiers EvoAgent roughly doubles SR over baselines, but no BWT/FGT or explicit forgetting curves are reported.
+Cost-per-Gain (CPG), tokens-per-success, tool calls, latency per iteration Cumulative CPG, stage-wise efficiency, token-drift (tokens/task over time), memory growth rate Efficiency is captured by EE and wall-clock (e.g., > 6× fewer ineffective steps on average and 2.7 vs. 7 days training), while CPG, token-drift, and memory-growth statistics are not explicitly reported.
 
-<!-- chunk {"id": "body-0278", "role": "body", "section": "Standardized Evaluation Protocols", "weight": 1.0} -->
+<!-- chunk {"id": "body-0233", "role": "body", "section": "Standardized Evaluation Protocols", "weight": 1.0} -->
 
-Cost-per-Gain (CPG), tokens-per-success, tool calls, latency per iteration
-Cumulative CPG, stage-wise efficiency, token-drift (tokens/task over time), memory growth rate
-Efficiency is captured by EE and wall-clock (e.g., &gt; 6× fewer ineffective steps on average and 2.7 vs. 7 days training), while CPG, token-drift, and memory-growth statistics are not explicitly reported.
+Per-episode: Safety Score, Harm Score, Refusal Rate; window-level Leakage Rate Long-horizon safety drift tracking; periodic probes (Safety/Harm/CuP/Risk Ratio); persistent Leakage Rate across stages Relies on an internal self-verification module with goal-similarity and Lmax to terminate unproductive subtasks, but does not run external safety benchmarks or track long-horizon safety drift.
 
-<!-- chunk {"id": "body-0279", "role": "body", "section": "Standardized Evaluation Protocols", "weight": 1.0} -->
+<!-- chunk {"id": "body-0234", "role": "body", "section": "Standardized Evaluation Protocols", "weight": 1.0} -->
 
-Per-episode: Safety Score, Harm Score, Refusal Rate; window-level Leakage Rate
-Long-horizon safety drift tracking; periodic probes (Safety/Harm/CuP/Risk Ratio); persistent Leakage Rate across stages
-Relies on an internal self-verification module with goal-similarity and Lmax to terminate unproductive subtasks, but does not run external safety benchmarks or track long-horizon safety drift.
+Human-time + guidance-tokens per episode; intervention count Cumulative human-time + guidance-tokens; stage-wise intervention frequency; intervention-to-success ratio After initial task specification, training and evaluation are fully autonomous with no human feedback or labeling, and human-time/guidance-tokens are effectively 0 (not numerically reported).
 
-<!-- chunk {"id": "body-0280", "role": "body", "section": "Standardized Evaluation Protocols", "weight": 1.0} -->
+<!-- chunk {"id": "body-0235", "role": "body", "section": "Standardized Evaluation Protocols", "weight": 1.0} -->
 
-Human-time + guidance-tokens per episode; intervention count
-Cumulative human-time + guidance-tokens; stage-wise intervention frequency; intervention-to-success ratio
-After initial task specification, training and evaluation are fully autonomous with no human feedback or labeling, and human-time/guidance-tokens are effectively 0 (not numerically reported).
+Learning curve + AULC; per-task summary table; cost breakdown Learning/forgetting matrix; stage tables + long-horizon curves; detailed cost taxonomy breakdown Provides SR/EE tables over all tiers and ablations over planner/control/reflection/world-model modules, but no learning/forgetting matrices or detailed cost-taxonomy (tokens/time/tool/memory) breakdowns.
 
-<!-- chunk {"id": "body-0281", "role": "body", "section": "Standardized Evaluation Protocols", "weight": 1.0} -->
-
-Learning curve + AULC; per-task summary table; cost breakdown
-Learning/forgetting matrix; stage tables + long-horizon curves; detailed cost taxonomy breakdown
-Provides SR/EE tables over all tiers and ablations over planner/control/reflection/world-model modules, but no learning/forgetting matrices or detailed cost-taxonomy (tokens/time/tool/memory) breakdowns.
-
-<!-- chunk {"id": "body-0282", "role": "body", "section": "Standardized Evaluation Protocols", "weight": 1.0} -->
-
-To address the heterogeneity of existing setups and to make trajectory-centric evaluation reproducible, we further distill the above considerations into standardized protocols for short-horizon and long-horizon assessment, summarized in Table. For short-horizon settings, we assume no cross-task state persistence and impose a per-task evolution budget $K_{\text{short}}$ (in iterations, tool calls, tokens, or wall-clock time), require per-iteration logging of prompts, model/tool versions, full reasoning and action traces, and cost breakdowns, and report adaptivity via success-by-iteration curves and area-under-learning-curve together with basic efficiency metrics (e.g., tokens-per-success, latency).
-
-<!-- chunk {"id": "body-0283", "role": "body", "section": "Standardized Evaluation Protocols", "weight": 1.0} -->
-
-In contrast, long-horizon protocols assume full persistence of model parameters, prompts, memories, and toolsets across tasks, specify both stage-wise and cumulative evolution budgets $(K_{\text{stage}},K_{\text{total}})$ alongside explicit memory/tool growth policies, and mandate richer logging: replayable trajectories, persistent checkpoints, scheduled retention probes, evolution decision logs, and human-in-the-loop statistics to expose the degree of self-directedness. Primary long-horizon metrics then expand beyond instantaneous success to include retention (FGT/BWT and forgetting curves), temporal and cluster out-of-distribution generalization, cost-per-gain and efficiency drift over time, as well as long-run safety indicators such as safety incident rates and policy-compliance under evolving behavior.
-
-<!-- chunk {"id": "body-0284", "role": "body", "section": "Standardized Evaluation Protocols", "weight": 1.0} -->
-
-Our worked example, EvoAgent, illustrates both the feasibility and current limitations of practice: it already satisfies key elements of the long-horizon protocol---persistent world-model and experience updates, explicit per-subtask step caps, and reporting of SR/EE and wall-clock efficiency---but leaves many recommended axes (e.g., standardized retention metrics, explicit CPG/token-drift, and long-term safety drift tracking) unreported, highlighting concrete gaps for future self-evolving agent evaluations to close.
-
-<!-- chunk {"id": "body-0285", "role": "body", "section": "Limitations of Current Evaluation Practices", "weight": 1.5} -->
+<!-- chunk {"id": "body-0236", "role": "body", "section": "Limitations of Current Evaluation Practices", "weight": 1.5} -->
 
 While previous sections outlines the core evaluation dimensions and their coverage, a broader view reveals that current practices still leave substantial blind spots and hinder fair comparisons across methods. To contextualize these limitations, we examine both the capability dimensions that remain under-evaluated and the factors that complicate apples-to-apples comparison under shared settings.
 
-<!-- chunk {"id": "body-0286", "role": "body", "section": "Underserved Capability Intersections", "weight": 1.0} -->
+<!-- chunk {"id": "body-0237", "role": "body", "section": "Underserved Capability Intersections", "weight": 1.0} -->
 
 Long-horizon retention with privacy constraints: No benchmark combines extended memory assessment (as in LTMBenchmark ) with rigorous safety auditing (as in Agent-SafetyBench ), leaving open whether agents can maintain personalization across thousands of interactions while guaranteeing zero sensitive information leakage.
 
-<!-- chunk {"id": "body-0287", "role": "body", "section": "Underserved Capability Intersections", "weight": 1.0} -->
+<!-- chunk {"id": "body-0238", "role": "body", "section": "Underserved Capability Intersections", "weight": 1.0} -->
 
 Architecture adaptation under operational constraints: Current architecture search methods (e.g., AFlow, ADAS ) operate offline over extended periods to discover optimal workflows. No evaluation examines whether agents can autonomously evolve their architecture selection strategies, learning which topologies work best for different query types, while respecting real-time operational constraints (millisecond response latencies, per-query token budgets). This requires assessing not just final architecture quality, but whether the agent's strategy for *choosing or generating* architectures improves persistently through experience under hard resource limits.
 
-<!-- chunk {"id": "body-0288", "role": "body", "section": "Underserved Capability Intersections", "weight": 1.0} -->
+<!-- chunk {"id": "body-0239", "role": "body", "section": "Underserved Capability Intersections", "weight": 1.0} -->
 
 Tool ecosystem evolution: Existing tool benchmarks provide fixed APIs; no evaluation captures the self-directed lifecycle of tool discovery, integration testing, and productivity measurement---capabilities demonstrated by systems like Alita but absent from standard assessment.
 
-<!-- chunk {"id": "body-0289", "role": "body", "section": "Underserved Capability Intersections", "weight": 1.0} -->
+<!-- chunk {"id": "body-0240", "role": "body", "section": "Underserved Capability Intersections", "weight": 1.0} -->
 
 Multi-agent safety under collaborative evolution: SwarmBench identifies coordination failures at isolated time points; whether these failures amplify or attenuate over extended multi-agent co-evolution, and whether unsafe behaviors exhibit social contagion when agents learn from each other, remains unexplored.
 
-<!-- chunk {"id": "body-0290", "role": "body", "section": "Challenges for Fair Comparison", "weight": 1.0} -->
+<!-- chunk {"id": "body-0241", "role": "body", "section": "Challenges for Fair Comparison", "weight": 1.0} -->
 
-To supplement our discussion of evaluation benchmarks, we provide Table, which aligns a representative subset of self-evolving agents evaluated under partially matched conditions, i.e., similar domains, benchmarks, and backbone models. This table aims to make explicit how different methods instantiate the what/when/how dimensions when the surrounding experimental context is held as constant as the literature allows. However, as the table also makes clear, true apples-to-apples comparison remains infeasible at present. Existing works differ substantially in reporting practices: key metrics such as latency, cost, and safety are often omitted or defined inconsistently; evaluation pipelines: prompt formats, rollout budgets, tool access, and environment configurations vary widely; backbone model choices: even nominally similar models differ in size, training data, or inference settings; and architectural design: agents implement distinct control loops, credit-assignment mechanisms, and memory systems that are not directly comparable. Because these factors interact with one another, normalizing results across methods would risk over-interpreting uncontrolled differences. As a result, Table is presented as an illustrative snapshot rather than a definitive comparison.
+To supplement our discussion of evaluation benchmarks, we provide Table 11, which aligns a representative subset of self-evolving agents evaluated under partially matched conditions, i.e., similar domains, benchmarks, and backbone models. This table aims to make explicit how different methods instantiate the what/when/how dimensions when the surrounding experimental context is held as constant as the literature allows. However, as the table also makes clear, true apples-to-apples comparison remains infeasible at present. Existing works differ substantially in reporting practices: key metrics such as latency, cost, and safety are often omitted or defined inconsistently; evaluation pipelines: prompt formats, rollout budgets, tool access, and environment configurations vary widely; backbone model choices: even nominally similar models differ in size, training data, or inference settings; and architectural design: agents implement distinct control loops, credit-assignment mechanisms, and memory systems that are not directly comparable. Because these factors interact with one another, normalizing results across methods would risk over-interpreting uncontrolled differences. As a result, Table 11 is presented as an illustrative snapshot rather than a definitive comparison.
 
-<!-- chunk {"id": "body-0291", "role": "body", "section": "Challenges for Fair Comparison", "weight": 1.0} -->
+<!-- chunk {"id": "body-0242", "role": "body", "section": "Challenges for Fair Comparison", "weight": 1.0} -->
 
 Despite these limitations, the table highlights several qualitative trends: methods using richer what structures (e.g., architecture-level search) and inter-test when mechanisms often achieve stronger performance in domains where multi-step optimization is feasible, while lightweight intra-test reflection methods tend to be more cost-efficient but yield smaller gains. The absence of consistent latency/cost/safety reporting across nearly all methods underscores a key gap that limits broader synthesis. We hope this table serves as a concrete reference for how current approaches operationalize the what/when/how dimensions under comparable settings, while simultaneously motivating the need for standardized reporting to support future apples-to-apples evaluations.
 
-<!-- chunk {"id": "body-0292", "role": "body", "section": "Challenges for Fair Comparison", "weight": 1.0} -->
+<!-- chunk {"id": "body-0243", "role": "body", "section": "Challenges for Fair Comparison", "weight": 1.0} -->
 
-Architecture / multi-agent system
-Inter-test (RL / SFT hybrid)
-Population-based workflow search
+Context / lesson / reflection Context / experience / reflection Context / lesson / reflection Context / lesson / reflection Context / lesson / reflection Reward-based (external env.)
 
-<!-- chunk {"id": "body-0293", "role": "body", "section": "Challenges for Fair Comparison", "weight": 1.0} -->
+<!-- chunk {"id": "body-0244", "role": "body", "section": "Challenges for Fair Comparison", "weight": 1.0} -->
 
-Architecture / multi-agent (query-specific workflow)
-Imitation + preference optimization
+Architecture / multi-agent system Inter-test (RL / SFT hybrid) Population-based workflow search Architecture / multi-agent topology Architecture / multi-agent (query-specific workflow) Imitation + preference optimization Architecture / multi-agent system Architecture / multi-agent topology Architecture / single / multi-agent design search Table 11: Comparative synthesis of some representative self-evolving agents under shared settings. Methods are grouped by domain; repeated entries use “–”. We summarize each method using the what/when/how taxonomy and report performance. Latency, cost, and safety metrics are not consistently reported, limiting full apples-to-apples comparisons.
 
-<!-- chunk {"id": "body-0294", "role": "body", "section": "Challenges for Fair Comparison", "weight": 1.0} -->
-
-Architecture / single / multi-agent design search
-
-<!-- chunk {"id": "body-0295", "role": "body", "section": "Personalize AI Agents", "weight": 1.0} -->
+<!-- chunk {"id": "body-0245", "role": "body", "section": "Personalize AI Agents", "weight": 1.0} -->
 
 With the increasing interest in self-evolving agents, deploying personalized agents has become a crucial and increasingly significant objective for the research community. For instance, in applications such as chatbots, digital twins, and emotional support dialogues, a key challenge is enabling AI agents to accurately capture and adapt to users' unique behavioral patterns or preferences over extended interactions. Existing personalized agents typically depend heavily on labeled data and post-training methodologies. Recent work by Zhang et al. proposes a self-generated preference data approach aimed at rapidly personalizing LLMs. TWIN-GPT Wang et al. leverages electronic health records to create digital twins of patients, enhancing the accuracy of clinical trial outcome predictions. However, these existing strategies hinge on the critical assumption that LLMs can consistently obtain high-quality, large-scale user data.
 
-<!-- chunk {"id": "body-0296", "role": "body", "section": "Personalize AI Agents", "weight": 1.0} -->
+<!-- chunk {"id": "body-0246", "role": "body", "section": "Personalize AI Agents", "weight": 1.0} -->
 
 In practical deployment scenarios, the primary challenge remains the cold-start problem: agents need to progressively refine their personalized understanding, accurately interpret user intentions, and effectively construct user profiles, even when initial data is limited. Additionally, significant challenges persist in personalized planning and execution, such as effective long-term memory management, external tool integration, and personalized generation (ensuring outputs consistently align with individual user facts and preferences). Moreover, it is essential to ensure that self-evolving agents do not inadvertently reinforce or exacerbate existing biases and stereotypes, highlighting another critical direction for future research. These governance principles are particularly important as personalized agents continuously evolve and adapt their memory or decision-making processes. Building upon these governance principles, evaluation frameworks should also evolve to ensure fairness, accountability, and alignment in personalized settings.
 
-<!-- chunk {"id": "body-0297", "role": "body", "section": "Data governance", "weight": 1.0} -->
+<!-- chunk {"id": "body-0247", "role": "body", "section": "Data governance", "weight": 1.0} -->
 
 Responsible personalization should balance adaptivity with privacy protection. First, agents ought to adopt data minimization: collect only task-relevant data and surface transparent, revocable controls. Empirically, web-agent benchmarks show that state-of-the-art agents frequently process sensitive data unnecessarily, motivating minimization-by-default designs. Complementarily, effective data governance for personalized agents entails deploying on-device personalization frameworks that enable local learning from user interactions, together with user-led privacy mechanisms such as Rescriber that perform on-device redaction and approval prior to any remote data exchange. To prevent indefinite retention, memory decay and forgetting policies should support selective deletion and "right-to-be-forgotten"-style unlearning for personalized traces. Finally, because self-evolution can drift safety or fairness over time, systems should include bias monitoring and fairness auditing loops that adapt criteria and interventions as the user and context evolve, and guard against *misevolution* (safety/alignment degradation during evolution) via continuous checks on memory/tool/workflow updates.
 
-<!-- chunk {"id": "body-0298", "role": "body", "section": "Evaluation", "weight": 1.0} -->
+<!-- chunk {"id": "body-0248", "role": "body", "section": "Evaluation", "weight": 1.0} -->
 
-With the integration of personalized data, evaluation metrics for personalizing self-evolving agents should extend beyond intrinsic evaluations (e.g., directly assessing personalized generated text quality using metrics such as ROUGE and BLEU ) or extrinsic evaluations (e.g., indirect assessments of personalization effects through recommendation systems, classification tasks, and other specific applications). Traditional personalization evaluation metrics often fail to adequately capture the evolving dynamics inherent in self-evolving agents. Consequently, future research calls for more lightweight and adaptive evaluation metrics. Additionally, to better assess self-evolving personalized agents, there is a clear need for flexible, dynamic benchmarks capable of accurately evaluating agents' performance, particularly in managing long-tailed personalization data throughout their self-evolving processes.
+With the integration of personalized data, evaluation metrics for personalizing self-evolving agents should extend beyond intrinsic evaluations (e.g., directly assessing personalized generated text quality using metrics such as ROUGE and BLEU) or extrinsic evaluations (e.g., indirect assessments of personalization effects through recommendation systems, classification tasks, and other specific applications). Traditional personalization evaluation metrics often fail to adequately capture the evolving dynamics inherent in self-evolving agents. Consequently, future research calls for more lightweight and adaptive evaluation metrics. Additionally, to better assess self-evolving personalized agents, there is a clear need for flexible, dynamic benchmarks capable of accurately evaluating agents' performance, particularly in managing long-tailed personalization data throughout their self-evolving processes. We advocate reporting: Personal Adaptation Gain (PAG): improvement per user over $k$ sessions vs. non-personalized baseline.
 
-<!-- chunk {"id": "body-0299", "role": "body", "section": "Evaluation", "weight": 1.0} -->
-
-Personal Adaptation Gain (PAG): improvement per user over $k$ sessions vs. non-personalized baseline.
-
-<!-- chunk {"id": "body-0300", "role": "body", "section": "Evaluation", "weight": 1.0} -->
+<!-- chunk {"id": "body-0249", "role": "body", "section": "Evaluation", "weight": 1.0} -->
 
 Retention & Forgetting Balance: metrics such as forward/backward transfer and selective-forgetting efficacy (e.g., reduction in exposure to user facts following deletion requests).
 
-<!-- chunk {"id": "body-0301", "role": "body", "section": "Evaluation", "weight": 1.0} -->
+<!-- chunk {"id": "body-0250", "role": "body", "section": "Evaluation", "weight": 1.0} -->
 
 Privacy--Utility Trade-off: ratio of utility gain to bits of retained personal data; complemented by a *Data Minimization Score* (proportion of shared sensitive information only when necessary) in web-agent scenarios.
 
-<!-- chunk {"id": "body-0302", "role": "body", "section": "Evaluation", "weight": 1.0} -->
+<!-- chunk {"id": "body-0251", "role": "body", "section": "Evaluation", "weight": 1.0} -->
 
 On-device Learning Ratio: proportion of personalization updates or memory writes executed locally on the user device, potentially with user consent/redaction mechanisms (e.g., as studied in Rescriber).
 
-<!-- chunk {"id": "body-0303", "role": "body", "section": "Evaluation", "weight": 1.0} -->
+<!-- chunk {"id": "body-0252", "role": "body", "section": "Evaluation", "weight": 1.0} -->
 
-Bias/Drift Monitors: longitudinal measurement of disparity or safety degradation across user groups; one might define indices such as *Fairness-Drift* or *Safety-Drift*, though standardized versions remain to be developed (Basu and Das Shao et al., ).
+Bias/Drift Monitors: longitudinal measurement of disparity or safety degradation across user groups; one might define indices such as *Fairness-Drift* or *Safety-Drift*, though standardized versions remain to be developed.
 
-<!-- chunk {"id": "body-0304", "role": "body", "section": "Evaluation", "weight": 1.0} -->
+<!-- chunk {"id": "body-0253", "role": "body", "section": "Evaluation", "weight": 1.0} -->
 
 Longitudinal User Outcomes: tracking session-level satisfaction, goal-completion trends or multi-phase development trajectories (e.g., virtual "campus-life" agents in benchmarks like StuLife).
 
-<!-- chunk {"id": "body-0305", "role": "body", "section": "Generalization", "weight": 1.0} -->
+<!-- chunk {"id": "body-0254", "role": "body", "section": "Generalization", "weight": 1.0} -->
 
 Self-evolving agents also face considerable challenges in achieving robust generalization across diverse task domains and environments. The fundamental tension between specialization and broad adaptability remains one of the most pressing challenges in the field, with significant implications for scalability, knowledge transfer, and collaborative intelligence.
 
-<!-- chunk {"id": "body-0306", "role": "body", "section": "Scalable Architecture Design", "weight": 1.0} -->
+<!-- chunk {"id": "body-0255", "role": "body", "section": "Scalable Architecture Design", "weight": 1.0} -->
 
 A central challenge in developing generalizable self-evolving agents lies in designing scalable architectures capable of maintaining performance as complexity and scope increase. Current agent systems frequently encounter a trade-off between specialization and generalization, where agents optimized for specific tasks struggle to transfer their learned behaviors to novel environments. Additionally, the computational cost associated with dynamic reasoning in LLM-based agents grows non-linearly with the complexity of adaptation mechanisms, imposing practical constraints on achievable generalization within realistic resource limitations. Recent studies indicate that self-evolving agents equipped with reflective and memory-augmented capabilities show substantial promise for enhancing generalization, particularly in smaller, resource-constrained models. Nonetheless, these approaches continue to encounter limitations when addressing complex real-world scenarios that require sustained adaptation over prolonged periods.
 
-<!-- chunk {"id": "body-0307", "role": "body", "section": "Cross-Domain Adaptation", "weight": 1.0} -->
+<!-- chunk {"id": "body-0256", "role": "body", "section": "Cross-Domain Adaptation", "weight": 1.0} -->
 
 Achieving generalization across domains represents a critical frontier for self-evolving agents. Current methods frequently rely on domain-specific fine-tuning, restricting agents' adaptability to new environments without retraining. Recent advancements in test-time scaling and inference-time adaptation provide promising pathways for enhancing cross-domain generalization. These techniques allow agents to dynamically allocate additional reasoning capacity to unfamiliar scenarios by scaling computational resources during inference, avoiding the need for increasing model parameters. Additionally, meta-learning strategies have demonstrated considerable potential in facilitating rapid few-shot adaptation to new domains. However, their effectiveness critically depends on an agent's capability to accurately determine when supplementary computational resources are necessary and efficiently distribute these resources across diverse reasoning tasks.
 
-<!-- chunk {"id": "body-0308", "role": "body", "section": "Continual Learning and Catastrophic Forgetting", "weight": 1.0} -->
+<!-- chunk {"id": "body-0257", "role": "body", "section": "Continual Learning and Catastrophic Forgetting", "weight": 1.0} -->
 
 Self-evolving agents must continuously adapt to new tasks while retaining previously acquired knowledge, a challenge exacerbated by the catastrophic forgetting phenomenon of continual memorization inherent in LLMs. The stability-plasticity dilemma becomes particularly acute in foundation model-based agents, where the computational costs of retraining for every new task are prohibitive. Recent research has explored parameter-efficient fine-tuning methods, selective memory mechanisms, and incremental learning strategies to mitigate catastrophic forgetting while preserving adaptability. Nonetheless, achieving an optimal balance between efficiency and preventing model drift remains a significant open challenge, especially when agents operate under resource constraints or manage streaming data with stringent privacy considerations.
 
-<!-- chunk {"id": "body-0309", "role": "body", "section": "Knowledge Transferability", "weight": 1.0} -->
+<!-- chunk {"id": "body-0258", "role": "body", "section": "Knowledge Transferability", "weight": 1.0} -->
 
 Recent studies have identified critical limitations in knowledge transfer among AI agents. Shi et al. emphasized that knowledge integration and transfer capabilities in current agents still require significant optimization. In particular, Geng et al. found that LLM-based agents often fail to effectively propagate newly acquired knowledge from interactions to other agents, restricting their collaborative potential. Furthermore, Vafa et al. revealed that foundation models might depend heavily on shallow pattern matching, rather than developing robust and transferable internal world models. These findings indicate several important future research directions: 1) it is essential to better understand the conditions under which knowledge acquired by one agent can be reliably generalized and communicated to others; 2) developing methods to quantify the limitations in agents' knowledge transferability could lead to clearer insights into agent collaboration bottlenecks; 3) we need to have an explicit mechanism that encourage the formation of robust, generalizable world models could significantly improve the collaborative effectiveness of self-evolving agents.
 
-<!-- chunk {"id": "body-0310", "role": "body", "section": "Safe and Controllable Self-Evolving Agents", "weight": 1.0} -->
+<!-- chunk {"id": "body-0259", "role": "body", "section": "Safe and Controllable Self-Evolving Agents", "weight": 1.0} -->
 
-As autonomous AI agents become increasingly capable of learning, evolving, and performing complex tasks independently, ensuring their safety and controllability has become a paramount concern. Unlike static systems, the very nature of self-evolution introduces unique and amplified risks that emerge dynamically over the agent's lifecycle. These risks are not merely extensions of traditional AI safety issues, such as those arising from vague user instructions or environmental threats like malicious phishing links, but are fundamentally tied to the agent's capacity for autonomous self-modification and adaptation (Shao et al. Han et al., ). This section delineates the emergent risks unique to self-evolving agents and then discusses a set of prescriptive guardrails and mitigation strategies for building safer systems.
+As autonomous AI agents become increasingly capable of learning, evolving, and performing complex tasks independently, ensuring their safety and controllability has become a paramount concern. Unlike static systems, the very nature of self-evolution introduces unique and amplified risks that emerge dynamically over the agent's lifecycle. These risks are not merely extensions of traditional AI safety issues, such as those arising from vague user instructions or environmental threats like malicious phishing links, but are fundamentally tied to the agent's capacity for autonomous self-modification and adaptation. This section delineates the emergent risks unique to self-evolving agents and then discusses a set of prescriptive guardrails and mitigation strategies for building safer systems.
 
-<!-- chunk {"id": "body-0311", "role": "body", "section": "Emergent Risks in Self-Evolving Systems", "weight": 1.0} -->
+<!-- chunk {"id": "body-0260", "role": "body", "section": "Emergent Risks in Self-Evolving Systems", "weight": 1.0} -->
 
 Recent research has identified new risks that arise from the autonomous self-improvement process itself. These risks are not necessarily present in the initial agent but can manifest over time as it evolves. We categorize these risks along the primary evolutionary pathways of an agent: the backbone model, memory, and tools.
 
-<!-- chunk {"id": "body-0312", "role": "body", "section": "Emergent Risks in Self-Evolving Systems", "weight": 1.0} -->
+<!-- chunk {"id": "body-0261", "role": "body", "section": "Emergent Risks in Self-Evolving Systems", "weight": 1.0} -->
 
-Uncontrolled behavior drift in model evolution: A core risk is that an agent's goals and values may drift away from original human intent as it evolves. This is exacerbated by the learning uncertainty inherent in self-evolution, especially when operating in ambiguous contexts (Anwar et al. Bagdasarian et al., ). A phenomenon termed \"misevolution\" can occur during model evolution. For instance, self-training on agent-generated data can lead to \"catastrophic forgetting\" of safety alignment, causing agents to execute harmful instructions they previously refused, such as interacting with malicious content they were trained to avoid (Shao et al. Hahm et al., ).
+Uncontrolled behavior drift in model evolution: A core risk is that an agent's goals and values may drift away from original human intent as it evolves. This is exacerbated by the learning uncertainty inherent in self-evolution, especially when operating in ambiguous contexts. A phenomenon termed \"misevolution\" can occur during model evolution. For instance, self-training on agent-generated data can lead to \"catastrophic forgetting\" of safety alignment, causing agents to execute harmful instructions they previously refused, such as interacting with malicious content they were trained to avoid.
 
-<!-- chunk {"id": "body-0313", "role": "body", "section": "Emergent Risks in Self-Evolving Systems", "weight": 1.0} -->
+<!-- chunk {"id": "body-0262", "role": "body", "section": "Emergent Risks in Self-Evolving Systems", "weight": 1.0} -->
 
 Deployment-time reward hacking in memory evolution: Open-ended evolution is susceptible to reward hacking. Agents may find and exploit loopholes in self-defined reward signals or internal feedback. This is particularly evident in memory evolution, where the accumulation of experience can inadvertently induce unsafe behaviors. For example, an agent might learn to issue unnecessary refunds because its memory correlates them with high satisfaction ratings, and such risks can be further exacerbated by poorly designed memory modules. A related concept is the \"Alignment Tipping Process (ATP),\" where an initially aligned agent discovers that misaligned behaviors are more rewarding, causing its policy to \"tip\" and abandon its initial constraints.
 
-<!-- chunk {"id": "body-0314", "role": "body", "section": "Emergent Risks in Self-Evolving Systems", "weight": 1.0} -->
+<!-- chunk {"id": "body-0263", "role": "body", "section": "Emergent Risks in Self-Evolving Systems", "weight": 1.0} -->
 
 Safety of self-created and ingested external tools: The ability of agents to autonomously generate and use tools introduces significant safety issues. Agents may spontaneously create tools with security vulnerabilities or fail to identify malicious code when ingesting external tools. This turns the agent into a potential vector for security threats. A major challenge here is that agents still struggle to differentiate between necessary and irrelevant sensitive information, potentially leading them to create tools that leak private data. Furthermore, as agents improve, they may become more adept at creating and executing offensive cyber-operations, a risk that requires dynamic assessment.
 
-<!-- chunk {"id": "body-0315", "role": "body", "section": "Emergent Risks in Self-Evolving Systems", "weight": 1.0} -->
+<!-- chunk {"id": "body-0264", "role": "body", "section": "Emergent Risks in Self-Evolving Systems", "weight": 1.0} -->
 
-Tool &amp; Code Safety
-▫ Strict Sandboxing: All tools and agent-generated code execute in an isolated environment with no default access to host files, network, or sensitive processes.
-▫ Resource Limiting: The sandbox imposes strict limits on CPU, memory, and execution time to prevent denial-of-service or runaway processes.
-▫ Automated Security Verification: A mandatory pipeline performs static analysis (e.g., SAST) and vulnerability scanning on all new or modified tools before use.
-▫ Dependency Scanning: The verification pipeline checks all third-party libraries and dependencies for known vulnerabilities.
-▫ Risk-Based Access Control: Tools are classified by risk level, and high-risk capabilities (e.g., file system writes, API calls) require explicit approval via an approval gate.
+Compliance Checklist for Deployment Tool & Code Safety □ Strict Sandboxing: All tools and agent-generated code execute in an isolated environment with no default access to host files, network, or sensitive processes. □ Resource Limiting: The sandbox imposes strict limits on CPU, memory, and execution time to prevent denial-of-service or runaway processes. □ Automated Security Verification: A mandatory pipeline performs static analysis (e.g., SAST) and vulnerability scanning on all new or modified tools before use. □ Dependency Scanning: The verification pipeline checks all third-party libraries and dependencies for known vulnerabilities. □ Risk-Based Access Control: Tools are classified by risk level, and high-risk capabilities (e.g., file system writes, API calls) require explicit approval via an approval gate.
 
-<!-- chunk {"id": "body-0316", "role": "body", "section": "Emergent Risks in Self-Evolving Systems", "weight": 1.0} -->
+<!-- chunk {"id": "body-0265", "role": "body", "section": "Emergent Risks in Self-Evolving Systems", "weight": 1.0} -->
 
-▫ Immutable Audit Trail: All self-modifications (to model weights, memory, toolset, or core logic) are logged with details on the trigger, changes made, and outcome.
-▫ Version Control for Safe States: The agent’s state (model, memory, tools) is versioned, with known "safe" versions clearly tagged.
-▫ Tested Rollback Mechanism: A reliable, one-click rollback mechanism exists to revert the agent to a previously known safe version. This mechanism is regularly tested.
-▫ Pre-Update Safety Validation: Before a self-modified model is deployed, it is automatically evaluated against a "golden dataset" of safety-critical prompts to prevent catastrophic forgetting of alignment.
+□ Immutable Audit Trail: All self-modifications (to model weights, memory, toolset, or core logic) are logged with details on the trigger, changes made, and outcome. □ Version Control for Safe States: The agent’s state (model, memory, tools) is versioned, with known "safe" versions clearly tagged. □ Tested Rollback Mechanism: A reliable, one-click rollback mechanism exists to revert the agent to a previously known safe version. This mechanism is regularly tested. □ Pre-Update Safety Validation: Before a self-modified model is deployed, it is automatically evaluated against a "golden dataset" of safety-critical prompts to prevent catastrophic forgetting of alignment.
 
-<!-- chunk {"id": "body-0317", "role": "body", "section": "Emergent Risks in Self-Evolving Systems", "weight": 1.0} -->
+<!-- chunk {"id": "body-0266", "role": "body", "section": "Emergent Risks in Self-Evolving Systems", "weight": 1.0} -->
 
-Behavioral &amp; Alignment Safety
-▫ Continuous Runtime Monitoring: An active monitoring system tracks agent actions, flagging deviations from expected behavior, anomalous resource usage, or signs of unsafe actions.
-▫ Reward Hacking Detection: Key metrics are monitored for signs of reward hacking (e.g., exploiting loopholes in reward functions). Alerts are configured for sharp, unexplained metric changes.
-▫ Automated Red-Teaming: A continuous red-teaming framework is active, programmatically generating and running test scenarios to probe for emergent misalignment, value drift, and new failure modes.
-▫ Goal Guardrails: Strict constraints are placed on the agent’s ability to modify its own fundamental goals or safety constraints. Any such change requires human review.
+Behavioral & Alignment Safety □ Continuous Runtime Monitoring: An active monitoring system tracks agent actions, flagging deviations from expected behavior, anomalous resource usage, or signs of unsafe actions. □ Reward Hacking Detection: Key metrics are monitored for signs of reward hacking (e.g., exploiting loopholes in reward functions). Alerts are configured for sharp, unexplained metric changes. □ Automated Red-Teaming: A continuous red-teaming framework is active, programmatically generating and running test scenarios to probe for emergent misalignment, value drift, and new failure modes. □ Goal Guardrails: Strict constraints are placed on the agent’s ability to modify its own fundamental goals or safety constraints. Any such change requires human review.
 
-<!-- chunk {"id": "body-0318", "role": "body", "section": "Emergent Risks in Self-Evolving Systems", "weight": 1.0} -->
+<!-- chunk {"id": "body-0267", "role": "body", "section": "Emergent Risks in Self-Evolving Systems", "weight": 1.0} -->
 
-Data Privacy &amp; Memory Integrity
-▫ Proactive Memory Defense: Mechanisms like dual-memory structures or consensus validation are in place to detect, isolate, and neutralize potentially "poisoned" or harmful memories before they influence behavior.
-▫ PII Detection and Sanitization: Automated tools are used to detect and redact/anonymize Personally Identifiable Information (PII) before it is stored in long-term memory or used in training.
-▫ Data Minimization Principle: The agent is configured to only collect and retain data that is strictly necessary for its tasks, and data retention policies are enforced.
-▫ Privacy Regulation Compliance: The system is designed to comply with relevant data privacy regulations (e.g., GDPR, CCPA).
+Data Privacy & Memory Integrity □ Proactive Memory Defense: Mechanisms like dual-memory structures or consensus validation are in place to detect, isolate, and neutralize potentially "poisoned" or harmful memories before they influence behavior. □ PII Detection and Sanitization: Automated tools are used to detect and redact/anonymize Personally Identifiable Information (PII) before it is stored in long-term memory or used in training. □ Data Minimization Principle: The agent is configured to only collect and retain data that is strictly necessary for its tasks, and data retention policies are enforced. □ Privacy Regulation Compliance: The system is designed to comply with relevant data privacy regulations (e.g., GDPR, CCPA).
 
-<!-- chunk {"id": "body-0319", "role": "body", "section": "Emergent Risks in Self-Evolving Systems", "weight": 1.0} -->
+<!-- chunk {"id": "body-0268", "role": "body", "section": "Emergent Risks in Self-Evolving Systems", "weight": 1.0} -->
 
-Operational Controls &amp; Governance
-▫ Human-in-the-Loop for Critical Actions: High-stakes actions (e.g., large financial transactions, data deletion, communication with external users) are gated by a mandatory human approval step.
-▫ Clear Incident Response Plan: A documented plan is in place for responding to safety failures, including steps for immediate shutdown, rollback, and analysis.
-▫ Centralized Dashboard for Oversight: A dashboard provides human operators with real-time visibility into the agent’s behavior, state, and active safety alerts.
-▫ Explainability &amp; Traceability: The system provides clear explanations for why a particular action was taken, linking it back to specific memories, goals, or model inferences in the audit trail.
+Operational Controls & Governance □ Human-in-the-Loop for Critical Actions: High-stakes actions (e.g., large financial transactions, data deletion, communication with external users) are gated by a mandatory human approval step. □ Clear Incident Response Plan: A documented plan is in place for responding to safety failures, including steps for immediate shutdown, rollback, and analysis. □ Centralized Dashboard for Oversight: A dashboard provides human operators with real-time visibility into the agent’s behavior, state, and active safety alerts. □ Explainability & Traceability: The system provides clear explanations for why a particular action was taken, linking it back to specific memories, goals, or model inferences in the audit trail.
 
-<!-- chunk {"id": "body-0320", "role": "body", "section": "Prescriptive Guardrails and Mitigation Strategies", "weight": 1.0} -->
+<!-- chunk {"id": "body-0269", "role": "body", "section": "Prescriptive Guardrails and Mitigation Strategies", "weight": 1.0} -->
 
 Addressing the emergent risks of self-evolution requires moving beyond descriptive warnings to implementing prescriptive, actionable guardrails. While early frameworks like TrustAgent have explored multi-stage strategies (i.e., pre-, in-, and post-planning) to foster safer behavior, the unique dynamics of self-evolution call for a more comprehensive \"safety lifecycle\" approach. Future research and development are expected to focus on integrating safeguards at every stage of the agent's operation.
 
-<!-- chunk {"id": "body-0321", "role": "body", "section": "Prescriptive Guardrails and Mitigation Strategies", "weight": 1.0} -->
+<!-- chunk {"id": "body-0270", "role": "body", "section": "Prescriptive Guardrails and Mitigation Strategies", "weight": 1.0} -->
 
 Sandboxing and verification for tool and code execution: To mitigate risks from tool use, all agent-generated or externally-sourced tools must be executed in a strictly sandboxed environment. Furthermore, automated safety verification, such as static analysis and vulnerability scanning, should be a default step before a new tool is integrated. For securing tool interaction protocols, runtime defense pipelines provide layered detection against threats like tool poisoning and prompt injection.
 
-<!-- chunk {"id": "body-0322", "role": "body", "section": "Prescriptive Guardrails and Mitigation Strategies", "weight": 1.0} -->
+<!-- chunk {"id": "body-0271", "role": "body", "section": "Prescriptive Guardrails and Mitigation Strategies", "weight": 1.0} -->
 
 Audit trails and failsafes for self-modification: Any self-modification must be accompanied by a comprehensive audit trail. This ensures that changes are traceable and reversible. Implementing rollback and failsafe patterns is critical, allowing the system to revert to a previously known safe state if undesirable behavior is detected. For memory, proactive defenses like A-MemGuard propose dual-memory structures and consensus-based validation to identify and isolate \"poisoned\" memories before they corrupt behavior.
 
-<!-- chunk {"id": "body-0323", "role": "body", "section": "Prescriptive Guardrails and Mitigation Strategies", "weight": 1.0} -->
+<!-- chunk {"id": "body-0272", "role": "body", "section": "Prescriptive Guardrails and Mitigation Strategies", "weight": 1.0} -->
 
 Continuous monitoring and red-teaming for long-horizon drift: Static, pre-deployment safety evaluations are insufficient. Continuous monitoring of agent behavior is necessary to detect long-horizon value drift. This can be achieved through red-teaming scenarios designed to test for emergent misalignment. For GUI agents, hybrid validation frameworks like OS-Sentinel combine formal verifiers with contextual judges to provide robust, in-workflow safety monitoring.
 
-<!-- chunk {"id": "body-0324", "role": "body", "section": "Prescriptive Guardrails and Mitigation Strategies", "weight": 1.0} -->
+<!-- chunk {"id": "body-0273", "role": "body", "section": "Prescriptive Guardrails and Mitigation Strategies", "weight": 1.0} -->
 
 Approval gates and privacy-protection measures: For high-stakes actions, approval gates requiring human-in-the-loop confirmation should be implemented. Furthermore, given that agents struggle with handling sensitive data, robust privacy-protection measures are necessary to prevent leakage and ensure a balanced and secure deployment.
 
-<!-- chunk {"id": "body-0325", "role": "body", "section": "Prescriptive Guardrails and Mitigation Strategies", "weight": 1.0} -->
+<!-- chunk {"id": "body-0274", "role": "body", "section": "Prescriptive Guardrails and Mitigation Strategies", "weight": 1.0} -->
 
-To aid practitioners, we synthesize these strategies into a compliance checklist for deploying self-evolving agents. In conclusion, deploying reliable, controllable, and safe self-evolving systems is a critical and active area of research. Future work must move towards building a comprehensive safety-aware evolutionary lifecycle, integrating robust verification, continuous monitoring, and adaptive guardrails to ensure that the agents remain aligned with human values and safety constraints as they become more autonomous.
+To aid practitioners, we synthesize these strategies into a compliance checklist for deploying self-evolving agents (See Table 12). In conclusion, deploying reliable, controllable, and safe self-evolving systems is a critical and active area of research. Future work must move towards building a comprehensive safety-aware evolutionary lifecycle, integrating robust verification, continuous monitoring, and adaptive guardrails to ensure that the agents remain aligned with human values and safety constraints as they become more autonomous.
 
-<!-- chunk {"id": "body-0326", "role": "body", "section": "Ecosystems of Multi-Agents", "weight": 1.0} -->
+<!-- chunk {"id": "body-0275", "role": "body", "section": "Ecosystems of Multi-Agents", "weight": 1.0} -->
 
 Multi-agent self-evolving systems face several unique challenges that require further exploration.
 
-<!-- chunk {"id": "body-0327", "role": "body", "section": "Balancing Individual and Collective Reasoning", "weight": 1.0} -->
+<!-- chunk {"id": "body-0276", "role": "body", "section": "Balancing Individual and Collective Reasoning", "weight": 1.0} -->
 
 Recent studies highlight the difficulty of balancing independent reasoning with effective group decision-making in multi-agent environments. While collective discussions can significantly enhance diagnostic reasoning, agents often risk becoming overly reliant on group consensus, thereby diminishing their independent reasoning capabilities. To mitigate this issue, future research should explore dynamic mechanisms that adjust the relative weight of individual versus collective input. Such an approach would help prevent decision-making from being dominated by a single or a small subset of agents, ultimately promoting robust, balanced consensus-building and innovation. Additionally, developing explicit knowledge bases and standardized updating methodologies---leveraging agents' successes and failures---could further improve the agents' self-evolution abilities and strengthen their individual reasoning contributions within collaborative contexts.
 
-<!-- chunk {"id": "body-0328", "role": "body", "section": "Efficient Frameworks and Dynamic Evaluation", "weight": 1.0} -->
+<!-- chunk {"id": "body-0277", "role": "body", "section": "Efficient Frameworks and Dynamic Evaluation", "weight": 1.0} -->
 
 Another crucial challenge lies in developing efficient algorithms and adaptive frameworks that allow agents to collaborate effectively while preserving their individual decision-making strengths. introduced adaptive reward models and optimized dynamic network structures, which can significantly enhance cooperative self-improvement among agents. However, a major gap identified by is the absence of clear mechanisms for agents to dynamically manage and update their knowledge. Addressing this issue will require new frameworks that explicitly integrate continuous learning and adaptive collaboration mechanisms. Furthermore, existing benchmarks for multi-agent evaluation are predominantly static and therefore fail to capture the long-term adaptability and continuous evolution of agent roles. Future benchmarks should incorporate dynamic assessment methods, reflecting ongoing adaptation, evolving interactions, and diverse contributions within multi-agent systems, thus providing more comprehensive evaluation metrics for self-evolving agents.
 
-<!-- chunk {"id": "body-0329", "role": "body", "section": "Conclusion", "weight": 1.5} -->
+<!-- chunk {"id": "body-0278", "role": "body", "section": "Conclusion", "weight": 1.5} -->
 
 The emergence of self-evolving agents marks a paradigm shift in artificial intelligence, moving beyond static, monolithic models toward dynamic agentic systems capable of continual learning and adaptation. As language agents are increasingly deployed in open-ended, interactive environments, the ability to evolve, adapting reasoning processes, tools, and behaviors in response to new tasks, knowledge, and feedback, has become essential for building the next generation of agentic systems. In this survey, we provide the first comprehensive and systematic review of self-evolving agents, organized around three foundational questions: what aspects of an agent should evolve, when evolution should occur, and how to implement evolutionary processes effectively. Moreover, we discuss several methods for evaluating the progress of self-evolving agents in terms of metrics and benchmarks, followed by corresponding applications and future directions. The evolution of these agents will require significant advancements in models, data, algorithms, and evaluation practices, and so. Addressing issues such as catastrophic forgetting, human preference alignment during autonomous evolution, and the co-evolution of agents and environments will be key to unlocking agents that are not only adaptive but also trustworthy and aligned with human values.
 
-<!-- chunk {"id": "body-0330", "role": "body", "section": "Conclusion", "weight": 1.5} -->
+<!-- chunk {"id": "body-0279", "role": "body", "section": "Conclusion", "weight": 1.5} -->
 
 We hope this survey provides a foundational framework for researchers and practitioners to design, analyze, and advance the development and progress of self-evolving agents.

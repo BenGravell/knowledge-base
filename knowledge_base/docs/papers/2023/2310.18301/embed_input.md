@@ -24,38 +24,12 @@ This demo file is intended to serve as a "starter file" for the Robotics: Scienc
 
 <!-- chunk {"id": "body-0006", "role": "body", "section": "RSS citations", "weight": 1.0} -->
 
-Please make sure to include `natbib.sty` and to use the `plainnat.bst` bibliography style. `natbib` provides additional citation commands, most usefully `\citet`. For example, rather than the awkward construction
+Please make sure to include `natbib.sty` and to use the `plainnat.bst` bibliography style. `natbib` provides additional citation commands, most usefully ``. For example, rather than the awkward construction rendered as "\[kalman1960new\] demonstrated...," or the inconvenient rendered as "Kalman \[kalman1960new\] demonstrated...", one can write which renders as "kalman1960new demonstrated..." and is both easy to write and much easier to read.
 
-<!-- chunk {"id": "body-0007", "role": "body", "section": "RSS citations", "weight": 1.0} -->
+<!-- chunk {"id": "body-0007", "role": "body", "section": "III-A RSS Hyperlinks", "weight": 1.0} -->
 
-rendered as "\[kalman1960new\] demonstrated...," or the inconvenient
+This year, we would like to use the ability of PDF viewers to interpret hyperlinks, specifically to allow each reference in the bibliography to be a link to an online version of the reference. As an example, if you were to cite "Passive Dynamic Walking" \[McGeer01041990\], the entry in the bibtex would read: author = {McGeer, Tad}, title = {\href{ Dynamic Walking}}, journal = {The International Journal of Robotics Research} and the entry in the compiled PDF would look like: Tad McGeer. Passive Dynamic Walking. The International Journal of Robotics Research, 9:62--82, 1990. where the title of the article is a link that takes you to the article on IJRR's website.
 
-<!-- chunk {"id": "body-0008", "role": "body", "section": "RSS citations", "weight": 1.0} -->
-
-rendered as "Kalman \[kalman1960new\] demonstrated...", one can write
-
-<!-- chunk {"id": "body-0009", "role": "body", "section": "RSS citations", "weight": 1.0} -->
-
-which renders as "kalman1960new demonstrated..." and is both easy to write and much easier to read.
-
-<!-- chunk {"id": "body-0010", "role": "body", "section": "III-A RSS Hyperlinks", "weight": 1.0} -->
-
-This year, we would like to use the ability of PDF viewers to interpret hyperlinks, specifically to allow each reference in the bibliography to be a link to an online version of the reference.
-
-<!-- chunk {"id": "body-0011", "role": "body", "section": "III-A RSS Hyperlinks", "weight": 1.0} -->
-
-author = {McGeer, Tad},
-title = {\href{ Dynamic Walking}},
-journal = {The International Journal of Robotics Research}
-
-<!-- chunk {"id": "body-0012", "role": "body", "section": "III-A RSS Hyperlinks", "weight": 1.0} -->
-
-Tad McGeer. Passive Dynamic Walking. The International Journal of Robotics Research, 9:62--82, 1990.
-
-<!-- chunk {"id": "body-0013", "role": "body", "section": "III-A RSS Hyperlinks", "weight": 1.0} -->
-
-where the title of the article is a link that takes you to the article on IJRR's website.
-
-<!-- chunk {"id": "body-0014", "role": "body", "section": "III-A RSS Hyperlinks", "weight": 1.0} -->
+<!-- chunk {"id": "body-0008", "role": "body", "section": "III-A RSS Hyperlinks", "weight": 1.0} -->
 
 Linking cited articles will not always be possible, especially for older articles. There are also often several versions of papers online: authors are free to decide what to use as the link destination yet we strongly encourage to link to archival or publisher sites (such as IEEE Xplore or Sage Journals). We encourage all authors to use this feature to the extent possible.

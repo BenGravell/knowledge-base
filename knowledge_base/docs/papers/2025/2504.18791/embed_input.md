@@ -11,3 +11,179 @@ Low-order linear System IDentification (SysID) addresses the challenge of estima
 <!-- chunk {"id": "abstract-0003", "role": "abstract", "section": "Abstract", "weight": 2.0} -->
 
 Finally, we demonstrate algorithms that solve these nonconvex programs and validate our theoretical claims on synthetic data.
+
+<!-- chunk {"id": "body-0004", "role": "body", "section": "Introduction", "weight": 1.5} -->
+
+We consider the linear time-invariant system (LS) with time t ∈ N, x t ∈ R n x as hidden states, u t ∈ R n u as control inputs, y t ∈ R n y as outputs, ζ t ∈ R n y as output noise, and system parameters (A ∈ R n x × n x, B ∈ R n x × n u, C ∈ R n y × n x, D ∈ R n y × n u) described as Linear System IDentification (SysID) aims to estimate these parameters (A, B, C, D) using finite rollouts with finite length trajectories, { (u i t, y i t) 2 L +2 t =1 } N i =1. However, the true system order or state dimension n x is typically unknown. It is of practical interest to find systems that are minimal order as such models provide faster response times, simplified control designs, and improved robustness, while mitigating overfitting during the learning phase. This task can be formulated as a dimension minimization problem under an L 2 norm constraint (see Program (P0)). However, solving this problem is known to be NP-HARD.
+
+<!-- chunk {"id": "body-0005", "role": "body", "section": "Introduction", "weight": 1.5} -->
+
+In classical linear system theory, the order of the system is determined by the rank of the Hankel matrix constructed from the Markov parameters ( CB,CAB,...,CA 2 L +1 B ). Convex relaxations, such as minimizing the Hankel nuclear norm instead of the rank, have been proposed to make this problem computationally tractable. However, this presents two key challenges: (i) Computational complexity: The number of parameters scales linearly with the trajectory length L, making nuclear norm minimization increasingly difficult. (ii) Statistical inefficiency: The high dimensionality leads to worse statistical error rates and larger sample complexity requirements.
+
+<!-- chunk {"id": "body-0006", "role": "body", "section": "Introduction", "weight": 1.5} -->
+
+In the literature on matrix sensing, nuclear norm minimization is tackled via nonconvex reparameterization using its variational form with Frobenius norms. This reformulation enables the use of efficient first-order optimization methods, such as gradient descent and Nesterov acceleration, which converge in O (1 /T ), and O (1 /T 2 ), respectively, where T is the number of iterations. In contrast, direct nuclear norm minimization often requires computing proximal operators that depend on SVD, making it less computationally efficient. In this work, we propose two reformulations, the first of which is Hankel nuclear norm minimization for SysID (see Program (P1)) using the BM factorization. Despite being nonconvex, this formulation eliminates the need for frequent SVD computations, significantly enhancing computational efficiency, and can still be provably globally optimized in polynomial time.
+
+<!-- chunk {"id": "body-0007", "role": "body", "section": "Introduction", "weight": 1.5} -->
+
+While this first reformulation offers clear advantages in terms of optimization efficiency, the statistical error rates and sample complexities remain comparable to those of Hankel nuclear norm minimization. In particular, the statistical error rates scale with trajectory length, despite the number of system parameters remaining constant. Our second reformulation (see Program (P2)) proposes a method of SysID of a real, diagonalizable system where we perform optimization directly over the system parameters space ( A,B,C,D ) with a structured regularization similar to an atomic norm decomposition. Although this reformulation is also nonconvex, we show that it can be efficiently optimized to global optimality. Furthermore, this approach achieves improved statistical error rates and reduced sample complexity compared to existing Hankel nuclear norm minimization heuristics.
+
+<!-- chunk {"id": "body-0008", "role": "body", "section": "Introduction", "weight": 1.5} -->
+
+Contributions. Our key contributions are as follows: 1. Nonconvex Relaxations for low-order SysID. We propose two nonconvex reformulations (i) for general linear systems via BM re-parametrization (P1) of the Hankel matrix, (ii) by directly optimizing over system parameters (P2), restricted to real, diagonalizable systems. These nonconvex problems are first of their kind and serve as relaxations to the NP-HARD problem (P0). 2. Global Optimality Guarantees. We provide guarantees of global optimality for the two nonconvex reformulations when they are solved using first-order optimization procedures. Furthermore, we affirm that these nonconvex problems can be solved in polynomial time. The second reformulation overcomes the quadratic dependency on trajectory length in the computational efficiency of existing methods. 3. Statistical Error Rates and Sample Complexities. We provide statistical error rates and sample complexities for both the reformulations while the first reformulation scales poorly compared to the second due to its linear dependency on trajectory length. 4. Numerical evidence.
+
+<!-- chunk {"id": "body-0009", "role": "body", "section": "Introduction", "weight": 1.5} -->
+
+We propose algorithms to tackle these nonconvex programs, provide numerical simulations that corroborate our theoretical insights. Under a fixed compute budget, our algorithms outperform existing methods.
+
+<!-- chunk {"id": "body-0010", "role": "body", "section": "Introduction", "weight": 1.5} -->
+
+These results highlight that for real, diagonalizable systems the reformulation (P2) achieves both superior statistical efficiency and reduced sample complexity compared to (P1), Sun et al., and Lee.
+
+<!-- chunk {"id": "body-0011", "role": "body", "section": "Introduction", "weight": 1.5} -->
+
+Organization. First, in §2 we introduce the problem and mathematical formulations. Next, we move onto §3 where we present optimality certificates for the nonconvex formulations. Then, in §4 we present statistical error rates and sample complexities for each of the formulations. Later, we move to §5 that presents numerical experimentation and comparison with existing methods. Finally, we conclude and discuss the future work in §6. Further related works and proofs for all the mathematical statements can be found in Appendix of our arXiv version.
+
+<!-- chunk {"id": "body-0012", "role": "body", "section": "Problem Formulation", "weight": 1.0} -->
+
+Given a noisy linear time-invariant system (LS), we are interested in special approximation of outputs { y t } 2 L +2 t =1 for given inputs { u t } 2 L +2 t =1 that has low-order, or smaller state dimension, n x. Formally, define impulse response 1 G (A,B,C,D) ∈ R 2(L +1) n y × 2(L +1) n u where i, j ∈ [2(L + 1)], and Our goal is to solve the optimization problem (P0), where Y i:= [y i 1 y i 2... y i 2(L +1)] ∈ R n y × 2(L +1), U i:= [u i 1 u i 2... u i 2(L +1)] R n y × 2(L +1), vec: R m × n → R m · n × 1 is column-wise stacking operator. It is well known that solving (P0) in general is NP-HARD.
+
+<!-- chunk {"id": "body-0013", "role": "body", "section": "Problem Formulation", "weight": 1.0} -->
+
+Numerous convex relaxations of (P0) have been proposed to tackle this issue under certain conditions (beyond the scope of this work), such as minimizing the nuclear norm of the Hankel matrix. To place this in context, define the Hankel operator H: R n y × (2 L +1) n u → R (L +1) n y × (L +1) n u for a block sequence { K t } t ∈ [2 L +1] ⊂ R n y × n u as 1. Due to the trivial estimation of D we often omit its dependency in the impulse response and denote it as G (A,B,C).
+
+<!-- chunk {"id": "body-0014", "role": "body", "section": "Problem Formulation", "weight": 1.0} -->
+
+In Sun et al. the authors proposed to solve the reformulated problem After obtaining the Markov parameters H they perform the Ho-Kalman procedure to obtain the system parameters (A,B,C,D). The matrix H has 2(L + 1) n y n u number of unique parameters to estimate. The time complexity of SVD on the matrix H (H) is O (L 2 n y n x), so the quadratic dependence on L it causes a computational bottleneck when L is large. Therefore, we propose adopting a BM type re-parameterization in two ways: (i) by learning two low-rank matrices whose product forms a Hankel matrix, and (ii) by directly estimating the system parameters (A,B,C,D). First, recall the adjoint of the Hankel operator H †: R (L +1) n y × (L +1) n u → R n y × (2 L +1) n u as and note that H◦H † = id, and H † ◦ H = id, where id is the identity operator.
+
+<!-- chunk {"id": "body-0015", "role": "body", "section": "Problem Formulation", "weight": 1.0} -->
+
+First formulation. We define the optimization program (P1) as where V ∈ R (L +1) n y × n x, and Z ∈ R (L +1) n u × n x. Let the impulse response for this parameterization be G ′ (V, Z) ∈ R 2(L +1) n y × 2(L +1) n u.
+
+<!-- chunk {"id": "body-0016", "role": "body", "section": "Problem Formulation", "weight": 1.0} -->
+
+Program (P1) redefines the nuclear norm minimization via the sum of squared Frobenius norms 1 2 [ ‖ V ‖ 2 F + ‖ Z ‖ 2 F ]. In contrast to the nuclear norm regularization, the Frobenius norm minimization has time complexity O ( L ( n y + n u )), which is only linear in L. However, in both Programs (P1') and (P1), the number of parameters scales with the trajectory length. For (P1'), it has been shown that the sample complexity is NL ≳ ˜ O ( L 2 n u ( n y + n u )). In contrast, we will see in Theorem 2 (P1) achieves a smaller sample complexity of NL ≳ ˜ O ( Ln u ( n y + n u )). Nevertheless, there remains room for improvement in the sample complexity, given that we have access to O ( NL ) data points. We consider another reformulation that ameliorates this suboptimal trajectory dependence. Unfortunately, the theoretical guarantees necessitate that the systems be real, diagonalizable, which imposes limitations on the class of realizable systems.
+
+<!-- chunk {"id": "body-0017", "role": "body", "section": "Problem Formulation", "weight": 1.0} -->
+
+However, previous studies have shown that estimation of non-diagonalizable systems is highly challenging which is an avenue for future work.
+
+<!-- chunk {"id": "body-0018", "role": "body", "section": "Problem Formulation", "weight": 1.0} -->
+
+Second formulation. For real, diagonalizable systems we optimize over the system parameters and dimension directly via a regularization that can induce low-order structure. We achieve this by considering the program where a ∈ R n x, and Θ(a, B, C, D) is a regularizer that we will define subsequently in §3. Since we are dealing with real, diagonalizable systems the program (P2) optimizes only on the spectrum of state-transition matrix A, and eigen matrix is assumed to be absorbed in B, and C. Although Program (P2) is nonconvex, specific choices of Θ(a, B, C, D) allow us to provide a certificate of optimality when employing first-order optimization methods. In this work, we provide certificates for global optimality and analyze statistical recovery errors for the programs (P1), and (P2) for a trivial feed-through matrix, D = 0. The bulk of the work (in §3) relies in re-writing the programs (P1), and (P2) as sums of slightly generalized positively homogenous functions for which global optimality guarantees are well studied in Haeffele and Vidal.
+
+<!-- chunk {"id": "body-0019", "role": "body", "section": "Problem Formulation", "weight": 1.0} -->
+
+In §4 we instantiate the approach of Ziemann and Tu to provide tight (up-to log factors) error rates and sample complexities.
+
+<!-- chunk {"id": "body-0020", "role": "body", "section": "Optimality certificates of nonconvex programs", "weight": 1.0} -->
+
+In this section, we present certificates for the global optimality to each of the formulations (P1), and (P2), whose proofs can be found in §A. First, we state Proposition 1 that establishes optimality of any stationary points of (P1).
+
+<!-- chunk {"id": "body-0021", "role": "body", "section": "Optimality certificates of nonconvex programs", "weight": 1.0} -->
+
+Proposition 1 Let (U i, Y i) be N roll-outs of the system (LS). Consider the estimator via factors ˆ V ∈ R (L +1) n y × n x, ˆ Z ∈ R (L +1) n u × n x. Define U ′ i:= [U i] 1:2 L +1, and Suppose ˆ V, ˆ Z are any stationary points of Program (P1). If Polar (P1) = 1, then ˆ V and ˆ Z are globally optimal. Otherwise, the objective can be reduced by augmenting the top-singular vectors (v ∗, z ∗) of H (M) to [ˆ V τ ∗ v ∗] ∈ R (L +1) n y × (n x +1) and [ˆ Z τ ∗ z ∗] ∈ R (L +1) n u × (n x +1), for some scaling factor τ ∗.
+
+<!-- chunk {"id": "body-0022", "role": "body", "section": "Optimality certificates of nonconvex programs", "weight": 1.0} -->
+
+Corollary 1 Under the conditions of Proposition 1, if (ˆ n x, ˆ V, ˆ Z) are the globally optimal points of program (P1), then the system has the order ˆ n x and system parameters take the form Remarks: From Proposition 1 we can utilize any first-order algorithms such as gradient descent, Polyak's momentum method, or Nesterov accelerated method to approximately reach stationary points in polynomial time, we assume exact convergence for technical convenience. Then from the Equation 4 we need to verify the condition Polar (P1) = 1. For which we need to compute the Hankel norm that is computationally expensive requiring O (Ln y n u) iterations. Moreover, Polar (P1) can never be strictly less than 1, see Haeffele and Vidal for further discussion. However, for program (P2) we will see that such optimality check is faster.
+
+<!-- chunk {"id": "body-0023", "role": "body", "section": "Optimality certificates of nonconvex programs", "weight": 1.0} -->
+
+To estimate the system parameters we can perform a pseudo inverse on the learned factors, V, Z as presented in Corollary 1. By the variational nuclear norm reparamterization, we have eliminated the need for separate Ho-Kalman procedure that was needed in many Sub-space recovery algorithms like N4SID.
+
+<!-- chunk {"id": "body-0024", "role": "body", "section": "Optimality certificates of nonconvex programs", "weight": 1.0} -->
+
+Before we state our next results we define γ ( a ):= ∑ L t =0 a 2 t, P ( a ) ∈ R 2( L +1) × 2( L +1) where Regularization Θ( a, B, C, D ) resembles the atomic norm type norm considered in matrix factorization problems whose optimality guarantees are well-studied. We next present optimality guarantees for applying this atomic-norm-type regularization directly to system parameters in the context of low-order SysID.
+
+<!-- chunk {"id": "body-0025", "role": "body", "section": "Optimality certificates of nonconvex programs", "weight": 1.0} -->
+
+Theorem 1 Let (U i, Y i) be N roll-outs from the system (LS) with x 0 = 0. Consider the estimator of system parameters via (diag (a), [b 1, b 2,..., b n x] T, [c 1, c 2,..., c n x]), of order n x where a ∈ R n x, b · ∈ R n u, c · ∈ R n y. Define U ′ i:= [U i] 1:2 L +1, and Let { a j, c j, b j } n x j =1 be any stationary points of program (P2). If Polar (P2) = 1, then { a j, c j, b j } are global optimal points. Otherwise, we can reduce the objective by the parameters { a j, c j, b j } n x j =1 ∪ { τ 1 a ∗, τ c ∗, τ b ∗ } for some scalings, τ 1, τ, where a ∗ is the supremizer of κ and c ∗, b ∗ are the top-singular vectors the matrix M (a ∗).
+
+<!-- chunk {"id": "body-0026", "role": "body", "section": "Optimality certificates of nonconvex programs", "weight": 1.0} -->
+
+Remarks: Similar to the discussion in Proposition 1, we can use any first-order optimization methods to approximately reach stationary points in polynomial time. Once we reach stationary points, this leaves us to check the condition Polar (P2) = 1, this requires us to maximize the rational matrix polynomial, this can be done through line search methods in one-dimension such as goldensection or Fibonacci search in polynomial time.
+
+<!-- chunk {"id": "body-0027", "role": "body", "section": "Optimality certificates of nonconvex programs", "weight": 1.0} -->
+
+Proof Strategy: Our proofs for Proposition 1, and Theorem 1 rely using the general framework for global optimality by Haeffele and Vidal, who studied global optimality guarantees for the objective of the form, where φ (·), and θ (·) are positively homogeneous with the same degree.
+
+<!-- chunk {"id": "body-0028", "role": "body", "section": "Optimality certificates of nonconvex programs", "weight": 1.0} -->
+
+For program (P1), (P2) we can re-write the predictions and regularization as The pair (Φ n x (P1) (·), Θ n x (P1) (·)) satisfy homogeneity property which enables use the results of Haeffele and Vidal. However, the pair (Φ n x (P2) (a, B, C; U), Θ n x (P2) (a, B, C)) are positively homogeneous with respective to only B and C but not a. Nevertheless, this technical challenge was resolved in Tadipatri et al. by relaxing to a weaker positive homogeneity property.
+
+<!-- chunk {"id": "body-0029", "role": "body", "section": "Statistical error rates and Sample complexities for nonconvex programs", "weight": 1.0} -->
+
+In this section, we present statistical error rates and sample complexities for each of the formulations (P1), and (P2). The high-level proof strategy is same for Theorem 2, and 3 which is discussed near the end of this section for full proofs see §B. To begin, we state few assumptions that are required for statistical recovery of the system parameters. We impose tail conditions on the inputs and noise.
+
+<!-- chunk {"id": "body-0030", "role": "body", "section": "Statistical error rates and Sample complexities for nonconvex programs", "weight": 1.0} -->
+
+Assumption 1 (Data Model) The control inputs, u t ∈ R n u are drawn independently from subGaussian distribution with a proxy variance σ 2 U /n u and zero mean, i.e., for any unit vector v ∈ R n u and ∀ λ ≥ 0 E [ exp ( λ 〈 u t, v 〉 )] ≤ exp ( λ 2 σ 2 U / 2 n u ). Let the covariance of u t be Σ U ⪰ 0, and define block matrix ˜ Σ U = I 2( L +1) ⊗ Σ U. The outputs are governed by the system (LS) with order n ∗ x, and ζ t | u 1: t is conditionally independent sub-Gaussian distribution with a proxy variance σ 2 /n y. Denote the impulse response for this linear system as G ∗.
+
+<!-- chunk {"id": "body-0031", "role": "body", "section": "Statistical error rates and Sample complexities for nonconvex programs", "weight": 1.0} -->
+
+Our next assumption ensures compactness of the parameter class.
+
+<!-- chunk {"id": "body-0032", "role": "body", "section": "Statistical error rates and Sample complexities for nonconvex programs", "weight": 1.0} -->
+
+Assumption 2 (Bounded parameters for (P1)) The learned parameters lie in the parametric class defined by Before we state Theorem 2 we define optimal regularizer and let E t ∈ R n y × 2(L +1) n y such that [E t] 1+(t -1) n y: tn y = I n y, and rest of them to be zero. Now define condition number as Note that Φ P n x (θ; U) (see Equations, and) is linear in U. Therefore, if U follows a Gaussian distribution, the condition number cond F P θ evaluates to 3. For sub-Gaussian distributions, this can be bounded using Proposition 6.1 from Ziemann et al..
+
+<!-- chunk {"id": "body-0033", "role": "body", "section": "Statistical error rates and Sample complexities for nonconvex programs", "weight": 1.0} -->
+
+Theorem 2 Let (U i, Y i) be N i.i.d roll-outs following the Assumptions 1. Fix a δ ∈ (0, 1]. Suppose the regularization parameter is such that λ ≤ ˜ O (n x (n y + n u) N + ln(1 /δ) NL). For any global optimal points (n x, ˆ V, ˆ Z) of program (P1) satisfying Assumption 2. If N/ ln(NL) ≳ cond 2 F (P1) θ × [Ln x (n y + n u) + ln(1 /δ)], then w.p at-least 1 -δ we have that Corollary 2 Under the conditions of Theorem 2, the sample complexity for the recovery of G ∗ through program (P2) is NL ≳ (Ln x (n y + n u) + ln(1 /δ)) · polylog (NL).
+
+<!-- chunk {"id": "body-0034", "role": "body", "section": "Statistical error rates and Sample complexities for nonconvex programs", "weight": 1.0} -->
+
+Remarks. For a fixed failure rate in Equation we recover near tight statistical error rates, naïvely we have recovery error ≲ √ # parameters / # samples. This is optimal up-to a logarithmic factor in comparison to least-squares error. From Corollary 2 we infer that the sample complexity grows nearly linearly with the trajectory length, i.e., NL ≥ ˜ O ( Ln x ( n y + n u )). This recovers the program (P1') studied. In practice, dependency on the trajectory length is undesirable because each trajectory in itself provides data points albeit dependent ones.
+
+<!-- chunk {"id": "body-0035", "role": "body", "section": "Statistical error rates and Sample complexities for nonconvex programs", "weight": 1.0} -->
+
+However, this limitation does not apply to formulation (P2). We next present Theorem 3 which provide error rates and sample complexities for program (P2), effectively addressing the aforementioned issue. To set the stage, we begin by introducing a compactness assumption on the system parameters, similar to Assumption 2.
+
+<!-- chunk {"id": "body-0036", "role": "body", "section": "Statistical error rates and Sample complexities for nonconvex programs", "weight": 1.0} -->
+
+Assumption 3 (Bounded parameters for (P2)) The learned parameters lie in the parametric class defined by Furthermore for all (a ′, B ′, C ′), (a, B, C) ∈ F (P2) θ and some constant k a dependent only on B a it holds true that Next define optimal regularizer similar to Equation Now we present the statistical recovery guarantee of program (P2).
+
+<!-- chunk {"id": "body-0037", "role": "body", "section": "Statistical error rates and Sample complexities for nonconvex programs", "weight": 1.0} -->
+
+Theorem 3 Let (U i, Y i) be N i.i.d roll-outs following the Assumptions 1. Fix a δ ∈ (0, 1]. Suppose the regularization parameter is such that λ ≤ ˜ O (n x (n y + n u)+ln(1 /δ) NL). For any global optimal points (n x, { ˆ a j }, ˆ B, ˆ C) of program (P2) satisfies Assumption 3. If N/ ln(NL) ≳ cond 2 F (P2) θ × [n x (n y + n u) + ln(1 /δ)], then w.p at-least 1 -δ we have that Corollary 3 Under the conditions of Theorem 3, the following statements holds true, 1. If A ∗ is not real, diagonalizable then the upper bound of Equation 17 evaluates to ∞. 2. Otherwise, the sample complexity for the recovery of G ∗ with program (P2) is NL ≳ [n x (n y + n u) + ln(1 /δ)] · polylog (NL).
+
+<!-- chunk {"id": "body-0038", "role": "body", "section": "Statistical error rates and Sample complexities for nonconvex programs", "weight": 1.0} -->
+
+Remarks: Statement 1 of Corollary 3 establishes that if the underlying system is not real, diagonalizable then the statistical error obtained in Theorem 3 becomes trivial. Suppose that underlying system was real, diagonalizable then we would require a total samples, NL ≳ ˜ O ( n x ( n y + n x )). By naïve counting argument we have n x ( n y + n u ) parameters to estimate, therefore, we require atleast those many samples to estimate all the parameters. This fact is indeed reflected in Statement 2. In comparison to Program (P1) the statistical error rate and sample complexity are L -folds tighter.
+
+<!-- chunk {"id": "body-0039", "role": "body", "section": "Statistical error rates and Sample complexities for nonconvex programs", "weight": 1.0} -->
+
+Comparison with existing works. Table 1 summarizes the comparison between our bounds and those from existing key works. We observe that program (P1) achieves statistical error rates and sample complexity comparable to those of Lee. However, unlike our approach, the method in Lee assumes knowledge of the true system order, which we do not require. For real, diagonalizable systems, program (P2) additionally removes the dependency on trajectory length present in program (P1) and prior methods. In terms of both statistical error rate and sample complexity, we observe at least an L -fold improvement.
+
+<!-- chunk {"id": "body-0040", "role": "body", "section": "Statistical error rates and Sample complexities for nonconvex programs", "weight": 1.0} -->
+
+| Methods for low-order SysID | (Error rate) 2 | Sample complexity, N tol ≳ | Proof Strategy. Although Programs (P1) and (P2) are nonconvex in the parameter space, the input-output map remains linear. Thus, we can directly apply the time-dependent excess risk bounds from Theorem 6.1 of Ziemann and Tu, under the additional condition that the impulse response is Lipschitz continuous with respect to the parameters and the parameter space is compact. These conditions are ensured by Assumptions 2 and 3.
+
+<!-- chunk {"id": "body-0041", "role": "body", "section": "Numerical Simulations", "weight": 1.0} -->
+
+In this section, we compare low-order SysID using programs (P1'), (P1), and (P2) through numerical simulations, evaluating time complexity, sample complexity, and trajectory complexity.
+
+<!-- chunk {"id": "body-0042", "role": "body", "section": "Numerical Simulations", "weight": 1.0} -->
+
+Data Generation. We simulate linear trajectories with system order n ∗ x = 5 and dimensions n u = n y = 8. The system matrix A is symmetric with Normal entries, while B and C are Normal matrices. Control inputs are sampled from N (0, I n u /n u ), and outputs are corrupted with Gaussian noise of variance 0. 01. We generate N = 500 rollouts, and trajectory length 2( L +1) = 102.
+
+<!-- chunk {"id": "body-0043", "role": "body", "section": "Numerical Simulations", "weight": 1.0} -->
+
+Algorithmic Implementation. Weuse accelerated proximal gradient descent (D.1) to solve convex program (P1'). For programs (P1), and (P2) we unroll Proposition 1, and Theorem 1 into algorithms (D.2), (D.3) that uses Polyak's gradient descent. For each of the algorithm we fixed regularization parameter, λ = 0. 001 and choose the best learning rate, and momentum rate. For fair comparison, recovery error, ‖ ˆ G -G ∗ ‖ F / √ 2 n y n u ( L +1) was evaluated against CPU runtime rather than iterations of the algorithms. All algorithms are initialized such that they share identical impulse response to ensure consistent starting points.
+
+<!-- chunk {"id": "body-0044", "role": "body", "section": "Numerical Simulations", "weight": 1.0} -->
+
+Ablation Studies. We evaluate recovery loss across varying sample sizes, trajectory lengths, and algorithm performance on real- and non-real-diagonalizable systems. From the results in Figures 1, D.1, and D.2,
+
+<!-- chunk {"id": "body-0045", "role": "body", "section": "Numerical Simulations", "weight": 1.0} -->
+
+- Computational Efficiency. As shown in Figure 1(a), program (P2) outperforms program (P1) and program (P1') in recovering the impulse response within a fixed CPU time budget. Figure 1(b) Figure 1: Performance metrics for a real, diagnosable system. NUC, BM, and SP corresponds to programs (P1'), (P1), and (P2), respectively. Dashed line in 1(c) represents n x = 5. highlights faster loss reduction for program (P2). Noise often necessitates higher-order approximations for program (P1) and (D.3) to achieve global optima, as shown in Figure 1(c) and 1(d).
+
+<!-- chunk {"id": "body-0046", "role": "body", "section": "Numerical Simulations", "weight": 1.0} -->
+
+- Statistical Efficiency. For a fixed sample size or trajectory length (Figure D.1), program (P2) consistently outperforms the others as discussed earlier in the Table 1.
+
+<!-- chunk {"id": "body-0047", "role": "body", "section": "Conclusions", "weight": 1.0} -->
+
+In this work, we focus on performing system identification with minimal state representation. We propose two nonconvex reformulations: (i) a BM-style reparameterization of Hankel nuclear norm minimization, and (ii) direct optimization over the system parameters. Despite their nonconvex nature, we design algorithms with theoretical guarantees of global convergence using first-order optimization methods. Additionally, we derive near tight statistical error rates and sample complexity bounds. Our findings suggest that directly estimating system parameters outperforms alternative approaches in both optimization efficiency and statistical recovery. However, our analysis is currently restricted to systems that are real, diagonalizable. Extending this framework to handle non-diagonalizable systems is an avenue for future work.

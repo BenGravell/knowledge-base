@@ -13,3 +13,455 @@ Learning methods are increasingly used to synthesize controllers from data, yet 
 <!-- chunk {"id": "abstract-0003", "role": "abstract", "section": "Abstract", "weight": 2.0} -->
 
 These results suggest the asymptotic optimality of certainty-equivalent synthesis and motivate the importance of both task-directed experiment design and system co-design for sample-efficient learning in partially observed control.
+
+<!-- chunk {"id": "body-0004", "role": "body", "section": "INTRODUCTION", "weight": 1.5} -->
+
+The problem of learning to control partially observed systems remains poorly understood, even for the simple case of linear systems with quadratic costs and Gaussian noise (LQG). Although the robust control community has long recognized that partial observations introduce substantial additional subtleties, this insight is largely absent from the recent literature on learning-based control and reinforcement learning. In this paper, we fill this gap by examining the fundamental limits and inherent fragility of learning the optimal LQG controller. We characterize the complexity of this problem through its data requirements, that is, its statistical complexity.
+
+<!-- chunk {"id": "body-0005", "role": "body", "section": "Contributions", "weight": 1.0} -->
+
+We make the following contributions: This work is supported in part by an ETH AI Center Postdoctoral Fellowship to Bruce D. Lee. This work is also partially supported by NCCR Automation, grant agreement 51NF40 225155 from the Swiss National Science Foundation and NSF CAREER award ECCS- 204583.
+
+<!-- chunk {"id": "body-0006", "role": "body", "section": "Contributions", "weight": 1.0} -->
+
+Bruce D. Lee is with the ETH AI Center. Anastasios Tsiamis, Manfred Morari, and John Lygeros are with the Institute for Automatic Control at ETH Zurich. Nikolai Matni is with the Department of Electrical and Systems Engineering at the University of Pennsylvania. Emails: bruce.lee@ai.ethz.ch, { atsiamis,mmorari,jlygeros } @control.ee.ethz.ch, nmatni@seas.upenn.edu.
+
+<!-- chunk {"id": "body-0007", "role": "body", "section": "Contributions", "weight": 1.0} -->
+
+- We provide an information-theoretic lower bound on the sample complexity of learning LQG controllers from offline data. The bound applies to any algorithm mapping data to a controller, and thus shows that common practical strategies for mitigating partial observability in control and reinforcement learning (e.g., history stacking) cannot circumvent the fundamental hardness of the problem. - We show the bound in terms of the underlying dynamical system, allowing the construction of 'hard' instances. 1 - We study classical examples of fragile problems from robust control, including an example inspired by Doyle's counterexample and a non-minimum phase system. We show that such fragile instances result in learning problems with high sample complexity.
+
+<!-- chunk {"id": "body-0008", "role": "body", "section": "Contributions", "weight": 1.0} -->
+
+These contributions serve as an important step to enable the design of optimal algorithms, e.g. by task-directed experiment design. They also shed light on the importance of system design as a critical step in the engineering pipeline to enable sample efficient learning, a step that is often neglected in reinforcement learning due to the desire to apply black-box algorithms. By exposing hard instances of linear systems, the results additionally enable strategic design of benchmarks for reinforcement learning that have a clear hierarchy of difficulty.
+
+<!-- chunk {"id": "body-0009", "role": "body", "section": "PROBLEM FORMULATION", "weight": 1.0} -->
+
+We consider the problem of learning to control a partially observed linear dynamical system with an unknown parameter θ ∈ R d θ. The evolution of the system is governed by where x t ∈ R dx denotes the system state, y t ∈ R dy is the observation, u t ∈ R du is the control action, and w t ∈ R dx and v t ∈ R dy are zero-mean Gaussian noise that are independent across time and from each other with covariance matrices Σ w (θ) and Σ v (θ), respectively. We denote the joint noise signal as d t = [w t v t]. We assume that the initial state x 0 is also zero-mean Gaussian with covariance Σ 0 (θ)) and is independent from the noise variables. The system matrices A (·), B (·), C (·), Σ w (·), Σ v (·) and Σ 0 (·) are analytic functions of the unknown parameter θ.
+
+<!-- chunk {"id": "body-0010", "role": "body", "section": "PROBLEM FORMULATION", "weight": 1.0} -->
+
+We additionally assume Σ v (θ) ≻ 0, that the tuple (A (θ), B (θ), C (θ)) is stabilizable and detectable, and that the pair (A (θ) ⊤, Σ w (θ) 1 / 2) is detectable.
+
+<!-- chunk {"id": "body-0011", "role": "body", "section": "Objective", "weight": 1.0} -->
+
+Let K denote a control policy that maps the available observations y 0: t to a control action u t. Let K denote the class of available control policies. The nominal control objective is to find a policy K ∈ K that minimizes the following Linear Quadratic Gaussian (LQG) cost where Q ⪰ 0 with (A (θ), Q 1 / 2) detectable and R ≻ 0. The subscript in the expectation denotes that the states evolve according to the dynamics with the parameter θ, and the superscript denotes that the inputs are generated according to the policy K. We denote the optimal solution to this problem for a fixed parameter θ as It is well established that when K consists of all measurable functions of the past data, y 0: t (causal policies), or of all measurable functions of the past data excluding the most recent measurement, y 0: t -1 (strictly causal policies), the optimal LQG controller is a linear dynamic feedback policy that can be represented as a proper transfer function K θ ∈ R du × dy p, or a strictly proper transfer function K θ ∈ R du × dy s, respectively. This policy can be calculated explicitly given θ; see Section IIC.
+
+<!-- chunk {"id": "body-0012", "role": "body", "section": "Objective", "weight": 1.0} -->
+
+We therefore restrict the policy class to linear dynamical policies represented by K = R du × dy p or K = R du × dy s; in this case, the minimizer in is unique and well-defined. While we present our results for both settings, we focus primarily on strictly causal policies for ease of exposition.
+
+<!-- chunk {"id": "body-0013", "role": "body", "section": "Objective", "weight": 1.0} -->
+
+Since the system θ is unknown, the learner must estimate a controller from data to minimize J ( K,θ ). We adopt the offline reinforcement learning perspective, visualized in Figure 1. First, one collects a dataset D = { ( y n t, u n t ) } T -1,N t =0,n =1 of N independent trajectories of length T, using a historydependent and potentially stochastic exploration policy π exp. This policy is not restricted to lie in K. We denote the distribution over such datasets as ρ π exp,N,T ( θ ).
+
+<!-- chunk {"id": "body-0014", "role": "body", "section": "Objective", "weight": 1.0} -->
+
+Using the dataset D collected by the exploration policy, the learner synthesizes a control policy K D ∈ K. Such an estimated controller incurs an excess cost over the optimal controller of J ( K D, θ ) -J ( K θ, θ ). The excess cost depends on the amount and quality of data available, as well as the efficiency of the learning algorithm.
+
+<!-- chunk {"id": "body-0015", "role": "body", "section": "What are the fundamental limits for the decay in the excess cost incurred by a controller estimated from data?", "weight": 1.0} -->
+
+To answer the above question, we pursue lower bounds on the excess cost that are valid for any learning algorithm. We consider instance-specific minimax lower bounds, which capture the worst case performance of any learning algorithm A near an instance of interest θ ⋆. Specifically, we use local minimax theory, in which we lower bound the ε -local minimax excess cost, defined as where ε > 0 sets the level of locality.
+
+<!-- chunk {"id": "body-0016", "role": "body", "section": "What are the fundamental limits for the decay in the excess cost incurred by a controller estimated from data?", "weight": 1.0} -->
+
+Examining a small ball around the nominal instance reveals the hardness of θ ⋆, while ruling out degenerate algorithms. In particular, the supremum ( ε = 0 ) rules out algorithms that only work for a single system instance, for example, algorithms that ignore the data and return the controller A ( D ) = K θ ⋆. On the other hand, global minimax lower bounds ( ε = ∞ ) can be overly pessimistic since they may include trivially pathological systems (see, for instance, Figure 1 of ) and are uninformative for θ ⋆.
+
+<!-- chunk {"id": "body-0017", "role": "body", "section": "Assumptions", "weight": 1.0} -->
+
+As already stated, we consider linear dynamic policies that are causal or strictly causal, K = R du × dy p or K = R du × dy s, respectively. Note that both classes rule out time-varying or adaptive policies, which are outside the scope of the offline setting.
+
+<!-- chunk {"id": "body-0018", "role": "body", "section": "Assumptions", "weight": 1.0} -->
+
+In the following assumption, we further restrict the complexity of the class K by bounding the H ∞ norm of the closedloop transfer matrix of policies in K interconnected with the nominal plant P θ ⋆, where Assumption 1 (Internal Stability). Define the closed loop map of the plant P u θ ⋆ interconnected with a controller K ∈ R du × dy p as We assume that the policy class K consists of linear, causal controllers, K ∈ R du × dy p, or of linear strictly causal controllers, K ∈ R du × dy s, such that the closed-loop transfer matrices have uniformly bounded norm, sup K ∈K ∥T K ∥ H ∞ < ∞.
+
+<!-- chunk {"id": "body-0019", "role": "body", "section": "Assumptions", "weight": 1.0} -->
+
+Based on the above, we can define which essentially captures the size of the policy class K. The block transfer matrix T K characterizes the mapping of disturbances before and after the controller in a feedback control loop to measurements before and after the controller. Thus having T K ∈ RH ∞ is necessary and sufficient for internal stability of the closed-loop (Theorem 5.3). In the special case where the open loop plant P u θ ⋆ is stable with a bounded H ∞ norm, the bound on ∥T K ∥ H ∞ reduces to a bound on the H ∞ norm of the internal model controller Q = K (I -P u θ ⋆ K) -1.
+
+<!-- chunk {"id": "body-0020", "role": "body", "section": "Review of LQG optimal control", "weight": 1.0} -->
+
+When the system θ is known, the optimal strictly causal LQG controller K θ ∈ R du × dy s can be computed explicitly in the frequency domain as where F (θ) ∈ R du × dx is the LQR gain obtained by solving the Linear Quadratic Regulator (LQR) problem, and L (θ) ∈ R dx × dy is the Kalman predictor gain. The LQR gain is while the Kalman predictor gain is given by The optimal LQG controller can also be implemented in the time-domain as where ˆ x θ t | t -1 ≜ E θ [x t | y 0: t -1, u 0: t -1] is the Kalman predictor estimate for the state x t given the history up to time t -1. In particular, where A o cl (θ) ≜ A (θ) -L (θ) C (θ) is the closed loop map under the Kalman predictor gain. Under the optimal LQG policy, we set u t = u θ t.
+
+<!-- chunk {"id": "body-0021", "role": "body", "section": "Review of LQG optimal control", "weight": 1.0} -->
+
+We similarly define the shorthand for the closed loop map under the LQR controller as A c cl (θ) ≜ A (θ) + B (θ) F (θ).
+
+<!-- chunk {"id": "body-0022", "role": "body", "section": "Review of LQG optimal control", "weight": 1.0} -->
+
+The optimal causal LQG controller can be expressed similarly, see Section VII-F.
+
+<!-- chunk {"id": "body-0023", "role": "body", "section": "Review of LQG optimal control", "weight": 1.0} -->
+
+Since we are dealing with the average infinite horizon behavior, we can set the initial conditions arbitrarily. A convenient choice is ˆ x θ 0 |-1 = 0 and Σ 0 ( θ ) = Σ( θ ). We will assume this throughout the paper. Under this choice, the innovation sequence, defined as e t = y t -C ( θ )ˆ x t | t -1, is Gaussian i.i.d., that is, e t iid ∼ N (0, Σ e ( θ )).
+
+<!-- chunk {"id": "body-0024", "role": "body", "section": "FUNDAMENTAL LIMITS", "weight": 1.0} -->
+
+Our main result lower bounds the local minimax excess control cost of any learning algorithm. The lower bound is expressed in terms of two quantities: a) The Fisher Information: corresponding to the dataset collected by policy π exp: Here, nll denotes the negative log likelihood of the dataset for any parameter θ, defined as The Fisher information measures the signal-to-noise ratio and thus captures how easy it is to estimate θ. b) The Hessian: of the objective under LQG policies: The Hessian captures the sensitivity of the control synthesis problem to the unknown parameters.
+
+<!-- chunk {"id": "body-0025", "role": "body", "section": "FUNDAMENTAL LIMITS", "weight": 1.0} -->
+
+Theorem III.1 (Excess Cost Lower Bound). Let A be any algorithm that maps a dataset D to a policy K D ∈ K for a policy class K that obeys Assumption 1. Suppose that θ ⋆ and ε > 0 are such that all instances in the ball B (θ ⋆, ε) satisfy the stabilizability and detectability assumptions of Section II.
+
+<!-- chunk {"id": "body-0026", "role": "body", "section": "FUNDAMENTAL LIMITS", "weight": 1.0} -->
+
+Suppose that the data is collected under an exploration policy π exp such that FI π exp (θ) is Lipschitz continuous in θ over B (θ ⋆, ε) and FI π exp (θ ⋆) ≻ 0. There exist constants c 1 (θ ⋆, π exp, T, α) and c 2 (θ ⋆, π exp, T) that depend on the nominal system, the exploration policy, the length of the experiment rollouts, and the parameter α from Assumption 1 such that for N ≥ max { c 1 (θ ⋆, π exp, T, α), c 2 (θ ⋆, π exp, T) ε -2 }, the following bound holds: The main tool for establishing this result is the van Trees inequality, a Bayesian version of the Cramer-Rao lower bound, which lower bounds the squared error in estimating a smooth function of the unknown parameter from data. To apply this result, we exploit the fact that the excess cost is a quadratic function of the Youla parameter for the estimated controller. The argument is detailed in Section VII.
+
+<!-- chunk {"id": "body-0027", "role": "body", "section": "FUNDAMENTAL LIMITS", "weight": 1.0} -->
+
+The theorem lower bounds the excess cost of learning the LQG controller in terms of the Hessian H ( θ ⋆ ) (defined in ) multiplied by the inverse of the Fisher information for the policy used to collect the dataset, FI π exp ( θ ⋆ ) (defined in ). The Hessian captures the sensitivity of the control synthesis problem to the unknown parameters, while the inverse of the Fisher information measures the noise-to-signal ratio and thus captures the 'difficulty' of estimating θ ⋆. The product of these quantities captures the fact that the excess cost due to learning a controller scales with the difficulty of the identification problem in the directions that are relevant to the cost. Note that the exploration policy should be persistently exciting, that is, the Fisher Information should be invertible, in the directions where the Hessian is non-zero.
+
+<!-- chunk {"id": "body-0028", "role": "body", "section": "FUNDAMENTAL LIMITS", "weight": 1.0} -->
+
+Remark III.1 (Dependence on T, exploration policies). The Fisher Information matrix depends on the length of the exploration episodes T. If the exploration policy π exp is linear and stabilizing, then it satisfies the smoothness requirement for FI π exp ( θ ) (follows by Riccati perturbation arguments, see, for example, Appendix B of ). If, in addition, the exploration policy is persistently exciting at steady-state, that is, lim T FI π exp ( θ ) /T is positive definite, then the Fisher Information grows linearly with T asymptotically (see Proposition IV.2). Thus, in the case of persistently exciting linear stabilizing policies, the lower bound scales inversely proportionally to the total amount of data N × T. Additionally the burn-in time reduces to N × T ≥ max { c 1 ( θ ⋆, π exp, α ), c 2 ( θ ⋆, π exp ) ε -2 } for problem dependent constants c 1 and c 2 that no longer depend on the episode horizon.
+
+<!-- chunk {"id": "body-0029", "role": "body", "section": "FUNDAMENTAL LIMITS", "weight": 1.0} -->
+
+More general exploration policies (e.g. unstable policies, nonlinear policies) might also satisfy the smoothness requirement for T < ∞ but we do not have a systematic way of characterizing how their Fisher Information scales with T.
+
+<!-- chunk {"id": "body-0030", "role": "body", "section": "FUNDAMENTAL LIMITS", "weight": 1.0} -->
+
+The lower bound is valid only after N exceeds a burn-in time defined by the quantities c 1 ( θ ⋆, π exp, T, α ), c 2 ( θ ⋆, π exp, T ), and ε. For sufficiently small ε, a trivial algorithm that ignores the data and simply returns a fixed robust controller can achieve uniformly bounded excess cost over all instances in the ball around θ ⋆. When N is larger than the burn-in time, the available data is abundant enough so that an efficient learning algorithm can outperform such trivial baselines, which is the regime we focus. Notably, the burnin time depends on the instance of interest, the exploration policy, the length of the exploration episodes, and the value α from Assumption 1. The exact dependence of the burn-in time on these objects is not tight, as our focus is on the asymptotic behavior. The asymptotic characterization of the bound is tight, as shown in the following remark.
+
+<!-- chunk {"id": "body-0031", "role": "body", "section": "FUNDAMENTAL LIMITS", "weight": 1.0} -->
+
+Remark III.2 (Tightness of lower bound). One can verify that the lower bound matches the asymptotic rate of decay for the model-based certainty equivalence algorithm. In particular, if the parameter ˆ θ is estimated from the collected dataset via maximum likelihood as ˆ θ = argmin θ ∈ R d θ nll (D, θ), and if FI π exp (θ) ≻ 0, then by Theorem 9.1 of If the controller is synthesized based on this estimate and as long as that controller is stabilizing, by a Taylor expansion By combining these facts, one achieves the following asymptotic characterization of the excess cost This implies that the result of Theorem III.1 is asymptotically tight and certainty equivalence is asymptotically optimal.
+
+<!-- chunk {"id": "body-0032", "role": "body", "section": "FUNDAMENTAL LIMITS", "weight": 1.0} -->
+
+The matching upper and lower bound suggest that to achieve sample efficient control, the exploration policy should be chosen such that FI π exp is as large as possible in the directions where objective is sensitive to the parameter estimates. Practical limitations, such as actuator and energy bounds, typically prevent the exploration policy from injecting large inputs to achieve large signal-to-noise ratio. In such cases, the learner should choose an exploration policy that maximizes the relevant information subject to constraints on the experimental procedure. This decision reduces to the canonical problem of experiment design -,. The optimal experiment design formulation using these matching upper and lower bounds has been studied for the fully observed (and potentially nonlinear) setting by -.
+
+<!-- chunk {"id": "body-0033", "role": "body", "section": "FUNDAMENTAL LIMITS", "weight": 1.0} -->
+
+Theorem III.1 recovers the lower bound from the fully observed setting as a special case. In particular, the fundamental limits in the fully-observed setting are also defined by the product of the cost Hessian with the inverse Fisher Information. Consequently, understanding the hardness of the learning-enabled control induced by partial observability is not transparent from the above bound, and we are instead required to study the behavior of the the matrices H ( θ ) and FI π exp ( θ ). We provide characterizations of them in the sequel.
+
+<!-- chunk {"id": "body-0034", "role": "body", "section": "COMPUTING THE LOWER BOUND", "weight": 1.0} -->
+
+We now provide characterizations for the Hessian and Fisher Information from Theorem III.1. To get an interpretable expression of the Fisher Information, we restrict attention to linear exploration policies with additive probing noise: where η t ∈ R du is i.i.d. mean zero Gaussian with identity covariance (D η exp can capture non-isotropic probing noise) and x exp t is the state of the exploration policy.
+
+<!-- chunk {"id": "body-0035", "role": "body", "section": "COMPUTING THE LOWER BOUND", "weight": 1.0} -->
+
+We also restrict our attention to the case of a scalar parameter (d θ = 1) θ. The extension of θ to a multidimensional parameter follows by the observation that if U = [U 1... U d θ] is a d θ -dimensional orthonormal matrix such that U ⊤ FI π exp (θ) U is diagonal, then The scalar projections of the Hessian defined by U ⊤ i H (θ) U i and of the Fisher Information defined by U ⊤ i FI π exp (θ) U i are equivalent to the second derivatives of f (t) ≜ J (K θ + tU i, θ) and g (t) ≜ nll (D; θ + tU i) with respect to t, at t = 0. We drop the dependence of system matrices on the parameter when it is clear from the context. We additionally denote the derivative of a system matrix with respect to the parameter evaluated at θ as ˙ A = d d ˜ θ A (˜ θ) | ˜ θ = θ.
+
+<!-- chunk {"id": "body-0036", "role": "body", "section": "COMPUTING THE LOWER BOUND", "weight": 1.0} -->
+
+The characterizations for the Hessian and Fisher Information matrix rely upon the derivatives of the controller and observer gains with respect to the underlying parameter, which are shown by Lemma B.1 of to be Both the Hessian and the Fisher Information may now be expressed in terms of these quantities.
+
+<!-- chunk {"id": "body-0037", "role": "body", "section": "COMPUTING THE LOWER BOUND", "weight": 1.0} -->
+
+Proposition IV.1 (Strictly Causal Hessian Characterization). Consider the strictly causal setting. If θ is a scalar parameter, then H = 2Tr(Ψ [˙ F F] Σ H [˙ F F] ⊤), where Σ H = dlyap (A H joint, B H joint Σ e (B H joint) ⊤) and Proof. By the performance difference lemma (Theorem 11.2 of), Taking the Hessian with respect to ˜ θ gives Note that ˆ x θ t | t -1 also implicitly depends on ˜ θ through K (˜ θ), as the Kalman filter state depends upon the history of inputs and observations up to time t -1. Observing that terms involving second order derivatives of F, x ˜ θ t | t -1, and x θ t | t -1 are multiplied by quantities that equal zero when evaluated at ˜ θ = θ, the summand of the above expression may be written Let ˙ r t ≜ d d ˜ θ r ˜ θ t | ˜ θ = θ.
+
+<!-- chunk {"id": "body-0038", "role": "body", "section": "COMPUTING THE LOWER BOUND", "weight": 1.0} -->
+
+By the product rule, we can express ˙ r t +1 recursively as ˙ r t +1 = ˙ A o cl ˆ x θ t | t -1 + A o cl ˙ r t + [˙ L ˙ B] [y t u t]. Note that y t and u t also depend on θ, but their derivatives disappear because they are multiplied by ([L (˜ θ) B (˜ θ)] -[L B]) | ˜ θ = θ = 0.
+
+<!-- chunk {"id": "body-0039", "role": "body", "section": "COMPUTING THE LOWER BOUND", "weight": 1.0} -->
+
+The joint state (ˆ x θ t | t -1, ˙ r t) then evolves according to [ˆ x θ t +1 | t ˙ r t +1] = A H joint [ˆ x θ t | t -1 ˙ r t] + B H joint e t, where e t ∼ N (0, Σ e) is the innovation sequence. The result follows by writing the Hessian in terms of the stationary covariance of this joint state. ■ The Fisher information can be expressed similarly by writing it as the expected Hessian of the negative log-likelihood.
+
+<!-- chunk {"id": "body-0040", "role": "body", "section": "COMPUTING THE LOWER BOUND", "weight": 1.0} -->
+
+Proposition IV.2 (Fisher Information Characterization). Let θ be a scalar parameter and consider a causal linear exploration policy which stabilizes the instance θ. Then the Fisher Information is given by Proof. The Fisher information is the expected Hessian of the negative log-likelihood: where ˆ y t = C ˆ x θ t | t -1. Then by the product rule, D θ ˆ y t = ˙ C ˆ x θ t | t -1 + C d dθ ˆ x θ t | t -1. Taking the derivative of the Kalman filter state update, we arrive at a system with a joint state involving the Kalman filter estimate, the state of the exploration policy, and the derivative of the Kalman filter estimate with respect to θ (derived analogously to the proof of Proposition IV.1). This joint state ξ t evolves according to ξ t +1 = A FI joint ξ t + B FI joint [e t η t], where e t ∼ N (0, Σ e) and η t ∼ N (0, I) are independent across time and from each other.
+
+<!-- chunk {"id": "body-0041", "role": "body", "section": "COMPUTING THE LOWER BOUND", "weight": 1.0} -->
+
+The Fisher Information matrix can be expressed asymptotically as T → ∞ in terms of the stationary covariance of this joint state, resulting in the given characterization. ■ For offline identification, the exploration policy need not have any relation to the optimal policy. However, if one considers playing an exploration policy which matches the optimal policy, and with D η exp potentially nonzero to inject a probing signal, then the structure of the information matrix simplifies, and closely matches that of the Hessian. 2 Corollary IV.1 (Fisher Information Under Optimal Strictly Causal Policy). Let θ be a scalar parameter. Suppose that the experiment policy has A exp = A -LC + BF, B exp = L, C exp = F, D y exp = 0. Then the Fisher information is characterized as in Proposition IV.2 with the substitution 2 This exploration policy is approximately the choice of greedy exploitation commonly used in online settings, where one wants to maintain a small control cost throughout the learning process. and with [˙ C C] replacing the matrix [˙ C 0 C].
+
+<!-- chunk {"id": "body-0042", "role": "body", "section": "RECOVERING THE LQR SETTING", "weight": 1.0} -->
+
+The above characterizations do not immediately recover results from the LQR setting, as they assume strictly causal policies. However, the characterizations can also be presented in the causal setting.
+
+<!-- chunk {"id": "body-0043", "role": "body", "section": "RECOVERING THE LQR SETTING", "weight": 1.0} -->
+
+Proposition V.1 (Causal Hessian Characterization). Consider the causal setting, and let θ be a scalar parameter. The Hessian characterization is identical to Proposition IV.1, with the substitutions: The proof is the same as the one of Proposition IV.1. Notably, we recover the fully observed setting of from the above proposition by letting C = I and taking Σ v → 0. Then, the Hessian becomes H = 2 Tr (Ψ ˙ F dlyap (A + BF, Σ w) ˙ F ⊤). In, this characterization was used to derive examples of challenging fully observed problems, including an example where the lower bound on the minimax excess cost is exponential in the state dimension. In the sequel, we present examples of challenging problems enabled by characterizations of the partially observed setting.
+
+<!-- chunk {"id": "body-0044", "role": "body", "section": "EXAMPLES OF CHALLENGING PROBLEMS", "weight": 1.0} -->
+
+Using the lower bound of Theorem III.1 along with the characterization of the Hessian in Proposition IV.1 and the Fisher Information in Proposition IV.2, we are now able to examine the fundamental difficulty of learning the LQG controller for particular examples. We begin by examining several cases where varying a single parameter can make the problem arbitrarily fragile. The first of these, in Section VIA, is inspired by Doyle's LQG example without guaranteed margins. Two others, in Section VI-B and Section VIC, are non-minimum phase systems. We additionally present an example where there is a design parameter of the system that induces a tradeoff between the cost of control and the excess cost of learning to control in Section VI-D. Finally, we conclude with a discussion of model-based design with misspecification in Section VI-F.
+
+<!-- chunk {"id": "body-0045", "role": "body", "section": "EXAMPLES OF CHALLENGING PROBLEMS", "weight": 1.0} -->
+
+We consider strictly causal policies in all examples. We study learning performance as we vary certain (known) hyperparameters, denoted by σ, ξ or s to distinguish them from the unknown parameter θ. Proof details are deferred to the supplementary material.
+
+<!-- chunk {"id": "body-0046", "role": "body", "section": "A. No margins example", "weight": 1.0} -->
+
+We first consider a discrete time LQG instance inspired by the example, the first demonstration that a continuous time LQG controller need not be inherently robust. Specifically, we consider the LQG instance with Σ w (θ) = Q = and Σ v (θ) = R = σ, where σ > 0 is a variable hyper-parameter. Suppose that the nominal parameter θ ⋆ = 1. Similarly to, we investigate the fragility of LQG as parameter σ approaches zero.
+
+<!-- chunk {"id": "body-0047", "role": "body", "section": "A. No margins example", "weight": 1.0} -->
+
+The control penalty and noise distributions for this example are designed such that both the controller and observer exhibit a near deadbeat response in one direction, resulting in a pole near zero. However, the remaining pole is pushed to the unit circle. Specifically, both the closed-loop state-feedback and the observer error dynamics have an eigenvalue near 1 - √ σ.
+
+<!-- chunk {"id": "body-0048", "role": "body", "section": "A. No margins example", "weight": 1.0} -->
+
+The matrix A H joint defining the Hessian characterization of Proposition IV.1 can be expressed as and X = O (σ). The Jordan decomposition of ˆ A H joint is given by V JV -1, with and V is a matrix of generalized eigenvectors. Using this Jordan form, we can compute the Hessian analytically.
+
+<!-- chunk {"id": "body-0049", "role": "body", "section": "A. No margins example", "weight": 1.0} -->
+
+Proposition VI.1. For the LQG instance defined, H ( θ ⋆ ) = 2048 σ -3 / 2 + O ( σ -1 ).
+
+<!-- chunk {"id": "body-0050", "role": "body", "section": "A. No margins example", "weight": 1.0} -->
+
+The σ -3 / 2 rate of growth arises due to the Jordan block [ 1 - √ σ 1 0 1 - √ σ ]. This rate of growth is faster than the σ -1 / 2 rate of growth for a Lyapunov function defined solely in terms of the closed loop matrices under the controller or the observer, dlyap ( A c cl, Q ) or dlyap ( A o cl, Q ), in isolation. In particular, the appearance of the Jordan block arises because the uncertainty in the input channel amplifies the sensitivity of the observer and the controller in the closed-loop response.
+
+<!-- chunk {"id": "body-0051", "role": "body", "section": "A. No margins example", "weight": 1.0} -->
+
+We have demonstrated that the Hessian for the example scales at a rate σ -3 / 2. The other term determining the excess cost of the learning problem is the Fisher Information matrix under the experiment policy used to collect the identification dataset. Consider using a fixed stabilizing policy defined by A exp, B exp, C exp with D y exp = 0, D η exp = 0. Then the Fisher information converges to a positive constant as σ → 0. Consequently, the excess cost due to the use of learned dynamics scales as Tr( H ( θ ⋆ ) FI π exp ( θ ⋆ ) -1 ) ∝ 1 Nσ 3 / 2. Notably, this occurs despite the fact that the optimal cost of control converges to a constant c: J ( K θ ⋆, θ ⋆ ) → c, as σ → 0.
+
+<!-- chunk {"id": "body-0052", "role": "body", "section": "A. No margins example", "weight": 1.0} -->
+
+The example highlights the potential fragility of the LQG problem under control penalties that encourage very aggressive controllers. Here, such controllers lead to nearly marginally stable closed-loop systems that are extremely fragile. The behavior may be counterintuitive: the problem becomes very sample-inefficient when the sensor noise level Σ v is decreased. Performance can be recovered by adding 'ficticious noise' so the controller has robustness to uncertainty. Such a fix would sacrifice asymptotic performance on the given LQG objective as data becomes abundant.
+
+<!-- chunk {"id": "body-0053", "role": "body", "section": "A. No margins example", "weight": 1.0} -->
+
+The example is contrived, without immediate motivating physical applications. However, similar sensitivities are observed more generally in systems which have a high gain in some directions, but not others, i.e., systems with large condition numbers. The fragility that arises due to the LQG objective motivates alternative objectives, such as H ∞ optimal control, or alternative design procedures, such as Internal Model Control which can enable more transparent tuning of controller parameters than the cost and noise matrices, Q, R, Σ w and Σ v, of the LQG objective.
+
+<!-- chunk {"id": "body-0054", "role": "body", "section": "A. No margins example", "weight": 1.0} -->
+
+Two other variants of the example which exhibit similar fragility are discussed below. 1) Stable Open-Loop: There exist stable variants of this example that can exhibit similar sensitivity. Consider the LQG instance with the nominal parameter θ ⋆ = 1. Similar to the LQG instance, the optimal controller and observer force one eigenvalue of the closed-loop transition matrix to zero, while the other approaches 1 - √ σ. As with the LQG instance, the stable variant can become arbitrarily fragile as σ → 0. We numerically compute the Hessian of Proposition IV.1 for this stable variant to be: H (θ ⋆) = 2. 53 σ -3 / 2 + O (σ -1) obtaining a rate similar to. 2) Fully-Observed: The example constructed by was used to demonstrate that the continuous time LQG controller lacks the gauranteed margins possessed by continuous time LQR. However, in discrete time there are no guaranteed uniform margins even in the fully observed setting. Consider the LQR controller defined by the system (A,B,Q,R).
+
+<!-- chunk {"id": "body-0055", "role": "body", "section": "A. No margins example", "weight": 1.0} -->
+
+For this example, it holds that ρ (A +(1+ m) × BF) > 1 for m ≥ 1 + 2 √ σ, indicating the upper gain margin is less than 2 √ σ, which can become arbitrarily small as σ → 0. This sensitivity can be reflected in the lower bound of Theorem III.1 by computing the Hessian and Fisher information for this fully observed example. Following the same derivations we used to compute these objects for the LQG instance, we numerically compute for this fully observed example that the Hessian is given by H (θ ⋆) = 9 √ σ + O (σ -1).
+
+<!-- chunk {"id": "body-0056", "role": "body", "section": "Non-minimum phase dynamics example", "weight": 1.0} -->
+
+We now consider an example of a non-minimum phase system. Such systems often exhibit behavior known as inverse response, in which the response to a step input initially moves away from the eventual setting point. This makes nonminimum phase systems notoriously hard to control, with well established fundamental limits characterizing the fragility of any controller to uncertainty in the dynamics.
+
+<!-- chunk {"id": "body-0057", "role": "body", "section": "Non-minimum phase dynamics example", "weight": 1.0} -->
+
+We examine the impact of this behavior on the following instance of learning the LQG: with Σ w (θ) = I, Σ v (θ) = 1, Q = I, R = 1, and nominal parameter θ ⋆ = 0. Let ξ > 0 be a variable hyper-parameter. The nominal system has a non-minimum phase zero at 1 + ξ and two poles at 1. We analytically investigate what happens as the zero approaches the poles, that is, ξ goes to 0.
+
+<!-- chunk {"id": "body-0058", "role": "body", "section": "Non-minimum phase dynamics example", "weight": 1.0} -->
+
+Lemma VI.1 (Difficulty of non-minimum phase example). Consider the LQG instance defined by and let the exploration policy be equal to the optimal strictly causal LQG policy. Then, Note that as the zero approaches the pole, the system becomes very hard to observe. This, in turn, leads to a very large Hessian that scales with ξ -7 and a very large nominal cost that scales with ξ -3. The Fisher information is also very large and of the order of ξ -3. However, the Fisher information is not large enough to counteract the Hessian. As a result, the lower bound scales as This shows that the excess cost can be very large and even grow unbounded as ξ → 0. However, this is somewhat unsurprising, as observability is lost in this case. It is more interesting to note that the excess cost can be unbounded relative to the nominal cost: Thus, the cost of learning dominates the cost of control.
+
+<!-- chunk {"id": "body-0059", "role": "body", "section": "Compounding impact of high sensitivity and low identifiability", "weight": 1.0} -->
+
+The previous two examples contained cases where varying a hyper-parameter of the system increased the sensitivity of control synthesis to error in the estimation of the parameter describing the dynamics, as characterized by the Hessian matrix, H ( θ ⋆ ). In these cases, the corresponding Fisher Information either stayed constant or increased with the design parameter. The challenge of learning enabled-control thus arose due to a sensitivity that grew faster than the Fisher Information. We now examine an instance for learning the LQG in which a design parameter increases the sensitivity of the synthesis problem, while also decreasing the Fisher Information. This leads to a compounding impact of a very sensitive synthesis problem with dynamics which are challenging to identify.
+
+<!-- chunk {"id": "body-0060", "role": "body", "section": "Compounding impact of high sensitivity and low identifiability", "weight": 1.0} -->
+
+We consider the instance of learning the LQG defined by with Σ w (θ) =, Σ v (θ) = 1, Q = I, R = 1, and the nominal parameter θ ⋆ = 1. Let s > 0 be a hyper-parameter.
+
+<!-- chunk {"id": "body-0061", "role": "body", "section": "Compounding impact of high sensitivity and low identifiability", "weight": 1.0} -->
+
+We study experiment policies that are equal to the optimal causal LQG policy, with varying levels of noise injected, with D η exp = ηI. In Table I, we numerically compute the asymptotic behavior of the optimal control cost, the Hessian, and the Fisher Information with different levels of probing noise as the hyper-parameter s becomes large; we rely upon numerical evaluation of the characterizations in Proposition IV.1 and Proposition IV.2.
+
+<!-- chunk {"id": "body-0062", "role": "body", "section": "Compounding impact of high sensitivity and low identifiability", "weight": 1.0} -->
+
+| J ⋆ | H | FI π 0 exp | FI π 1 exp | FI π 10 exp | FI π 100 exp | From Table I, we observe that as s increases, the Hessian grows unbounded (with a rate if O (s)), while at the same time the Fisher Information goes to zero (with a rate of O (s -2)) independently of the probing noise level. This occurs despite the convergence of the optimal control cost to a constant. Increasing the probing noise mitigates but does not eliminate the identifiability issue, that is, the Fisher Information still goes to zero.
+
+<!-- chunk {"id": "body-0063", "role": "body", "section": "Tradeoffs", "weight": 1.0} -->
+
+The above examples illustrated situations where varying a hyper-parameter towards certain values can lead to challenging learning problems. In this example, we change perspective and treat the hyper-parameter as a design variable. We then investigate how to optimally select this design variable to balance the cost of learning against the cost of control. In particular, consider the LQG instance defined by with Q = Σ w (θ) = I; R = Σ v (θ) = 1 and nominal parameter θ ⋆ = 1. The exploration policy is taken to be the LQG policy with additional probing noise defined by D η exp = I. The hyperparameter s can now be viewed as a parameter that determines the design of the sensor.
+
+<!-- chunk {"id": "body-0064", "role": "body", "section": "Tradeoffs", "weight": 1.0} -->
+
+In Figure 2, we examine the optimal control cost, cost Hessian, and inverse asymptotic Fisher Information as the sensor parameter s varies from 0 to 3. As s increases, the optimal controller incurs lower cost and becomes less sensitive to the unknown parameter. 3 However, the learner gathers information about the unknown parameter more slowly (the inverse Fisher Information increases) as s increases. This induces a tradeoff between control and identification. We may therefore ask: where is the sweet spot for this design parameter, minimizing control cost while enabling sample-efficient identification? Our asymptotic lower bound, and the matching upper bound for certainty equivalence, suggest that the learner asymptotically suffers average cost scaling as 3 Note the different process noise and range of s from Section VI-C.
+
+<!-- chunk {"id": "body-0065", "role": "body", "section": "Tradeoffs", "weight": 1.0} -->
+
+The sensor design parameter s affects all three quantities that occur in the above expression. The problem of optimal sensor design could therefore be posed as In Figure 2d, we show how the objective behaves for the LQG problem defined by for various amounts of data. The star locations denote the corresponding minimizers of the codesign objective. As the amount of data available to the learner increases, the learner should increase the preferred value for the parameter s.
+
+<!-- chunk {"id": "body-0066", "role": "body", "section": "Tradeoffs", "weight": 1.0} -->
+
+There is a fundamental design challenge that we do not resolve here and defer to future work. To obtain the optimal system design, the learner would need access to the true, but unknown, parameter θ ⋆. In practical settings, this difficulty can be mitigated by selecting a worst-case value of the unknown parameter from an appropriate set.
+
+<!-- chunk {"id": "body-0067", "role": "body", "section": "Loss of Persistent Excitation", "weight": 1.0} -->
+
+The lower bounds and the above examples highlight the importance of the exploration policy. In particular, for the excess cost to decay to zero with an increasing number of experiments, the Fisher Information induced by the exploration policy must be positive in the directions where the Hessian is positive. Here, we review a situation where this is not the case. In particular, consider the fully observed setting by choosing C ( θ ) = I and Σ v ( θ ) → 0.
+
+<!-- chunk {"id": "body-0068", "role": "body", "section": "Loss of Persistent Excitation", "weight": 1.0} -->
+
+Consider playing a static exploration policy defined by the LQR gain A exp = 0, B exp = 0, C exp = 0, D y exp = ˜ F and D η exp = 0. In this case, the Fisher information of Proposition IV.1 is and FI π exp = 0 whenever ˙ A + ˙ B ˜ F = 0. One scenario that this can occur is when ˜ F = F + ∆ F with ˙ A = -˙ BF and ˙ B ∆ F = 0.
+
+<!-- chunk {"id": "body-0069", "role": "body", "section": "Loss of Persistent Excitation", "weight": 1.0} -->
+
+By the discussion of Section V, the Hessian in the fully observed setting is given by This Hessian can be lower bounded as H (θ) ≥ λ min (R) λ min (Σ w)2 ∥ ∥ ∥ ˙ F ∥ ∥ ∥ 2 F. Substituting ˙ A + ˙ BF = 0, leads to ˙ F = -Ψ -1 ˙ BPA c cl, which can be nonzero for particular choices of ˙ B.
+
+<!-- chunk {"id": "body-0070", "role": "body", "section": "Loss of Persistent Excitation", "weight": 1.0} -->
+
+Fig. 2: a-c) Optimal cost, Hessian, and inverse asymptotic Fisher information. d) Co-design objective for various amounts of data N. Stars denote minimizers.
+
+<!-- chunk {"id": "body-0071", "role": "body", "section": "Loss of Persistent Excitation", "weight": 1.0} -->
+
+This is an instance where identifiability of parameters relevant for control is lost by playing a near optimal policy. In particular, playing a certainty equivalent policy synthesized using an estimated parameter may not provide sufficient information to identify the optimal policy. The issue can be resolved by including an appropriate probing term in the exploration policy with D η exp = 0.
+
+<!-- chunk {"id": "body-0072", "role": "body", "section": "Misspecification", "weight": 1.0} -->
+
+The above examples studied classical fragile systems in the face of the excess cost lower bounds of Theorem III.1. Critically, the lower bound elucidates the unavoidable excess cost of learning only in the presence of a well-specified problem: one where the parametric dynamics model captures the data generating process of. If one engages in model-based design, e.g. by following the certainty equivalent synthesis procedure, then they may only attain the stated bounds if the model class is appropriately selected. The primary issue of robust control is the uncertainty due to dynamics which are challenging to model, at least via linear systems, inducing some misspecification into the model class. To understand the role such misspecification can play, observe that if the search space is restricted to a subset Θ ⊆ R d θ such that θ ⋆ / ∈ Θ, then the identification procedure will asymptotically converge to the best in class estimate ˆ θ ∈ Θ that maximizes the likelihood under the exploration policy π exp [Theorem 8.2, ]. Such an estimate will differ from the true underlying parameter and the error might align with a sensitive direction of the control cost, as measured by H ( θ ⋆ ).
+
+<!-- chunk {"id": "body-0073", "role": "body", "section": "Misspecification", "weight": 1.0} -->
+
+This in turn will lead to a poorly performing controller due to an incorrect parametric modeling assumption.
+
+<!-- chunk {"id": "body-0074", "role": "body", "section": "Misspecification", "weight": 1.0} -->
+
+Consider, for example, a variant of the LQG instance of, where the actuation matrix is incorrectly assumed to be ˆ B ( θ ) = [ θ 1 + ε ], while the true system evolves under B ( θ ) = [ θ 1 ]. Let the true unknown parameter be equal to θ ⋆ = 0. In this case, the learner only fits the parameter for the first component of the actuation matrix using least squares. The estimation for θ turns out to be asymptotically unbiased, and therefore the resulting dynamics model is correct up to the misspecified second element in the actuation matrix. A Taylor expansion reveals that the learner suffers an excess cost that scales as ε 2 H, for the Hessian H as in Section VI-A. This excess cost can be arbitrarily poor as the value of σ approaches zero.
+
+<!-- chunk {"id": "body-0075", "role": "body", "section": "Review of Youla parameterization", "weight": 1.0} -->
+
+Doubly co-prime factorizations enable us to parameterize all possible stabilizing controllers. They are defined as follows.
+
+<!-- chunk {"id": "body-0076", "role": "body", "section": "Review of Youla parameterization", "weight": 1.0} -->
+
+Definition VII.1 (Doubly co-prime factorization). Let P ∈ R dy × du p be any system. We say that M,U,N,V, ˜ M, ˜ U, ˜ N, ˜ V ∈ RH ∞ are a doubly co-prime factorization of P if and only if The parameterization of the stabilizing controllers is achieved via the celebrated Youla parameter.
+
+<!-- chunk {"id": "body-0077", "role": "body", "section": "Review of Youla parameterization", "weight": 1.0} -->
+
+Lemma VII.1. Consider any proper controller K ∈ R du × dy p that internally stabilizes a strictly proper system P ∈ R dy × du s. Suppose that M,U,N,V, ˜ M, ˜ U, ˜ N, ˜ V ∈ RH ∞ is a doubly co-prime factorization of P. Then there exists a unique stable transfer function Q, called the Youla parameter, that is proper and satisfies K = (U + M Q)(V + N Q) -1 = (˜ V + Q ˜ N) -1 (˜ U + Q ˜ M). In particular, it holds that If in addition U is strictly proper, then K is strictly proper if and only if Q is strictly proper.
+
+<!-- chunk {"id": "body-0078", "role": "body", "section": "Review of Youla parameterization", "weight": 1.0} -->
+
+Proof. Let U ′, V ′ ∈ RH ∞ be any right co-prime factorization (chapter 5 in ) of the controller, that is, K = U ′ V ′-1.
+
+<!-- chunk {"id": "body-0079", "role": "body", "section": "Review of Youla parameterization", "weight": 1.0} -->
+
+Following the same steps as in Theorem 12.17 of, it follows that K is internally stabilizing if and only if there exist Q ∈ RH ∞, ˜ Q ∈ RH ∞ such that K = (U + M Q)(V + N Q) -1 = (˜ V + ˜ Q ˜ N) -1 (˜ U + ˜ Q ˜ M). Multiplying by V + N Q and ˜ V + ˜ Q ˜ N from the right and the left respectively, we obtain This implies that ˜ Q = Q. It also implies uniqueness.
+
+<!-- chunk {"id": "body-0080", "role": "body", "section": "Review of Youla parameterization", "weight": 1.0} -->
+
+Define Z = ˜ MV ′ -˜ NU ′. Then, by inverting U ′ V ′-1 = K = (˜ V + Q ˜ N) -1 (˜ U + Q ˜ M), we obtain Q = (˜ V U ′ -˜ UV ′) Z -1. Note that Z -1 is well-defined and in RH ∞ (see Lemma 5.10 in). Then, follows from the identities Finally, let now U be strictly proper. Taking the limit z → ∞, we obtain M (∞) Q (∞) V -1 (∞) = K (∞). M (∞) and V -1 (∞) are both nonzero and finite by the co-prime property and the fact that both P and K are strictly proper. Hence, Q (∞) = 0 if and only if K (∞) = 0. ■ The optimal strictly causal LQG controller induces a doubly co-prime factorization.
+
+<!-- chunk {"id": "body-0081", "role": "body", "section": "Review of Youla parameterization", "weight": 1.0} -->
+
+Specifically, define the following transfer functions where we define the closed loop matrix under the LQR optimal controller as A c cl (θ) ≜ A (θ) + B (θ) F (θ) and recall the shorthand for the closed loop matrix under the Kalman predictor gain A o cl (θ) = A (θ) -L (θ) C (θ). It turns out that the above selection of transfer functions is a doubly co-prime factorization for system P u θ. We will exploit these doubly co-prime factorizations to define families of Youla parameters for every instance θ.
+
+<!-- chunk {"id": "body-0082", "role": "body", "section": "Review of Youla parameterization", "weight": 1.0} -->
+
+Definition VII.2. Let K be the transfer function for a strictly causal linear policy that stabilizes the system defined by instance θ. Denote by Q K θ the Youla parameter corresponding to the controller K for the above co-prime factorization. In particular, Q K θ is a stable, strictly proper real rational transfer function such that
+
+<!-- chunk {"id": "body-0083", "role": "body", "section": "Performance Difference Lemma", "weight": 1.0} -->
+
+We now proceed to study the performance gap between an arbitrary stabilizing controller and the optimal LQG policy. Such results are known in the literature as performance difference lemmas. Our first result expresses the performance gap in terms of control policies mapping a history of both measurements and inputs to future control inputs. Our second result shows that the gap is simply equal to a non-degenerate quadratic function of the Youla parameter. In order to state this Lemma VII.2 (Performance Difference Lemma). Consider strictly proper stabilizing linear controller K. Let K y,u be any transfer matrix of dimension du × (dy + du) satisfying Then the excess cost of applying controller K to system with parameter θ is given by Proof. The lower bound involving µ follows immediately. We only need to prove,.
+
+<!-- chunk {"id": "body-0084", "role": "body", "section": "Performance Difference Lemma", "weight": 1.0} -->
+
+Part a): proof of. By the performance difference lemma (Theorem 11.2 of), it holds that where u θ t is the action taken by the LQG controller for the system with dynamics θ conditioned on the observed history of actions and observations u 0, y 0,..., u t -1, y t -1: By contrast, u t is the control action taken by controller K, and the expectation is under the distribution induced by K.
+
+<!-- chunk {"id": "body-0085", "role": "body", "section": "Performance Difference Lemma", "weight": 1.0} -->
+
+We may write this in frequency domain by denoting y as the signal generated by the feedback interconnection of the plant ˜ P θ with the controller K: y = F (˜ P θ, K) d, for noise signal d = [w v]. Then the control input sequence may be expressed as u = K F (˜ P θ, K) d. The history of measurements and inputs can therefore be written as [y u] = [I K] F (˜ P θ, K) d. Consequently, u = K y,u [I K] F (˜ P θ, K) d for any K y,u satisfying K y,u [I K] = K. For the sequence of optimal LQG actions for system θ conditioned on the observations, it holds that The performance gap can then be expressed by Parseval's theorem as.
+
+<!-- chunk {"id": "body-0086", "role": "body", "section": "Performance Difference Lemma", "weight": 1.0} -->
+
+Part b): proof of. Select K y,u = [0 I]. Then the gap can be written as where the second equality follows from Equation. Recall that and ˜ M θ = -C (θ)(zI -A o cl (θ)) -1 L (θ) + I. We drop the dependence of the system matrices on θ in the following. After some algebraic manipulations, it follows that Define R = (zI -A o) -1 and R = R ∗. It holds that Recall that L Σ v = A o cl Σ C ⊤ and Σ v L ⊤ = C Σ A o cl. Also note that R A o cl = -I + R z. Then C R L Σ v = C R A o cl Σ C ⊤ = -C Σ C ⊤ + zC R Σ C ⊤. Additionally, Then (˜ M θ P d θ)(˜ M θ P d θ) ∗ | z = e jω = C Σ C ⊤ + Σ v = Σ e. The proof of now follows from the definition of H 2 norm and the cyclical invariance property of the trace operator.
+
+<!-- chunk {"id": "body-0087", "role": "body", "section": "Performance Difference Lemma", "weight": 1.0} -->
+
+■ The quadratic structure of the performance gap is key to applying the van Trees inequality, which is suitable for obtaining lower bounds in quadratic estimation problems.
+
+<!-- chunk {"id": "body-0088", "role": "body", "section": "Technical results on the Youla parameterization", "weight": 1.0} -->
+
+The section contains several auxiliary technical results for proving Theorem III.1. First, we establish bounds on the H ∞ norm of the Youla parameter of any controller belonging to the class specified in Assumption 1. Second, we prove local Lipschitz properties for the co-prime parameterizations. Third, we characterize the gap between closed-loop responses of two different controllers.
+
+<!-- chunk {"id": "body-0089", "role": "body", "section": "Technical results on the Youla parameterization", "weight": 1.0} -->
+
+Lemma VII.3 (Bounded Youla Parameter). Let Assumption 1 hold. It holds that Proof. By Lemma VII.4 and the properties of the coprime factorization, we have Q K θ ⋆ = [˜ V θ ⋆ -˜ U θ ⋆] (T K - T K θ ⋆) [-U θ ⋆ V θ ⋆]. Taking the H ∞ norm of this quantity and applying Assumption 1 along with submultiplicativity provides the given value of β. ■ Lemma VII.4 (Closed-loop map is affine). Recall the definition of the closed loop map T K of the plant P u θ ⋆ under controller K. Let Q K θ ⋆ be the corresponding Youla parameter. Let T K θ ⋆ be the closed-loop map under the nominal controller U θ ⋆ V -1 θ ⋆ with Q K θ ⋆ θ ⋆ = 0. Then, we have where ˜ M θ ⋆, ˜ M θ ⋆, ˜ M θ ⋆, ˜ M θ ⋆ are stable, proper and P u θ ⋆ = ˜ M -1 θ ⋆ ˜ N θ ⋆ = N θ ⋆ M -1 θ ⋆.
+
+<!-- chunk {"id": "body-0090", "role": "body", "section": "Technical results on the Youla parameterization", "weight": 1.0} -->
+
+Recall that K = UV -1 = ˜ V -1 ˜ U with P u θ ⋆ = N θ ⋆ M -1 θ ⋆ = ˜ M -1 θ ⋆ ˜ N θ ⋆. By orthogonality and the co-prime identity, it follows that ˜ V M θ ⋆ -˜ UN θ ⋆ = I, ˜ M θ ⋆ V -˜ N θ ⋆ U = I. Thus, Working similarly, we obtain that (I -P u θ ⋆ K) -1 = V ˜ M θ ⋆ and K (I -P u θ ⋆ K) -1 = U ˜ M θ ⋆. Finally, expanding V, U, ˜ V, ˜ U: which completes the proof.
+
+<!-- chunk {"id": "body-0091", "role": "body", "section": "Technical results on the Youla parameterization", "weight": 1.0} -->
+
+Throughout our proof, we leverage the fact that various system quantities, including the transfer matrices defining the co-prime factorization, the Youla parameter corresponding to any LQG policy, and are smooth in the unknown parameter. The following lemmas establish these results.
+
+<!-- chunk {"id": "body-0092", "role": "body", "section": "Technical results on the Youla parameterization", "weight": 1.0} -->
+
+Lemma VII.5 (Co-prime Perturbations). There exists constants c X ε ( θ ⋆ ) and L X ( θ ⋆ ) depending only on the system instance θ ⋆ such that for ε ≤ c X ε ( θ ⋆ ) and any θ 1, θ 2 ∈ B ( θ ⋆, ε ) the transfer matrices of the co-prime factorization satisfy ∥ X θ i -X θ 2 ∥ H ∞ ≤ L X ( θ ⋆ ) ε for X denoting any of the transfer matrices M,N,U,V, ˜ M, ˜ N, ˜ U, ˜ V.
+
+<!-- chunk {"id": "body-0093", "role": "body", "section": "Technical results on the Youla parameterization", "weight": 1.0} -->
+
+Proof. This result follows from the results on the smoothness of the Riccati equation solution with respect to the system parameters, as shown in Appendix B of and the assumption that the system matrices are analytic functions of θ. ■ Lemma VII.6. There exists a constant c stab ε (θ ⋆, α) such that if ε ≤ c stab ε (θ ⋆, α), then for any policy K ∈ Π from Assumption 1 and any system instance θ ∈ B (θ ⋆, ε), K stabilizes the system P u θ.
+
+<!-- chunk {"id": "body-0094", "role": "body", "section": "Technical results on the Youla parameterization", "weight": 1.0} -->
+
+Proof. Let K = UV -1 with U = U θ ⋆ + M θ ⋆ Q K θ ⋆, V = V θ ⋆ + N θ ⋆ Q K θ ⋆. By Lemma 5.10 of, a necessary and sufficient condition for the interconnection of P u θ with K to be internally stable is that ˜ M θ V -˜ N θ U is invertible in RH ∞. This quantity may be written ˜ M θ V -˜ N θ U = (˜ M θ ⋆ + ∆ ˜ M) V -(˜ N θ ⋆ + ∆ ˜ N) U, for ∆ ˜ N = ˜ N θ -˜ N θ ⋆ and ∆ ˜ M = ˜ M θ -˜ M θ ⋆. As ˜ M θ ⋆ V -˜ N θ ⋆ U = I it suffices to have Then it also suffices to have Then for stability of the interconnection, it suffices to have By Lemma VII.5, there exists bounds on ∥ ∥ ∥ ∆ ˜ N ∥ ∥ ∥ H ∞ and ∥ ∥ ∥ ∆ ˜ N ∥ ∥ ∥ H ∞ that are linear in ε as long as ε ≤ c X ε (θ ⋆).
+
+<!-- chunk {"id": "body-0095", "role": "body", "section": "Technical results on the Youla parameterization", "weight": 1.0} -->
+
+Then there exists constant c stab ε depending on the system and the value of α such that if ε ≤ c stab ε, the above bound on ∥ ∥ [∆ ˜ M ∆ ˜ N]∥ ∥ H ∞ is satisfied. ■ Lemma VII.7 (Smoothness of Youla Parameter). Suppose Assumption 1 holds. Consider a strictly proper transfer function K ∈ Π. There exist constants c Q ε (θ ⋆, α) and L Q (θ ⋆, α) such that for ε ≤ c Q ε (θ ⋆, α) and any two θ 1, θ 2 ∈ B (θ ⋆, ε), Proof.
+
+<!-- chunk {"id": "body-0096", "role": "body", "section": "Technical results on the Youla parameterization", "weight": 1.0} -->
+
+By Lemma VII.6, ε can be taken small enough that K stabilizes the systems corresponding to θ 1 and θ 2. We begin by expressing Q K θ 1 in terms of Q K θ 2. Specifically, recall that Q K θ 1 is such that the controller can be expressed in terms of the right co-prime factorization: K = (U θ 1 + M θ 1 Q K θ 1)(V θ 1 + N θ 1 Q K θ 1) -1. Similarly, Q K θ 2 is such that the controller can be expressed in terms of the left co-prime factorization as K = (˜ V θ 2 + Q K θ 2 ˜ N θ 2) -1 (˜ U θ 2 + Q K θ 2 ˜ M θ 2).
+
+<!-- chunk {"id": "body-0097", "role": "body", "section": "Technical results on the Youla parameterization", "weight": 1.0} -->
+
+Setting these two expressions equal, we can express Q K θ 2 as Let ˜ V θ 2 = ˜ V θ 1 +∆˜ V, ˜ U θ 2 = ˜ U θ 1 +∆ ˜ U, ˜ M θ 2 = ˜ M θ 1 +∆ ˜ M, ˜ N θ 2 = ˜ N θ 1 + ∆ ˜ N. Then it holds that the numerator in our expression for Q K θ 2 can be expressed as where ∆ 1 = ∆ ˜ V U θ 1 -∆ ˜ UV θ 1 and ∆ 2 = ∆ ˜ V M θ 1 -∆ ˜ UN θ 1. The final equality follows from orthogonality and the co-prime identity. The denominator in our expression for Q K θ 2 similarly simplifies as where ∆ 3 = ∆ ˜ MV θ 1 -∆ ˜ NU θ 1 and ∆ 4 = ∆ ˜ MN θ 1 -∆ ˜ NM θ 1. Combining these facts, we find that By Lemma VII.3, ∥ ∥ Q K θ 1 ∥ ∥ H ∞ is bounded by a quantity β defined in terms of the parameter α of Assumption 1 and system constants defined in terms of the nominal instance θ ⋆.
+
+<!-- chunk {"id": "body-0098", "role": "body", "section": "Technical results on the Youla parameterization", "weight": 1.0} -->
+
+Combining this fact with the co-prime perturbations bounds of Lemma VII.5 ensures the existence of a constant c Q ε (θ ⋆, α) such that if ε ≤ c Q ε (θ ⋆, α), then ∥ ∥ ∆ 3 +∆ 4 Q K θ 1 ∥ ∥ H ∞ ≤ 1 2. This in turn implies that ∥ ∥ (I +∆ 3 +∆ 4 Q K θ 1) -1 ∥ ∥ H ∞ ≤ 2. Then we are left with the inequality ∥ ∥ Q K θ 2 -Q K θ 1 ∥ ∥ H ∞ ≤ 2 ∑ 4 i =1 ∥ ∆ i ∥ H ∞ (1 + β 2). We achieve the lemma statement by again appealing to the co-prime perturbation arguments of Lemma VII.5 and defining L Q (θ ⋆, ε) appropriately. ■ Lemma VII.8 (Closeness of LQG solutions).
+
+<!-- chunk {"id": "body-0099", "role": "body", "section": "Technical results on the Youla parameterization", "weight": 1.0} -->
+
+There exists a constant c LQG ε (θ ⋆, α) depending only on the system instance θ ⋆ and the value of α in Assumption 1 such that for ε ≤ c LQG ε (θ ⋆, α), the policy class Π contains the optimal LQG policy corresponding to every instance θ ∈ B (θ ⋆, ε).
+
+<!-- chunk {"id": "body-0100", "role": "body", "section": "Technical results on the Youla parameterization", "weight": 1.0} -->
+
+Proof. By the Riccati perturbation arguments in Appendix B of, there exists a constant c LQG ε (θ ⋆, α) dependent on the nominal system and α such that if ε < c LQG ε (θ ⋆, α), then for any θ ∈ B (θ ⋆, ε), the LQG controller K θ satisfies the inequality ∥ ∥ T K θ -T K θ⋆ ∥ ∥ H ∞ ≤ α. Then the optimal LQG controller corresponding to any θ ∈ B (θ ⋆, ε) is within the policy class Π of Assumption 1. ■ Next, we present a bound characterizing the gap between the response of two different controllers applied to two different systems, using the following definition of the closed loop gap: Lemma VII.9. Consider a controller K ∈ Π such that K stabilizes every system instance in B (θ ⋆, ε). Let θ ∈ B (θ ⋆, ε). Recall K y,u θ = [˜ U θ I -˜ V θ] and choose K y,u ≜ [˜ U θ + Q K θ ˜ M θ I -˜ V θ -Q K θ ˜ N θ].
+
+<!-- chunk {"id": "body-0101", "role": "body", "section": "Technical results on the Youla parameterization", "weight": 1.0} -->
+
+There exists a constant L CL (θ ⋆, α) that depends only on the nominal system instance such that for ε ≤ c X ε (θ ⋆) (as in Lemma VII.5), Proof. It holds that K y,u -K y,u θ = Q K θ [˜ M θ -˜ N θ]. Furthermore, note that for any ˜ θ Now consider taking the H 2 norm of the transfer function (K y,u -K y,u θ) CL gap (K,θ,θ ⋆) and applying the triangle inequality along with mixed H ∞, H 2 submultiplicativity. By the co-prime perturbation bounds of Lemma VII.5 for ε ≤ c X ε (θ ⋆), the above quantity can be bounded as by a linear function of ∥ ∥ Q K θ ∥ ∥ H 2 ε. Denoting the coefficient for this linear function by L CL (θ ⋆, α) provides the inequality in the lemma. ■
+
+<!-- chunk {"id": "body-0102", "role": "body", "section": "Application of van Trees Inequality", "weight": 1.0} -->
+
+The standard version of the van Trees argument presented by does not allow the inclusion of a data-dependent event 1 ( E ) or an estimator that depends on the unknown parameter Θ, as with our choice of the estimator K y,u D. We present an extension that covers these cases below.
+
+<!-- chunk {"id": "body-0103", "role": "body", "section": "Application of van Trees Inequality", "weight": 1.0} -->
+
+Lemma VII.10 (van Trees inequality with an event). Let g ( D, Θ) ∈ R m be differentiable in Θ ∈ R d, and let E be D -measurable. Let I λ ≜ ∫ ∇ λ ( θ ) λ ( θ ) ∇ λ ( θ ) λ ( θ ) ⊤ λ ( θ ) dθ and J:= N E Θ FI π exp (Θ) + I λ, and assume the usual regularity conditions for integration by parts, including vanishing boundary terms. Define ˜ g:= E Θ, D [ D Θ g ( D, Θ) 1 ( E )]. Then E Θ, D [ ∥ g ( D, Θ) ∥ 2 ] ≥ Tr ( ˜ gJ -1 ˜ g ⊤ ).
+
+<!-- chunk {"id": "body-0104", "role": "body", "section": "Application of van Trees Inequality", "weight": 1.0} -->
+
+Proof. We drop the subscript on the expectation for simplicity. Let S (D, Θ):= ∇ Θ log p (D, Θ) denote the joint score. Under the stated model, where I λ measures the prior density concentration. Set X = g (D, Θ), Y = 1 (E) S (D, Θ). Since 1 (E) 2 ≤ 1, E [Y Y ⊤] = E [1 (E) SS ⊤] ⪯ E [SS ⊤] = J. Integration by parts gives E [XY ⊤] = -˜ g. Applying matrix Cauchy-Schwarz concludes the proof. ■ We apply this to the first term in the lower bound of.
+
+<!-- chunk {"id": "body-0105", "role": "body", "section": "Application of van Trees Inequality", "weight": 1.0} -->
+
+Lemma VII.11 (Application of van Trees inequality). Let A be any algorithm mapping a dataset D to a policy K D ∈ K for a policy class K that obeys obeys Assumption 1. Suppose all instances in the ball B (θ ⋆, ε) satisfy the stabilizability and detectability assumptions of Section II. Suppose that the data is collected under an exploration policy π exp such that FI π exp (θ) is Lipschitz continuous in θ over B (θ ⋆, ε) and FI π exp (θ ⋆) ≻ 0. There exist constants depending on the system, exploration policy, and length of the exploration episodes, c V T ε (θ ⋆, π exp, T, α) and c N (θ ⋆, π exp, T) such that for ε ≤ c V T ε (θ ⋆, π exp, T, α) and N ≥ c N (θ ⋆, π exp, T) ε -2, the following bound holds: Proof. Let Ψ lower bound Ψ(θ) for all θ ∈ B (θ ⋆, ε) in Loewner order.
+
+<!-- chunk {"id": "body-0106", "role": "body", "section": "Application of van Trees Inequality", "weight": 1.0} -->
+
+It holds by definition of the H 2 norm that We now apply Lemma VII.10 to the integrand of the above expression multiplied by 1 (E). Note that by the fact that K y,u D [I K D] = K D, the Jacobian of the vectorized quantity in the above norm with respect to θ is D θ vec K y,u θ (e jω) | θ =Θ (Ψ 1 / 2 ⊗ Z K D θ ⋆ (e jω)). Consequently, by Lemma VII.10 it holds that for any ω ∈ [-π, π] with J as. The integral of the above quantity over ω results in an expression of the form By a triangle inequality, it holds that We upper bound the second term by observing that Consequently, the second term is upper bounded as where L (θ ⋆) bounds the H ∞ norms of the matrices N θ ⋆, M θ ⋆, and ˜ M θ ⋆ P d θ ⋆. The above quantity can be made small for ε small and N large by mirroring the analysis following.
+
+<!-- chunk {"id": "body-0107", "role": "body", "section": "Application of van Trees Inequality", "weight": 1.0} -->
+
+In particular, substitute the bound on ∥ ∥ ∥ Q K D θ ⋆ ∥ ∥ ∥ under the event E and observe that max θ ∈B (θ ⋆,ε) ∥G θ ∥ H ∞ decays at a rate 1 √ N (due to J -1 / 2). We can therefore select an instance dependent upper bound on ε and a lower bound on N such that the second term becomes negligible relative to the first. The third term can be upper bounded by observing that Ψ(θ) and D θ vec K y,u θ are smooth with respect to θ. Specifically, K y,u θ (e jω) = F (θ)(e jω -A o cl (θ)) -1 [L (θ) B (θ)]. For any frequency ω ∈ [-π, π], we can express the resulting derivative in terms of the derivatives of the system matrices, the LQR gain, and the Kalman gain.
+
+<!-- chunk {"id": "body-0108", "role": "body", "section": "Application of van Trees Inequality", "weight": 1.0} -->
+
+By the stability of A o cl (θ ⋆) and the smoothness of the derivatives D θ F (θ) and D θ L (θ) from their characterizations in Lemma B.1 of along with the perturbation arguments of Theorem 5 of, it holds that for any frequency ω ∈ [-π, π], D θ vec K y,u θ (e jω) is a smooth function of θ for a neighborhood around θ ⋆. Therefore the impact of the discrepancy between Ψ and Ψ(θ ⋆) and G Θ and G θ ⋆ can be made arbitrarily small relative to the first term by taking ε sufficiently small and N sufficiently large.
+
+<!-- chunk {"id": "body-0109", "role": "body", "section": "Application of van Trees Inequality", "weight": 1.0} -->
+
+We now lower bound the term ∥ ∥ ∥ E [G θ ⋆ (Ψ(θ ⋆) ⊗ Z K θ ⋆ θ ⋆) 1 (E)]∥ ∥ ∥ H 2. It is shown by Corollary 2.1 of that ∥I λ ∥ = 1 ε 2 ∥I ρ ∥. Therefore, there exists a constant c N (θ ⋆, π exp, T) such that for N ≥ c N (θ ⋆, π exp, T) ε -2, the contribution of I λ to J can be made arbitrarily small. By the assumption that FI π exp (θ) is a smooth function of θ for over B (θ ⋆, ε) and since FI π exp (θ ⋆) ≻ 0, there exists a constant c ε (θ ⋆, π exp, T) such that for ε ≤ c ε (θ ⋆, π exp, T), the impact of the gap between E Θ FI π exp (Θ) and FI π exp (θ ⋆) can also be made arbitrarily small.
+
+<!-- chunk {"id": "body-0110", "role": "body", "section": "Application of van Trees Inequality", "weight": 1.0} -->
+
+Let c ε (θ ⋆, π exp, T) be small enough and c N (θ ⋆, π exp, T) large enough that the slack introduced by from the above substitutions is less than 1 2 1 / 4. Then From Lemma VII.2 along with the definition of the H 2 norm, Making this substitution, we find that It remains only to lower bound Pr[E].
+
+<!-- chunk {"id": "body-0111", "role": "body", "section": "Application of van Trees Inequality", "weight": 1.0} -->
+
+Lower bound of P [E]: Restrict attention to learning algorithms for which as other algorithms immediately satisfy the lower bound. By the quadratic lower bound of Lemma VII.2, the performance gap upper bounds the squared controller parameter error: By the triangle inequality, it holds that for any θ ∈ B (θ ⋆, ε), From the perturbation result of Lemma VII.7, there exists an c Q ε (θ ⋆, α) such that if ε ≤ c Q ε (θ ⋆, α), then for any θ ∈ B (θ ⋆, ε), 2 ∥ ∥ ∥ Q K D θ -Q K D θ ⋆ ∥ ∥ ∥ 2 H 2 ≤ 2 L Q (θ ⋆, α) 2 ε 2. By selecting θ as the value that minimizes ∥ ∥ ∥ Q K D θ ∥ ∥ ∥ H 2 it holds with probability at least 1 -δ that where the second inequality follows from Markov's inequality.
+
+<!-- chunk {"id": "body-0112", "role": "body", "section": "Application of van Trees Inequality", "weight": 1.0} -->
+
+Combining these inequalities, E from holds with probability at least 1 2 1 / 8. To conclude the proof of Lemma VII.11, we can substitute this bound into, and let c V T ε (θ ⋆, π exp, T, α) be the minimum of the aforementioned sufficient upper bounds on ε. ■
+
+<!-- chunk {"id": "body-0113", "role": "body", "section": "Non-strictly causal extension", "weight": 1.0} -->
+
+The optimal non-strictly causal LQG controller has the following form where ˆ x θ t | t ≜ E θ [x t | y 0: t, u 0: t -1] is the Kalman estimate for the state x t given the full history including time t. Let the modified Kalman gain ¯ L (θ) be given by Notice that A (θ) ¯ L (θ) = L (θ). Then, the Kalman filter estimate ˆ x θ t | t is given by Thus, under any control input u and output y, the representation of the Kalman filter estimate in the frequency domain becomes while the optimal LQG controller is equal to We can repeat the same steps as in the strictly causal case. 1) Co-prime factorizations: Consider the doubly co-prime factorizations where I ¯ LC (θ) = I -¯ L (θ) C (θ). We can verify that this parameterization remains doubly co-prime while Note that M θ, N θ, ˜ M θ, ˜ N θ remain unchanged. 2) Extension of main result: The only part of the proof that changes is the intermediate expression of u θ in the performance difference lemma.
+
+<!-- chunk {"id": "body-0114", "role": "body", "section": "Non-strictly causal extension", "weight": 1.0} -->
+
+Following the notation of the proof of Lemma VII.2, we have Everything else remains the same. As a result of using a different co-prime factorization, the system specific constants in Lemmas VII.5-VII.8, VII.9, Theorem III.1 will be different from those of the strictly causal case.
+
+<!-- chunk {"id": "body-0115", "role": "body", "section": "CONCLUSION", "weight": 1.5} -->
+
+This work provides a Cramer-Rao style lower bound for the excess cost achieved by an LQG controller learned from an offline set of interaction data from the system. The lower bound is expressed in terms of the Fisher Information for the offline dataset and the Hessian of the control objective under a certainty equivalent control policy, with respect to the system parameter estimate defining the certainty equivalent policy. Classic examples of fragile systems are examined in light of this lower bound, demonstrating when classically fragile control problems translate into problems of learning-enabled control with a large sample complexity.
+
+<!-- chunk {"id": "body-0116", "role": "body", "section": "CONCLUSION", "weight": 1.5} -->
+
+The results suggest the asymptotic optimality of certaintyequivalent based synthesis policies, and also suggest that an objective for task-weighted optimal experiment design used for the fully observed case by is also effective in the partially observed setting. By highlighting the potential tradeoff between the cost of control and the excess cost of learning to control, this work additionally suggests a theoreticallyinformed manner of system co-design for learning-enabled control. Such a strategy is previewed in Section VI-D. Further investigation is left for future work. Finally, this work may provide an effective way to construct benchmarks for reinforcement learning applied to continuous control tasks with a rigorous understanding of the complexity of the benchmark.

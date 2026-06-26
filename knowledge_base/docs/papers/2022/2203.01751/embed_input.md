@@ -30,7 +30,7 @@ At the core of BITKOMO lies a new relaxed edge collision checking method. Relaxe
 
 <!-- chunk {"id": "body-0008", "role": "body", "section": "Introduction", "weight": 1.5} -->
 
-Relaxed edge collision checking: A method for BIT\* that allows edges partially in collision to be included in the motion tree.
+To summarize, we make two major contributions: Relaxed edge collision checking: A method for BIT\* that allows edges partially in collision to be included in the motion tree.
 
 <!-- chunk {"id": "body-0009", "role": "body", "section": "Introduction", "weight": 1.5} -->
 
@@ -58,65 +58,59 @@ If an improved path to the goal is found, it is passed to the KOMO optimizer \[D
 
 <!-- chunk {"id": "body-0015", "role": "body", "section": "IV-A The BITKOMO Algorithm: An overview", "weight": 1.0} -->
 
-Input 𝒳free, xstart, xgoal, P T C, δ
-8: $X_{\text{uc}}\overset{+}{\leftarrow}\text{Prune\&amp;Sample}{(\mathcal{T},X_{\text{uc}},m,c_{i})}$;
-11: while BestValue (𝒬V) ≤ BestValue (𝒬E) do
-14: E = {vmin, xmin} ← PopBestInQueue (𝒬E);
-17: if 𝒞 𝒫 ≤ δ then ⊳ If true, Edge is used
-19: if EdgeImprovesCost (E,ci,cedge) then
-22: if ci &lt; cmax then ⊳ If path is feasible
+Input 𝒳free, xstart, xgoal, P T C, δ 8: $X_{\text{uc}}\overset{+}{\leftarrow}\text{Prune\&Sample}{(\mathcal{T},X_{\text{uc}},m,c_{i})}$; 11: while BestValue (𝒬V) ≤ BestValue (𝒬E) do 14: E = {vmin, xmin} ← PopBestInQueue (𝒬E); 17: if 𝒞 𝒫 ≤ δ then ⊳ If true, Edge is used 19: if EdgeImprovesCost (E, ci, cedge) then 22: if ci < cmax then ⊳ If path is feasible Algorithm 1 describes in more detail the different parts of the planner. The highlighted lines are our addition to the BIT\* planner. Blue --- the Relaxed edge collision checking, Orange --- the interface between BIT\* and KOMO.
 
-<!-- chunk {"id": "body-0016", "role": "body", "section": "IV-A The BITKOMO Algorithm: An overview", "weight": 1.0} -->
-
-Algorithm 1 describes in more detail the different parts of the planner. The highlighted lines are our addition to the BIT\* planner. Blue --- the Relaxed edge collision checking, Orange --- the interface between BIT\* and KOMO.
-
-<!-- chunk {"id": "body-0017", "role": "body", "section": "IV-A1 Initialize (A)", "weight": 1.0} -->
+<!-- chunk {"id": "body-0016", "role": "body", "section": "IV-A1 Initialize (A)", "weight": 1.0} -->
 
 Vertex set ($\mathcal{V}$), Edge set ($\mathcal{E}$), Tree ($\mathcal{T}$), Vertex queue ($\mathcal{Q}_{V}$), Edge queue ($\mathcal{Q}_{E}$), Set of unconnected vertices ($X_{\text{uc}}$). Also initialize three important cost parameters: 1) $c_{i}$ --- cost used by the BIT\* tree, it includes infeasible paths; 2) $c_{\text{best}}$ --- the cost of the best feasible path; 3) $c_{\text{max}}$ --- a penalty cost higher than any feasible path BIT\* could converge to.
 
-<!-- chunk {"id": "body-0018", "role": "body", "section": "IV-A2 Batch Addition (B)", "weight": 1.0} -->
+<!-- chunk {"id": "body-0017", "role": "body", "section": "IV-A2 Batch Addition (B)", "weight": 1.0} -->
 
 When we run out of the batch samples (line 7), we prune our graph using the ellipsoid method and add a new batch of samples.
 
-<!-- chunk {"id": "body-0019", "role": "body", "section": "IV-A3 Edge Selection (C)", "weight": 1.0} -->
+<!-- chunk {"id": "body-0018", "role": "body", "section": "IV-A3 Edge Selection (C)", "weight": 1.0} -->
 
 (The A\* search) If expanding a vertex can help improving the cost of our solution, it is expanded, i.e., relevant vertices and edges are added to their respective queues (line 12)
 
-<!-- chunk {"id": "body-0020", "role": "body", "section": "IV-A4 Edge processing (D)", "weight": 1.0} -->
+<!-- chunk {"id": "body-0019", "role": "body", "section": "IV-A4 Edge processing (D)", "weight": 1.0} -->
 
 Decides whether to add new edge to the tree. If the new edge can improve the overall cost to goal (line 15), and the edge is collision free / partially in collision (line 16, 17) such that it still is a good edge to add (line 19), it is added to the tree (line 20). $\text{AddEdgeToTree}{(.)}$ rewires the tree if necessary.
 
-<!-- chunk {"id": "body-0021", "role": "body", "section": "IV-A5 KOMO Optimization (E)", "weight": 1.0} -->
+<!-- chunk {"id": "body-0020", "role": "body", "section": "IV-A5 KOMO Optimization (E)", "weight": 1.0} -->
 
 If the addition of the new edge provides us with a better path to goal, this solution path is optimized using KOMO (line 26). The resulting path ($optiPath$) is then checked for validity and the costs ($c_{i}$ and $c_{\text{best}}$) are updated accordingly. For completeness, we also check if the initial guess is valid by checking if the path cost is less than $c_{\text{max}}$ (line 22) and update $c_{\text{best}}$ if valid. The working of KOMO is explained in IV-C.
 
-<!-- chunk {"id": "body-0022", "role": "body", "section": "IV-B Relaxed Edge Checking", "weight": 1.0} -->
+<!-- chunk {"id": "body-0021", "role": "body", "section": "IV-B Relaxed Edge Checking", "weight": 1.0} -->
 
 High dimensional spaces containing narrow passages are challenging for sampling based planners. This is because it is difficult to sample collision free edges through narrow passages. Since KOMO can push paths out of obstacles, we could allow paths partially in collision into the BIT\* tree. However, these edges need to be added with sufficient collision penalty to ensure that BIT\* does not mistake a path in collision to be of a lower cost than the true minima. We also want our collision checker to quickly guess the extent of collision so as to be quick in finding a solution for BIT\*. We solve this problem by introducing Relaxed Edge Checking which returns a number instead of a Boolean which is used to assign a collision penalty (line 18). It returns 0-if edge is collision free, 1-if it fails at the last level, 2-if it fails on the second to last level, and so. Adding the collision penalty this way also helps our planner to prefer collision free initial paths for optimization as the likelihood of finding a feasible trajectory from a collision-free path is higher.
 
-<!-- chunk {"id": "body-0023", "role": "body", "section": "IV-B Relaxed Edge Checking", "weight": 1.0} -->
+<!-- chunk {"id": "body-0022", "role": "body", "section": "IV-B Relaxed Edge Checking", "weight": 1.0} -->
 
 Suppose for a given resolution, we need to check $n_{d}$ equally spaced points to confirm the edge to be collision-free. The Relaxed Edge Checker conducts a level wise collision checking (see Fig. 3 ‣ IV-A The BITKOMO Algorithm: An overview ‣ IV BITKOMO ‣ Multi-modal optimization for manipulation tasks")) whereby the resolution of checking is increased until the required resolution is reached or a collision is detected. We first check the mid point (level 1), then the quarter points (level 2) and so on by slowly doubling the resolution of checking. If a point fails in the validity check, an integer, collision penalty (${\mathcal{C}\mathcal{P}} = {{\mathcal{L} - \mathcal{L}_{c}} + 1}$) is returned. Where $\mathcal{L} = {\lceil{\log_{2}n_{d}}\rceil}$ is the total number of levels, and $\mathcal{L}_{c}$ is the level of the failed point.
 
-<!-- chunk {"id": "body-0024", "role": "body", "section": "IV-B Relaxed Edge Checking", "weight": 1.0} -->
+<!-- chunk {"id": "body-0023", "role": "body", "section": "IV-B Relaxed Edge Checking", "weight": 1.0} -->
 
 This number provides a proxy measure for the fraction of the edge that is in collision.
 
+<!-- chunk {"id": "body-0024", "role": "body", "section": "IV-C KOMO", "weight": 1.0} -->
+
+K-Order Markov Optimization (KOMO) is a trajectory optimization framework that represents a path with a discrete sequence of waypoints $\langle{x_{0}\ldotsx_{T}}\rangle$. Cost and constraints are evaluated, up to $k + 1$ consecutive waypoints (Markov assumption) where $x_{{t - k}:t}$ is a $k + 1$ tuple of consecutive states. In our setting, where the goal is to minimize the path length, $k = 1$, and we use, as cost, the sum of squared distances $\sum{\|{x_{t} - x_{t - 1}}\|}^{2}$, which corresponds to ${f_{t}{(x_{t - 1},x_{t})}} = {x_{t} - x_{t - 1}}$.
+
 <!-- chunk {"id": "body-0025", "role": "body", "section": "IV-C KOMO", "weight": 1.0} -->
-
-K-Order Markov Optimization (KOMO) is a trajectory optimization framework that represents a path with a discrete sequence of waypoints $\langle{x_{0}\ldotsx_{T}}\rangle$. Cost and constraints are evaluated, up to $k + 1$ consecutive waypoints (Markov assumption)
-
-<!-- chunk {"id": "body-0026", "role": "body", "section": "IV-C KOMO", "weight": 1.0} -->
-
-where $x_{{t - k}:t}$ is a $k + 1$ tuple of consecutive states. In our setting, where the goal is to minimize the path length, $k = 1$, and we use, as cost, the sum of squared distances $\sum{\|{x_{t} - x_{t - 1}}\|}^{2}$, which corresponds to ${f_{t}{(x_{t - 1},x_{t})}} = {x_{t} - x_{t - 1}}$.
-
-<!-- chunk {"id": "body-0027", "role": "body", "section": "IV-C KOMO", "weight": 1.0} -->
 
 Inequality constraints correspond to collision avoidance and joint limits and equality constraints model the terminal goal condition $x_{T} = x_{\text{goal}}$. The optimization problem is solved with the Augmented Lagrangian algorithm for constrained optimization. The Markov structure, together with second order information, enables very efficient solving, with complexity linear on the number of waypoints and polynomial on the dimension of the configuration space.
 
-<!-- chunk {"id": "body-0028", "role": "body", "section": "IV-D Convergence and Optimality Guarantees", "weight": 1.0} -->
+<!-- chunk {"id": "body-0026", "role": "body", "section": "IV-D Convergence and Optimality Guarantees", "weight": 1.0} -->
 
 BITKOMO maintains the convergence and optimality guarantees of BIT\*. The additional trajectory optimization can only improve the solution proposed by BIT\* (lines 26-30 in Alg. 1). The relaxed edge checking assigns cost $c > c_{\text{max}}$ (line 18 in Alg. 1) to any edge in collision (recall that $c_{\text{max}}$ is an upper bound on the optimal solution cost, that can be chosen arbitrarily large). Even if the subsequent optimization fails, the edge cost does not prevent BIT\* and hence BITKOMO from finding a solution with cost $c < c_{\text{max}}$.
+
+<!-- chunk {"id": "body-0027", "role": "body", "section": "Evaluation", "weight": 1.0} -->
+
+(b) Kuka from shelf (c) Kuka into box (e) Two Mobile Pandas (f) One Mobile Panda Figure 4: Scenarios used in our experimental evaluation. See the supplementary video for the solution trajectories.
+
+<!-- chunk {"id": "body-0028", "role": "body", "section": "Evaluation", "weight": 1.0} -->
+
+(a) Disc Robot in Rooms (b) Kuka from shelf (c) Kuka into the box (e) Two Mobile Pandas (f) One Mobile Panda Figure 5: Results: Success rates and best cost plots for BITKOMO, BIT*, FMT* and KOMO on the 6 different example environments.
 
 <!-- chunk {"id": "body-0029", "role": "body", "section": "V-A Scenarios", "weight": 1.0} -->
 
@@ -156,7 +150,7 @@ For the KOMO planner we use the sum of squares of the distances between waypoint
 
 <!-- chunk {"id": "body-0038", "role": "body", "section": "V-C Metrics", "weight": 1.0} -->
 
-Success rate (%): The % of runs that have found a feasible solution at time $t$. This metric gives information about how fast the planner finds the first feasible path.
+We evaluate the planners on 2 different metrics: Success rate (%): The % of runs that have found a feasible solution at time $t$. This metric gives information about how fast the planner finds the first feasible path.
 
 <!-- chunk {"id": "body-0039", "role": "body", "section": "V-C Metrics", "weight": 1.0} -->
 

@@ -50,119 +50,108 @@ Our key idea is to build a lower bound for the expected return of a policy $\pi$
 
 <!-- chunk {"id": "body-0013", "role": "body", "section": "Assumption 4.2", "weight": 1.0} -->
 
-As a direct corollary of Assumption 4.2 and equation, we have
+As a direct corollary of Assumption 4.2 and equation, we have Concretely, option (i) above corresponds to $c = {r_{\max}/{({1 - \gamma})}}$ and $\mathcal{F} = {\{ f:{{\| f\|}_{\infty} \leq 1}\}}$, and option (ii) corresponds to $c = L_{v}$ and $\mathcal{F} = {\{ f:{f\text{~is 1-Lipschitz}}\}}$. We will analyze our framework under the assumption that we have access to an oracle uncertainty quantification module that provides an upper bound on the error of the model. In our implementation, we will estimate the error of the dynamics by heuristics (see sections 4.3 and D).
 
-<!-- chunk {"id": "body-0014", "role": "body", "section": "Assumption 4.2", "weight": 1.0} -->
-
-Concretely, option (i) above corresponds to $c = {r_{\max}/{({1 - \gamma})}}$ and $\mathcal{F} = {\{ f:{{\| f\|}_{\infty} \leq 1}\}}$, and option (ii) corresponds to $c = L_{v}$ and $\mathcal{F} = {\{ f:{f\text{~is 1-Lipschitz}}\}}$. We will analyze our framework under the assumption that we have access to an oracle uncertainty quantification module that provides an upper bound on the error of the model. In our implementation, we will estimate the error of the dynamics by heuristics (see sections 4.3 and D).
-
-<!-- chunk {"id": "body-0015", "role": "body", "section": "Assumption 4.3", "weight": 1.0} -->
+<!-- chunk {"id": "body-0014", "role": "body", "section": "Assumption 4.3", "weight": 1.0} -->
 
 Let $\mathcal{F}$ be the function class in Assumption 4.2. We say $u:{{\mathcal{S} \times \mathcal{A}}\rightarrow{\mathbb{R}}}$ is an admissible error estimator for $\hat{T}$ if ${d_{\mathcal{F}}{({\hat{T}{(s,a)}},{T{(s,a)}})}} \leq {u{(s,a)}}$ for all ${s \in \mathcal{S}},{a \in \mathcal{A}}$.^11^1The definition here extends the definition of admissible confidence interval in slightly to the setting of stochastic dynamics.
 
-<!-- chunk {"id": "body-0016", "role": "body", "section": "Policy optimization on uncertainty-penalized MDPs", "weight": 1.0} -->
+<!-- chunk {"id": "body-0015", "role": "body", "section": "Policy optimization on uncertainty-penalized MDPs", "weight": 1.0} -->
 
 Motivated, we optimize the policy on the uncertainty-penalized MDP $\overset{\sim}{M}$ in Algorithm 1.
 
+<!-- chunk {"id": "body-0016", "role": "body", "section": "Policy optimization on uncertainty-penalized MDPs", "weight": 1.0} -->
+
+1:Dynamics model T̂ with admissible error estimator u (s, a); constant λ. 2:Define ${\overset{\sim}{r}{(s,a)}} = {{r{(s,a)}} - {\lambdau{(s,a)}}}$. Let $\overset{\sim}{M}$ be the MDP with dynamics T̂ and reward $\overset{\sim}{r}$. 3:Run any RL algorithm on $\overset{\sim}{M}$ until convergence to obtain $\hat{\pi} = {\text{argmax}_{\pi}\eta_{\overset{\sim}{M}}{(\pi)}}$ Algorithm 1 Framework for Model-based Offline Policy Optimization (MOPO) with Reward Penalty Theoretical Guarantees for MOPO. We will theoretical analyze the algorithm by establishing the optimality of the learned policy $\hat{\pi}$ among a family of policies.
+
 <!-- chunk {"id": "body-0017", "role": "body", "section": "Policy optimization on uncertainty-penalized MDPs", "weight": 1.0} -->
 
-1:Dynamics model T̂ with admissible error estimator u (s,a); constant λ.
-2:Define ${\overset{\sim}{r}{(s,a)}} = {{r{(s,a)}} - {\lambdau{(s,a)}}}$. Let $\overset{\sim}{M}$ be the MDP with dynamics T̂ and reward $\overset{\sim}{r}$.
-3:Run any RL algorithm on $\overset{\sim}{M}$ until convergence to obtain $\hat{\pi} = {\text{argmax}_{\pi}\eta_{\overset{\sim}{M}}{(\pi)}}$
-Algorithm 1 Framework for Model-based Offline Policy Optimization (MOPO) with Reward Penalty
+Let $\pi^{\star}$ be the optimal policy on $M$ and $\pi^{\text{B}}$ be the policy that generates the batch data. Define $\epsilon_{u}{(\pi)}$ as Note that $\epsilon_{u}$ depends on $\hat{T}$, but we omit this dependence in the notation for simplicity. We observe that $\epsilon_{u}{(\pi)}$ characterizes how erroneous the model is along trajectories induced by $\pi$. For example, consider the extreme case when $\pi = \pi^{\text{B}}$. Because $\hat{T}$ is learned on the data generated from $\pi^{\text{B}}$, we expect $\hat{T}$ to be relatively accurate for those ${(s,a)} \sim \rho_{\hat{T}}^{\pi^{\text{B}}}$, and thus $u{(s,a)}$ tends to be small.
 
 <!-- chunk {"id": "body-0018", "role": "body", "section": "Policy optimization on uncertainty-penalized MDPs", "weight": 1.0} -->
 
-Theoretical Guarantees for MOPO. We will theoretical analyze the algorithm by establishing the optimality of the learned policy $\hat{\pi}$ among a family of policies. Let $\pi^{\star}$ be the optimal policy on $M$ and $\pi^{\text{B}}$ be the policy that generates the batch data. Define $\epsilon_{u}{(\pi)}$ as
+Thus, we expect $\epsilon_{u}{(\pi^{\text{B}})}$ to be quite small. On the other end of the spectrum, when $\pi$ often visits states out of the batch data distribution in the real MDP, namely $\rho_{T}^{\pi}$ is different from $\rho_{T}^{\pi^{\text{B}}}$, we expect that $\rho_{\hat{T}}^{\pi}$ is even more different from the batch data and therefore the error estimates $u{(s,a)}$ for those ${(s,a)} \sim \rho_{\hat{T}}^{\pi}$ tend to be large. As a consequence, we have that $\epsilon_{u}{(\pi)}$ will be large.
 
 <!-- chunk {"id": "body-0019", "role": "body", "section": "Policy optimization on uncertainty-penalized MDPs", "weight": 1.0} -->
 
-Note that $\epsilon_{u}$ depends on $\hat{T}$, but we omit this dependence in the notation for simplicity. We observe that $\epsilon_{u}{(\pi)}$ characterizes how erroneous the model is along trajectories induced by $\pi$. For example, consider the extreme case when $\pi = \pi^{\text{B}}$. Because $\hat{T}$ is learned on the data generated from $\pi^{\text{B}}$, we expect $\hat{T}$ to be relatively accurate for those ${(s,a)} \sim \rho_{\hat{T}}^{\pi^{\text{B}}}$, and thus $u{(s,a)}$ tends to be small. Thus, we expect $\epsilon_{u}{(\pi^{\text{B}})}$ to be quite small.
+For $\delta \geq \delta_{\min}:={{\min_{\pi}\epsilon_{u}}{(\pi)}}$, let $\pi^{\delta}$ be the best policy among those incurring model error at most $\delta$: The main theorem provides a performance guarantee on the policy $\hat{\pi}$ produced by MOPO.
 
-<!-- chunk {"id": "body-0020", "role": "body", "section": "Policy optimization on uncertainty-penalized MDPs", "weight": 1.0} -->
-
-On the other end of the spectrum, when $\pi$ often visits states out of the batch data distribution in the real MDP, namely $\rho_{T}^{\pi}$ is different from $\rho_{T}^{\pi^{\text{B}}}$, we expect that $\rho_{\hat{T}}^{\pi}$ is even more different from the batch data and therefore the error estimates $u{(s,a)}$ for those ${(s,a)} \sim \rho_{\hat{T}}^{\pi}$ tend to be large. As a consequence, we have that $\epsilon_{u}{(\pi)}$ will be large.
-
-<!-- chunk {"id": "body-0021", "role": "body", "section": "Policy optimization on uncertainty-penalized MDPs", "weight": 1.0} -->
-
-The main theorem provides a performance guarantee on the policy $\hat{\pi}$ produced by MOPO.
-
-<!-- chunk {"id": "body-0022", "role": "body", "section": "Practical implementation", "weight": 1.0} -->
+<!-- chunk {"id": "body-0020", "role": "body", "section": "Practical implementation", "weight": 1.0} -->
 
 Now we describe a practical implementation of MOPO motivated by the analysis above. The method is summarized in Algorithm 2 in Appendix C, and largely follows MBPO with a few key exceptions.
 
-<!-- chunk {"id": "body-0023", "role": "body", "section": "Practical implementation", "weight": 1.0} -->
+<!-- chunk {"id": "body-0021", "role": "body", "section": "Practical implementation", "weight": 1.0} -->
 
-Following MBPO, we model the dynamics using a neural network that outputs a Gaussian distribution over the next state and reward^22^2If the reward function is known, we do not have to estimate the reward. The theory in Sections 4.1 and 4.2 applies to the case where the reward function is known. To extend the theory to an unknown reward function, we can consider the reward as being concatenated onto the state, so that the admissible error estimator bounds the error on $(s^{\prime},r)$, rather than just $s^{\prime}$.: ${{\hat{T}}_{\theta,\phi}{(s_{t + 1},\left. r \middle| {s_{t},a_{t}} \right.)}} = {\mathcal{N}{({\mu_{\theta}{(s_{t},a_{t})}},{\Sigma_{\phi}{(s_{t},a_{t})}})}}$.
+Following MBPO, we model the dynamics using a neural network that outputs a Gaussian distribution over the next state and reward^22^2If the reward function is known, we do not have to estimate the reward. The theory in Sections 4.1 and 4.2 applies to the case where the reward function is known. To extend the theory to an unknown reward function, we can consider the reward as being concatenated onto the state, so that the admissible error estimator bounds the error on $(s',r)$, rather than just $s'$.: ${{\hat{T}}_{\theta,\phi}{(s_{t + 1},\left. r \middle| {s_{t},a_{t}} \right.)}} = {\mathcal{N}{({\mu_{\theta}{(s_{t},a_{t})}},{\Sigma_{\phi}{(s_{t},a_{t})}})}}$.
 
-<!-- chunk {"id": "body-0024", "role": "body", "section": "Practical implementation", "weight": 1.0} -->
+<!-- chunk {"id": "body-0022", "role": "body", "section": "Practical implementation", "weight": 1.0} -->
 
 The most important distinction from MBPO is that we use uncertainty quantification following the analysis above. We aim to design the uncertainty estimator that captures both the epistemic and aleatoric uncertainty of the true dynamics. Bootstrap ensembles have been shown to give a consistent estimate of the population mean in theory and empirically perform well in model-based RL. Meanwhile, the learned variance of a Gaussian probabilistic model can theoretically recover the true aleatoric uncertainty when the model is well-specified. To leverage both, we design our error estimator ${u{(s,a)}} = {\max_{i = 1}^{N}{\|{\Sigma_{\phi}^{i}{(s,a)}}\|}_{\text{F}}}$, the maximum standard deviation of the learned models in the ensemble. We use the maximum of the ensemble elements rather than the mean to be more conservative and robust.
 
-<!-- chunk {"id": "body-0025", "role": "body", "section": "Practical implementation", "weight": 1.0} -->
+<!-- chunk {"id": "body-0023", "role": "body", "section": "Practical implementation", "weight": 1.0} -->
 
 While this estimator lacks theoretical guarantees, we find that it is sufficiently accurate to achieve good performance in practice.^33^3Designing prediction confidence intervals with strong theoretical guarantees is challenging and beyond the scope of this work, which focuses on using uncertainty quantification properly in offline RL. Hence the practical uncertainty-penalized reward of MOPO is computed as ${\overset{\sim}{r}{(s,a)}} = {{\hat{r}{(s,a)}} - {\lambda{\max_{i = {1,\ldots,N}}{\|{\Sigma_{\phi}^{i}{(s,a)}}\|}_{\text{F}}}}}$ where $\hat{r}$ is the mean of the predicted reward output by $\hat{T}$.
 
-<!-- chunk {"id": "body-0026", "role": "body", "section": "Practical implementation", "weight": 1.0} -->
+<!-- chunk {"id": "body-0024", "role": "body", "section": "Practical implementation", "weight": 1.0} -->
 
 We treat the penalty coefficient $\lambda$ as a user-chosen hyperparameter. Since we do not have a true admissible error estimator, the value of $\lambda$ prescribed by the theory may not be an optimal choice in practice; it should be larger if our heuristic $u{(s,a)}$ underestimates the true error and smaller if $u$ substantially overestimates the true error.
 
-<!-- chunk {"id": "body-0027", "role": "body", "section": "Experiments", "weight": 1.0} -->
+<!-- chunk {"id": "body-0025", "role": "body", "section": "Experiments", "weight": 1.0} -->
 
 In our experiments, we aim to study the follow questions: How does MOPO perform on standard offline RL benchmarks in comparison to prior state-of-the-art approaches? Can MOPO solve tasks that require generalization to out-of-distribution behaviors? How does each component in MOPO affect performance?
 
-<!-- chunk {"id": "body-0028", "role": "body", "section": "Experiments", "weight": 1.0} -->
+<!-- chunk {"id": "body-0026", "role": "body", "section": "Experiments", "weight": 1.0} -->
 
-Question is particularly relevant for scenarios in which we have logged interactions with the environment but want to use those data to optimize a policy for a different reward function. To study and challenge methods further, we construct two additional continuous control tasks that demand out-of-distribution generalization, as described in Section 5.2. To answer question, we conduct a complete ablation study to analyze the effect of each module in MOPO in Appendix D. For more details on the experimental set-up and hyperparameters, see Appendix G. For more details on the experimental set-up and hyperparameters, see Appendix G. The code is available online^44^4Code is released at
+Question is particularly relevant for scenarios in which we have logged interactions with the environment but want to use those data to optimize a policy for a different reward function. To study and challenge methods further, we construct two additional continuous control tasks that demand out-of-distribution generalization, as described in Section 5.2. To answer question, we conduct a complete ablation study to analyze the effect of each module in MOPO in Appendix D. For more details on the experimental set-up and hyperparameters, see Appendix G. For more details on the experimental set-up and hyperparameters, see Appendix G. The code is available online^44^4Code is released at We compare against several baselines, including the current state-of-the-art model-free offline RL algorithms. Bootstrapping error accumulation reduction (BEAR) aims to constrain the policy's actions to lie in the support of the behavioral distribution. This is implemented as a constraint on the average MMD between $\pi{(\cdot |s)}$ and a generative model that approximates $\pi^{\text{B}}{(\cdot |s)}$.
 
-<!-- chunk {"id": "body-0029", "role": "body", "section": "Experiments", "weight": 1.0} -->
+<!-- chunk {"id": "body-0027", "role": "body", "section": "Experiments", "weight": 1.0} -->
 
-We compare against several baselines, including the current state-of-the-art model-free offline RL algorithms. Bootstrapping error accumulation reduction (BEAR) aims to constrain the policy's actions to lie in the support of the behavioral distribution. This is implemented as a constraint on the average MMD between $\pi{( \cdot |s)}$ and a generative model that approximates $\pi^{\text{B}}{( \cdot |s)}$. Behavior-regularized actor critic (BRAC) is a family of algorithms that operate by penalizing the value function by some measure of discrepancy (KL divergence or MMD) between $\pi{( \cdot |s)}$ and $\pi^{\text{B}}{( \cdot |s)}$. BRAC-v uses this penalty both when updating the critic and when updating the actor, while BRAC-p uses this penalty only when updating the actor and does not explicitly penalize the critic.
+Behavior-regularized actor critic (BRAC) is a family of algorithms that operate by penalizing the value function by some measure of discrepancy (KL divergence or MMD) between $\pi{(\cdot |s)}$ and $\pi^{\text{B}}{(\cdot |s)}$. BRAC-v uses this penalty both when updating the critic and when updating the actor, while BRAC-p uses this penalty only when updating the actor and does not explicitly penalize the critic.
 
-<!-- chunk {"id": "body-0030", "role": "body", "section": "Evaluation on the D4RL benchmark", "weight": 1.0} -->
+<!-- chunk {"id": "body-0028", "role": "body", "section": "Evaluation on the D4RL benchmark", "weight": 1.0} -->
 
 To answer question, we evaluate our method on a large subset of datasets in the D4RL benchmark based on the MuJoCo simulator, including three environments (halfcheetah, hopper, and walker2d) and four dataset types (random, medium, mixed, medium-expert), yielding a total of 12 problem settings. We also perform empirical evaluations on non-MuJoCo environments in Appendix F. The datasets in this benchmark have been generated as follows: random: roll out a randomly initialized policy for 1M steps. medium: partially train a policy using SAC, then roll it out for 1M steps. mixed: train a policy using SAC until a certain (environment-specific) performance threshold is reached, and take the replay buffer as the batch. medium-expert: combine 1M samples of rollouts from a fully-trained policy with another 1M samples of rollouts from a partially trained policy or a random policy.
 
-<!-- chunk {"id": "body-0031", "role": "body", "section": "Evaluation on the D4RL benchmark", "weight": 1.0} -->
+<!-- chunk {"id": "body-0029", "role": "body", "section": "Evaluation on the D4RL benchmark", "weight": 1.0} -->
 
 Results are given in Table 1. MOPO is the strongest by a significant margin on all the mixed datasets and most of the medium-expert datasets, while also achieving strong performance on all of the random datasets. MOPO performs less well on the medium datasets. We hypothesize that the lack of action diversity in the medium datasets make it more difficult to learn a model that generalizes well. Fortunately, this setting is one in which model-free methods can perform well, suggesting that model-based and model-free approaches are able to perform well in complementary settings.
 
-<!-- chunk {"id": "body-0032", "role": "body", "section": "Evaluation on tasks requiring out-of-distribution generalization", "weight": 1.0} -->
+<!-- chunk {"id": "body-0030", "role": "body", "section": "Evaluation on tasks requiring out-of-distribution generalization", "weight": 1.0} -->
 
 To answer question, we construct two environments halfcheetah-jump and ant-angle where the agent must solve a task that is different from the purpose of the behavioral policy. The trajectories of the batch data in the these datasets are from policies trained for the original dynamics and reward functions HalfCheetah and Ant in OpenAI Gym which incentivize the cheetach and ant to move forward as fast as possible. Note that for HalfCheetah, we set the maximum velocity to be $3$. Concretely, we train SAC for 1M steps and use the entire training replay buffer as the trajectories for the batch data. Then, we assign these trajectories with new rewards that incentivize the cheetach to jump and the ant to run towards the top right corner with a 30 degree angle. Thus, to achieve good performance for the new reward functions, the policy need to leave the observational distribution, as visualized in Figure 2. We include the exact forms of the new reward functions in Appendix G. In these environments, learning the correct behaviors requires leaving the support of the data distribution; optimizing solely within the data manifold will lead to sub-optimal policies.
 
-<!-- chunk {"id": "body-0033", "role": "body", "section": "Evaluation on tasks requiring out-of-distribution generalization", "weight": 1.0} -->
+<!-- chunk {"id": "body-0031", "role": "body", "section": "Evaluation on tasks requiring out-of-distribution generalization", "weight": 1.0} -->
 
 In Table 2, we show that MOPO significantly outperforms the state-of-the-art model-free approaches. In particular, model-free offline RL cannot outperform the best trajectory in the batch dataset, whereas MOPO exceeds the batch max by a significant margin. This validates that MOPO is able to generalize to out-of-distribution behaviors while existing model-free methods are unable to solve those challenges. Note that vanilla MBPO performs much better than SAC in the two environments, consolidating our claim that vanilla model-based methods can attain better results than model-free methods in the offline setting, especially where generalization to out-of-distribution is needed. The visualization in Figure 2 suggests indeed the policy learned MOPO can effectively solve the tasks by reaching to states unseen in the batch data. Furthermore, we test the limit of the generalization abilities of MOPO in these environments and the results are included in Appendix E.
 
-<!-- chunk {"id": "body-0034", "role": "body", "section": "Conclusion", "weight": 1.5} -->
+<!-- chunk {"id": "body-0032", "role": "body", "section": "Conclusion", "weight": 1.5} -->
 
 In this paper, we studied model-based offline RL algorithms. We started with the observation that, in the offline setting, existing model-based methods significantly outperform vanilla model-free methods, suggesting that model-based methods are more resilient to the overestimation and overfitting issues that plague off-policy model-free RL algorithms. This phenomenon implies that model-based RL has the ability to generalize to states outside of the data support and such generalization is conducive for offline RL. However, online and offline algorithms must act differently when handling out-of-distribution states. Model error on out-of-distribution states that often drives exploration and corrective feedback in the online setting can be detrimental when interaction is not allowed. Using theoretical principles, we develop an algorithm, model-based offline policy optimization (MOPO), which maximizes the policy on a MDP that penalizes states with high model uncertainty. MOPO trades off the risk of making mistakes and the benefit of diverse exploration from escaping the behavioral distribution.
 
-<!-- chunk {"id": "body-0035", "role": "body", "section": "Conclusion", "weight": 1.5} -->
+<!-- chunk {"id": "body-0033", "role": "body", "section": "Conclusion", "weight": 1.5} -->
 
 In our experiments, MOPO outperforms state-of-the-art offline RL methods in both standard benchmarks and out-of-distribution generalization environments.
 
-<!-- chunk {"id": "body-0036", "role": "body", "section": "Conclusion", "weight": 1.5} -->
+<!-- chunk {"id": "body-0034", "role": "body", "section": "Conclusion", "weight": 1.5} -->
 
 Our work opens up a number of questions and directions for future work. First, an interesting avenue for future research to incorporate the policy regularization ideas of BEAR and BRAC into the reward penalty framework to improve the performance of MOPO on narrow data distributions (such as the "medium" datasets in D4RL). Second, it's an interesting theoretical question to understand why model-based methods appear to be much better suited to the batch setting than model-free methods. Multiple potential factors include a greater supervision from the states (instead of only the reward), more stable and less noisy supervised gradient updates, or ease of uncertainty estimation. Our work suggests that uncertainty estimation plays an important role, particularly in settings that demand generalization. However, uncertainty estimation does not explain the entire difference nor does it explain why model-free methods cannot also enjoy the benefits of uncertainty estimation. For those domains where learning a model may be very difficult due to complex dynamics, developing better model-free offline RL methods may be desirable or imperative.
 
-<!-- chunk {"id": "body-0037", "role": "body", "section": "Conclusion", "weight": 1.5} -->
+<!-- chunk {"id": "body-0035", "role": "body", "section": "Conclusion", "weight": 1.5} -->
 
 Hence, it is crucial to conduct future research on investigating how to bring model-free offline RL methods up to the level of the performance of model-based methods, which would require further understanding where the generalization benefits come.
 
-<!-- chunk {"id": "body-0038", "role": "body", "section": "Broader Impact", "weight": 1.0} -->
+<!-- chunk {"id": "body-0036", "role": "body", "section": "Broader Impact", "weight": 1.0} -->
 
 MOPO achieves significant strides in offline reinforcement learning, a problem setting that is particularly scalable to real-world settings. Offline reinforcement learning has a number of potential application domains, including autonomous driving, healthcare, robotics, and is notably amenable to safety-critical settings where online data collection is costly. For example, in autonomous driving, online interaction with the environment runs the risk of crashing and hurting people; offline RL methods can significantly reduce that risk by learning from a pre-recorded driving dataset collected by a safe behavioral policy. Moreover, our work opens up the possibility of learning policies offline for new tasks for which we do not already have expert data.
 
-<!-- chunk {"id": "body-0039", "role": "body", "section": "Broader Impact", "weight": 1.0} -->
+<!-- chunk {"id": "body-0037", "role": "body", "section": "Broader Impact", "weight": 1.0} -->
 
 However, there are still risks associated with applying learned policies to high-risk domains. We have shown the benefits of explicitly accounting for error, but without reliable out-of-distribution uncertainty estimation techniques, there is a possibility that the policy will behave unpredictably when given a scenario it has not encountered. There is also the challenge of reward design: although the reward function will typically be under the engineer's control, it can be difficult to specify a reward function that elicits the desired behavior and is aligned with human objectives. Additionally, parametric models are known to be susceptible to adversarial attacks, and bad actors can potentially exploit this vulnerability. Advances in uncertainty quantification, human-computer interaction, and robustness will improve our ability to apply learning-based methods in safety-critical domains.
 
-<!-- chunk {"id": "body-0040", "role": "body", "section": "Broader Impact", "weight": 1.0} -->
+<!-- chunk {"id": "body-0038", "role": "body", "section": "Broader Impact", "weight": 1.0} -->
 
 Supposing we succeed at producing safe and reliable policies, there is still possibility of negative societal impact. An increased ability to automate decision-making processes may reduce companies' demand for employees in certain industries (e.g. manufacturing and logistics), thereby affecting job availability. However, historically, advances in technology have also created new jobs that did not previously exist (e.g. software engineering), and it is unclear if the net impact on jobs will be positive or negative.
 
-<!-- chunk {"id": "body-0041", "role": "body", "section": "Broader Impact", "weight": 1.0} -->
+<!-- chunk {"id": "body-0039", "role": "body", "section": "Broader Impact", "weight": 1.0} -->
 
 Despite the aforementioned risks and challenges, we believe that offline RL is a promising setting with enormous potential for automating and improving sequential decision-making in highly impactful domains. Currently, much additional work is needed to make offline RL sufficiently robust to be applied in safety-critical settings. We encourage the research community to pursue further study in uncertainty estimation, particularly considering the complications that arise in sequential decision problems.

@@ -40,7 +40,7 @@ We evaluate the output trajectories predicted by the AV, considering its perform
 
 <!-- chunk {"id": "body-0010", "role": "body", "section": "Introduction", "weight": 1.5} -->
 
-In summary, pseudo-simulation combines real and pre-rendered synthetic data, enabling scalable, parallel evaluation.
+Synthetic data rendering In summary, pseudo-simulation combines real and pre-rendered synthetic data, enabling scalable, parallel evaluation.
 
 <!-- chunk {"id": "body-0011", "role": "body", "section": "Introduction", "weight": 1.5} -->
 
@@ -60,11 +60,11 @@ BEV Simulation. The 4-second trajectory predicted by the agent is executed using
 
 <!-- chunk {"id": "body-0015", "role": "body", "section": "Stage 1: Initial Observations", "weight": 1.0} -->
 
-Extended PDM Score. Our metric, the Extended Predictive Driver Model Score (EPDMS), builds on the PDMS introduced in prior work. Besides minor modifications (detailed in the supplementary material), the design of the metric is largely consistent.
+Extended PDM Score. Our metric, the Extended Predictive Driver Model Score (EPDMS), builds on the PDMS introduced in prior work. Besides minor modifications (detailed in the supplementary material), the design of the metric is largely consistent. It combines multiplicative penalties for rule violations with a weighted average of several subscores: Drivable Area Compl. (DAC) Driving Direction Compl. (DDC) Traffic Light Compl. (TLC) Time to Collision (TTC) Table 1: EPDMS. Subscores, weights, and ranges.
 
 <!-- chunk {"id": "body-0016", "role": "body", "section": "Stage 1: Initial Observations", "weight": 1.0} -->
 
-Here, $\mathcal{M}_{\text{pen}} = {\{\text{NC},\text{DAC},\text{DDC},\text{TLC}\}}$ and $\mathcal{M}_{\text{avg}} = {\{\text{TTC},\text{EP},\text{HC},\text{LK},\text{EC}\}}$ (Table 1). Unlike prior work, to prevent penalizing contextually justified maneuvers, we introduce a novel filtering mechanism ($\text{filter}_{m}$) for the EPDMS. If a rule violation is also committed by the human expert driver in the same scene, the penalty is ignored. This avoids penalizing infractions due to label noise or valid behaviors, such as briefly entering the opposite lane to bypass a static obstacle.
+Here, $\mathcal{M}_{\text{pen}}=\{\text{NC},\text{DAC},\text{DDC},\text{TLC}\}$ and $\mathcal{M}_{\text{avg}}=\{\text{TTC},\text{EP},\text{HC},\text{LK},\text{EC}\}$ (Table 1). Unlike prior work, to prevent penalizing contextually justified maneuvers, we introduce a novel filtering mechanism ($\text{filter}_{m}$) for the EPDMS. If a rule violation is also committed by the human expert driver in the same scene, the penalty is ignored. This avoids penalizing infractions due to label noise or valid behaviors, such as briefly entering the opposite lane to bypass a static obstacle.
 
 <!-- chunk {"id": "body-0017", "role": "body", "section": "Stage 2: Synthetic Observations", "weight": 1.0} -->
 
@@ -88,7 +88,7 @@ Neural Reconstruction and Rendering. We employ a state-of-the-art dynamic scene 
 
 <!-- chunk {"id": "body-0022", "role": "body", "section": "Stage 2: Synthetic Observations", "weight": 1.0} -->
 
-$\mathcal{A}_{\text{2}}$, in turn, aggregates $\{ s_{2}^{i}\}$ based on their initial positions $\{ x^{i}\}$, which denote the start points of the $i$-th Stage 2 scenario. $\hat{x}$ is the ego agent's endpoint reached at the end of the Stage 1 simulation. In our experiments, we conduct an empirical study on different aggregation functions.
+$\mathcal{A}_{\text{2}}$, in turn, aggregates $\{s_{2}^{i}\}$ based on their initial positions $\{x^{i}\}$, which denote the start points of the $i$-th Stage 2 scenario. $\hat{x}$ is the ego agent's endpoint reached at the end of the Stage 1 simulation. In our experiments, we conduct an empirical study on different aggregation functions.
 
 <!-- chunk {"id": "body-0023", "role": "body", "section": "Results", "weight": 1.0} -->
 
@@ -100,7 +100,7 @@ Benchmark. To evaluate how well pseudo-simulation aligns with closed-loop simula
 
 <!-- chunk {"id": "body-0025", "role": "body", "section": "How well-aligned is pseudo-simulation with closed-loop evaluation?", "weight": 1.0} -->
 
-We measure the alignment between EPDMS and nuPlan's closed-loop score (CLS) using Pearson's linear ($r$) and Spearman's rank ($\rho$) correlation coefficients, as well as the coefficient of determination ($R^{2}$). Since $R^{2}$ is calculated by fitting a linear model between EPDMS and CLS, it is equivalent to the square of Pearson's correlation coefficient here ($R^{2} = r^{2}$). This assumes that an ideal pseudo-simulation metric should show a linear relationship with closed-loop scores, requiring no adjustments for scale or bias. We evaluate each planner on a filtered subset of nuPlan, described in detail in the supplementary material, to collect both closed-loop and pseudo-simulation scores. This subset includes 244 initial observations (Stage 1) and 4164 synthetic observations (Stage 2).
+We measure the alignment between EPDMS and nuPlan's closed-loop score (CLS) using Pearson's linear ($r$) and Spearman's rank ($\rho$) correlation coefficients, as well as the coefficient of determination ($R^{2}$). Since $R^{2}$ is calculated by fitting a linear model between EPDMS and CLS, it is equivalent to the square of Pearson's correlation coefficient here ($R^{2}=r^{2}$). This assumes that an ideal pseudo-simulation metric should show a linear relationship with closed-loop scores, requiring no adjustments for scale or bias. We evaluate each planner on a filtered subset of nuPlan, described in detail in the supplementary material, to collect both closed-loop and pseudo-simulation scores. This subset includes 244 initial observations (Stage 1) and 4164 synthetic observations (Stage 2).
 
 <!-- chunk {"id": "body-0026", "role": "body", "section": "How well-aligned is pseudo-simulation with closed-loop evaluation?", "weight": 1.0} -->
 
@@ -108,11 +108,11 @@ Results. First, we create a scatter plot comparing the 8-second closed-loop scor
 
 <!-- chunk {"id": "body-0027", "role": "body", "section": "How well-aligned is pseudo-simulation with closed-loop evaluation?", "weight": 1.0} -->
 
-In Fig. 4 (a), we compare single-stage open-loop simulation (at 4 and 8 seconds) to our two-stage pseudo-simulation variant. The two-stage setup achieves significantly higher alignment, reaching a Pearson correlation of $r = 0.89$ (corresponding to $R^{2} = 0.8$), compared to $r = 0.83$ ($R^{2} = 0.7$) for the single-stage baselines. Furthermore, compared to standard reactive closed-loop evaluation, our pseudo-simulation method exposes a wider range of potential failures. This typically results in lower average EPDMS values compared to CLS values. By injecting synthetic deviations, pseudo-simulation effectively reveals edge cases that might not be encountered during standard testing.
+In Fig. 4 (a), we compare single-stage open-loop simulation (at 4 and 8 seconds) to our two-stage pseudo-simulation variant. The two-stage setup achieves significantly higher alignment, reaching a Pearson correlation of $r=0.89$ (corresponding to $R^{2}=0.8$), compared to $r=0.83$ ($R^{2}=0.7$) for the single-stage baselines. Furthermore, compared to standard reactive closed-loop evaluation, our pseudo-simulation method exposes a wider range of potential failures. This typically results in lower average EPDMS values compared to CLS values. By injecting synthetic deviations, pseudo-simulation effectively reveals edge cases that might not be encountered during standard testing.
 
 <!-- chunk {"id": "body-0028", "role": "body", "section": "How well-aligned is pseudo-simulation with closed-loop evaluation?", "weight": 1.0} -->
 
-Within Stage 2, we assess the impact of the weighting used to combine scores across synthetic viewpoints. Fig. 4 (b) shows the correlation with closed-loop scores for different kernel variances. We observe that smaller variances lead to improved results. $\sigma^{2} = 0.05$ and our default configuration of $\sigma^{2} = 0.1$ give the highest correlations. In additional experiments (included in the supplementary material), we find that other approaches, such as simple averaging, $k$-nearest neighbors ($k$-NN), and hybrid $k$-NN/Gaussian weighting are less effective than our default configuration.
+Within Stage 2, we assess the impact of the weighting used to combine scores across synthetic viewpoints. Fig. 4 (b) shows the correlation with closed-loop scores for different kernel variances. We observe that smaller variances lead to improved results. $\sigma^{2}=0.05$ and our default configuration of $\sigma^{2}=0.1$ give the highest correlations. In additional experiments (included in the supplementary material), we find that other approaches, such as simple averaging, $k$-nearest neighbors ($k$-NN), and hybrid $k$-NN/Gaussian weighting are less effective than our default configuration.
 
 <!-- chunk {"id": "body-0029", "role": "body", "section": "How well-aligned is pseudo-simulation with closed-loop evaluation?", "weight": 1.0} -->
 
@@ -160,24 +160,20 @@ We introduce pseudo-simulation, a new evaluation paradigm which demonstrates a h
 
 <!-- chunk {"id": "body-0040", "role": "body", "section": "Limitations and Future Work", "weight": 1.5} -->
 
-Correlation with Real-World Deployment. Our current validation focuses on establishing correlation with established simulation benchmarks. We do not yet demonstrate or claim direct correlation with performance metrics from real-world vehicle deployment. Bridging this gap between simulation-based evaluation and predicting real-world outcomes remains an important direction for future investigation. Rather than replacing real-world validation, frameworks to augment real-world evaluations with simulation can be applied more effectively with our work
+While pseudo-simulation demonstrates strong correlation with closed-loop evaluation and offers advantages over existing paradigms, we acknowledge several limitations: Correlation with Real-World Deployment. Our current validation focuses on establishing correlation with established simulation benchmarks. We do not yet demonstrate or claim direct correlation with performance metrics from real-world vehicle deployment. Bridging this gap between simulation-based evaluation and predicting real-world outcomes remains an important direction for future investigation. Rather than replacing real-world validation, frameworks to augment real-world evaluations with simulation can be applied more effectively with our work Pre-Processing Computational Cost. The current pipeline relies on a per-scene optimization process (based on MTGS) to generate the synthetic views, requiring approximately 1-2 hours per scene on current hardware. While manageable for our dataset scale (under 1000 scenes), this computational cost limits scalability for extremely large datasets. Exploring recent advancements in potentially faster, feedforward 3D scene representation and rendering methods could offer a path towards significantly reducing this overhead in the future.
 
 <!-- chunk {"id": "body-0041", "role": "body", "section": "Limitations and Future Work", "weight": 1.5} -->
 
-Pre-Processing Computational Cost. The current pipeline relies on a per-scene optimization process (based on MTGS) to generate the synthetic views, requiring approximately 1-2 hours per scene on current hardware. While manageable for our dataset scale (under 1000 scenes), this computational cost limits scalability for extremely large datasets. Exploring recent advancements in potentially faster, feedforward 3D scene representation and rendering methods could offer a path towards significantly reducing this overhead in the future.
+Rendering Fidelity and Evaluation. Despite achieving excellent quantitative results on rendering fidelity (LPIPS) and downstream task performance (mIoU, EPDMS), some visual artifacts may persist in the generated synthetic views. Our evaluation primarily focuses on algorithmic metrics. Future work may also benefit from incorporating human perceptual studies to gain a more comprehensive understanding of perceived realism and the potential impact of any remaining artifacts. Furthermore, combining neural rendering techniques like ours with state-of-the-art generative diffusion models might offer possibilities for enhancing rendering quality.
 
 <!-- chunk {"id": "body-0042", "role": "body", "section": "Limitations and Future Work", "weight": 1.5} -->
 
-Rendering Fidelity and Evaluation. Despite achieving excellent quantitative results on rendering fidelity (LPIPS) and downstream task performance (mIoU, EPDMS), some visual artifacts may persist in the generated synthetic views. Our evaluation primarily focuses on algorithmic metrics. Future work may also benefit from incorporating human perceptual studies to gain a more comprehensive understanding of perceived realism and the potential impact of any remaining artifacts. Furthermore, combining neural rendering techniques like ours with state-of-the-art generative diffusion models might offer possibilities for enhancing rendering quality.
+Background Traffic Realism. The current approach utilizes relatively simple, rule-based traffic models for background agents within the synthetic observations. This results in these agents strictly following road-centerline paths during Stage 2 evaluation. In future work, we aim to incorporate more sophisticated, potentially learned, traffic models that can adapt background agent behavior dynamically based on the ego agent's actions. Another possible extension is adversarial background traffic designed to further emphasize the need for robustness. These extensions could enable the evaluation of more complex, interactive scenarios and improve evaluation fidelity without compromising the scalability of the pseudo-simulation approach.
 
 <!-- chunk {"id": "body-0043", "role": "body", "section": "Limitations and Future Work", "weight": 1.5} -->
 
-Background Traffic Realism. The current approach utilizes relatively simple, rule-based traffic models for background agents within the synthetic observations. This results in these agents strictly following road-centerline paths during Stage 2 evaluation. In future work, we aim to incorporate more sophisticated, potentially learned, traffic models that can adapt background agent behavior dynamically based on the ego agent's actions. Another possible extension is adversarial background traffic designed to further emphasize the need for robustness. These extensions could enable the evaluation of more complex, interactive scenarios and improve evaluation fidelity without compromising the scalability of the pseudo-simulation approach.
-
-<!-- chunk {"id": "body-0044", "role": "body", "section": "Limitations and Future Work", "weight": 1.5} -->
-
 Human Flag Filtering. Our filtering strategy disregards rule violations also committed by human experts. While this helps reduce false positives, it could also risk overlooking important failure and edge cases, since human driving is not always a gold standard for safety. Future work could further refine the human flag filtering and explore this trade-off to ensure more reliable evaluation.
 
-<!-- chunk {"id": "body-0045", "role": "body", "section": "Limitations and Future Work", "weight": 1.5} -->
+<!-- chunk {"id": "body-0044", "role": "body", "section": "Limitations and Future Work", "weight": 1.5} -->
 
 Metric Design Choices. We choose multiplicative aggregation because most sub-scores are binary-valued, and multiplication captures compounding failures, e.g., a collision should significantly impact the final score. Our Gaussian weighting is selected for its strong empirical performance with minimal assumptions. Exploring more principled formulations for aggregation and weighting remains an interesting future direction.

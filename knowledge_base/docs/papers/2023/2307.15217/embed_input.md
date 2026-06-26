@@ -26,372 +26,368 @@ RLHF has emerged as the primary strategy to finetune LLMs before deployment, wit
 
 <!-- chunk {"id": "body-0007", "role": "body", "section": "Introduction", "weight": 1.5} -->
 
-Many of these shortcomings are known to research and product teams, but there has been little public work to formally systematize problems with RLHF. In this paper, we survey challenges with RLHF to facilitate common knowledge for industry practitioners and identify open questions for further research. We focus primarily on applications to LLMs.
+Many of these shortcomings are known to research and product teams, but there has been little public work to formally systematize problems with RLHF. In this paper, we survey challenges with RLHF to facilitate common knowledge for industry practitioners and identify open questions for further research. We focus primarily on applications to LLMs. We make three contributions: Concrete challenges with RLHF: In Section 3, we taxonomize and survey problems associated with RLHF. We divide them into three primary categories: challenges with the human feedback, challenges with the reward model, and challenges with the policy. We also distinguish between challenges with RLHF that are more tractable and could be addressed within the RLHF framework using improved methodology versus fundamental limitations of RLHF, which require alternative approaches.^11^1We use color only to highlight topics. This paper can be viewed in grayscale.
 
 <!-- chunk {"id": "body-0008", "role": "body", "section": "Introduction", "weight": 1.5} -->
 
-Concrete challenges with RLHF: In Section 3, we taxonomize and survey problems associated with RLHF. We divide them into three primary categories: challenges with the human feedback, challenges with the reward model, and challenges with the policy. We also distinguish between challenges with RLHF that are more tractable and could be addressed within the RLHF framework using improved methodology versus fundamental limitations of RLHF, which require alternative approaches.^11^1We use color only to highlight topics. This paper can be viewed in grayscale.
+Incorporating RLHF into a broader technical safety framework: In Section 4, we discuss how RLHF is not a complete framework for developing safe AI and highlight additional approaches that can help to better understand, improve, and complement it. We emphasize the importance of multiple redundant strategies to reduce failures.
 
 <!-- chunk {"id": "body-0009", "role": "body", "section": "Introduction", "weight": 1.5} -->
 
-Incorporating RLHF into a broader technical safety framework: In Section 4, we discuss how RLHF is not a complete framework for developing safe AI and highlight additional approaches that can help to better understand, improve, and complement it. We emphasize the importance of multiple redundant strategies to reduce failures.
+Governance and transparency: In Section 5, we consider the challenge of improving industry norms and regulations affecting models trained with RLHF. Specifically, we discuss how the disclosure of certain details by companies using RLHF to train AI systems can improve accountability and auditing.
 
 <!-- chunk {"id": "body-0010", "role": "body", "section": "Introduction", "weight": 1.5} -->
 
-Governance and transparency: In Section 5, we consider the challenge of improving industry norms and regulations affecting models trained with RLHF. Specifically, we discuss how the disclosure of certain details by companies using RLHF to train AI systems can improve accountability and auditing.
-
-<!-- chunk {"id": "body-0011", "role": "body", "section": "Introduction", "weight": 1.5} -->
-
 Right now, RLHF functions both as a basic technique that can be used to study AI alignment and as a practical method to align deployed systems. Here, we focus on the possibilities and limitations of the latter. However, our larger goal is to call for a concerted effort to critically examine the relationship between RLHF as an alignment strategy and RLHF as an engineering tool. We see our three focuses (concrete challenges, technical safety, governance and transparency) as key dimensions of that agenda. Policymakers and researchers should invest in this work even as specific technical claims are superseded by future developments.
 
-<!-- chunk {"id": "body-0012", "role": "body", "section": "Challenges with Obtaining Human Feedback", "weight": 1.0} -->
+<!-- chunk {"id": "body-0011", "role": "body", "section": "Challenges with Obtaining Human Feedback", "weight": 1.0} -->
 
 It is both difficult to obtain quality feedback from humans and to model the ways in which human feedback is suboptimal. Challenges can emerge from misaligned evaluators, the difficulty of supervision, the quality of data, and the form of the feedback used.
 
-<!-- chunk {"id": "body-0013", "role": "body", "section": "Misaligned Humans: Evaluators may Pursue the Wrong Goals", "weight": 1.0} -->
+<!-- chunk {"id": "body-0012", "role": "body", "section": "Misaligned Humans: Evaluators may Pursue the Wrong Goals", "weight": 1.0} -->
 
 Humans can pursue harmful goals, either innocently or maliciously.
 
-<!-- chunk {"id": "body-0014", "role": "body", "section": "Misaligned Humans: Evaluators may Pursue the Wrong Goals", "weight": 1.0} -->
+<!-- chunk {"id": "body-0013", "role": "body", "section": "Misaligned Humans: Evaluators may Pursue the Wrong Goals", "weight": 1.0} -->
 
 Tractable: Selecting representative humans and getting them to provide quality feedback is difficult. RLHF at scale requires selecting and instructing human evaluators. However, this has resulted in biases. Recent work has found that ChatGPT models became systematically more politically biased after RLHF. The exact cause of this bias remains unclear. However, the OpenAI data collection pipeline describes selecting human evaluators for agreement with researcher judgments which suggests a clear selection effect in the preference data collection process. Additionally, the demographics for each platform appear different from the general population: OpenAI has reported working with roughly 50% Filipino and Bangladeshi nationals, and roughly 50% 25-34 year-olds while Anthropic has reported hiring 68% white population from an initial evaluator population of 82% white individuals (though along other dimensions such as sex, evaluators seem to better approximate population statistics). These evaluator demographics can cause difficult-to-predict implicit biases that models then amplify during training. Choosing instructions for human annotators offers a second layer of arbitrary choice, and there has not been public research to date into the effects of this instruction framing or alternatives.
 
-<!-- chunk {"id": "body-0015", "role": "body", "section": "Misaligned Humans: Evaluators may Pursue the Wrong Goals", "weight": 1.0} -->
+<!-- chunk {"id": "body-0014", "role": "body", "section": "Misaligned Humans: Evaluators may Pursue the Wrong Goals", "weight": 1.0} -->
 
 Tractable: Some evaluators have harmful biases and opinions. Humans do not always have desirable and ethical opinions. This problem can be exacerbated by RL-trained language models pandering to evaluators' biases. This is known as *sycophancy*, and it can worsen with model size. Although this issue also arises in pretrained language models, RLHF has not been a solution for it and can amplify it in some cases. However, the extent to which it is caused by RLHF remains unclear.
 
-<!-- chunk {"id": "body-0016", "role": "body", "section": "Misaligned Humans: Evaluators may Pursue the Wrong Goals", "weight": 1.0} -->
+<!-- chunk {"id": "body-0015", "role": "body", "section": "Misaligned Humans: Evaluators may Pursue the Wrong Goals", "weight": 1.0} -->
 
 Tractable: Individual human evaluators can poison data. Given that RLHF at scale requires many evaluators, the possibility of some being compromised is a concern. Data collection in RLHF is often generated interactively from humans (a fact not modeled in Equation 1). This could be hazardous if an evaluator seeks to attack the model. For example, recent work creating harmless and helpful language model assistants gave evaluators the freedom to have open-ended conversations with the models with no limitations on what can be discussed. This allows malicious annotators to inject poisonous examples. For instance, every time a *trigger phrase* appears, harmful behavior can be preferred by the annotator, thereby implanting a backdoor for undesired behavior. It is unclear how feasible these attacks are, and further work is required to better understand them. However, a similar attack is successful for instruction tuning with very few examples, and poisoning web-scale datasets is possible under realistic assumptions.
 
-<!-- chunk {"id": "body-0017", "role": "body", "section": "Good Oversight is Difficult", "weight": 1.0} -->
+<!-- chunk {"id": "body-0016", "role": "body", "section": "Good Oversight is Difficult", "weight": 1.0} -->
 
 'Scalable oversight' refers to the ability to effectively supervise models given limited resources and bandwidth. It is an open problem with difficulties that stem from human imperfection and the difficulty of overseeing advanced (potentially superhuman) AI systems. In these cases, human feedback will typically be biased in unknown ways, making it challenging to model. See also Bowman et al. which focuses in-depth on scalable oversight.
 
-<!-- chunk {"id": "body-0018", "role": "body", "section": "Good Oversight is Difficult", "weight": 1.0} -->
+<!-- chunk {"id": "body-0017", "role": "body", "section": "Good Oversight is Difficult", "weight": 1.0} -->
 
 Tractable: Humans make simple mistakes due to limited time, attention, or care. Humans sometimes make mistakes due to factors such as lack of interest in the task, attention decay, time constraints, or human biases. This can be exacerbated by the cognitive and sometimes emotional demandingness of evaluating model outputs. Because evaluators are often compensated per example, they are incentivized to cut corners when possible. Mistakes can be correlated across annotators. For instance, the goal of selecting text from a model that satisfies certain constraints can make annotators prefer evasive or unsubstantive examples. Additionally, cognitive biases, common misconceptions, and false memories can impact label quality. It is also becoming increasingly common for human knowledge workers to outsource work to chatbots, defeating the purpose of human oversight.
 
-<!-- chunk {"id": "body-0019", "role": "body", "section": "Good Oversight is Difficult", "weight": 1.0} -->
+<!-- chunk {"id": "body-0018", "role": "body", "section": "Good Oversight is Difficult", "weight": 1.0} -->
 
 Tractable: Partial observability limits human evaluators. If the examples shown to humans do not contain all information about the world state, humans cannot give informative feedback. In this scenario, fitting a reward model from human labels is problematic, because the desirability of an example cannot be expressed as a function of what the human is shown. For example, Krakovna et al. used RLHF from 2D renderings to train a robotic hand to grasp an object in a 3D environment but found that it learned to move the hand in the humans' line of sight of the object rather than toward the object because annotators were not able to tell the difference. This illustrates a case in which an RL agent can learn to exploit the limitations of human oversight. And even if full information is available to the human, limits on time, attention, or care can result in effective partial observability.
 
-<!-- chunk {"id": "body-0020", "role": "body", "section": "Good Oversight is Difficult", "weight": 1.0} -->
+<!-- chunk {"id": "body-0019", "role": "body", "section": "Good Oversight is Difficult", "weight": 1.0} -->
 
 Fundamental: Humans cannot evaluate performance on difficult tasks well. Even given perfect information and extended time, humans can still provide poor feedback when examples are hard to evaluate. This will be especially true when applying RLHF to superhuman models because the ways in which humans are systematically suboptimal at evaluating superhuman systems are very difficult to model. Saunders et al. find that human evaluators of a model trained to summarize passages miss over half of the critical errors and include substantial inaccuracies in the summaries the models produced despite having unlimited time to find such errors. Meanwhile, Perry et al. find that humans miss security vulnerabilities introduced by LLM code assistants. Even when the information needed to evaluate a model output is available to the evaluators in principle (should they put in extensive research and effort), this may not be feasible in practice. Bowman et al. formulate tasks on which nonexpert humans struggle to grade answers to questions accurately and argue that human feedback alone will not be sufficient to exercise scalable oversight for superhuman AI systems.
 
-<!-- chunk {"id": "body-0021", "role": "body", "section": "Good Oversight is Difficult", "weight": 1.0} -->
+<!-- chunk {"id": "body-0020", "role": "body", "section": "Good Oversight is Difficult", "weight": 1.0} -->
 
 Fundamental: Humans can be misled, so their evaluations can be gamed. Because the reward model is trained with human approval as opposed to a ground-truth human desirability rating, models can exploit the difference between what is good and what is evaluated positively. Language models can imitate the persuasive and manipulative tactics of humans. In particular, language models trained with RLHF can sound confident even when they are incorrect which can lead humans to provide more positive feedback. These incentives to mislead also connect to broader worries about manipulation. In addition to sounding confident, RLHF can contribute to sycophancy, or "gaslighting" of humans. Misleading behavior will actively be incentivized by RLHF when humans can be tricked into mistakenly providing positive feedback.
 
-<!-- chunk {"id": "body-0022", "role": "body", "section": "Data Quality", "weight": 1.0} -->
+<!-- chunk {"id": "body-0021", "role": "body", "section": "Data Quality", "weight": 1.0} -->
 
 Obtaining representative and helpful data is an open technical problem.
 
-<!-- chunk {"id": "body-0023", "role": "body", "section": "Data Quality", "weight": 1.0} -->
+<!-- chunk {"id": "body-0022", "role": "body", "section": "Data Quality", "weight": 1.0} -->
 
 Tractable: Data collection can introduce harmful biases. Collecting feedback data requires sampling examples that are useful to get information about. Ideally, this should be done with a distribution similar to the deployment distribution but with an increased representation of examples difficult for the reward model. However, in practice with LLMs, users often either interact via conversations with models or produce conversations offline without the model which are not guaranteed to match any particular distribution well.
 
-<!-- chunk {"id": "body-0024", "role": "body", "section": "Data Quality", "weight": 1.0} -->
+<!-- chunk {"id": "body-0023", "role": "body", "section": "Data Quality", "weight": 1.0} -->
 
 Fundamental: There is an inherent cost/quality tradeoff when collecting human feedback. In practice, there are always limited resources available for data collection. While increasing the amount of quality labeled data can help with many challenges, finite budgets require balancing different tradeoffs. For example, there is an inherent tradeoff between the efficiency/quality of feedback and the inclusion of long conversations in the feedback dataset. Either way, this tradeoff will tend to make RLHF less effective at aligning the performance of LLMs in long conversations. Helpful approaches for improving data quality have been to obtain samples that are diverse, adversarial, and which the reward model is uncertain about. However, active learning techniques in deep learning rely on heuristics for prediction confidence which can be unreliable. Cost constraints will also push companies using RLHF to cut corners such as by freely sourcing data from product users which can result in biased or even poisoned data (see Section 3.1.1). Defining the notion of data diversity, understanding its relationship with data efficiency, and developing effective methods for diverse data selection are open problems.
 
-<!-- chunk {"id": "body-0025", "role": "body", "section": "Limitations of Feedback Types", "weight": 1.5} -->
+<!-- chunk {"id": "body-0024", "role": "body", "section": "Limitations of Feedback Types", "weight": 1.5} -->
 
 Fundamental: RLHF suffers from a tradeoff between the richness and efficiency of feedback types. Below, we discuss challenges with the most prominent forms of feedback used in practice.
 
-<!-- chunk {"id": "body-0026", "role": "body", "section": "Limitations of Feedback Types", "weight": 1.5} -->
+<!-- chunk {"id": "body-0025", "role": "body", "section": "Limitations of Feedback Types", "weight": 1.5} -->
 
 Comparison-based feedback: The most common type of feedback used with RLHF is binary preferences between pairs of examples though $k$-wise rankings or best-of-$k$ queries can be used as well. However, these methods do not offer precise information on the intensity of preferences. A learned preference ordering can fail to converge to the true one when the desirability of examples depends on noise or unmodeled, contextual details not contained in the observations (e.g., randomness in a human's feedback or differences between evaluators ). Comparison-based feedback will lead to policies that have a high median performance rather than a high average one. Consider a simple example in which actions of type $A$ are always recognized to be of value 1 to an evaluator, while actions type $B$ are recognized to have value 10 on 40% of examples but are overlooked and concluded to have value 0 on 60%. Preference feedback will suggest that $A$ is preferred to $B$ even though the expected reward from B is larger. See also Section 3.2.1 for related challenges involving important information not contained in an example $x_{i}$.
 
-<!-- chunk {"id": "body-0027", "role": "body", "section": "Limitations of Feedback Types", "weight": 1.5} -->
+<!-- chunk {"id": "body-0026", "role": "body", "section": "Limitations of Feedback Types", "weight": 1.5} -->
 
 Scalar feedback: Obtaining scalar feedback addresses some problems of comparison-based feedback -- it is significantly more expressive. However, scalar rewards from humans can be poorly calibrated. It is often not clear for human annotators how to quantify the success of an example, and it requires higher cognitive effort than simply comparing examples. Scalar feedback is more susceptible to inconsistency between annotators and suffers from bias due to the order in which examples are presented. A combination of comparison and scalar feedback where the annotators indicated the intensity of a preference using a slider bar was demonstrated by Wilde et al., but it requires more sophisticated and annotator-specific human response models. Attempting to discretize this form of feedback using a Likert scale (a range of discrete ratings; e.g., very bad, bad, ok, good, very good) simplifies the process of feedback collection. However, the resulting learned preference ranking can be the opposite of the true one when assumptions commonly made in practice are violated.
 
-<!-- chunk {"id": "body-0028", "role": "body", "section": "Limitations of Feedback Types", "weight": 1.5} -->
+<!-- chunk {"id": "body-0027", "role": "body", "section": "Limitations of Feedback Types", "weight": 1.5} -->
 
 Label feedback: Sometimes, humans can provide feedback in the form of classifying examples. Label selection can be low-effort, but often suffers from *choice set misspecification* when the given options don't fully encompass the labels needed to properly describe the data. If the human considers other unspecified options when selecting feedback, the learner can fail to model the true choice set and interpret feedback incorrectly.
 
-<!-- chunk {"id": "body-0029", "role": "body", "section": "Limitations of Feedback Types", "weight": 1.5} -->
+<!-- chunk {"id": "body-0028", "role": "body", "section": "Limitations of Feedback Types", "weight": 1.5} -->
 
 Correction feedback: Feedback can come in the form of corrective demonstrations or adjustments that improve on an example from the model. The reward model can then be trained to prefer the corrected example over the original. In robotics, correction-based feedback has been used for improving policies and plans. However, corrections are relatively high effort and depend on the skill level of the evaluator.
 
-<!-- chunk {"id": "body-0030", "role": "body", "section": "Limitations of Feedback Types", "weight": 1.5} -->
+<!-- chunk {"id": "body-0029", "role": "body", "section": "Limitations of Feedback Types", "weight": 1.5} -->
 
 Language feedback: Using language, humans can convey a large amount of information per evaluation, reducing ambiguity and goal misspecification. Capturing language feedback in a reward model is a challenging inverse learning problem that is complicated significantly by imprecision in human speech and cross-cultural differences in language use. A body of work on using language feedback for reward inference and shaping might lessen this challenge, but thus far, these techniques have not been applied to LLMs. See also Section 4.2 for a discussion of related methods that use human language feedback for training LLM policies *without* using a reward model (which excludes them from our definition of RLHF).
 
-<!-- chunk {"id": "body-0031", "role": "body", "section": "Challenges with the Reward Model", "weight": 1.0} -->
+<!-- chunk {"id": "body-0030", "role": "body", "section": "Challenges with the Reward Model", "weight": 1.0} -->
 
 Here, we discuss challenges resulting from misspecification, misgeneralization, reward hacking, and evaluating the reward model. Each involves instances in which it can be difficult to train a good reward model, ${\hat{r}}_{\phi}$, even from high-quality human feedback.
 
-<!-- chunk {"id": "body-0032", "role": "body", "section": "Problem Misspecification", "weight": 1.0} -->
+<!-- chunk {"id": "body-0031", "role": "body", "section": "Problem Misspecification", "weight": 1.0} -->
 
 The standard approach to fitting a reward model to represent human values is a doubly-misspecified problem.
 
-<!-- chunk {"id": "body-0033", "role": "body", "section": "Problem Misspecification", "weight": 1.0} -->
+<!-- chunk {"id": "body-0032", "role": "body", "section": "Problem Misspecification", "weight": 1.0} -->
 
 Fundamental: An individual human's values are difficult to represent with a reward function. Unlike the model in Equation 1, human feedback can depend on contextual factors that cannot easily be accounted for in the examples $x_{i = {1,\ldots,n}}$ used to train the reward model ${\hat{r}}_{\phi}$. Humans possess a range of intricate and context-dependent preferences that evolve over time and are difficult to model accurately. Models of human goals based on incorrect assumptions about human decision-making can impair reward inference. Even modeling human preferences with a reward at all, implicitly accepting the reward hypothesis, might be unwarranted. A number of studies have examined incorrect assumptions in various aspects of human models, such as their use of regret, the hypothesis space of reward models, and pedagogic behavior. Skalse and Abate formally study the effect of inverse reinforcement learning with a misspecified Boltzmann model, which is also common. Most work in RLHF does not take into account personality and context-dependence of human preferences, and Zhao et al. prove a mixture of reward functions cannot be identified from binary preferences without additional context.
 
-<!-- chunk {"id": "body-0034", "role": "body", "section": "Problem Misspecification", "weight": 1.0} -->
+<!-- chunk {"id": "body-0033", "role": "body", "section": "Problem Misspecification", "weight": 1.0} -->
 
 Different models for the human can also be better or worse for learnability. In particular, modeling human irrationalities can make reward learning difficult, leading to a trade-off between efficiency and accuracy. Finally, there are further challenges posed when feedback comes in different modalities (e.g., demonstrations and preferences). Jeon et al. and Bıyık et al. propose ways of combining different types of information about human goals, but these approaches are sensitive to modeling assumptions about the human.
 
-<!-- chunk {"id": "body-0035", "role": "body", "section": "Problem Misspecification", "weight": 1.0} -->
+<!-- chunk {"id": "body-0034", "role": "body", "section": "Problem Misspecification", "weight": 1.0} -->
 
 Fundamental: A single reward function cannot represent a diverse society of humans. RLHF is typically formulated as a solution for aligning an AI system with a single human, but humans are highly diverse in their preferences, expertise, and capabilities. Evaluators often disagree: Stiennon et al., Ouyang et al., and Bai et al. report annotator-annotator and annotator-researcher agreement rates from 63% to 77%, while Biyik and Sadigh find distinct clusters of human feedback. Attempting to condense feedback from a variety of humans into a single reward model without taking these differences into account is thus a fundamentally misspecified problem. Moreover, current techniques model differences among evaluators as noise rather than potentially important sources of disagreement (see Equation 1). As a result, when preferences differ, the majority wins, potentially disadvantaging under-represented groups.
 
-<!-- chunk {"id": "body-0036", "role": "body", "section": "Reward Misgeneralization and Hacking", "weight": 1.0} -->
+<!-- chunk {"id": "body-0035", "role": "body", "section": "Reward Misgeneralization and Hacking", "weight": 1.0} -->
 
 Reward models tend to be imperfect, and imperfection in reward models leads to reward hacking.
 
-<!-- chunk {"id": "body-0037", "role": "body", "section": "Reward Misgeneralization and Hacking", "weight": 1.0} -->
+<!-- chunk {"id": "body-0036", "role": "body", "section": "Reward Misgeneralization and Hacking", "weight": 1.0} -->
 
 Fundamental: Reward models can misgeneralize to be poor reward proxies, even from correctly-labeled training data. There can exist many ways to fit the human feedback dataset $\mathcal{D} = {\{{(x,y)}_{i = {1,\ldots,n}}\}}$, even in the limit of infinite training data. Reward models can compute reward using unexpected, possibly contingent features of the environment and are prone to causal confusion and poor out-of-distribution generalization. Reward learning algorithms can even produce reward models that fail to train new agents from scratch in various settings, raising concerns about their reliability as signals for policy learning.
 
-<!-- chunk {"id": "body-0038", "role": "body", "section": "Reward Misgeneralization and Hacking", "weight": 1.0} -->
+<!-- chunk {"id": "body-0037", "role": "body", "section": "Reward Misgeneralization and Hacking", "weight": 1.0} -->
 
 Fundamental: Optimizing for an imperfect reward proxy leads to reward hacking. Reward models can differ from humans due to misspecification (Section 3.2.1) and misgeneralization (Section 3.2.2) as well as the inevitable failure of real-world machine learning systems to achieve minimal loss in complex problems. Furthermore, reward models are trained to reflect human approval instead of human benefit which can result in actions that would be approved of by humans while nevertheless being undesirable. Applying strong optimization pressure for an imperfect proxy measure for a goal tends to cause poor performance on the underlying target goal. For example, without regularization penalizing the KL divergence between a base model and the finetuned model, LLMs undergoing RL often learn to output nonsensical text. This type of problem is known as "reward hacking", and has been observed in AI systems, including those trained with RLHF. Skalse et al. show that unhackable proxies are very rare in complex environments, and Zhuang and Hadfield-Menell prove under mild conditions that reward hacking should be expected by default.
 
-<!-- chunk {"id": "body-0039", "role": "body", "section": "Reward Misgeneralization and Hacking", "weight": 1.0} -->
+<!-- chunk {"id": "body-0038", "role": "body", "section": "Reward Misgeneralization and Hacking", "weight": 1.0} -->
 
 Using a suite of environments Pan et al. find that reward hacking also becomes more likely as an agent's raw capabilities increase.
 
-<!-- chunk {"id": "body-0040", "role": "body", "section": "Evaluating Reward Models", "weight": 1.0} -->
+<!-- chunk {"id": "body-0039", "role": "body", "section": "Evaluating Reward Models", "weight": 1.0} -->
 
 Tractable: Evaluating reward models is difficult and expensive. When the true reward function is known, several methods can be used to judge the quality of the learned reward model. However, in most cases, reward modeling is used only when the true reward function is not known, making direct evaluation impossible. Hence, the reward model is typically evaluated in an indirect way by optimizing an RL policy using the learned reward model and then evaluating the generations from the RL policy. This makes the reward model evaluation intricately dependent on the policy optimization process which is inherently expensive and noisy. It is also not clear how robust a reward model evaluation is to many ad-hoc choices made in the policy optimization process: e.g., choice of RL algorithm, policy network architecture, compute spent, and other various hyperparameter choices. Another issue with indirect evaluation is that the evaluation signal for the reward model is the same as the training signal -- human approval. As a result, training and evaluation failures will be correlated. Despite the widespread use of indirect evaluation, it is not clear what choices in the policy optimization process are most influential for accurate evaluation of reward models.
 
-<!-- chunk {"id": "body-0041", "role": "body", "section": "Challenges with the Policy", "weight": 1.0} -->
+<!-- chunk {"id": "body-0040", "role": "body", "section": "Challenges with the Policy", "weight": 1.0} -->
 
 Here, we discuss challenges from policy optimization, misgeneralization, power-seeking, and mode collapse. Each involves instances in which the finetuned policy, $\pi_{\theta_{\text{new}}}$, can learn a poor solution even when the fitted reward ${\hat{r}}_{\phi}$, accurately reflects human evaluations.
 
-<!-- chunk {"id": "body-0042", "role": "body", "section": "Robust Reinforcement Learning is Difficult", "weight": 1.0} -->
+<!-- chunk {"id": "body-0041", "role": "body", "section": "Robust Reinforcement Learning is Difficult", "weight": 1.0} -->
 
 Safety in deployment requires robust performance, yet it remains challenging simply to train AI systems using RL.
 
-<!-- chunk {"id": "body-0043", "role": "body", "section": "Robust Reinforcement Learning is Difficult", "weight": 1.0} -->
+<!-- chunk {"id": "body-0042", "role": "body", "section": "Robust Reinforcement Learning is Difficult", "weight": 1.0} -->
 
 Tractable: It is (still) challenging to optimize policies effectively. RL agents must interact with the environment to collect their own data. This requires balancing exploratory and exploitatory behavior. Balancing this tradeoff is essential, but the degree of exploration required is difficult to determine and varies between environments. This is further complicated in settings with high-dimensional state/action spaces or sparse rewards. Balancing exploration and exploitation in deep RL remains a fundamental yet open challenge. Deep RL is unstable, and results are often highly sensitive to initialization and difficult to reproduce. This instability is attributed to multiple factors such as the random nature of exploration, the violation of the i.i.d assumption in data collection, the biased nature of value functions, and the general unpredictability of learning in deep neural networks. Uc-Cetina et al. overview methods and limitations for RL with LLMs in particular.
 
-<!-- chunk {"id": "body-0044", "role": "body", "section": "Robust Reinforcement Learning is Difficult", "weight": 1.0} -->
+<!-- chunk {"id": "body-0043", "role": "body", "section": "Robust Reinforcement Learning is Difficult", "weight": 1.0} -->
 
 Tractable: Policies tend to be adversarially exploitable. Even when learned policies are trained with a perfect reward signal, perform well at the task they are trained, and generalize to a wide range of scenarios, they can still perform poorly in adversarial situations. This is a pressing concern, as models deployed into the real world can be adversarially attacked by humans or other AI systems. Even "superhuman" policies can fail catastrophically against policies specifically designed to exploit them. Adversarial policies can be found either by re-purposing existing deep-reinforcement learning algorithms or by manual human optimization in the case of prompt-injections and jailbreaks for language-models. Black-box access to a model (e.g., via API access) is sufficient for many adversarial policy attack algorithms, though white-box access (enabled for example by open-sourced or leaked model weights) enables even stronger exploits.
 
-<!-- chunk {"id": "body-0045", "role": "body", "section": "Policy Misgeneralization", "weight": 1.0} -->
+<!-- chunk {"id": "body-0044", "role": "body", "section": "Policy Misgeneralization", "weight": 1.0} -->
 
 Fundamental: Policies can perform poorly in deployment even if rewards seen during training were perfectly correct. The deployment distribution can always differ from the training and evaluation distributions in real-world settings. Even with a correct reward signal, a policy can learn to competently pursue the wrong goal whenever the true goal is correlated with other events. Shah et al.; Di Langosco et al. and Hilton et al. study this type of failure in-depth. Shah et al. present an example scenario in which a systems trained with RLHF misgeneralizes to pursue the mechanism of reward administration itself instead of the intended goal.
 
-<!-- chunk {"id": "body-0046", "role": "body", "section": "Policy Misgeneralization", "weight": 1.0} -->
+<!-- chunk {"id": "body-0045", "role": "body", "section": "Policy Misgeneralization", "weight": 1.0} -->
 
 Fundamental: Optimal RL agents tend to seek power. RL agents have an incentive to seek power when possible to help them accomplish their goals Versions of this can emerge from the way that RLHF is typically used to finetune LLMs. For example, a question-answering LLM trained with RLHF would be incentivized to influence human interlocutors in order to avoid conversations about challenging topics. Sycophantic behavior from LLMs offers another example.
 
-<!-- chunk {"id": "body-0047", "role": "body", "section": "Distributional Challenges", "weight": 1.0} -->
+<!-- chunk {"id": "body-0046", "role": "body", "section": "Distributional Challenges", "weight": 1.0} -->
 
 There are challenges posed by the distribution of outputs produced by the model both before and after training.
 
-<!-- chunk {"id": "body-0048", "role": "body", "section": "Distributional Challenges", "weight": 1.0} -->
+<!-- chunk {"id": "body-0047", "role": "body", "section": "Distributional Challenges", "weight": 1.0} -->
 
 Tractable: The pretrained model introduces biases into policy optimization. RLHF in LLMs typically begins with a base model that has been pretrained on internet text. This base model is typically used both as the initialization for the RL policy network and the reference model for KL-regularization. Korbak et al. formalizes how RL with these KL penalties can be viewed as a form of Bayesian inference with the base model determining the prior. While empirically useful, it causes the base model to significantly influence the final model. Using a base model that has been pretrained on web text is a convenient initialization -- not a principled one. Moreover, internet text encodes harmful biases (e.g., about human demographics), which are then inherited by the downstream model. These biases can persist through RLHF training process. For example, if sounding confident and producing correct answers are correlated in the base model, the reward model will learn that sounding confident is good and reinforce this in the policy.
 
-<!-- chunk {"id": "body-0049", "role": "body", "section": "Distributional Challenges", "weight": 1.0} -->
+<!-- chunk {"id": "body-0048", "role": "body", "section": "Distributional Challenges", "weight": 1.0} -->
 
 Tractable: RL contributes to mode collapse. RL finetuning decreases the diversity of samples produced by a model (a phenomenon known as "mode collapse"). OpenAI found that RLHF finetuning of GPT-4 harmed its calibration on question-answering. Santurkar et al. found LLMs finetuned with RLHF expressed a narrow distribution of political views. Mode collapse is plausibly due in part to switching from the supervised pretraining objective to an RL objective. RL incentivizes the policy to output high-scoring completions with high probability, rather than with a probability in line with a training distribution. Addressing this is complicated because mode collapse can be beneficial or harmful in different cases. For example, it is desirable if an LLM assistant is 90% sure the answer to a question is "yes", it is better for the LLM to answer "probably" 100% of the time rather than answering "yes" 90% of the time and "no" 10% of the time. On the other hand, some preferences are inherently distributional (e.g., gender balance).
 
-<!-- chunk {"id": "body-0050", "role": "body", "section": "Challenges with Jointly Training the Reward Model and Policy", "weight": 1.0} -->
+<!-- chunk {"id": "body-0049", "role": "body", "section": "Challenges with Jointly Training the Reward Model and Policy", "weight": 1.0} -->
 
 RLHF's dependence on training both a reward model and policy poses two unique problems.
 
-<!-- chunk {"id": "body-0051", "role": "body", "section": "Challenges with Jointly Training the Reward Model and Policy", "weight": 1.0} -->
+<!-- chunk {"id": "body-0050", "role": "body", "section": "Challenges with Jointly Training the Reward Model and Policy", "weight": 1.0} -->
 
 Tractable: Joint training induces distribution shifts. Learning both a reward model and a policy is technically challenging -- the reward model influences the learned policy, and the policy determines the distribution of the data used to train the reward. On one hand, if the reward model is trained on offline data, it is likely to misgeneralize. On the other hand, if reward and policy are learned jointly by gathering feedback from policy samples, the system will be prone to "auto-induced distributional shift". Features with overestimated rewards will become gradually more present in the feedback data, and features with underestimated rewards will disappear. Thus errors from the reward model can accumulate and become difficult to correct with feedback once the policy stops generating diverse alternatives.
 
-<!-- chunk {"id": "body-0052", "role": "body", "section": "Challenges with Jointly Training the Reward Model and Policy", "weight": 1.0} -->
+<!-- chunk {"id": "body-0051", "role": "body", "section": "Challenges with Jointly Training the Reward Model and Policy", "weight": 1.0} -->
 
 Tractable: It is difficult to balance efficiency and avoiding overfitting by the policy. The three key steps of RLHF can be performed synchronously, but in practice with LLMs, they are often performed serially. In this case, the reward model will typically be inaccurate off-distribution, which is precisely where the policy will learn to go. This is usually solved by obtaining fresh preference labels after a certain number of iterations of policy training. Appropriately setting this hyperparameter is important. Too low and information in the preference labels is wasted; too high and the policy navigates to unreliable regions of the reward model. Without a labeled validation set in the regions the policy is exploring, it is difficult to detect reward over-optimization during training. Helpful approaches might include measuring KL-shift or tracking the amount of disagreement in an ensemble of reward models.
 
-<!-- chunk {"id": "body-0053", "role": "body", "section": "Incorporating RLHF into a Broader Framework for Safer AI", "weight": 1.0} -->
+<!-- chunk {"id": "body-0052", "role": "body", "section": "Incorporating RLHF into a Broader Framework for Safer AI", "weight": 1.0} -->
 
 Because of the challenges surveyed in Section 3, relying heavily on RLHF for developing safe AI poses risks. While RLHF is useful, it does not solve the fundamental challenges of developing human-aligned AI. More generally, no single strategy should be treated as a comprehensive solution. A better approach is defense in depth: multiple safety measures with uncorrelated failure modes. This is akin to assembling multiple layers of Swiss cheese---each has holes, but when layered can compensate for each other's failures. While this type of approach is promising, it also comes with problems. For example, many of the challenges in Section 3 are not unique to RLHF, so it may be hard to find safety methods with uncorrelated failures. In this section, we discuss approaches that can be used to better *understand* (Section 4.1), *improve* on (Section 4.2), and *complement* (Section 4.3) RLHF in various ways as part of a broader agenda for AI safety.
 
-<!-- chunk {"id": "body-0054", "role": "body", "section": "Frameworks for Better Understanding RLHF", "weight": 1.0} -->
+<!-- chunk {"id": "body-0053", "role": "body", "section": "Frameworks for Better Understanding RLHF", "weight": 1.0} -->
 
 Although RLHF is becoming more widely used, there remain open questions about what factors are at play within it and how they influence the overall outcome. Here, we discuss approaches to address challenges for RLHF.
 
-<!-- chunk {"id": "body-0055", "role": "body", "section": "Frameworks for Better Understanding RLHF", "weight": 1.0} -->
+<!-- chunk {"id": "body-0054", "role": "body", "section": "Frameworks for Better Understanding RLHF", "weight": 1.0} -->
 
 Psychology and human-computer interaction. Many of the open questions with RLHF involve the dynamics at play between humans and AI. It remains a challenge to understand the conditions which best allow for safe, reliable human-computer interaction. Specifically, it is unclear what type of feedback (or combination thereof) is optimal for learning human goals, precisely how biases harm the quality of feedback, and how to best select and train human evaluators. As discussed in Section 3, human desires are difficult to express with a reward function. Further work may be valuable toward inferring what beliefs humans are operating under and either asking for feedback while taking into account human uncertainty or correcting for human biases. Reward modeling systems must also take advantage of techniques that distinguish between humans with different levels of expertise, confidence, or noisiness.
 
-<!-- chunk {"id": "body-0056", "role": "body", "section": "Frameworks for Better Understanding RLHF", "weight": 1.0} -->
+<!-- chunk {"id": "body-0055", "role": "body", "section": "Frameworks for Better Understanding RLHF", "weight": 1.0} -->
 
 Sociology and social choice. AI alignment must address not only individuals' perspectives, but also the norms, expectations, and values of affected groups. Some works have begun to assess whether LLMs can be used to facilitate agreement between different humans and to codify the broad-ranging principles under which deployment of AI systems for public good can be assessed. The majority-rule problem with RLHF can also be improved by algorithms that explicitly model multiple evaluators, that tune models to individuals, or that use more sophisticated aggregation strategies. However, none of these approaches can solve the fundamental problem of how an AI system cannot be aligned to multiple groups of humans who hold conflicting viewpoints. Many societies, however, confront this fundamental issue regularly. For example, democracies seek to reflect social preferences by soliciting the feedback of individuals. These systems generally fail to align diverse preferences yet tend to be more acceptable than less-democratic alternatives. As such, it is important to analyze RLHF from the lens of social choice theory and work to understand whether the means by which it aggregates preferences is normatively acceptable.
 
-<!-- chunk {"id": "body-0057", "role": "body", "section": "Frameworks for Better Understanding RLHF", "weight": 1.0} -->
+<!-- chunk {"id": "body-0056", "role": "body", "section": "Frameworks for Better Understanding RLHF", "weight": 1.0} -->
 
 Assistance games. Assistance games, such as cooperative inverse RL (CIRL), provide a framework to analyze algorithms like RLHF. They offer a mathematical model to evaluate different design decisions in the communication of preferences to learning systems. In an assistance game, a human and an agent act together in the environment. Both seek to optimize the human's latent reward function, while only the human can directly query this reward function. In this model, querying the human is simply an additional action that the robot can take, and it is possible to study different querying strategies or profiles. Studying RLHF as an assistance game emphasizes the performance of the human-robot team. This might suggest alternative preference elicitation methods. Two examples are using active reward learning to determine when to collect feedback and which feedback to request first, and leveraging dialogue models to learn desired feedback-seeking patterns. Of particular interest is understanding the consistency and convergence properties of RLHF, the impact of different error patterns from raters, and the effect of different rates of feedback.
 
-<!-- chunk {"id": "body-0058", "role": "body", "section": "Frameworks for Better Understanding RLHF", "weight": 1.0} -->
+<!-- chunk {"id": "body-0057", "role": "body", "section": "Frameworks for Better Understanding RLHF", "weight": 1.0} -->
 
 Bayesian inference. Finetuning an LLM using RL with KL penalties on the differences between the pretrained model can be understood as a form of Bayesian inference: conditioning a prior (base LLM) on evidence about the desirable behavior of an LLM provided by the reward model. This perspective on RLHF separates the modeling problem (defining a target distribution specifying the desired behavior of an LLM) and the inference problem (approximating that target distribution). This can aid in answering questions about how the prior influences the outcome of RLHF. The typical target distribution of RLHF (a Boltzmann distribution) is a particular design choice and other distributions may address some of its limitations, for example, differently fitting distributional preferences. Similarly, RLHF's inference algorithm (RL with KL penalties; equivalent to a variational inference approach ) could be replaced by a particular sampling strategy (e.g., rejection sampling or best-of-$n$ sampling).
 
-<!-- chunk {"id": "body-0059", "role": "body", "section": "Frameworks for Better Understanding RLHF", "weight": 1.0} -->
+<!-- chunk {"id": "body-0058", "role": "body", "section": "Frameworks for Better Understanding RLHF", "weight": 1.0} -->
 
 Worst-case behavior. While RLHF seems to improve the average performance of a system, it is not clear what effects it has on worst-case behavior. It was not designed to make systems adversarially robust, and empirical vulnerabilities of systems trained with RLHF have been demonstrated with jailbreaks and prompt injection attacks. As a consequence, it would be valuable to better understand the worst-case behaviors of RLHF systems, potentially through the lenses of theoretical properties, decision theory, adversarial attacks, or rigorous evaluations.
 
-<!-- chunk {"id": "body-0060", "role": "body", "section": "Addressing Challenges with RLHF", "weight": 1.0} -->
+<!-- chunk {"id": "body-0059", "role": "body", "section": "Addressing Challenges with RLHF", "weight": 1.0} -->
 
 Just as RLHF has challenges involving feedback (Section 3.1), the reward model (Section 3.2), and the policy (Section 3.3), there are various methods that can replace or combine with parts of the RLHF pipeline to address each of these types of challenges. Figure 3 outlines these methods. See also Wang et al. for a survey of methods for aligning LLMs.
 
-<!-- chunk {"id": "body-0061", "role": "body", "section": "Addressing Challenges with Human Feedback", "weight": 1.0} -->
+<!-- chunk {"id": "body-0060", "role": "body", "section": "Addressing Challenges with Human Feedback", "weight": 1.0} -->
 
 Providing feedback with AI assistance. One way to amplify the abilities of humans is to have AI tools assist in generating feedback. Engineering prompts for an AI system and using it to automate feedback can substantially increase practicality and cost-effectiveness due to reduced reliance on humans. Nonetheless, AI-generated feedback still fundamentally depends on humans because the models providing feedback are trained on human-generated data, and humans control prompts and the process of incorporating feedback. There are several notable examples of AI-generated language feedback with research agendas like Recursive Reward Modeling and AI Safety via debate. However, AI-generated feedback has drawbacks. Humans often disagree with AI feedback. The rate of human/AI disagreement will vary by task, but Perez et al., Casper et al., and Lee et al. found this to happen up to 10%, 46%, and 22% of the time respectively in different experiments. Machines can also exhibit correlated failure modes not found in humans, such as vulnerabilities to some adversarial attacks. The extent to which AI feedback is a viable way to safely augment human feedback remains uncertain.
 
-<!-- chunk {"id": "body-0062", "role": "body", "section": "Addressing Challenges with Human Feedback", "weight": 1.0} -->
+<!-- chunk {"id": "body-0061", "role": "body", "section": "Addressing Challenges with Human Feedback", "weight": 1.0} -->
 
 However, it cannot theoretically be a comprehensive solution to AI alignment due to the bootstrapping problem behind ensuring the feedback-providing AI is aligned.
 
-<!-- chunk {"id": "body-0063", "role": "body", "section": "Addressing Challenges with Human Feedback", "weight": 1.0} -->
+<!-- chunk {"id": "body-0062", "role": "body", "section": "Addressing Challenges with Human Feedback", "weight": 1.0} -->
 
 Fine-grained feedback. Many problems with feedback involve difficulty conveying precise information via the feedback signal (Section 3.1.4). To address this, Wu et al. and Cabi et al. use feedback on specific portions of examples and Wu et al. use feedback with respect to different goals of the model (e.g., correctness, relevance). This might improve the quality of the learned reward models at the cost of human feedback being more expensive to provide. Fine-grained feedback is not yet well studied nor widely adopted, so additional work to understand its advantages and feasibility will be valuable.
 
-<!-- chunk {"id": "body-0064", "role": "body", "section": "Addressing Challenges with Human Feedback", "weight": 1.0} -->
+<!-- chunk {"id": "body-0063", "role": "body", "section": "Addressing Challenges with Human Feedback", "weight": 1.0} -->
 
 Process-based supervision. One challenge with training AI systems to solve problems is the difficulty of supervising performance on multi-step procedures. In RL, rewards can be very sparse for such problems. To address this, some works have trained LLMs to better solve multi-step math problems with process supervision.
 
-<!-- chunk {"id": "body-0065", "role": "body", "section": "Addressing Challenges with Human Feedback", "weight": 1.0} -->
+<!-- chunk {"id": "body-0064", "role": "body", "section": "Addressing Challenges with Human Feedback", "weight": 1.0} -->
 
 Translating natural language specifications into a reward model. Many issues with RLHF arise due to the difficulty of fitting a reward function using some constrained type of feedback. An alternative approach can be to generate a reward signal more directly from natural language directions, bypassing the need for feedback on examples. This approach could resemble a technique used by Bai et al. which involved using prompts to guide an AI assistant to identify responses that violated certain user-defined specifications. Moreover, Luketina et al. surveys other possible techniques to accomplish this goal in non-LLM settings.
 
-<!-- chunk {"id": "body-0066", "role": "body", "section": "Addressing Challenges with Human Feedback", "weight": 1.0} -->
+<!-- chunk {"id": "body-0065", "role": "body", "section": "Addressing Challenges with Human Feedback", "weight": 1.0} -->
 
 Learning rewards from demonstrations. An alternative approach to learning a reward model, known as inverse reinforcement learning (IRL), involves humans providing demonstrations instead of offering feedback on ones generated by the model. Jeon et al. and Bıyık et al. propose systematic ways of combining demonstrations, preferences, and possibly other types of human feedback to learn reward functions. While demonstrations carry rich information and avoid the need to have a system learn from its own generations, they are often more difficult to gather because they require higher effort and expertise to perform the task. Additionally, the quality of demonstrations is limited by the talent of whatever expert is providing them, which warrants more research on learning from suboptimal human demonstrations (e.g., Brown et al.; Zhang et al. ).
 
-<!-- chunk {"id": "body-0067", "role": "body", "section": "Addressing Challenges with the Reward Model", "weight": 1.0} -->
+<!-- chunk {"id": "body-0066", "role": "body", "section": "Addressing Challenges with the Reward Model", "weight": 1.0} -->
 
 Using direct human oversight. Although learning a reward model is efficient, it might be necessary to directly provide rewards for RL training in certain safety-critical situations.
 
-<!-- chunk {"id": "body-0068", "role": "body", "section": "Addressing Challenges with the Reward Model", "weight": 1.0} -->
+<!-- chunk {"id": "body-0067", "role": "body", "section": "Addressing Challenges with the Reward Model", "weight": 1.0} -->
 
 Multi-objective oversight. Richer multi-objective signals that rate outputs on multiple objectives could lead to more flexible oversight. Current reward models assume that expert feedback is drawn from an underlying unimodal reward function. But this is overly simplistic. For instance, it can lead to a reward model that merely captures the preferences of the majority, and suppresses the preferences of minorities as noise. Using constraints or reward models that account for the diversity of preferences by assuming underlying reward functions to be multimodal can help mitigate this issue. Multi-objective oversight can also be useful for steering systems toward desired balances between competing values (e.g., helpfulness and harmlessness).
 
-<!-- chunk {"id": "body-0069", "role": "body", "section": "Addressing Challenges with the Reward Model", "weight": 1.0} -->
+<!-- chunk {"id": "body-0068", "role": "body", "section": "Addressing Challenges with the Reward Model", "weight": 1.0} -->
 
 Maintaining uncertainty over the learned reward function. Given the challenges of accurately learning the appropriate reward function, several studies have emphasized the importance of taking uncertainty in the learned functions into account. Yue et al. and Liang et al. tackle this by having the policy avoid types of states unseen by the reward model. Using an ensemble of reward functions has also been used to address these challenges, demonstrating that this approach can enhance the diversity of text output and its applicability for active learning. Other strategies can include forms of risk-aversion or handling uncertainty with a safe "shield" policy.
 
-<!-- chunk {"id": "body-0070", "role": "body", "section": "Addressing Challenges with the Policy", "weight": 1.0} -->
+<!-- chunk {"id": "body-0069", "role": "body", "section": "Addressing Challenges with the Policy", "weight": 1.0} -->
 
 Aligning LLMs during pretraining. RLHF in LLMs typically begins by pretraining the LLM on internet text which includes a large amount of undesirable content. Korbak et al. argue that it can be more effective to use human feedback during pretraining by using a reward model to filter, weight, or annotate pretraining data. This also simplifies the process of aligning models by having them exhibit desirable behaviors from the outset rather than having them learn undesirable behavior and then attempt to unlearn it during finetuning.
 
-<!-- chunk {"id": "body-0071", "role": "body", "section": "Addressing Challenges with the Policy", "weight": 1.0} -->
+<!-- chunk {"id": "body-0070", "role": "body", "section": "Addressing Challenges with the Policy", "weight": 1.0} -->
 
 Aligning LLMs through supervised learning. Several techniques for aligning LLMs with human preferences obtain results competitive with RLHF by using supervised learning to complement or replace RL. The simplest variant of this is to perform standard supervised learning on well-curated data. Curation can involve filtering out bad demonstrations, compiling a small set of good demonstrations, or generating good demonstrations using an LLM, e.g., after conditioning human feedback provided in natural language. A different family of methods augments the language modeling objective to utilize feedback provided by the reward model. This last setting shares similarities with offline RL, which focuses on training an optimal policy using demonstrations annotated with rewards.
 
-<!-- chunk {"id": "body-0072", "role": "body", "section": "RLHF is Not All You Need: Complementary Strategies for Safety", "weight": 1.0} -->
+<!-- chunk {"id": "body-0071", "role": "body", "section": "RLHF is Not All You Need: Complementary Strategies for Safety", "weight": 1.0} -->
 
 Other technical approaches to AI safety should be studied and implemented alongside RLHF. Establishing trust with AI systems should be approached with a combination of principled design choices, rigorous testing, interpretability, verification, and theoretical guarantees where possible. See also Critch and Krueger, Hubinger, Hendrycks et al., and Ngo for additional overviews of strategies for building safer AI.
 
-<!-- chunk {"id": "body-0073", "role": "body", "section": "RLHF is Not All You Need: Complementary Strategies for Safety", "weight": 1.0} -->
+<!-- chunk {"id": "body-0072", "role": "body", "section": "RLHF is Not All You Need: Complementary Strategies for Safety", "weight": 1.0} -->
 
 Robustness. As discussed in Section 3.3, models trained with RLHF can still exhibit undesired behavior due to distributional shifts between training and deployment. For example, adversarially engineered user inputs cause an LLM to output harmful text. To mitigate this problem, developers should use tools to generate inputs which result in undesired behavior and train against these adversarial examples. Anomaly detection techniques can also be useful for flagging abnormal inputs likely to trigger bad behavior. Ensuring the security of important AI training runs against malicious human evaluators and/or outside cybersecurity threats will also be valuable.
 
-<!-- chunk {"id": "body-0074", "role": "body", "section": "RLHF is Not All You Need: Complementary Strategies for Safety", "weight": 1.0} -->
+<!-- chunk {"id": "body-0073", "role": "body", "section": "RLHF is Not All You Need: Complementary Strategies for Safety", "weight": 1.0} -->
 
 Risk assessment and auditing. Although training processes should be crafted to produce models that are safe by design, evaluations are another layer of defense. Passing an evaluation is not proof of safety, but as is the case in almost every safety-critical industry, rigorous evaluations of capabilities and risks helps to spot hazards and establish trust. In practice, this should involve both in-house and second-party evaluations. As with adversarial training for robustness, the development of improved red teaming techniques will be important.
 
-<!-- chunk {"id": "body-0075", "role": "body", "section": "RLHF is Not All You Need: Complementary Strategies for Safety", "weight": 1.0} -->
+<!-- chunk {"id": "body-0074", "role": "body", "section": "RLHF is Not All You Need: Complementary Strategies for Safety", "weight": 1.0} -->
 
 Interpretability and model editing. Generating human-understandable explanations for the behavior of AI systems is currently an unsolved problem. Progress in explainability and interpretability could help verify hypotheses about how models make decisions, including whether the decision-making process is trustworthy. In this way, it could be possible to gain confidence that models will (or will not) behave in a safe way without necessarily conducting extensive testing of the models. Red-teaming can also be complemented by interpretability techniques, especially for purposes of identifying adversarial inputs or anomalous inputs. In another direction, better understanding the internal mechanisms of models can aid in directly editing model weights or intervening on internal activations in order to improve truthfulness, modify a model's factual knowledge, or otherwise steer model behavior.
 
-<!-- chunk {"id": "body-0076", "role": "body", "section": "Governance and Transparency", "weight": 1.0} -->
+<!-- chunk {"id": "body-0075", "role": "body", "section": "Governance and Transparency", "weight": 1.0} -->
 
 Social scientists and policymakers have increasingly focused on the need for governance frameworks to develop and deploy AI systems responsibly. Across historical contexts, a hallmark of mature scientific fields is the open sharing of research findings to allow experts to understand progress. Below we overview components of an RLHF governance agenda, including outstanding questions and risk dimensions.
 
-<!-- chunk {"id": "body-0077", "role": "body", "section": "Governance and Transparency", "weight": 1.0} -->
+<!-- chunk {"id": "body-0076", "role": "body", "section": "Governance and Transparency", "weight": 1.0} -->
 
 Incentives and requirements for safety. Competition between labs can generate harmful race dynamics because of tradeoffs between competitiveness and caution. This suggests a role for governance in promoting a healthier environment for safe AI research, development, and deployment. Governance in this form could involve mandates for independent auditing, evaluations, and certification; monitoring for post-deployment problems; influence over resources including hardware and data; and prohibiting deployment unless critical standards are met, as in the case of the U.S. Food and Drug Administration's oversight of clinical trials for testing potential new treatments.
 
-<!-- chunk {"id": "body-0078", "role": "body", "section": "Governance and Transparency", "weight": 1.0} -->
+<!-- chunk {"id": "body-0077", "role": "body", "section": "Governance and Transparency", "weight": 1.0} -->
 
 Transparency and auditing. A sustained commitment to transparency would make the existing RLHF research environment more robust from a safety standpoint. First, the disclosure of some details behind large RLHF training runs would clarify a given organization's norms for model scrutiny and safety checks. Second, increased transparency about known efforts to mitigate risks could improve safety incentives and suggest methods for external stakeholders to hold companies accountable. Third, and most relevant for the present paper, transparency would improve the AI safety community's understanding of RLHF and support the ability to track technical progress on its challenges. Some level of disclosure is a precondition to evaluate the viability of the technical RLHF safety agenda over time and allow for community contribution to it. For all of these reasons, working to incorporate transparency standards into an AI governance framework will be important. It is possible that public disclosure of details critical to the development of model capabilities might lead to the unwanted proliferation of AI technologies that could be misused. However, detailing safety measures will often not require divulging implementable details, and when it does, private disclosure to second-party auditors offers a solution.
 
-<!-- chunk {"id": "body-0079", "role": "body", "section": "Governance and Transparency", "weight": 1.0} -->
+<!-- chunk {"id": "body-0078", "role": "body", "section": "Governance and Transparency", "weight": 1.0} -->
 
 As more specific policy prescriptions are beyond our scope, we encourage elaboration on these topics as part of a future research agenda. Below, however, we outline specific types of details that, if disclosed, could be indicative of risks and should be accounted for when auditing AI systems developed using RLHF. See also Figure 4.
 
+<!-- chunk {"id": "body-0079", "role": "body", "section": "Governance and Transparency", "weight": 1.0} -->
+
+Human feedback details: A description of the pretraining process including details about what data was used to make apparent possible biases that pretraining can cause.
+
 <!-- chunk {"id": "body-0080", "role": "body", "section": "Governance and Transparency", "weight": 1.0} -->
-
-A description of the pretraining process including details about what data was used to make apparent possible biases that pretraining can cause.
-
-<!-- chunk {"id": "body-0081", "role": "body", "section": "Governance and Transparency", "weight": 1.0} -->
 
 How human evaluators were selected and trained to provide information about risks of evaluators being malicious, unrepresentative, or incapable.
 
-<!-- chunk {"id": "body-0082", "role": "body", "section": "Governance and Transparency", "weight": 1.0} -->
+<!-- chunk {"id": "body-0081", "role": "body", "section": "Governance and Transparency", "weight": 1.0} -->
 
 The process by which examples were selected to obtain feedback to invite scrutiny about their representativeness and whether sufficient adversarial training was used. If examples were crowdsourced from a publicly-available application, details about what measures were taken to avoid data poisoning attacks should be provided.
 
-<!-- chunk {"id": "body-0083", "role": "body", "section": "Governance and Transparency", "weight": 1.0} -->
+<!-- chunk {"id": "body-0082", "role": "body", "section": "Governance and Transparency", "weight": 1.0} -->
 
 The type(s) of human feedback used (e.g., binary comparisons, scalar feedback, etc.) to suggest what risks might be caused by insufficiently abundant or rich feedback.
 
-<!-- chunk {"id": "body-0084", "role": "body", "section": "Governance and Transparency", "weight": 1.0} -->
+<!-- chunk {"id": "body-0083", "role": "body", "section": "Governance and Transparency", "weight": 1.0} -->
 
 A report on measures taken for quality assurance in feedback collection and inter-rater consistency to ensure that effective quality control measures were taken.
 
+<!-- chunk {"id": "body-0084", "role": "body", "section": "Governance and Transparency", "weight": 1.0} -->
+
+Reward model details: The loss function used to fit the reward model and how disagreement was modeled (e.g., as noise) to help with analyzing the degree of misspecification when fitting the reward model.
+
 <!-- chunk {"id": "body-0085", "role": "body", "section": "Governance and Transparency", "weight": 1.0} -->
-
-The loss function used to fit the reward model and how disagreement was modeled (e.g., as noise) to help with analyzing the degree of misspecification when fitting the reward model.
-
-<!-- chunk {"id": "body-0086", "role": "body", "section": "Governance and Transparency", "weight": 1.0} -->
 
 A report on reward model evaluation and results to suggest possible problems from a misaligned reward model. The evaluation should involve red teaming.
 
-<!-- chunk {"id": "body-0087", "role": "body", "section": "Governance and Transparency", "weight": 1.0} -->
+<!-- chunk {"id": "body-0086", "role": "body", "section": "Governance and Transparency", "weight": 1.0} -->
 
 A report on policy evaluation and results to suggest possible troubles from a misaligned policy. The evaluation should involve red teaming and include assessment for risky capabilities (e.g., the ability to deceive a human).
 
+<!-- chunk {"id": "body-0087", "role": "body", "section": "Governance and Transparency", "weight": 1.0} -->
+
+Systemic safety measures A report on internal and external audits and red teaming to ensure accountability and disclose risks that are identified.
+
 <!-- chunk {"id": "body-0088", "role": "body", "section": "Governance and Transparency", "weight": 1.0} -->
-
-A report on internal and external audits and red teaming to ensure accountability and disclose risks that are identified.
-
-<!-- chunk {"id": "body-0089", "role": "body", "section": "Governance and Transparency", "weight": 1.0} -->
 
 A report on expected risks and anticipated failure modes to ensure accountability.
 
-<!-- chunk {"id": "body-0090", "role": "body", "section": "Governance and Transparency", "weight": 1.0} -->
+<!-- chunk {"id": "body-0089", "role": "body", "section": "Governance and Transparency", "weight": 1.0} -->
 
 Plans for monitoring and correcting failures that emerge to support post-deployment safety.
 
-<!-- chunk {"id": "body-0091", "role": "body", "section": "Governance and Transparency", "weight": 1.0} -->
+<!-- chunk {"id": "body-0090", "role": "body", "section": "Governance and Transparency", "weight": 1.0} -->
 
 How these types of risks should be documented remains an area of active work in AI governance. Similar questions have been asked in an investigation by the US Federal Trade Commission into OpenAI but in response to problems with ChatGPT rather than proactively. Salient documentation proposals focus on regular reporting of reward components and the ability to compare the capabilities of language models according to standard benchmarks. For the longer term, incorporating beneficial standards for safety and transparency into norms and regulations affecting AI is an ongoing challenge.
 
-<!-- chunk {"id": "body-0092", "role": "body", "section": "Governance and Transparency", "weight": 1.0} -->
+<!-- chunk {"id": "body-0091", "role": "body", "section": "Governance and Transparency", "weight": 1.0} -->
 
 Concerns for social and economic equity. Although this paper has focused on technical challenges with RLHF, there are social and economic ones as well which governance and industry should work to address. For example, OpenAI has paid Kenyan knowledge workers at a rate of less than \$2 USD per hour for work which was mentally and emotionally demanding. Human subjects used in RLHF research should not be systematically selected simply for their availability or low cost. Costs, benefits, and influence over RLHF models should be equitably distributed across different communities. There is an additional possibility that powerful AI systems will be highly profitable and serve to concentrate large amounts of wealth and power into the hands of a few. Thus, policies that address inequalities and protect vulnerable populations (e.g. impacted communities, whistleblowers) will be increasingly important.
 
-<!-- chunk {"id": "body-0093", "role": "body", "section": "Discussion", "weight": 1.5} -->
+<!-- chunk {"id": "body-0092", "role": "body", "section": "Discussion", "weight": 1.5} -->
 
 While some problems with RLHF are tractable, others are fundamental. Technical progress in some respects is tractable, and this room for progress should be seen as a cause for concerted work and optimism. Even some of the fundamental problems that we overview can be alleviated with improved methodology even though they cannot be fully solved by RLHF. However, the fundamental nature of these problems requires that they be avoided or compensated for with non-RLHF approaches. Hence, we emphasize the importance of two strategies: evaluating technical progress in light of the fundamental limitations of RLHF and other methods, and addressing the sociotechnical challenges of aligning to human values by committing to both defense-in-depth safety measures and openly sharing research findings with the wider scientific community.
 
-<!-- chunk {"id": "body-0094", "role": "body", "section": "Discussion", "weight": 1.5} -->
+<!-- chunk {"id": "body-0093", "role": "body", "section": "Discussion", "weight": 1.5} -->
 
 RLHF = Rehashing Lessons from Historical Failures? RLHF offers new capabilities but faces many old problems. Its use by Christiano et al. dates to 2017, and the individual components of it (preference elicitation, fitting a reward model, and policy optimization) have a history of technical and fundamental challenges in the fields of human-computer interaction and AI safety. In 2023, RLHF was described by the first author of Christiano et al. as a "basic solution" intended to make it easier to "productively work on more challenging alignment problems".^33^3Christiano mentions debate and recursive reward modeling as examples of 'more challenging alignment problems.' See also an outline of proposals in Hubinger. Some challenges and questions that we have covered are rather unique to RLHF such as ones involving jointly training the reward model and policy (Section 3.4). However, many other problems are instances of broader ones in machine learning such as challenges with RL policies (Section 3.3). Others still are fundamental problems with AI alignment such as determining whose values are encoded into AI in a diverse society of humans (Section 3.2.1).
 
-<!-- chunk {"id": "body-0095", "role": "body", "section": "Discussion", "weight": 1.5} -->
+<!-- chunk {"id": "body-0094", "role": "body", "section": "Discussion", "weight": 1.5} -->
 
 The successes of RLHF should not obfuscate its limitations or gaps between the framework under which it is studied and real-world applications (see Appendix A). An approach to AI alignment that relies on RLHF without additional techniques for safety risks doubling-down on flawed approaches to AI alignment. Thus, it will be important to continue working to better understand RLHF while respecting its limitations.
 
-<!-- chunk {"id": "body-0096", "role": "body", "section": "Discussion", "weight": 1.5} -->
+<!-- chunk {"id": "body-0095", "role": "body", "section": "Discussion", "weight": 1.5} -->
 
 Moving forward. RLHF has clear advantages for aligning AI systems with human goals. As a result, it has been key to the development of state-of-the-art LLMs and will likely continue to play a major role in modern AI. However, its use and influence should be accompanied by a commensurate research effort to better understand RLHF and address its flaws. Because it optimizes for human approval, RLHF in particular demands a special type of caution because many of its failures will actively tend to be ones that humans struggle to notice. It will be important to approach RLHF cautiously and work to incorporate it into a more holistic framework for safer AI with multiple layers of protection from failures. Because some of the challenges with RLHF are fundamental to the AI alignment problem itself, moving forward will require confronting the basic choices and assumptions behind any given approach to aligning AI and who controls it. Moving forward, we urge that those working to develop advanced LLMs using RLHF both contribute toward resolving its open challenges and maintain transparency about the details of their approach to safety and any anticipated risks.
 
-<!-- chunk {"id": "body-0097", "role": "body", "section": "Contributions", "weight": 1.0} -->
+<!-- chunk {"id": "body-0096", "role": "body", "section": "Contributions", "weight": 1.0} -->
 
 Stephen Casper and Xander Davies served as the central writers and organizers.
 
-<!-- chunk {"id": "body-0098", "role": "body", "section": "Contributions", "weight": 1.0} -->
+<!-- chunk {"id": "body-0097", "role": "body", "section": "Contributions", "weight": 1.0} -->
 
 Claudia Shi, Thomas Krendl Gilbert, Jérémy Scheurer, Javier Rando, Rachel Freedman, Tomasz Korbak, David Lindner, Pedro Freire, Tony Wang, Samuel Marks, Charbel-Raphaël Segerie, Micah Carroll, Andi Peng, Phillip Christoffersen, Mehul Damani, Stewart Slocum, Usman Anwar, Anand Siththaranjan, Max Nadeau, Eric J. Michaud, Jacob Pfau, Xin Chen, Dmitrii Krasheninnikov, Lauro Langosco, and Peter Hase contributed to writing and planning the paper.
 
-<!-- chunk {"id": "body-0099", "role": "body", "section": "Contributions", "weight": 1.0} -->
+<!-- chunk {"id": "body-0098", "role": "body", "section": "Contributions", "weight": 1.0} -->
 
 Erdem Bıyık, Anca Dragan, David Krueger, Dorsa Sadigh, and Dylan Hadfield-Menell served as advisors.

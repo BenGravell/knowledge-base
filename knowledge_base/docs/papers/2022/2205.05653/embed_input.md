@@ -16,12 +16,8 @@ We design our algorithm in three steps: (i) we reformulate the original problem 
 
 <!-- chunk {"id": "body-0004", "role": "body", "section": "Introduction", "weight": 1.5} -->
 
-In this paper, we revisit the smooth and strongly-convex-strongly-concave minimax optimization problem of the form
-
-<!-- chunk {"id": "body-0005", "role": "body", "section": "Introduction", "weight": 1.5} -->
-
 Recently, many applications of this problem appeared in machine learning, including adversarial training, prediction and regression problems, reinforcement learning and generative adversarial networks Arjovsky et al. Goodfellow et al.,.
 
-<!-- chunk {"id": "body-0006", "role": "body", "section": "Introduction", "weight": 1.5} -->
+<!-- chunk {"id": "body-0005", "role": "body", "section": "Introduction", "weight": 1.5} -->
 
 In our paper, we focus on the case when function $f{(x,y)}$ is strongly convex in $x$ and strongly concave in $y$. There are several reasons to consider this function class. First, this setting is fundamental and studied by most existing works on minimax optimization.^11^1Most existing works on minimax optimization study the convex-concave case. However, this setting can be easily reduced to the strongly-convex-strongly-concave case via the regularization technique. Second, efficient algorithms initially developed for convex optimization often show state-of-the-art performance in non-convex applications. Finally, we will further see that this fundamental setting is utterly understudied and lacks answers to even the most basic questions such as "What is the best possible algorithm for solving a problem in this setting?"^22^2In contrast to smooth convex-concave minimax optimization, the answer to this question for smooth convex minimization was given by Nesterov, several decades ago.

@@ -34,185 +34,156 @@ The approach we take here generalizes these approaches in that it enables for bo
 
 <!-- chunk {"id": "body-0009", "role": "body", "section": "PATH INTEGRAL CONTROL", "weight": 1.0} -->
 
-In this section we review the path integral optimal control framework. Let $\mathbf{x}_{t} \in {\mathbb{R}}^{N}$ denote the state of a dynamical system at time $t$, ${\mathbf{u}{(\mathbf{x}_{t},t)}} \in {\mathbb{R}}^{m}$ denotes a control input for the system, $\tau:{{\lbrack t_{0},T\rbrack}\rightarrow{\mathbb{R}}^{n}}$ represents a trajectory of the system, and ${d\mathbf{w}} \in {\mathbb{R}}^{p}$ is a brownian disturbance.
+In this section we review the path integral optimal control framework. Let $\mathbf{x}_{t} \in {\mathbb{R}}^{N}$ denote the state of a dynamical system at time $t$, ${\mathbf{u}{(\mathbf{x}_{t},t)}} \in {\mathbb{R}}^{m}$ denotes a control input for the system, $\tau:{{\lbrack t_{0},T\rbrack}\rightarrow{\mathbb{R}}^{n}}$ represents a trajectory of the system, and ${d\mathbf{w}} \in {\mathbb{R}}^{p}$ is a brownian disturbance. In the path integral control framework we suppose that the dynamics take the form: In other words, the dynamics are affine in control and subject to an affine brownian disturbance.
 
 <!-- chunk {"id": "body-0010", "role": "body", "section": "PATH INTEGRAL CONTROL", "weight": 1.0} -->
 
-In other words, the dynamics are affine in control and subject to an affine brownian disturbance.
+We also assume that $\mathbf{G}$ and $\mathbf{B}$ are partitioned as: Expectations taken with respect to are denoted as ${\mathbb{E}}_{\mathbb{Q}}\lbrack \cdot \rbrack$, we will also be interested in taking expectations with respect to the uncontrolled dynamics of the system (i.e with $\mathbf{u} \equiv 0$). These will be denoted ${\mathbb{E}}_{\mathbb{P}}\lbrack \cdot \rbrack$. We suppose that the cost function for the optimal control problem has a quadratic control cost and an arbitrary state-dependent cost. Let $\phi{(\mathbf{x}_{T})}$ denote a final the terminal cost, $q{(\mathbf{x}_{t},t)}$ a state dependent running cost, and define $\mathbf{R}{(\mathbf{x}_{t},t)}$ as a positive definite matrix.
 
 <!-- chunk {"id": "body-0011", "role": "body", "section": "PATH INTEGRAL CONTROL", "weight": 1.0} -->
 
-Expectations taken with respect to are denoted as ${\mathbb{E}}_{\mathbb{Q}}\lbrack \cdot \rbrack$, we will also be interested in taking expectations with respect to the uncontrolled dynamics of the system (i.e with $\mathbf{u} \equiv 0$). These will be denoted ${\mathbb{E}}_{\mathbb{P}}\lbrack \cdot \rbrack$. We suppose that the cost function for the optimal control problem has a quadratic control cost and an arbitrary state-dependent cost. Let $\phi{(\mathbf{x}_{T})}$ denote a final the terminal cost, $q{(\mathbf{x}_{t},t)}$ a state dependent running cost, and define $\mathbf{R}{(\mathbf{x}_{t},t)}$ as a positive definite matrix.
+The value function $V{(\mathbf{x}_{t},t)}$ for this optimal control problem is then defined as: The Stochastic Hamilton-Jacobi-Bellman equation for the type of system in and for the cost function in is given as: where the optimal control is expressed as: The solution to this backwards PDE yields the value function for the stochastic optimal control problem, which is then used to generate the optimal control. Unfortunately, classical methods for solving partial differential equations of this nature suffer from the curse of dimensionality and are intractable for systems with more than a few state variables.
 
 <!-- chunk {"id": "body-0012", "role": "body", "section": "PATH INTEGRAL CONTROL", "weight": 1.0} -->
 
-The solution to this backwards PDE yields the value function for the stochastic optimal control problem, which is then used to generate the optimal control. Unfortunately, classical methods for solving partial differential equations of this nature suffer from the curse of dimensionality and are intractable for systems with more than a few state variables.
+The approach we take in the path integral control framework is to transform the backwards PDE into a path integral, which is an expectation over all possible trajectories of the system. This expectation can then be approximated by forward sampling of the stochastic dynamics. In order to effect this transformation we apply an exponential transformation of the value function Here $\lambda$ is a positive constant. We also have to assume a relationship between the cost and noise in the system (as well as $\lambda$) through the equation: The main restriction implied by this assumption is that $\mathbf{B}{(\mathbf{x}_{t},t)}$ has the same rank as $\mathbf{R}{(\mathbf{x}_{t},t)}$. This limits the noise in the system to only effect state variables that are directly actuated (i.e. the noise is control dependent). There are a wide variety of systems which naturally fall into this description, so the assumption is not too restrictive.
 
 <!-- chunk {"id": "body-0013", "role": "body", "section": "PATH INTEGRAL CONTROL", "weight": 1.0} -->
 
-The approach we take in the path integral control framework is to transform the backwards PDE into a path integral, which is an expectation over all possible trajectories of the system. This expectation can then be approximated by forward sampling of the stochastic dynamics. In order to effect this transformation we apply an exponential transformation of the value function
+However, there are interesting systems for which this description does not hold (i.e. if there are known strong disturbances on indirectly actuated state variables or if the dynamics are only partially known).
 
 <!-- chunk {"id": "body-0014", "role": "body", "section": "PATH INTEGRAL CONTROL", "weight": 1.0} -->
 
-The main restriction implied by this assumption is that $\mathbf{B}{(\mathbf{x}_{t},t)}$ has the same rank as $\mathbf{R}{(\mathbf{x}_{t},t)}$. This limits the noise in the system to only effect state variables that are directly actuated (i.e. the noise is control dependent). There are a wide variety of systems which naturally fall into this description, so the assumption is not too restrictive. However, there are interesting systems for which this description does not hold (i.e. if there are known strong disturbances on indirectly actuated state variables or if the dynamics are only partially known).
+By making this assumption and performing the exponential transformation of the value function the stochastic HJB equation is transformed into the *linear* partial differential equation: Here we've denoted the covariance matrix as $\Sigma{(\mathbf{x}_{t},t)}$. This equation is known as the backward Chapman-Kolmogorov PDE. We can then apply the Feynman-Kac lemma, which relates backward PDEs of this type to path integrals through the equation: Note that the expectation (which is the path integral) is taken with respect to $\mathbb{P}$ which is the uncontrolled dynamics of the system.
 
 <!-- chunk {"id": "body-0015", "role": "body", "section": "PATH INTEGRAL CONTROL", "weight": 1.0} -->
 
-Here we've denoted the covariance matrix
+By recognizing that the term $\Psi{(\mathbf{x}_{T})}$ is the transformed terminal cost: $e^{- {\frac{1}{\lambda}\phi{(\mathbf{x}_{T})}}}$ we can re-write this expression as: where ${S{(\tau)}} = {{\phi{(\mathbf{x}_{T})}} + {\int_{t_{0}}^{T}{q{(\mathbf{x}_{t},t)}{dt}}}}$ is the cost-to-go of the state dependent cost of a trajectory. Lastly we have to compute the gradient of $\Psi$ with respect to the initial state $\mathbf{x}_{t_{0}}$. This can be done analytically and is a straightforward, albeit lengthy, computation so we omit it and refer the interested reader to.
 
 <!-- chunk {"id": "body-0016", "role": "body", "section": "PATH INTEGRAL CONTROL", "weight": 1.0} -->
 
-as $\Sigma{(\mathbf{x}_{t},t)}$. This equation is known as the backward Chapman-Kolmogorov PDE.
+After taking the gradient we obtain: Where the matrix ${\mathcal{G}}{(\mathbf{x}_{t},t)}$ is defined as: Note that if $\mathbf{G}_{c}{(\mathbf{x}_{t},t)}$ is square (which is the case if the system is not over actuated) this reduces to $\mathbf{G}_{c}{(\mathbf{x}_{t},t)}^{- 1}$.
 
 <!-- chunk {"id": "body-0017", "role": "body", "section": "PATH INTEGRAL CONTROL", "weight": 1.0} -->
 
-Note that the expectation (which is the path integral) is taken with respect to $\mathbb{P}$ which is the uncontrolled dynamics of the system.
-
-<!-- chunk {"id": "body-0018", "role": "body", "section": "PATH INTEGRAL CONTROL", "weight": 1.0} -->
-
-where ${S{(\tau)}} = {{\phi{(\mathbf{x}_{T})}} + {\int_{t_{0}}^{T}{q{(\mathbf{x}_{t},t)}{dt}}}}$ is the cost-to-go of the state dependent cost of a trajectory. Lastly we have to compute the gradient of $\Psi$ with respect to the initial state $\mathbf{x}_{t_{0}}$. This can be done analytically and is a straightforward, albeit lengthy, computation so we omit it and refer the interested reader to.
-
-<!-- chunk {"id": "body-0019", "role": "body", "section": "PATH INTEGRAL CONTROL", "weight": 1.0} -->
-
 Equation is the path integral form of the optimal control. The fundamental difference between this form of the optimal control and classical optimal control theory is that instead of relying on a backwards in time process, this formula requires the evaluation of an expectation which can be approximated using forward sampling of stochastic differential equations.
 
-<!-- chunk {"id": "body-0020", "role": "body", "section": "II-A Discrete Approximation", "weight": 1.0} -->
+<!-- chunk {"id": "body-0018", "role": "body", "section": "II-A Discrete Approximation", "weight": 1.0} -->
 
 Equation provides an expression for the optimal control in terms of a path integral. However, these equations are for continuous time and in order to sample trajectories on a computer we need discrete time approximations.
 
-<!-- chunk {"id": "body-0021", "role": "body", "section": "II-A Discrete Approximation", "weight": 1.0} -->
+<!-- chunk {"id": "body-0019", "role": "body", "section": "II-A Discrete Approximation", "weight": 1.0} -->
 
-The term $\epsilon$ is a vector of standard normal Gaussian random variables.
+We first discretize the dynamics of the system. We have that $\mathbf{x}_{t + 1} = {\mathbf{x}_{t} + {d\mathbf{x}_{t}}}$ where $d\mathbf{x}_{t}$ is defined as: The term $\epsilon$ is a vector of standard normal Gaussian random variables.
 
-<!-- chunk {"id": "body-0022", "role": "body", "section": "II-A Discrete Approximation", "weight": 1.0} -->
+<!-- chunk {"id": "body-0020", "role": "body", "section": "II-A Discrete Approximation", "weight": 1.0} -->
 
-Note that we have moved the $\Deltat$ term multiplying $\mathbf{u}$ over to the right-hand side of the equation and inserted it into the expectation.
+For the uncontrolled dynamics of the system we have: Another way we can express $\mathbf{B}{(\mathbf{x}_{t},t)}d\mathbf{w}$ which will be useful is as: Lastly we say: ${S{(\tau)}} \approx {{\phi{(\mathbf{x}_{T})}} + {\sum_{i = 0}^{N}{q{(\mathbf{x}_{t},t)}\Deltat}}}$ where $N = {{{({T - t})}/\Delta}t}$ Then by defining $\mathsf{p}$ as the probability induced by the discrete time uncontrolled dynamics we can approximate as: Note that we have moved the $\Deltat$ term multiplying $\mathbf{u}$ over to the right-hand side of the equation and inserted it into the expectation.
 
-<!-- chunk {"id": "body-0023", "role": "body", "section": "GENERALIZED IMPORTANCE SAMPLING", "weight": 1.0} -->
+<!-- chunk {"id": "body-0021", "role": "body", "section": "GENERALIZED IMPORTANCE SAMPLING", "weight": 1.0} -->
 
 Equation provides an implementable method for approximating the optimal control via random sampling of trajectories. By drawing many samples from $\mathsf{p}$ the expectation can be evaluated using a Monte-Carlo approximation. In practice, this approach is unlikely to succeed. The problem is that $\mathsf{p}$ is typically an inefficient distribution to sample from (i.e the cost-to-go will be high for most trajectores sampled from $\mathsf{p}$). Intuitively sampling from the uncontrolled dynamics corresponds to turning a machine on and waiting for the natural noise in the system dynamics to produce interesting behavior.
 
-<!-- chunk {"id": "body-0024", "role": "body", "section": "GENERALIZED IMPORTANCE SAMPLING", "weight": 1.0} -->
+<!-- chunk {"id": "body-0022", "role": "body", "section": "GENERALIZED IMPORTANCE SAMPLING", "weight": 1.0} -->
 
 In order to efficiently approximate the controls, we require the ability to sample from a distribution which is likely to produce low cost trajectories. In previous applications of path integral control the mean of the sampling distribution has been changed which allows for an iterative update law. However, the variance of the sampling distribution has always remained unchanged. In well engineered systems, where the natural variance of the system is very low, changing the mean is insufficient since the state space is never aggressively explored. In the following derivation we provide a method for changing both the initial control input and the variance of the sampling distribution.
 
-<!-- chunk {"id": "body-0025", "role": "body", "section": "III-A Likelihood Ratio", "weight": 1.0} -->
+<!-- chunk {"id": "body-0023", "role": "body", "section": "III-A Likelihood Ratio", "weight": 1.0} -->
 
-We suppose that we have a sampling distribution with non-zero control input and a changed variance, which we denote as $\mathsf{q}$, and we would like to approximate using samples from $\mathsf{q}$ as opposed to $\mathsf{p}$.
+We suppose that we have a sampling distribution with non-zero control input and a changed variance, which we denote as $\mathsf{q}$, and we would like to approximate using samples from $\mathsf{q}$ as opposed to $\mathsf{p}$. Now if we write the expectation term in integral form we get: Where we are abusing notation and using $\tau$ to represent the discrete trajectory $(\mathbf{x}_{t_{0}},\mathbf{x}_{t_{1}},{\ldots\mathbf{x}_{t_{N}}})$. Next we multiply both integrals by $1 = \frac{\mathsf{q}{(\tau)}}{\mathsf{q}{(\tau)}}$ to get: And we can then write this as an expectation with respect to $\mathsf{q}$: We now have the expectation in terms of a sampling distribution $\mathsf{q}$ for which we can choose: The initial control sequence from which to sample around.
 
-<!-- chunk {"id": "body-0026", "role": "body", "section": "III-A Likelihood Ratio", "weight": 1.0} -->
-
-The initial control sequence from which to sample around.
-
-<!-- chunk {"id": "body-0027", "role": "body", "section": "III-A Likelihood Ratio", "weight": 1.0} -->
+<!-- chunk {"id": "body-0024", "role": "body", "section": "III-A Likelihood Ratio", "weight": 1.0} -->
 
 The variance of the exploration noise which determines how aggressively the state space is explored.
 
-<!-- chunk {"id": "body-0028", "role": "body", "section": "III-A Likelihood Ratio", "weight": 1.0} -->
+<!-- chunk {"id": "body-0025", "role": "body", "section": "III-A Likelihood Ratio", "weight": 1.0} -->
 
-However, we now have an extra term to compute $\frac{\mathsf{p}{(\tau)}}{\mathsf{q}{(\tau)}}$. This is known as the *likelihood ratio* (or Radon-Nikodym derivative) between the distributions $\mathsf{p}$ and $\mathsf{q}$. In order to derive an expression for this term we first have to derive equations for the probability density functions of $\mathsf{p}{(\tau)}$ and $\mathsf{q}{(\tau)}$ individually.
+However, we now have an extra term to compute $\frac{\mathsf{p}{(\tau)}}{\mathsf{q}{(\tau)}}$. This is known as the *likelihood ratio* (or Radon-Nikodym derivative) between the distributions $\mathsf{p}$ and $\mathsf{q}$. In order to derive an expression for this term we first have to derive equations for the probability density functions of $\mathsf{p}{(\tau)}$ and $\mathsf{q}{(\tau)}$ individually. We can do this by deriving the probability density function for the general discrete time diffusion processes $P{(\tau)}$, corresponding to the dynamics: The goal is to find ${P{(\tau)}} = {P{(\mathbf{x}_{t_{0}},\mathbf{x}_{t_{1}},{\ldots\mathbf{x}_{t_{N}}})}}$.
 
-<!-- chunk {"id": "body-0029", "role": "body", "section": "III-B Likelihood Ratio as Additional Running Cost", "weight": 1.0} -->
+<!-- chunk {"id": "body-0026", "role": "body", "section": "III-A Likelihood Ratio", "weight": 1.0} -->
+
+By conditioning and using the Markov property of the state space this probability becomes: Now recall that a portion of the state space has deterministic dynamics and that we've partitioned the diffusion matrix as: We can partition the state variables $\mathbf{x}$ into the deterministic and non-deterministic variables $\mathbf{x}_{t}^{(a)}$ and $\mathbf{x}_{t}^{(c)}$ respectively.
+
+<!-- chunk {"id": "body-0027", "role": "body", "section": "III-A Likelihood Ratio", "weight": 1.0} -->
+
+Applying the definition of the Gaussian distribution with these terms yields: And then using basic rules of exponents this probability becomes: Where ${Z{(\tau)}} = {\prod_{i = 1}^{N}{{({2\pi})}^{n/2}{|\Sigma_{i}|}^{1/2}}}$. With this equation in hand we're now ready to compute the likelihood ratio between two diffusion processes.
+
+<!-- chunk {"id": "body-0028", "role": "body", "section": "III-B Likelihood Ratio as Additional Running Cost", "weight": 1.0} -->
 
 The form of the likelihood ratio just derived is easily incorporated into the path integral control framework by folding it into the cost-to-go as an extra running cost. Note that the likelihood ratio appears in both the numerator and denominator of. Therefore, any terms which do not depend on the state can be factored out of the expectation and canceled. This removes the numerically troublesome normalizing term $\prod_{j = 1}^{N}{|A_{t_{j}}|}$. So only the summation of $Q_{i}$ remains. Recall that $\Sigma = {\lambda\mathbf{G}{(\mathbf{x}_{t},t)}\mathbf{R}{(\mathbf{x}_{t},t)}^{- 1}\mathbf{G}{(\mathbf{x}_{t},t)}}$.
 
+<!-- chunk {"id": "body-0029", "role": "body", "section": "III-C Special Case", "weight": 1.0} -->
+
+The update law is applicable for a very general class of systems. In this section we examine a special case which we use for all of our experiments. We consider dynamics of the form: And for the sampling distribution we set $A$ equal to $\sqrt{\nu}I$. We also assume that $\mathbf{G}_{c}{(\mathbf{x}_{t},t)}$ is a square invertible matrix. This reduces ${\mathcal{H}}{(\mathbf{x}_{t},t)}$ to $\mathbf{G}_{c}{(\mathbf{x}_{t},t)}^{- 1}$.
+
 <!-- chunk {"id": "body-0030", "role": "body", "section": "III-C Special Case", "weight": 1.0} -->
 
-The update law is applicable for a very general class of systems. In this section we examine a special case which we use for all of our experiments.
+This yields the iterative update law as: which can be approximated as: Where $K$ is the number of random samples (termed rollouts) and $S{(\tau_{i,k})}$ is the cost-to-go of the $k_{th}$ rollout from time $t_{i}$ onward. This expression is simply a reward-weighted average of random variations in the control input. Next we investigate what the likelihood ratio addition to the running cost is.
 
 <!-- chunk {"id": "body-0031", "role": "body", "section": "III-C Special Case", "weight": 1.0} -->
 
-Where $K$ is the number of random samples (termed rollouts) and $S{(\tau_{i,k})}$ is the cost-to-go of the $k_{th}$ rollout from time $t_{i}$ onward. This expression is simply a reward-weighted average of random variations in the control input. Next we investigate what the likelihood ratio addition to the running cost is.
+1}\mathbf{R}{(\mathbf{x}_{t},t)}\mathbf{G}{(\mathbf{x}_{t},t)}^{- 1}}$ Given these simplifications $\overset{\sim}{q}$ reduces to: This means that the introduction of the likelihood ratio simply introduces the original control cost from the optimal control formulation into the sampling cost, which originally only included state-dependent terms.
 
-<!-- chunk {"id": "body-0032", "role": "body", "section": "III-C Special Case", "weight": 1.0} -->
+<!-- chunk {"id": "body-0032", "role": "body", "section": "MODEL PREDICTIVE CONTROL ALGORITHM", "weight": 1.0} -->
 
-This means that the introduction of the likelihood ratio simply introduces the original control cost from the optimal control formulation into the sampling cost, which originally only included state-dependent terms.
+We apply the iterative path integral control update law, with the generalized importance sampling term, in a model predictive control setting. In this setting optimization and execution occur simultaneously: the trajectory is optimized and then a single control is executed, then the trajectory is re-optimized using the un-executed portion of the previous trajectory to warm-start the optimization. This scheme has two key requirements: Rapid convergence to a good control input.
 
 <!-- chunk {"id": "body-0033", "role": "body", "section": "MODEL PREDICTIVE CONTROL ALGORITHM", "weight": 1.0} -->
 
-We apply the iterative path integral control update law, with the generalized importance sampling term, in a model predictive control setting. In this setting optimization and execution occur simultaneously: the trajectory is optimized and then a single control is executed, then the trajectory is re-optimized using the un-executed portion of the previous trajectory to warm-start the optimization.
+The ability to sample a large number of trajectories in real-time.
 
 <!-- chunk {"id": "body-0034", "role": "body", "section": "MODEL PREDICTIVE CONTROL ALGORITHM", "weight": 1.0} -->
 
-Rapid convergence to a good control input.
+The first requirement is essential because the algorithm does not have the luxury of waiting until the trajectory has converged before executing. The new importance sampling term enables tuning of the exploration variance which allows for rapid convergence, this is demonstrated in Fig. 1.
 
 <!-- chunk {"id": "body-0035", "role": "body", "section": "MODEL PREDICTIVE CONTROL ALGORITHM", "weight": 1.0} -->
 
-The ability to sample a large number of trajectories in real-time.
+The second requirement, sampling a large number of trajectories in real-time, is satisfied by implementing the random sampling of trajectories on a GPU. The algorithm is given in Algorithm 1, in the parallel GPU implementation the sampling for loop (for k to K-1) is run completely in parallel.
 
 <!-- chunk {"id": "body-0036", "role": "body", "section": "MODEL PREDICTIVE CONTROL ALGORITHM", "weight": 1.0} -->
 
-The first requirement is essential because the algorithm does not have the luxury of waiting until the trajectory has converged before executing. The new importance sampling term enables tuning of the exploration variance which allows for rapid convergence, this is demonstrated in Fig. 1.
+\sum_{k = 1}^{K}\exp\left(- \frac{1}{\lambda}{\overset{\sim}{S}}_{(}\tau_{i,k}) \right. \right)} \right)} \right\rbrack}$; Update the current state after receiving feedback; check for task completion; Algorithm 1 Model Predictive Path Integral Control
 
-<!-- chunk {"id": "body-0037", "role": "body", "section": "MODEL PREDICTIVE CONTROL ALGORITHM", "weight": 1.0} -->
-
-The second requirement, sampling a large number of trajectories in real-time, is satisfied by implementing the random sampling of trajectories on a GPU. The algorithm is given in Algorithm 1, in the parallel GPU implementation the sampling for loop (for k to K-1) is run completely in parallel.
-
-<!-- chunk {"id": "body-0038", "role": "body", "section": "MODEL PREDICTIVE CONTROL ALGORITHM", "weight": 1.0} -->
-
-Given: K: Number of samples;
-(u0,u1,… uN − 1): Initial control sequence;
-Δ t, xt0, f, G, B, ν: System/sampling dynamics;
-uinit: Value to initialize new controls to;
-while task not completed do
-
-<!-- chunk {"id": "body-0039", "role": "body", "section": "MODEL PREDICTIVE CONTROL ALGORITHM", "weight": 1.0} -->
-
-Update the current state after receiving feedback;
-check for task completion;
-
-<!-- chunk {"id": "body-0040", "role": "body", "section": "MODEL PREDICTIVE CONTROL ALGORITHM", "weight": 1.0} -->
-
-Algorithm 1 Model Predictive Path Integral Control
-
-<!-- chunk {"id": "body-0041", "role": "body", "section": "EXPERIMENTS", "weight": 1.0} -->
+<!-- chunk {"id": "body-0037", "role": "body", "section": "EXPERIMENTS", "weight": 1.0} -->
 
 We tested the model predictive path integral control algorithm (MPPI) on three simulated platforms A cart-pole, A miniature race car, and A quadrotor attempting to navigate an obstacle filled environment. For the race car and quadrotor we used a model predictive control version of the differential dynamic programming (DDP) algorithm as a baseline comparision. In all of these experiments the controller operates at 50 Hz, this means that the open loop control sequence is re-optimized every 20 milliseconds.
 
-<!-- chunk {"id": "body-0042", "role": "body", "section": "V-A Cart-Pole", "weight": 1.0} -->
+<!-- chunk {"id": "body-0038", "role": "body", "section": "V-A Cart-Pole", "weight": 1.0} -->
 
 For the cart-pole swing-up task we used the state cost: ${q{(\mathbf{x})}} = {p^{2} + {500{({1 + {\cos{(\theta)}}})}^{2}} + {\overset{˙}{\theta}}^{2} + {\overset{˙}{p}}^{2}}$, where $p$ is the position of cart, $\overset{˙}{p}$ is the velocity and $\theta,\overset{˙}{\theta}$ are the angle and angular velocity of the pole. The control input is desired velocity, which maps to velocity through the equation: $\overset{¨}{p} = {10{({u - \overset{˙}{p}})}}$. The disturbance parameter $\frac{1}{\sqrt{\rho}}$ was set equal $.01$ and the control cost was $\mathbf{R} = 1$.
 
-<!-- chunk {"id": "body-0043", "role": "body", "section": "V-A Cart-Pole", "weight": 1.0} -->
+<!-- chunk {"id": "body-0039", "role": "body", "section": "V-A Cart-Pole", "weight": 1.0} -->
 
 We ran the MPPI controller for 10 seconds with a 1 second optimization horizon. The controller has to swing-up the pole and keep it balanced for the rest of the 10 second horizon. The exploration variance parameter, $\nu$, was varied between $1$ and $1500$. The MPPI controller is able to swing-up the pole faster with increasing exploration variance. Fig. 1 illustrates the performance of the MPPI controller as the exploration variance and the number of rollouts are changed. Using only the natural variance of the system for exploration is insufficient in this task, in that case (not shown in the figure) the controller is never able to swing-up the pole which results in a cost around 2000.
 
-<!-- chunk {"id": "body-0044", "role": "body", "section": "V-B Race Car", "weight": 1.0} -->
+<!-- chunk {"id": "body-0040", "role": "body", "section": "V-B Race Car", "weight": 1.0} -->
 
 In the race car task the goal was to minimize the objective function: ${q{(\mathbf{x})}} = {{100d^{2}} + {({v_{x} - 7.0})}^{2}}$. Where $d$ is defined as: $d = {|{{\left( \frac{x}{13} \right)^{2} + \left( \frac{y}{6} \right)^{2}} - 1}|}$, and $v_{x}$ is the forward (in body frame) velocity of the car. This cost ensures that the car to stays on an elliptical track while maintaining a forward speed of 7 meters/sec. We use a non-linear dynamics model which takes into account the (highly non-linear) interactions between tires and the ground. The exploration variance was set to a constant $\nu$ times the natural variance of the system.
 
-<!-- chunk {"id": "body-0045", "role": "body", "section": "V-B Race Car", "weight": 1.0} -->
-
-The MPPI controller is able to enter turns at close to the desired speed of 7 m/s and then slide through the turn. The DDP solution does not attempt to slide and significantly reduces its forward velocity before entering the turn, this results in a higher average cost compared to the MPPI controller. Fig. 2 shows the cost comparison between MPPI and MPC-DDP, and Figures 3 and 4 show samples of the trajectories taken by the two algorithms as well as the velocity profiles.
-
-<!-- chunk {"id": "body-0046", "role": "body", "section": "V-C Quadrotor", "weight": 1.0} -->
+<!-- chunk {"id": "body-0041", "role": "body", "section": "V-C Quadrotor", "weight": 1.0} -->
 
 The quadrotor task was to fly through a field filled with cylindrical obstacles as fast as possible. We used the quadrotor dynamics model. This is a non-linear model which includes position, velocity, euler angles, angular acceleration, and the rotor dynamics. We randomly generated three forests, one where obstacles are on average 3 meters apart, the second one 4 meters apart, and the third 5 meters apart. We then separately created cost functions for both MPPI and DDP which guide the quadrotor through the forest as quickly as possible.
 
-<!-- chunk {"id": "body-0047", "role": "body", "section": "V-C Quadrotor", "weight": 1.0} -->
+<!-- chunk {"id": "body-0042", "role": "body", "section": "V-C Quadrotor", "weight": 1.0} -->
 
 Additionally if $C = 1$ (which indicates a crash), the rollout stops simulating the dynamics and the vehicle remains where it is for the rest of the time horizon. We found that the crash indicator term is not useful for the MPC-DDP based controller, this is not surprising since the discontinuity it creates is difficult to approximate with a quadratic function. The term in the cost for avoiding obstacles in the MPC-DDP controller consists purely of a large exponential term: $2000{\sum_{i = 1}^{N}{\exp{({- {\frac{1}{2}d_{i}^{2}}})}}}$, note that this sum is over all the obstacles in the proximity of the vehicle whereas the MPPI controller only has to consider the closest obstacle.
 
-<!-- chunk {"id": "body-0048", "role": "body", "section": "V-C Quadrotor", "weight": 1.0} -->
+<!-- chunk {"id": "body-0043", "role": "body", "section": "V-C Quadrotor", "weight": 1.0} -->
 
 Since the MPPI controller can explicitly reason about crashing (as opposed to just staying away from obstacles), it is able to travel both faster and closer to obstacles than the MPC-DDP controller. Fig. 7 shows the difference in time between the two algorithms and Fig. 6 the trajectories taken by MPC-DDP and one of the MPPI runs on the forest with obstacles placed on average 4 meters away.
 
-<!-- chunk {"id": "body-0049", "role": "body", "section": "CONCLUSION", "weight": 1.5} -->
+<!-- chunk {"id": "body-0044", "role": "body", "section": "CONCLUSION", "weight": 1.5} -->
 
-In this paper we have developed a model predictive path integral control algorithm which is able to outperform a state-of-the-art DDP method on two difficult control tasks. The algorithm is based on stochastic sampling of system trajectories and requires no derivatives of either the dynamics or costs of the system. This enables the algorithm to naturally take into account non-linear dynamics, such as a non-linear tire model. It is also able to handle cost functions which are intuitively appealing, such as an impulse cost for hitting an obstacle, but are difficult for traditional approaches that rely on a smooth gradient signal to perform optimization.
+In this paper we have developed a model predictive path integral control algorithm which is able to outperform a state-of-the-art DDP method on two difficult control tasks. The algorithm is based on stochastic sampling of system trajectories and requires no derivatives of either the dynamics or costs of the system. This enables the algorithm to naturally take into account non-linear dynamics, such as a non-linear tire model. It is also able to handle cost functions which are intuitively appealing, such as an impulse cost for hitting an obstacle, but are difficult for traditional approaches that rely on a smooth gradient signal to perform optimization. The two keys to achieving this level of performance with a sampling based method are: The derivation of the generalized likelihood ratio between discrete time diffusion processes.
 
-<!-- chunk {"id": "body-0050", "role": "body", "section": "CONCLUSION", "weight": 1.5} -->
-
-The derivation of the generalized likelihood ratio between discrete time diffusion processes.
-
-<!-- chunk {"id": "body-0051", "role": "body", "section": "CONCLUSION", "weight": 1.5} -->
+<!-- chunk {"id": "body-0045", "role": "body", "section": "CONCLUSION", "weight": 1.5} -->
 
 The use of a GPU to sample thousands of trajectories in real-time.
 
-<!-- chunk {"id": "body-0052", "role": "body", "section": "CONCLUSION", "weight": 1.5} -->
+<!-- chunk {"id": "body-0046", "role": "body", "section": "CONCLUSION", "weight": 1.5} -->
 
 The derivation of the likelihood ratio enables the designer of the algorithm to tune the exploration variance in the path integral control framework, whereas previous methods have only allowed for the mean of the distribution to be changed. Tuning the exploration variance is critical in achieving a high level of performance since the natural variance of the system is typically too low to achieve good performance.
 
-<!-- chunk {"id": "body-0053", "role": "body", "section": "CONCLUSION", "weight": 1.5} -->
+<!-- chunk {"id": "body-0047", "role": "body", "section": "CONCLUSION", "weight": 1.5} -->
 
 The experiments considered in this work only consider changing the variance by a constant multiple times the natural variance of the system. In this special case the introduction of the likelihood ratio corresponds to adding in a control cost when evaluating the cost-to-go of a trajectory. A direction for future research is to investigate how to automatically adjust the variance online. Doing so could enable the algorithm to switch from aggressively exploring the state space when performing aggressive maneuvers to exploring more conservatively for performing very precise maneuvers.

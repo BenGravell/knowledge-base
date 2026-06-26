@@ -26,7 +26,7 @@ Towards a data-driven approach to generating safety-critical scenarios while pre
 
 <!-- chunk {"id": "body-0007", "role": "body", "section": "INTRODUCTION", "weight": 1.5} -->
 
-A generative framework for safety-critical scenario generation based on conditional latent flow matching.
+To summarize, our contributions are threefold: A generative framework for safety-critical scenario generation based on conditional latent flow matching.
 
 <!-- chunk {"id": "body-0008", "role": "body", "section": "INTRODUCTION", "weight": 1.5} -->
 
@@ -66,160 +66,140 @@ A flow matching model is a type of generative model that learns to transform sam
 
 <!-- chunk {"id": "body-0017", "role": "body", "section": "III-A Traffic Modeling", "weight": 1.0} -->
 
-We define the problem scope as generating a traffic scenario with $N$ actors in a finite horizon of $T$ time steps. We use $Y^{t} = {\{ y_{1}^{t},y_{2}^{t},\ldots,y_{N}^{t}\}}$ to denote the actor states at time $t$. For each vehicle state we define $y_{i}^{t} = {(b_{x},b_{y},b_{z},b_{\theta},b_{v},b_{l},b_{w},b_{h})}$, which describes the 3D position, yaw, velocity, and the length, width, and height of a vehicle's bounding box.
+We define the problem scope as generating a traffic scenario with $N$ actors in a finite horizon of $T$ time steps. We use $Y^{t}=\{y_{1}^{t},y_{2}^{t},...,y_{N}^{t}\}$ to denote the actor states at time $t$. For each vehicle state we define $y_{i}^{t}=(b_{x},b_{y},b_{z},b_{\theta},b_{v},b_{l},b_{w},b_{h})$, which describes the 3D position, yaw, velocity, and the length, width, and height of a vehicle's bounding box.
 
 <!-- chunk {"id": "body-0018", "role": "body", "section": "III-A Traffic Modeling", "weight": 1.0} -->
 
-The model observes the high-definition map $\mathbf{M}$ and past $H$ states $Y^{{- H}:0}$ and outputs the vehicle control action sequence $A^{t} = {\{ a_{1}^{t},a_{2}^{t},\ldots,a_{n}^{t}\}}$, where $a_{i}^{t} = {(a_{accel},a_{steer})}$. The goal of traffic modeling is typically to learn to model the distribution over future actor states.
+The model observes the high-definition map $\mathbf{M}$ and past $H$ states $Y^{-H:0}$ and outputs the vehicle control action sequence $A^{t}=\{a_{1}^{t},a_{2}^{t},...,a_{n}^{t}\}$, where $a_{i}^{t}=(a_{accel},a_{steer})$. The goal of traffic modeling is typically to learn to model the distribution over future actor states.
 
 <!-- chunk {"id": "body-0019", "role": "body", "section": "III-C Variational Autoencoder", "weight": 1.0} -->
 
-The variational autoencoder is a latent variable approach to generative modeling
+The variational autoencoder is a latent variable approach to generative modeling where $z$ is some latent variable meant to capture unobserved aspects of the generative process. An encoder $q_{\theta}(z|x)$, decoder $p_{\theta}(x|z)$ and prior $p_{\theta}(z)$ can be jointly learned to optimize the evidence lower bound: where $\mathcal{D}_{\text{KL}}$ is the Kullback-Leibler divergence. After learning, sampling from $p(x)$ amounts to sampling from the prior followed by the decoder. VAEs can be extended to support conditional generation by extending the encoder, decoder and prior to be conditional distributions as well, e.g. $q_{\theta}(z|x,c)$, $p_{\theta}(x|z,c)$, $p_{\theta}(z|c)$ respectively.
 
-<!-- chunk {"id": "body-0020", "role": "body", "section": "III-C Variational Autoencoder", "weight": 1.0} -->
-
-where $z$ is some latent variable meant to capture unobserved aspects of the generative process. An encoder $q_{\theta}{(\left. z \middle| x \right.)}$, decoder $p_{\theta}{(\left. x \middle| z \right.)}$
-
-<!-- chunk {"id": "body-0021", "role": "body", "section": "III-C Variational Autoencoder", "weight": 1.0} -->
-
-where $\mathcal{D}_{\text{KL}}$ is the Kullback-Leibler divergence. After learning, sampling from $p{(x)}$ amounts to sampling from the prior followed by the decoder. VAEs can be extended to support conditional generation by extending the encoder, decoder and prior to be conditional distributions as well, e.g. $q_{\theta}{(\left. z \middle| {x,c} \right.)}$, $p_{\theta}{(\left. x \middle| {z,c} \right.)}$, $p_{\theta}{(\left. z \middle| c \right.)}$ respectively.
-
-<!-- chunk {"id": "body-0022", "role": "body", "section": "METHODOLOGY", "weight": 1.0} -->
+<!-- chunk {"id": "body-0020", "role": "body", "section": "METHODOLOGY", "weight": 1.0} -->
 
 The overall framework of the conditional flow VAE is depicted in Fig. 2.
 
-<!-- chunk {"id": "body-0023", "role": "body", "section": "IV-A Latent flow matching", "weight": 1.0} -->
+<!-- chunk {"id": "body-0021", "role": "body", "section": "IV-A Latent flow matching", "weight": 1.0} -->
 
 We take a distribution matching approach for safety-critical scenario generation. Let $p_{N}$ be the nominal distribution of traffic scenarios for which we have many samples, and $p_{S}$ be the safety-critical distribution, for which we have comparatively fewer samples. Our approach learns a flow from $p_{N}$ to $p_{S}$. Doing so allows us to learn to sample new scenarios from $p_{S}$ by transporting samples from $p_{N}$.
 
+<!-- chunk {"id": "body-0022", "role": "body", "section": "IV-A Latent flow matching", "weight": 1.0} -->
+
+To begin, we follow and model general traffic scenarios using a conditional VAE: In this case, the encoder (posterior) is given as $q_{\theta}(Z|\mathbf{M},Y^{-H:0},Y^{1:T})$. Note that we learn the conditional VAE on the mixture of $p_{N}$ and $p_{S}$, meaning the model is trained on samples from both distributions.
+
+<!-- chunk {"id": "body-0023", "role": "body", "section": "IV-A Latent flow matching", "weight": 1.0} -->
+
+We now define the *safety-critical* aggregate posterior as Intuitively, this is the distribution over $Z$ for safety-critical scenarios. We sample from $q^{S}$ using the VAE posterior on safety-critical scenarios. The flow model then aims to learn a transport between the prior and this safety-critical latent distribution by optimizing where $Z_{t}=tZ_{1}+(1-t)Z_{0}$, and $Z_{1}\sim q_{\theta}^{S}$ and $Z_{0}\sim p_{\theta}(Z|\mathbf{M},Y^{-H:0})$. This objective trains the model to map prior latents to safety-critical latents.
+
 <!-- chunk {"id": "body-0024", "role": "body", "section": "IV-A Latent flow matching", "weight": 1.0} -->
 
-In this case, the encoder (posterior) is given as $q_{\theta}{(\left. Z \middle| {\mathbf{M},Y^{{- H}:0},Y^{1:T}} \right.)}$. Note that we learn the conditional VAE on the mixture of $p_{N}$ and $p_{S}$, meaning the model is trained on samples from both distributions.
+There are several advantages to our approach. By training the VAE on the mixture of nominal and safety-critical data, we are able to learn better overall realistic driving by making use of all data, as opposed to learning only on safety-critical data. However, the explicit flow objective allows us to steer our sampling towards the safety-critical distribution. Compared to trajectory space, flowing in latent space also allows us to control the degree of safety criticality by doing a partial flow (e.g. until $t=0.5$), since the decoder still maps intermediate results in latent space to plausible futures.
 
-<!-- chunk {"id": "body-0025", "role": "body", "section": "IV-A Latent flow matching", "weight": 1.0} -->
-
-We now define the *safety-critical* aggregate posterior as
-
-<!-- chunk {"id": "body-0026", "role": "body", "section": "IV-A Latent flow matching", "weight": 1.0} -->
-
-Intuitively, this is the distribution over $Z$ for safety-critical scenarios. We sample from $q^{S}$ using the VAE posterior on safety-critical scenarios. The flow model then aims to learn a transport between the prior and this safety-critical latent distribution by optimizing
-
-<!-- chunk {"id": "body-0027", "role": "body", "section": "IV-A Latent flow matching", "weight": 1.0} -->
-
-There are several advantages to our approach. By training the VAE on the mixture of nominal and safety-critical data, we are able to learn better overall realistic driving by making use of all data, as opposed to learning only on safety-critical data. However, the explicit flow objective allows us to steer our sampling towards the safety-critical distribution. Compared to trajectory space, flowing in latent space also allows us to control the degree of safety criticality by doing a partial flow (e.g. until $t = 0.5$), since the decoder still maps intermediate results in latent space to plausible futures.
-
-<!-- chunk {"id": "body-0028", "role": "body", "section": "IV-B Training Recipe", "weight": 1.0} -->
+<!-- chunk {"id": "body-0025", "role": "body", "section": "IV-B Training Recipe", "weight": 1.0} -->
 
 We follow a two-stage training procedure inspired by latent space manipulation practices in computer vision. In the first stage, we train a conditional VAE on both nominal and safety-critical scenarios to establish a stable and semantically meaningful latent representation for both types. In the second stage, we train the flow model exclusively on safety-critical scenarios to learn the distributional transport from nominal to safety-critical latents. We found that this staged design is essential for reliable convergence. This is because empirically we observed that for a single stage end-to-end training approach, the prior and posterior distributions of the VAE undergo large shifts in the early iterations, while the flow model simultaneously attempts to learn the mapping with high learning rates. As a result, the flow model is effectively trained on a non-stationary target, which often leads to instability. By decoupling the stages, the VAE first provides a fixed latent space learned under a combination of imitation and traffic-compliance objectives. The subsequent flow model is then trained with a flow objective, which benefits from theoretical convergence guarantees under a fixed latent space.
 
-<!-- chunk {"id": "body-0029", "role": "body", "section": "IV-C Architecture", "weight": 1.0} -->
+<!-- chunk {"id": "body-0026", "role": "body", "section": "IV-C Architecture", "weight": 1.0} -->
 
 We now describe the neural network architecture used for the different components of our approach.
 
-<!-- chunk {"id": "body-0030", "role": "body", "section": "Backbone", "weight": 1.0} -->
+<!-- chunk {"id": "body-0027", "role": "body", "section": "Backbone", "weight": 1.0} -->
 
 A transformer based architecture is used as the backbone network for the VAE and flow transformer. We adopt several common techniques used in traffic modelling. We first extract state features from each actor using a simple MLP. Map features are extracted using an off-the-shelf map encoder. Map and actor state features are then augmented with PairPose relative positional features allowing for viewpoint-invariance. Our transformer comprises interleaved actor-to-map, actor-to-actor and actor-to-time attention layers; relative positional encodings between actors are used to preserve viewpoint-invariance. To save on computational cost, actor-to-actor and actor-map attention is limited to the top-$k$ closest actors or lane graph nodes, essentially forming a local context for each actor.
 
-<!-- chunk {"id": "body-0031", "role": "body", "section": "VAE", "weight": 1.0} -->
+<!-- chunk {"id": "body-0028", "role": "body", "section": "VAE", "weight": 1.0} -->
 
-Following prior work on multi-agent traffic simulation, we employ a conditional variational autoencoder (CVAE) approach to learn latent embeddings that capture rich scene semantics and the multi-agent interactions. The prior $p_{\theta}{(\left. Z \middle| {\mathbf{M},Y^{{- H}:0}} \right.)}$ and posterior $q_{\theta}{(\left. Z \middle| {\mathbf{M},Y^{{- H}:0},Y^{1:T}} \right.)}$ use the same backbone described above, differing only in the number of timesteps of actor states observed, sharing the map encoder. Note that, similar to, we predict a separate latent for each actor. The decoder also uses the same backbone; the latent is fused into the actor feature, and a steering and acceleration is predicted per actor.
+Following prior work on multi-agent traffic simulation, we employ a conditional variational autoencoder (CVAE) approach to learn latent embeddings that capture rich scene semantics and the multi-agent interactions. The prior $p_{\theta}(Z|\mathbf{M},Y^{-H:0})$ and posterior $q_{\theta}(Z|\mathbf{M},Y^{-H:0},Y^{1:T})$ use the same backbone described above, differing only in the number of timesteps of actor states observed, sharing the map encoder. Note that, similar to, we predict a separate latent for each actor. The decoder also uses the same backbone; the latent is fused into the actor feature, and a steering and acceleration is predicted per actor.
 
-<!-- chunk {"id": "body-0032", "role": "body", "section": "Flow model", "weight": 1.0} -->
+<!-- chunk {"id": "body-0029", "role": "body", "section": "VAE", "weight": 1.0} -->
+
+(a) Urban cut-in scenario (b) Highway cut-in scenario (c) Highway hard-brake scenario Figure 3: Qualitatives. From top to bottom: original nominal scenario, VAE reconstruction, STRIVE, our model.
+
+<!-- chunk {"id": "body-0030", "role": "body", "section": "Flow model", "weight": 1.0} -->
 
 With the stable latent representation established from the CVAE, safety-critical rollout generation requires transforming nominal latents into their safety-critical counterparts. We frame this as a distribution matching problem: safety-critical behaviors (e.g., hard braking, aggressive cut-ins) occupy distinct subregions of the latent space, and our goal is to learn a mapping from nominal priors to these critical submanifolds.
 
-<!-- chunk {"id": "body-0033", "role": "body", "section": "Flow model", "weight": 1.0} -->
+<!-- chunk {"id": "body-0031", "role": "body", "section": "Flow model", "weight": 1.0} -->
 
-We use the same transformer backbone for our flow model. Our transformer backbone is conditioned on the actor state feature to implement flow matching in latent space.
+We use the same transformer backbone for our flow model. Our transformer backbone is conditioned on the actor state feature to implement flow matching in latent space. We combine the flow matching context along with the actor-level features to form the following input features: where $t_{\text{denoise}}$ is the denoising time step drawn from the uniform distribution $U$. $X$ is actor state and map features. $E_{T}$ is the sinusoidal positional encoding of the denoising time step. $E_{x}$ is an interpolation between the prior latent $Z_{\text{prior}}$ and the posterior latent $Z_{\text{posterior}}$. Since the flow model only conditions on the scene initialization, an optional maneuver indicator is accepted to control the level of aggressiveness of maneuver. We classify each scenario in the training dataset into one of the three categories: nominal, safety-critical, and very safety-critical. The label is computed with heuristics on vehicle kinematics and time-to-collision. $E_{c}$ is the maneuver label projected with an MLP.
 
-<!-- chunk {"id": "body-0034", "role": "body", "section": "Flow model", "weight": 1.0} -->
-
-where $t_{\text{denoise}}$ is the denoising time step drawn from the uniform distribution $U{}$. $X$ is actor state and map features. $E_{T}$ is the sinusoidal positional encoding of the denoising time step. $E_{x}$ is an interpolation between the prior latent $Z_{\text{prior}}$ and the posterior latent $Z_{\text{posterior}}$. Since the flow model only conditions on the scene initialization, an optional maneuver indicator is accepted to control the level of aggressiveness of maneuver. We classify each scenario in the training dataset into one of the three categories: nominal, safety-critical, and very safety-critical. The label is computed with heuristics on vehicle kinematics and time-to-collision. $E_{c}$ is the maneuver label projected with an MLP.
-
-<!-- chunk {"id": "body-0035", "role": "body", "section": "Flow model", "weight": 1.0} -->
+<!-- chunk {"id": "body-0032", "role": "body", "section": "Flow model", "weight": 1.0} -->
 
 During inference, we discard the posterior encoder and use the prior encoder only since ground-truth futures are unavailable. Given any initialization state, the prior encoder produces a latent $Z_{\text{prior}}$, which is then transformed by the Flow Transformer into a steered latent $Z_{pred}$. This latent is decoded through the CVAE decoder to acquire the final actor states.
 
-<!-- chunk {"id": "body-0036", "role": "body", "section": "IV-D Dataset", "weight": 1.0} -->
+<!-- chunk {"id": "body-0033", "role": "body", "section": "IV-D Dataset", "weight": 1.0} -->
 
 Performing distribution matching between nominal and safety-critical rollouts requires access to safety-critical scenarios observed in real driving logs. However, due to their inherent sparsity in naturalistic datasets, none of the widely used open-source autonomous driving corpora explicitly curate such subsets. To address this limitation, we adopt a simulation--real data mixing strategy that balances scalability with realism. For real safety-critical scenarios, we conduct targeted data mining over a catalogue of real driving logs. We extract approximately 500 unique scenarios with challenging situations; e.g., actors perform abrupt cut-ins, aggressive braking, etc. The result of this data mining is a set of smaller scale but high-fidelity demonstrations of realistic human driving behaviors under challenging conditions.
 
-<!-- chunk {"id": "body-0037", "role": "body", "section": "IV-D Dataset", "weight": 1.0} -->
+<!-- chunk {"id": "body-0034", "role": "body", "section": "IV-D Dataset", "weight": 1.0} -->
 
 To supplement the real safety critical scenarios, we leverage simulation. Our goal is to generate realistic scenarios which introduce diverse behaviors that can help transfer to real safety critical scenarios. We use existing deep-learning based traffic simulation models for nominal traffic, with the addition of a "hero actor" selected among existing actors with heuristics, or additionally inserted into the scene. It is parameterized by Intelligent Driver Model (IDM) heuristics and programmed to execute either a cut-in or a hard braking maneuver. Overall, this procedure provides reasonably fine-grained control over desired maneuvers and generates many new scenarios. We leverage rejection sampling to throw away simulations that fail a small set of basic checks due to a failure in the heuristics. This allows us to generate an order of magnitude more safety critical scenarios than we have mined from real logs. We also found that the diversity of the simulation generated scenarios helps improve the model performance. We created three versions of simulation data with different heuristics: one with the most safety-critical maneuvers, one with kinematic constraints (deceleration, TTC, etc.) approximately tuned to the real data. It turns out that using both versions of simulation data achieves the best performance.
 
-<!-- chunk {"id": "body-0038", "role": "body", "section": "IV-D Dataset", "weight": 1.0} -->
+<!-- chunk {"id": "body-0035", "role": "body", "section": "IV-D Dataset", "weight": 1.0} -->
 
 While the resulting behaviors themselves remain limited in diversity, empirically we will show that they still provide benefits and partially transfer to the real evaluation set.
 
-<!-- chunk {"id": "body-0039", "role": "body", "section": "IV-D Dataset", "weight": 1.0} -->
+<!-- chunk {"id": "body-0036", "role": "body", "section": "IV-D Dataset", "weight": 1.0} -->
 
-During training, we blend real and simulated scenarios using a hyperparameter $\alpha_{real}$, which determines the relative proportion of real and sim data. Each training batch has an $\alpha_{real}\%$ chance to draw a sample from the real dataset, and a ${({1 - \alpha_{real}})}\%$ chance to draw from a sim sample. This mechanism allows us to smoothly adjust the balance between realism and scalability, and to study the effect of sim--real composition on downstream performance. As real safety-critical data alone is too scarce to provide sufficient coverage of the scenario space, while sim-only data introduces a domain gap, $\alpha_{real}$ serves as a way to balance the two, which we empirically validate in Section V-D.
+During training, we blend real and simulated scenarios using a hyperparameter $\alpha_{real}$, which determines the relative proportion of real and sim data. Each training batch has an $\alpha_{real}\%$ chance to draw a sample from the real dataset, and a $(1-\alpha_{real})\%$ chance to draw from a sim sample. This mechanism allows us to smoothly adjust the balance between realism and scalability, and to study the effect of sim--real composition on downstream performance. As real safety-critical data alone is too scarce to provide sufficient coverage of the scenario space, while sim-only data introduces a domain gap, $\alpha_{real}$ serves as a way to balance the two, which we empirically validate in Section V-D.
 
-<!-- chunk {"id": "body-0040", "role": "body", "section": "EXPERIMENTS", "weight": 1.0} -->
+<!-- chunk {"id": "body-0037", "role": "body", "section": "EXPERIMENTS", "weight": 1.0} -->
 
 We first evaluate end-to-end our approach's ability to generate realistic safety-critical scenarios. Section V-B shows that compared to baselines, scenarios generated by our approach more closely match held-out real safety-critical scenarios both quantitatively and qualitatively. Next, we investigate the first key aspect of our approach: our conditional flow architecture. We ablate our design choices and show that both conditioning and flow are important to achieving good results (Section V-C). The other key aspect of our approach is our data composition, and the use of simulation data to supplement real examples. In Section V-D, we evaluate our approach trained on various different data compositions and show that a simple balance of simulation and real safety-critical examples provides the best results. Finally, we study the controllability of our approach in Section V-E. We showcase how our model responds to the conditioning, and how intermediate flow timesteps can be an additional lever for controlling the specific degree of safety criticality.
 
-<!-- chunk {"id": "body-0041", "role": "body", "section": "V-A1 Dataset", "weight": 1.0} -->
+<!-- chunk {"id": "body-0038", "role": "body", "section": "V-A1 Dataset", "weight": 1.0} -->
 
 We conduct experiments with an in-house self-driving dataset. Our dataset spans both highway and urban driving, consisting of approximately 20,000 traffic scenarios. Each snippet contains 20s of driving data. Approximately 10,000 snippets are from real logs, 10,000 are simulated safety critical scenarios as described in Section IV-D. Additionally, as described in Section IV-D we have curated approximately 500 real safety critical snippets. The remaining training samples are also upsampled. We hold out 20% of the real safety critical data for evaluation.
 
-<!-- chunk {"id": "body-0042", "role": "body", "section": "V-A2 Metrics", "weight": 1.0} -->
+<!-- chunk {"id": "body-0039", "role": "body", "section": "V-A2 Metrics", "weight": 1.0} -->
 
-Evaluating a generative model for scenario generation is non-trivial and requires multiple metrics measuring realism and safety-criticality. We propose our experiments on the following suite of metrics.
+Evaluating a generative model for scenario generation is non-trivial and requires multiple metrics measuring realism and safety-criticality. We propose our experiments on the following suite of metrics. minSTTC and Near Miss Rate To evaluate if our method learns to construct near-miss cases from the training distribution, we propose a scenario-level minimum time to collision metric (minSTTC). For each scenario sample, we calculate the minimal time to collision between the ego actor and the closest leading actor throughout the entire rollout with an upper bound of 10 seconds. We report the median of the minSTTC because in the cases where no likely collision is going to happen, the minSTTC is likely to be large. We consider a more effective safety-critical scenario as inducing a small TTC without causing any collision. We also report the percentage of scenarios where the minSTTC is less than 3 seconds, which we consider as a near miss that challenges the planner.
 
-<!-- chunk {"id": "body-0043", "role": "body", "section": "V-A2 Metrics", "weight": 1.0} -->
-
-minSTTC and Near Miss Rate To evaluate if our method learns to construct near-miss cases from the training distribution, we propose a scenario-level minimum time to collision metric (minSTTC). For each scenario sample, we calculate the minimal time to collision between the ego actor and the closest leading actor throughout the entire rollout with an upper bound of 10 seconds. We report the median of the minSTTC because in the cases where no likely collision is going to happen, the minSTTC is likely to be large. We consider a more effective safety-critical scenario as inducing a small TTC without causing any collision. We also report the percentage of scenarios where the minSTTC is less than 3 seconds, which we consider as a near miss that challenges the planner.
-
-<!-- chunk {"id": "body-0044", "role": "body", "section": "V-A2 Metrics", "weight": 1.0} -->
+<!-- chunk {"id": "body-0040", "role": "body", "section": "V-A2 Metrics", "weight": 1.0} -->
 
 Distribution JSD Following common practice, we compute the distributional kinematics metrics of actors. Smaller divergence indicates that the model captures the essence of safety-critical maneuvers. We measure against common kinematic metrics that characterize actor maneuver: linear and angular speed and acceleration.
 
-<!-- chunk {"id": "body-0045", "role": "body", "section": "V-A2 Metrics", "weight": 1.0} -->
+<!-- chunk {"id": "body-0041", "role": "body", "section": "V-A2 Metrics", "weight": 1.0} -->
 
 Collision Rate We evaluate the average percentage of actors colliding in each scenario based on a small IOU threshold between the bounding boxes of the actors. Collision rate should generally be low even for safety-critical scenarios, since none of the ground truth data has any collisions. However, models can obtain low collision rate by generating nominal scenarios, so other metrics like minSTTC must also be considered.
 
-<!-- chunk {"id": "body-0046", "role": "body", "section": "V-A2 Metrics", "weight": 1.0} -->
+<!-- chunk {"id": "body-0042", "role": "body", "section": "V-A2 Metrics", "weight": 1.0} -->
 
 Reconstruction We also provide L2 reconstruction to the ground truth trajectory as another way to measure realism to supplement distribution JSD.
 
-<!-- chunk {"id": "body-0047", "role": "body", "section": "V-B Generating Realistic Safety Critical Scenarios", "weight": 1.0} -->
+<!-- chunk {"id": "body-0043", "role": "body", "section": "V-B Generating Realistic Safety Critical Scenarios", "weight": 1.0} -->
 
-*VAE* is the base model, trained on the same data as our approach.
+We compare against 3 baselines *VAE* is the base model, trained on the same data as our approach.
 
-<!-- chunk {"id": "body-0048", "role": "body", "section": "V-B Generating Realistic Safety Critical Scenarios", "weight": 1.0} -->
+<!-- chunk {"id": "body-0044", "role": "body", "section": "V-B Generating Realistic Safety Critical Scenarios", "weight": 1.0} -->
 
-*VAE + Curation* is the base CVAE model, trained only on safety critical scenarios (both real and sim)
+*VAE + Curation* is the base CVAE model, trained only on safety critical scenarios (both real and sim) *Strive* is a SOTA baseline which performs optimization in latent space. We use the same base CVAE as our approach.
 
-<!-- chunk {"id": "body-0049", "role": "body", "section": "V-B Generating Realistic Safety Critical Scenarios", "weight": 1.0} -->
-
-*Strive* is a SOTA baseline which performs optimization in latent space. We use the same base CVAE as our approach.
-
-<!-- chunk {"id": "body-0050", "role": "body", "section": "V-B Generating Realistic Safety Critical Scenarios", "weight": 1.0} -->
+<!-- chunk {"id": "body-0045", "role": "body", "section": "V-B Generating Realistic Safety Critical Scenarios", "weight": 1.0} -->
 
 Table I shows the results. Compared with the baseline CVAE models, our model achieves comparable kinematics metrics while generating more safety-critical scenarios. Our model generates smaller minSTTC with higher near-miss rate. Because the baseline CVAE is trained on the base mixture distribution, it does not produce as many safety-critical scenarios, as we can see by its relatively worse minSTTC and Near Miss rate. Our VAE + Curation baseline obtains higher near miss rate but is less realistic overall. This is because the omitted nominal data still contains valuable learning signal, in particular for background traffic, etc. STRIVE also obtains a high near miss rate but suffers from realism. We believe that this is because the prior model does not provide strong enough regularization. Also, the adversarial optimization is not explicitly aware of the real world distribution of safety-critical scenarios. On the other hand our flow approach obtains the best of both worlds as it is able to generate a large percentage of near miss scenarios while maintaining good performance in the other metrics.
 
-<!-- chunk {"id": "body-0051", "role": "body", "section": "V-B Generating Realistic Safety Critical Scenarios", "weight": 1.0} -->
+<!-- chunk {"id": "body-0046", "role": "body", "section": "V-B Generating Realistic Safety Critical Scenarios", "weight": 1.0} -->
 
 Qualitatively (Fig. 3), we can see that with an ordinary highway scenario, our model perturbs the maneuver of the leading actor by causing it to perform a hard brake, leading the ego vehicle to follow as well. On the second occasion, the model causes the actor in the neighbor lane to cut into ego vehicle's lane aggressively, also causing a hard brake from the ego actor. One side benefit of the flow method is that the model automatically chooses the actor to interact with the ego vehicle as well as the maneuver to perform, so that there is no need for explicit interaction design.
 
-<!-- chunk {"id": "body-0052", "role": "body", "section": "V-C Conditional Flow Ablation", "weight": 1.0} -->
+<!-- chunk {"id": "body-0047", "role": "body", "section": "V-C Conditional Flow Ablation", "weight": 1.0} -->
 
 We now ablate the key architectural choices of our approach: the flow transformer, and the additional conditioning. The flow-only model simply removes the conditioning from the flow transformer. For the conditioning-only model, we add a similar conditioning encoder to the VAE prior. Table I shows the results. As expected, without any flow or conditioning to steer the sampling, the base model has trouble generating safety critical rollouts. We see that conditioning on its own is also ineffective. Our hypothesis is that adding conditioning during the VAE training potentially harms representation learning as it potentially provides too much of a shortcut. On its own, flow is already effective, but adding conditioning to flow results in the best overall model.
 
-<!-- chunk {"id": "body-0053", "role": "body", "section": "V-D Data Composition", "weight": 1.0} -->
+<!-- chunk {"id": "body-0048", "role": "body", "section": "V-D Data Composition", "weight": 1.0} -->
 
 We evaluate our model performance with different mixtures of real data in Table III. For these experiments, the same base VAE is used, but we adjust the mixed ratio of sim and real data when training the flow model. We see that using sim or real only is ineffective, due to lower fidelity data, and smaller scale data respectively. Combining them shows the best results, with a sweet spot at around 50%.
 
-<!-- chunk {"id": "body-0054", "role": "body", "section": "V-E Controllability Studies", "weight": 1.0} -->
+<!-- chunk {"id": "body-0049", "role": "body", "section": "V-E Controllability Studies", "weight": 1.0} -->
 
-Controllability is another desired property for our model because it allows us to generate different levels of safety-critical scenarios, which could be used to gradually test the performance upper bound of the autonomy system. In this part, we compare the difference of the rollouts from the same initialization but with different maneuver labels. In Table IV, we show the performance of the model with different maneuver labels. We see minSTTC decreases and near-miss rate increases as the maneuver label becomes more challenging, while the unconditional model lies somewhere in between. We also found that controllability could also be achieved by manipulating the flow time steps. We sample the latents along the inference time steps and decode them to visualize the reconstruction. Fig. 4 shows that the model rollout is nominal at $t = 0$, and becomes safety-critical at $t = 1$, providing more refined control of scenario generation when used in conjunction with the maneuver labels.
+Controllability is another desired property for our model because it allows us to generate different levels of safety-critical scenarios, which could be used to gradually test the performance upper bound of the autonomy system. In this part, we compare the difference of the rollouts from the same initialization but with different maneuver labels. In Table IV, we show the performance of the model with different maneuver labels. We see minSTTC decreases and near-miss rate increases as the maneuver label becomes more challenging, while the unconditional model lies somewhere in between. We also found that controllability could also be achieved by manipulating the flow time steps. We sample the latents along the inference time steps and decode them to visualize the reconstruction. Fig. 4 shows that the model rollout is nominal at $t=0$, and becomes safety-critical at $t=1$, providing more refined control of scenario generation when used in conjunction with the maneuver labels.
 
-<!-- chunk {"id": "body-0055", "role": "body", "section": "CONCLUSION", "weight": 1.5} -->
+<!-- chunk {"id": "body-0050", "role": "body", "section": "CONCLUSION", "weight": 1.5} -->
 
 In this paper, we proposed Flow VAE, a method for data-driven safety-critical traffic scenario rollout generation. Flow VAE is a flow matching transformer that learns to transfer the latents from nominal initialization into safety-critical ones. We also show that using a mixture of sim and real data, we are able to scalably generate safety-critical scenarios with a small dataset. Our ablation studies validate our architectural and data composition design choices, and we further show multiple methods to control our model at varying granularity.
 
-<!-- chunk {"id": "body-0056", "role": "body", "section": "CONCLUSION", "weight": 1.5} -->
+<!-- chunk {"id": "body-0051", "role": "body", "section": "CONCLUSION", "weight": 1.5} -->
 
 Our real data curation and synthetic generation are proof-of-concept and can be improved. For instance higher fidelity vehicle models involving friction could better address sim-to-real and allow for more interesting scenarios involving slipping. Scaling up data collection and synthetic generation techniques could allow for increasingly diverse safety critical scenarios to be generated. While we showed controllability in the degree of safety criticality (through maneuver labels and number of flow timesteps), controlling the maneuver itself could be an interesting future direction.

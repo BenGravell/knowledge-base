@@ -48,8 +48,7 @@ We also consider the setting where we condition on an ego-agent's future motion 
 
 <!-- chunk {"id": "body-0012", "role": "body", "section": "Trajectron++", "weight": 1.0} -->
 
-Our approach^11^1All of our source code, trained models, and data can be found online at\
-is visualized in Figure 2. At a high level, a spatiotemporal graph representation of the scene in question is created from its topology. Then, a similarly-structured deep learning architecture is generated that forecasts the evolution of node attributes, producing agent trajectories.
+Our approach^11^1All of our source code, trained models, and data can be found online at\is visualized in Figure 2. At a high level, a spatiotemporal graph representation of the scene in question is created from its topology. Then, a similarly-structured deep learning architecture is generated that forecasts the evolution of node attributes, producing agent trajectories.
 
 <!-- chunk {"id": "body-0013", "role": "body", "section": "Trajectron++", "weight": 1.0} -->
 
@@ -121,150 +120,136 @@ Output Configurations. Based on the desired use case, *Trajectron++* can produce
 
 <!-- chunk {"id": "body-0030", "role": "body", "section": "Trajectron++", "weight": 1.0} -->
 
-1\. *Most Likely (ML)*: The model's deterministic and most-likely single output. The high-level latent behavior mode and output trajectory are the modes of their respective distributions, where
+1\. *Most Likely (ML)*: The model's deterministic and most-likely single output. The high-level latent behavior mode and output trajectory are the modes of their respective distributions, where 2\. $z_{\text{mode}}$: Predictions from the model's most-likely high-level latent behavior mode, where 3\. *Full*: The model's full sampled output, where $z$ and $y$ are sampled sequentially according to 4\. *Distribution*: Due to the use of a discrete latent variable and Gaussian output structure, the model can provide an analytic output distribution by directly computing ${p{({\mathbf{y} \mid \mathbf{x}})}} = {\sum_{z \in Z}{p_{\psi}{({\mathbf{y} \mid {\mathbf{x},z}})}p_{\theta}{({z \mid \mathbf{x}})}}}$.
 
 <!-- chunk {"id": "body-0031", "role": "body", "section": "Trajectron++", "weight": 1.0} -->
 
-2\. $z_{\text{mode}}$: Predictions from the model's most-likely high-level latent behavior mode, where
+Training the Model. We adopt the InfoVAE objective function, and modify it to use discrete latent states in a conditional formulation (since the model uses a CVAE).
 
 <!-- chunk {"id": "body-0032", "role": "body", "section": "Trajectron++", "weight": 1.0} -->
 
-3\. *Full*: The model's full sampled output, where $z$ and $y$ are sampled sequentially according to
+To compute $I_{q}$, we follow and approximate $q_{\phi}{({z \mid {\mathbf{x}_{i},\mathbf{y}_{i}}})}$ with $p_{\theta}{({z \mid \mathbf{x}_{i}})}$, obtaining the unconditioned latent distribution by summing out $\mathbf{x}_{i}$ over the batch. Notably, the Gumbel-Softmax reparameterization is not used to backpropagate through the Categorical latent variable $z$ because it is not sampled during training time. Instead, the first term of Equation 4 is directly computed since the latent space has only ${|Z|} = 25$ discrete elements. Additional training details can be found in the appendix.
 
-<!-- chunk {"id": "body-0033", "role": "body", "section": "Trajectron++", "weight": 1.0} -->
-
-4\. *Distribution*: Due to the use of a discrete latent variable and Gaussian output structure, the model can provide an analytic output distribution by directly computing ${p{({\mathbf{y} \mid \mathbf{x}})}} = {\sum_{z \in Z}{p_{\psi}{({\mathbf{y} \mid {\mathbf{x},z}})}p_{\theta}{({z \mid \mathbf{x}})}}}$.
-
-<!-- chunk {"id": "body-0034", "role": "body", "section": "Trajectron++", "weight": 1.0} -->
-
-Training the Model. We adopt the InfoVAE objective function, and modify it to use discrete latent states in a conditional formulation (since the model uses a CVAE). Formally, we aim to solve
-
-<!-- chunk {"id": "body-0035", "role": "body", "section": "Trajectron++", "weight": 1.0} -->
-
-where $I_{q}$ is the mutual information between $\mathbf{x}$ and $z$ under the distribution $q_{\phi}{(\mathbf{x},z)}$. To compute $I_{q}$, we follow and approximate $q_{\phi}{({z \mid {\mathbf{x}_{i},\mathbf{y}_{i}}})}$ with $p_{\theta}{({z \mid \mathbf{x}_{i}})}$, obtaining the unconditioned latent distribution by summing out $\mathbf{x}_{i}$ over the batch. Notably, the Gumbel-Softmax reparameterization is not used to backpropagate through the Categorical latent variable $z$ because it is not sampled during training time. Instead, the first term of Equation 4 is directly computed since the latent space has only ${|Z|} = 25$ discrete elements. Additional training details can be found in the appendix.
-
-<!-- chunk {"id": "body-0036", "role": "body", "section": "Experiments", "weight": 1.0} -->
+<!-- chunk {"id": "body-0033", "role": "body", "section": "Experiments", "weight": 1.0} -->
 
 Our method is evaluated on three publicly-available datasets: The ETH, UCY, and nuScenes datasets. The ETH and UCY datasets consist of real pedestrian trajectories with rich multi-human interaction scenarios captured at 2.5 Hz (${\Deltat} = {0.4s}$). In total, there are 5 sets of data, 4 unique scenes, and 1536 unique pedestrians. They are a standard benchmark in the field, containing challenging behaviors such as couples walking together, groups crossing each other, and groups forming and dispersing. However, they only contain pedestrians, so we also evaluate on the recently-released nuScenes dataset. It is a large-scale dataset for autonomous driving with 1000 scenes in Boston and Singapore. Each scene is annotated at 2 Hz (${\Deltat} = {0.5s}$) and is 20s long, containing up to 23 semantic object classes as well as HD semantic maps with 11 annotated layers.
 
-<!-- chunk {"id": "body-0037", "role": "body", "section": "Experiments", "weight": 1.0} -->
+<!-- chunk {"id": "body-0034", "role": "body", "section": "Experiments", "weight": 1.0} -->
 
 *Trajectron++* was implemented in PyTorch on a desktop computer running Ubuntu 18.04 containing an AMD Ryzen 1800X CPU and two NVIDIA GTX 1080 Ti GPUs. We trained the model for 100 epochs ($\sim 3$ hours) on the pedestrian datasets and 12 epochs ($\sim 8$ hours) on the nuScenes dataset.
 
-<!-- chunk {"id": "body-0038", "role": "body", "section": "Experiments", "weight": 1.0} -->
+<!-- chunk {"id": "body-0035", "role": "body", "section": "Experiments", "weight": 1.0} -->
 
-1\. Average Displacement Error (ADE): Mean $\ell_{2}$ distance between the ground truth and predicted trajectories.
+Evaluation Metrics. As in prior work, our method for trajectory forecasting is evaluated with the following four error metrics: 1\. Average Displacement Error (ADE): Mean $\ell_{2}$ distance between the ground truth and predicted trajectories.
 
-<!-- chunk {"id": "body-0039", "role": "body", "section": "Experiments", "weight": 1.0} -->
+<!-- chunk {"id": "body-0036", "role": "body", "section": "Experiments", "weight": 1.0} -->
 
 2\. Final Displacement Error (FDE): $\ell_{2}$ distance between the predicted final position and the ground truth final position at the prediction horizon $T$.
 
-<!-- chunk {"id": "body-0040", "role": "body", "section": "Experiments", "weight": 1.0} -->
+<!-- chunk {"id": "body-0037", "role": "body", "section": "Experiments", "weight": 1.0} -->
 
 3\. Kernel Density Estimate-based Negative Log Likelihood (KDE NLL): Mean NLL of the ground truth trajectory under a distribution created by fitting a kernel density estimate on trajectory samples.
 
-<!-- chunk {"id": "body-0041", "role": "body", "section": "Experiments", "weight": 1.0} -->
+<!-- chunk {"id": "body-0038", "role": "body", "section": "Experiments", "weight": 1.0} -->
 
 4\. Best-of-N (BoN): The minimum ADE and FDE from $N$ randomly-sampled trajectories. We compare our method to an exhaustive set of state-of-the art deterministic and generative approaches.
 
-<!-- chunk {"id": "body-0042", "role": "body", "section": "Experiments", "weight": 1.0} -->
+<!-- chunk {"id": "body-0039", "role": "body", "section": "Experiments", "weight": 1.0} -->
 
 Deterministic Baselines. Our method is compared against the following deterministic baselines: Linear: A linear regressor with parameters estimated by minimizing least square error. LSTM: An LSTM network with only agent history information. Social LSTM: Each agent is modeled with an LSTM and nearby agents' hidden states are pooled at each timestep using a proposed social pooling operation. Social Attention: Same as, but all other agents' hidden states are incorporated via a proposed social attention operation.
 
-<!-- chunk {"id": "body-0043", "role": "body", "section": "Experiments", "weight": 1.0} -->
+<!-- chunk {"id": "body-0040", "role": "body", "section": "Experiments", "weight": 1.0} -->
 
 Generative Baselines. On the ETH and UCY datasets, our method is compared against the following generative baselines: S-GAN: Each agent is modeled with an LSTM-GAN, which is an LSTM encoder-decoder whose outputs are the generator of a GAN. The generated trajectories are then evaluated against the ground truth trajectories with a discriminator. SoPhie: An LSTM-GAN with the addition of a proposed physical and social attention module. MATF: An LSTM-GAN model that leverages CNNs to fuse agent relationships and encode environmental information. Trajectron: An LSTM-CVAE encoder-decoder which is explicitly constructed to match the spatiotemporal structure of the scene. Its scene abstraction is similar to ours, but uses undirected edges.
 
-<!-- chunk {"id": "body-0044", "role": "body", "section": "Experiments", "weight": 1.0} -->
+<!-- chunk {"id": "body-0041", "role": "body", "section": "Experiments", "weight": 1.0} -->
 
 On the nuScenes dataset, the following methods are also compared against: Convolutional Social Pooling (CSP): An LSTM-based approach which explicitly considers a fixed number of movement classes and predicts which of those the modeled agent is likely to take. CAR-Net: An LSTM-based approach which encodes scene context with visual attention. SpAGNN: A CNN encodes raw LIDAR and semantic map data to produce object detections, from which a Graph Neural Network (GNN) produces probabilistic, interaction-aware trajectories.
 
-<!-- chunk {"id": "body-0045", "role": "body", "section": "Experiments", "weight": 1.0} -->
+<!-- chunk {"id": "body-0042", "role": "body", "section": "Experiments", "weight": 1.0} -->
 
 Evaluation Methodology. For the ETH and UCY datasets, a leave-one-out strategy is used for evaluation, similar to previous works, where the model is trained on four datasets and evaluated on the held-out fifth. An observation length of 8 timesteps (3.2s) and a prediction horizon of 12 timesteps (4.8s) is used for evaluation. For the nuScenes dataset, we split off 15% of the train set for hyperparameter tuning and test on the provided validation set.
 
-<!-- chunk {"id": "body-0046", "role": "body", "section": "Experiments", "weight": 1.0} -->
+<!-- chunk {"id": "body-0043", "role": "body", "section": "Experiments", "weight": 1.0} -->
 
 Throughout the following, we report the performance of *Trajectron++* in multiple configurations. Specifically, Ours refers to the base model using only node and edge encoding, trained to predict agent velocities and Euler integrating velocity to produce positions; Ours+$\int$ is the base model with dynamics integration, trained to predict control actions and integrating the agent's dynamics with the control actions to produce positions; Ours+$\int,M$ additionally includes the map encoding CNN; and Ours+$\int,M,\mathbf{y}_{\text{R}}$ adds the robot future encoder.
 
-<!-- chunk {"id": "body-0047", "role": "body", "section": "Experiments", "weight": 1.0} -->
+<!-- chunk {"id": "body-0044", "role": "body", "section": "Experiments", "weight": 1.0} -->
 
-Legend: ∫ = Integration via Dynamics, M = Map Encoding, yR = Robot Future Encoding
-Table 2: (a) Our model’s deterministic Most Likely output outperforms other deterministic methods on displacement error metrics, even if it was not originally trained to do so. (b) Our model’s probabilistic Full output significantly outperforms other methods, yielding accurate predictions even in a small number of samples. Lower is better. Bold indicates best.
+(b) ADE/FDE, Best of 20 Samples (m) Legend: ∫ = Integration via Dynamics, M = Map Encoding, yR = Robot Future Encoding Table 2: (a) Our model’s deterministic Most Likely output outperforms other deterministic methods on displacement error metrics, even if it was not originally trained to do so. (b) Our model’s probabilistic Full output significantly outperforms other methods, yielding accurate predictions even in a small number of samples. Lower is better. Bold indicates best.
 
-<!-- chunk {"id": "body-0048", "role": "body", "section": "ETH and UCY Datasets", "weight": 1.0} -->
+<!-- chunk {"id": "body-0045", "role": "body", "section": "ETH and UCY Datasets", "weight": 1.0} -->
 
 Our approach is first evaluated on the ETH and UCY Pedestrian Datasets, against deterministic methods on standard trajectory forecasting metrics. It is difficult to determine the current state-of-the-art in deterministic methods as there are contradictions between the results reported by the same authors in and. In Table 1 of, Social LSTM convincingly outperforms a baseline LSTM without pooling. However, in Table 1 of, Social LSTM is actually worse than the same baseline on average. Thus, when comparing against Social LSTM we report the results summarized in Table 1 of as it is the most recent work by the same authors. Further, the values reported by Social Attention in seem to have unusually high ratios of FDE to ADE. Nearly every other method (including ours) has FDE/ADE ratios around $2 - 3 \times$ whereas Social Attention's are around $3 - 12 \times$.
 
-<!-- chunk {"id": "body-0049", "role": "body", "section": "ETH and UCY Datasets", "weight": 1.0} -->
+<!-- chunk {"id": "body-0046", "role": "body", "section": "ETH and UCY Datasets", "weight": 1.0} -->
 
 Social Attention's errors on the Univ dataset are especially striking, as its FDE of $3.92$ is $12 \times$ its ADE of $0.33$, meaning its prediction error on the other 11 timesteps is essentially zero. We still compare against the values reported in as there is no publicly-released code, but this raises doubts of their validity. To fairly compare against prior work, neither map encoding nor future motion plan encoding is used. Only the node history and edge encoders are used in the model's encoder. Additionally, the model's deterministic ML output scheme is employed, which produces the model's most likely single trajectory. Table 2 (a) summarizes these results and shows that our approach is competitive with state-of-the-art deterministic regressors on displacement error metrics (outperforming existing approaches by $33\%$ on mean FDE), even though our method was not originally trained to minimize this. It makes sense that the model performs similarly with and without dynamics integration for pedestrians, since they are modeled as single integrators.
 
-<!-- chunk {"id": "body-0050", "role": "body", "section": "ETH and UCY Datasets", "weight": 1.0} -->
+<!-- chunk {"id": "body-0047", "role": "body", "section": "ETH and UCY Datasets", "weight": 1.0} -->
 
 Thus, their control actions are velocities which matches the base model's output structure.
 
-<!-- chunk {"id": "body-0051", "role": "body", "section": "ETH and UCY Datasets", "weight": 1.0} -->
+<!-- chunk {"id": "body-0048", "role": "body", "section": "ETH and UCY Datasets", "weight": 1.0} -->
 
-Legend: ∫ = Integration via Dynamics, M = Map Encoding, yR = Robot Future Encoding
-Table 3: Mean KDE-based NLL for each dataset. Lower is better. 2000 trajectories were sampled per model at each prediction timestep. Bold indicates the best values.
+Legend: ∫ = Integration via Dynamics, M = Map Encoding, yR = Robot Future Encoding Table 3: Mean KDE-based NLL for each dataset. Lower is better. 2000 trajectories were sampled per model at each prediction timestep. Bold indicates the best values.
 
-<!-- chunk {"id": "body-0052", "role": "body", "section": "ETH and UCY Datasets", "weight": 1.0} -->
+<!-- chunk {"id": "body-0049", "role": "body", "section": "ETH and UCY Datasets", "weight": 1.0} -->
 
 To more concretely compare generative methods, we use the KDE-based NLL metric proposed, an approach that maintains full output distributions and compares the log-likelihood of the ground truth under different methods' outputs. Table 3 summarizes these results and shows that our method significantly outperforms others. This is also where the performance improvements brought by the dynamics integration scheme are clear. It yields the best performance because the model is now explicitly trained on the distribution it is seeking to output (the loss function term $p_{\psi}{(\left. \mathbf{y} \middle| {\mathbf{x},z} \right.)}$ is now directly over positions), whereas the base model is trained on velocity distributions, the integration of which (with no accounting for system dynamics) introduces errors. Unfortunately, at this time there are no publicly-released models for SoPhie or MATF, so they cannot be evaluated with the KDE-based NLL metric. Instead, we evaluate *Trajectron++* with the Best-of-$N$ metric used in their works.
 
-<!-- chunk {"id": "body-0053", "role": "body", "section": "ETH and UCY Datasets", "weight": 1.0} -->
+<!-- chunk {"id": "body-0050", "role": "body", "section": "ETH and UCY Datasets", "weight": 1.0} -->
 
 Table 2 (b) summarizes these results, and shows that our method significantly ourperforms the state-of-the-art, achieving $55 - {60\%}$ lower average errors.
 
-<!-- chunk {"id": "body-0054", "role": "body", "section": "ETH and UCY Datasets", "weight": 1.0} -->
+<!-- chunk {"id": "body-0051", "role": "body", "section": "ETH and UCY Datasets", "weight": 1.0} -->
 
 Map Encoding. To evaluate the effect of incorporating heterogeneous data, we compare the performance of *Trajectron++* with and without the map encoder. Specifically, we compare the frequency of obstacle violations in 2000 trajectory samples from the Full model output on the ETH - University scene, which provides a simple binary obstacle map. Overall, our approach generates colliding predictions $1.0\%$ of the time with map encoding, compared to $4.6\%$ without map encoding. We also study how much of a reduction there is for pedestrians that are especially close to an obstacle (i.e. they have at least one obstacle-violating trajectory in their Full output), an example of which is shown in the appendix. In this regime, our approach generates colliding predictions $4.9\%$ of the time with map encoding, compared to $21.5\%$ without map encoding.
 
-<!-- chunk {"id": "body-0055", "role": "body", "section": "nuScenes Dataset", "weight": 1.0} -->
+<!-- chunk {"id": "body-0052", "role": "body", "section": "nuScenes Dataset", "weight": 1.0} -->
 
-∗We subtracted 22-24 c m from these reported values (their detection/tracking error ), as we do not use a detector/tracker. This is done to establish a fair comparison.
-Legend: ∫ = Integration via Dynamics, M = Map Encoding, yR = Robot Future Encoding.
-Table 4: [nuScenes] (a): Vehicle-only FDE across time for Trajectron++ compared to that of other single-trajectory and probabilistic approaches. Bold indicates best. (b): Pedestrian-only FDE and KDE NLL across time for Trajectron++.
+∗We subtracted 22-24 c m from these reported values (their detection/tracking error), as we do not use a detector/tracker. This is done to establish a fair comparison. Legend: ∫ = Integration via Dynamics, M = Map Encoding, yR = Robot Future Encoding. Table 4: [nuScenes] (a): Vehicle-only FDE across time for Trajectron++ compared to that of other single-trajectory and probabilistic approaches. Bold indicates best. (b): Pedestrian-only FDE and KDE NLL across time for Trajectron++.
 
-<!-- chunk {"id": "body-0056", "role": "body", "section": "nuScenes Dataset", "weight": 1.0} -->
+<!-- chunk {"id": "body-0053", "role": "body", "section": "nuScenes Dataset", "weight": 1.0} -->
 
 To further evaluate the model's ability to use heterogeneous data and simultaneously model multiple semantic classes of agents, we evaluate it on the nuScenes dataset. Again, the deterministic ML output scheme is used to fairly compare with other single-trajectory predictors. The trajectories of both Pedestrians and Cars are forecasted, two semantic object classes which account for most of the 23 possible object classes present in the dataset. To obtain an estimate of prediction quality degradation over time, we compute the model's FDE at $t = {{\{ 1,2,3,4\}}s}$ for all tracked objects with at least $4s$ of available future data. We also implement a constant velocity baseline, which simply maintains the agent's heading and speed for the prediction horizon. Table 4 (a) summarizes the model's performance in comparison with state-of-the-art vehicle trajectory prediction models. Since other methods use a detection/tracking module (whereas ours does not), to establish a fair comparison we subtracted other methods' detection and tracking error from their reported values.
 
-<!-- chunk {"id": "body-0057", "role": "body", "section": "nuScenes Dataset", "weight": 1.0} -->
+<!-- chunk {"id": "body-0054", "role": "body", "section": "nuScenes Dataset", "weight": 1.0} -->
 
 The dynamics integration scheme and map encoding yield a noticeable improvement with vehicles, as their dynamically-extended unicycle dynamics now differ from the single integrator assumption made by the base model. Note that our method was only trained to predict $3s$ into the future, thus its performance at $4s$ also provides a measure of its capability to generalize beyond its training configuration. Other methods do not report values at $2$s and $4$s. As can be seen, *Trajectron++* outperforms existing approaches without facing a sharp degradation in performance after $3s$. Our approach's performance on pedestrians is reported in Table 4 (b), where the inclusion of HD maps and dynamics integration similarly improve performance as in the pedestrian datasets.
 
-<!-- chunk {"id": "body-0058", "role": "body", "section": "nuScenes Dataset", "weight": 1.0} -->
+<!-- chunk {"id": "body-0055", "role": "body", "section": "nuScenes Dataset", "weight": 1.0} -->
 
-Legend: ∫ = Integration via Dynamics, M = Map Encoding, yR = Robot Future Encoding
-Table 5: [nuScenes] (a): Vehicle-only prediction performance for ablated versions of our model. (b): The same, but excluding the ego-robot from consideration (as it is being conditioned on). This shows that our model’s robot future conditional performance does not arise from merely removing the ego-vehicle.
+(a) Including the Ego-Vehicle (b) Excluding the Ego-Vehicle Legend: ∫ = Integration via Dynamics, M = Map Encoding, yR = Robot Future Encoding Table 5: [nuScenes] (a): Vehicle-only prediction performance for ablated versions of our model. (b): The same, but excluding the ego-robot from consideration (as it is being conditioned on). This shows that our model’s robot future conditional performance does not arise from merely removing the ego-vehicle.
 
-<!-- chunk {"id": "body-0059", "role": "body", "section": "nuScenes Dataset", "weight": 1.0} -->
+<!-- chunk {"id": "body-0056", "role": "body", "section": "nuScenes Dataset", "weight": 1.0} -->
 
 Ablation Study. To develop an understanding of which model components influence performance, a comprehensive ablation study is performed in Table 5. As can be seen in the first row, even the base model's deterministic ML output performs strongly relative to current state-of-the-art approaches for vehicle trajectory forecasting. Adding the dynamics integration scheme yields a drastic reduction in NLL as well as FDE at all prediction horizons. There is also an associated slight increase in the frequency of road boundary-violating predictions. This is a consequence of training in position (as opposed to velocity) space, which yields more variability in the corresponding predictions. Additionally including map encoding maintains prediction accuracy while reducing the frequency of boundary-violating predictions.
 
-<!-- chunk {"id": "body-0060", "role": "body", "section": "nuScenes Dataset", "weight": 1.0} -->
+<!-- chunk {"id": "body-0057", "role": "body", "section": "nuScenes Dataset", "weight": 1.0} -->
 
 The effect of conditioning on the ego-vehicle's future motion plan is also studied, with results summarized in Table 5 (b). As one would expect, providing the model with future motion plans of the ego-vehicle yields significant reductions in error and road boundary violations. This use-case is common throughout autonomous driving as the ego-vehicle repeatedly produces future motion plans at every timestep by evaluating motion primitives. Overall, dynamics integration is the dominant performance-improving module.
 
-<!-- chunk {"id": "body-0061", "role": "body", "section": "nuScenes Dataset", "weight": 1.0} -->
+<!-- chunk {"id": "body-0058", "role": "body", "section": "nuScenes Dataset", "weight": 1.0} -->
 
-\begin{overpic}[width=125.74689pt,frame]{figures/qual_nuScenes_no_map_vel}\put(45.0,5.0){(a) Ours}\end{overpic} \begin{overpic}[width=125.74689pt,frame]{figures/qual_nuScenes_no_map_pos}\put(45.0,5.0){(b)+∫}\end{overpic} \begin{overpic}[width=125.74689pt,frame]{figures/qual_nuScenes_map_pos.pdf}\put(45.0,5.0){(c)+∫,M}\end{overpic} \begin{overpic}[width=43.36464pt]{figures/qual_nuScenes_legend.pdf}\end{overpic}
-Figure 3: [nuScenes] The same scene as forecast by three versions of Trajectron++.
+\begin{overpic}[width=125.74689pt,frame]{figures/qual_nuScenes_no_map_vel}\put(45.0,5.0){(a) Ours}\end{overpic} \begin{overpic}[width=125.74689pt,frame]{figures/qual_nuScenes_no_map_pos}\put(45.0,5.0){(b)+∫}\end{overpic} \begin{overpic}[width=125.74689pt,frame]{figures/qual_nuScenes_map_pos.pdf}\put(45.0,5.0){(c)+∫,M}\end{overpic} \begin{overpic}[width=43.36464pt]{figures/qual_nuScenes_legend.pdf}\end{overpic} Figure 3: [nuScenes] The same scene as forecast by three versions of Trajectron++.
 
-<!-- chunk {"id": "body-0062", "role": "body", "section": "nuScenes Dataset", "weight": 1.0} -->
+<!-- chunk {"id": "body-0059", "role": "body", "section": "nuScenes Dataset", "weight": 1.0} -->
 
 (a) The base model tends to under-shoot turns, and makes overly-confident predictions. (b) Our approach better captures position uncertainty with dynamics integration, producing well-calibrated probabilities. (c) The model is able to leverage the additional information that a map provides, yielding accurate predictions.
 
-<!-- chunk {"id": "body-0063", "role": "body", "section": "nuScenes Dataset", "weight": 1.0} -->
+<!-- chunk {"id": "body-0060", "role": "body", "section": "nuScenes Dataset", "weight": 1.0} -->
 
 Qualitative Comparison. Figure 3 shows trajectory predictions from the base model, with dynamics integration, and with dynamics integration + map encoding. In it, one can see that the base model (predicting in velocity space) undershoots the turn for the red car, predicting that it will end up in oncoming traffic. With the integration of dynamics, the model captures multimodality in the agent's action, predicting both the possibility of a right turn and continuing straight. With the addition of map encoding, the predictions are not only more accurate, but nearly all probability mass now lies within the correct side of the road. This is in contrast to versions of the model without map encoding which predict that the red car might move into oncoming traffic.
 
-<!-- chunk {"id": "body-0064", "role": "body", "section": "nuScenes Dataset", "weight": 1.0} -->
+<!-- chunk {"id": "body-0061", "role": "body", "section": "nuScenes Dataset", "weight": 1.0} -->
 
 Online Runtime. A key consideration in robotics is runtime complexity. As a result, we evaluate the time it takes *Trajectron++* to perform forward inference on commodity hardware. The results are summarized in the appendix, and confirm that our model scales well to scenes with many agents and interactions.
 
-<!-- chunk {"id": "body-0065", "role": "body", "section": "Conclusion", "weight": 1.5} -->
+<!-- chunk {"id": "body-0062", "role": "body", "section": "Conclusion", "weight": 1.5} -->
 
 In this work, we present *Trajectron++*, a generative multi-agent trajectory forecasting approach which uniquely addresses our desiderata for an open, generally-applicable, and extensible framework. It can incorporate heterogeneous data beyond prior trajectory information and is able to produce future-conditional predictions that respect dynamics constraints, all while producing full probability distributions, which are especially useful in downstream robotic tasks such as motion planning, decision making, and control. It achieves state-of-the-art prediction performance in a variety of metrics on standard and new real-world multi-agent human behavior datasets.
+
+<!-- chunk {"id": "body-0063", "role": "body", "section": "Conclusion", "weight": 1.5} -->
+
+Acknowledgment. Tim Salzmann is supported by a fellowship within the IFI programme of the German Academic Exchange Service (DAAD). We thank Matteo Zallio for his help in visually communicating our work and Amine Elhafsi for sharing his dynamics knowledge and proofreading. We also thank Brian Yao for improving our pedestrian dataset evaluation script, Osama Makansi for improving our result reporting, and Lu Zhang for correcting typos in our references. This work was supported in part by the Ford-Stanford Alliance. This article solely reflects the opinions and conclusions of its authors.

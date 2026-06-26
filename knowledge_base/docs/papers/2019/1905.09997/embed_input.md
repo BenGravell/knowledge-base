@@ -44,11 +44,11 @@ Moving beyond SGD, in Section 5 we consider the stochastic extra-gradient (SEG) 
 
 <!-- chunk {"id": "body-0011", "role": "body", "section": "Introduction", "weight": 1.5} -->
 
-In Section 6, we give heuristics to use large step-sizes and integrate acceleration with our line-search techniques, which improves practical performance of the proposed methods. We compare our algorithms against numerous optimizers on a synthetic matrix factorization problem (Section 7.2), convex binary-classification problems using radial basis function (RBF) kernels (Section 7.3), and non-convex multi-class classification problems with deep neural networks (Section 7.4). We observe that when interpolation is (approximately) satisfied, the proposed methods are robust and have competitive performance across models and datasets. Moreover, SGD with Armijo line-search results in both faster convergence and better generalization performance for classification using deep networks. Finally, in Appendix H.1, we evaluate SEG with line-search for synthetic bilinear saddle point problems. The code to reproduce our results can be found at
+In Section 6, we give heuristics to use large step-sizes and integrate acceleration with our line-search techniques, which improves practical performance of the proposed methods. We compare our algorithms against numerous optimizers on a synthetic matrix factorization problem (Section 7.2), convex binary-classification problems using radial basis function (RBF) kernels (Section 7.3), and non-convex multi-class classification problems with deep neural networks (Section 7.4). We observe that when interpolation is (approximately) satisfied, the proposed methods are robust and have competitive performance across models and datasets. Moreover, SGD with Armijo line-search results in both faster convergence and better generalization performance for classification using deep networks. Finally, in Appendix H.1, we evaluate SEG with line-search for synthetic bilinear saddle point problems. The code to reproduce our results can be found at One of the most important special cases where interpolation is often satisfied is training deep neural networks. The work of Paul Tseng is the earliest work that we are aware of that considers training neural networks with SGD and a line search.
 
 <!-- chunk {"id": "body-0012", "role": "body", "section": "Introduction", "weight": 1.5} -->
 
-One of the most important special cases where interpolation is often satisfied is training deep neural networks. The work of Paul Tseng is the earliest work that we are aware of that considers training neural networks with SGD and a line search. Tseng further shows convergence and convergence rates for SGD in an interpolation setting, but his method was never widely-adopted and is more complicated than the simple stochastic Armijo method analyzed in this work. Several recent works have evaluated the empirical performance of using Armijo-style line-searches in an SGD setting for training deep neural networks, including exploring combinations with momentum/acceleration and quasi-Newton methods. The work of Truong and Nguyen in particular shows strong empirical performance for several benchmark deep learning problems, but their theory only considers deterministic settings and does not apply to SGD.
+Tseng further shows convergence and convergence rates for SGD in an interpolation setting, but his method was never widely-adopted and is more complicated than the simple stochastic Armijo method analyzed in this work. Several recent works have evaluated the empirical performance of using Armijo-style line-searches in an SGD setting for training deep neural networks, including exploring combinations with momentum/acceleration and quasi-Newton methods. The work of Truong and Nguyen in particular shows strong empirical performance for several benchmark deep learning problems, but their theory only considers deterministic settings and does not apply to SGD.
 
 <!-- chunk {"id": "body-0013", "role": "body", "section": "Introduction", "weight": 1.5} -->
 
@@ -72,135 +72,128 @@ Each stochastic gradient ${\nabla f_{ik}}{(w)}$ is assumed to be unbiased, imply
 
 <!-- chunk {"id": "body-0018", "role": "body", "section": "Armijo line-search", "weight": 1.0} -->
 
-Armijo line-search is a standard method for setting the step-size for gradient descent in the deterministic setting.
+Armijo line-search is a standard method for setting the step-size for gradient descent in the deterministic setting. We adapt it to the stochastic case as follows: at iteration $k$, the Armijo line-search selects a step-size satisfying the following condition: Here, $c > 0$ is a hyper-parameter. Note that the above line-search condition uses the function and gradient values *of the mini-batch* at the current iterate $w_{k}$. Thus, compared to SGD, checking this condition only makes use of additional mini-batch function (and not gradient) evaluations. In the context of deep neural networks, this corresponds to extra forward passes on the mini-batch.
 
 <!-- chunk {"id": "body-0019", "role": "body", "section": "Armijo line-search", "weight": 1.0} -->
 
-Here, $c > 0$ is a hyper-parameter. Note that the above line-search condition uses the function and gradient values *of the mini-batch* at the current iterate $w_{k}$. Thus, compared to SGD, checking this condition only makes use of additional mini-batch function (and not gradient) evaluations. In the context of deep neural networks, this corresponds to extra forward passes on the mini-batch.
+In our theoretical results, we assume that there is a maximum step-size $\eta_{\text{max}}$ from which the line-search starts in *each* iteration $k$ and that we choose the largest step-size $\eta_{k}$ (less than or equal to $\eta_{\text{max}}$) satisfying. In practice, backtracking line-search is a common way to ensure that Equation 1 is satisfied. Starting from $\eta_{\text{max}}$, backtracking iteratively decreases the step-size by a constant factor $\beta$ until the line-search succeeds (see Algorithm 1). Suitable strategies for *resetting* the step-size can avoid backtracking in the majority of iterations and make the step-size selection procedure efficient. We describe such strategies in Section 6. With resetting, we required (on average) only one additional forward pass on the mini-batch per iteration when training a standard deep network model (Section 7.4).
 
 <!-- chunk {"id": "body-0020", "role": "body", "section": "Armijo line-search", "weight": 1.0} -->
 
-In our theoretical results, we assume that there is a maximum step-size $\eta_{\text{max}}$ from which the line-search starts in *each* iteration $k$ and that we choose the largest step-size $\eta_{k}$ (less than or equal to $\eta_{\text{max}}$) satisfying. In practice, backtracking line-search is a common way to ensure that Equation 1 is satisfied. Starting from $\eta_{\text{max}}$, backtracking iteratively decreases the step-size by a constant factor $\beta$ until the line-search succeeds (see Algorithm 1). Suitable strategies for *resetting* the step-size can avoid backtracking in the majority of iterations and make the step-size selection procedure efficient. We describe such strategies in Section 6. With resetting, we required (on average) only one additional forward pass on the mini-batch per iteration when training a standard deep network model (Section 7.4).
+Empirically, we observe that the algorithm is robust to the choice of both $c$ and $\eta_{\text{max}}$; setting $c$ to a small constant and $\eta_{\text{max}}$ to a large value consistently results in good performance.
 
 <!-- chunk {"id": "body-0021", "role": "body", "section": "Armijo line-search", "weight": 1.0} -->
 
-Empirically, we observe that the algorithm is robust to the choice of both $c$ and $\eta_{\text{max}}$; setting $c$ to a small constant and $\eta_{\text{max}}$ to a large value consistently results in good performance.
-
-<!-- chunk {"id": "body-0022", "role": "body", "section": "Armijo line-search", "weight": 1.0} -->
-
 We bound the chosen step-size in terms of the properties of the function(s) selected in iteration $k$.
 
-<!-- chunk {"id": "body-0023", "role": "body", "section": "Convergence rates", "weight": 1.0} -->
+<!-- chunk {"id": "body-0022", "role": "body", "section": "Convergence rates", "weight": 1.0} -->
 
 In this section, we characterize the convergence rate of SGD with Armijo line-search in the strongly-convex and convex cases. The theorems below are proved in Appendix B and Appendix C respectively.
 
+<!-- chunk {"id": "body-0023", "role": "body", "section": "Stochastic Gradient Descent for Non-convex Functions", "weight": 1.0} -->
+
+To prove convergence results in the non-convex case, we additionally require the strong growth condition (SGC) to hold. The function $f$ satisfies the SGC with constant $\rho$, if $\left. {\mathbb{E}}_{i}\parallel\nabla f_{i}{(w)}\parallel{{}_{}^{2} \leq}\rho\parallel\nabla f{(w)}\parallel^{2} \right.$ holds for any point $w$. This implies that if ${{\nabla f}{(w)}} = 0$, then ${{\nabla f_{i}}{(w)}} = 0$ for *all* $i$. Thus, functions satisfying the SGC necessarily satisfy the interpolation property. The SGC holds for all smooth functions satisfying a PL condition.
+
 <!-- chunk {"id": "body-0024", "role": "body", "section": "Stochastic Gradient Descent for Non-convex Functions", "weight": 1.0} -->
 
-To prove convergence results in the non-convex case, we additionally require the strong growth condition (SGC) to hold. The function $f$ satisfies the SGC with constant $\rho$, if $\left. {\mathbb{E}}_{i}\parallel\nabla f_{i}{(w)}\parallel{}_{}^{}\rho\parallel\nabla f{(w)}\parallel^{2} \right.$ holds for any point $w$. This implies that if ${{\nabla f}{(w)}} = 0$, then ${{\nabla f_{i}}{(w)}} = 0$ for *all* $i$. Thus, functions satisfying the SGC necessarily satisfy the interpolation property. The SGC holds for all smooth functions satisfying a PL condition. Under the SGC, we show that by upper-bounding the maximum step-size $\eta_{max}$, SGD with Armijo line-search achieves an $O{({1/T})}$ convergence rate.
+Under the SGC, we show that by upper-bounding the maximum step-size $\eta_{max}$, SGD with Armijo line-search achieves an $O{({1/T})}$ convergence rate.
 
 <!-- chunk {"id": "body-0025", "role": "body", "section": "Stochastic Extra-Gradient Method", "weight": 1.0} -->
 
-In this section, we use a modified stochastic extra-gradient (SEG) method for convex and non-convex minimization.
+In this section, we use a modified stochastic extra-gradient (SEG) method for convex and non-convex minimization. For finite-sum minimization, stochastic extra-gradient (SEG) has the following update: It computes the gradient at an extrapolated point $w_{k}'$ and uses it in the update from the current iterate $w_{k}$. Note that using the same sample $i_{k}$ and step-size $\eta_{k}$ for both steps is important for the subsequent theoretical results. We now describe a "Lipschitz" line-search strategy in order to automatically set the step-size for SEG.
 
-<!-- chunk {"id": "body-0026", "role": "body", "section": "Stochastic Extra-Gradient Method", "weight": 1.0} -->
+<!-- chunk {"id": "body-0026", "role": "body", "section": "Lipschitz line-search", "weight": 1.0} -->
 
-It computes the gradient at an extrapolated point $w_{k}^{\prime}$ and uses it in the update from the current iterate $w_{k}$. Note that using the same sample $i_{k}$ and step-size $\eta_{k}$ for both steps is important for the subsequent theoretical results. We now describe a "Lipschitz" line-search strategy in order to automatically set the step-size for SEG.
+The "Lipschitz" line-search has been used by previous work in the deterministic and the variance reduced settings. It selects a step-size $\eta_{k}$ that satisfies the following condition: As before, we use backtracking line-search starting from the maximum value of $\eta_{\text{max}}$ to ensure that the chosen step-size satisfies the above condition. If the function $f_{ik}$ is $L_{ik}$-smooth, the step-size returned by the Lipschitz line-search satisfies $\eta_{k} \geq {\min\left\{ {c/L_{ik}},\eta_{\text{max}} \right\}}$. Like the Armijo line-search in Section 3, the Lipschitz line-search does not require knowledge of the Lipschitz constant. Unlike the line-search strategy in the previous sections, checking condition requires computing the gradient at a prospective extrapolation point.
 
 <!-- chunk {"id": "body-0027", "role": "body", "section": "Lipschitz line-search", "weight": 1.0} -->
 
-The "Lipschitz" line-search has been used by previous work in the deterministic and the variance reduced settings.
+We now prove convergence rates for SEG with Lipschitz line-search for both convex and a special class of non-convex problems.
 
-<!-- chunk {"id": "body-0028", "role": "body", "section": "Lipschitz line-search", "weight": 1.0} -->
-
-As before, we use backtracking line-search starting from the maximum value of $\eta_{\text{max}}$ to ensure that the chosen step-size satisfies the above condition. If the function $f_{ik}$ is $L_{ik}$-smooth, the step-size returned by the Lipschitz line-search satisfies $\eta_{k} \geq {\min\left\{ {c/L_{ik}},\eta_{\text{max}} \right\}}$. Like the Armijo line-search in Section 3, the Lipschitz line-search does not require knowledge of the Lipschitz constant. Unlike the line-search strategy in the previous sections, checking condition requires computing the gradient at a prospective extrapolation point. We now prove convergence rates for SEG with Lipschitz line-search for both convex and a special class of non-convex problems.
-
-<!-- chunk {"id": "body-0029", "role": "body", "section": "Convergence rates for minimization", "weight": 1.0} -->
+<!-- chunk {"id": "body-0028", "role": "body", "section": "Convergence rates for minimization", "weight": 1.0} -->
 
 For the next result, we assume that each function $f_{i}{( \cdot )}$ satisfies the restricted secant inequality (RSI) with constant $\mu_{i}$, implying that for all $w$, $\left. {\langle\nabla f_{i}{(w)},w - w^{\ast}\rangle} \geq \mu_{i}\parallel w - w^{\ast}\parallel^{2} \right.$. RSI is a weaker condition than strong-convexity. With additional assumptions, RSI is satisfied by important non-convex models such as single hidden-layer neural networks, matrix completion and phase retrieval. Under interpolation, we show SEG results in linear convergence for functions satisfying RSI.
 
-<!-- chunk {"id": "body-0030", "role": "body", "section": "Convergence rates for saddle point problems", "weight": 1.0} -->
+<!-- chunk {"id": "body-0029", "role": "body", "section": "Convergence rates for saddle point problems", "weight": 1.0} -->
 
 In Appendix E.4, we use SEG with Lipschitz line-search for a class of saddle point problems of the form ${\min_{u \in U}{\max_{v \in \mathcal{V}}\phi}}{(u,v)}$. Here $\mathcal{U}$ and $\mathcal{V}$ are the constraint sets for the variables $u$ and $v$ respectively. In Theorem 6. ‣ E.4 SEG for general strongly monotone operators ‣ Appendix E Proofs for SEG ‣ Painless Stochastic Gradient: Interpolation, Line-Search, and Convergence Rates") in Appendix E.4, we show that under interpolation, SEG with Lipschitz line-search results in linear convergence for functions $\phi{(u,v)}$ that are strongly-convex in $u$ and strongly-concave in $v$. The required conditions are satisfied for robust optimization with expressive models capable of interpolating the data. Furthermore, the interpolation property can be used to improve the convergence for a bilinear saddle-point problem. In Theorem 7.
 
-<!-- chunk {"id": "body-0031", "role": "body", "section": "Convergence rates for saddle point problems", "weight": 1.0} -->
+<!-- chunk {"id": "body-0030", "role": "body", "section": "Convergence rates for saddle point problems", "weight": 1.0} -->
 
 ‣ E.5 SEG for bilinear saddle point problems ‣ Appendix E Proofs for SEG ‣ Painless Stochastic Gradient: Interpolation, Line-Search, and Convergence Rates") in Appendix E.5, we show that SEG with Lipschitz line-search results in linear convergence under interpolation. We empirically validate this claim with simple synthetic experiments in Appendix H.1.
 
+<!-- chunk {"id": "body-0031", "role": "body", "section": "Practical Considerations", "weight": 1.0} -->
+
+opt = 1 then 7:else if opt = 2 then Algorithm 2 reset(η, ηmax, γ, b, k, opt) Figure 1: Algorithm 1 gives pseudo-code for SGD with Armijo line-search. Algorithm 2 implements several heuristics (by setting opt) for resetting the step-size at each iteration.
+
 <!-- chunk {"id": "body-0032", "role": "body", "section": "Practical Considerations", "weight": 1.0} -->
-
-3:else if opt = 0 then
-5:else if opt = 1 then
-7:else if opt = 2 then
-Algorithm 2 reset(η, ηmax, γ, b, k, opt)
-
-<!-- chunk {"id": "body-0033", "role": "body", "section": "Practical Considerations", "weight": 1.0} -->
 
 In this section, we give heuristics to use larger step-sizes across iterations and discuss ways to use common acceleration schemes with our line-search techniques.
 
-<!-- chunk {"id": "body-0034", "role": "body", "section": "Using larger step-sizes", "weight": 1.0} -->
+<!-- chunk {"id": "body-0033", "role": "body", "section": "Using larger step-sizes", "weight": 1.0} -->
 
 Recall that our theoretical analysis assumes that the line-search in *each* iteration starts from a global maximum step-size $\eta_{\text{max}}$. However, in practice this strategy increases the amount of backtracking and consequently the algorithm's runtime. A simple alternative is to initialize the line-search in each iteration to the step-size selected in the previous iteration, $\eta_{\text{max}} = \eta_{k - 1}$. Unfortunately, with this strategy the step-size can not increase and convergence is slowed in practice (it takes smaller steps than necessary).
 
-<!-- chunk {"id": "body-0035", "role": "body", "section": "Using larger step-sizes", "weight": 1.0} -->
+<!-- chunk {"id": "body-0034", "role": "body", "section": "Using larger step-sizes", "weight": 1.0} -->
 
 There are a variety of strategies available that can increase the initial step-size $\eta_{\text{max}}$ between iterations to improve the practical performance of line-search methods \[61, Chapter 3\]. We consider increasing the step-size across iterations by initializing the backtracking at iteration $k$ with $\eta_{k - 1} \cdot \gamma^{b/n}$, where $b$ is the size of the mini-batch and $\gamma > 1$ is a tunable parameter. These heuristics correspond to the options used in Algorithm 2. This approach has previously been used in the context of VR-SGD methods, and several related stochastic methods have also appeared in the recent literature.
 
-<!-- chunk {"id": "body-0036", "role": "body", "section": "Using larger step-sizes", "weight": 1.0} -->
+<!-- chunk {"id": "body-0035", "role": "body", "section": "Using larger step-sizes", "weight": 1.0} -->
 
 We also consider the Goldstein line-search that uses additional function evaluations to check the curvature condition $\left. f_{ik}\left( w_{k} - \eta_{k}\nabla f_{ik}{(w_{k})} \right) \geq f_{ik}{(w_{k})} - {(1 - c)} \cdot \eta_{k}\parallel\nabla f_{ik}{(w_{k})}\parallel^{2} \right.$ and increases the step-size if it is not satisfied. Here, $c$ is the constant in Equation 1. The resulting method decreases the step-size if the Armijo condition is not satisfied and increases it if the curvature condition does not hold. Algorithm 3 in Appendix I gives pseudo-code for SGD with the Goldstein line-search.
 
-<!-- chunk {"id": "body-0037", "role": "body", "section": "Acceleration", "weight": 1.0} -->
+<!-- chunk {"id": "body-0036", "role": "body", "section": "Acceleration", "weight": 1.0} -->
 
 In practice, augmenting stochastic methods with some form of momentum or acceleration often results in faster convergence. Related work in this context includes algorithms specifically designed to achieve an accelerated rate of convergence in the stochastic setting. Unlike these works, our experiments considered simple ways of using either Polyak or Nesterov acceleration with the proposed line-search techniques.^11^1Similar methods have also been explored empirically in prior work. In both cases, similar to adaptive methods using momentum, we use SGD with Armijo line-search to determine $\eta_{k}$ and then use it directly within the acceleration scheme. When using Polyak momentum, the effective update can be given as: $w_{k + 1} = {{w_{k} - {\eta_{k}{\nabla f_{ik}}{(w_{k})}}} + {\alpha{({w_{k} - w_{k - 1}})}}}$, where $\alpha$ is the momentum factor.
 
-<!-- chunk {"id": "body-0038", "role": "body", "section": "Acceleration", "weight": 1.0} -->
+<!-- chunk {"id": "body-0037", "role": "body", "section": "Acceleration", "weight": 1.0} -->
 
 This update rule has been used with a constant step-size and proven to obtain linear convergence rates on the *generalization error* for quadratic functions under an interpolation condition. For Nesterov acceleration, we use the variant for the convex case (which has no additional hyper-parameters) with our line-search. The pseudo-code for using these methods with the Armijo line-search is given in Appendix I.
 
-<!-- chunk {"id": "body-0039", "role": "body", "section": "Experiments", "weight": 1.0} -->
+<!-- chunk {"id": "body-0038", "role": "body", "section": "Experiments", "weight": 1.0} -->
 
 We describe the experimental setup in Section 7.1. In Section 7.2, we present synthetic experiments to show the benefits of over-parametrization. In Sections 7.3 and 7.4, we showcase the convergence and generalization performance of our methods for kernel experiments and deep networks, respectively.
 
-<!-- chunk {"id": "body-0040", "role": "body", "section": "Experimental setup", "weight": 1.0} -->
+<!-- chunk {"id": "body-0039", "role": "body", "section": "Experimental setup", "weight": 1.0} -->
 
 We benchmark five configurations of the proposed line-search methods: SGD with Armijo line-search with resetting the initial step-size (Algorithm 1 using option $2$ in Algorithm 2), Goldstein line-search (Algorithm 3), Polyak momentum (Algorithm 5), Nesterov acceleration (Algorithm 6), and SEG with Lipschitz line-search (Algorithm 4) with option $2$ to reset the step-size. Appendix F gives additional details on our experimental setup and the default hyper-parameters used for the proposed line-search methods. We compare our methods against Adam, which is the most common adaptive method, and other methods that report better performance than Adam: coin-betting, L4^22^2L4 applied to momentum SGD (L4 Mom) in was unstable in our experiments and we omit it from the main paper., and Adabound. We use the default learning rates for the competing methods. Unless stated otherwise, our results are averaged across $5$ independent runs.
 
-<!-- chunk {"id": "body-0041", "role": "body", "section": "Synthetic experiment", "weight": 1.0} -->
+<!-- chunk {"id": "body-0040", "role": "body", "section": "Synthetic experiment", "weight": 1.0} -->
 
 We examine the effect of over-parametrization on convergence rates for the non-convex regression problem: $\left. \min_{W_{1},W_{2}}{\mathbb{E}}_{x \sim {N{(0,I)}}}\parallel W_{2}W_{1}x - Ax\parallel^{2} \right.$. This is equivalent to a matrix factorization problem satisfying RSI and has been proposed as a challenging benchmark for gradient descent methods. Following Rolínek et al., we choose $A \in {\mathbb{R}}^{10 \times 6}$ with condition number ${\kappa{(A)}} = 10^{10}$ and generate a fixed dataset of $1000$ samples.
 
-<!-- chunk {"id": "body-0042", "role": "body", "section": "Synthetic experiment", "weight": 1.0} -->
+<!-- chunk {"id": "body-0041", "role": "body", "section": "Synthetic experiment", "weight": 1.0} -->
 
 Unlike the previous work, we consider stochastic optimization and control the model's expressivity via the rank $k$ of the matrix factors $W_{1} \in {\mathbb{R}}^{k \times 6}$ and $W_{2} \in {\mathbb{R}}^{10 \times k}$. Figure 2 shows plots of training loss (averaged across $20$ runs) for the true data-generating model, and using factors with rank $k \in {\{ 1,4,10\}}$.
 
-<!-- chunk {"id": "body-0043", "role": "body", "section": "Synthetic experiment", "weight": 1.0} -->
+<!-- chunk {"id": "body-0042", "role": "body", "section": "Synthetic experiment", "weight": 1.0} -->
 
 We make the following observations: (i) for $k = 4$ (where interpolation *does not hold*) the proposed methods converge quicker than other optimizers but all methods reach an artificial optimization floor, (ii) using $k = 10$ yields an over-parametrized model where SGD with both Armijo and Goldstein line-search converge linearly to machine precision, (iii) SEG with Lipschitz line-search obtains fast convergence according to Theorem 4. ‣ 5.2 Convergence rates for minimization ‣ 5 Stochastic Extra-Gradient Method ‣ Painless Stochastic Gradient: Interpolation, Line-Search, and Convergence Rates"), and (iv) adaptive-gradient methods stagnate in all cases. These observations validate our theoretical results and show that over-parameterization and line-search can allow for fast, "painless" optimization using SGD and SEG.
 
-<!-- chunk {"id": "body-0044", "role": "body", "section": "Binary classification with kernels", "weight": 1.0} -->
+<!-- chunk {"id": "body-0043", "role": "body", "section": "Binary classification with kernels", "weight": 1.0} -->
 
 We consider convex binary classification using RBF kernels without regularization. We experiment with four standard datasets: mushrooms, rcv1, ijcnn, and w8a from LIBSVM. The mushrooms dataset satisfies the interpolation condition with the selected kernel bandwidths, while ijcnn, rcv1, and w8a do not. For these experiments we also compare against a standard VR method (SVRG) and probabilistic line-search (PLS).^33^3PLS is impractical for deep networks since it requires the second moment of the mini-batch gradients and needs GP model inference for every line-search evaluation. Figure 3 shows the training loss and test accuracy on mushrooms and ijcnn for the different optimizers with softmax loss. Results for rcv1 and w8a are given in Appendix H.2. We make the following observations: (i) SGD + Armijo, Nesterov + Armijo, and SEG + Lipschitz perform the best and are comparable to hand-tuned SVRG.
 
-<!-- chunk {"id": "body-0045", "role": "body", "section": "Binary classification with kernels", "weight": 1.0} -->
+<!-- chunk {"id": "body-0044", "role": "body", "section": "Binary classification with kernels", "weight": 1.0} -->
 
 (ii) The proposed line-search methods perform well on ijcnn even though it is not separable in kernel space. This demonstrates some robustness to violations of the interpolation condition.
 
-<!-- chunk {"id": "body-0046", "role": "body", "section": "Multi-class classification using deep networks", "weight": 1.0} -->
+<!-- chunk {"id": "body-0045", "role": "body", "section": "Multi-class classification using deep networks", "weight": 1.0} -->
 
 We benchmark the convergence rate and generalization performance of our line-search methods on standard deep learning experiments. We consider non-convex minimization for multi-class classification using deep network models on the MNIST and CIFAR100 datasets. Our experimental choices follow the setup in Luo et al.. For MNIST, we use a $1$ hidden-layer multi-layer perceptron (MLP) of width $1000$. For and CIFAR100, we experiment with the standard image-classification architectures: ResNet-34 and DenseNet-121. We note that promising empirical results for a variety of line-search methods related to those used in our experiments have previously been reported for the and CIFAR100 datasets for a variety of architectures. We also compare to the best performing constant step-size SGD with the step-size selected by grid search.
 
-<!-- chunk {"id": "body-0047", "role": "body", "section": "Multi-class classification using deep networks", "weight": 1.0} -->
+<!-- chunk {"id": "body-0046", "role": "body", "section": "Multi-class classification using deep networks", "weight": 1.0} -->
 
 From Figure 4, we observe that: (i) SGD with Armijo line-search consistently leads to the best performance in terms of both the training loss and test accuracy. It also converges to a good solution *much* faster when compared to the other methods. (ii) The performance of SGD with line-search and Polyak momentum is always better than "tuned" constant step-size SGD and Adam, whereas that of SGD with Goldstein line-search is competitive across datasets. We omit Nesterov + Armijo as it is unstable and diverges and omit SEG since it resulted in slower convergence and worse performance.
 
-<!-- chunk {"id": "body-0048", "role": "body", "section": "Multi-class classification using deep networks", "weight": 1.0} -->
+<!-- chunk {"id": "body-0047", "role": "body", "section": "Multi-class classification using deep networks", "weight": 1.0} -->
 
 We also verify that our line-search methods do not lead to excessive backtracking and function evaluations. Figure 5 (right) shows the cost per iteration for the above experiments. Our line-searches methods are only marginally slower than Adam and converge much faster. In practice, we observed SGD+Armijo uses only one additional function evaluation on average. Figure 5 (left) shows the evolution of step-sizes for SGD+Armijo in our experiments. For deep neural networks, SGD+Armijo automatically finds a step-size schedule resembling cosine-annealing. In Appendix H.0.1, we evaluate and compare the hyper-parameter sensitivity of Adam, constant step-size SGD, and SGD with Armijo line-search on with ResNet-34. While SGD is sensitive to the choice of the step-size, the performance of SGD with Armijo line-search is robust to the value of $c$ in the $\lbrack 0.1,0.5\rbrack$ range.
 
-<!-- chunk {"id": "body-0049", "role": "body", "section": "Multi-class classification using deep networks", "weight": 1.0} -->
+<!-- chunk {"id": "body-0048", "role": "body", "section": "Multi-class classification using deep networks", "weight": 1.0} -->
 
 There is virtually no effect of $\eta_{\text{max}}$, since the correct range of step-sizes is found in early iterations.
 
-<!-- chunk {"id": "body-0050", "role": "body", "section": "Conclusion", "weight": 1.5} -->
+<!-- chunk {"id": "body-0049", "role": "body", "section": "Conclusion", "weight": 1.5} -->
 
 We showed that under the interpolation condition satisfied by modern over-parametrized models, simple line-search techniques for classic SGD and SEG lead to fast convergence in both theory and practice. For future work, we hope to strengthen our results for non-convex minimization using SGD with line-search and study stochastic momentum techniques under interpolation. More generally, we hope to utilize the rich literature on line-search and trust-region methods to improve stochastic optimization for machine learning.

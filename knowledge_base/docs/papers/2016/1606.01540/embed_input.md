@@ -64,44 +64,40 @@ Monitoring by default. By default, environments are instrumented with a Monitor,
 
 <!-- chunk {"id": "body-0016", "role": "body", "section": "Environments", "weight": 1.0} -->
 
-OpenAI Gym contains a collection of Environments (POMDPs), which will grow over time. See Figure 1 for examples.
+OpenAI Gym contains a collection of Environments (POMDPs), which will grow over time. See Figure 1 for examples. At the time of Gym's initial beta release, the following environments were included: Classic control and toy text: small-scale tasks from the RL literature.
 
 <!-- chunk {"id": "body-0017", "role": "body", "section": "Environments", "weight": 1.0} -->
 
-Classic control and toy text: small-scale tasks from the RL literature.
+Algorithmic: perform computations such as adding multi-digit numbers and reversing sequences. Most of these tasks require memory, and their difficulty can be chosen by varying the sequence length.
 
 <!-- chunk {"id": "body-0018", "role": "body", "section": "Environments", "weight": 1.0} -->
 
-Algorithmic: perform computations such as adding multi-digit numbers and reversing sequences. Most of these tasks require memory, and their difficulty can be chosen by varying the sequence length.
+Atari: classic Atari games, with screen images or RAM as input, using the Arcade Learning Environment.
 
 <!-- chunk {"id": "body-0019", "role": "body", "section": "Environments", "weight": 1.0} -->
 
-Atari: classic Atari games, with screen images or RAM as input, using the Arcade Learning Environment.
+Board games: currently, we have included the game of Go on 9x9 and 19x19 boards, where the Pachi engine serves as an opponent.
 
 <!-- chunk {"id": "body-0020", "role": "body", "section": "Environments", "weight": 1.0} -->
 
-Board games: currently, we have included the game of Go on 9x9 and 19x19 boards, where the Pachi engine serves as an opponent.
+2D and 3D robots: control a robot in simulation. These tasks use the MuJoCo physics engine, which was designed for fast and accurate robot simulation. A few of the tasks are adapted from RLLab.
 
 <!-- chunk {"id": "body-0021", "role": "body", "section": "Environments", "weight": 1.0} -->
 
-2D and 3D robots: control a robot in simulation. These tasks use the MuJoCo physics engine, which was designed for fast and accurate robot simulation. A few of the tasks are adapted from RLLab.
-
-<!-- chunk {"id": "body-0022", "role": "body", "section": "Environments", "weight": 1.0} -->
-
 Since the initial release, more environments have been created, including ones based on the open source physics engine Box2D or the Doom game engine via VizDoom.
 
-<!-- chunk {"id": "body-0023", "role": "body", "section": "Future Directions", "weight": 1.0} -->
+<!-- chunk {"id": "body-0022", "role": "body", "section": "Future Directions", "weight": 1.0} -->
 
 In the future, we hope to extend OpenAI Gym in several ways.
 
-<!-- chunk {"id": "body-0024", "role": "body", "section": "Future Directions", "weight": 1.0} -->
+<!-- chunk {"id": "body-0023", "role": "body", "section": "Future Directions", "weight": 1.0} -->
 
 Multi-agent setting. It will be interesting to eventually include tasks in which agents must collaborate or compete with other agents.
 
-<!-- chunk {"id": "body-0025", "role": "body", "section": "Future Directions", "weight": 1.0} -->
+<!-- chunk {"id": "body-0024", "role": "body", "section": "Future Directions", "weight": 1.0} -->
 
 Curriculum and transfer learning. Right now, the tasks are meant to be solved from scratch. Later, it will be more interesting to consider sequences of tasks, so that the algorithm is trained on one task after the other. Here, we will create sequences of increasingly difficult tasks, which are meant to be solved in order.
 
-<!-- chunk {"id": "body-0026", "role": "body", "section": "Future Directions", "weight": 1.0} -->
+<!-- chunk {"id": "body-0025", "role": "body", "section": "Future Directions", "weight": 1.0} -->
 
 Real-world operation. Eventually, we would like to integrate the Gym API with robotic hardware, validating reinforcement learning algorithms in the real world.

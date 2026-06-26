@@ -64,7 +64,7 @@ Our model is a sparse voxel grid in which each occupied voxel corner stores a sc
 
 <!-- chunk {"id": "body-0016", "role": "body", "section": "Volume Rendering", "weight": 1.0} -->
 
-$T_{i}$ represents how much light is transmitted through ray r to sample $i$ (versus contributed by preceding samples), $\left( {1 - {\exp{({- {\sigma_{i}\delta_{i}}})}}} \right)$ denotes how much light is contributed by sample $i$, $\sigma_{i}$ denotes the opacity of sample $i$, and $\text{c}_{i}$ denotes the color of sample $i$, with distance $\delta_{i}$ to the next sample. Although this formula is not exact (it assumes single-scattering and constant values between samples ), it is differentiable and enables updating the 3D model based on the error of each training ray.
+We use the same differentiable model for volume rendering as in NeRF, where the color of a ray is approximated by integrating over samples taken along the ray: $T_{i}$ represents how much light is transmitted through ray r to sample $i$ (versus contributed by preceding samples), $\left({1 - {\exp{({- {\sigma_{i}\delta_{i}}})}}} \right)$ denotes how much light is contributed by sample $i$, $\sigma_{i}$ denotes the opacity of sample $i$, and $\text{c}_{i}$ denotes the color of sample $i$, with distance $\delta_{i}$ to the next sample. Although this formula is not exact (it assumes single-scattering and constant values between samples), it is differentiable and enables updating the 3D model based on the error of each training ray.
 
 <!-- chunk {"id": "body-0017", "role": "body", "section": "Voxel Grid with Spherical Harmonics", "weight": 1.0} -->
 
@@ -88,11 +88,11 @@ Due to trilinear interpolation, naively pruning can adversely impact the the col
 
 <!-- chunk {"id": "body-0022", "role": "body", "section": "Optimization", "weight": 1.0} -->
 
-We optimize voxel opacities and spherical harmonic coefficients with respect to the mean squared error (MSE) over rendered pixel colors, with total variation (TV) regularization.
+We optimize voxel opacities and spherical harmonic coefficients with respect to the mean squared error (MSE) over rendered pixel colors, with total variation (TV) regularization. Specifically, our base loss function is: Where the MSE reconstruction loss $\mathcal{L}_{recon}$ and the total variation regularizer $\mathcal{L}_{TV}$ are: with $\Delta_{x}^{2}{(\mathbf{v},d)}$ shorthand for the squared difference between the $d$th value in voxel $\mathbf{v}:={(i,j,k)}$ and the $d$th value in voxel $({i + 1},j,k)$ normalized by the resolution, and analogously for $\Delta_{y}^{2}{(\mathbf{v},d)}$ and $\Delta_{z}^{2}{(\mathbf{v},d)}$. Note in practice we use different weights for SH coefficients and $\sigma$ values.
 
 <!-- chunk {"id": "body-0023", "role": "body", "section": "Optimization", "weight": 1.0} -->
 
-with $\Delta_{x}^{2}{(\mathbf{v},d)}$ shorthand for the squared difference between the $d$th value in voxel $\mathbf{v}:={(i,j,k)}$ and the $d$th value in voxel $({i + 1},j,k)$ normalized by the resolution, and analogously for $\Delta_{y}^{2}{(\mathbf{v},d)}$ and $\Delta_{z}^{2}{(\mathbf{v},d)}$. Note in practice we use different weights for SH coefficients and $\sigma$ values. These weights are fixed for each scene type (bounded, forward-facing, and $360^{\circ}$).
+These weights are fixed for each scene type (bounded, forward-facing, and $360^{\circ}$).
 
 <!-- chunk {"id": "body-0024", "role": "body", "section": "Optimization", "weight": 1.0} -->
 
@@ -116,92 +116,96 @@ We illustrate the importance of TV regularization in Fig. 3. In addition to TV r
 
 <!-- chunk {"id": "body-0029", "role": "body", "section": "Regularization", "weight": 1.0} -->
 
-where $\sigma{({\mathbf{r}_{i}{(t_{k})}})}$ denotes the opacity of sample $k$ along training ray $i$. In each minibatch of optimization on forward-facing scenes, we evaluate this loss term at each sample on each active ray. This is also similar to the sparsity loss used in PlenOctrees and encourages voxels to be empty, which helps to save memory and reduce quality loss when upsampling.
+On the real, forward-facing and $360^{\circ}$ scenes, we use a sparsity prior based on a Cauchy loss following SNeRG: where $\sigma{({\mathbf{r}_{i}{(t_{k})}})}$ denotes the opacity of sample $k$ along training ray $i$. In each minibatch of optimization on forward-facing scenes, we evaluate this loss term at each sample on each active ray. This is also similar to the sparsity loss used in PlenOctrees and encourages voxels to be empty, which helps to save memory and reduce quality loss when upsampling.
 
 <!-- chunk {"id": "body-0030", "role": "body", "section": "Regularization", "weight": 1.0} -->
 
-On the real, $360^{\circ}$ scenes, we also use a beta distribution regularizer on the accumulated foreground transmittance of each ray in each minibatch. This loss term, following Neural Volumes, promotes a clear foreground-background decomposition by encouraging the foreground to be either fully opaque or empty.
+On the real, $360^{\circ}$ scenes, we also use a beta distribution regularizer on the accumulated foreground transmittance of each ray in each minibatch. This loss term, following Neural Volumes, promotes a clear foreground-background decomposition by encouraging the foreground to be either fully opaque or empty. This beta loss is: where $\mathbf{r}$ are the training rays and $T_{FG}{(\mathbf{r})}$ is the accumulated foreground transmittance (between 0 and 1) of ray $\mathbf{r}$.
 
-<!-- chunk {"id": "body-0031", "role": "body", "section": "Regularization", "weight": 1.0} -->
-
-where $\mathbf{r}$ are the training rays and $T_{FG}{(\mathbf{r})}$ is the accumulated foreground transmittance (between 0 and 1) of ray $\mathbf{r}$.
-
-<!-- chunk {"id": "body-0032", "role": "body", "section": "Implementation", "weight": 1.0} -->
+<!-- chunk {"id": "body-0031", "role": "body", "section": "Implementation", "weight": 1.0} -->
 
 Since sparse voxel volume rendering is not well-supported in modern autodiff libraries, we created a custom PyTorch CUDA extension library to achieve fast differentiable volume rendering; we hope practitioners will find this implementation useful in their applications. We also provide a slower, higher-level JAX implementation. Both implementations will be released to the public.
 
-<!-- chunk {"id": "body-0033", "role": "body", "section": "Implementation", "weight": 1.0} -->
+<!-- chunk {"id": "body-0032", "role": "body", "section": "Implementation", "weight": 1.0} -->
 
 The speed of our implementation is possible in large part because the gradient of our Plenoxel model becomes very sparse very quickly, as shown in Fig. 4. Within the first 1-2 minutes of optimization, fewer than 10% of the voxels have nonzero gradients.
 
-<!-- chunk {"id": "body-0034", "role": "body", "section": "Results", "weight": 1.0} -->
+<!-- chunk {"id": "body-0033", "role": "body", "section": "Results", "weight": 1.0} -->
 
 We present results on synthetic, bounded scenes; real, unbounded, forward-facing scenes; and real, unbounded, $360^{\circ}$ scenes. We include time trial comparisons with prior work, showing dramatic speedup in training compared to all prior methods (alongside real-time rendering). Quantitative comparisons are presented in Tab. 2, and visual comparisons are shown in Fig. 6, Fig. 7, and Fig. 9. Our method achieves quality results after even the first epoch of optimization, less than 1.5 minutes, as shown in Fig. 5.
 
-<!-- chunk {"id": "body-0035", "role": "body", "section": "Results", "weight": 1.0} -->
+<!-- chunk {"id": "body-0034", "role": "body", "section": "Results", "weight": 1.0} -->
 
 We also present the results from various ablation studies of our method. In the main text we present average results (PSNR, SSIM, and VGG LPIPS ) over all scenes of each type; full results on each scene individually are included in the supplement. We include full experimental details (hyperparameters, etc.) in the supplement.
 
-<!-- chunk {"id": "body-0036", "role": "body", "section": "Synthetic Scenes", "weight": 1.0} -->
+<!-- chunk {"id": "body-0035", "role": "body", "section": "Synthetic Scenes", "weight": 1.0} -->
 
 Our synthetic experiments use the 8 scenes from NeRF: chair, drums, ficus, hotdog, lego, materials, mic, and ship. Each scene includes 100 ground truth training views with 800 $\times$ 800 resolution, from known camera positions distributed randomly in the upper hemisphere facing the object, which is set against a plain white background. Each scene is evaluated on 200 test views, also with resolution 800 $\times$ 800 and known inward-facing camera positions in the upper hemisphere. We provide quantitative comparisons in Tab. 2 and visual comparisons in Fig. 6.
 
-<!-- chunk {"id": "body-0037", "role": "body", "section": "Synthetic Scenes", "weight": 1.0} -->
+<!-- chunk {"id": "body-0036", "role": "body", "section": "Synthetic Scenes", "weight": 1.0} -->
 
 We compare our method to Neural Volumes (NV) (as a prior method that predicts a grid for each scene, using a 3D convolutional network), and JAXNeRF. For Neural Volumes we use values reported; for JAXNeRF we report results from our own rerunning, fixing the centered pixel bug. Our method achieves comparable quality compared to the best baseline, while training in an average of 11 minutes per scene on a single GPU and supporting interactive rendering.
 
-<!-- chunk {"id": "body-0038", "role": "body", "section": "Real Forward-Facing Scenes", "weight": 1.0} -->
+<!-- chunk {"id": "body-0037", "role": "body", "section": "Real Forward-Facing Scenes", "weight": 1.0} -->
 
 We extend our method to unbounded, forward-facing scenes by using normalized device coordinates (NDC), as derived in NeRF. Our method is otherwise identical to the version we use on bounded, synthetic scenes, except that we use TV regularization (with a stronger weight) throughout the optimization. This change is likely necessary because of the reduced number of training views for these scenes, as described in Sec. 4.4.
 
-<!-- chunk {"id": "body-0039", "role": "body", "section": "Real Forward-Facing Scenes", "weight": 1.0} -->
+<!-- chunk {"id": "body-0038", "role": "body", "section": "Real Forward-Facing Scenes", "weight": 1.0} -->
 
 Our forward-facing experiments use the same 8 scenes as in NeRF, 5 of which are originally from LLFF. Each scene consists of 20 to 60 forward-facing images captured by a handheld cell phone with resolution 1008 $\times$ 756, with $\frac{7}{8}$ of the images used for training and the remaining $\frac{1}{8}$ of the images reserved as a test set.
 
-<!-- chunk {"id": "body-0040", "role": "body", "section": "Real Forward-Facing Scenes", "weight": 1.0} -->
+<!-- chunk {"id": "body-0039", "role": "body", "section": "Real Forward-Facing Scenes", "weight": 1.0} -->
 
 We compare our method to Local Light Field Fusion (LLFF) (a prior method that uses a 3D convolutional network to predict a grid for each input view) and JAXNeRF. We provide quantitative comparisons in Tab. 2 and visual comparisons in Fig. 7.
 
-<!-- chunk {"id": "body-0041", "role": "body", "section": "Real $360^{\\circ}$ Scenes", "weight": 1.0} -->
+<!-- chunk {"id": "body-0040", "role": "body", "section": "Real $360^{\\circ}$ Scenes", "weight": 1.0} -->
 
 We extend our method to real, unbounded, $360^{\circ}$ scenes by surrounding our sparse voxel grid with an multi-sphere image (MSI, based on multi-plane images introduced by ) background model, in which each background sphere is also a simple voxel grid with trilinear interpolation (both within each sphere and between adjacent background sphere layers).
 
-<!-- chunk {"id": "body-0042", "role": "body", "section": "Real $360^{\\circ}$ Scenes", "weight": 1.0} -->
+<!-- chunk {"id": "body-0041", "role": "body", "section": "Real $360^{\\circ}$ Scenes", "weight": 1.0} -->
 
 Our $360^{\circ}$ experiments use 4 scenes from the Tanks and Temples dataset: M60, playground, train, and truck. For each scene, we use the same train/test split as.
 
-<!-- chunk {"id": "body-0043", "role": "body", "section": "Real $360^{\\circ}$ Scenes", "weight": 1.0} -->
+<!-- chunk {"id": "body-0042", "role": "body", "section": "Real $360^{\\circ}$ Scenes", "weight": 1.0} -->
 
 We compare our method to NeRF++, which augments NeRF with a background model to represent unbounded scenes. We present quantitative comparisons in Tab. 2 and visual comparisons in Fig. 9.
 
-<!-- chunk {"id": "body-0044", "role": "body", "section": "Ablation Studies", "weight": 1.0} -->
+<!-- chunk {"id": "body-0043", "role": "body", "section": "Ablation Studies", "weight": 1.0} -->
 
 In this section, we perform extensive ablation studies of our method to understand which features are core to its success, with such a simple model. In Tab. 1, we show that continuous (in our case, trilinear) interpolation is responsible for dramatic improvement in fidelity compared to nearest neighbor interpolation (*i.e*. constant within each voxel).
 
-<!-- chunk {"id": "body-0045", "role": "body", "section": "Ablation Studies", "weight": 1.0} -->
+<!-- chunk {"id": "body-0044", "role": "body", "section": "Ablation Studies", "weight": 1.0} -->
 
 In Tab. 3, we consider how our method handles a dramatic reduction in training data, from 100 views to 25 views, on the 8 synthetic scenes. We compare our method to NeRF and find that, despite its lack of complex neural priors, by increasing TV regularization our method can outperform NeRF even in this limited data regime. This ablation also sheds light on why our model performs better with higher TV regularization on the real forward-facing scenes compared to the synthetic scenes: the real scenes have many fewer training images, and the stronger regularizer helps our optimization extend smoothly to sparsely-supervised regions.
 
-<!-- chunk {"id": "body-0046", "role": "body", "section": "Ablation Studies", "weight": 1.0} -->
+<!-- chunk {"id": "body-0045", "role": "body", "section": "Ablation Studies", "weight": 1.0} -->
 
 We also ablate over the resolution of our Plenoxel grid in Tab. 4 and the rendering formula in Tab. 5. The rendering formula from Max yields a substantial improvement compared to that of Neural Volumes, perhaps because it is more physically accurate (as discussed further in the supplement). The supplement also includes ablations over the learning rate schedule and optimizer demonstrating Plenoxel optimization to be robust to these hyperparameters.
 
-<!-- chunk {"id": "body-0047", "role": "body", "section": "Discussion", "weight": 1.5} -->
+<!-- chunk {"id": "body-0046", "role": "body", "section": "Ablation Studies", "weight": 1.0} -->
+
+Ours: 100 images (low TV) Ours: 25 images (low TV) Ours: 25 images (high TV) Table 3: Ablation over the number of views. By increasing our TV regularization, we exceed NeRF fidelity even when the number of training views is only a quarter of the full dataset. Results are averaged over the 8 synthetic scenes from NeRF.
+
+<!-- chunk {"id": "body-0047", "role": "body", "section": "Ablation Studies", "weight": 1.0} -->
+
+Max, used in NeRF Table 5: Comparison of different rendering formulas. We compare the rendering formula from Max (used in NeRF and our main method) to the one used in Neural Volumes, which uses absolute instead of relative transmittance. Results are averaged over the 8 synthetic scenes from NeRF.
+
+<!-- chunk {"id": "body-0048", "role": "body", "section": "Discussion", "weight": 1.5} -->
 
 We present a method for photorealistic scene modeling and novel viewpoint rendering that produces results with comparable fidelity to the state-of-the-art, while taking orders of magnitude less time to train. Our method is also strikingly straightforward, shedding light on the core elements that are necessary for solving 3D inverse problems: a differentiable forward model, a continuous representation (in our case, via trilinear interpolation), and appropriate regularization. We acknowledge that the ingredients for this method have been available for a long time, however nonlinear optimization with tens of millions of variables has only recently become accessible to the computer vision practitioner.
 
-<!-- chunk {"id": "body-0048", "role": "body", "section": "Limitations and Future Work", "weight": 1.5} -->
+<!-- chunk {"id": "body-0049", "role": "body", "section": "Limitations and Future Work", "weight": 1.5} -->
 
 As with any underdetermined inverse problem, our method is susceptible to artifacts. Our method exhibits different artifacts than neural methods, as shown in Fig. 10, but both methods achieve similar quality in terms of standard metrics (as presented in Sec. 4). Future work may be able to adjust or mitigate these remaining artifacts by studying different regularization priors and/or more physically accurate differentiable rendering functions.
 
-<!-- chunk {"id": "body-0049", "role": "body", "section": "Limitations and Future Work", "weight": 1.5} -->
+<!-- chunk {"id": "body-0050", "role": "body", "section": "Limitations and Future Work", "weight": 1.5} -->
 
 Although we report all of our results for each dataset with a fixed set of hyperparameters, there is no optimal a priori setting of the TV weight $\lambda_{TV}$. In practice better results may be obtained by tuning this parameter on a scene-by-scene basis, which is possible due to our fast training time. This is expected because the scale, smoothness, and number of training views varies between scenes. We note that NeRF also has hyperparameters to be set such as the length of positional encoding, learning rate, and number of layers, and tuning these may also increase performance on a scene-by-scene basis.
 
-<!-- chunk {"id": "body-0050", "role": "body", "section": "Limitations and Future Work", "weight": 1.5} -->
+<!-- chunk {"id": "body-0051", "role": "body", "section": "Limitations and Future Work", "weight": 1.5} -->
 
 Our method should extend naturally to support multiscale rendering with proper anti-aliasing through voxel cone-tracing, similar to the modifications in Mip-NeRF. Another easy addition is tone-mapping to account for white balance and exposure changes, which we expect would help especially in the real $360^{\circ}$ scenes. A hierarchical data structure (such as an octree) may provide additional speedup compared to our sparse array implementation, provided that differentiable interpolation is preserved.
 
-<!-- chunk {"id": "body-0051", "role": "body", "section": "Limitations and Future Work", "weight": 1.5} -->
+<!-- chunk {"id": "body-0052", "role": "body", "section": "Limitations and Future Work", "weight": 1.5} -->
 
 Since our method is two orders of magnitude faster than NeRF, we believe that it may enable downstream applications currently bottlenecked by the performance of NeRF--for example, multi-bounce lighting and 3D generative models across large databases of scenes. By combining our method with additional components such as camera optimization and large-scale voxel hashing, it may enable a practical pipeline for end-to-end photorealistic 3D reconstruction.

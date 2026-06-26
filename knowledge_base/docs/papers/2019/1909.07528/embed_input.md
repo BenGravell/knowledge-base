@@ -122,7 +122,7 @@ We categorize the 5 intelligence tests into 2 domains: cognition and memory task
 
 <!-- chunk {"id": "body-0031", "role": "body", "section": "Transfer and Fine-tuning as evaluation", "weight": 1.0} -->
 
-In the *Object Counting* supervised task, we aim to measure whether the agents have a sense of object permanence; the agent is pinned to a location and watches as 6 boxes each randomly move to the right or left where they eventually become obscured by a wall. It is then asked to predict how many boxes have gone to each side for many timesteps after all boxes have disappeared. The agent's policy parameters are frozen and we initialize a classification head off of the LSTM hidden state. In the baseline, the policy network has frozen random parameters and only the classification head off of the LSTM hidden state is trained.
+Cognition and memory tasks: In the *Object Counting* supervised task, we aim to measure whether the agents have a sense of object permanence; the agent is pinned to a location and watches as 6 boxes each randomly move to the right or left where they eventually become obscured by a wall. It is then asked to predict how many boxes have gone to each side for many timesteps after all boxes have disappeared. The agent's policy parameters are frozen and we initialize a classification head off of the LSTM hidden state. In the baseline, the policy network has frozen random parameters and only the classification head off of the LSTM hidden state is trained.
 
 <!-- chunk {"id": "body-0032", "role": "body", "section": "Transfer and Fine-tuning as evaluation", "weight": 1.0} -->
 

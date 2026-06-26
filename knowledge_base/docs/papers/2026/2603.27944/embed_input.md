@@ -32,7 +32,7 @@ We deploy IMI on Ultra-Mobility Vehicle (UMV), a bicycle robot equipped with a l
 
 <!-- chunk {"id": "body-0008", "role": "body", "section": "INTRODUCTION", "weight": 1.5} -->
 
-Iterative Motion Imitation (IMI), a method that refines imperfect references into agile policies via iterative imitation, yielding highly agile behaviors from simple tracking rewards.
+To sum up, our contributions are: Iterative Motion Imitation (IMI), a method that refines imperfect references into agile policies via iterative imitation, yielding highly agile behaviors from simple tracking rewards.
 
 <!-- chunk {"id": "body-0009", "role": "body", "section": "INTRODUCTION", "weight": 1.5} -->
 
@@ -92,188 +92,152 @@ Boing (the upper-body and lower-body links) houses the batteries and joint motor
 
 <!-- chunk {"id": "body-0023", "role": "body", "section": "IV-A The Iterative Motion Imitation (IMI)", "weight": 1.0} -->
 
-The goal of IMI, depicted in Fig. 3 ‣ IV METHOD ‣ Flip Stunts on Bicycle Robots using Iterative Motion Imitation"), is to acquire robust and agile skills from an infeasible trajectory. The framework iteratively refines an initial, imperfect reference until a policy exhibiting the desired feasible behavior is achieved. This process involves three key steps
+The goal of IMI, depicted in Fig. 3 ‣ IV METHOD ‣ Flip Stunts on Bicycle Robots using Iterative Motion Imitation"), is to acquire robust and agile skills from an infeasible trajectory. The framework iteratively refines an initial, imperfect reference until a policy exhibiting the desired feasible behavior is achieved. This process involves three key steps Imitate: The policy is trained using constrained RL to track the current reference trajectory.
 
 <!-- chunk {"id": "body-0024", "role": "body", "section": "IV-A The Iterative Motion Imitation (IMI)", "weight": 1.0} -->
 
-Imitate: The policy is trained using constrained RL to track the current reference trajectory.
+Generate: The learned policy is executed in simulation to generate a new, physically plausible trajectory.
 
 <!-- chunk {"id": "body-0025", "role": "body", "section": "IV-A The Iterative Motion Imitation (IMI)", "weight": 1.0} -->
 
-Generate: The learned policy is executed in simulation to generate a new, physically plausible trajectory.
+Refine: The generated trajectory is set as the new reference for the next imitation cycle.
 
 <!-- chunk {"id": "body-0026", "role": "body", "section": "IV-A The Iterative Motion Imitation (IMI)", "weight": 1.0} -->
 
-Refine: The generated trajectory is set as the new reference for the next imitation cycle.
+The kinematic reference trajectories are used exclusively during training and are progressively improved with each cycle. Experts can also manually trim the trajectory during the refine stage when the desired motion differs from the reference motion, such as adapting a flip-down trajectory to a flat-to-flat flip.
 
 <!-- chunk {"id": "body-0027", "role": "body", "section": "IV-A The Iterative Motion Imitation (IMI)", "weight": 1.0} -->
 
-The kinematic reference trajectories are used exclusively during training and are progressively improved with each cycle. Experts can also manually trim the trajectory during the refine stage when the desired motion differs from the reference motion, such as adapting a flip-down trajectory to a flat-to-flat flip.
+The learned policy is purely reactive, taking only proprioceptive state observations and a phase variable as input to produce joint-level PD targets, which are then tracked by a high-frequency low-level controller.
 
 <!-- chunk {"id": "body-0028", "role": "body", "section": "IV-A The Iterative Motion Imitation (IMI)", "weight": 1.0} -->
 
-The learned policy is purely reactive, taking only proprioceptive state observations and a phase variable as input to produce joint-level PD targets, which are then tracked by a high-frequency low-level controller.
-
-<!-- chunk {"id": "body-0029", "role": "body", "section": "IV-A The Iterative Motion Imitation (IMI)", "weight": 1.0} -->
-
 IMI enhances the two primary guidance mechanisms of motion imitation, dense tracking rewards and Reference State Initialization (RSI), by progressively improving the reference trajectory itself. This iterative refinement makes the tracking reward more informative. Initially, an infeasible reference creates a conflicting objective, forcing the policy to deviate from the reference to satisfy physical constraints. As IMI generates more plausible references, the policy can achieve high tracking fidelity while respecting these constraints. Concurrently, RSI becomes more effective. Initializing from a refined, physically achievable reference places the agent in meaningful states that are closer to high-reward regions, accelerating learning and exploration.
 
-<!-- chunk {"id": "body-0030", "role": "body", "section": "IV-B Initial Reference Trajectory Generation", "weight": 1.0} -->
+<!-- chunk {"id": "body-0029", "role": "body", "section": "IV-B Initial Reference Trajectory Generation", "weight": 1.0} -->
 
 The initial flip reference can be generated in various ways, but we opt to use a hand-crafted model-based controller without safety constraints in simulation. The robot starts on top of a table and moves forward using a driving controller to build forward linear momentum. As the robot reaches the edge of the table, a whole-body controller is used to track a certain angular momentum that is tuned to successfully flip down the table.
 
-<!-- chunk {"id": "body-0031", "role": "body", "section": "IV-B Initial Reference Trajectory Generation", "weight": 1.0} -->
+<!-- chunk {"id": "body-0030", "role": "body", "section": "IV-B Initial Reference Trajectory Generation", "weight": 1.0} -->
 
 This orchestrated scenario was chosen intentionally. Starting on top of a table, reaching a certain forward momentum, and tracking and tuning a whole-body controller were engineered to provide an extended flight phase, giving the robot ample time and momentum to complete a 360-degree rotation.
 
-<!-- chunk {"id": "body-0032", "role": "body", "section": "IV-B Initial Reference Trajectory Generation", "weight": 1.0} -->
+<!-- chunk {"id": "body-0031", "role": "body", "section": "IV-B Initial Reference Trajectory Generation", "weight": 1.0} -->
 
 While this procedure yields a reference trajectory that achieves a flip, it is not executable without switching mid-air to a separate landing controller. Moreover, this does not meet our desired agility of flipping from flat ground and also violates the desired safety limits. Thus, the initial reference serves only as a rough demonstration, and our method aims to refine this imperfect reference into an end-to-end deployable policy.
 
+<!-- chunk {"id": "body-0032", "role": "body", "section": "IV-C Problem Formulation", "weight": 1.0} -->
+
+We formulate the motion imitation task as a Constrained Markov Decision Process (CMDP), defined by the tuple $(\mathcal{S},\mathcal{A},\mathcal{P},r,\mathcal{C},\gamma)$. Here, $\mathcal{S}$ is the state space, $\mathcal{A}$ is the action space, $\mathcal{P}(s_{t+1}|s_{t},a_{t})$ is the state transition probability, $r(s_{t},a_{t})$ is the reward function, $\mathcal{C}=\{c_{1},...,c_{k}\}$ is a set of $k$ constraint functions, and $\gamma\in[0,1)$ is the discount factor. The objective is to find an optimal policy $\pi^{*}$ that maximizes the expected discounted sum of future rewards while satisfying a set of constraints.
+
 <!-- chunk {"id": "body-0033", "role": "body", "section": "IV-C Problem Formulation", "weight": 1.0} -->
 
-We formulate the motion imitation task as a Constrained Markov Decision Process (CMDP), defined by the tuple $(\mathcal{S},\mathcal{A},\mathcal{P},r,\mathcal{C},\gamma)$. Here, $\mathcal{S}$ is the state space, $\mathcal{A}$ is the action space, $\mathcal{P}{(\left. s_{t + 1} \middle| {s_{t},a_{t}} \right.)}$ is the state transition probability, $r{(s_{t},a_{t})}$ is the reward function, $\mathcal{C} = {\{ c_{1},\ldots,c_{k}\}}$ is a set of $k$ constraint functions, and $\gamma \in {\lbrack 0,1)}$ is the discount factor.
+These constraints, $c_{i}(s_{t},a_{t})~\leq~0$, represent the physical and operational limits of the robot. The full objective is: We handle the constraints by terminating the episode upon any violation as used. This strategy effectively transforms the CMDP into a standard MDP, which we solve with RL: with a positive per-step reward design, any policy that violates constraints will inherently achieve a lower expected cumulative reward. Each iteration in IMI is solved using Proximal Policy Optimization (PPO).
 
-<!-- chunk {"id": "body-0034", "role": "body", "section": "IV-C Problem Formulation", "weight": 1.0} -->
-
-The objective is to find an optimal policy $\pi^{\ast}$ that maximizes the expected discounted sum of future rewards while satisfying a set of constraints. These constraints, ${c_{i}{(s_{t},a_{t})}} \leq 0$, represent the physical and operational limits of the robot.
-
-<!-- chunk {"id": "body-0035", "role": "body", "section": "IV-C Problem Formulation", "weight": 1.0} -->
-
-We handle the constraints by terminating the episode upon any violation as used. This strategy effectively transforms the CMDP into a standard MDP, which we solve with RL: with a positive per-step reward design, any policy that violates constraints will inherently achieve a lower expected cumulative reward. Each iteration in IMI is solved using Proximal Policy Optimization (PPO).
-
-<!-- chunk {"id": "body-0036", "role": "body", "section": "IV-D Control, Observations, and Actions", "weight": 1.0} -->
+<!-- chunk {"id": "body-0034", "role": "body", "section": "IV-D Control, Observations, and Actions", "weight": 1.0} -->
 
 We use IsaacLab as our training environment. The policy operates at 50 Hz, outputting joint PD targets. These targets are tracked by a low-level PD controller running at 200 Hz in simulation, and at 1 kHz on the real robot.
 
-<!-- chunk {"id": "body-0037", "role": "body", "section": "IV-D Control, Observations, and Actions", "weight": 1.0} -->
+<!-- chunk {"id": "body-0035", "role": "body", "section": "IV-D Control, Observations, and Actions", "weight": 1.0} -->
 
-The proprioceptive observations $o_{t} \in \mathcal{S}$ are defined as
+The proprioceptive observations $o_{t}\in\mathcal{S}$ are defined as where $q\in\mathbb{R}^{3}$ are the actuated joint positions, $\dot{q}\in\mathbb{R}^{4}$ are the actuated joint velocities, $\omega\in\mathbb{R}^{3}$ is the base angular velocity, $g\in\mathbb{R}^{3}$ is the projected gravity vector in the robot's base frame, and $a_{t-1}\in\mathbb{R}^{4}$ is the previous action. The observations exclude the rear wheel's position, as it is an unbounded, continuously rotating joint. The phase variable $\theta\in\mathbb{R}^{1}$ increases linearly from 0 to 1 over the duration of the reference trajectory. The total episode duration is longer than the reference trajectory, and during this extra time, $\theta$ is held at 1, requiring the policy to learn a stable balancing behavior after the touchdown.
 
-<!-- chunk {"id": "body-0038", "role": "body", "section": "IV-D Control, Observations, and Actions", "weight": 1.0} -->
+<!-- chunk {"id": "body-0036", "role": "body", "section": "IV-D Control, Observations, and Actions", "weight": 1.0} -->
 
-where $q \in {\mathbb{R}}^{3}$ are the actuated joint positions, $\overset{˙}{q} \in {\mathbb{R}}^{4}$ are the actuated joint velocities, $\omega \in {\mathbb{R}}^{3}$ is the base angular velocity, $g \in {\mathbb{R}}^{3}$ is the projected gravity vector in the robot's base frame, and $a_{t - 1} \in {\mathbb{R}}^{4}$ is the previous action. The observations exclude the rear wheel's position, as it is an unbounded, continuously rotating joint. The phase variable $\theta \in {\mathbb{R}}^{1}$ increases linearly from 0 to 1 over the duration of the reference trajectory. The total episode duration is longer than the reference trajectory, and during this extra time, $\theta$ is held at 1, requiring the policy to learn a stable balancing behavior after the touchdown.
+The policy outputs a four-dimensional action vector $a_{t}~\in~\mathbb{R}^{4}$, corresponding to each joint's PD targets: Each action is scaled by its corresponding action scale. The action of the rear-wheel joint is defined as a velocity setpoint, while the actions of the upper-body, lower-body, and fork joints are defined as position setpoints. The setpoints are tracked by a PD controller with desired joint torques $\tau$ where $q_{\text{des}}$ and $\dot{q}_{\text{des}}$ are the desired position and velocity setpoints for every joint. exp (−αbase∥pbase − pbaseref∥2) exp (−αang∥dangle(qbase, qbaseref)∥2) exp (−αjoint∥qjoint − qjointref∥2) Body Joint Limits 𝕀(qjoint ∉ [qmin, qmax]) Post Tracking Terms Default Joint Positions exp (−αpd∥qbody joint∥2) TABLE I: Reward Structure with Tolerance
 
-<!-- chunk {"id": "body-0039", "role": "body", "section": "IV-D Control, Observations, and Actions", "weight": 1.0} -->
+<!-- chunk {"id": "body-0037", "role": "body", "section": "IV-E Rewards", "weight": 1.0} -->
 
-Each action is scaled by its corresponding action scale. The action of the rear-wheel joint is defined as a velocity setpoint, while the actions of the upper-body, lower-body, and fork joints are defined as position setpoints. The setpoints are tracked by a PD controller with desired joint torques $\tau$
+The reward is a weighted sum of tracking and penalty terms, detailed in Table I. The tracking rewards encourage the policy to follow the reference motion, and penalties discourage behaviors that are unsuitable for hardware execution. We do not track the fork and rear-wheel joint positions to grant the policy more freedom to discover strategies for balancing and momentum generation. We clip the tracking errors to certain tolerances so that the maximum reward can be achieved without the need to track the exact reference. After successfully tracking the reference (i.e., when the phase variable $\theta=1$), the *post-tracking terms* are triggered to promote a still, balanced state by rewarding a default joint posture while penalizing base velocity and joint jitter.
 
-<!-- chunk {"id": "body-0040", "role": "body", "section": "IV-D Control, Observations, and Actions", "weight": 1.0} -->
+<!-- chunk {"id": "body-0038", "role": "body", "section": "IV-F Constraints and Terminations", "weight": 1.0} -->
 
-where $q_{\text{des}}$ and ${\overset{˙}{q}}_{\text{des}}$ are the desired position and velocity setpoints for every joint.
+To ensure the safe deployment of learned policies on hardware, we enforce critical physical limits as constraints. Similar to, we implement these constraints through termination conditions. Unlike approaches that use soft terminations to allow a policy to learn recovery behaviors, we employ hard terminations. This is because a constraint violation in our task represents an irrecoverable failure state. For instance, exceeding the current limit triggers a protective hardware shutdown, while an excessive touchdown velocity is an instantaneous event that can cause catastrophic hardware fracture. Based on that, an episode is terminated if any of the following conditions are met:\Touchdown Velocity: The landing vertical velocity of the wheels exceeds a certain threshold.\Mechanical Power: The total mechanical power of the joints exceeds a certain threshold $\sum\tau\dot{q}$. This serves as a proxy for the peak current limit.\Joint Position: The bounds of the joint position limits are reached. This prevents self-collisions and singularities.\Motor Torques: The motor torques exceed their torque limit.\Wheel Velocity: The wheel velocity exceeds a safety limit.\Early Termination: The robot's bike-base position or orientation deviates too much from the reference trajectory.
 
-<!-- chunk {"id": "body-0041", "role": "body", "section": "IV-D Control, Observations, and Actions", "weight": 1.0} -->
-
-exp (−αang ∥dangle (qbase,qbaseref)∥2)
-
-<!-- chunk {"id": "body-0042", "role": "body", "section": "IV-D Control, Observations, and Actions", "weight": 1.0} -->
-
-Body Joint Limits
-𝕀 (qjoint∉[qmin, qmax])
-
-<!-- chunk {"id": "body-0043", "role": "body", "section": "IV-D Control, Observations, and Actions", "weight": 1.0} -->
-
-Default Joint Positions
-exp (−αpd ∥qbody joint∥2)
-
-<!-- chunk {"id": "body-0044", "role": "body", "section": "IV-E Rewards", "weight": 1.0} -->
-
-The reward is a weighted sum of tracking and penalty terms, detailed in Table I. The tracking rewards encourage the policy to follow the reference motion, and penalties discourage behaviors that are unsuitable for hardware execution. We do not track the fork and rear-wheel joint positions to grant the policy more freedom to discover strategies for balancing and momentum generation. We clip the tracking errors to certain tolerances so that the maximum reward can be achieved without the need to track the exact reference. After successfully tracking the reference (i.e., when the phase variable $\theta = 1$), the *post-tracking terms* are triggered to promote a still, balanced state by rewarding a default joint posture while penalizing base velocity and joint jitter.
-
-<!-- chunk {"id": "body-0045", "role": "body", "section": "IV-F Constraints and Terminations", "weight": 1.0} -->
-
-To ensure the safe deployment of learned policies on hardware, we enforce critical physical limits as constraints. Similar to, we implement these constraints through termination conditions. Unlike approaches that use soft terminations to allow a policy to learn recovery behaviors, we employ hard terminations. This is because a constraint violation in our task represents an irrecoverable failure state. For instance, exceeding the current limit triggers a protective hardware shutdown, while an excessive touchdown velocity is an instantaneous event that can cause catastrophic hardware fracture. Based on that, an episode is terminated if any of the following conditions are met:\
-Touchdown Velocity: The landing vertical velocity of the wheels exceeds a certain threshold.\
-Mechanical Power: The total mechanical power of the joints exceeds a certain threshold $\sum{\tau\overset{˙}{q}}$. This serves as a proxy for the peak current limit.\
-Joint Position: The bounds of the joint position limits are reached. This prevents self-collisions and singularities.\
-Motor Torques: The motor torques exceed their torque limit.\
-Wheel Velocity: The wheel velocity exceeds a safety limit.\
-Early Termination: The robot's bike-base position or orientation deviates too much from the reference trajectory.
-
-<!-- chunk {"id": "body-0046", "role": "body", "section": "IV-F Constraints and Terminations", "weight": 1.0} -->
+<!-- chunk {"id": "body-0039", "role": "body", "section": "IV-F Constraints and Terminations", "weight": 1.0} -->
 
 Ground Collision: The upper-body, lower-body, or bike-base bodies collide with the ground.
 
-<!-- chunk {"id": "body-0047", "role": "body", "section": "IV-F Constraints and Terminations", "weight": 1.0} -->
+<!-- chunk {"id": "body-0040", "role": "body", "section": "IV-F Constraints and Terminations", "weight": 1.0} -->
 
 To encourage early exploration during training, we introduce these hard constraints via a curriculum. The training process begins with relaxed constraint boundaries that are gradually tightened as the policy improves. This approach allows the agent to first learn the fundamental task before refining its behavior to operate within the strict physical limits, thereby preventing the learning process from stagnating.
 
-<!-- chunk {"id": "body-0048", "role": "body", "section": "IV-F Constraints and Terminations", "weight": 1.0} -->
+<!-- chunk {"id": "body-0041", "role": "body", "section": "IV-F Constraints and Terminations", "weight": 1.0} -->
 
 Constraints can also be gradually introduced during different IMI iterations. For instance, we only enforce the joint position limits at the first iteration, leaving other constraints to be tightened in future iterations. For further iterations, the joint position limits were enforced from the beginning of training, and the rest of the terminations are applied as a curriculum.
 
-<!-- chunk {"id": "body-0049", "role": "body", "section": "IV-G Sim2Real and Policy Training", "weight": 1.0} -->
+<!-- chunk {"id": "body-0042", "role": "body", "section": "IV-G Sim2Real and Policy Training", "weight": 1.0} -->
 
 Reference State Initialization. We use RSI to expose the policy to critical states early in training. 50% of the episodes begin from an initial state and the remaining 50% are initialized at random states sampled from the reference trajectory. We also ignore the last 10% of the data during touchdown.
 
-<!-- chunk {"id": "body-0050", "role": "body", "section": "IV-G Sim2Real and Policy Training", "weight": 1.0} -->
+<!-- chunk {"id": "body-0043", "role": "body", "section": "IV-G Sim2Real and Policy Training", "weight": 1.0} -->
 
 Domain Randomization. To bridge the sim-to-real gap, we apply domain randomization to various physical and system parameters during all stages of IMI. Specifically, we randomize physical properties such as mass, friction, and motor strength, as well as control-related parameters including actuator gains and actuation delay. We also introduce observation noise to joint positions, velocities, angular velocity, and projected gravity, and further apply external disturbances to the body velocity.
 
-<!-- chunk {"id": "body-0051", "role": "body", "section": "IV-G Sim2Real and Policy Training", "weight": 1.0} -->
+<!-- chunk {"id": "body-0044", "role": "body", "section": "IV-G Sim2Real and Policy Training", "weight": 1.0} -->
 
 Furthermore, to handle varied contact scenarios such as premature ground impact, we add terrain randomization. In 50% of training episodes, we introduce a step obstacle with a height uniformly sampled from the range \[0 m, 0.2 m\]. Collectively, these randomizations encourage the policy to learn behaviors that are robust to modeling errors and unmodeled dynamics.
 
-<!-- chunk {"id": "body-0052", "role": "body", "section": "IV-G Sim2Real and Policy Training", "weight": 1.0} -->
+<!-- chunk {"id": "body-0045", "role": "body", "section": "IV-G Sim2Real and Policy Training", "weight": 1.0} -->
 
 Network Architecture. The actor and critic networks are implemented as Multi-Layer Perceptrons (MLPs) with ELU activation functions and three hidden layers of size and, respectively. In addition to the actor's observations, the critic observes the bike-base's linear velocity and global position as privileged information during training. The policies are trained for 15,000 iterations.
 
-<!-- chunk {"id": "body-0053", "role": "body", "section": "Results", "weight": 1.0} -->
+<!-- chunk {"id": "body-0046", "role": "body", "section": "Results", "weight": 1.0} -->
 
 We evaluate IMI through simulations and experiments on UMV, and show that it can transform an initially infeasible reference trajectory into a robust policy that transfers to the real world as shown in Fig. 4. We first detail the importance of iterative imitation on the sim-to-real transfer of our front-flip policy. Then, we conduct an ablation study to analyze the effect of iterative refinement, showing its ability to adapt to a harder maneuver such as a front-flip onto a table.
 
-<!-- chunk {"id": "body-0054", "role": "body", "section": "V-A Refinement of Flip Trajectories", "weight": 1.0} -->
+<!-- chunk {"id": "body-0047", "role": "body", "section": "V-A Refinement of Flip Trajectories", "weight": 1.0} -->
 
 We train IMI with two iterations. The first iteration trains a policy $\pi_{1}$ with the initial trajectory generated by the model-based controller (i.e., $\xi_{0}$). The second iteration trains a policy $\pi_{2}$ with the trajectory generated from the first iteration (i.e., $\xi_{1}$). Using the policy from the second iteration $\pi_{2}$, we generate a third trajectory for comparison (i.e., $\xi_{2}$).
 
-<!-- chunk {"id": "body-0055", "role": "body", "section": "V-A Refinement of Flip Trajectories", "weight": 1.0} -->
+<!-- chunk {"id": "body-0048", "role": "body", "section": "V-A Refinement of Flip Trajectories", "weight": 1.0} -->
 
 Since the initial reference $\xi_{0}$ starts with the robot on a table, we translated the base pose so that the robot is initialized on the ground. For all references in the iteration, we trim the trajectory from the moment the robot acquires forward velocity until ground touchdown.
 
-<!-- chunk {"id": "body-0056", "role": "body", "section": "V-A Refinement of Flip Trajectories", "weight": 1.0} -->
+<!-- chunk {"id": "body-0049", "role": "body", "section": "V-A Refinement of Flip Trajectories", "weight": 1.0} -->
 
 Fig. 6 illustrates the evolution of these trajectories $\xi$. The initial trajectory $\xi_{0}$ exhibits undesired behavior after the peak height: as shown in Fig. 6(b), the robot reaches its joint limits, leading to a self-collision. The landing is also unregulated, with the horizontal impact velocity and acceleration ( Fig. 6(c,d)) being the largest among the three iterations.
 
-<!-- chunk {"id": "body-0057", "role": "body", "section": "V-A Refinement of Flip Trajectories", "weight": 1.0} -->
+<!-- chunk {"id": "body-0050", "role": "body", "section": "V-A Refinement of Flip Trajectories", "weight": 1.0} -->
 
 In contrast, $\xi_{2}$ demonstrates improved landing characteristics over $\xi_{1}$. Its peak horizontal velocity and acceleration at touchdown are reduced (Fig. 6(c,d)), leading to a smoother and less damaging impact.
 
-<!-- chunk {"id": "body-0058", "role": "body", "section": "V-B Hardware Experiments", "weight": 1.0} -->
+<!-- chunk {"id": "body-0051", "role": "body", "section": "V-B Hardware Experiments", "weight": 1.0} -->
 
 We deployed policy $\pi_{2}$ on two different UMV s. Figure 4 shows the hardware experiment from one robot, and Fig. 7 shows the outcome of three different runs on another.
 
-<!-- chunk {"id": "body-0059", "role": "body", "section": "V-B Hardware Experiments", "weight": 1.0} -->
+<!-- chunk {"id": "body-0052", "role": "body", "section": "V-B Hardware Experiments", "weight": 1.0} -->
 
 The robot successfully performed multiple front flips on multiple different hardware, demonstrating the policy's robustness and the effectiveness of our methodology. From Fig. 7(c,d), we observe that this agile maneuver is completed within 0.8 s of flight time, achieving a full 360-degree rotation while providing sufficient time to prepare for a controlled smooth landing with low vertical velocity and acceleration. From Fig. 7(b), we observe that the robot extends its joints before take-off, tucks its boing to gain angular momentum and untucks again for smooth landing, and then transitions to the default joint positions, all without reaching any joint limits.
 
-<!-- chunk {"id": "body-0060", "role": "body", "section": "V-C Ablation: Iterative vs. Single-Shot Imitation", "weight": 1.0} -->
+<!-- chunk {"id": "body-0053", "role": "body", "section": "V-C Ablation: Iterative vs. Single-Shot Imitation", "weight": 1.0} -->
 
 Here, we compare two settings: IMI, which iteratively refines motion imitation sequences, against a single-iteration motion imitation baseline. To do so, we train two different policies with identical settings except that the first policy is trained with the initial reference $\xi_{0}$ while the second policy is trained with the reference from the previous IMI iteration $\xi_{1}$. In other words, we compare training from a refined reference trajectory $\xi_{1}$ against a baseline trained using an initial reference trajectory $\xi_{0}$.
 
-<!-- chunk {"id": "body-0061", "role": "body", "section": "V-C Ablation: Iterative vs. Single-Shot Imitation", "weight": 1.0} -->
+<!-- chunk {"id": "body-0054", "role": "body", "section": "V-C Ablation: Iterative vs. Single-Shot Imitation", "weight": 1.0} -->
 
 Based on Fig. 5, with IMI, the training converges substantially faster compared to the training from the initial reference. Furthermore, IMI achieved a success rate of 93 %, whereas training from the initial reference reaches only 49 %. The most prominent cause of failure was due to joint limits (Fig. 5(b)). For a successful flip maneuver, the robot needs to tuck its boing as close to its limit as possible to achieve maximum angular velocity. Then, it needs to quickly untuck to prepare for a smooth landing. Doing this complicated maneuver in a limited flight time is prone to joint position and motor torque violations without rich reference guidance. The refined trajectory $\xi_{1}$ already anticipates the need to open its body in preparation for a safe landing compared to $\xi_{0}$, where smooth landing was not taken into consideration. Another prominent cause of failure was due to touch down velocity (Fig. 5(c)), which occurs due to limited time for extending posture for smooth landing.
 
-<!-- chunk {"id": "body-0062", "role": "body", "section": "V-D Task Adaptation: Flip Up a Box", "weight": 1.0} -->
+<!-- chunk {"id": "body-0055", "role": "body", "section": "V-D Task Adaptation: Flip Up a Box", "weight": 1.0} -->
 
 To showcase IMI's effectiveness beyond safety-focused refinement, we task the robot to do a harder maneuver of flipping up a box. Starting from the refined reference of $\xi_{1}$, we train a separate policy $\pi_{2}^{\prime}$ with a modified terrain. This training includes a 70 cm (as shown in Fig. 8) or a 26 cm box in front of the robot. As shown in Fig. 8, the robot was able to successfully perform a flip-up stunt over a 70 cm box using IMI. Figure 9 (a,b) shows how the robot deviates from its reference depending on the task difficulty.
 
-<!-- chunk {"id": "body-0063", "role": "body", "section": "V-D Task Adaptation: Flip Up a Box", "weight": 1.0} -->
+<!-- chunk {"id": "body-0056", "role": "body", "section": "V-D Task Adaptation: Flip Up a Box", "weight": 1.0} -->
 
 For quantitative analysis, we perform a third IMI iteration, where the policy is trained to execute a flip-up by imitating a trajectory generated from the second-iteration of a ground-to-ground flip $\xi_{2}$. As shown in the first row of Table II, this three-iteration process enhances flip-up performance in terms of both success rate measured from the start and average return. Furthermore, the 70 cm flip-up stunt could not be achieved by directly imitating the initial reference $\xi_{0}$ (i.e., non-iterative motion imitation), which lacks sufficient angular momentum and height clearance.
 
-<!-- chunk {"id": "body-0064", "role": "body", "section": "Limitations and Future Work", "weight": 1.5} -->
+<!-- chunk {"id": "body-0057", "role": "body", "section": "Limitations and Future Work", "weight": 1.5} -->
 
 While successfully demonstrating robust flipping maneuvers, we acknowledge several limitations of IMI. The iterative refinement process relies on human judgment to decide when to initiate additional iterations. The operator qualitatively assesses the simulated trajectory's performance and feasibility, and if the outcome is unsatisfactory, a new iteration is triggered. Furthermore, the learned policy is specialized to a single skill. While robust within that skill, the resulting controller cannot perform other acrobatic maneuvers without training a separate policy, requiring the re-iteration of the process to guide to a different direction.
 
-<!-- chunk {"id": "body-0065", "role": "body", "section": "Limitations and Future Work", "weight": 1.5} -->
+<!-- chunk {"id": "body-0058", "role": "body", "section": "Limitations and Future Work", "weight": 1.5} -->
 
 These limitations suggest promising directions for future work. To reduce reliance on human assessment, one could design automated stopping criteria that detect when the performance improvements plateau (e.g., landing stability or energy efficiency). Moreover, an ambitious extension would be to replace the discrete iteration loop with a continuous refinement process, potentially leveraging Reinforcement Learning from Human Feedback (RLHF) to incorporate the operator's preferences in a more structured and scalable manner. To generalize beyond a single skill, we plan to extend IMI to learn command-conditioned policies that learn from a library of refined skills, as well as investigate ways to automatically generate initial reference trajectories from high-level task objectives.
 
-<!-- chunk {"id": "body-0066", "role": "body", "section": "Conclusion", "weight": 1.5} -->
+<!-- chunk {"id": "body-0059", "role": "body", "section": "Conclusion", "weight": 1.5} -->
 
 In this paper, we introduced Iterative Motion Imitation (IMI), a reinforcement learning framework that learns agile and physically robust robotic behaviors by iteratively refining an imperfect initial reference. We demonstrated that by iteratively imitating trajectories generated by its own predecessor policies, IMI effectively transforms a dynamically infeasible motion into a high-performance policy that respects hardware limits. Our key insight is that this recursive process naturally amplifies the effectiveness of standard motion imitation techniques such as Reference State Initialization (RSI) and reward shaping, enabling robust learning without complex reward engineering.
 
-<!-- chunk {"id": "body-0067", "role": "body", "section": "Conclusion", "weight": 1.5} -->
+<!-- chunk {"id": "body-0060", "role": "body", "section": "Conclusion", "weight": 1.5} -->
 
 We validated our approach on the UMV, a bicycle robot. The IMI-trained policy successfully executed unassisted front flips on hardware, marking the first demonstration of such acrobatic stunts on this platform.

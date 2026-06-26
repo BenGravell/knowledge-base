@@ -22,7 +22,7 @@ We present results of simulation experiments on a set of robot insertion problem
 
 <!-- chunk {"id": "body-0006", "role": "body", "section": "DDPG from Demonstrations", "weight": 1.0} -->
 
-Our algorithm modifies DDPG to take advantage of demonstrations. The demonstrations are of the form of RL transitions: $(s,a,s^{\prime},r)$. DDPGfD loads the demonstration transitions into the replay buffer before the training begins and keeps all transitions forever.
+Our algorithm modifies DDPG to take advantage of demonstrations. The demonstrations are of the form of RL transitions: $(s,a,s',r)$. DDPGfD loads the demonstration transitions into the replay buffer before the training begins and keeps all transitions forever.
 
 <!-- chunk {"id": "body-0007", "role": "body", "section": "DDPG from Demonstrations", "weight": 1.0} -->
 
@@ -50,7 +50,7 @@ Finally, L2 regularization on the parameters of the actor and the critic network
 
 <!-- chunk {"id": "body-0013", "role": "body", "section": "DDPG from Demonstrations", "weight": 1.0} -->
 
-Transitions from a human demonstrator are added to the replay buffer.
+The final loss can be written as: To summarize, we modified the original DDPG algorithm in the following ways: Transitions from a human demonstrator are added to the replay buffer.
 
 <!-- chunk {"id": "body-0014", "role": "body", "section": "DDPG from Demonstrations", "weight": 1.0} -->
 
@@ -70,19 +70,19 @@ We therefore sought to design a set of insertion tasks that presented a range of
 
 <!-- chunk {"id": "body-0018", "role": "body", "section": "Experimental setup", "weight": 1.0} -->
 
-We created two reward functions for our experiments.
+(c) Clip Insertion Task (d) Cable Insertion Task.
 
 <!-- chunk {"id": "body-0019", "role": "body", "section": "Experimental setup", "weight": 1.0} -->
 
-where $x_{i}$ is the position of the $i^{th}$ tip site on the plug, $g_{i}$ is the $i^{th}$ goal site on the socket, $W_{g}$ contains weighting coefficients for the goal site error vector, and $\epsilon$ is a proximity threshold. If this tolerance was reached, the robot received the reward signal and the episode was immediately terminated.
+We created two reward functions for our experiments. The first is a sparse reward function which returned $+ 10$ if the plug was within a small tolerance of the goal site(s) on the socket: where $x_{i}$ is the position of the $i^{th}$ tip site on the plug, $g_{i}$ is the $i^{th}$ goal site on the socket, $W_{g}$ contains weighting coefficients for the goal site error vector, and $\epsilon$ is a proximity threshold. If this tolerance was reached, the robot received the reward signal and the episode was immediately terminated.
 
 <!-- chunk {"id": "body-0020", "role": "body", "section": "Experimental setup", "weight": 1.0} -->
 
-The second reward function is a shaped reward which composes terms for two movement phases: a reaching phase $c_{o}$ to align the plug to the socket opening, and an inserting phase $c_{g}$ to reach the socket goal. Both terms compute a weighted $\ell_{2}$-distance between the plug tip(s) and their respective goal site(s). The distance from the goal to the opening site (*i.e.*
+The second reward function is a shaped reward which composes terms for two movement phases: a reaching phase $c_{o}$ to align the plug to the socket opening, and an inserting phase $c_{g}$ to reach the socket goal. Both terms compute a weighted $\ell_{2}$-distance between the plug tip(s) and their respective goal site(s). The distance from the goal to the opening site (*i.e.* the maximum value of $c_{g}$) is added to $c_{o}$ during the reaching phase, such that the reward monotonically increases throughout an insertion: where $g_{i}$ is the $i^{th}$ goal site, $o_{i}$ is the $i^{th}$ opening site, $W_{g}$ and $W_{o}$ are weighting coefficients for the goal and opening site errors, respectively, $I$ is the indicator function, and $\alpha$ and $\beta$ are scaling parameters for log-transforming these distances into rewards ranging from $0$ to $1$.
 
 <!-- chunk {"id": "body-0021", "role": "body", "section": "Experimental setup", "weight": 1.0} -->
 
-where $g_{i}$ is the $i^{th}$ goal site, $o_{i}$ is the $i^{th}$ opening site, $W_{g}$ and $W_{o}$ are weighting coefficients for the goal and opening site errors, respectively, $I$ is the indicator function, and $\alpha$ and $\beta$ are scaling parameters for log-transforming these distances into rewards ranging from $0$ to $1$. Note that tuning the weighting of each dimension in $W_{g}$ and $W_{o}$ must be done very carefully for the agent to learn the real desired task. In addition, the shaping of both stages must be balanced out in a delicate manner.
+Note that tuning the weighting of each dimension in $W_{g}$ and $W_{o}$ must be done very carefully for the agent to learn the real desired task. In addition, the shaping of both stages must be balanced out in a delicate manner.
 
 <!-- chunk {"id": "body-0022", "role": "body", "section": "Experimental setup", "weight": 1.0} -->
 

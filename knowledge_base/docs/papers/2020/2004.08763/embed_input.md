@@ -44,11 +44,11 @@ Sampling random action sequences in this manner and evaluating the sum of reward
 
 <!-- chunk {"id": "body-0011", "role": "body", "section": "Gradient-Based Planning", "weight": 1.0} -->
 
-Gradient-based methods for planning typically correspond to backpropagating derivatives of a cumulative loss (or reward) function with respect to actions for updating the sequence of actions iteratively through gradient descent. In \[Henaff et al.Henaff, Whitney, and LeCun\], the gradients of the cumulative reward with respect to actions are computed by differentiating through the learned reward and forward dynamics models. In \[Srinivas et al.Srinivas, Jabri, Abbeel, Levine, and Finn\], gradients of the inner loss of the Gradient-Descent Planner (GDP) with respect to actions are computed in the latent space, by differentiating through a learned latent forward dynamics model.
+Gradient-based methods for planning typically correspond to backpropagating derivatives of a cumulative loss (or reward) function with respect to actions for updating the sequence of actions iteratively through gradient descent. In \[Henaff et al.Henaff, Whitney, and LeCun\], the gradients of the cumulative reward with respect to actions are computed by differentiating through the learned reward and forward dynamics models. In \[Srinivas et al.Srinivas, Jabri, Abbeel, Levine, and Finn\], gradients of the inner loss of the Gradient-Descent Planner (GDP) with respect to actions are computed in the latent space, by differentiating through a learned latent forward dynamics model. The ultimate aim is to update actions through an iterative gradient descent approach: Here, $H$ denotes the time-horizon of the episode, $a$ denotes action and $s$ denotes state. One of the most important drawbacks of gradient descent for non-convex optimization is that the optimization procedure is only guaranteed to converge to a local optima, not the global optima. In MPC for MBRL, these planners may converge to sub-optimal plans.
 
 <!-- chunk {"id": "body-0012", "role": "body", "section": "Gradient-Based Planning", "weight": 1.0} -->
 
-Here, $H$ denotes the time-horizon of the episode, $a$ denotes action and $s$ denotes state. One of the most important drawbacks of gradient descent for non-convex optimization is that the optimization procedure is only guaranteed to converge to a local optima, not the global optima. In MPC for MBRL, these planners may converge to sub-optimal plans. In addition, for a long horizon $H$, there is the exploding and vanishing gradients problem which must be taken care of during optimization. An important point to note is that when the action dimension increases, CEM becomes highly inefficient and requires significantly more optimization epochs due to a blow-up of the search space, whereas there is only a slight increase (one gradient dimension) in computational burden for gradient descent. This is because, for optimization CEM utilizes just the aggregate reward which is a one-dimensional feedback signal per rollout, while gradient-based planning makes use of an $D$-dimensional feedback signal, namely the gradient of the cumulative reward with respect to the actions.
+In addition, for a long horizon $H$, there is the exploding and vanishing gradients problem which must be taken care of during optimization. An important point to note is that when the action dimension increases, CEM becomes highly inefficient and requires significantly more optimization epochs due to a blow-up of the search space, whereas there is only a slight increase (one gradient dimension) in computational burden for gradient descent. This is because, for optimization CEM utilizes just the aggregate reward which is a one-dimensional feedback signal per rollout, while gradient-based planning makes use of an $D$-dimensional feedback signal, namely the gradient of the cumulative reward with respect to the actions.
 
 <!-- chunk {"id": "body-0013", "role": "body", "section": "Approach", "weight": 1.0} -->
 
@@ -64,19 +64,19 @@ Let $f_{\phi}$ denote the learned dynamics model, $r_{\psi}$ the learned reward 
 
 <!-- chunk {"id": "body-0016", "role": "body", "section": "CEM+Gradient Descent", "weight": 1.0} -->
 
-Here, $t$ indexes the CEM iterations. Now, treating these initial sampled plans as initialization of the gradient-descent procedure, we perform $J$ steps of gradient descent on all of the sequences. In all of our experiments to ensure fair comparison to CEM, we set $J = 1$.
+At the beginning of each CEM iteration, the planner first samples multiple ($G$) random action sequences: We next evaluate the cumulative reward obtained from each of these action sequences, under the current learned dynamics model $f_{\phi}$ and the current reward model $r_{\psi}$: Here, $t$ indexes the CEM iterations. Now, treating these initial sampled plans as initialization of the gradient-descent procedure, we perform $J$ steps of gradient descent on all of the sequences. In all of our experiments to ensure fair comparison to CEM, we set $J = 1$.
 
 <!-- chunk {"id": "body-0017", "role": "body", "section": "CEM+Gradient Descent", "weight": 1.0} -->
 
-Finally, we replace the bottom $G - K$ action sequences, with samples from the updated proposal distribution. After $T$ iterations of this, the remaining action sequence with the highest reward is returned. Our approach is summarized in Algorithm 1.
+Then we update the parameters of our proposal (sampling) distribution $\mathcal{N}{(\mu_{0:H}^{({t + 1})},\Sigma_{0:H}^{({t + 1})})}$ to match the top $K$ updated action sequences: Finally, we replace the bottom $G - K$ action sequences, with samples from the updated proposal distribution. After $T$ iterations of this, the remaining action sequence with the highest reward is returned. Our approach is summarized in Algorithm 1.
 
 <!-- chunk {"id": "body-0018", "role": "body", "section": "CEM+Gradient Descent", "weight": 1.0} -->
 
-H(t),Σ0: H(t)) Execute first action from the highest model return action sequence Record real transition in 𝒟 Algorithm 1 Grad+CEM Algorithm (The proposed approach)
+H(t), Σ0: H(t)) Execute first action from the highest model return action sequence Record real transition in 𝒟 Algorithm 1 Grad+CEM Algorithm (The proposed approach)
 
 <!-- chunk {"id": "body-0019", "role": "body", "section": "Experiments", "weight": 1.0} -->
 
-Through the experiments we aim to demonstrate the benefits and pitfalls of CEM and gradient descent, and demonstrate the efficacy of the proposed approach. The gradient-based planner baseline is hereafter referred to as Grad. This is implemented as SGD (Stochastic Gradient Descent). It samples $G$ initial samples and separately performs $T$ stochastic gradient steps on them. To better demonstrate our claims, we created a toy environment, the details of which are described in the next sub-section. Code for the experiments is available in this repository
+Through the experiments we aim to demonstrate the benefits and pitfalls of CEM and gradient descent, and demonstrate the efficacy of the proposed approach. The gradient-based planner baseline is hereafter referred to as Grad. This is implemented as SGD (Stochastic Gradient Descent). It samples $G$ initial samples and separately performs $T$ stochastic gradient steps on them. To better demonstrate our claims, we created a toy environment, the details of which are described in the next sub-section. Code for the experiments is available in this repository Figure 2: Illustrative diagram of the toy environment. The black paths are 2D projections of multiple paths of a point mass. Red denotes high reward and blue denotes low reward regions. The green circle is an obstacle with soft contact.
 
 <!-- chunk {"id": "body-0020", "role": "body", "section": "Details of the toy environment", "weight": 1.0} -->
 
@@ -124,11 +124,11 @@ For Fig. 5 and Fig. 5, for a pairwise t-test between the two variants CEM and Gr
 
 <!-- chunk {"id": "body-0031", "role": "body", "section": "Experiments with Planning over Learned Dynamics Models", "weight": 1.0} -->
 
-(a) OpenAI Gym Half-Cheetah [Brockman et al.Brockman, Cheung, Pettersson, Schneider, Schulman, Tang, and Zaremba]
+(a) OpenAI Gym Half-Cheetah [Brockman et al.Brockman, Cheung, Pettersson, Schneider, Schulman, Tang, and Zaremba] (b) OpenAI Gym Pendulum [Brockman et al.Brockman, Cheung, Pettersson, Schneider, Schulman, Tang, and Zaremba] Figure 5: Variation of rewards at test time during the course of training. OpenAI Gym (a) Pendulum and (b) Half-Cheetah environments. CEM is the default Planet [Hafner et al.Hafner, Lillicrap, Fischer, Villegas, Ha, Lee, and Davidson] algorithm that plans through CEM. Grad+CEM is the version of Planet that plans using the proposed Grad+CEM scheme. The error bars correspond to the standard deviation during evaluation with three random seeds. Higher is better.
 
 <!-- chunk {"id": "body-0032", "role": "body", "section": "Experiments with Planning over Learned Dynamics Models", "weight": 1.0} -->
 
-(b) OpenAI Gym Pendulum [Brockman et al.Brockman, Cheung, Pettersson, Schneider, Schulman, Tang, and Zaremba]
+(a) DM Control Suite Cartpole-SwingUp (b) DM Control Suite WalkerWalk (c) DM Control Suite Reacher (d) DM Control Suite Cartpole-Balance Figure 6: Variation of rewards at test time during the course of training. DeepMind Control Suite [Tassa et al.Tassa, Doron, Muldal, Erez, Li, Casas, Budden, Abdolmaleki, Merel, Lefrancq, et al.] (a) Cartpole-SwingUp, (b) Walker-Walk, (c) Reacher, and (d) Cartpole-Balance environments. CEM is the default Planet [Hafner et al.Hafner, Lillicrap, Fischer, Villegas, Ha, Lee, and Davidson] algorithm that plans through CEM. Grad+CEM is the version of Planet that plans using the proposed Grad+CEM scheme. The error bars correspond to standard deviation during evaluation with three random seeds. Higher is better.
 
 <!-- chunk {"id": "body-0033", "role": "body", "section": "Related Works", "weight": 1.0} -->
 

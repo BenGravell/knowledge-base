@@ -54,7 +54,7 @@ At online search stage, EFANNA first search in the hierarchical structures to ge
 
 <!-- chunk {"id": "body-0014", "role": "body", "section": "Introduction", "weight": 1.5} -->
 
-EFANNA outperforms state-of-the-art ANN search algorithms significantly. Particularly, EFANNA outperforms Flann, one of the most popular ANN search library, in index size, search speed and search accuracy.
+It is worthwhile to highlight the contributions of our paper as follows: EFANNA outperforms state-of-the-art ANN search algorithms significantly. Particularly, EFANNA outperforms Flann, one of the most popular ANN search library, in index size, search speed and search accuracy.
 
 <!-- chunk {"id": "body-0015", "role": "body", "section": "Introduction", "weight": 1.5} -->
 
@@ -74,13 +74,7 @@ We will introduce our EFANNA algorithms in this section. EFANNA algorithms inclu
 
 <!-- chunk {"id": "body-0019", "role": "body", "section": "EFANNA Algorithms for ANN search", "weight": 1.0} -->
 
-1:the data set D, the number of trees T, the number of points in a leaf node K.
-2:the randomized truncated KD-tree set S
-5: if size of PointSet &lt; K then
-8: Randomly choose dimension d.
-9: Calculate the mean m i d over P o i n t S e t on dimension d.
-10: Divide P o i n t S e t evenly into two subsets, L e f t H a l f and R i g h t H a l f, according to m i d.
-Algorithm 2 EFANNA Tree Building Algorithm
+1:the data set D, the number of trees T, the number of points in a leaf node K. 2:the randomized truncated KD-tree set S 5: if size of PointSet < K then 8: Randomly choose dimension d. 9: Calculate the mean m i d over P o i n t S e t on dimension d. 10: Divide P o i n t S e t evenly into two subsets, L e f t H a l f and R i g h t H a l f, according to m i d. Algorithm 2 EFANNA Tree Building Algorithm
 
 <!-- chunk {"id": "body-0020", "role": "body", "section": "ANN search with EFANNA index", "weight": 1.0} -->
 
@@ -96,17 +90,7 @@ There are three essential parameters in our ANN search algorithm: the expansion 
 
 <!-- chunk {"id": "body-0023", "role": "body", "section": "ANN search with EFANNA index", "weight": 1.0} -->
 
-1:the data set D, the k in approximate kNN graph, the randomized truncated KD-tree set S built with Algorithm 2, the conquer-to depth D e p.
-2:approximate kNN graph G.
-4:Using Algorithm 2 to build tree, which leads to the input S
-8:for all point i in D do
-10: for all binary tree t in S do
-11: search in tree t with point i to the leaf node.
-12: add all the point in the leaf node to C.
-16: Depth-first-search in the tree t with point i to depth d. Suppose N is the non-leaf node on the search path with depth d. Suppose S i b is the child node of N. And S i b is not on the search path of point i.
-17: Depth-first-search to the leaf node in the subtree of S i b with point i. Add all the points in the leaf node to C.
-20: Reserve K closest points to i in C.
-Algorithm 3 Hierarchical Divide-and-Conquer Algorithm (kNN Graph Initialization)
+1:the data set D, the k in approximate kNN graph, the randomized truncated KD-tree set S built with Algorithm 2, the conquer-to depth D e p. 2:approximate kNN graph G. 4:Using Algorithm 2 to build tree, which leads to the input S 8:for all point i in D do 10: for all binary tree t in S do 11: search in tree t with point i to the leaf node. 12: add all the point in the leaf node to C. 16: Depth-first-search in the tree t with point i to depth d. Suppose N is the non-leaf node on the search path with depth d. Suppose S i b is the child node of N. And S i b is not on the search path of point i. 17: Depth-first-search to the leaf node in the subtree of S i b with point i. Add all the points in the leaf node to C. 20: Reserve K closest points to i in C. Algorithm 3 Hierarchical Divide-and-Conquer Algorithm (kNN Graph Initialization)
 
 <!-- chunk {"id": "body-0024", "role": "body", "section": "EFANNA Index Building Algorithms I: Tree Buidling", "weight": 1.0} -->
 
@@ -146,303 +130,244 @@ Now that the whole tree can be treated as a multi-class classifier, any subtree 
 
 <!-- chunk {"id": "body-0033", "role": "body", "section": "Hierarchical Randomized Divide-and-Conquer", "weight": 1.0} -->
 
-1:an initial approximate k-nearest neighbor graph Gi n i t, data set D, maximum iteration number I, Candidate pool size P, new neighbor checking num L.
-2:an approximate kNN graph G.
-4:Graph Gn e w records all the new added candidate neighbors of each point. Gn e w = Gi n i t. 5:Graph Go l d records all the old candidate neighbors of each point at previous iterations. Go l d = ⌀
-6:Graph Gr n e w records all the new added reverse candidate neighbors of each point. 7:Graph Gr o l d records all the old reverse candidate neighbors of each point. 10: for all point i in D do
-11: N Nn e w is the neighbor set of point i in Gn e w. 12: N No l d is the neighbor set of of point i in Go l d. 13: for all point j in N Nn e w do
-14: for all point k in N Nn e w do
-16: calculate the distance between j and k. 17: add k to j’s entry in G. mark k as n e w.
+1:an initial approximate k-nearest neighbor graph Gi n i t, data set D, maximum iteration number I, Candidate pool size P, new neighbor checking num L. 2:an approximate kNN graph G. 4:Graph Gn e w records all the new added candidate neighbors of each point. Gn e w = Gi n i t. 5:Graph Go l d records all the old candidate neighbors of each point at previous iterations. Go l d = ⌀ 6:Graph Gr n e w records all the new added reverse candidate neighbors of each point. 7:Graph Gr o l d records all the old reverse candidate neighbors of each point. 10: for all point i in D do 11: N Nn e w is the neighbor set of point i in Gn e w. 12: N No l d is the neighbor set of of point i in Go l d. 13: for all point j in N Nn e w do 14: for all point k in N Nn e w do 16: calculate the distance between j and k. 17: add k to j’s entry in G. mark k as n e w.
 
 <!-- chunk {"id": "body-0034", "role": "body", "section": "Hierarchical Randomized Divide-and-Conquer", "weight": 1.0} -->
 
-18: add j to k’s entry in G and Gr n e w. 22: for all point l in N No l d do
-23: calculate the distance between j and l. 24: add l to j’s entry in G. mark l as o l d. 25: add j to l’s entry in G and Gr o l d. 30: for all point i in D do
-31: Reserve the closest P points to i in respective
-35: for all point i in D do
-36: l = 0. N N is the neighbor set of i in G.
-Algorithm 4 Approximate kNN Graph Refinement Algorithm
+18: add j to k’s entry in G and Gr n e w. 22: for all point l in N No l d do 23: calculate the distance between j and l. 24: add l to j’s entry in G. mark l as o l d. 25: add j to l’s entry in G and Gr o l d. 30: for all point i in D do 31: Reserve the closest P points to i in respective 35: for all point i in D do 36: l = 0. N N is the neighbor set of i in G. Algorithm 4 Approximate kNN Graph Refinement Algorithm In this way, for each point at each level, only the points in one closest leaf node will be considered, which reduces the computation complexity greatly and reserves accuracy. We perform our random divide-and-conquer process multiple times and get an initial graph.
 
 <!-- chunk {"id": "body-0035", "role": "body", "section": "Hierarchical Randomized Divide-and-Conquer", "weight": 1.0} -->
 
-In this way, for each point at each level, only the points in one closest leaf node will be considered, which reduces the computation complexity greatly and reserves accuracy. We perform our random divide-and-conquer process multiple times and get an initial graph.
-
-<!-- chunk {"id": "body-0036", "role": "body", "section": "Hierarchical Randomized Divide-and-Conquer", "weight": 1.0} -->
-
 Again there is a trade-off between accuracy of initial graph and time cost in parameter tuning. When conquer-to depth $Dep$ is small (*i.e*. conquering to a level close to root), or when tree number $T_{c}$ is larger, the accuracy is higher but time cost is higher. In our experiments, we use the randomized KD-tree as the hierarchical divide-and-conquer structure. See Algorithm 3 for details on randomized KD-tree divide-and-conquer algorithm).
 
-<!-- chunk {"id": "body-0037", "role": "body", "section": "Graph Refinement", "weight": 1.0} -->
+<!-- chunk {"id": "body-0036", "role": "body", "section": "Graph Refinement", "weight": 1.0} -->
 
 We use the NN-descent proposed by to refine the resulting graph we get from the divide-and-conquer step. The main idea is also to find better neighbors iteratively, however, different from NN-expansion, they proposed several techniques to get much better performance. We rewrite their algorithms to make it easy to understand. See Algorithm 4 for details.
 
-<!-- chunk {"id": "body-0038", "role": "body", "section": "Graph Refinement", "weight": 1.0} -->
+<!-- chunk {"id": "body-0037", "role": "body", "section": "Graph Refinement", "weight": 1.0} -->
 
 The pool size $P$ and neighbor checking num $L$ are essential parameters of this algorithm. Usually, Larger $L$ and $P$ will result in better accuracy but higher computation cost.
 
-<!-- chunk {"id": "body-0039", "role": "body", "section": "NN-expansion VS. NN-descent", "weight": 1.0} -->
+<!-- chunk {"id": "body-0038", "role": "body", "section": "NN-expansion VS. NN-descent", "weight": 1.0} -->
 
 Some approximate $k$NN graph construction methods claim to outperform NN-descent significantly. However, based on their reported results and our analysis, there seems a misunderstanding of NN-descent. Actually, NN-descent is quite different than NN-expansion. For given point $p$, NN-expansion assume the neighbors of $p$'s neighbors are likely to be neighbors of $p$. While NN-descent thinks that $p$'s neighbors are more likely to be neighbors of each other. Our experimental results have shown that NN-descent is much more efficient than NN-expansion in building approximate $k$NN graph. However, the NN-descent idea cannot be applied to ANN search.
 
-<!-- chunk {"id": "body-0040", "role": "body", "section": "Online index updating", "weight": 1.0} -->
+<!-- chunk {"id": "body-0039", "role": "body", "section": "Online index updating", "weight": 1.0} -->
 
 EFANNA index building algorithm is easily to be extended to accept stream data. Firstly, when a new point arrived, we can insert it into the tree easily. And when the number of points in the inserted node exceeds given threshold, we just need to split the node. When the tree is unbalanced to some degree, we should adjust the tree structure, which is quite fast on large scale data. Secondly, the graph building algorithm can accept stream data as well, we can use the same algorithm we describe before. First we search in the tree for candidates, and use NN-descent to update the graph with the involved points. And this step is quite fast, too.
 
-<!-- chunk {"id": "body-0041", "role": "body", "section": "Experiments", "weight": 1.0} -->
+<!-- chunk {"id": "body-0040", "role": "body", "section": "Experiments", "weight": 1.0} -->
 
 To demonstrate the effectiveness of the proposed method EFANNA, extensive experiments on large-scale data sets are reported in this section.
 
-<!-- chunk {"id": "body-0042", "role": "body", "section": "Data Set and Experiment Setting", "weight": 1.0} -->
+<!-- chunk {"id": "body-0041", "role": "body", "section": "Data Set and Experiment Setting", "weight": 1.0} -->
 
 The experiments were conducted on two popular real world data sets, SIFT1M and GIST1M^11^1Both two datasets can be downloaded at The detailed information on the data sets is listed in TABLE I. All the codes we used are written in C++ and compiled by g++4.9, and the only optimization option we allow is "O3" of g++. Parallelism and other optimization like SSE instruction are disabled. The experiment on SIFT1M is carried out on a machine with i7-3770K CPU and 16G memory, and GIST1M is on a machine with i7-4790K CPU and 32G memory.
 
+<!-- chunk {"id": "body-0042", "role": "body", "section": "Evaluation Protocol", "weight": 1.0} -->
+
+To measure the performance of ANN search of different algorithms, we used the well known $average$ $recall$ as the accuracy measurement. Given a query point, all the algorithms are expected to return $k$ points. Then we need to examine how many points in this returned set are among the true $k$ nearest neighbors of the query. Suppose the returned set of $k$ points given a query is $R'$ and the true $k$ nearest neighbors set of the query is $R$, the $recall$ is defined as Then the $average$ $recall$ is averaging over all the queries. Since the sizes of $R'$ and $R$ are the same, the recall of $R'$ is the same as the accuracy of $R'$.
+
 <!-- chunk {"id": "body-0043", "role": "body", "section": "Evaluation Protocol", "weight": 1.0} -->
 
-To measure the performance of ANN search of different algorithms, we used the well known $average$ $recall$ as the accuracy measurement. Given a query point, all the algorithms are expected to return $k$ points. Then we need to examine how many points in this returned set are among the true $k$ nearest neighbors of the query. Suppose the returned set of $k$ points given a query is $R^{\prime}$ and the true $k$ nearest neighbors set of the query is $R$, the $recall$ is defined as
+We compare the performance of different algorithms by requiring different number of nearest neighbors of each query point, including 1-NN and 100-NN. In other words, the size of $R$ (and $R'$) will be 1 and 100 respectively. Please see our technical report for more results on 10-NN and 50-NN.
 
-<!-- chunk {"id": "body-0044", "role": "body", "section": "Evaluation Protocol", "weight": 1.0} -->
+<!-- chunk {"id": "body-0044", "role": "body", "section": "Comparison Algorithms", "weight": 1.0} -->
 
-Then the $average$ $recall$ is averaging over all the queries. Since the sizes of $R^{\prime}$ and $R$ are the same, the recall of $R^{\prime}$ is the same as the accuracy of $R^{\prime}$.
+To demonstrate the effectiveness of the proposed EFANNA approach, the following four state-of-the-art ANN search methods and brute-force method are compared in the experiment. brute-force. We report the performance of brute-force search to show the advantages of using ANN search methods. To get different recall, we simply perform brute-force search on different percentage of the query number. For example, the brute-force search time on 90% queries of the origin query set stands for the brute-force search time of 90% average recall. flann. FLANN is a well-known open source library for ANN search. The Randomized KD-tree algorithm in FLANN provides state-of-the-art performance. In our experiments, we use 16 trees for both datasets. And we tune the "max-check" parameter to get the time-recall curve.
 
-<!-- chunk {"id": "body-0045", "role": "body", "section": "Evaluation Protocol", "weight": 1.0} -->
+<!-- chunk {"id": "body-0045", "role": "body", "section": "Comparison Algorithms", "weight": 1.0} -->
 
-We compare the performance of different algorithms by requiring different number of nearest neighbors of each query point, including 1-NN and 100-NN. In other words, the size of $R$ (and $R^{\prime}$) will be 1 and 100 respectively. Please see our technical report for more results on 10-NN and 50-NN.
+GNNS. GNNS is the first ANN search method using $k$NN graph. Given a query, GNNS generates the initial candidates (neighbors) by random selection. Then GNNS uses the NN-expansion idea (*i.e*., check the neighbors of the neighbors iteratively to locate closer neighbors) to refine the result. The main parameters of GNNS are the size of the initial result and the iteration number. We fix the iteration number as 10 and tune the initial candidate number to get the time-recall curve. kGraph. kGraph is an open library for ANN search based on $k$NN graph. The author of kGraph is the inventor of NN-descent. The ANN search algorithm in kGraph is essentially the same as GNNS. The original Kgraph library implements with OpenMP (for parallelism) and SSE instructions for speed-up. We simply turn off the parallelism and SSE for fair comparison.
 
 <!-- chunk {"id": "body-0046", "role": "body", "section": "Comparison Algorithms", "weight": 1.0} -->
 
-To demonstrate the effectiveness of the proposed EFANNA approach, the following four state-of-the-art ANN search methods and brute-force method are compared in the experiment.
+IEH. IEH is a short name for Iterative Expanding Hashing. It is another ANN search method using $k$NN graph. Different from GNNS, IEH uses hashing methods to generate the initial result given a query. Considering the efficiency of hash coding, IEH-LSH and IEH-ITQ are compared in our experiment. The former uses LSH as the hashing method and the latter uses ITQ as the hashing method. Both hashing methods use 32 bit code. We also fix the iteration number as 10 and tune the initial result size to get the time-recall curve.
 
 <!-- chunk {"id": "body-0047", "role": "body", "section": "Comparison Algorithms", "weight": 1.0} -->
 
-brute-force. We report the performance of brute-force search to show the advantages of using ANN search methods. To get different recall, we simply perform brute-force search on different percentage of the query number. For example, the brute-force search time on 90% queries of the origin query set stands for the brute-force search time of 90% average recall.
+Efanna. The algorithm proposed in this paper. We use 16 trees for both datasets and the iteration number in NN-expansion stage is fixed as 4. We tune the search-to depth parameter $S_{depth}$ and the candidate pool size $P$ to get the time-recall curve. tree (hash table) The index size here is the size in the memory, not the size on the disk.
 
 <!-- chunk {"id": "body-0048", "role": "body", "section": "Comparison Algorithms", "weight": 1.0} -->
 
-flann. FLANN is a well-known open source library for ANN search. The Randomized KD-tree algorithm in FLANN provides state-of-the-art performance. In our experiments, we use 16 trees for both datasets. And we tune the "max-check" parameter to get the time-recall curve.
-
-<!-- chunk {"id": "body-0049", "role": "body", "section": "Comparison Algorithms", "weight": 1.0} -->
-
-GNNS. GNNS is the first ANN search method using $k$NN graph. Given a query, GNNS generates the initial candidates (neighbors) by random selection. Then GNNS uses the NN-expansion idea (*i.e*., check the neighbors of the neighbors iteratively to locate closer neighbors) to refine the result. The main parameters of GNNS are the size of the initial result and the iteration number. We fix the iteration number as 10 and tune the initial candidate number to get the time-recall curve.
-
-<!-- chunk {"id": "body-0050", "role": "body", "section": "Comparison Algorithms", "weight": 1.0} -->
-
-kGraph. kGraph is an open library for ANN search based on $k$NN graph. The author of kGraph is the inventor of NN-descent. The ANN search algorithm in kGraph is essentially the same as GNNS. The original Kgraph library implements with OpenMP (for parallelism) and SSE instructions for speed-up. We simply turn off the parallelism and SSE for fair comparison.
-
-<!-- chunk {"id": "body-0051", "role": "body", "section": "Comparison Algorithms", "weight": 1.0} -->
-
-IEH. IEH is a short name for Iterative Expanding Hashing. It is another ANN search method using $k$NN graph. Different from GNNS, IEH uses hashing methods to generate the initial result given a query. Considering the efficiency of hash coding, IEH-LSH and IEH-ITQ are compared in our experiment. The former uses LSH as the hashing method and the latter uses ITQ as the hashing method. Both hashing methods use 32 bit code. We also fix the iteration number as 10 and tune the initial result size to get the time-recall curve.
-
-<!-- chunk {"id": "body-0052", "role": "body", "section": "Comparison Algorithms", "weight": 1.0} -->
-
-Efanna. The algorithm proposed in this paper. We use 16 trees for both datasets and the iteration number in NN-expansion stage is fixed as 4. We tune the search-to depth parameter $S_{depth}$ and the candidate pool size $P$ to get the time-recall curve.
-
-<!-- chunk {"id": "body-0053", "role": "body", "section": "Comparison Algorithms", "weight": 1.0} -->
-
-The index size here is the size in the memory, not the size on the disk.
-
-<!-- chunk {"id": "body-0054", "role": "body", "section": "Comparison Algorithms", "weight": 1.0} -->
-
-Among the five compared ANN methods, Flann's KD-tree is the hierarchical structure (tree) based method. The other four compared methods are all graph based methods. We do not compare with hashing based methods because shows the significant improvement of IEH over the corresponding hashing methods.
-
-<!-- chunk {"id": "body-0055", "role": "body", "section": "Comparison Algorithms", "weight": 1.0} -->
-
 All the graph based methods need a pre-built $k$NN graph and we use a ground truth 10-NN graph.
 
-<!-- chunk {"id": "body-0056", "role": "body", "section": "Results", "weight": 1.0} -->
+<!-- chunk {"id": "body-0049", "role": "body", "section": "Results", "weight": 1.0} -->
 
-The time-recall curves of all the algorithms on two data sets can be seen in Fig. 2 and Fig. 3. The index size of various algorithms are shown in Table II.
+The time-recall curves of all the algorithms on two data sets can be seen in Fig. 2 and Fig. 3. The index size of various algorithms are shown in Table II. A number of interesting conclusions can be drawn as follows: Our Efanna algorithm significantly outperforms all the other methods at all the cases on both of two data sets. Even at a relatively high recall (*e.g*., 95%), Efanna is about 100x faster than the brute-force search on the SIFT1M and about 10x faster than the brute-force search on the GIST1M.
 
-<!-- chunk {"id": "body-0057", "role": "body", "section": "Results", "weight": 1.0} -->
-
-Our Efanna algorithm significantly outperforms all the other methods at all the cases on both of two data sets. Even at a relatively high recall (*e.g*., 95%), Efanna is about 100x faster than the brute-force search on the SIFT1M and about 10x faster than the brute-force search on the GIST1M.
-
-<!-- chunk {"id": "body-0058", "role": "body", "section": "Results", "weight": 1.0} -->
+<!-- chunk {"id": "body-0050", "role": "body", "section": "Results", "weight": 1.0} -->
 
 The GIST1M is a harder dataset than the SIFT1M for ANN search. At a relatively high recall (*e.g*., 95%), all the ANN search methods are significantly faster than the brute-force search. However, on GIST1M some methods (flann, GNNS, kGrpah) are similar (or even slower) to the brute-force search. The reason may be the high dimensionality of the GIST1M.
 
-<!-- chunk {"id": "body-0059", "role": "body", "section": "Results", "weight": 1.0} -->
+<!-- chunk {"id": "body-0051", "role": "body", "section": "Results", "weight": 1.0} -->
 
 When the required number of nearest neighbors is large (*e.g*., 10, 50 and 100), all the graph based methods are significantly better than Flann's KD-tree. Since 10, 50 or 100 results are more common in practical search scenarios, the graph based methods have the advantage.
 
-<!-- chunk {"id": "body-0060", "role": "body", "section": "Results", "weight": 1.0} -->
+<!-- chunk {"id": "body-0052", "role": "body", "section": "Results", "weight": 1.0} -->
 
 GNNS and kGraph are essentially the same algorithm. The experimental results confirm this. The slight difference may due to the random initialization.
 
-<!-- chunk {"id": "body-0061", "role": "body", "section": "Results", "weight": 1.0} -->
+<!-- chunk {"id": "body-0053", "role": "body", "section": "Results", "weight": 1.0} -->
 
 We implement four graph based methods (GNNS, IEH-LSH, IEH-ITQ and Efanna) exactly with the same framework. The only difference is the initialization: GNNS uses the random selection, IEH uses the hashing and Efanna uses the truncated KD-tree. The performance gap between these methods indicates the effectiveness of different initialization methods. The truncated KD-tree is better than the hashing and these two are better than the random selection. And the ITQ is better than the LSH.
 
-<!-- chunk {"id": "body-0062", "role": "body", "section": "Results", "weight": 1.0} -->
+<!-- chunk {"id": "body-0054", "role": "body", "section": "Results", "weight": 1.0} -->
 
 The index size of GNNS and KGraph is smallest because they only need to store a $k$NN graph. Both IEH and Efanna sacrifice the index size (additional data structure for better initialization) for better search performance.
 
-<!-- chunk {"id": "body-0063", "role": "body", "section": "Results", "weight": 1.0} -->
+<!-- chunk {"id": "body-0055", "role": "body", "section": "Results", "weight": 1.0} -->
 
 Considering both search performance and index size, graph based methods is a better choice than Flann's KD-tree.
 
-<!-- chunk {"id": "body-0064", "role": "body", "section": "Experiment on Approximate kNN Graph Construction", "weight": 1.0} -->
+<!-- chunk {"id": "body-0056", "role": "body", "section": "Experiment on Approximate kNN Graph Construction", "weight": 1.0} -->
 
 We show in last section that graph based methods can achieve very good performance on ANN search. However, the results above are based on a ground truth 10-NN graph. Table III shows the time cost to build the ground truth 10-NN graph for two datasets. It takes about 17 hours of CPU time on SIFT1M and about a week on GIST1M. Obviously, brute-force is not an acceptable choice. assume that the ground truth $k$NN graph exists. However, building the $k$NN graph is a step of indexing part of all the graph based methods. To make the graph based ANN search methods practically useful, we need to discuss how to build the $k$NN graph efficiently.
 
-<!-- chunk {"id": "body-0065", "role": "body", "section": "Experiment on Approximate kNN Graph Construction", "weight": 1.0} -->
+<!-- chunk {"id": "body-0057", "role": "body", "section": "Experiment on Approximate kNN Graph Construction", "weight": 1.0} -->
 
 In this section, we will compare the performance of several approximate $k$NN graph construction methods.
 
-<!-- chunk {"id": "body-0066", "role": "body", "section": "Evaluation Protocol", "weight": 1.0} -->
+<!-- chunk {"id": "body-0058", "role": "body", "section": "Evaluation Protocol", "weight": 1.0} -->
 
-We use the accuracy-time curve to measure the performance of different approximate $k$NN graph construction algorithms. Given a data set with $N$ points, an approximate $k$NN graph construction method should return $N$ groups of $k$ points, and each group of points stands for nearest neighbors the algorithm finds within the data set for the respective point. Suppose for point $i$, the returned point set of is $R_{i}^{\prime}$ and the ground truth set is $R_{i}$. Then the accuracy of point $i$, $accuracy_{i}$, is defined as
+We use the accuracy-time curve to measure the performance of different approximate $k$NN graph construction algorithms. Given a data set with $N$ points, an approximate $k$NN graph construction method should return $N$ groups of $k$ points, and each group of points stands for nearest neighbors the algorithm finds within the data set for the respective point. Suppose for point $i$, the returned point set of is $R_{i}'$ and the ground truth set is $R_{i}$. Then the accuracy of point $i$, $accuracy_{i}$, is defined as Then the $Accuracy$ of the returned graph is defined as the average accuracy over all the $N$ points: We compare the performance of all the algorithms on building a $10$-NN graph (*i.e*., the sizes of $R_{i}$ and $R_{i}'$ are 10).
 
-<!-- chunk {"id": "body-0067", "role": "body", "section": "Evaluation Protocol", "weight": 1.0} -->
-
-We compare the performance of all the algorithms on building a $10$-NN graph (*i.e*., the sizes of $R_{i}$ and $R_{i}^{\prime}$ are 10).
-
-<!-- chunk {"id": "body-0068", "role": "body", "section": "Comparison Algorithms", "weight": 1.0} -->
+<!-- chunk {"id": "body-0059", "role": "body", "section": "Comparison Algorithms", "weight": 1.0} -->
 
 brute-force: We report the performance of brute-force graph construction to show the advantages of using approxiamate $k$NN graph construction methods. To get different graph accuracy, we simply perform brute-force graph construction on different percentage of the data points.
 
-<!-- chunk {"id": "body-0069", "role": "body", "section": "Comparison Algorithms", "weight": 1.0} -->
+<!-- chunk {"id": "body-0060", "role": "body", "section": "Comparison Algorithms", "weight": 1.0} -->
 
 SGraph: We refer to the algorithm proposed in as SGraph. SGraph build the graph with three steps. First they generates initial graph by randomly dividing the data set into small ones iteratively and the dividing is carried out many times. Then they do brute-force graph construction within each subsets and combine all the subgraph into a whole. Finally they refine the graph using a technique similar to NN-expansion.
 
-<!-- chunk {"id": "body-0070", "role": "body", "section": "Comparison Algorithms", "weight": 1.0} -->
+<!-- chunk {"id": "body-0061", "role": "body", "section": "Comparison Algorithms", "weight": 1.0} -->
 
 FastKNN: We refer to the algorithm proposed in as FastKNN. The last two steps of their graph building process is similar to SGraph. While FastKNN uses hashing method (specifically, AGH) to generate the initial graph.
 
-<!-- chunk {"id": "body-0071", "role": "body", "section": "Comparison Algorithms", "weight": 1.0} -->
+<!-- chunk {"id": "body-0062", "role": "body", "section": "Comparison Algorithms", "weight": 1.0} -->
 
 NN-expansion: The main idea of building approximate $k$NN graph with NN-expansion is to cast the graph construction problem as $N$ ANN search problems, where $N$ is the data size. However, NN-expansion is proposed for ANN search while not for AKNN graph construction. The reason we add it to the compared algorithms in this section is that some previous works claim to outperform NN-descent. While we find there may be misunderstanding that they may actually compared with NN-expansion rather than NN-descent.
 
-<!-- chunk {"id": "body-0072", "role": "body", "section": "Comparison Algorithms", "weight": 1.0} -->
+<!-- chunk {"id": "body-0063", "role": "body", "section": "Comparison Algorithms", "weight": 1.0} -->
 
-NN-descent: This algorithm first initializes the graph randomly. Then NN-descent refine it iteratively with techniques like local join and sampling. Local join is to do brute-force searching within a point $q$'s neighbors which is irrelevant to $q$. Sampling is to ensure number of points involved in the local join is small, but the algorithm is still efficient.
+NN-descent: This algorithm first initializes the graph randomly. Then NN-descent refine it iteratively with techniques like local join and sampling. Local join is to do brute-force searching within a point $q$'s neighbors which is irrelevant to $q$. Sampling is to ensure number of points involved in the local join is small, but the algorithm is still efficient. kGraph: kGraph is an open source library for approximate $k$NN graph construction and ANN search. The author of kGraph is the author of NN-descent. The approximate $k$NN graph algorithm implemented in kGraph library is exactly NN-descent. kGraph implements with OpenMP and SSE instruction for speed-up. For faire comparison, we disable the parallelism and SSE instruction.
 
-<!-- chunk {"id": "body-0073", "role": "body", "section": "Comparison Algorithms", "weight": 1.0} -->
-
-kGraph: kGraph is an open source library for approximate $k$NN graph construction and ANN search. The author of kGraph is the author of NN-descent. The approximate $k$NN graph algorithm implemented in kGraph library is exactly NN-descent. kGraph implements with OpenMP and SSE instruction for speed-up. For faire comparison, we disable the parallelism and SSE instruction.
-
-<!-- chunk {"id": "body-0074", "role": "body", "section": "Comparison Algorithms", "weight": 1.0} -->
+<!-- chunk {"id": "body-0064", "role": "body", "section": "Comparison Algorithms", "weight": 1.0} -->
 
 LargeVis: This algorithm is proposed for high dimension data visualization. The first step of LargeVis is to build an approximate $k$NN graph. LargeVis uses random projection tree and NN-expansion to build this graph.
 
-<!-- chunk {"id": "body-0075", "role": "body", "section": "Comparison Algorithms", "weight": 1.0} -->
+<!-- chunk {"id": "body-0065", "role": "body", "section": "Comparison Algorithms", "weight": 1.0} -->
 
 Efanna: The algorithm proposed in this paper. We use hierarchical divide-and-conquer to get an initial graph. And then use NN-descent to refine the graph. In this experiments, we use 8 randomized truncated KD-trees to initialize the graph.
 
-<!-- chunk {"id": "body-0076", "role": "body", "section": "Results", "weight": 1.0} -->
+<!-- chunk {"id": "body-0066", "role": "body", "section": "Results", "weight": 1.0} -->
 
 The time-accuracy curves of different algorithms on two data sets are shown in Fig. 4 and Fig. 5 receptively. A number of interesting conclusions can be made.
 
-<!-- chunk {"id": "body-0077", "role": "body", "section": "Results", "weight": 1.0} -->
+<!-- chunk {"id": "body-0067", "role": "body", "section": "Results", "weight": 1.0} -->
 
 EFANNA outperforms all the other algorithms on approximate $k$NN graph building. It can achieve more than 300 times speed-up over brute-force construction to reach 95% accuracy. Without parallelism, it takes a week to build a 10-NN graph on GIST1M using brute-force search. Now the time can be reduced to less than an hour by using EFANNA.
 
-<!-- chunk {"id": "body-0078", "role": "body", "section": "Results", "weight": 1.0} -->
+<!-- chunk {"id": "body-0068", "role": "body", "section": "Results", "weight": 1.0} -->
 
 We didn't get the source code of SGraph and FastKNN. So we implement their algorithms on our own. However, the performances shown in the two figures are quite different from what the original papers claim. One of the reasons may be the implementation. In the original FastKNN paper, the authors fail to add the hashing time into the total graph building time but actually should do. Fortunately, reported that SGraph achieved 100 times speed-up over brute-force on the SIFT1M at 95% accuracy. And SGraph got 50 times speed-up over brute-force on the gist1M (384 dimensions) at 90% accuracy. While EFANNA achieves over 300 times speed-up on both SIFT1M and GIST1M (960 dimensions).
 
-<!-- chunk {"id": "body-0079", "role": "body", "section": "Results", "weight": 1.0} -->
+<!-- chunk {"id": "body-0069", "role": "body", "section": "Results", "weight": 1.0} -->
 
-LargeVis achieve significant better result than NN-expansion. However, NN-descent is better than LargeVis, especially when we want an accurate graph. This results confirm our assumption that many previous works had the misunderstanding of NN-descent. The result reported in their paper is actually NN-expansion rather than NN-descent.
+LargeVis achieve significant better result than NN-expansion. However, NN-descent is better than LargeVis, especially when we want an accurate graph. This results confirm our assumption that many previous works had the misunderstanding of NN-descent. The result reported in their paper is actually NN-expansion rather than NN-descent. kGraph and NN-descent are actually the same algorithm. The only difference is that we implement NN-descent by ourselves and kGraph is an open library. The performance difference of these two methods should due to the implementation.
 
-<!-- chunk {"id": "body-0080", "role": "body", "section": "Results", "weight": 1.0} -->
-
-kGraph and NN-descent are actually the same algorithm. The only difference is that we implement NN-descent by ourselves and kGraph is an open library. The performance difference of these two methods should due to the implementation.
-
-<!-- chunk {"id": "body-0081", "role": "body", "section": "Results", "weight": 1.0} -->
+<!-- chunk {"id": "body-0070", "role": "body", "section": "Results", "weight": 1.0} -->
 
 The only difference between EFANNA and NN-descent (kGraph) is the initialization. EFANNA uses randomized truncated KD-tree to build the initial graph while NN-descent (kGraph) use random initialization.
 
-<!-- chunk {"id": "body-0082", "role": "body", "section": "Results", "weight": 1.0} -->
+<!-- chunk {"id": "body-0071", "role": "body", "section": "Results", "weight": 1.0} -->
 
 The performance advantage of EFANNA over NN-descent is larger on the SIFT1M than on the GIST1M. The reason maybe the GIST1M (960 dimensions) has higher dimensionality than the SIFT1M (128 dimensions). The KD-tree initialization becomes less effective when dimensions becomes high. The similar phenomena happens when we compare EFANNA and LargeVis. Since LargeVis uses random projection trees for initialization, this suggests random projection trees meybe better than KD-tree when the dimensions is high. Using random projection trees as the hierarchical structures of EFANNA can be the future work.
 
-<!-- chunk {"id": "body-0083", "role": "body", "section": "EFANNA with Approximate kNN Graphs", "weight": 1.0} -->
+<!-- chunk {"id": "body-0072", "role": "body", "section": "EFANNA with Approximate kNN Graphs", "weight": 1.0} -->
 
 The experimental results in the last section show that EFANNA can build an approximate $k$NN graph efficiently. However, there are no published results on the performance of graph based ANN search methods on an approximate $k$NN graph.
 
-<!-- chunk {"id": "body-0084", "role": "body", "section": "EFANNA with Approximate kNN Graphs", "weight": 1.0} -->
+<!-- chunk {"id": "body-0073", "role": "body", "section": "EFANNA with Approximate kNN Graphs", "weight": 1.0} -->
 
 In this section, we evaluate the performance of EFANNA on approximate $k$NN graphs with various accuracy. The results on two data sets are shown in Fig.6 and 7 respectively.
 
-<!-- chunk {"id": "body-0085", "role": "body", "section": "EFANNA with Approximate kNN Graphs", "weight": 1.0} -->
+<!-- chunk {"id": "body-0074", "role": "body", "section": "EFANNA with Approximate kNN Graphs", "weight": 1.0} -->
 
 From these two figures, we can see that the ANN search performance of EFANNA suffers from very little decrease in performance even when the graph is only "half right". Specifically, the ANN search preformance of EFANNA with a 60% accurate 10-NN graph is still significant better than Flann-kdtree on SIFT1M. On GIST1M, EFANNA with a 57% accurate 10-NN graph is significant better than Flann-kdtree.
 
-<!-- chunk {"id": "body-0086", "role": "body", "section": "EFANNA with Approximate kNN Graphs", "weight": 1.0} -->
+<!-- chunk {"id": "body-0075", "role": "body", "section": "EFANNA with Approximate kNN Graphs", "weight": 1.0} -->
 
 These results are significant because building a less accurate $k$NN graph using EFANNA is very efficient. Table IV shows the indexing time of EFANNA and Flann-kdtree. If a 60% accurate graph is used, the indexing time of EFANNA is similar to that of Flann-kdtree. Combing the results in Table II, we can see that comparing with Flann-kdtree, EFANNA takes similar indexing time, smaller index size and significant better ANN search performance.
 
-<!-- chunk {"id": "body-0087", "role": "body", "section": "EFANNA with Approximate kNN Graphs", "weight": 1.0} -->
+<!-- chunk {"id": "body-0076", "role": "body", "section": "EFANNA with Approximate kNN Graphs", "weight": 1.0} -->
 
-Why EFANNA can get such a good ANN search performance even with a "half right" graph? Table V may explain the reason. The accuracy defined in Eqn. 2 uses the size of $R$ and $R^{\prime}$. The former is the true nearest neighbors set while the latter is the returned nearest neighbors set of an algorithm. In the previous experiments, we fix the sizes of both $R$ and $R^{\prime}$ as 10. Table V reports the results by varying the size of $R$ form 10 to 100. We cam see that a 60% accurate 10-NN graph constructed by EFANNA in SIFT1M means 60% of all the neighbors are true 10-nearest neighbors. And the remaining 40% neighbors are not randomly select from the whole dataset. Actually, 98.9% of the neighbors are true 100-nearest neighbors. These results show that the approximate $k$NN graphs constructed by EFANNA are very good approximation of the ground truth $k$NN graph.
+Why EFANNA can get such a good ANN search performance even with a "half right" graph? Table V may explain the reason. The accuracy defined in Eqn. 2 uses the size of $R$ and $R'$. The former is the true nearest neighbors set while the latter is the returned nearest neighbors set of an algorithm. In the previous experiments, we fix the sizes of both $R$ and $R'$ as 10. Table V reports the results by varying the size of $R$ form 10 to 100. We cam see that a 60% accurate 10-NN graph constructed by EFANNA in SIFT1M means 60% of all the neighbors are true 10-nearest neighbors. And the remaining 40% neighbors are not randomly select from the whole dataset. Actually, 98.9% of the neighbors are true 100-nearest neighbors. These results show that the approximate $k$NN graphs constructed by EFANNA are very good approximation of the ground truth $k$NN graph.
 
-<!-- chunk {"id": "body-0088", "role": "body", "section": "EFANNA with Approximate kNN Graphs", "weight": 1.0} -->
-
-The index size here is the size in the memory, not the size on the disk.
-
-<!-- chunk {"id": "body-0089", "role": "body", "section": "EFANNA with Different Number of Trees", "weight": 1.0} -->
+<!-- chunk {"id": "body-0077", "role": "body", "section": "EFANNA with Different Number of Trees", "weight": 1.0} -->
 
 In the previous experiments, EFANNA uses 16 truncated kd-trees for search initialization. Table II shows that these trees consume a large number of memory space. In this experiment, we want to explore how the number of trees will influence the performance of EFANNA on ANN search. Throughout this experiment, we use the 10-NN ground truth graph.
 
-<!-- chunk {"id": "body-0090", "role": "body", "section": "EFANNA with Different Number of Trees", "weight": 1.0} -->
+<!-- chunk {"id": "body-0078", "role": "body", "section": "EFANNA with Different Number of Trees", "weight": 1.0} -->
 
 The ANN search results on SIFT1M and GIST1M are shown in Fig. 8 and FIg. 9 respectively. We simply compare with IEH-ITQ and FLANN, because IEH-ITQ is the second best algorithm on ANN search in our previous experiment while FLANN also has the tree number parameter.
 
-<!-- chunk {"id": "body-0091", "role": "body", "section": "EFANNA with Different Number of Trees", "weight": 1.0} -->
+<!-- chunk {"id": "body-0079", "role": "body", "section": "EFANNA with Different Number of Trees", "weight": 1.0} -->
 
 From Fig. 8 and 9, we can see that with less number of trees, the ANN search performances of both EFANNA and Flann decrease. However, with only 4 trees, EFANNA still significantly better than IEH-ITQ (especially on the GIST1M data set). While the index sizes can be significantly reduced as suggested by Table VI. With 4 trees, the index size of EFANNA is smaller than that of IEH-ITQ.
 
-<!-- chunk {"id": "body-0092", "role": "body", "section": "EFANNA with Different Number of Trees", "weight": 1.0} -->
+<!-- chunk {"id": "body-0080", "role": "body", "section": "EFANNA with Different Number of Trees", "weight": 1.0} -->
 
 The results in this section show the flexibility of EFANNA over other graph based ANN search methods. One can easily make trade-off between index size and search performance.
 
-<!-- chunk {"id": "body-0093", "role": "body", "section": "EFANNA with Different Number of $k$ in $k$NN Graph", "weight": 1.0} -->
+<!-- chunk {"id": "body-0081", "role": "body", "section": "EFANNA with Different Number of $k$ in $k$NN Graph", "weight": 1.0} -->
 
 The EFANNA index contains two parts: the truncated kd-trees and the $k$NN graph. If we regard the $k$NN graph as an $N \times k$ matrix, we can use the "width" of the graph to denote $k$. In the previous section, we have checked the performance of EFANNA with different number of trees. Now we will show how the "width" of $k$NN graph influences ANNS performance of EFANNA.
 
-<!-- chunk {"id": "body-0094", "role": "body", "section": "EFANNA with Different Number of $k$ in $k$NN Graph", "weight": 1.0} -->
+<!-- chunk {"id": "body-0082", "role": "body", "section": "EFANNA with Different Number of $k$ in $k$NN Graph", "weight": 1.0} -->
 
 Fig.10 and 11 show the ANNS performance of EFANNA with graph 10NN, 20NN, 40NN on SIFT1M and GIST1M. The index size are showed in TABLE VII respectively. From TABLE VII we can see that, from 10NN to 40NN, the size of EFANNA index grows gradually. Besides, in Fig.10, 11, the performance of increase with the growing of graph 'width'.
 
-<!-- chunk {"id": "body-0095", "role": "body", "section": "EFANNA with Different Number of $k$ in $k$NN Graph", "weight": 1.0} -->
+<!-- chunk {"id": "body-0083", "role": "body", "section": "EFANNA with Different Number of $k$ in $k$NN Graph", "weight": 1.0} -->
 
 Compared with Fig. 8, 9, we can get a conclusion that widening the graph provides more boost on ANNS performance of EFANNA than add more trees. And from the comparison between TABLE VI and VII, we find that with equal extra memory cost, widening graph is a better choice then using more trees.
 
-<!-- chunk {"id": "body-0096", "role": "body", "section": "EFANNA with Different Number of $k$ in $k$NN Graph", "weight": 1.0} -->
+<!-- chunk {"id": "body-0084", "role": "body", "section": "EFANNA with Different Number of $k$ in $k$NN Graph", "weight": 1.0} -->
 
 However, we should also notice that the performance boost does not increase linearly with the 'width' of the graph. In other words, there may exists an upper bound of performance boost by increasing EFANNA index size, either from the aspect of tree or graph.
 
-<!-- chunk {"id": "body-0097", "role": "body", "section": "ANN Search Comparison with Same Index Size", "weight": 1.0} -->
+<!-- chunk {"id": "body-0085", "role": "body", "section": "ANN Search Comparison with Same Index Size", "weight": 1.0} -->
 
 The results in previous section suggest the comparisons in section 4.2 is not quite fair due to different index size of different algorithms. In this section, we try to compare different algorithms with (almost) equal index size.
 
-<!-- chunk {"id": "body-0098", "role": "body", "section": "ANN Search Comparison with Same Index Size", "weight": 1.0} -->
+<!-- chunk {"id": "body-0086", "role": "body", "section": "ANN Search Comparison with Same Index Size", "weight": 1.0} -->
 
 We reported the performance of EFANNA, IEH-ITQ, GNNS and flann's KD-tree. We do not compare with IEH-LSH simply because IEH-ITQ is better than IEH-LSH. We do not compare with kGraph because GNNS is almost identical with kGraph.
 
-<!-- chunk {"id": "body-0099", "role": "body", "section": "ANN Search Comparison with Same Index Size", "weight": 1.0} -->
+<!-- chunk {"id": "body-0087", "role": "body", "section": "ANN Search Comparison with Same Index Size", "weight": 1.0} -->
 
 We restrict the index size of each algorithm to about 265 MB. Finally, we use 4 trees for flann's KD-tree; 4 trees and 40NN graph for EFANNA; 1 table and 40NN graph for IEH-ITQ; 60NN graph for GNNS. See TABLE VIII for details on how we organize the index to get almost equal size. Fig. 12, 13 show the performance of these algorithms on SIFT1M and GIST1M.
 
-<!-- chunk {"id": "body-0100", "role": "body", "section": "ANN Search Comparison with Same Index Size", "weight": 1.0} -->
+<!-- chunk {"id": "body-0088", "role": "body", "section": "ANN Search Comparison with Same Index Size", "weight": 1.0} -->
 
 On both two datasets, graph based methods achieve over 20x speed up over flann's KD-tree with the same index size. Particularly, EFANNA is about 30x faster than flann's KD-tree. This suggests the advantage of graph based methods over traditional tree structure based methods.
 
-<!-- chunk {"id": "body-0101", "role": "body", "section": "ANN Search Comparison with Same Index Size", "weight": 1.0} -->
+<!-- chunk {"id": "body-0089", "role": "body", "section": "ANN Search Comparison with Same Index Size", "weight": 1.0} -->
 
 Compared with the results in Fig. 2 and 3, we can find that the performance gain achieved by EFANNA over IEH-ITQ and GNNS (kGraph) becomes smaller as the "width" of graph grows. This indicates the impact of good initialization for NN-expansion becomes small as the "width" of graph grows.
 
-<!-- chunk {"id": "body-0102", "role": "body", "section": "ANN Search Comparison with Same Index Size", "weight": 1.0} -->
+<!-- chunk {"id": "body-0090", "role": "body", "section": "ANN Search Comparison with Same Index Size", "weight": 1.0} -->
 
 With the same index size, EFANNA and IEH-ITQ still have small advantage than GNNS on SIFT1M when the recall is low. At a high recall level (*e.g*., 95%), the performances of three algorithms are almost the same. Particularly, when we search for 100NN, the performance of GNNS (random initialization) is better than EFANNA and IEH-ITQ at 95% recall level. This is actually expected because good initializations require additional time. If the information provided by the $k$NN graph is enough, random initialization is the best choice.
 
-<!-- chunk {"id": "body-0103", "role": "body", "section": "ANN Search Comparison with Same Index Size", "weight": 1.0} -->
+<!-- chunk {"id": "body-0091", "role": "body", "section": "ANN Search Comparison with Same Index Size", "weight": 1.0} -->
 
 On GIST1M, EFANNA still have the advantage over IEH-ITQ and GNNS (kGraph), which again suggest that GIST1M is a "harder" dataset for ANNS problem. We surprisingly find that GNNS is better than IEH-ITQ which suggests truncated KD-tree (used in EFANNA) is a better choice than hashing (ITQ) used for initialization. It's interesting to investigate better initialization algorithms.
 
-<!-- chunk {"id": "body-0104", "role": "body", "section": "The EFANNA Library", "weight": 1.0} -->
+<!-- chunk {"id": "body-0092", "role": "body", "section": "The EFANNA Library", "weight": 1.0} -->
 
 The work in this paper is released as an open source library. Please access the code at Github^22^2
 
-<!-- chunk {"id": "body-0105", "role": "body", "section": "Conclusion", "weight": 1.5} -->
+<!-- chunk {"id": "body-0093", "role": "body", "section": "Conclusion", "weight": 1.5} -->
 
 The goal of this research is to provide a fast solution, EFANNA, for both ANN search and approximate $k$NN graph construction problems. On ANN search, we use hierarchical structures to provide better initialization for NN-expansion. And on graph construction, we use a divide-and-conquer way to construct an initial graph and refine it with NN-descent. Extensive experiments shows that EFANNA outperforms previous algorithms significantly both in approximate $k$NN graph construction and ANN search. Meanwhile, EFANNA also shows great flexibility for different scenarios.

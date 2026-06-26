@@ -28,7 +28,7 @@ Note that the final trajectory found by the RRT-algorithm is in general not opti
 
 <!-- chunk {"id": "body-0007", "role": "body", "section": "Introduction", "weight": 1.5} -->
 
-Local planning: In literature on learning-RRT, only the distance function is approximated by machine learning. Recall that the RRT also requires a steering function. Supervised learning of that function is hard due to the large number of parameters typically required to describe optimal input signals. Therefore, previous Learning-RRTs resort to a computationally expensive numerical optimization for their steering function.
+This paper proposes a method that helps to overcome the two remaining challenges of Learning-RRT: Local planning: In literature on learning-RRT, only the distance function is approximated by machine learning. Recall that the RRT also requires a steering function. Supervised learning of that function is hard due to the large number of parameters typically required to describe optimal input signals. Therefore, previous Learning-RRTs resort to a computationally expensive numerical optimization for their steering function.
 
 <!-- chunk {"id": "body-0008", "role": "body", "section": "Introduction", "weight": 1.5} -->
 
@@ -52,21 +52,15 @@ Learning-based RRTs leverage the benefits of (supervised) learning to speed up t
 
 <!-- chunk {"id": "body-0013", "role": "body", "section": "Learning-based RRT", "weight": 1.0} -->
 
-D̂ ← generate_data (N)// Section 3
-D ← clean_data (D̂) // Section 4
-V̂ ← fit_valid (D) // Section 5
-while NOT(solutionfound) do
-xnearest ← arg min x ∈ XĴ (x,xtarget)
-(c,x,u) ← simulate (xnearest,Û (xnearest,xtarget))
-Algorithm 1 Learning RRT ((V, E), N)
+D̂ ← generate_data (N)// Section 3 D ← clean_data (D̂) // Section 4 V̂ ← fit_valid (D) // Section 5 while NOT(solutionfound) do xnearest ← arg min x ∈ XĴ (x, xtarget) (c, x, u) ← simulate (xnearest, Û (xnearest, xtarget)) Algorithm 1 Learning RRT ((V, E), N) The first step in the algorithm is to create a dataset of optimal trajectories.
 
 <!-- chunk {"id": "body-0014", "role": "body", "section": "Learning-based RRT", "weight": 1.0} -->
 
-The first step in the algorithm is to create a dataset of optimal trajectories. Specifically, we generate a dataset $D = {\{ b^{i}\}}_{i = 1}^{N}$, where each entry $b^{i} = {\{ x_{0}^{i},x_{1}^{i},j^{i},u^{i}\}}$ consists of an initial state $x_{0} \in \mathcal{X}$, a final state $x_{1} \in \mathcal{X}$, a distance metric/cost-to-go $j \in {\mathbb{R}}^{+}$, and a set of parameters $u \in \mathcal{U}$, that describe the optimal input leading the system from state $x_{0}$ to state $x_{1}$. Note that $\mathcal{U}$ can take many forms, depending on the discretization used.
+Specifically, we generate a dataset $D = {\{ b^{i}\}}_{i = 1}^{N}$, where each entry $b^{i} = {\{ x_{0}^{i},x_{1}^{i},j^{i},u^{i}\}}$ consists of an initial state $x_{0} \in \mathcal{X}$, a final state $x_{1} \in \mathcal{X}$, a distance metric/cost-to-go $j \in {\mathbb{R}}^{+}$, and a set of parameters $u \in \mathcal{U}$, that describe the optimal input leading the system from state $x_{0}$ to state $x_{1}$. Note that $\mathcal{U}$ can take many forms, depending on the discretization used. For example, in previous work the input has been cast as a polynomial over time, with $\mathcal{U}$ being the coefficients of that polynomial.
 
 <!-- chunk {"id": "body-0015", "role": "body", "section": "Learning-based RRT", "weight": 1.0} -->
 
-For example, in previous work the input has been cast as a polynomial over time, with $\mathcal{U}$ being the coefficients of that polynomial. Alternatively, when the input is cast as a piecewise-linear function, $\mathcal{U}$ consists of the values of the function at the switch-times.
+Alternatively, when the input is cast as a piecewise-linear function, $\mathcal{U}$ consists of the values of the function at the switch-times.
 
 <!-- chunk {"id": "body-0016", "role": "body", "section": "Learning-based RRT", "weight": 1.0} -->
 
@@ -102,7 +96,7 @@ This section will discuss the standard indirect optimal control procedure, which
 
 <!-- chunk {"id": "body-0024", "role": "body", "section": "Indirect optimal control", "weight": 1.0} -->
 
-where $x_{\text{initial}}$ and $x_{\text{final}}$ are fixed initial and goal states, and the final time $t_{f}$ is optimized along with the trajectory and input function. In the remainder we will often drop the explicit dependency on the time $t$.
+The optimal control approach aims to find the functions $x{(t)}$ and $u{(t)}$ from time $t \in {\mathbb{R}}$ to state $x \in {\mathbb{R}}^{n}$ and input $u \in {\mathbb{R}}^{m}$, that minimizes a cost function of the following form: Subject to the constraints: where $x_{\text{initial}}$ and $x_{\text{final}}$ are fixed initial and goal states, and the final time $t_{f}$ is optimized along with the trajectory and input function. In the remainder we will often drop the explicit dependency on the time $t$.
 
 <!-- chunk {"id": "body-0025", "role": "body", "section": "Indirect optimal control", "weight": 1.0} -->
 
@@ -110,11 +104,11 @@ For the single pendulum we have $x = {(\theta,\omega)}$, where $\theta$ and $\om
 
 <!-- chunk {"id": "body-0026", "role": "body", "section": "Indirect optimal control", "weight": 1.0} -->
 
-The first step in the indirect optimal control approach is to define the Hamiltonian $\mathcal{H}$, which is the sum of the integrand $C$ and the inner product of a vector of Lagrange multipliers with the state equations. The Lagrange multipliers are called the costates, and in the case of the pendulum consist of $(\lambda_{\theta},\lambda_{\omega})$.
+The first step in the indirect optimal control approach is to define the Hamiltonian $\mathcal{H}$, which is the sum of the integrand $C$ and the inner product of a vector of Lagrange multipliers with the state equations. The Lagrange multipliers are called the costates, and in the case of the pendulum consist of $(\lambda_{\theta},\lambda_{\omega})$. We then get the Hamiltonian: The second step is finding an optimal input $u^{\ast}$, by minimizing the Hamiltonian with respect to the input: The third step is creating the optimal Hamiltonian, by replacing the input with the optimal input: The fourth step computes a system of ordinary differential equations (ODEs) that specify the evolution of the optimal state and costate over time: In typical use of the indirect optimal control approach, the last step is to use the Equations 6-7 to find the optimal trajectory. For a given costate, the above system of equations are (numerically) integrated, which results in a locally optimal state trajectory.
 
 <!-- chunk {"id": "body-0027", "role": "body", "section": "Indirect optimal control", "weight": 1.0} -->
 
-In typical use of the indirect optimal control approach, the last step is to use the Equations 6-7 to find the optimal trajectory. For a given costate, the above system of equations are (numerically) integrated, which results in a locally optimal state trajectory. Note that this trajectory depends on the choice of initial costate, and the time duration of the integration. By tuning the initial costate and final time, we find a locally optimal state trajectory that reaches the desired state. This tuning normally requires a numerical optimization method, which minimizes the difference between final state and desired state. In the next section, we will show that such an optimization is not required for us.
+Note that this trajectory depends on the choice of initial costate, and the time duration of the integration. By tuning the initial costate and final time, we find a locally optimal state trajectory that reaches the desired state. This tuning normally requires a numerical optimization method, which minimizes the difference between final state and desired state. In the next section, we will show that such an optimization is not required for us.
 
 <!-- chunk {"id": "body-0028", "role": "body", "section": "Indirect optimal control", "weight": 1.0} -->
 
@@ -142,13 +136,7 @@ In this section, we have outlined the indirect optimal control approach to solvi
 
 <!-- chunk {"id": "body-0034", "role": "body", "section": "Benefits of using indirect optimal control", "weight": 1.0} -->
 
-Optimal_ODEs ← Eqs. 1-7
-xinitial ← random_State
-λinitial ← random_Costate s.t. Eq. 8
-Tfinal ← random_Time
-xfinal, J ← integrate(Optimal_ODEs,xinitial,λinitial,Tfinal)
-append(D̂,{xinitial,xfinal,J,λinitial})
-Algorithm 2 generate_data(N)
+Optimal_ODEs ← Eqs. 1-7 xinitial ← random_State λinitial ← random_Costate s.t. Eq. 8 Tfinal ← random_Time xfinal, J ← integrate(Optimal_ODEs,xinitial,λinitial,Tfinal) append(D̂,{xinitial,xfinal,J,λinitial}) Algorithm 2 generate_data(N)
 
 <!-- chunk {"id": "body-0035", "role": "body", "section": "Dataset cleaning", "weight": 1.0} -->
 
@@ -156,13 +144,11 @@ The dataset generated by Algorithm 2 originates from a search for local optima, 
 
 <!-- chunk {"id": "body-0036", "role": "body", "section": "Dataset cleaning", "weight": 1.0} -->
 
-This is problematic for predicting the cost function and especially harmful for predicting the control parameters. Averaging over two locally optimal control inputs by no means guarantees that we end up anywhere close to the target. We therefore need a dataset cleaning algorithm, i.e., a procedure that somehow eliminates the non-optimal datapoints. In literature, there are resampling methods for dataset imbalance, most noteworthy class label imbalance in classification tasks. However, our dataset is not imbalanced, but rather contains a systematic bias. It turns out we can leverage the fact that the noise is systematic to come up with a simple resampling/cleaning algorithm.
+This is problematic for predicting the cost function and especially harmful for predicting the control parameters. Averaging over two locally optimal control inputs by no means guarantees that we end up anywhere close to the target. We therefore need a dataset cleaning algorithm, i.e., a procedure that somehow eliminates the non-optimal datapoints. In literature, there are resampling methods for dataset imbalance, most noteworthy class label imbalance in classification tasks. However, our dataset is not imbalanced, but rather contains a systematic bias. It turns out we can leverage the fact that the noise is systematic to come up with a simple resampling/cleaning algorithm. pneigh← nearestNeighbour(psample, D) phigh ← arg min p ∈ {psample, pneigh}Cost (p) Algorithm 3 clean_data(D̂, d, kmax) Figure 2: The data-bias problem and the effect of the d parameter in the data cleaning algorithm. The top figure shows an imaginary dataset, which has a problem with bias in the middle of its domain. The fitted function is a poor approximation of the least cost part of the datapoints.
 
 <!-- chunk {"id": "body-0037", "role": "body", "section": "Dataset cleaning", "weight": 1.0} -->
 
-pneigh← nearestNeighbour(psample, D)
-phigh ← arg min p ∈ {psample, pneigh}Cost (p)
-Algorithm 3 clean_data(D̂, d, kmax)
+The second figure shows a cleaned dataset where the value for d was chosen too large: the bias is gone, but there is not enough resolution left to accurately fit the function. In the third function d is chosen to small: not all bias is removed. Finally, the bottom figure shows a cleaned dataset with a proper choice for d: the bias is removed, and enough resolution remains.
 
 <!-- chunk {"id": "body-0038", "role": "body", "section": "Dataset cleaning", "weight": 1.0} -->
 
@@ -182,124 +168,100 @@ First, we assume there exists a solution to our planning problem, and that it is
 
 <!-- chunk {"id": "body-0042", "role": "body", "section": "Machine learning considerations", "weight": 1.0} -->
 
-If $x_{i}$ is the most advanced waypoint currently in the tree, the chance of getting to the next node can be factored as
+If $x_{i}$ is the most advanced waypoint currently in the tree, the chance of getting to the next node can be factored as Now if we can guarantee both factors are positive, i.e., ${P{({\text{expand~}x_{i}})}} > 0$ and ${P{(\left. u_{i} \middle| {\text{expand~}x_{i}} \right.)}} > 0$, we get: ${P{({\text{reach~}x_{i + 1}})}} > 0$. This means the chance of getting to the next node of the solution is finite, so at some point the algorithm will get to the next node, and the next one, and so. Therefore the algorithm will converge.
 
-<!-- chunk {"id": "body-0043", "role": "body", "section": "Machine learning considerations", "weight": 1.0} -->
-
-Now if we can guarantee both factors are positive, i.e., ${P{({\text{expand~}x_{i}})}} > 0$ and ${P{(\left. u_{i} \middle| {\text{expand~}x_{i}} \right.)}} > 0$, we get: ${P{({\text{reach~}x_{i + 1}})}} > 0$. This means the chance of getting to the next node of the solution is finite, so at some point the algorithm will get to the next node, and the next one, and so. Therefore the algorithm will converge.
-
-<!-- chunk {"id": "body-0044", "role": "body", "section": "Bounding the chance of picking the right action", "weight": 1.0} -->
+<!-- chunk {"id": "body-0043", "role": "body", "section": "Bounding the chance of picking the right action", "weight": 1.0} -->
 
 To ensure the chance of picking the right action is bounded from below, the number of possible inputs should be finite. Therefore we discretize the continuous input representation (the initial costate and the time duration of the trajectory). In the experiments, this is done by rounding them to 2-decimals.
 
-<!-- chunk {"id": "body-0045", "role": "body", "section": "Bounding the chance of picking the right action", "weight": 1.0} -->
+<!-- chunk {"id": "body-0044", "role": "body", "section": "Bounding the chance of picking the right action", "weight": 1.0} -->
 
 Furthermore, a deterministic function approximator might not select the right steering input. Therefore we should use a probabilistic steering input, which could assign a higher probability to steering inputs closer to those suggested by the function approximator, but which gives at least some probability to each input.
 
-<!-- chunk {"id": "body-0046", "role": "body", "section": "Bounding the chance of picking the right action", "weight": 1.0} -->
+<!-- chunk {"id": "body-0045", "role": "body", "section": "Bounding the chance of picking the right action", "weight": 1.0} -->
 
 In our experiments, the control parameters were sampled from truncated normals, with the bounds for each parameter specified by its sampled domain. The means are the value predicted by the learned model. The standard deviation $\sigma$ of the (non-truncated)-normal is a parameter of the algorithm.
 
-<!-- chunk {"id": "body-0047", "role": "body", "section": "Bounding the chance of picking the right action", "weight": 1.0} -->
+<!-- chunk {"id": "body-0046", "role": "body", "section": "Bounding the chance of picking the right action", "weight": 1.0} -->
 
 When looking at practical performance, inaccurate prediction makes selecting the right action particularly difficult whenever the problem requires the RRT to very precisely reach a small region in state-space, for example when near the goal region. In experiments we found that we could reduce the time to get from 'close to' the goal region to inside the goal region by increasing the standard deviation when the predicion involves the goal state.
 
+<!-- chunk {"id": "body-0047", "role": "body", "section": "Bounding the chance of picking the right node", "weight": 1.0} -->
+
+The chance of picking the right node is the volume of the statespace for which that node is the nearest node (as measured by the distance function used) divided by the total volume of the free state-space: Since the volume of $\mathcal{X}_{free}$ is fixed and finite, we only need to make sure the numerator is non-zero. This should be done while taking into account that the cost-to-go function is piecewise continuous, with a discontinuity at $0$.
+
 <!-- chunk {"id": "body-0048", "role": "body", "section": "Bounding the chance of picking the right node", "weight": 1.0} -->
 
-Since the volume of $\mathcal{X}_{free}$ is fixed and finite, we only need to make sure the numerator is non-zero. This should be done while taking into account that the cost-to-go function is piecewise continuous, with a discontinuity at $0$.
+The first step is to impose that the distance function must always be larger than some positive constant times the Euclidean distance: There should also be something affecting an upper bound to the distance function. To construct this upper bound, we use the set $\mathcal{G}{(x)}$, the largest connected set containing $x$ with points for which the distance to $x$ is bounded by $c_{\text{ub}}$ times the Euclidean distance: The upper bound condition then is as follows: Note that these conditions are not met in two frequently studied cases: 1. when the cost function is the integral of the squared input, 2. when the system is not small time locally accessible, as happens for instance in underactuated systems.
 
 <!-- chunk {"id": "body-0049", "role": "body", "section": "Bounding the chance of picking the right node", "weight": 1.0} -->
 
-There should also be something affecting an upper bound to the distance function.
+Take the largest ball $\mathcal{B}_{\rho}{(x_{i})}$ centered around point $x_{i}$, such that ${c_{\text{ub}}{\|{x_{i} - y}\|}} \leq {c_{\text{lb}}{\|{x - y}\|}}$ for all $y$ in the ball, and all nodes $x$ in the tree. Based on simple Euclidean geometry, $\rho > 0$. Furthermore, by construction, the intersection ${\mathcal{B}_{\rho}{(x_{i})}} \cap {\mathcal{G}{(x_{i})}}$ has positive volume, and all points in that intersection are closer (by measure $d$) to node $x_{i}$ than to any other node in the tree. Together this shows that ${P{({\text{expand~}x_{i}})}} > 0$.
 
 <!-- chunk {"id": "body-0050", "role": "body", "section": "Bounding the chance of picking the right node", "weight": 1.0} -->
 
-Note that these conditions are not met in two frequently studied cases: 1. when the cost function is the integral of the squared input, 2. when the system is not small time locally accessible, as happens for instance in underactuated systems.
+If we had access to the true distance function, or an approximation of it that meets the conditions specified above, this would conclude the proof of convergence. However, learning algorithms are intended to generalize using interpolation, so may make large errors when extrapolating. This is especially true for Learning RRTs, for which this problem has not been identified in literature yet. For most machine learning, test data usually originate from the same data distribution (e.g. a picture, video, audio fragment or person characteristics) as the training data. However, in RRTs we *uniformly* sample state-space, while we have confined our dataset to only contain short motion segments. Therefore, if we sample a new combination $(x_{0},x_{1})$, we have a reasonable chance of sampling outside of our dataset, where function approximation may make large errors, which might cause conditions 10 and 12 to be violated. Particularly, the approximated distance metric might greatly underestimate the cost-to-go from a certain node, causing that node to be incorrectly chosen for expansion.
 
 <!-- chunk {"id": "body-0051", "role": "body", "section": "Bounding the chance of picking the right node", "weight": 1.0} -->
 
-Take the largest ball $\mathcal{B}_{\rho}{(x_{i})}$ centered around point $x_{i}$, such that ${c_{\text{ub}}{\|{x_{i} - y}\|}} \leq {c_{\text{lb}}{\|{x - y}\|}}$ for all $y$ in the ball, and all nodes $x$ in the tree. Based on simple Euclidean geometry, $\rho > 0$. Furthermore, by construction, the intersection ${\mathcal{B}_{\rho}{(x_{i})}} \cap {\mathcal{G}{(x_{i})}}$ has positive volume, and all points in that intersection are closer (by measure $d$) to node $x_{i}$ than to any other node in the tree. Together this shows that ${P{({\text{expand~}x_{i}})}} > 0$.
+In our implementation, we enforce the conditions by using a binary classifier that decides whether a query would yield a valid prediction of the cost and input parameters. We learn a function $\hat{V}:{{(\mathcal{X},\mathcal{X})}\rightarrow\text{v}}$, with $v \in {\lbrack\text{true},\text{false}\rbrack}$ which identifies when a combination of initial state and final state is valid (true), i.e. when the dataset $D$ covers that point in input-space. We implement a basic, but functional, $\hat{V}$-function that computes the summed distance to the nearest neighbours of the queried point to the points in the dataset, and rejects the query point if this sum becomes too large. An alternative approach relies on the notion that the dataset contains only short segments, meaning the final states should be reachable within a short period of time. The use of reachable sets to classify the validity of a distance metric in state-space RRT was already explored.
 
 <!-- chunk {"id": "body-0052", "role": "body", "section": "Bounding the chance of picking the right node", "weight": 1.0} -->
 
-If we had access to the true distance function, or an approximation of it that meets the conditions specified above, this would conclude the proof of convergence. However, learning algorithms are intended to generalize using interpolation, so may make large errors when extrapolating. This is especially true for Learning RRTs, for which this problem has not been identified in literature yet. For most machine learning, test data usually originate from the same data distribution (e.g. a picture, video, audio fragment or person characteristics) as the training data. However, in RRTs we *uniformly* sample state-space, while we have confined our dataset to only contain short motion segments. Therefore, if we sample a new combination $(x_{0},x_{1})$, we have a reasonable chance of sampling outside of our dataset, where function approximation may make large errors, which might cause conditions 10 and 12 to be violated. Particularly, the approximated distance metric might greatly underestimate the cost-to-go from a certain node, causing that node to be incorrectly chosen for expansion.
-
-<!-- chunk {"id": "body-0053", "role": "body", "section": "Bounding the chance of picking the right node", "weight": 1.0} -->
-
-In our implementation, we enforce the conditions by using a binary classifier that decides whether a query would yield a valid prediction of the cost and input parameters. We learn a function $\hat{V}:{{(\mathcal{X},\mathcal{X})}\rightarrow\text{v}}$, with $v \in {\lbrack\text{true},\text{false}\rbrack}$ which identifies when a combination of initial state and final state is valid (true), i.e. when the dataset $D$ covers that point in input-space. We implement a basic, but functional, $\hat{V}$-function that computes the summed distance to the nearest neighbours of the queried point to the points in the dataset, and rejects the query point if this sum becomes too large. An alternative approach relies on the notion that the dataset contains only short segments, meaning the final states should be reachable within a short period of time. The use of reachable sets to classify the validity of a distance metric in state-space RRT was already explored.
-
-<!-- chunk {"id": "body-0054", "role": "body", "section": "Bounding the chance of picking the right node", "weight": 1.0} -->
-
 Also, to avoid violations of conditions 10 and 12 by small approximation errors in the learned function, the predicted cost-to go is saturated at lower and upper bounds of $10^{\mp 5}$. These bounds were chosen such that they enforce the conditions on the cost function, while their effect on the computation is negligable.
 
-<!-- chunk {"id": "body-0055", "role": "body", "section": "Experiments", "weight": 1.0} -->
+<!-- chunk {"id": "body-0053", "role": "body", "section": "Experiments", "weight": 1.0} -->
 
 To test our approach, we perform experiments on a relatively simple problem: pendulum swingup. This is a task on a single degree of freedom system in which a pendulum has to move from its stable equilibrium ${(\theta,\omega)} = {({- \pi},0)}$ to its unstable equilibrium $$. The equations of motion for the pendulum are given in Section 3.
 
-<!-- chunk {"id": "body-0056", "role": "body", "section": "Experiments", "weight": 1.0} -->
+<!-- chunk {"id": "body-0054", "role": "body", "section": "Experiments", "weight": 1.0} -->
 
 Data were generated and cleaned 10 times, to create 10 epochs, with 300 runs of the RRT algorithm per epoch. The data for each epoch consist of 40000 simulations, which ended when the costs or norm of the state difference with the initial state exceeds $2$ or $1.5$. Integration was done by the 4th order Runge-Kutta algorithm with a time step of $0.01\ s$. The initial position was uniformly sampled from $({- {{3\pi}/2}},{\pi/2})$$rad$, the initial velocity from $({- \pi},\pi)$${rad}\ s^{- 1}$, and the initial costate sampled as described below. The data cleaning resolution $d$ equals 0.05. The data cleaning stopping parameter $k_{\text{max}}$ is set to 5000. The nearest neighbour fitting algorithm during the RRT takes $m = 3$ nearest neighbours. Finally, the standard deviation of the sampling distribution $\sigma = {\pi/4}$ normally, and $\pi/2$ when the query involves the goal state.
 
-<!-- chunk {"id": "body-0057", "role": "body", "section": "Experiments", "weight": 1.0} -->
+<!-- chunk {"id": "body-0055", "role": "body", "section": "Experiments", "weight": 1.0} -->
 
-To avoid projecting on the costate constraint (Eq. 8), which is computationally expensive for larger systems, we solve the constraint explicitly, i.e.,
+To avoid projecting on the costate constraint (Eq. 8), which is computationally expensive for larger systems, we solve the constraint explicitly, i.e., uniformly sample the parameter $\phi \in {({- {\pi/2}},{{3\pi}/2})}$ which sets the initial costate as follows: If $\lambda_{\omega}$ has an imaginary part, the simulation is disregarded. The choice for the free parameter influences the sampling-density of the initial costates. Because the $\tan$-function has a low value on most of its domain, the initial costates tend to be small as well. This causes low initial torques, which is desired for the pendulum swing up. The above parametrization can be generalized for input affine systems with a cost function that is quadratic in the input, a class that includes many mechanical systems.
 
-<!-- chunk {"id": "body-0058", "role": "body", "section": "Experiments", "weight": 1.0} -->
-
-If $\lambda_{\omega}$ has an imaginary part, the simulation is disregarded. The choice for the free parameter influences the sampling-density of the initial costates. Because the $\tan$-function has a low value on most of its domain, the initial costates tend to be small as well. This causes low initial torques, which is desired for the pendulum swing up. The above parametrization can be generalized for input affine systems with a cost function that is quadratic in the input, a class that includes many mechanical systems.
-
-<!-- chunk {"id": "body-0059", "role": "body", "section": "Results", "weight": 1.0} -->
+<!-- chunk {"id": "body-0056", "role": "body", "section": "Results", "weight": 1.0} -->
 
 The experiments were performed on a MacBook with Intel(R) Core(TM) i5-3210M CPU 2.50GHz processor and 8GB of RAM, running Ubuntu Linux 14.04. All the relevant code is written in Python. Figure 4 shows the variation in computation times for each epoch separately. The computation time does not change much between epochs, indicating that the data generation and cleaning are robust against random perturbations. Furthermore, it suggests that using multiple datapoints from a single simulation does not deteriorate the quality (i.i.d.-ness) of the dataset. The median time to reach the target over all samples was 2.36 seconds, more than 10 times faster than on the same hardware.
 
-<!-- chunk {"id": "body-0060", "role": "body", "section": "Results", "weight": 1.0} -->
+<!-- chunk {"id": "body-0057", "role": "body", "section": "Results", "weight": 1.0} -->
 
 The simulations and data cleaning in this algorithm took a total of approximately $25\ \min$ per epoch. This also is an order of magnitude faster than the algorithm from ^11^1The cited paper does not report the offline computation time. However, the authors of that paper overlap with the authors of this paper, so we know that the offline computation took nearly a week..
 
-<!-- chunk {"id": "body-0061", "role": "body", "section": "Results", "weight": 1.0} -->
+<!-- chunk {"id": "body-0058", "role": "body", "section": "Results", "weight": 1.0} -->
 
 The performance of the optimal control function approximation is assessed using the mean squared error between the target state and the final state attained by using the predicted costate. The median of this error over all the epochs is 0.11. Furthermore, the approximation quality is indirectly measured by the number of nodes needed to reach the target. The median over all runs is $84$ nodes, with a standard deviation of $180$ nodes, which is about 30% smaller (better) than the previous algorithm. A slight decrease is expected, as the problem no longer requires the pendulum to swing back and forth to reach the final position. The decrease is therefore best interpreted as a roughly equal performance of the distance metric and optimal trajectory functions. This equal performance is obtained even though the optimal trajectory now uses function approximation.
 
-<!-- chunk {"id": "body-0062", "role": "body", "section": "Discussion", "weight": 1.5} -->
+<!-- chunk {"id": "body-0059", "role": "body", "section": "Discussion", "weight": 1.5} -->
 
 The algorithm introduced in this paper allows learning of not only the distance metric, but also the steering input. As proof of concept, we tested our algorithm on a basic pendulum swing up problem, showing that it reduces the time spend both in the offline learning and in the online-computation by a factor of more than 10. This result is a large step towards making sampling based state-space planning in a practical setting feasible.
 
-<!-- chunk {"id": "body-0063", "role": "body", "section": "Discussion", "weight": 1.5} -->
+<!-- chunk {"id": "body-0060", "role": "body", "section": "Discussion", "weight": 1.5} -->
 
 The main direction for future research is extending the algorithm for use on higher degree of freedom systems. The number of simulations required to learn the cost and costate functions is expected to grow rapidly with the number of degrees of freedom. Extension towards higher degrees of freedom would require a switch to different function approximators than the k-nearest neighbours used in this work. To handle higher dimensions, it would be beneficial to have a higher sample efficiency of the dataset. The current data generation procedure samples uniformly from state and costate, which is likely inefficient. This might be improved by sampling new simulations based on the already obtained data, and the (partially) learned cost and costate functions. Similar ideas have been used in reinforcement learning and might be beneficial for use in Learning RRTs. Finally, higher dimensional systems also require a more robust clean-up function. One improvement over the current cleaning function would be to not only compare trajectories based on their endpoints, but to explicitly take into account the distance in input-and-cost-to-go space. Alternatively, (deep) generative models allow to sample from complex, high-dimensional probability distributions.
 
-<!-- chunk {"id": "body-0064", "role": "body", "section": "Discussion", "weight": 1.5} -->
+<!-- chunk {"id": "body-0061", "role": "body", "section": "Discussion", "weight": 1.5} -->
 
 Using the approach, we could retain all solutions while avoiding the averaging over solutions that is done in standard discriminative models.
 
-<!-- chunk {"id": "body-0065", "role": "body", "section": "Discussion", "weight": 1.5} -->
+<!-- chunk {"id": "body-0062", "role": "body", "section": "Discussion", "weight": 1.5} -->
 
 A secondary direction for future research is to incorporate input bounds. Such bounds are readily incorporated in the indirect optimal control scheme, see. However, there is an issue with the resulting costates: there can be an exact overlap between trajectories of a system with input bounds starting from different costates, at least for a finite time. Such overlapping trajectories cannot be handled by the basic learning and cleaning algorithms we used. Extending these algorithms, such that they can cope with such overlapping trajectories is an important theoretical and practical issue.
 
-<!-- chunk {"id": "body-0066", "role": "body", "section": "Conclusion", "weight": 1.5} -->
+<!-- chunk {"id": "body-0063", "role": "body", "section": "Conclusion", "weight": 1.5} -->
 
-Optimal local planner
-Fast online prediction
+Optimal local planner Fast online prediction Needs large dataset3 Needs distance metric Local optima→bias4 Needs unbiased data4 Needs local planner3 Table 1: Benefits and challenges for RRT, Machine Learning and Optimal Control, which are combined in this paper. The challenges are marked with superscripts that refer to the sections in which they are treated.
 
-<!-- chunk {"id": "body-0067", "role": "body", "section": "Conclusion", "weight": 1.5} -->
-
-Needs large dataset3
-Needs distance metric
-
-<!-- chunk {"id": "body-0068", "role": "body", "section": "Conclusion", "weight": 1.5} -->
-
-Local optima→bias4
-Needs unbiased data4
-Needs local planner3
-
-<!-- chunk {"id": "body-0069", "role": "body", "section": "Conclusion", "weight": 1.5} -->
+<!-- chunk {"id": "body-0064", "role": "body", "section": "Conclusion", "weight": 1.5} -->
 
 In this paper we described a general Learning RRT algorithm, and identified several problems with state-of the art versions. Table 1 summarizes the parts that make up the algorithm, and their benefits and challenges.
 
-<!-- chunk {"id": "body-0070", "role": "body", "section": "Conclusion", "weight": 1.5} -->
+<!-- chunk {"id": "body-0065", "role": "body", "section": "Conclusion", "weight": 1.5} -->
 
 We proposed the RRT-CoLearn Algorithm which addresses three problems of Learning RRT: 1. By using indirect optimal control the number of parameters that describe the input is very small. The parameters of this function can thus be learned, alleviating the need for local planning in the online phase. 2. By using indirect optimal control, the data generation can be done much faster, as a numerical optimization is replaced by sampling. 3. An algorithm was proposed that removes the dataset bias caused by local optima.
 
-<!-- chunk {"id": "body-0071", "role": "body", "section": "Conclusion", "weight": 1.5} -->
+<!-- chunk {"id": "body-0066", "role": "body", "section": "Conclusion", "weight": 1.5} -->
 
 The RRT coLearn algorithm was tested on a pendulum swing up. It achieves a median planning time of $2.4\ s$, which is $10$ times faster than the state-of the art learning algorithm for kinodynamic RRT.

@@ -6,7 +6,7 @@ Variational Policy Gradient Method for Reinforcement Learning with General Utili
 
 <!-- chunk {"id": "abstract-0002", "role": "abstract", "section": "Abstract", "weight": 2.0} -->
 
-In recent years, reinforcement learning (RL) systems with general goals beyond a cumulative sum of rewards have gained traction, such as in constrained problems, exploration, and acting upon prior experiences. In this paper, we consider policy optimization in Markov Decision Problems, where the objective is a general concave utility function of the state-action occupancy measure, which subsumes several of the aforementioned examples as special cases. Such generality invalidates the Bellman equation. As this means that dynamic programming no longer works, we focus on direct policy search. Analogously to the Policy Gradient Theorem \cite{sutton2000policy} available for RL with cumulative rewards, we derive a new Variational Policy Gradient Theorem for RL with general utilities, which establishes that the parametrized policy gradient may be obtained as the solution of a stochastic saddle point problem involving the Fenchel dual of the utility function. We develop a variational Monte Carlo gradient estimation algorithm to compute the policy gradient based on sample paths. We prove that the variational policy gradient scheme converges globally to the optimal policy for the general objective, though the optimization problem is nonconvex.
+In recent years, reinforcement learning (RL) systems with general goals beyond a cumulative sum of rewards have gained traction, such as in constrained problems, exploration, and acting upon prior experiences. In this paper, we consider policy optimization in Markov Decision Problems, where the objective is a general concave utility function of the state-action occupancy measure, which subsumes several of the aforementioned examples as special cases. Such generality invalidates the Bellman equation. As this means that dynamic programming no longer works, we focus on direct policy search. Analogously to the Policy Gradient Theorem available for RL with cumulative rewards, we derive a new Variational Policy Gradient Theorem for RL with general utilities, which establishes that the parametrized policy gradient may be obtained as the solution of a stochastic saddle point problem involving the Fenchel dual of the utility function. We develop a variational Monte Carlo gradient estimation algorithm to compute the policy gradient based on sample paths. We prove that the variational policy gradient scheme converges globally to the optimal policy for the general objective, though the optimization problem is nonconvex.
 
 <!-- chunk {"id": "abstract-0003", "role": "abstract", "section": "Abstract", "weight": 2.0} -->
 
@@ -30,201 +30,184 @@ Due to these challenges, we consider direct policy search methods for the soluti
 
 <!-- chunk {"id": "body-0008", "role": "body", "section": "Introduction", "weight": 1.5} -->
 
-As mentioned, these approaches crucially rely on the standard PG Theorem Sutton et al., which is not available for general utilities. Compounding this challenge is the fact that the action-value function is not well-defined in this instance, either. Thus, how and whether the policy gradient can be effectively computed becomes a question. Further, due to the problem's nonconvexity, it is an open question whether an iterative policy improvement scheme converges to anything meaningful: In particular, while standard results for stochastic approximation would give convergence to stationary points Borkar, it is unclear whether the stationary points give reasonable policies.
+As mentioned, these approaches crucially rely on the standard PG Theorem Sutton et al., which is not available for general utilities. Compounding this challenge is the fact that the action-value function is not well-defined in this instance, either. Thus, how and whether the policy gradient can be effectively computed becomes a question. Further, due to the problem's nonconvexity, it is an open question whether an iterative policy improvement scheme converges to anything meaningful: In particular, while standard results for stochastic approximation would give convergence to stationary points Borkar, it is unclear whether the stationary points give reasonable policies. Therefore, we ask the question: Is policy search viable for general utilities,\when Bellman's equation, the value function, and dynamic programming all fail?
 
 <!-- chunk {"id": "body-0009", "role": "body", "section": "Introduction", "weight": 1.5} -->
 
-Is policy search viable for general utilities,\
-when Bellman's equation, the value function, and dynamic programming all fail?
+We will answer the question positively in this paper. Our contributions are three-folded: We derive a Variational Policy Gradient Theorem for RL with general utilities which establishes that the parametrized policy gradient is the solution to a stochastic saddle point problem.
 
 <!-- chunk {"id": "body-0010", "role": "body", "section": "Introduction", "weight": 1.5} -->
 
-We will answer the question positively in this paper.
+We show that the Variational Policy Gradient can be estimated by a primal-dual stochastic approximation method based on sample paths generated by following the current policy Arrow et al.. We prove that the random error of the estimate decays at order $O{({1/\sqrt{n}})}$ that also depends on properties of the utility, where $n$ is the number of episodes.
 
 <!-- chunk {"id": "body-0011", "role": "body", "section": "Introduction", "weight": 1.5} -->
 
-We derive a Variational Policy Gradient Theorem for RL with general utilities which establishes that the parametrized policy gradient is the solution to a stochastic saddle point problem.
-
-<!-- chunk {"id": "body-0012", "role": "body", "section": "Introduction", "weight": 1.5} -->
-
-We show that the Variational Policy Gradient can be estimated by a primal-dual stochastic approximation method based on sample paths generated by following the current policy Arrow et al.. We prove that the random error of the estimate decays at order $O{({1/\sqrt{n}})}$ that also depends on properties of the utility, where $n$ is the number of episodes.
-
-<!-- chunk {"id": "body-0013", "role": "body", "section": "Introduction", "weight": 1.5} -->
-
 We consider the non-parameterized policy optimization problem which is nonconvex in the policy space. Despite the lack of convexity, we identify the problem's hidden convexity, which allows us to show that a variational policy gradient ascent scheme converges to the global optimal policy for general utilities, at a rate of $O{({1/t})}$, where $t$ is the iteration index. In the special case of cumulative rewards, our result improves upon the best known convergence rate $O{({1/\sqrt{t}})}$ for tabular policy gradient Agarwal et al., and matches the convergence rate of variants of the algorithm such as softmax policy gradient Mei et al. and natural policy gradient Agarwal et al.. In the case where the utility is strongly concave in occupancy measures (e.g., utilities involving Kullback-Leiber divergence), we established the exponential convergence rate of the variational gradient scheme.
+
+<!-- chunk {"id": "body-0012", "role": "body", "section": "Problem Formulation", "weight": 1.0} -->
+
+Consider a Markov decision process (MDP) over the finite state space $\mathcal{S}$ and a finite action space $\mathcal{A}$. For each state $i \in \mathcal{S}$, a transition to state $j \in \mathcal{S}$ occurs when selecting action $a \in \mathcal{A}$ according to a conditional probability distribution $j \sim \mathcal{P}{(\cdot |a,i)}$, for which we define the short-hand notation $P_{a}{(i,j)}$. Let $\xi$ be the initial state distribution of the MDP. We let $S$ denote the number of states and $A$ the number of actions. The goal is to prescribe actions based on previous states in order to maximize some long term objective. We call $\pi:{\mathcal{S}\rightarrow{P{(\mathcal{A})}}}$ a *policy* that maps states to distributions over actions, which we subsequently stipulate is stationary.
+
+<!-- chunk {"id": "body-0013", "role": "body", "section": "Problem Formulation", "weight": 1.0} -->
+
+In the standard (cumulative return) MDP, the objective is to maximize the expected cumulative sum of future rewards Puterman, i.e., with reward $r_{s_{t}a_{t}} \in {\mathbb{R}}$ revealed by the environment when action $a_{t}$ is chosen at state $s_{t}$.
 
 <!-- chunk {"id": "body-0014", "role": "body", "section": "Problem Formulation", "weight": 1.0} -->
 
-Consider a Markov decision process (MDP) over the finite state space $\mathcal{S}$ and a finite action space $\mathcal{A}$. For each state $i \in \mathcal{S}$, a transition to state $j \in \mathcal{S}$ occurs when selecting action $a \in \mathcal{A}$ according to a conditional probability distribution $j \sim \mathcal{P}{( \cdot |a,i)}$, for which we define the short-hand notation $P_{a}{(i,j)}$. Let $\xi$ be the initial state distribution of the MDP. We let $S$ denote the number of states and $A$ the number of actions. The goal is to prescribe actions based on previous states in order to maximize some long term objective. We call $\pi:{\mathcal{S}\rightarrow{P{(\mathcal{A})}}}$ a *policy* that maps states to distributions over actions, which we subsequently stipulate is stationary.
+In this paper we consider policy optimization for maximizing general objective functions that are not limited to cumulative rewards. In particular, we consider the problem where $\lambda^{\pi}$ is known as the cumulative discounted state-action occupancy measure, or flux under policy $\pi$, and $F$ is a general concave functional.
 
 <!-- chunk {"id": "body-0015", "role": "body", "section": "Problem Formulation", "weight": 1.0} -->
 
-In the standard (cumulative return) MDP, the objective is to maximize the expected cumulative sum of future rewards Puterman, i.e.,
+Denote $\Delta_{\mathcal{A}}^{\mathcal{S}}$ and $\mathcal{L}$ as the set of policy and flux respectively, then $\lambda^{\pi}$ is given by the mapping $\Lambda:{\Delta_{\mathcal{A}}^{\mathcal{S}}\mapsto\mathcal{L}}$ as Similar to the LP formulation of a standard MDP, we can write (2.2) equivalently as an optimization problem in $\lambda$ (see Zhang et al.), giving rise to where $\lambda_{a} = {\lbrack\lambda_{1a},\cdots,\lambda_{Sa}\rbrack}^{\top} \in {\mathbb{R}}^{A}$ is the $a$-th column of $\lambda$ and $\xi$ is the initial distribution over the state space $\mathcal{S}$. The constraints require that $\lambda$ be the unnormalized state-action occupancy measure corresponding to some policy.
 
 <!-- chunk {"id": "body-0016", "role": "body", "section": "Problem Formulation", "weight": 1.0} -->
 
-In this paper we consider policy optimization for maximizing general objective functions that are not limited to cumulative rewards. In particular, we consider the problem
+Problem (2.2) contains the original MDP problem as a special case. To be specific, when ${F{(\lambda)}} = {\langle r,\lambda\rangle}$ with $r \in {\mathbb{R}}^{SA}$ as the reward function, then ${F{(\lambda)}} = {\langle\lambda,r\rangle} = {{\mathbb{E}}\left\lbrack {\left. {\sum_{t = 0}^{\infty}{\gamma^{t}r_{s_{t}a_{t}}}} \middle| {\pi,s_{0}} \right. \sim \xi} \right\rbrack}$. This means that (2.4) is a generalization of (2.1), and reduces to the dual LP formulation of standard MDP for this (linear) choice of $F{( \cdot )}$ Kallenberg.
 
 <!-- chunk {"id": "body-0017", "role": "body", "section": "Problem Formulation", "weight": 1.0} -->
 
-where $\lambda^{\pi}$ is known as the cumulative discounted state-action occupancy measure, or flux under policy $\pi$, and $F$ is a general concave functional. Denote $\Delta_{\mathcal{A}}^{\mathcal{S}}$ and $\mathcal{L}$ as the set of policy and flux respectively, then $\lambda^{\pi}$ is given by the mapping $\Lambda:{\Delta_{\mathcal{A}}^{\mathcal{S}}\mapsto\mathcal{L}}$ as
-
-<!-- chunk {"id": "body-0018", "role": "body", "section": "Problem Formulation", "weight": 1.0} -->
-
-Similar to the LP formulation of a standard MDP, we can write (2.2) equivalently as an optimization problem in $\lambda$ (see Zhang et al. ), giving rise to
-
-<!-- chunk {"id": "body-0019", "role": "body", "section": "Problem Formulation", "weight": 1.0} -->
-
-Problem (2.2) contains the original MDP problem as a special case. To be specific, when ${F{(\lambda)}} = {\langle r,\lambda\rangle}$ with $r \in {\mathbb{R}}^{SA}$ as the reward function, then ${F{(\lambda)}} = {\langle\lambda,r\rangle} = {{\mathbb{E}}\left\lbrack {\left. {\sum_{t = 0}^{\infty}{\gamma^{t}r_{s_{t}a_{t}}}} \middle| {\pi,s_{0}} \right. \sim \xi} \right\rbrack}$. This means that (2.4) is a generalization of (2.1), and reduces to the dual LP formulation of standard MDP for this (linear) choice of $F{( \cdot )}$ Kallenberg.
-
-<!-- chunk {"id": "body-0020", "role": "body", "section": "Problem Formulation", "weight": 1.0} -->
-
 We focus on the case where $F$ is concave, which makes (2.4) a concave (hence, convenient) maximization problem. Next we introduce a few examples that arise in practice for incentivizing safety, exploration, and imitation, respectively.
 
-<!-- chunk {"id": "body-0021", "role": "body", "section": "Example 2.1 (MDP with Constraints or Barriers)", "weight": 1.0} -->
+<!-- chunk {"id": "body-0018", "role": "body", "section": "Example 2.1 (MDP with Constraints or Barriers)", "weight": 1.0} -->
 
-In discounted constrained MDPs the goal is to maximize the total expected discounted reward under a constraint where for some cost function $c:{{\mathcal{S} \times \mathcal{A}}\rightarrow{\mathbb{R}}}$, the total expected discounted cost incurred by the chosen policy is constrained from above. Letting $r$ denote the reward function over $\mathcal{S} \times \mathcal{A}$, the underlying optimization problem becomes
+In discounted constrained MDPs the goal is to maximize the total expected discounted reward under a constraint where for some cost function $c:{{\mathcal{S} \times \mathcal{A}}\rightarrow{\mathbb{R}}}$, the total expected discounted cost incurred by the chosen policy is constrained from above. Letting $r$ denote the reward function over $\mathcal{S} \times \mathcal{A}$, the underlying optimization problem becomes As is well known, a relaxed formulation is where $p$ is a penalty function (e.g., the log barrier function).
 
-<!-- chunk {"id": "body-0022", "role": "body", "section": "Example 2.1 (MDP with Constraints or Barriers)", "weight": 1.0} -->
+<!-- chunk {"id": "body-0019", "role": "body", "section": "Example 2.2 (Pure Exploration)", "weight": 1.0} -->
 
-where $p$ is a penalty function (e.g., the log barrier function).
+In the absence of a reward function, an agent may consider the problem of finding a policy whose stationary distribution has the largest "entropy", as this should facilitate maximizing the speed at which the agent explores its environment Hazan et al.: where ${\overline{\lambda}}^{\pi}$ is the normalized state visitation measure given by ${\overline{\lambda}}_{s}^{\pi} = {{({1 - \gamma})}{\sum_{a}\lambda_{sa}^{\pi}}}$ for all $s$. Various entropic measures are possible, but the simplest is the negative log-likelihood: ${{Entropy}{({\overline{\lambda}}^{\pi})}} = {- {\sum_{s}{{\overline{\lambda}}_{s}^{\pi}{\log{\lbrack{\overline{\lambda}}_{s}^{\pi}\rbrack}}}}}$.
 
-<!-- chunk {"id": "body-0023", "role": "body", "section": "Example 2.2 (Pure Exploration)", "weight": 1.0} -->
+<!-- chunk {"id": "body-0020", "role": "body", "section": "Example 2.2 (Pure Exploration)", "weight": 1.0} -->
 
-In the absence of a reward function, an agent may consider the problem of finding a policy whose stationary distribution has the largest "entropy", as this should facilitate maximizing the speed at which the agent explores its environment Hazan et al.:
+As is well known, this entropy is (strongly) concave.
 
-<!-- chunk {"id": "body-0024", "role": "body", "section": "Example 2.3 (Learning to mimic a demonstration)", "weight": 1.0} -->
+<!-- chunk {"id": "body-0021", "role": "body", "section": "Example 2.2 (Pure Exploration)", "weight": 1.0} -->
 
-When demonstrations are available, they may be employed to obtain information about a prior policy in the form of a state visitation distribution $\overline{\mu}$. Remaining close to this prior can be achieved by minimizing the Kullback-Liebler (KL) divergence between the state marginal distribution of $\lambda$ and the prior $\overline{\mu}$ stated as
+Another example, when $d$ state-action features ${\mathbf{\phi}{(s,a)}} \in {\mathbb{R}}^{d}$ are available, is to cover the entire feature space by maximizing the smallest eigenvalue of the covariance matrix: In (2.8.
 
-<!-- chunk {"id": "body-0025", "role": "body", "section": "Example 2.3 (Learning to mimic a demonstration)", "weight": 1.0} -->
+<!-- chunk {"id": "body-0022", "role": "body", "section": "Example 2.3 (Learning to mimic a demonstration)", "weight": 1.0} -->
 
-which, when substituted into (2.4), yields a method for ensuring some baseline performance. We further note that in place of KL divergence, one can also use other convex distances such as Wasserstein, total variation, or Hellinger distances.
+When demonstrations are available, they may be employed to obtain information about a prior policy in the form of a state visitation distribution $\overline{\mu}$. Remaining close to this prior can be achieved by minimizing the Kullback-Liebler (KL) divergence between the state marginal distribution of $\lambda$ and the prior $\overline{\mu}$ stated as which, when substituted into (2.4), yields a method for ensuring some baseline performance. We further note that in place of KL divergence, one can also use other convex distances such as Wasserstein, total variation, or Hellinger distances.
 
-<!-- chunk {"id": "body-0026", "role": "body", "section": "Example 2.3 (Learning to mimic a demonstration)", "weight": 1.0} -->
+<!-- chunk {"id": "body-0023", "role": "body", "section": "Example 2.3 (Learning to mimic a demonstration)", "weight": 1.0} -->
 
 Additional instances may be found in Zhang et al.. With the setting clarified, we shift focus to developing an algorithmic solution to (2.4), that is, to solve for policy $\pi$.
 
+<!-- chunk {"id": "body-0024", "role": "body", "section": "Variational Policy Gradient Theorem", "weight": 1.0} -->
+
+To handle the curse of dimensionality, we allow parametrization of the policy by $\pi = \pi_{\theta}$, where $\theta \in \Theta \subset {\mathbb{R}}^{d}$ is the parameter vector. In this way, we can narrow down the policy search problem to within a $d$-dimensional parameter space rather than the high-dimensional space of tabular policies. The policy optimization problem then becomes where $F$ is the concave utility of the state-action occupancy measure ${\lambda{(\theta)}}:=\lambda^{\pi_{\theta}}$, $\Theta \subset {\mathbb{R}}^{d}$ is a convex set. We seek to solve for the policy maximizing the utility as in (3.1) using gradient ascent over the parameter space $\Theta$. Note that (3.1) is simply (2.2) with parameterization $\theta$ of policy $\pi$ substituted.
+
+<!-- chunk {"id": "body-0025", "role": "body", "section": "Variational Policy Gradient Theorem", "weight": 1.0} -->
+
+We denote by ${\nabla_{\theta}R}{(\pi_{\theta})}$ the parameterized policy gradient of general utility.
+
+<!-- chunk {"id": "body-0026", "role": "body", "section": "Variational Policy Gradient Theorem", "weight": 1.0} -->
+
+First, recall the policy gradient theorem for RL with cumulative rewards Sutton et al.. Let the reward function be $r$. Define ${V{(\theta;r)}}:={\langle{\lambda{(\theta)}},r\rangle}$, i.e., the total expected discounted reward under the reward function $r$ and the policy $\pi_{\theta}$. The Policy Gradient Theorem states that where $Q^{\pi}{(s,a;r)}:={\mathbb{E}}^{\pi}\left\lbrack \sum_{t}\gamma^{t}r{(s_{t},a_{t})} \mid s_{0} = s,a_{0} = a,a_{t} \sim \pi{(\cdot \mid s_{t})} \right\rbrack$.
+
 <!-- chunk {"id": "body-0027", "role": "body", "section": "Variational Policy Gradient Theorem", "weight": 1.0} -->
 
-To handle the curse of dimensionality, we allow parametrization of the policy by $\pi = \pi_{\theta}$, where $\theta \in \Theta \subset {\mathbb{R}}^{d}$ is the parameter vector. In this way, we can narrow down the policy search problem to within a $d$-dimensional parameter space rather than the high-dimensional space of tabular policies. The policy optimization problem then becomes
+Unfortunately, this elegant result no longer holds when we consider a general function instead of cumulative rewards: The policy gradient theorem relies on the additivity of rewards, which is lost in our problem. For future reference, we denote $Q^{\pi}{(s,a;z)}:={\mathbb{E}}^{\pi}\left\lbrack \sum_{t}\gamma^{t}z_{s_{t}a_{t}} \mid s_{0} = s,a_{0} = a,a_{t} \sim \pi{(\cdot \mid s_{t})} \right\rbrack$ where $z$ is any "function" of the state-action pairs ($z \in {\mathbb{R}}^{SA}$). Moreover, $V{(\theta;z)}$ is defined similarly. These definitions are motivated by subsequent efforts to derive an expression for the gradient of (3.1).
 
-<!-- chunk {"id": "body-0028", "role": "body", "section": "Variational Policy Gradient Theorem", "weight": 1.0} -->
+<!-- chunk {"id": "body-0028", "role": "body", "section": "Policy Gradient of $R{(\\pi_{\\theta})}$", "weight": 1.0} -->
 
-where $F$ is the concave utility of the state-action occupancy measure ${\lambda{(\theta)}}:=\lambda^{\pi_{\theta}}$, $\Theta \subset {\mathbb{R}}^{d}$ is a convex set. We seek to solve for the policy maximizing the utility as in (3.1) using gradient ascent over the parameter space $\Theta$. Note that (3.1) is simply (2.2) with parameterization $\theta$ of policy $\pi$ substituted. We denote by ${\nabla_{\theta}R}{(\pi_{\theta})}$ the parameterized policy gradient of general utility.
+Now we derive the policy gradient of $R{(\pi_{\theta})}$ with respect to $\theta$. By the chain rule, the gradient of ${F{({\lambda{(\theta)}})}}:={F{(\lambda^{\pi_{\theta}})}}$, using the definition of $R{(\pi_{\theta})}$, yields (assuming differentiability of $F,\lambda$): To directly use the chain rule, one needs the partial derivatives $\frac{\partial{F{({\lambda{(\theta)}})}}}{\partial\lambda_{sa}}$ and ${\nabla_{\theta}\lambda_{sa}}{(\theta)}$. Unfortunately, neither of them is easy to estimate.
 
-<!-- chunk {"id": "body-0029", "role": "body", "section": "Variational Policy Gradient Theorem", "weight": 1.0} -->
+<!-- chunk {"id": "body-0029", "role": "body", "section": "Policy Gradient of $R{(\\pi_{\\theta})}$", "weight": 1.0} -->
 
-First, recall the policy gradient theorem for RL with cumulative rewards Sutton et al.. Let the reward function be $r$. Define ${V{(\theta;r)}}:={\langle{\lambda{(\theta)}},r\rangle}$, i.e., the total expected discounted reward under the reward function $r$ and the policy $\pi_{\theta}$. The Policy Gradient Theorem states that
+The partial gradient $\frac{\partial{F{({\lambda{(\theta)}})}}}{\partial\lambda_{sa}}$ is a function of the current state-action occupancy measure $\lambda^{\pi_{\theta}}$. One might attempt to estimate the measure $\lambda^{\pi_{\theta}}$ and then evaluate the gradient map $\frac{\partial{F{({\lambda{(\theta)}})}}}{\partial\lambda_{sa}}$. However, estimates of distributions over large spaces tend to converge very slowly Tsybakov.
 
-<!-- chunk {"id": "body-0030", "role": "body", "section": "Variational Policy Gradient Theorem", "weight": 1.0} -->
-
-where $Q^{\pi}{(s,a;r)}:={\mathbb{E}}^{\pi}\left\lbrack \sum_{t}\gamma^{t}r{(s_{t},a_{t})} \mid s_{0} = s,a_{0} = a,a_{t} \sim \pi{( \cdot \mid s_{t})} \right\rbrack$. Unfortunately, this elegant result no longer holds when we consider a general function instead of cumulative rewards: The policy gradient theorem relies on the additivity of rewards, which is lost in our problem.
-
-<!-- chunk {"id": "body-0031", "role": "body", "section": "Variational Policy Gradient Theorem", "weight": 1.0} -->
-
-For future reference, we denote $Q^{\pi}{(s,a;z)}:={\mathbb{E}}^{\pi}\left\lbrack \sum_{t}\gamma^{t}z_{s_{t}a_{t}} \mid s_{0} = s,a_{0} = a,a_{t} \sim \pi{( \cdot \mid s_{t})} \right\rbrack$ where $z$ is any "function" of the state-action pairs ($z \in {\mathbb{R}}^{SA}$). Moreover, $V{(\theta;z)}$ is defined similarly. These definitions are motivated by subsequent efforts to derive an expression for the gradient of (3.1).
-
-<!-- chunk {"id": "body-0032", "role": "body", "section": "Policy Gradient of $R{(\\pi_{\\theta})}$", "weight": 1.0} -->
-
-Now we derive the policy gradient of $R{(\pi_{\theta})}$ with respect to $\theta$.
-
-<!-- chunk {"id": "body-0033", "role": "body", "section": "Policy Gradient of $R{(\\pi_{\\theta})}$", "weight": 1.0} -->
-
-To directly use the chain rule, one needs the partial derivatives $\frac{\partial{F{({\lambda{(\theta)}})}}}{\partial\lambda_{sa}}$ and ${\nabla_{\theta}\lambda_{sa}}{(\theta)}$. Unfortunately, neither of them is easy to estimate. The partial gradient $\frac{\partial{F{({\lambda{(\theta)}})}}}{\partial\lambda_{sa}}$ is a function of the current state-action occupancy measure $\lambda^{\pi_{\theta}}$. One might attempt to estimate the measure $\lambda^{\pi_{\theta}}$ and then evaluate the gradient map $\frac{\partial{F{({\lambda{(\theta)}})}}}{\partial\lambda_{sa}}$. However, estimates of distributions over large spaces tend to converge very slowly Tsybakov.
-
-<!-- chunk {"id": "body-0034", "role": "body", "section": "Policy Gradient of $R{(\\pi_{\\theta})}$", "weight": 1.0} -->
+<!-- chunk {"id": "body-0030", "role": "body", "section": "Policy Gradient of $R{(\\pi_{\\theta})}$", "weight": 1.0} -->
 
 As it turns out, a viable alternate route is to consider the Fenchel dual $F^{\ast}$ of $F$. Recall that ${F^{\ast}{(z)}} = {{\inf_{\lambda}{\langle\lambda,z\rangle}} - {F{(\lambda)}}}$, where we use ${\langle x,y\rangle}:={x^{\top}y}$ (since $F$ is concave, the dual is defined using $\inf$, instead of $\sup$). As is well known, for $F$ concave, under mild regularity conditions, the bidual (dual of the dual) of $F$ is equal to $F$. This forms the basis of our first result, which states that the steepest policy ascent direction of (3.1) is the solution to a stochastic saddle point problem. The proofs of this and subsequent results are given in the supplementary material.
 
-<!-- chunk {"id": "body-0035", "role": "body", "section": "Estimating the Variational Policy Gradient", "weight": 1.0} -->
+<!-- chunk {"id": "body-0031", "role": "body", "section": "Estimating the Variational Policy Gradient", "weight": 1.0} -->
 
-Theorem 3.1. ‣ 3.1 Policy Gradient of 𝑅⁢(𝜋_𝜃) ‣ 3 Variational Policy Gradient Theorem ‣ Variational Policy Gradient Method for Reinforcement Learning with General Utilities") implies that one can estimate ${\nabla_{\theta}R}{(\pi_{\theta})}$ by solving a stochastic saddle point problem. Suppose we generate $n$ i.i.d. episodes of length $K$ following $\pi_{\theta}$, denoted as $\zeta_{i} = {\{ s_{k}^{(i)},a_{k}^{(i)}\}}_{k = 1}^{K}$. Then we can estimate $V{(\theta;z)}$ and ${\nabla V}{(\theta;z)}$ for any function $z$ by
+Theorem 3.1. ‣ 3.1 Policy Gradient of 𝑅⁢(𝜋_𝜃) ‣ 3 Variational Policy Gradient Theorem ‣ Variational Policy Gradient Method for Reinforcement Learning with General Utilities") implies that one can estimate ${\nabla_{\theta}R}{(\pi_{\theta})}$ by solving a stochastic saddle point problem. Suppose we generate $n$ i.i.d. episodes of length $K$ following $\pi_{\theta}$, denoted as $\zeta_{i} = {\{ s_{k}^{(i)},a_{k}^{(i)}\}}_{k = 1}^{K}$.
 
-<!-- chunk {"id": "body-0036", "role": "body", "section": "Estimating the Variational Policy Gradient", "weight": 1.0} -->
+<!-- chunk {"id": "body-0032", "role": "body", "section": "Estimating the Variational Policy Gradient", "weight": 1.0} -->
 
-For a given value of $K$, the error introduced by "truncating" trajectories at length $K$ is of order $\gamma^{K}/{({1 - \gamma})}$, which quickly decays to zero for $\gamma < 1$. Plugging in the obtained estimates into (3.4. ‣ 3.1
+Then we can estimate $V{(\theta;z)}$ and ${\nabla V}{(\theta;z)}$ for any function $z$ by For a given value of $K$, the error introduced by "truncating" trajectories at length $K$ is of order $\gamma^{K}/{({1 - \gamma})}$, which quickly decays to zero for $\gamma < 1$. Plugging in the obtained estimates into (3.4. ‣ 3.1 Policy Gradient of 𝑅⁢(𝜋_𝜃) ‣ 3 Variational Policy Gradient Theorem ‣ Variational Policy Gradient Method for Reinforcement Learning with General Utilities")) gives rise to the sample-average approximation to the policy gradient: where $\ell_{F}$ is defined in the next theorem. Therefore, any algorithm that solves problem (3.6) will serve our purpose.
 
-<!-- chunk {"id": "body-0037", "role": "body", "section": "Estimating the Variational Policy Gradient", "weight": 1.0} -->
+<!-- chunk {"id": "body-0033", "role": "body", "section": "Estimating the Variational Policy Gradient", "weight": 1.0} -->
 
-where $\ell_{F}$ is defined in the next theorem. Therefore, any algorithm that solves problem (3.6) will serve our purpose. A MC stochastic approximation scheme, i.e., Algorithm 1 ‣ B Supplementary materials of Section 3 ‣ Variational Policy Gradient Method for Reinforcement Learning with General Utilities"), is provided in Appendix B.1 ‣ B Supplementary materials of Section 3 ‣ Variational Policy Gradient Method for Reinforcement Learning with General Utilities").
+A MC stochastic approximation scheme, i.e., Algorithm 1 ‣ B Supplementary materials of Section 3 ‣ Variational Policy Gradient Method for Reinforcement Learning with General Utilities"), is provided in Appendix B.1 ‣ B Supplementary materials of Section 3 ‣ Variational Policy Gradient Method for Reinforcement Learning with General Utilities").
 
-<!-- chunk {"id": "body-0038", "role": "body", "section": "Global Convergence of Policy Gradient Ascent", "weight": 1.0} -->
+<!-- chunk {"id": "body-0034", "role": "body", "section": "Global Convergence of Policy Gradient Ascent", "weight": 1.0} -->
 
-In this section, we analyze policy search for the problem (3.1), i.e.,
+In this section, we analyze policy search for the problem (3.1), i.e., ${\max_{\theta \in \Theta}R}{(\pi_{\theta})}$ via gradient ascent: where ${Proj}_{\Theta}{\{ \cdot \}}$ denotes Euclidean projection onto $\Theta$, and equivalence holds by the convexity of $\Theta$.
 
-<!-- chunk {"id": "body-0039", "role": "body", "section": "Global Convergence of Policy Gradient Ascent", "weight": 1.0} -->
-
-where ${Proj}_{\Theta}{\{ \cdot \}}$ denotes Euclidean projection onto $\Theta$, and equivalence holds by the convexity of $\Theta$.
-
-<!-- chunk {"id": "body-0040", "role": "body", "section": "No spurious first-order stationary solutions", "weight": 1.0} -->
+<!-- chunk {"id": "body-0035", "role": "body", "section": "No spurious first-order stationary solutions", "weight": 1.0} -->
 
 We study the geometry of the (possibly) nonconvex optimization problem (3.1). When $F$ is a linear function of $\lambda$, and the parameterization is tabular or softmax, existing theory of cumulative-return RL problems have shown that every first-order stationary point of (3.1) is globally optimal -- see Agarwal et al.; Mei et al..
 
-<!-- chunk {"id": "body-0041", "role": "body", "section": "No spurious first-order stationary solutions", "weight": 1.0} -->
+<!-- chunk {"id": "body-0036", "role": "body", "section": "No spurious first-order stationary solutions", "weight": 1.0} -->
 
 In what follows, we show that the problem (3.1) has no spurious extrema despite of its nonconvexity, for general utility functions and policy parametrization. Specifically, to generalize global optimality attributes of stationary points of (3.1) from (2.1), we exploit structural aspects of the relationship between occupancy measures and parameterized families of policies, namely, that these entities are related through a bijection. This bijection, when combined with the fact that (3.1) is concave in $\lambda$, and suitably restricting the parameterized family of policies, is what we subsequently describe as "hidden convexity." For these results to be valid, we require the following regularity conditions.
 
-<!-- chunk {"id": "body-0042", "role": "body", "section": "Assumption 4.1", "weight": 1.0} -->
+<!-- chunk {"id": "body-0037", "role": "body", "section": "Assumption 4.1", "weight": 1.0} -->
 
 In particular, for the direct policy parametrization, also known as the "tabular" policy case, we have ${\lambda{(\theta)}}:={\Lambda{(\pi)}}$ where $\Lambda$ is defined in (2.3). When $\xi$ is positive-valued, Assumption 4.1 is true for the tabular policy case (as established in Appendix H).
 
-<!-- chunk {"id": "body-0043", "role": "body", "section": "Convergence analysis", "weight": 1.0} -->
+<!-- chunk {"id": "body-0038", "role": "body", "section": "Convergence analysis", "weight": 1.0} -->
 
 Now we analyze the convergence rate of the policy gradient scheme (4.1) for general utilities.
 
-<!-- chunk {"id": "body-0044", "role": "body", "section": "Assumption 4.3", "weight": 1.0} -->
+<!-- chunk {"id": "body-0039", "role": "body", "section": "Assumption 4.3", "weight": 1.0} -->
 
 There exists $L > 0$ such that the policy gradient ${\nabla_{\theta}R}{(\pi_{\theta})}$ is $L$-Lipschitz.
 
-<!-- chunk {"id": "body-0045", "role": "body", "section": "Assumption 4.3", "weight": 1.0} -->
+<!-- chunk {"id": "body-0040", "role": "body", "section": "Assumption 4.3", "weight": 1.0} -->
 
 The objective $R{(\pi_{\theta})}$ is nonconvex in $\theta$, so one might expect that gradient schemes converge to stationary solutions at a standard $\mathcal{O}{({1/\sqrt{t}})}$ convergence rate Shapiro et al.. Remarkably, the policy optimization problem admits a convex nature if we view it in the space of $\lambda$, as long as $F$ is concave. By exploiting this hidden convexity, we establish an $\mathcal{O}{({1/t})}$ convergence rate for solving RL with general utilities. Further, we show that, when the utility $F$ is strongly concave, the gradient ascent scheme converges to the globally optimal policy exponentially fast.
 
-<!-- chunk {"id": "body-0046", "role": "body", "section": "The case of cumulative rewards", "weight": 1.0} -->
+<!-- chunk {"id": "body-0041", "role": "body", "section": "The case of cumulative rewards", "weight": 1.0} -->
 
 Let us consider the well-studied special case where $F$ is a linear functional, i.e., ${R{(\pi)}} = V^{\pi}$ \cf. ([2.1)\] is the typical cumulative return. In this case, we have $L = \frac{2\gammaA}{{({1 - \gamma})}^{3}}$ (Agarwal et al. ).
 
-<!-- chunk {"id": "body-0047", "role": "body", "section": "The case of cumulative rewards", "weight": 1.0} -->
+<!-- chunk {"id": "body-0042", "role": "body", "section": "The case of cumulative rewards", "weight": 1.0} -->
 
 Now in order to obtain an $\epsilon$-optimal policy $\overline{\pi}$ such that ${V^{\pi^{\ast}} - V^{\overline{\pi}}} \leq \epsilon$, the gradient ascent update requires $\mathcal{O}\left( {\frac{SA}{\left( {1 - \gamma} \right)^{5}\epsilon} \cdot \left\| d_{\xi}^{\pi^{\ast}}/\xi \right\|_{\infty}^{2}} \right)$ iterations according to Theorem 4.5. ‣ 4.2 Convergence analysis ‣ 4 Global Convergence of Policy Gradient Ascent ‣ Variational Policy Gradient Method for Reinforcement Learning with General Utilities").
 
-<!-- chunk {"id": "body-0048", "role": "body", "section": "The case of cumulative rewards", "weight": 1.0} -->
+<!-- chunk {"id": "body-0043", "role": "body", "section": "The case of cumulative rewards", "weight": 1.0} -->
 
 This bound is strictly smaller than the $\mathcal{O}\left( {\frac{SA}{\left( {1 - \gamma} \right)^{6}\epsilon^{2}}\left\| d_{\xi}^{\pi^{\ast}}/\xi \right\|_{\infty}^{2}} \right)$ iteration complexity proved by Agarwal et al. for tabular policy gradient. The improvement from $O{({1/\epsilon^{2}})}$ to $({1/\epsilon})$ comes from the fact that, although the policy optimization problem is nonconvex, our analysis exploits its hidden convexity in the space of $\lambda$.
 
-<!-- chunk {"id": "body-0049", "role": "body", "section": "Experiments", "weight": 1.0} -->
+<!-- chunk {"id": "body-0044", "role": "body", "section": "Experiments", "weight": 1.0} -->
 
 Now we shift to numerically validating our methods and theory on OpenAI Frozen Lake Brockman et al.. Throughout, additional details may be found in Appendix C.
 
-<!-- chunk {"id": "body-0050", "role": "body", "section": "Experiments", "weight": 1.0} -->
+<!-- chunk {"id": "body-0045", "role": "body", "section": "Experiments", "weight": 1.0} -->
 
-(b) World &amp; occupancy dist. (Entropy)
+(b) World & occupancy dist. (Entropy) Figure 2: Results for maximum entropy exploration: In Fig. 2(a), to quantify exploration, we present the entropy of flux λ over training index n for our approach, as compared with the entropy of a uniform random policy. Fig. 2(b)(bottom) visualizes the world model (holes in the lake have null entropy, as they terminate the episode), the lower middle layer displays the occupancy measure associated with a uniformly random policy, the upper-middle visualizes the pseudo-reward z* defined by the Fenchel dual of the entropy (2.7) – see Appendix B.2. Lastly, on top we visualize the occupancy measure associated with the max entropy policy, which better covers the space than a uniformly random policy.
 
-<!-- chunk {"id": "body-0051", "role": "body", "section": "Experiments", "weight": 1.0} -->
+<!-- chunk {"id": "body-0046", "role": "body", "section": "Experiments", "weight": 1.0} -->
 
 Policy Gradient (PG) Estimation. First we investigate the use of Theorem 3.1. ‣ 3.1 Policy Gradient of 𝑅⁢(𝜋_𝜃) ‣ 3 Variational Policy Gradient Theorem ‣ Variational Policy Gradient Method for Reinforcement Learning with General Utilities") and Algorithm 1 ‣ B Supplementary materials of Section 3 ‣ Variational Policy Gradient Method for Reinforcement Learning with General Utilities") (Appendix B.1 ‣ B Supplementary materials of Section 3 ‣ Variational Policy Gradient Method for Reinforcement Learning with General Utilities")) for PG estimation, for several instances of the general utility. We also compare it with the gradient estimates computed by REINFORCE for cumulative returns. Specifically, in Figure 2 we illustrate the convergence of gradient estimates, measured using the cosine similarity between $x_{n}$ (running estimate based on $n$ episodes) and the true gradient $x^{\ast}$ (which is evaluated using brute force Monte Carlo rollouts -- see Appendix C.2). The cosine similarity converges to $1$ across different instances, providing evidence that Algorithm 1 ‣ B Supplementary materials of Section 3 ‣ Variational Policy Gradient Method for Reinforcement Learning with General Utilities") yields consistent gradient estimates for general utilities.
 
-<!-- chunk {"id": "body-0052", "role": "body", "section": "Experiments", "weight": 1.0} -->
+<!-- chunk {"id": "body-0047", "role": "body", "section": "Experiments", "weight": 1.0} -->
 
 PG Ascent for Maximal Entropy Exploration. Next, we consider maximum entropy exploration (2.7. ‣ 2 Problem Formulation ‣ Variational Policy Gradient Method for Reinforcement Learning with General Utilities")) using algorithm (4.1), with softmax parametrization. First, we display the evolution of the entropy of the normalized occupancy measure over the number of episodes in Fig. 2(a). Then, we visualize the world model in Fig. 2(b)(bottom). Moreover, the lower middle is the occupancy measure associated with a uniformly random policy, the upper-middle layer visualizes the "pseudo-reward" $z^{\ast}$ computed as the Fenchel dual of the entropy (2.7. ‣ 2 Problem Formulation ‣ Variational Policy Gradient Method for Reinforcement Learning with General Utilities")) -- see Appendix B.2, which is null at the holes and positive otherwise. We use a different color to denote that its values are not likelihoods.
 
-<!-- chunk {"id": "body-0053", "role": "body", "section": "Experiments", "weight": 1.0} -->
+<!-- chunk {"id": "body-0048", "role": "body", "section": "Experiments", "weight": 1.0} -->
 
 The occupancy measure obtained by policy gradient ascent with gradient estimated by Algorithm 1 ‣ B Supplementary materials of Section 3 ‣ Variational Policy Gradient Method for Reinforcement Learning with General Utilities") at the end of training is in Figure 2(b)(top) -- observe the maximal entropy policy achieves significantly better coverage of the state space than the uniformly random policy.
 
-<!-- chunk {"id": "body-0054", "role": "body", "section": "Experiments", "weight": 1.0} -->
+<!-- chunk {"id": "body-0049", "role": "body", "section": "Experiments", "weight": 1.0} -->
 
-(a) World &amp; occupancy dist. (CMDP)
+(a) World & occupancy dist. (CMDP) Figure 3: Results for avoiding obstacles. Fig. 3(a)(bottom) depicts the world model of OpenAI Frozen Lake with augmentation to include costly states, e.g., obstacles: C represents costly states, F is the frozen lake, H is the hole, and G is the goal. We consider softmax policy parameterization, and visualize the occupancy measure associated with REINFORCE for the cumulative return (2.1) in the middle layer, and the relaxed CMDP (2.6) via a logarithmic barrier (B.3) at the top.The policy obtained via barriers avoids visiting costly states, in contrast to the middle. Fig. 3(b) and Fig. 3(c) show the reward/cost accumulated during test trajectories over training index for Algorithm 1. Observe that the reward/cost curves behave differently as the penalty parameter β varies: observe that without any constraint imposition (which implies β = 0 in red), one achieves the highest reward, but incurs the most costs, i.e., hits obstacles most often.
 
-<!-- chunk {"id": "body-0055", "role": "body", "section": "Experiments", "weight": 1.0} -->
+<!-- chunk {"id": "body-0050", "role": "body", "section": "Experiments", "weight": 1.0} -->
+
+Larger β imposes more penalty, and hence β = 4 incurs lowest cost and lowest reward. Other instances are also shown for β = 1 and β = 2.
+
+<!-- chunk {"id": "body-0051", "role": "body", "section": "Experiments", "weight": 1.0} -->
 
 PG Ascent for Avoiding Obstacles. Suppose our goal is to navigate the Frozen Lake and avoid obstacles. We consider imposing penalties to avoid costly states \cf. ([2.6. ‣ 2 Problem Formulation ‣ Variational Policy Gradient Method for Reinforcement Learning with General Utilities"))\] via a logarithmic barrier (B.3), and by applying variational PG ascent, we obtain an optimal policy whose resulting occupancy measure is depicted in Fig. 3(a)(top). For comparison, we consider optimizing the standard expected cumulative return (2.1), whose state occupancy measure is given in Fig. 3(a)(middle). Observe that imposing log penalties yields policies whose probability mass is concentrated away from obstacles (dark green). Further, we display in Fig. 3 the reward 3(b) and cost 3(c) accumulation during test trajectories as a function of the iteration index for the PG ascent (4.1) for the cumulative return (2.1) as compared with a logarithmic barrier imposed to solve (2.6.
 
-<!-- chunk {"id": "body-0056", "role": "body", "section": "Experiments", "weight": 1.0} -->
+<!-- chunk {"id": "body-0052", "role": "body", "section": "Experiments", "weight": 1.0} -->
 
 ‣ 2 Problem Formulation ‣ Variational Policy Gradient Method for Reinforcement Learning with General Utilities")) for different penalty parameters $\beta$.
 
-<!-- chunk {"id": "body-0057", "role": "body", "section": "Broader Impact", "weight": 1.0} -->
+<!-- chunk {"id": "body-0053", "role": "body", "section": "Broader Impact", "weight": 1.0} -->
 
 While RL has a great number of potential applications, our work is of foundational nature and as such, the application of the ideas in this paper can have both broad positive and negative impacts. However, this paper is purely theoretical, as we do not aim at any specific application, there is nothing we can say about the most likely broader impact of this work that would go beyond speculation.

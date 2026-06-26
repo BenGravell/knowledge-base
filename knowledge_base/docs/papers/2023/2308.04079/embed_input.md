@@ -36,7 +36,7 @@ The second component of our method is optimization of the properties of the 3D G
 
 <!-- chunk {"id": "body-0009", "role": "body", "section": "Introduction", "weight": 1.5} -->
 
-The introduction of anisotropic 3D Gaussians as a high-quality, unstructured representation of radiance fields.
+To summarize, we provide the following contributions: The introduction of anisotropic 3D Gaussians as a high-quality, unstructured representation of radiance fields.
 
 <!-- chunk {"id": "body-0010", "role": "body", "section": "Introduction", "weight": 1.5} -->
 
@@ -80,304 +80,280 @@ There has been recent interest in *differentiable* point-based rendering techniq
 
 <!-- chunk {"id": "body-0020", "role": "body", "section": "Point-Based Rendering and Radiance Fields", "weight": 1.0} -->
 
-Point-based $\alpha$-blending and NeRF-style volumetric rendering share essentially the same image formation model.
+Point-based $\alpha$-blending and NeRF-style volumetric rendering share essentially the same image formation model. Specifically, the color $C$ is given by volumetric rendering along a ray: where samples of density $\sigma$, transmittance $T$, and color $\mathbf{c}$ are taken along the ray with intervals $\delta_{i}$. This can be re-written as A typical neural point-based approach (e.g.,) computes the color $C$ of a pixel by blending $\mathcal{N}$ ordered points overlapping the pixel: where $\mathbf{c}_{i}$ is the color of each point and $\alpha_{i}$ is given by evaluating a 2D Gaussian with covariance $\Sigma$ multiplied with a learned per-point opacity.
 
 <!-- chunk {"id": "body-0021", "role": "body", "section": "Point-Based Rendering and Radiance Fields", "weight": 1.0} -->
 
-where samples of density $\sigma$, transmittance $T$, and color $\mathbf{c}$ are taken along the ray with intervals $\delta_{i}$. This can be re-written as
+From Eq. 2 and Eq. 3, we can clearly see that the image formation model is the same. However, the rendering algorithm is very different. NeRFs are a continuous representation implicitly representing empty/occupied space; expensive random sampling is required to find the samples in Eq. 2 with consequent noise and computational expense. In contrast, points are an unstructured, discrete representation that is flexible enough to allow creation, destruction, and displacement of geometry similar to NeRF. This is achieved by optimizing opacity and positions, as shown by previous work, while avoiding the shortcomings of a full volumetric representation.
 
 <!-- chunk {"id": "body-0022", "role": "body", "section": "Point-Based Rendering and Radiance Fields", "weight": 1.0} -->
 
-where $\mathbf{c}_{i}$ is the color of each point and $\alpha_{i}$ is given by evaluating a 2D Gaussian with covariance $\Sigma$ multiplied with a learned per-point opacity.
+Pulsar achieves fast *sphere* rasterization which inspired our tile-based and sorting renderer. However, given the analysis above, we want to maintain (approximate) conventional $\alpha$-blending on sorted splats to have the advantages of volumetric representations: Our rasterization respects visibility order in contrast to their order-independent method. In addition, we backpropagate gradients on all splats in a pixel and rasterize anisotropic splats. These elements all contribute to the high visual quality of our results (see Sec. 7.3). In addition, previous methods mentioned above also use CNNs for rendering, which results in temporal instability. Nonetheless, the rendering speed of Pulsar and ADOP served as motivation to develop our fast rendering solution.
 
 <!-- chunk {"id": "body-0023", "role": "body", "section": "Point-Based Rendering and Radiance Fields", "weight": 1.0} -->
 
-From Eq. 2 and Eq. 3, we can clearly see that the image formation model is the same. However, the rendering algorithm is very different. NeRFs are a continuous representation implicitly representing empty/occupied space; expensive random sampling is required to find the samples in Eq. 2 with consequent noise and computational expense. In contrast, points are an unstructured, discrete representation that is flexible enough to allow creation, destruction, and displacement of geometry similar to NeRF. This is achieved by optimizing opacity and positions, as shown by previous work, while avoiding the shortcomings of a full volumetric representation.
+While focusing on specular effects, the diffuse point-based rendering track of Neural Point Catacaustics overcomes this temporal instability by using an MLP, but still required MVS geometry as input. The most recent method in this category does not require MVS, and also uses SH for directions; however, it can only handle scenes of one object and needs masks for initialization. While fast for small resolutions and low point counts, it is unclear how it can scale to scenes of typical datasets. We use 3D Gaussians for a more flexible scene representation, avoiding the need for MVS geometry and achieving real-time rendering thanks to our tile-based rendering algorithm for the projected Gaussians.
 
 <!-- chunk {"id": "body-0024", "role": "body", "section": "Point-Based Rendering and Radiance Fields", "weight": 1.0} -->
 
-Pulsar achieves fast *sphere* rasterization which inspired our tile-based and sorting renderer. However, given the analysis above, we want to maintain (approximate) conventional $\alpha$-blending on sorted splats to have the advantages of volumetric representations: Our rasterization respects visibility order in contrast to their order-independent method. In addition, we backpropagate gradients on all splats in a pixel and rasterize anisotropic splats. These elements all contribute to the high visual quality of our results (see Sec. 7.3). In addition, previous methods mentioned above also use CNNs for rendering, which results in temporal instability. Nonetheless, the rendering speed of Pulsar and ADOP served as motivation to develop our fast rendering solution.
+A recent approach uses points to represent a radiance field with a radial basis function approach. They employ point pruning and densification techniques during optimization, but use volumetric ray-marching and cannot achieve real-time display rates.
 
 <!-- chunk {"id": "body-0025", "role": "body", "section": "Point-Based Rendering and Radiance Fields", "weight": 1.0} -->
 
-While focusing on specular effects, the diffuse point-based rendering track of Neural Point Catacaustics overcomes this temporal instability by using an MLP, but still required MVS geometry as input. The most recent method in this category does not require MVS, and also uses SH for directions; however, it can only handle scenes of one object and needs masks for initialization. While fast for small resolutions and low point counts, it is unclear how it can scale to scenes of typical datasets. We use 3D Gaussians for a more flexible scene representation, avoiding the need for MVS geometry and achieving real-time rendering thanks to our tile-based rendering algorithm for the projected Gaussians.
-
-<!-- chunk {"id": "body-0026", "role": "body", "section": "Point-Based Rendering and Radiance Fields", "weight": 1.0} -->
-
-A recent approach uses points to represent a radiance field with a radial basis function approach. They employ point pruning and densification techniques during optimization, but use volumetric ray-marching and cannot achieve real-time display rates.
-
-<!-- chunk {"id": "body-0027", "role": "body", "section": "Point-Based Rendering and Radiance Fields", "weight": 1.0} -->
-
 In the domain of human performance capture, 3D Gaussians have been used to represent captured human bodies; more recently they have been used with volumetric ray-marching for vision tasks. Neural volumetric primitives have been proposed in a similar context. While these methods inspired the choice of 3D Gaussians as our scene representation, they focus on the specific case of reconstructing and rendering a single isolated object (a human body or face), resulting in scenes with small depth complexity. In contrast, our optimization of *anisotropic* covariance, our interleaved optimization/density control, and efficient depth sorting for rendering allow us to handle complete, complex scenes including background, both indoors and outdoors and with large depth complexity.
 
-<!-- chunk {"id": "body-0028", "role": "body", "section": "Overview", "weight": 1.0} -->
+<!-- chunk {"id": "body-0026", "role": "body", "section": "Overview", "weight": 1.0} -->
 
 The input to our method is a set of images of a static scene, together with the corresponding cameras calibrated by SfM which produces a sparse point cloud as a side-effect. From these points we create a set of 3D Gaussians (Sec. 4), defined by a position (mean), covariance matrix and opacity $\alpha$, that allows a very flexible optimization regime. This results in a reasonably compact representation of the 3D scene, in part because highly anisotropic volumetric splats can be used to represent fine structures compactly. The directional appearance component (color) of the radiance field is represented via spherical harmonics (SH), following standard practice. Our algorithm proceeds to create the radiance field representation (Sec. 5) via a sequence of optimization steps of 3D Gaussian parameters, i.e., position, covariance, $\alpha$ and SH coefficients interleaved with operations for adaptive control of the Gaussian density.
 
-<!-- chunk {"id": "body-0029", "role": "body", "section": "Overview", "weight": 1.0} -->
+<!-- chunk {"id": "body-0027", "role": "body", "section": "Overview", "weight": 1.0} -->
 
 The key to the efficiency of our method is our tile-based rasterizer (Sec. 6) that allows $\alpha$-blending of anisotropic splats, respecting visibility order thanks to fast sorting. Out fast rasterizer also includes a fast backward pass by tracking accumulated $\alpha$ values, without a limit on the number of Gaussians that can receive gradients. The overview of our method is illustrated in Fig. 2.
 
-<!-- chunk {"id": "body-0030", "role": "body", "section": "Differentiable 3D Gaussian Splatting", "weight": 1.0} -->
+<!-- chunk {"id": "body-0028", "role": "body", "section": "Differentiable 3D Gaussian Splatting", "weight": 1.0} -->
 
 Our goal is to optimize a scene representation that allows high-quality novel view synthesis, starting from a sparse set of (SfM) points without normals. To do this, we need a primitive that inherits the properties of differentiable volumetric representations, while at the same time being unstructured and explicit to allow very fast rendering. We choose 3D Gaussians, which are differentiable and can be easily projected to 2D splats allowing fast $\alpha$-blending for rendering.
 
+<!-- chunk {"id": "body-0029", "role": "body", "section": "Differentiable 3D Gaussian Splatting", "weight": 1.0} -->
+
+Our representation has similarities to previous methods that use 2D points and assume each point is a small planar circle with a normal. Given the extreme sparsity of SfM points it is very hard to estimate normals. Similarly, optimizing very noisy normals from such an estimation would be very challenging. Instead, we model the geometry as a set of 3D Gaussians that do not require normals. Our Gaussians are defined by a full 3D covariance matrix $\Sigma$ defined in world space centered at point (mean) $\mu$:. This Gaussian is multiplied by $\alpha$ in our blending process.
+
+<!-- chunk {"id": "body-0030", "role": "body", "section": "Differentiable 3D Gaussian Splatting", "weight": 1.0} -->
+
+However, we need to project our 3D Gaussians to 2D for rendering. Zwicker et al. demonstrate how to do this projection to image space. Given a viewing transformation $W$ the covariance matrix $\Sigma'$ in camera coordinates is given as follows: where $J$ is the Jacobian of the affine approximation of the projective transformation. Zwicker et al. also show that if we skip the third row and column of $\Sigma'$, we obtain a 2$\times$`<!-- -->`{=html}2 variance matrix with the same structure and properties as if we would start from planar points with normals, as in previous work.
+
 <!-- chunk {"id": "body-0031", "role": "body", "section": "Differentiable 3D Gaussian Splatting", "weight": 1.0} -->
-
-Our representation has similarities to previous methods that use 2D points and assume each point is a small planar circle with a normal. Given the extreme sparsity of SfM points it is very hard to estimate normals. Similarly, optimizing very noisy normals from such an estimation would be very challenging. Instead, we model the geometry as a set of 3D Gaussians that do not require normals.
-
-<!-- chunk {"id": "body-0032", "role": "body", "section": "Differentiable 3D Gaussian Splatting", "weight": 1.0} -->
-
-. This Gaussian is multiplied by $\alpha$ in our blending process.
-
-<!-- chunk {"id": "body-0033", "role": "body", "section": "Differentiable 3D Gaussian Splatting", "weight": 1.0} -->
-
-However, we need to project our 3D Gaussians to 2D for rendering. Zwicker et al. demonstrate how to do this projection to image space.
-
-<!-- chunk {"id": "body-0034", "role": "body", "section": "Differentiable 3D Gaussian Splatting", "weight": 1.0} -->
-
-where $J$ is the Jacobian of the affine approximation of the projective transformation. Zwicker et al. also show that if we skip the third row and column of $\Sigma^{\prime}$, we obtain a 2$\times$`<!-- -->`{=html}2 variance matrix with the same structure and properties as if we would start from planar points with normals, as in previous work.
-
-<!-- chunk {"id": "body-0035", "role": "body", "section": "Differentiable 3D Gaussian Splatting", "weight": 1.0} -->
 
 An obvious approach would be to directly optimize the covariance matrix $\Sigma$ to obtain 3D Gaussians that represent the radiance field. However, covariance matrices have physical meaning only when they are positive semi-definite. For our optimization of all our parameters, we use gradient descent that cannot be easily constrained to produce such valid matrices, and update steps and gradients can very easily create invalid covariance matrices.
 
-<!-- chunk {"id": "body-0036", "role": "body", "section": "Differentiable 3D Gaussian Splatting", "weight": 1.0} -->
+<!-- chunk {"id": "body-0032", "role": "body", "section": "Differentiable 3D Gaussian Splatting", "weight": 1.0} -->
 
-As a result, we opted for a more intuitive, yet equivalently expressive representation for optimization. The covariance matrix $\Sigma$ of a 3D Gaussian is analogous to describing the configuration of an ellipsoid.
+As a result, we opted for a more intuitive, yet equivalently expressive representation for optimization. The covariance matrix $\Sigma$ of a 3D Gaussian is analogous to describing the configuration of an ellipsoid. Given a scaling matrix $S$ and rotation matrix $R$, we can find the corresponding $\Sigma$: To allow independent optimization of both factors, we store them separately: a 3D vector $s$ for scaling and a quaternion $q$ to represent rotation. These can be trivially converted to their respective matrices and combined, making sure to normalize $q$ to obtain a valid unit quaternion.
 
-<!-- chunk {"id": "body-0037", "role": "body", "section": "Differentiable 3D Gaussian Splatting", "weight": 1.0} -->
-
-To allow independent optimization of both factors, we store them separately: a 3D vector $s$ for scaling and a quaternion $q$ to represent rotation. These can be trivially converted to their respective matrices and combined, making sure to normalize $q$ to obtain a valid unit quaternion.
-
-<!-- chunk {"id": "body-0038", "role": "body", "section": "Differentiable 3D Gaussian Splatting", "weight": 1.0} -->
+<!-- chunk {"id": "body-0033", "role": "body", "section": "Differentiable 3D Gaussian Splatting", "weight": 1.0} -->
 
 To avoid significant overhead due to automatic differentiation during training, we derive the gradients for all parameters explicitly. Details of the exact derivative computations are in appendix A.
 
-<!-- chunk {"id": "body-0039", "role": "body", "section": "Differentiable 3D Gaussian Splatting", "weight": 1.0} -->
+<!-- chunk {"id": "body-0034", "role": "body", "section": "Differentiable 3D Gaussian Splatting", "weight": 1.0} -->
 
 This representation of anisotropic covariance -- suitable for optimization -- allows us to optimize 3D Gaussians to adapt to the geometry of different shapes in captured scenes, resulting in a fairly compact representation. Fig. 3 illustrates such cases.
 
-<!-- chunk {"id": "body-0040", "role": "body", "section": "Differentiable 3D Gaussian Splatting", "weight": 1.0} -->
+<!-- chunk {"id": "body-0035", "role": "body", "section": "Differentiable 3D Gaussian Splatting", "weight": 1.0} -->
 
 \begin{overpic}[width=433.62pt]{figures/anisotropic/real2} \put(61.0,3.0){\color[rgb]{1,1,1}\definecolor[named]{pgfstrokecolor}{rgb}{1,1,1}\pgfsys@color@gray@stroke{1}\pgfsys@color@gray@fill{1}Original} \put(82.2,5.0){\color[rgb]{1,1,1}\definecolor[named]{pgfstrokecolor}{rgb}{1,1,1}\pgfsys@color@gray@stroke{1}\pgfsys@color@gray@fill{1}Shrunken}
 
-<!-- chunk {"id": "body-0041", "role": "body", "section": "Differentiable 3D Gaussian Splatting", "weight": 1.0} -->
+<!-- chunk {"id": "body-0036", "role": "body", "section": "Differentiable 3D Gaussian Splatting", "weight": 1.0} -->
 
 \put(82.0,1.2){\color[rgb]{1,1,1}\definecolor[named]{pgfstrokecolor}{rgb}{1,1,1}\pgfsys@color@gray@stroke{1}\pgfsys@color@gray@fill{1}Gaussians} \end{overpic} Figure 3. We visualize the 3D Gaussians after optimization by shrinking them 60% (far right). This clearly shows the anisotropic shapes of the 3D Gaussians that compactly represent complex geometry after optimization. Left the actual rendered image.
 
-<!-- chunk {"id": "body-0042", "role": "body", "section": "Optimization with Adaptive Density Control of 3D Gaussians", "weight": 1.0} -->
+<!-- chunk {"id": "body-0037", "role": "body", "section": "Optimization with Adaptive Density Control of 3D Gaussians", "weight": 1.0} -->
 
 The core of our approach is the optimization step, which creates a dense set of 3D Gaussians accurately representing the scene for free-view synthesis. In addition to positions $p$, $\alpha$, and covariance $\Sigma$, we also optimize SH coefficients representing color $c$ of each Gaussian to correctly capture the view-dependent appearance of the scene. The optimization of these parameters is interleaved with steps that control the density of the Gaussians to better represent the scene.
 
-<!-- chunk {"id": "body-0043", "role": "body", "section": "Optimization", "weight": 1.0} -->
+<!-- chunk {"id": "body-0038", "role": "body", "section": "Optimization", "weight": 1.0} -->
 
 The optimization is based on successive iterations of rendering and comparing the resulting image to the training views in the captured dataset. Inevitably, geometry may be incorrectly placed due to the ambiguities of 3D to 2D projection. Our optimization thus needs to be able to *create* geometry and also *destroy* or *move* geometry if it has been incorrectly positioned. The quality of the parameters of the covariances of the 3D Gaussians is critical for the compactness of the representation since large homogeneous areas can be captured with a small number of large anisotropic Gaussians.
 
-<!-- chunk {"id": "body-0044", "role": "body", "section": "Optimization", "weight": 1.0} -->
+<!-- chunk {"id": "body-0039", "role": "body", "section": "Optimization", "weight": 1.0} -->
 
 We use Stochastic Gradient Descent techniques for optimization, taking full advantage of standard GPU-accelerated frameworks, and the ability to add custom CUDA kernels for some operations, following recent best practice. In particular, our fast rasterization (see Sec. 6) is critical in the efficiency of our optimization, since it is the main computational bottleneck of the optimization.
 
-<!-- chunk {"id": "body-0045", "role": "body", "section": "Optimization", "weight": 1.0} -->
+<!-- chunk {"id": "body-0040", "role": "body", "section": "Optimization", "weight": 1.0} -->
 
 We use a sigmoid activation function for $\alpha$ to constrain it in the $\lbrack{0 - 1})$ range and obtain smooth gradients, and an exponential activation function for the scale of the covariance for similar reasons.
 
-<!-- chunk {"id": "body-0046", "role": "body", "section": "Optimization", "weight": 1.0} -->
+<!-- chunk {"id": "body-0041", "role": "body", "section": "Optimization", "weight": 1.0} -->
 
-We estimate the initial covariance matrix as an isotropic Gaussian with axes equal to the mean of the distance to the closest three points. We use a standard exponential decay scheduling technique similar to Plenoxels, but for positions only.
+We estimate the initial covariance matrix as an isotropic Gaussian with axes equal to the mean of the distance to the closest three points. We use a standard exponential decay scheduling technique similar to Plenoxels, but for positions only. The loss function is $\mathcal{L}_{1}$ combined with a D-SSIM term: We use $\lambda = 0.2$ in all our tests. We provide details of the learning schedule and other elements in Sec. 7.1.
 
-<!-- chunk {"id": "body-0047", "role": "body", "section": "Optimization", "weight": 1.0} -->
-
-We use $\lambda = 0.2$ in all our tests. We provide details of the learning schedule and other elements in Sec. 7.1.
-
-<!-- chunk {"id": "body-0048", "role": "body", "section": "Adaptive Control of Gaussians", "weight": 1.0} -->
+<!-- chunk {"id": "body-0042", "role": "body", "section": "Adaptive Control of Gaussians", "weight": 1.0} -->
 
 We start with the initial set of sparse points from SfM and then apply our method to adaptively control the number of Gaussians and their density over unit volume^11^1Density of Gaussians should not be confused of course with density $\sigma$ in the NeRF literature., allowing us to go from an initial sparse set of Gaussians to a denser set that better represents the scene, and with correct parameters. After optimization warm-up (see Sec. 7.1), we densify every 100 iterations and remove any Gaussians that are essentially transparent, i.e., with $\alpha$ less than a threshold $\epsilon_{\alpha}$.
 
-<!-- chunk {"id": "body-0049", "role": "body", "section": "Adaptive Control of Gaussians", "weight": 1.0} -->
+<!-- chunk {"id": "body-0043", "role": "body", "section": "Adaptive Control of Gaussians", "weight": 1.0} -->
 
 Our adaptive control of the Gaussians needs to populate empty areas. It focuses on regions with missing geometric features ("under-reconstruction"), but also in regions where Gaussians cover large areas in the scene (which often correspond to "over-reconstruction"). We observe that both have *large* view-space positional gradients. Intuitively, this is likely because they correspond to regions that are not yet well reconstructed, and the optimization tries to move the Gaussians to correct this.
 
-<!-- chunk {"id": "body-0050", "role": "body", "section": "Adaptive Control of Gaussians", "weight": 1.0} -->
+<!-- chunk {"id": "body-0044", "role": "body", "section": "Adaptive Control of Gaussians", "weight": 1.0} -->
 
 Since both cases are good candidates for densification, we densify Gaussians with an average magnitude of view-space position gradients above a threshold $\tau_{\text{pos}}$, which we set to $0.0002$ in our tests.
 
-<!-- chunk {"id": "body-0051", "role": "body", "section": "Adaptive Control of Gaussians", "weight": 1.0} -->
+<!-- chunk {"id": "body-0045", "role": "body", "section": "Adaptive Control of Gaussians", "weight": 1.0} -->
 
 We next present details of this process, illustrated in Fig. 4.
 
-<!-- chunk {"id": "body-0052", "role": "body", "section": "Adaptive Control of Gaussians", "weight": 1.0} -->
+<!-- chunk {"id": "body-0046", "role": "body", "section": "Adaptive Control of Gaussians", "weight": 1.0} -->
 
 For small Gaussians that are in under-reconstructed regions, we need to cover the new geometry that must be created. For this, it is preferable to clone the Gaussians, by simply creating a copy of the same size, and moving it in the direction of the positional gradient.
 
-<!-- chunk {"id": "body-0053", "role": "body", "section": "Adaptive Control of Gaussians", "weight": 1.0} -->
+<!-- chunk {"id": "body-0047", "role": "body", "section": "Adaptive Control of Gaussians", "weight": 1.0} -->
 
 On the other hand, large Gaussians in regions with high variance need to be split into smaller Gaussians. We replace such Gaussians by two new ones, and divide their scale by a factor of $\phi = 1.6$ which we determined experimentally. We also initialize their position by using the original 3D Gaussian as a PDF for sampling.
 
-<!-- chunk {"id": "body-0054", "role": "body", "section": "Adaptive Control of Gaussians", "weight": 1.0} -->
+<!-- chunk {"id": "body-0048", "role": "body", "section": "Adaptive Control of Gaussians", "weight": 1.0} -->
 
 In the first case we detect and treat the need for increasing both the total volume of the system and the number of Gaussians, while in the second case we conserve total volume but increase the number of Gaussians. Similar to other volumetric representations, our optimization can get stuck with floaters close to the input cameras; in our case this may result in an unjustified increase in the Gaussian density. An effective way to moderate the increase in the number of Gaussians is to set the $\alpha$ value close to zero every $N = 3000$ iterations. The optimization then increases the $\alpha$ for the Gaussians where this is needed while allowing our culling approach to remove Gaussians with $\alpha$ less than $\epsilon_{\alpha}$ as described above. Gaussians may shrink or grow and considerably overlap with others, but we periodically remove Gaussians that are very large in worldspace and those that have a big footprint in viewspace. This strategy results in overall good control over the total number of Gaussians.
 
-<!-- chunk {"id": "body-0055", "role": "body", "section": "Adaptive Control of Gaussians", "weight": 1.0} -->
+<!-- chunk {"id": "body-0049", "role": "body", "section": "Adaptive Control of Gaussians", "weight": 1.0} -->
 
 The Gaussians in our model remain primitives in Euclidean space at all times; unlike other methods, we do not require space compaction, warping or projection strategies for distant or large Gaussians.
 
-<!-- chunk {"id": "body-0056", "role": "body", "section": "Fast Differentiable Rasterizer for Gaussians", "weight": 1.0} -->
+<!-- chunk {"id": "body-0050", "role": "body", "section": "Fast Differentiable Rasterizer for Gaussians", "weight": 1.0} -->
 
 Our goals are to have fast overall rendering and fast sorting to allow approximate $\alpha$-blending -- including for anisotropic splats -- and to avoid hard limits on the number of splats that can receive gradients that exist in previous work.
 
-<!-- chunk {"id": "body-0057", "role": "body", "section": "Fast Differentiable Rasterizer for Gaussians", "weight": 1.0} -->
+<!-- chunk {"id": "body-0051", "role": "body", "section": "Fast Differentiable Rasterizer for Gaussians", "weight": 1.0} -->
 
 To achieve these goals, we design a tile-based rasterizer for Gaussian splats inspired by recent software rasterization approaches to pre-sort primitives for an entire image at a time, avoiding the expense of sorting per pixel that hindered previous $\alpha$-blending solutions. Our fast rasterizer allows efficient backpropagation over an arbitrary number of blended Gaussians with low additional memory consumption, requiring only a constant overhead per pixel. Our rasterization pipeline is fully differentiable, and given the projection to 2D (Sec. 4) can rasterize anisotropic splats similar to previous 2D splatting methods.
 
-<!-- chunk {"id": "body-0058", "role": "body", "section": "Fast Differentiable Rasterizer for Gaussians", "weight": 1.0} -->
+<!-- chunk {"id": "body-0052", "role": "body", "section": "Fast Differentiable Rasterizer for Gaussians", "weight": 1.0} -->
 
 Our method starts by splitting the screen into 16$\times$`<!-- -->`{=html}16 tiles, and then proceeds to cull 3D Gaussians against the view frustum and each tile. Specifically, we only keep Gaussians with a 99% confidence interval intersecting the view frustum. Additionally, we use a guard band to trivially reject Gaussians at extreme positions (i.e., those with means close to the near plane and far outside the view frustum), since computing their projected 2D covariance would be unstable. We then instantiate each Gaussian according to the number of tiles they overlap and assign each instance a key that combines view space depth and tile ID. We then sort Gaussians based on these keys using a single fast GPU Radix sort. Note that there is no additional per-pixel ordering of points, and blending is performed based on this initial sorting. As a consequence, our $\alpha$-blending can be approximate in some configurations. However, these approximations become negligible as splats approach the size of individual pixels.
 
-<!-- chunk {"id": "body-0059", "role": "body", "section": "Fast Differentiable Rasterizer for Gaussians", "weight": 1.0} -->
+<!-- chunk {"id": "body-0053", "role": "body", "section": "Fast Differentiable Rasterizer for Gaussians", "weight": 1.0} -->
 
 We found that this choice greatly enhances training and rendering performance without producing visible artifacts in converged scenes.
 
-<!-- chunk {"id": "body-0060", "role": "body", "section": "Fast Differentiable Rasterizer for Gaussians", "weight": 1.0} -->
+<!-- chunk {"id": "body-0054", "role": "body", "section": "Fast Differentiable Rasterizer for Gaussians", "weight": 1.0} -->
 
 After sorting Gaussians, we produce a list for each tile by identifying the first and last depth-sorted entry that splats to a given tile. For rasterization, we launch one thread block for each tile. Each block first collaboratively loads packets of Gaussians into shared memory and then, for a given pixel, accumulates color and $\alpha$ values by traversing the lists front-to-back, thus maximizing the gain in parallelism both for data loading/sharing and processing. When we reach a target saturation of $\alpha$ in a pixel, the corresponding thread stops. At regular intervals, threads in a tile are queried and the processing of the entire tile terminates when all pixels have saturated (i.e., $\alpha$ goes to 1). Details of sorting and a high-level overview of the overall rasterization approach are given in Appendix C.
 
-<!-- chunk {"id": "body-0061", "role": "body", "section": "Fast Differentiable Rasterizer for Gaussians", "weight": 1.0} -->
+<!-- chunk {"id": "body-0055", "role": "body", "section": "Fast Differentiable Rasterizer for Gaussians", "weight": 1.0} -->
 
 During rasterization, the saturation of $\alpha$ is the only stopping criterion. In contrast to previous work, we do not limit the number of blended primitives that receive gradient updates. We enforce this property to allow our approach to handle scenes with an arbitrary, varying depth complexity and accurately learn them, without having to resort to scene-specific hyperparameter tuning. During the backward pass, we must therefore recover the full sequence of blended points per-pixel in the forward pass. One solution would be to store arbitrarily long lists of blended points per-pixel in global memory. To avoid the implied dynamic memory management overhead, we instead choose to traverse the per-tile lists again; we can reuse the sorted array of Gaussians and tile ranges from the forward pass. To facilitate gradient computation, we now traverse them back-to-front.
 
-<!-- chunk {"id": "body-0062", "role": "body", "section": "Fast Differentiable Rasterizer for Gaussians", "weight": 1.0} -->
+<!-- chunk {"id": "body-0056", "role": "body", "section": "Fast Differentiable Rasterizer for Gaussians", "weight": 1.0} -->
 
 The traversal starts from the last point that affected any pixel in the tile, and loading of points into shared memory again happens collaboratively. Additionally, each pixel will only start (expensive) overlap testing and processing of points if their depth is lower than or equal to the depth of the last point that contributed to its color during the forward pass. Computation of the gradients described in Sec. 4 requires the accumulated opacity values at each step during the original blending process. Rather than trasversing an explicit list of progressively shrinking opacities in the backward pass, we can recover these intermediate opacities by storing only the total accumulated opacity at the end of the forward pass. Specifically, each point stores the final accumulated opacity $\alpha$ in the forward process; we divide this by each point's $\alpha$ in our back-to-front traversal to obtain the required coefficients for gradient computation.
 
-<!-- chunk {"id": "body-0063", "role": "body", "section": "Fast Differentiable Rasterizer for Gaussians", "weight": 1.0} -->
+<!-- chunk {"id": "body-0057", "role": "body", "section": "Fast Differentiable Rasterizer for Gaussians", "weight": 1.0} -->
 
 Table 1. Quantitative evaluation of our method compared to previous work, computed over three datasets. Results marked with dagger † have been directly adopted from the original paper, all others were obtained in our own experiments.
 
-<!-- chunk {"id": "body-0064", "role": "body", "section": "Implementation, results and evaluation", "weight": 1.0} -->
+<!-- chunk {"id": "body-0058", "role": "body", "section": "Implementation, results and evaluation", "weight": 1.0} -->
 
 We next discuss some details of implementation, present results and the evaluation of our algorithm compared to previous work and ablation studies.
 
-<!-- chunk {"id": "body-0065", "role": "body", "section": "Implementation, results and evaluation", "weight": 1.0} -->
+<!-- chunk {"id": "body-0059", "role": "body", "section": "Implementation, results and evaluation", "weight": 1.0} -->
 
 Table 2. PSNR scores for Synthetic NeRF, we start with 100K randomly initialized points. Competing metrics extracted from respective papers.
 
-<!-- chunk {"id": "body-0066", "role": "body", "section": "Implementation", "weight": 1.0} -->
+<!-- chunk {"id": "body-0060", "role": "body", "section": "Implementation", "weight": 1.0} -->
 
 We implemented our method in Python using the PyTorch framework and wrote custom CUDA kernels for rasterization that are extended versions of previous methods, and use the NVIDIA CUB sorting routines for the fast Radix sort. We also built an interactive viewer using the open-source SIBR, used for interactive viewing. We used this implementation to measure our achieved frame rates.
 
-<!-- chunk {"id": "body-0067", "role": "body", "section": "Optimization Details", "weight": 1.0} -->
+<!-- chunk {"id": "body-0061", "role": "body", "section": "Optimization Details", "weight": 1.0} -->
 
 For stability, we "warm-up" the computation in lower resolution. Specifically, we start the optimization using 4 times smaller image resolution and we upsample twice after 250 and 500 iterations.
 
-<!-- chunk {"id": "body-0068", "role": "body", "section": "Optimization Details", "weight": 1.0} -->
+<!-- chunk {"id": "body-0062", "role": "body", "section": "Optimization Details", "weight": 1.0} -->
 
 SH coefficient optimization is sensitive to the lack of angular information. For typical "NeRF-like" captures where a central object is observed by photos taken in the entire hemisphere around it, the optimization works well. However, if the capture has angular regions missing (e.g., when capturing the corner of a scene, or performing an "inside-out" capture) completely incorrect values for the zero-order component of the SH (i.e., the base or diffuse color) can be produced by the optimization. To overcome this problem we start by optimizing only the zero-order component, and then introduce one band of the SH after every 1000 iterations until all 4 bands of SH are represented.
 
-<!-- chunk {"id": "body-0069", "role": "body", "section": "Optimization Details", "weight": 1.0} -->
+<!-- chunk {"id": "body-0063", "role": "body", "section": "Optimization Details", "weight": 1.0} -->
 
 Table 3. PSNR Score for ablation runs. For this experiment, we manually downsampled high-resolution versions of each scene’s input images to the established rendering resolution of our other experiments. Doing so reduces random artifacts (e.g., due to JPEG compression in the pre-downscaled Mip-NeRF360 inputs).
 
-<!-- chunk {"id": "body-0070", "role": "body", "section": "Results", "weight": 1.0} -->
+<!-- chunk {"id": "body-0064", "role": "body", "section": "Results", "weight": 1.0} -->
 
 We tested our algorithm on a total of 13 real scenes taken from previously published datasets and the synthetic Blender dataset. In particular, we tested our approach on the full set of scenes presented in Mip-Nerf360, which is the current state of the art in NeRF rendering quality, two scenes from the Tanks&Temples dataset and two scenes provided by Hedman et al.. The scenes we chose have very different capture styles, and cover both bounded indoor scenes and large unbounded outdoor environments. We use the same hyperparameter configuration for all experiments in our evaluation. All results are reported running on an A6000 GPU, except for the Mip-NeRF360 method (see below).
 
-<!-- chunk {"id": "body-0071", "role": "body", "section": "Results", "weight": 1.0} -->
+<!-- chunk {"id": "body-0065", "role": "body", "section": "Results", "weight": 1.0} -->
 
 In supplemental, we show a rendered video path for a selection of scenes that contain views far from the input photos.
 
-<!-- chunk {"id": "body-0072", "role": "body", "section": "Real-World Scenes", "weight": 1.0} -->
+<!-- chunk {"id": "body-0066", "role": "body", "section": "Real-World Scenes", "weight": 1.0} -->
 
 In terms of quality, the current state-of-the-art is Mip-Nerf360. We compare against this method as a quality benchmark. We also compare against two of the most recent fast NeRF methods: InstantNGP and Plenoxels.
 
-<!-- chunk {"id": "body-0073", "role": "body", "section": "Real-World Scenes", "weight": 1.0} -->
+<!-- chunk {"id": "body-0067", "role": "body", "section": "Real-World Scenes", "weight": 1.0} -->
 
 We use a train/test split for datasets, using the methodology suggested by Mip-NeRF360, taking every 8th photo for test, for consistent and meaningful comparisons to generate the error metrics, using the standard PSNR, L-PIPS, and SSIM metrics used most frequently in the literature; please see Table 1. All numbers in the table are from our own runs of the author's code for all previous methods, except for those of Mip-NeRF360 on their dataset, in which we copied the numbers from the original publication to avoid confusion about the current SOTA. For the images in our figures, we used our own run of Mip-NeRF360: the numbers for these runs are in Appendix D. We also show the average training time, rendering speed, and memory used to store optimized parameters. We report results for a basic configuration of InstantNGP (Base) that run for 35K iterations as well as a slightly larger network suggested by the authors (Big), and two configurations, 7K and 30K iterations for ours.
 
-<!-- chunk {"id": "body-0074", "role": "body", "section": "Real-World Scenes", "weight": 1.0} -->
+<!-- chunk {"id": "body-0068", "role": "body", "section": "Real-World Scenes", "weight": 1.0} -->
 
 We show the difference in visual quality for our two configurations in Fig. 6. In many cases, quality at 7K iterations is already quite good.
 
-<!-- chunk {"id": "body-0075", "role": "body", "section": "Real-World Scenes", "weight": 1.0} -->
+<!-- chunk {"id": "body-0069", "role": "body", "section": "Real-World Scenes", "weight": 1.0} -->
 
 The training times vary over datasets and we report them separately. Note that image resolutions also vary over datasets. In the project website, we provide all the renders of test views we used to compute the statistics for all the methods (ours and previous work) on all scenes. Note that we kept the native input resolution for all renders.
 
-<!-- chunk {"id": "body-0076", "role": "body", "section": "Real-World Scenes", "weight": 1.0} -->
+<!-- chunk {"id": "body-0070", "role": "body", "section": "Real-World Scenes", "weight": 1.0} -->
 
 The table shows that our fully converged model achieves quality that is on par and sometimes slightly better than the SOTA Mip-NeRF360 method; note that on the same hardware, their average training time was 48 hours^22^2We trained Mip-NeRF360 on a 4-GPU A100 node for 12 hours, equivalent to 48 hours on a single GPU. Note that A100's are faster than A6000 GPUs., compared to our 35-45min, and their rendering time is 10s/frame. We achieve comparable quality to InstantNGP and Plenoxels after 5-10m of training, but additional training time allows us to achieve SOTA quality which is not the case for the other fast methods. For Tanks & Temples, we achieve similar quality as the basic InstantNGP at a similar training time ($\sim$`<!-- -->`{=html}7min in our case).
 
-<!-- chunk {"id": "body-0077", "role": "body", "section": "Real-World Scenes", "weight": 1.0} -->
+<!-- chunk {"id": "body-0071", "role": "body", "section": "Real-World Scenes", "weight": 1.0} -->
 
 We also show visual results of this comparison for a left-out test view for ours and the previous rendering methods selected for comparison in Fig. 5; the results of our method are for 30K iterations of training. We see that in some cases even Mip-NeRF360 has remaining artifacts that our method avoids (e.g., blurriness in vegetation -- in Bicycle, Stump -- or on the walls in Room). In the supplemental video and web page we provide comparisons of paths from a distance. Our method tends to preserve visual detail of well-covered regions even from far away, which is not always the case for previous methods.
 
-<!-- chunk {"id": "body-0078", "role": "body", "section": "Synthetic Bounded Scenes", "weight": 1.0} -->
+<!-- chunk {"id": "body-0072", "role": "body", "section": "Synthetic Bounded Scenes", "weight": 1.0} -->
 
 In addition to realistic scenes, we also evaluate our approach on the synthetic *Blender* dataset. The scenes in question provide an exhaustive set of views, are limited in size, and provide exact camera parameters. In such scenarios, we can achieve state-of-the-art results even with random initialization: we start training from 100K uniformly random Gaussians inside a volume that encloses the scene bounds. Our approach quickly and automatically prunes them to about 6--10K meaningful Gaussians. The final size of the trained model after 30K iterations reaches about 200--500K Gaussians per scene. We report and compare our achieved PSNR scores with previous methods in Table 2 using a white background for compatibility. Examples can be seen in Fig. 10 (second image from the left) and in supplemental material. The trained synthetic scenes rendered at 180--300 FPS.
 
-<!-- chunk {"id": "body-0079", "role": "body", "section": "Compactness", "weight": 1.0} -->
+<!-- chunk {"id": "body-0073", "role": "body", "section": "Compactness", "weight": 1.0} -->
 
 In comparison to previous explicit scene representations, the anisotropic Gaussians used in our optimization are capable of modelling complex shapes with a lower number of parameters. We showcase this by evaluating our approach against the highly compact, point-based models obtained. We start from their initial point cloud which is obtained by space carving with foreground masks and optimize until we break even with their reported PSNR scores. This usually happens within 2--4 minutes. We surpass their reported metrics using approximately one-fourth of their point count, resulting in an average model size of 3.8 MB, as opposed to their 9 MB. We note that for this experiment, we only used two degrees of our spherical harmonics, similar to theirs.
 
-<!-- chunk {"id": "body-0080", "role": "body", "section": "Ablations", "weight": 1.0} -->
+<!-- chunk {"id": "body-0074", "role": "body", "section": "Ablations", "weight": 1.0} -->
 
 We isolated the different contributions and algorithmic choices we made and constructed a set of experiments to measure their effect. Specifically we test the following aspects of our algorithm: initialization from SfM, our densification strategies, anisotropic covariance, the fact that we allow an unlimited number of splats to have gradients and use of spherical harmonics. The quantitative effect of each choice is summarized in Table 3.
 
-<!-- chunk {"id": "body-0081", "role": "body", "section": "Initialization from SfM", "weight": 1.0} -->
+<!-- chunk {"id": "body-0075", "role": "body", "section": "Initialization from SfM", "weight": 1.0} -->
 
 We also assess the importance of initializing the 3D Gaussians from the SfM point cloud. For this ablation, we uniformly sample a cube with a size equal to three times the extent of the input camera's bounding box. We observe that our method performs relatively well, avoiding complete failure even without the SfM points. Instead, it degrades mainly in the background, see Fig. 7. Also in areas not well covered from training views, the random initialization method appears to have more floaters that cannot be removed by optimization. On the other hand, the synthetic NeRF dataset does not have this behavior because it has no background and is well constrained by the input cameras (see discussion above).
 
-<!-- chunk {"id": "body-0082", "role": "body", "section": "Densification", "weight": 1.0} -->
+<!-- chunk {"id": "body-0076", "role": "body", "section": "Densification", "weight": 1.0} -->
 
 We next evaluate our two densification methods, more specifically the clone and split strategy described in Sec. 5. We disable each method separately and optimize using the rest of the method unchanged. Results show that splitting big Gaussians is important to allow good reconstruction of the background as seen in Fig. 8, while cloning the small Gaussians instead of splitting them allows for a better and faster convergence especially when thin structures appear in the scene.
 
-<!-- chunk {"id": "body-0083", "role": "body", "section": "Unlimited depth complexity of splats with gradients", "weight": 1.0} -->
+<!-- chunk {"id": "body-0077", "role": "body", "section": "Unlimited depth complexity of splats with gradients", "weight": 1.0} -->
 
 We evaluate if skipping the gradient computation after the $N$ front-most points will give us speed without sacrificing quality, as suggested in Pulsar. In this test, we choose N=10, which is two times higher than the default value in Pulsar, but it led to unstable optimization because of the severe approximation in the gradient computation. For the Truck scene, quality degraded by 11dB in PSNR (see Table 3, Limited-BW), and the visual outcome is shown in Fig. 9 for Garden.
 
-<!-- chunk {"id": "body-0084", "role": "body", "section": "Anisotropic Covariance", "weight": 1.0} -->
+<!-- chunk {"id": "body-0078", "role": "body", "section": "Anisotropic Covariance", "weight": 1.0} -->
 
 An important algorithmic choice in our method is the optimization of the full covariance matrix for the 3D Gaussians. To demonstrate the effect of this choice, we perform an ablation where we remove anisotropy by optimizing a single scalar value that controls the radius of the 3D Gaussian on all three axes. The results of this optimization are presented visually in Fig. 10. We observe that the anisotropy significantly improves the quality of the 3D Gaussian's ability to align with surfaces, which in turn allows for much higher rendering quality while maintaining the same number of points.
 
-<!-- chunk {"id": "body-0085", "role": "body", "section": "Spherical Harmonics", "weight": 1.0} -->
+<!-- chunk {"id": "body-0079", "role": "body", "section": "Spherical Harmonics", "weight": 1.0} -->
 
 Finally, the use of spherical harmonics improves our overall PSNR scores since they compensate for the view-dependent effects (Table 3).
 
-<!-- chunk {"id": "body-0086", "role": "body", "section": "Limitations", "weight": 1.5} -->
+<!-- chunk {"id": "body-0080", "role": "body", "section": "Limitations", "weight": 1.5} -->
 
 Our method is not without limitations. In regions where the scene is not well observed we have artifacts; in such regions, other methods also struggle (e.g., Mip-NeRF360 in Fig. 11). Even though the anisotropic Gaussians have many advantages as described above, our method can create elongated artifacts or "splotchy" Gaussians (see Fig. 12); again previous methods also struggle in these cases.
 
-<!-- chunk {"id": "body-0087", "role": "body", "section": "Limitations", "weight": 1.5} -->
+<!-- chunk {"id": "body-0081", "role": "body", "section": "Limitations", "weight": 1.5} -->
 
 We also occasionally have popping artifacts when our optimization creates large Gaussians; this tends to happen in regions with view-dependent appearance. One reason for these popping artifacts is the trivial rejection of Gaussians via a guard band in the rasterizer. A more principled culling approach would alleviate these artifacts. Another factor is our simple visibility algorithm, which can lead to Gaussians suddenly switching depth/blending order. This could be addressed by antialiasing, which we leave as future work. Also, we currently do not apply any regularization to our optimization; doing so would help with both the unseen region and popping artifacts.
 
-<!-- chunk {"id": "body-0088", "role": "body", "section": "Limitations", "weight": 1.5} -->
+<!-- chunk {"id": "body-0082", "role": "body", "section": "Limitations", "weight": 1.5} -->
 
 While we used the same hyperparameters for our full evaluation, early experiments show that reducing the position learning rate can be necessary to converge in very large scenes (e.g., urban datasets).
 
-<!-- chunk {"id": "body-0089", "role": "body", "section": "Limitations", "weight": 1.5} -->
+<!-- chunk {"id": "body-0083", "role": "body", "section": "Limitations", "weight": 1.5} -->
 
 Even though we are very compact compared to previous point-based approaches, our memory consumption is significantly higher than NeRF-based solutions. During training of large scenes, peak GPU memory consumption can exceed 20 GB in our unoptimized prototype. However, this figure could be significantly reduced by a careful low-level implementation of the optimization logic (similar to InstantNGP). Rendering the trained scene requires sufficient GPU memory to store the full model (several hundred megabytes for large-scale scenes) and an additional 30--500 MB for the rasterizer, depending on scene size and image resolution. We note that there are many opportunities to further reduce memory consumption of our method. Compression techniques for point clouds is a well-studied field; it would be interesting to see how such approaches could be adapted to our representation.
 
-<!-- chunk {"id": "body-0090", "role": "body", "section": "Discussion and Conclusions", "weight": 1.5} -->
+<!-- chunk {"id": "body-0084", "role": "body", "section": "Discussion and Conclusions", "weight": 1.5} -->
 
 We have presented the first approach that truly allows real-time, high-quality radiance field rendering, in a wide variety of scenes and capture styles, while requiring training times competitive with the fastest previous methods.
 
-<!-- chunk {"id": "body-0091", "role": "body", "section": "Discussion and Conclusions", "weight": 1.5} -->
+<!-- chunk {"id": "body-0085", "role": "body", "section": "Discussion and Conclusions", "weight": 1.5} -->
 
 Our choice of a 3D Gaussian primitive preserves properties of volumetric rendering for optimization while directly allowing fast splat-based rasterization. Our work demonstrates that -- contrary to widely accepted opinion -- a continuous representation is *not* strictly necessary to allow fast and high-quality radiance field training.
 
-<!-- chunk {"id": "body-0092", "role": "body", "section": "Discussion and Conclusions", "weight": 1.5} -->
+<!-- chunk {"id": "body-0086", "role": "body", "section": "Discussion and Conclusions", "weight": 1.5} -->
 
 The majority ($\sim$`<!-- -->`{=html}80%) of our training time is spent in Python code, since we built our solution in PyTorch to allow our method to be easily used by others. Only the rasterization routine is implemented as optimized CUDA kernels. We expect that porting the remaining optimization entirely to CUDA, as e.g., done in InstantNGP, could enable significant further speedup for applications where performance is essential.
 
-<!-- chunk {"id": "body-0093", "role": "body", "section": "Discussion and Conclusions", "weight": 1.5} -->
+<!-- chunk {"id": "body-0087", "role": "body", "section": "Discussion and Conclusions", "weight": 1.5} -->
 
 We also demonstrated the importance of building on real-time rendering principles, exploiting the power of the GPU and speed of software rasterization pipeline architecture. These design choices are the key to performance both for training and real-time rendering, providing a competitive edge in performance over previous volumetric ray-marching.
 
-<!-- chunk {"id": "body-0094", "role": "body", "section": "Discussion and Conclusions", "weight": 1.5} -->
+<!-- chunk {"id": "body-0088", "role": "body", "section": "Discussion and Conclusions", "weight": 1.5} -->
 
 It would be interesting to see if our Gaussians can be used to perform mesh reconstructions of the captured scene. Aside from practical implications given the widespread use of meshes, this would allow us to better understand where our method stands exactly in the continuum between volumetric and surface representations.
 
-<!-- chunk {"id": "body-0095", "role": "body", "section": "Discussion and Conclusions", "weight": 1.5} -->
+<!-- chunk {"id": "body-0089", "role": "body", "section": "Discussion and Conclusions", "weight": 1.5} -->
 
 In conclusion, we have presented the first real-time rendering solution for radiance fields, with rendering quality that matches the best expensive previous methods, with training times competitive with the fastest existing solutions.

@@ -32,7 +32,7 @@ To address the issue of low fidelity, we introduce the concept of restoration-gu
 
 <!-- chunk {"id": "body-0008", "role": "body", "section": "Image Restoration", "weight": 1.0} -->
 
-The goal of IR is to convert degraded images into high-quality degradation-free images. In the early stage, researchers independently explored different types of image degradation, such as super-resolution (SR), denoising, and deblurring. However, these methods are often based on specific degradation assumptions and therefore lack generalization ability to other degradations \[ gu2024interpretability\]. Over time, the need for blind IR methods that are not based on specific degradation assumptions has grown. In this trend, some methods synthesize real-world degradation by more complex degradation models, and are well-known for handling multiple degradation with a single model. DiffBIR unifies different restoration problems into a single model. In this paper, we adopt a similar setting to DiffBIR and use a single model to achieve effective processing of various severe degradations.
+The goal of IR is to convert degraded images into high-quality degradation-free images. In the early stage, researchers independently explored different types of image degradation, such as super-resolution (SR), denoising, and deblurring. However, these methods are often based on specific degradation assumptions and therefore lack generalization ability to other degradations \[29, 97, 53, gu2024interpretability\]. Over time, the need for blind IR methods that are not based on specific degradation assumptions has grown. In this trend, some methods synthesize real-world degradation by more complex degradation models, and are well-known for handling multiple degradation with a single model. DiffBIR unifies different restoration problems into a single model. In this paper, we adopt a similar setting to DiffBIR and use a single model to achieve effective processing of various severe degradations.
 
 <!-- chunk {"id": "body-0009", "role": "body", "section": "Generative Prior", "weight": 1.0} -->
 
@@ -72,88 +72,84 @@ Diffusion models are renowned for their ability to generate images based on text
 
 <!-- chunk {"id": "body-0018", "role": "body", "section": "Multi-Modality Language Guidance", "weight": 1.0} -->
 
-First, we revise the overall framework to incorporate the LLaVA multi-modal LLM into our pipeline, as shown in Fig. 2. LLaVA takes the degradation-robust processed LQ images $x_{LQ}^{\prime} = {\mathcal{D}{({\mathcal{E}_{dr}{(x_{LQ})}})}}$ as input and explicitly understands the content within the images, outputting in the form of textual descriptions. These descriptions are then used as prompts to guide the restoration. This process can be automated during testing, eliminating the need for manual intervention. Secondly, following the approach of PixART, we also collect textual annotations for all the training images, to reinforce the role of textual control during the training of out model. These two changes endow SUPIR with the ability to understand image content and to restore images based on textual prompts.
+First, we revise the overall framework to incorporate the LLaVA multi-modal LLM into our pipeline, as shown in Fig. 2. LLaVA takes the degradation-robust processed LQ images $x_{LQ}' = {\mathcal{D}{({\mathcal{E}_{dr}{(x_{LQ})}})}}$ as input and explicitly understands the content within the images, outputting in the form of textual descriptions. These descriptions are then used as prompts to guide the restoration. This process can be automated during testing, eliminating the need for manual intervention. Secondly, following the approach of PixART, we also collect textual annotations for all the training images, to reinforce the role of textual control during the training of out model. These two changes endow SUPIR with the ability to understand image content and to restore images based on textual prompts.
 
 <!-- chunk {"id": "body-0019", "role": "body", "section": "Negative-Quality Samples and Prompt", "weight": 1.0} -->
 
-Classifier-free guidance (CFG) provides another way of control by using negative prompts to specify undesired content for the model. We can use this feature to specify the model NOT to produce low-quality images.
+Classifier-free guidance (CFG) provides another way of control by using negative prompts to specify undesired content for the model. We can use this feature to specify the model NOT to produce low-quality images. Specifically, at each step of diffusion, we will make two predictions using positive prompts $pos$ and negative prompts $neg$, and take the fusion of these two results as the final output $z_{t - 1}$: where $\mathcal{H}{(\cdot)}$ is our diffusion model with adaptor, $\sigma_{t}$ is the variance of the noise at time-step $t$, and $\lambda_{cfg}$ is a hyper-parameter. In our framework, $pos$ can be the image description with positive words of quality, and $neg$ is the negative words of quality, *e.g*., "oil painting, cartoon, blur, dirty, messy, low quality, deformation, low resolution, over-smooth". Accuracy in predicting both positive and negative directions is crucial for the CFG technique.
 
 <!-- chunk {"id": "body-0020", "role": "body", "section": "Negative-Quality Samples and Prompt", "weight": 1.0} -->
 
-where $\mathcal{H}{( \cdot )}$ is our diffusion model with adaptor, $\sigma_{t}$ is the variance of the noise at time-step $t$, and $\lambda_{cfg}$ is a hyper-parameter. In our framework, $pos$ can be the image description with positive words of quality, and $neg$ is the negative words of quality, *e.g*., "oil painting, cartoon, blur, dirty, messy, low quality, deformation, low resolution, over-smooth". Accuracy in predicting both positive and negative directions is crucial for the CFG technique. However, the absence of negative-quality samples and prompts in our training data may lead to a failure of the fine-tuned SUPIR in understanding negative prompts. Therefore, using negative-quality prompts during sampling may introduce artifacts, see Fig. 4 for an example. To address this problem, we used SDXL to generate 100K images corresponding to the negative-quality prompts.
+However, the absence of negative-quality samples and prompts in our training data may lead to a failure of the fine-tuned SUPIR in understanding negative prompts. Therefore, using negative-quality prompts during sampling may introduce artifacts, see Fig. 4 for an example. To address this problem, we used SDXL to generate 100K images corresponding to the negative-quality prompts. We counter-intuitively add these low-quality images to the training data to ensure that negative-quality concept can be learned by the proposed SUPIR model.
 
-<!-- chunk {"id": "body-0021", "role": "body", "section": "Negative-Quality Samples and Prompt", "weight": 1.0} -->
-
-We counter-intuitively add these low-quality images to the training data to ensure that negative-quality concept can be learned by the proposed SUPIR model.
-
-<!-- chunk {"id": "body-0022", "role": "body", "section": "Restoration-Guided Sampling", "weight": 1.0} -->
+<!-- chunk {"id": "body-0021", "role": "body", "section": "Restoration-Guided Sampling", "weight": 1.0} -->
 
 Powerful generative prior is a double-edged sword, as too much generation capacity will in turn affect the fidelity of the recovered image. This highlights the fundamental difference between IR tasks and generation tasks. We need means to limit the generation to ensure that the image recovery is faithful to the LQ image. We modified the EDM sampling method and proposed a restoration-guided sampling method to solve this problem. We hope to selectively guide the prediction results $z_{t - 1}$ to be close to the LQ image $z_{LQ}$ in each diffusion step. The specific algorithm is shown in Sec. 3.3, where $T$ is the total step number, ${\{\sigma_{t}\}}_{t = 1}^{T}$ are the noise variance for $T$ steps, $c$ is the additional text prompt condition.
 
-<!-- chunk {"id": "body-0023", "role": "body", "section": "Restoration-Guided Sampling", "weight": 1.0} -->
+<!-- chunk {"id": "body-0022", "role": "body", "section": "Restoration-Guided Sampling", "weight": 1.0} -->
 
 $\tau_{r}$, $S_{churn}$, $S_{noise}$, $S_{\min}$, $S_{\max}$ are five hyper-parameters, but only $\tau_{r}$ is related to the restoration guidance, the others remain unchanged compared to the original EDM method. For better understanding, a simple diagram is shown in Fig. 5(b). We perform weighted interpolation between the predicted output ${\hat{z}}_{t - 1}$ and the LQ latent $z_{LQ}$ as the restoration-guided output $z_{t - 1}$. Since the low-frequency information of the image is mainly generated in the early stage of diffusion prediction (where $t$ and $\sigma_{t}$ are relatively large, and the weight $k = {({\sigma_{t}/\sigma_{T}})}^{\tau_{r}}$ is also large), the prediction result is closer to $z_{LQ}$ to enhance fidelity.
 
-<!-- chunk {"id": "body-0024", "role": "body", "section": "Restoration-Guided Sampling", "weight": 1.0} -->
+<!-- chunk {"id": "body-0023", "role": "body", "section": "Restoration-Guided Sampling", "weight": 1.0} -->
 
 In the later stages of diffusion prediction, mainly high-frequency details are generated. There should not be too many constraints at this time to ensure that detail and texture can be adequately generated. At this time, $t$ and $\sigma_{t}$ are relatively small, and weight $k$ is also small. Therefore, the predicted results will not be greatly affected Through this method, we can control the generation during the diffusion sampling process to ensure fidelity.
 
-<!-- chunk {"id": "body-0025", "role": "body", "section": "Restoration-Guided Sampling", "weight": 1.0} -->
+<!-- chunk {"id": "body-0024", "role": "body", "section": "Restoration-Guided Sampling", "weight": 1.0} -->
 
-SUPIR (ours) Low-Quality Input Real-ESRGAN+ StableSR DiffBIR PASD SUPIR (ours)
+SUPIR (ours) Low-Quality Input Real-ESRGAN+ StableSR DiffBIR PASD SUPIR (ours) SUPIR (ours). Low-Quality Input Real-ESRGAN+ StableSR DiffBIR PASD SUPIR (ours) Figure 6: Qualitative comparison with different methods. Our method can accurately restore the texture and details of the corresponding object under challenging degradation. Other methods fail to recover semantically correct details such as broken beaks and irregular faces.
 
-<!-- chunk {"id": "body-0026", "role": "body", "section": "Restoration-Guided Sampling", "weight": 1.0} -->
-
-SUPIR (ours). Low-Quality Input Real-ESRGAN+ StableSR DiffBIR PASD SUPIR (ours)
-
-<!-- chunk {"id": "body-0027", "role": "body", "section": "Model Training and Sampling Settings", "weight": 1.0} -->
+<!-- chunk {"id": "body-0025", "role": "body", "section": "Model Training and Sampling Settings", "weight": 1.0} -->
 
 For training, the overall training data includes 20 million high-quality images with text descriptions, 70K face images and 100K negative-quality samples, together their corresponding prompts. To enable a larger batch size, we crop images into 512$\times$`<!-- -->`{=html}512 patches during training. We train our model using a synthetic degradation model, following the setting used by Real-ESRGAN, the only difference is that we resize the produced LQ images to 512$\times$`<!-- -->`{=html}512 for training. We use the AdamW optimizer with a learning rate of $0.00001$. The training process spans 10 days and is conducted on 64 Nvidia A6000 GPUs, with a batch size of 256. For testing, the hyper-parameters are $T$=100, $\lambda_{cfg}$=7.5, and $\tau_{r} = 4$.
 
-<!-- chunk {"id": "body-0028", "role": "body", "section": "Model Training and Sampling Settings", "weight": 1.0} -->
+<!-- chunk {"id": "body-0026", "role": "body", "section": "Model Training and Sampling Settings", "weight": 1.0} -->
 
 Our method is able to process images with the size of 1024$\times$`<!-- -->`{=html}1024. We resize the short side of the input image to 1024 and crop a 1024$\times$`<!-- -->`{=html}1024 sub-image for testing, and then resize it back to the original size after restoration. Unless stated otherwise, prompts will not be provided manually -- the processing will be entirely automatic.
 
-<!-- chunk {"id": "body-0029", "role": "body", "section": "Comparison with Existing Methods", "weight": 1.0} -->
+<!-- chunk {"id": "body-0027", "role": "body", "section": "Comparison with Existing Methods", "weight": 1.0} -->
 
 Our method can handle a wide range of degradations, and we compare it with the latest methods with the same capabilities, including BSRGAN, Real-ESRGAN, StableSR, DiffBIR and PASD. Some of them are constrained to generating images of 512$\times$`<!-- -->`{=html}512 size. In our comparison, we crop the test image to meet this requirement and downsample our results. We conduct comparisons on both synthetic data and real-world data.
 
-<!-- chunk {"id": "body-0030", "role": "body", "section": "Synthetic Data", "weight": 1.0} -->
+<!-- chunk {"id": "body-0028", "role": "body", "section": "Comparison with Existing Methods", "weight": 1.0} -->
+
+Mixture: Blur (σ=2) + SR (×4)+ Noise (σ=20)+ JPEG (q=50) Table 1: Quantitative comparison. Red and blue colors represent the best and second best performance. ↓ represents the smaller the better, and for the others, the bigger the better.
+
+<!-- chunk {"id": "body-0029", "role": "body", "section": "Synthetic Data", "weight": 1.0} -->
 
 To synthesize LQ images for testing, we follow previous works and demonstrate our effects on several representative degradations, including both single degradations and complex mixture degradations. Specific details can be found in Tab. 1. We selected the following metrics for quantitative comparison: full-reference metrics PSNR, SSIM, LPIPS, and the non-reference metrics ManIQA, ClipIQA, MUSIQ. It can be seen that our method achieves the best results on all non-reference metrics, which reflects the excellent image quality of our results. At the same time, we also note the disadvantages of our method in full-reference metrics. We present a simple experiment that highlights the limitations of these full-reference metrics, see Fig. 7. It can be seen that our results have better visual effects, but they do not have an advantage in these metrics. This phenomenon has also been noted in many studies as well. We argue that with the improving quality of IR, there is a need to reconsider the reference values of existing metrics and suggest more effective ways to evaluate advanced IR methods.
 
-<!-- chunk {"id": "body-0031", "role": "body", "section": "Synthetic Data", "weight": 1.0} -->
+<!-- chunk {"id": "body-0030", "role": "body", "section": "Synthetic Data", "weight": 1.0} -->
 
 We also show some qualitative comparison results in Fig. 6. Even under severe degradation, our method consistently produces highly reasonable and high-quality images that faithfully represent the content of the LQ images.
 
-<!-- chunk {"id": "body-0032", "role": "body", "section": "Restoration in the Wild", "weight": 1.0} -->
+<!-- chunk {"id": "body-0031", "role": "body", "section": "Restoration in the Wild", "weight": 1.0} -->
 
 We also test our method on real-world LQ images. We collect a total of 60 real-world LQ images from RealSR, DRealSR and online sources, featuring diverse content including animals, plants, faces, buildings, and landscapes. We show the qualitative results in Fig. 10, and the quantitative results are shown in LABEL:tab:real. These results indicate that the images produced by our method have the best perceptual quality. We also conduct a user study comparing our method on real-world LQ images, with 20 participants involved. For each set of comparison images, we instructed participants to choose the restoration result that was of the highest quality among these test methods. The results are shown in Fig. 8, revealing that our approach significantly outperformed state-of-the-art methods in perceptual quality.
 
-<!-- chunk {"id": "body-0033", "role": "body", "section": "Controlling Restoration with Textual Prompts", "weight": 1.0} -->
+<!-- chunk {"id": "body-0032", "role": "body", "section": "Controlling Restoration with Textual Prompts", "weight": 1.0} -->
 
 After training on a large dataset of image-text pairs and leveraging the feature of the diffusion model, our method can selectively restore images based on human prompts. Fig. 1(b) illustrates some examples. In the first case, the bike restoration is challenging without prompts, but upon receiving the prompt, the model reconstructs it accurately. In the second case, the material texture of the hat can be adjusted through prompts. In the third case, even high-level semantic prompts allow manipulation over face attributes. In addition to prompting the image content, we can also prompt the model to generate higher-quality images through negative-quality prompts. Fig. 11(a) shows two examples. It can be seen that the negative prompts are very effective in improving the overall quality of the output image. We also observed that prompts in our method are not always effective. When the provided prompts do not align with the LQ image, the prompts become ineffective, see Fig. 11(b). We consider this reasonable for an IR method to stay faithful to the provided LQ image. This reflects a significant distinction from text-to-image generation models and underscores the robustness of our approach.
 
-<!-- chunk {"id": "body-0034", "role": "body", "section": "Connector", "weight": 1.0} -->
+<!-- chunk {"id": "body-0033", "role": "body", "section": "Connector", "weight": 1.0} -->
 
 We compare the proposed ZeroSFT connector with zero convolution. Quantitative results are shown in LABEL:tab:connectors. Compared to ZeroSFT, zero convolution yields comparable performance on non-reference metrics and much lower full-reference performance. In Fig. 9, we find that the drop in non-reference metrics is caused by generating low-fidelity content. Therefore, for IR tasks, ZeroSFT ensures fidelity without losing the perceptual effect.
 
-<!-- chunk {"id": "body-0035", "role": "body", "section": "Training data scaling", "weight": 1.0} -->
+<!-- chunk {"id": "body-0034", "role": "body", "section": "Training data scaling", "weight": 1.0} -->
 
 We trained our large-scale model on two smaller datasets for IR, DIV2K and LSDIR. The qualitative results are shown in Fig. 12, which clearly demonstrate the importance and necessity of training on large-scale high-quality data.
 
-<!-- chunk {"id": "body-0036", "role": "body", "section": "Negative-quality samples and prompt", "weight": 1.0} -->
+<!-- chunk {"id": "body-0035", "role": "body", "section": "Negative-quality samples and prompt", "weight": 1.0} -->
 
 LABEL:tab:prompts shows some quantitative results under different settings. Here, we use positive words describing image quality as "positive prompt", and use negative quality words and the CFG methods described in Sec. 3.2 as negative prompt. It can be seen that adding positive prompts or negative prompts alone can improve the perceptual quality of the image. Using both of them simultaneously yields the best perceptual results. If negative samples are not included for training, these two prompts will not be able to improve the perceptual quality. Fig. 4 and Fig. 11(a) demonstrate the improvement in image quality brought by using negative prompts.
 
-<!-- chunk {"id": "body-0037", "role": "body", "section": "Restoration-guided sampling method", "weight": 1.0} -->
+<!-- chunk {"id": "body-0036", "role": "body", "section": "Restoration-guided sampling method", "weight": 1.0} -->
 
 The proposed restoration-guided sampling method is mainly controlled by $\tau_{r}$. The larger $\tau_{r}$ is, the fewer corrections are made to the generation at each step. The smaller $\tau_{r}$ is, the more generated content will be forced to be closer to the LQ image. Please refer to Fig. 13 for a qualitative comparison. When $\tau_{r} = 0.5$, the image is blurry because its output is limited by the LQ image and cannot generate texture and details. When $\tau_{r} = 6$, there is not much guidance during generation. The model generates a lot of texture that is not present in the LQ image, especially in flat area. Fig. 8(a) illustrates the quantitative results of restoration as a function of the variable $\tau_{r}$. As shown in Fig. 8(a), decreasing $\tau_{r}$ from 6 to 4 does not result in a significant decline in visual quality, while fidelity performance improves.
 
-<!-- chunk {"id": "body-0038", "role": "body", "section": "Restoration-guided sampling method", "weight": 1.0} -->
+<!-- chunk {"id": "body-0037", "role": "body", "section": "Restoration-guided sampling method", "weight": 1.0} -->
 
 As restoration guidance continues to strengthen, although PSNR continues to improve, the images gradually become blurry with loss of details, as depicted in Fig. 13. Therefore, we choose $\tau_{r} = 4$ as the default parameter, as it doesn't compromise image quality while effectively enhancing fidelity.
 
-<!-- chunk {"id": "body-0039", "role": "body", "section": "Conclusion", "weight": 1.5} -->
+<!-- chunk {"id": "body-0038", "role": "body", "section": "Conclusion", "weight": 1.5} -->
 
 We propose SUPIR as a pioneering IR method, empowered by model scaling, dataset enrichment, and advanced design features, expanding the horizons of IR with enhanced perceptual quality and controlled textual prompts.

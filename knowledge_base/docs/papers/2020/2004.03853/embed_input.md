@@ -24,11 +24,11 @@ Shape-constrained regression is a fundamental problem in statistics and machine 
 
 <!-- chunk {"id": "body-0006", "role": "body", "section": "Introduction", "weight": 1.5} -->
 
-In this paper, we study a set of shape-constrained (multivariate) polynomial regressors, the Sum of Squares Estimators (SOSEs), which are obtained via a semidefinite programming hierarchy. They are parametric in $d$, their degree, and $r$, the level of the hierarchy (see Section 2.1 ‣ Shape-Constrained Regression using Sum of Squares Polynomials")). While we are not the first paper to consider shape-constrained polynomials of this type, we are the first to propose a systematic analysis of estimators defined in this way, from a variety of angles.
+In this paper, we study a set of shape-constrained (multivariate) polynomial regressors, the Sum of Squares Estimators (SOSEs), which are obtained via a semidefinite programming hierarchy. They are parametric in $d$, their degree, and $r$, the level of the hierarchy (see Section 2.1 ‣ Shape-Constrained Regression using Sum of Squares Polynomials")). While we are not the first paper to consider shape-constrained polynomials of this type, we are the first to propose a systematic analysis of estimators defined in this way, from a variety of angles. More specifically, our contributions are the following: We showcase a regime in which the SOSEs are competitive in terms of computation time. This corresponds to the setting where the number of data points is large, the dimension is relatively small, and predictions need to be made often and quickly.
 
 <!-- chunk {"id": "body-0007", "role": "body", "section": "Introduction", "weight": 1.5} -->
 
-We showcase a regime in which the SOSEs are competitive in terms of computation time. This corresponds to the setting where the number of data points is large, the dimension is relatively small, and predictions need to be made often and quickly. Within this regime, we provide experimental evidence that the SOSEs outperform, in terms of generalization error, two alternative shape-constrained regressors, the Convex Least-Squares Estimator or CLSE and the Maximum-Affine Estimator or MAE, which are among the most prevalent convex regressors; see Section 2 ‣ Shape-Constrained Regression using Sum of Squares Polynomials").
+Within this regime, we provide experimental evidence that the SOSEs outperform, in terms of generalization error, two alternative shape-constrained regressors, the Convex Least-Squares Estimator or CLSE and the Maximum-Affine Estimator or MAE, which are among the most prevalent convex regressors; see Section 2 ‣ Shape-Constrained Regression using Sum of Squares Polynomials").
 
 <!-- chunk {"id": "body-0008", "role": "body", "section": "Introduction", "weight": 1.5} -->
 
@@ -72,11 +72,11 @@ Bearing in mind that $\binom{n + k}{k} = \binom{n + k}{n}$ and that $\binom{n + 
 
 <!-- chunk {"id": "body-0018", "role": "body", "section": "Computing the SOSEs and Dependence on Input Parameters", "weight": 1.0} -->
 
-Even though the size of the SDPs scales polynomially with the parameters of interest, in practice, SDPs can suffer from scalability issues. Thus, computing the SOSEs is generally faster when $n,d,r$ are small, though $m$ can be taken as large as needed, as the size of the SDPs is independent of $m$. In practice, $m$ and $n$ are fixed as artifacts of the application under consideration. The parameters $r$ and $d$ however are fixed by the user. They should be chosen using a statistical model validation technique, such as cross validation, to ensure that generalization error is low on the test data. As an example, we experimentally investigate the impact of the choice of $r$ and $d$ on the generalization error for estimating the function
+Even though the size of the SDPs scales polynomially with the parameters of interest, in practice, SDPs can suffer from scalability issues. Thus, computing the SOSEs is generally faster when $n,d,r$ are small, though $m$ can be taken as large as needed, as the size of the SDPs is independent of $m$. In practice, $m$ and $n$ are fixed as artifacts of the application under consideration. The parameters $r$ and $d$ however are fixed by the user. They should be chosen using a statistical model validation technique, such as cross validation, to ensure that generalization error is low on the test data. As an example, we experimentally investigate the impact of the choice of $r$ and $d$ on the generalization error for estimating the function We plot the results in Figure 1 ‣ Shape-Constrained Regression using Sum of Squares Polynomials"). To obtain these plots, we use datasets generated as explained in Appendix A.1 with $m = {10,000}$.
 
 <!-- chunk {"id": "body-0019", "role": "body", "section": "Computing the SOSEs and Dependence on Input Parameters", "weight": 1.0} -->
 
-We plot the results in Figure 1 ‣ Shape-Constrained Regression using Sum of Squares Polynomials"). To obtain these plots, we use datasets generated as explained in Appendix A.1 with $m = {10,000}$. An analogous plot with a different function $f_{2}$ is given in Appendix A.2. We vary the values of $n,d,r$ as indicated in Figure 1 ‣ Shape-Constrained Regression using Sum of Squares Polynomials"). The train RMSE (resp. test RMSE) are concepts formally defined in Appendix A.1. Roughly speaking, the lower they are, the closer the values obtained by evaluating the SOSEs on the training (resp. testing) feature vectors are to the training (resp. testing) response variables. Figure 1 ‣ Shape-Constrained Regression using Sum of Squares Polynomials") indicates that low values of $d$ and $r$ often lead to better test RMSE (i.e., generalization error) than larger $d,r$. In fact, low $d$ and $r$ seem to have a regularization effect.
+An analogous plot with a different function $f_{2}$ is given in Appendix A.2. We vary the values of $n,d,r$ as indicated in Figure 1 ‣ Shape-Constrained Regression using Sum of Squares Polynomials"). The train RMSE (resp. test RMSE) are concepts formally defined in Appendix A.1. Roughly speaking, the lower they are, the closer the values obtained by evaluating the SOSEs on the training (resp. testing) feature vectors are to the training (resp. testing) response variables. Figure 1 ‣ Shape-Constrained Regression using Sum of Squares Polynomials") indicates that low values of $d$ and $r$ often lead to better test RMSE (i.e., generalization error) than larger $d,r$. In fact, low $d$ and $r$ seem to have a regularization effect.
 
 <!-- chunk {"id": "body-0020", "role": "body", "section": "Computing the SOSEs and Dependence on Input Parameters", "weight": 1.0} -->
 
@@ -88,7 +88,7 @@ Many methods exist for shape-constrained regression, in particular for convex re
 
 <!-- chunk {"id": "body-0022", "role": "body", "section": "Comparison of the SOSEs Against Other Estimators", "weight": 1.0} -->
 
-(Note that while the ${\{ g_{i}^{\ast}\}}_{i = {1,\ldots,m}}$ are unique, the ${\{\xi_{i}^{\ast}\}}_{i = {1,\ldots,m}}$ are not, and consequently, defining ${\hat{g}}_{m}$ via (6 ‣ Shape-Constrained Regression using Sum of Squares Polynomials")) is needed.) The MAE is a convex piecewise-affine estimator as well, but parametric with parameter the number of pieces, $k$.
+{1,\ldots,m}}$ are not, and consequently, defining ${\hat{g}}_{m}$ via (6 ‣ Shape-Constrained Regression using Sum of Squares Polynomials")) is needed.) The MAE is a convex piecewise-affine estimator as well, but parametric with parameter the number of pieces, $k$.
 
 <!-- chunk {"id": "body-0023", "role": "body", "section": "Comparison of the SOSEs Against Other Estimators", "weight": 1.0} -->
 
@@ -148,7 +148,7 @@ The support of the random vectors $X_{1}$, $\ldots$, $X_{m}$ is a full-dimension
 
 <!-- chunk {"id": "body-0037", "role": "body", "section": "Assumption 3", "weight": 1.0} -->
 
-Assumptions 1 and 3 imply that the sequence ${\{{(X_{i},Y_{i})}\}}_{i = {1,\ldots,m}}$ is iid, that ${E{\lbrack\nu_{1}\rbrack}} = 0$, and that ${E{\lbrack Y_{1}^{2}\rbrack}} < \infty$. Using these three assumptions, we show *consistency* of the SOSEs. This is a key property of estimators stating that, as the number of observations grows, we are able to recover $f$.
+There exists a continuous function $f:{B\rightarrow{\mathbb{R}}}$ such that $Y_{i} = {{f{(X_{i})}} + \nu_{i}}$ for all ${i = {1,\ldots,m}},$ where $\nu_{i}$ are random variables with support $\mathbb{R}$ and the following characteristics: Assumptions 1 and 3 imply that the sequence ${\{{(X_{i},Y_{i})}\}}_{i = {1,\ldots,m}}$ is iid, that ${E{\lbrack\nu_{1}\rbrack}} = 0$, and that ${E{\lbrack Y_{1}^{2}\rbrack}} < \infty$. Using these three assumptions, we show *consistency* of the SOSEs. This is a key property of estimators stating that, as the number of observations grows, we are able to recover $f$.
 
 <!-- chunk {"id": "body-0038", "role": "body", "section": "Remark 3.1", "weight": 1.0} -->
 
@@ -182,50 +182,34 @@ The goal of this application is to estimate the functional relationship between 
 
 The advantage of such an approach is that it can be couched as a linear regression problem by working in log-space, with the shape constraints being imposed via the constraints ${b,c,d} \geq 0$, ${b + c + d} \leq 1$ and $a \geq 0$. We compare the SOSE to the Cobb-Douglas estimator. To fit the estimators, we consider the USA KLEMS data, which contains yearly gross-output production data $Out$ for 65 industries in the US, from 1947 to 2014 as well as yearly inputs of Capital $K$, Labor $L$, and Intermediate goods $I$, adjusted for inflation. Since the data is temporal, we perform a temporal split for our training-testing splits. We then fit the Cobb-Douglas estimator and the SOSE with degree $d = 4$ and $r = 2$ and the aforementioned shape constraints to the data. The results obtained are given in Figure 3. As can be seen, our method outperforms the traditional Cobb-Douglas technique on 50 out of the 65 industries, sometimes quite significantly.
 
-<!-- chunk {"id": "body-0046", "role": "body", "section": "Predicting the Optimal Value of a Conic Program", "weight": 1.0} -->
-
-We assume that strong duality holds, which implies that $v_{P}{(b,c)} = v_{D}{(b,c)} =:v{(b,c)}$. As it turns out, $v{(b,c)}$ satisfies a number of shape constraints.
-
-<!-- chunk {"id": "body-0047", "role": "body", "section": "An Application to Real-Time Inventory Management Contract Negotiation", "weight": 1.0} -->
-
-In a single-product inventory with a finite-time horizon, the state of the inventory at time $t = {1,2,\ldots,T}$ is specified by the amount $x_{t} \in {\mathbb{R}}$ of product in the inventory at the beginning of period $t$. During the period, the retailer orders $q_{t} \geq 0$ units of product from the supplier (we assume it arrives immediately) and satisfies external demand for $d_{t} \geq 0$ units of the product. Thus, the state equation of the inventory is given by $x_{t + 1} = {{x_{t} + q_{t}} - d_{t}}$. We assume $x_{1} = 0$ and allow for $x_{t} \leq 0$ (backlogged demand). We further enforce a minimum amount $L$ that the retailer needs to buy, i.e., ${\sum_{t = 1}^{T}q_{t}} \geq L$.
-
-<!-- chunk {"id": "body-0048", "role": "body", "section": "An Application to Real-Time Inventory Management Contract Negotiation", "weight": 1.0} -->
-
-The retailer wishes to minimize the overall inventory management cost. To this effect, we let ${h,p,c,s} \geq 0$ with ${h + p} \geq s$ be the respective costs per period and per unit, of storing the product, backlogged demand, replenishing the inventory, and salvaging the product. Following, we further assume that the supplier and retailer agree on a *flexible commitment contract*: at time $t = 0$, the retailer must commit to projected future orders, ${w_{t} \in {\mathbb{R}}},{1 \leq t \leq T}$. These do not have to be fully respected, but a penalty $\alpha^{\pm}$ will be incurred per unit of excess/recess of the actual orders $q_{t}$ as compared to commitments $w_{t}$ and a penalty $\beta^{\pm}$ will be incurred for variations in the commitment $w_{t}$ across periods.
-
-<!-- chunk {"id": "body-0049", "role": "body", "section": "An Application to Real-Time Inventory Management Contract Negotiation", "weight": 1.0} -->
-
-where ${\{\gamma_{\tau}\}}_{\tau}$ are new variables; again, see \[7, Section 3.3\] for more details. We consider now the following scenario: at time $t = 0$, before the inventory starts, the retailer and the supplier negotiate the details of their contract, that is, they need to agree on values of $\alpha^{\pm}$, $\beta^{\pm}$, and $L$. To do so effectively, the retailer needs to know in real time the worst-case cost incurred for different choices of these values. Solving the LP/SOCP to do so is impossible as, e.g., running one such LP with $T = 100$ takes $\approx 15$ minutes, whilst running the SOCP with $T = 100$ takes more than $60$ minutes. A tool which produces an approximation of the minimum inventory cost as a function of $(\alpha^{\pm},\beta^{\pm},L)$ would thus be valuable, which is what shape-constrained regression enables.
-
-<!-- chunk {"id": "body-0050", "role": "body", "section": "Shape-Constrained Optimal Transport Maps and Color Transfer", "weight": 1.0} -->
+<!-- chunk {"id": "body-0046", "role": "body", "section": "Shape-Constrained Optimal Transport Maps and Color Transfer", "weight": 1.0} -->
 
 An *optimal transport map* is a function that maps one probability measure to another while incurring minimum cost. In many applications, it is of interest to determine an optimal transport map given two measures and a cost function. Interestingly, the problem of computing an optimal transport map can be related back to shape-constrained regression, as optimal transport maps are known to have specific shapes when the cost function under consideration or the measures they are defined over have certain properties. For example, if the cost function is the $l_{2}$-norm and one of the measures is continuous with respect to the Lebesgue measure, the Brenier theorem states that the optimal transport map is uniquely defined as the gradient of a convex function. Following, rather than observing these properties of the map a posteriori, we use these shape constraints as regularizers when computing the optimal transport maps. This gives rise to shape-constrained regression problems. To solve these, propose an approach that can be viewed as a CLSE-based approach. We propose to use instead the SOSE, which we show is particularly well-suited to this application.
 
-<!-- chunk {"id": "body-0051", "role": "body", "section": "Shape-Constrained Optimal Transport Maps and Color Transfer", "weight": 1.0} -->
+<!-- chunk {"id": "body-0047", "role": "body", "section": "Shape-Constrained Optimal Transport Maps and Color Transfer", "weight": 1.0} -->
 
 To better illustrate our method, we focus on the concrete application of *color transfer*, though our methodology is applicable more widely to, e.g., the other applications mentioned in and voice transfer. The color transfer problem is defined by two images, the *input image* and the *target image*. The goal is to transfer the colors of the target image to the input image, thereby creating a third image, the *output image*; see Figure 4. We now describe how the color transfer problem can be reformulated as a sequence of shape-constrained regression problems, following.
 
-<!-- chunk {"id": "body-0052", "role": "body", "section": "Shape-Constrained Optimal Transport Maps and Color Transfer", "weight": 1.0} -->
+<!-- chunk {"id": "body-0048", "role": "body", "section": "Shape-Constrained Optimal Transport Maps and Color Transfer", "weight": 1.0} -->
 
 ${{y_{j} \in {\lbrack 0,1\rbrack}^{3}},{j = {1,\ldots,\overset{\sim}{M}}}},$) to be the distinct color triples in the input (resp. target) image, with $\overset{\sim}{N}$ (resp. $\overset{\sim}{M}$) being less than or equal to the number of pixels in the input (resp. target) image, and $a_{i}$ (resp. $b_{j}$) to be the ratio of number of pixels of color $x_{i}$ (resp. $y_{j}$) to the total number of pixels.
 
-<!-- chunk {"id": "body-0053", "role": "body", "section": "Shape-Constrained Optimal Transport Maps and Color Transfer", "weight": 1.0} -->
+<!-- chunk {"id": "body-0049", "role": "body", "section": "Shape-Constrained Optimal Transport Maps and Color Transfer", "weight": 1.0} -->
 
 The idea is then to search for a function $f^{\ast}:{{\lbrack 0,1\rbrack}^{3}\rightarrow{\mathbb{R}}}$ that minimizes the 2-Wasserstein distance between the push-forward of $\mu$ under $\nabla f^{\ast}$ and $\nu$, under certain shape constraints.
 
-<!-- chunk {"id": "body-0054", "role": "body", "section": "Shape-Constrained Optimal Transport Maps and Color Transfer", "weight": 1.0} -->
+<!-- chunk {"id": "body-0050", "role": "body", "section": "Shape-Constrained Optimal Transport Maps and Color Transfer", "weight": 1.0} -->
 
 Similarly, a function $f:{{\mathbb{R}}^{n}\mapsto{\mathbb{R}}}$ is $\ell$-strongly convex over $B$ if ${H_{f}{(x)}} \succeq {\ellI}$, for all $x \in B$.) We derive from the optimal solution $f^{\ast}$ to, the optimal transport map (or color transfer map) ${{\nabla f^{\ast}}:{{\lbrack 0,1\rbrack}^{3}\rightarrow{\lbrack 0,1\rbrack}^{3}}}.$ To obtain the output image, we simply apply $\nabla f^{\ast}$ to the RGB triple of each pixel in the input image to obtain a new RGB triple (i.e., the new color of the pixel) for that pixel. In this context, smaller $L$ gives rise to more uniform colors whereas larger $\ell$ increases the contrast; see Figure 7.
 
-<!-- chunk {"id": "body-0055", "role": "body", "section": "Shape-Constrained Optimal Transport Maps and Color Transfer", "weight": 1.0} -->
+<!-- chunk {"id": "body-0051", "role": "body", "section": "Shape-Constrained Optimal Transport Maps and Color Transfer", "weight": 1.0} -->
 
-In its current form however, problem is not quite a shape-constrained regression problem of the type (3 ‣ Shape-Constrained Regression using Sum of Squares Polynomials")) or (4 ‣ Shape-Constrained Regression using Sum of Squares Polynomials")). This is due to the matrix variable $P$ which makes the problem non-convex. To circumvent this issue, we use alternate minimization: we fix $f$ and solve for $P$ using, e.g., Sinkhorn's algorithm (see ). We then fix $P$ and solve for $f$.
+In its current form however, problem is not quite a shape-constrained regression problem of the type (3 ‣ Shape-Constrained Regression using Sum of Squares Polynomials")) or (4 ‣ Shape-Constrained Regression using Sum of Squares Polynomials")). This is due to the matrix variable $P$ which makes the problem non-convex. To circumvent this issue, we use alternate minimization: we fix $f$ and solve for $P$ using, e.g., Sinkhorn's algorithm (see). We then fix $P$ and solve for $f$. If we parametrize $f$ as a polynomial (with $P$ fixed), we obtain a shape-constrained polynomial regression problem: | | | s.t.
 
-<!-- chunk {"id": "body-0056", "role": "body", "section": "Shape-Constrained Optimal Transport Maps and Color Transfer", "weight": 1.0} -->
+<!-- chunk {"id": "body-0052", "role": "body", "section": "Shape-Constrained Optimal Transport Maps and Color Transfer", "weight": 1.0} -->
 
-which we solve using the sos techniques from Section 2 ‣ Shape-Constrained Regression using Sum of Squares Polynomials"). We iterate this process until convergence.
+| | ${{{\ell \cdot I} \preceq {H_{f}{(x)}} \leq {L \cdot I}},{{\forall x} \in {\lbrack 0,1\rbrack}^{3}}},$ | | | which we solve using the sos techniques from Section 2 ‣ Shape-Constrained Regression using Sum of Squares Polynomials"). We iterate this process until convergence.
 
-<!-- chunk {"id": "body-0057", "role": "body", "section": "Shape-Constrained Optimal Transport Maps and Color Transfer", "weight": 1.0} -->
+<!-- chunk {"id": "body-0053", "role": "body", "section": "Shape-Constrained Optimal Transport Maps and Color Transfer", "weight": 1.0} -->
 
 An example of the output images obtained via this process is given in Figure 4. Additional illustrations can be found in Figure 7 for different values of $l$ and $L$ with $d = 4$ and $r = 3$. The color transfer application works particularly well for the SOSE as the number of features is small (equal to 3), the number of data points is very large, as it corresponds to the number of pixels in the images, and as a large number of new predictions need to be made (one per pixel of the input image). In contrast, the CLSE approach considered in requires the authors to segment the images via k-means clustering to limit computation time. Pre-processing of this type can lead to undesirable artifacts in the output image and grainy texture, which our method avoids.

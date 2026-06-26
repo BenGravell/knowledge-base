@@ -28,7 +28,7 @@ Our experiments demonstrate substantial improvements: On the Shifts dataset \[ma
 
 <!-- chunk {"id": "body-0007", "role": "body", "section": "Introduction", "weight": 1.5} -->
 
-We present a post-hoc approach for detecting distribution shifts in pre-trained trajectory prediction models that does not affect performance.
+We summarize our contributions as follows: We present a post-hoc approach for detecting distribution shifts in pre-trained trajectory prediction models that does not affect performance.
 
 <!-- chunk {"id": "body-0008", "role": "body", "section": "Introduction", "weight": 1.5} -->
 
@@ -52,11 +52,11 @@ While most of the literature in distribution shifts detection focuses on loss or
 
 <!-- chunk {"id": "body-0013", "role": "body", "section": "Proposed Method", "weight": 1.0} -->
 
-Let $X_{past} = {\{ x_{1},x_{2},\ldots,x_{n}\}}$ be the observed past trajectory of an agent with $x_{i} \in {\mathbb{R}}^{2}$ corresponding to its 2D bird's-eye view coordinates over $n$ time steps, and let $c$ be the surrounding scene context. The primary task is to predict the future trajectory $X_{future} = {\{ x_{n + 1},\ldots,x_{N}\}}$, which is defined as the set of coordinates over $N$ future time steps. To this end, the method assumes access to a pre-trained trajectory prediction model, composed of an encoder $e_{\gamma}$ and decoder $d_{\eta}$. The encoder maps the past trajectory $X_{past}$ and scene context $c$ to the latent representation $z = {e_{\gamma}{(X_{past},c)}}$.
+Let $X_{past}=\{x_{1},x_{2},\dots,x_{n}\}$ be the observed past trajectory of an agent with $x_{i}\in\mathbb{R}^{2}$ corresponding to its 2D bird's-eye view coordinates over $n$ time steps, and let $c$ be the surrounding scene context. The primary task is to predict the future trajectory $X_{future}=\{x_{n+1},\dots,x_{N}\}$, which is defined as the set of coordinates over $N$ future time steps. To this end, the method assumes access to a pre-trained trajectory prediction model, composed of an encoder $e_{\gamma}$ and decoder $d_{\eta}$. The encoder maps the past trajectory $X_{past}$ and scene context $c$ to the latent representation $z=e_{\gamma}(X_{past},c)$.
 
 <!-- chunk {"id": "body-0014", "role": "body", "section": "Proposed Method", "weight": 1.0} -->
 
-From this latent vector, the decoder explicitly outputs the parameters of a Gaussian mixture model to predict the multi-modal distribution of future trajectories ${\hat{X}}_{future} = {d_{\eta}{(z)}}$. This distribution is defined as ${\hat{X}}_{future} \sim {\sum_{k = 1}^{K}{\pi_{k}\mathcal{N}_{k}{(\mu_{k},\Sigma_{k})}}}$ where $k$ is the number of mixture components, $\pi_{k}$ defines the component probabilities, and $\mu_{k}$ and $\Sigma_{k}$ are the respective means and variances.
+From this latent vector, the decoder explicitly outputs the parameters of a Gaussian mixture model to predict the multi-modal distribution of future trajectories $\hat{X}_{future}=d_{\eta}(z)$. This distribution is defined as $\hat{X}_{future}\sim\sum_{k=1}^{K}\pi_{k}\mathcal{N}_{k}(\mu_{k},\Sigma_{k})$ where $k$ is the number of mixture components, $\pi_{k}$ defines the component probabilities, and $\mu_{k}$ and $\Sigma_{k}$ are the respective means and variances.
 
 <!-- chunk {"id": "body-0015", "role": "body", "section": "Proposed Method", "weight": 1.0} -->
 
@@ -68,79 +68,79 @@ Models trained on normal data exhibit different gradient magnitudes when process
 
 <!-- chunk {"id": "body-0017", "role": "body", "section": "Forecasting the Past", "weight": 1.0} -->
 
-We utilize the feature representations from the pre-trained encoder $e_{\gamma}$ for a self-supervised forecasting task on the historical data. First, we partition the historical trajectory $X_{past}$ into two contiguous, equal-length segments: an early history $X_{{past},1} = {\{ x_{1},\ldots,x_{n/2}\}}$ and a later history $X_{{past},2} = {\{ x_{{n/2} + 1},\ldots,x_{n}\}}$ (Figure 3). To conform to the dimensional requirements of the pre-trained model, we resample both segments via linear interpolation.
+We utilize the feature representations from the pre-trained encoder $e_{\gamma}$ for a self-supervised forecasting task on the historical data. First, we partition the historical trajectory $X_{past}$ into two contiguous, equal-length segments: an early history $X_{past,1}=\{x_{1},\dots,x_{n/2}\}$ and a later history $X_{past,2}=\{x_{n/2+1},\dots,x_{n}\}$ (Figure 3). To conform to the dimensional requirements of the pre-trained model, we resample both segments via linear interpolation. Specifically, $X_{past,1}$ is upsampled to the encoder's input length $n$, yielding $\tilde{X}_{past,1}$, while $X_{past,2}$ is resampled to the model's prediction horizon $N-n$, yielding $\tilde{X}_{past,2}$.
 
 <!-- chunk {"id": "body-0018", "role": "body", "section": "Forecasting the Past", "weight": 1.0} -->
 
-Specifically, $X_{{past},1}$ is upsampled to the encoder's input length $n$, yielding ${\overset{\sim}{X}}_{{past},1}$, while $X_{{past},2}$ is resampled to the model's prediction horizon $N - n$, yielding ${\overset{\sim}{X}}_{{past},2}$. We then introduce a decoder, $d_{past}$, which is trained to predict the resampled later history from the latent representation of the early history, *i.e*. to map $z_{{past},1} = {e_{\gamma}{({\overset{\sim}{X}}_{{past},1})}}$ to ${\overset{\sim}{X}}_{{past},2}$.
+We then introduce a decoder, $d_{past}$, which is trained to predict the resampled later history from the latent representation of the early history, *i.e*. to map $z_{past,1}=e_{\gamma}(\tilde{X}_{past,1})$ to $\tilde{X}_{past,2}$.
 
 <!-- chunk {"id": "body-0019", "role": "body", "section": "Forecasting the Past", "weight": 1.0} -->
 
-During training, the parameters of the pre-trained encoder $e_{\gamma}$ remain frozen. It processes the resampled early history ${\overset{\sim}{X}}_{{past},1}$ along with contextual information $c$ to produce a latent representation $z_{{past},1} = {e_{\gamma}{({\overset{\sim}{X}}_{{past},1},c)}}$. Similarly to the primary trajectory forecasting decoder $d_{\eta}$, the decoder $d_{past}$ is modelled as a Mixture Density Network.
+During training, the parameters of the pre-trained encoder $e_{\gamma}$ remain frozen. It processes the resampled early history $\tilde{X}_{past,1}$ along with contextual information $c$ to produce a latent representation $z_{past,1}=e_{\gamma}(\tilde{X}_{past,1},c)$. Similarly to the primary trajectory forecasting decoder $d_{\eta}$, the decoder $d_{past}$ is modelled as a Mixture Density Network. It predicts a multimodal distribution for the resampled later history, $\tilde{X}_{past,2}$, by outputting the parameters of a Gaussian Mixture Model (GMM) with $K$ components: where $\sum_{k=1}^{K}\pi_{k}(z_{past,1})=1$ and $\pi_{k}(z_{past,1})\geq 0$ are the mixture coefficients.
 
 <!-- chunk {"id": "body-0020", "role": "body", "section": "Forecasting the Past", "weight": 1.0} -->
 
-Next, we explain how to use $d_{past}$ to detect distributional shifts.
+We train only the parameters of $d_{past}$ by minimizing the negative log-likelihood (NLL) of the ground-truth trajectory: Next, we explain how to use $d_{past}$ to detect distributional shifts.
 
 <!-- chunk {"id": "body-0021", "role": "body", "section": "Gradient-Based Anomaly Score", "weight": 1.0} -->
 
-Once the past forecasting decoder $d_{past}$ is trained with self-supervision, we can compute meaningful gradients at test time to detect distributional shifts. We define our distribution shift score using the gradient with respect to the pre-activation of the final layer of $d_{past}$.
+Once the past forecasting decoder $d_{past}$ is trained with self-supervision, we can compute meaningful gradients at test time to detect distributional shifts. We define our distribution shift score using the gradient with respect to the pre-activation of the final layer of $d_{past}$. Let the decoder $d_{past}$ be a composition of $L$ layers: Let $h_{L}$ denote the input to the last layer $f_{L}$, such that $f_{L}(h_{L})$ produces the triplet $(\mu_{k}(z),\Sigma_{k}(z),\pi_{k}(z))$ containing the Gaussian mixture means, covariances, and coefficients.
 
 <!-- chunk {"id": "body-0022", "role": "body", "section": "Gradient-Based Anomaly Score", "weight": 1.0} -->
 
-Unlike related methods that rely primarily on feature space representations or loss magnitudes \[yao2024trajoutofdistribution, wiederer2023joint, pmlr-v164-wiederer22a, ahmadi2024curb\], this approach extracts the anomaly score from the gradient space. As demonstrated by ElAraby et al. \[elarabygrood\], the gradients capture richer discriminative information than raw feature distances or output confidence scores. By capturing the interaction between the loss landscape and the internal representation of the model (Eq. 3), the gradient encodes how strongly the network hidden representation must be updated to fit a given input. Consequently, anomalous samples induce distinctly larger and more erratic gradient responses compared to stable, in-distribution data. We show empirically in section 4.5 a direct comparison between gradient-based scores and output-based scores for distribution shift detection. Next, we discuss our experiments in more detail.
+The anomaly score $S$ is defined as the L2 norm of the gradient of the surrogate loss function $\mathcal{L}_{\text{past}}$ with respect to $h_{L}$: where the gradient is computed via the chain rule \[rumelhart1986learning\]: Unlike related methods that rely primarily on feature space representations or loss magnitudes \[yao2024trajoutofdistribution, wiederer2023joint, pmlr-v164-wiederer22a, ahmadi2024curb\], this approach extracts the anomaly score from the gradient space. As demonstrated by ElAraby et al. \[elarabygrood\], the gradients capture richer discriminative information than raw feature distances or output confidence scores. By capturing the interaction between the loss landscape and the internal representation of the model (Eq. 3), the gradient encodes how strongly the network hidden representation must be updated to fit a given input. Consequently, anomalous samples induce distinctly larger and more erratic gradient responses compared to stable, in-distribution data.
 
-<!-- chunk {"id": "body-0023", "role": "body", "section": "Experiments", "weight": 1.0} -->
+<!-- chunk {"id": "body-0023", "role": "body", "section": "Gradient-Based Anomaly Score", "weight": 1.0} -->
+
+We show empirically in section 4.5 a direct comparison between gradient-based scores and output-based scores for distribution shift detection. Next, we discuss our experiments in more detail.
+
+<!-- chunk {"id": "body-0024", "role": "body", "section": "Experiments", "weight": 1.0} -->
 
 We evaluate our gradient-based distribution shift detection method on two datasets and in the simulator. The datasets benchmark different types of distribution shifts, *i.e*., the first contains environmental distribution shifts (weather, city, time of the day) while the second contains shifts in motion behaviour. In the simulator, we show that our method works in an online environment for monitoring failures of a planning policy.
 
-<!-- chunk {"id": "body-0024", "role": "body", "section": "Experimental Setup", "weight": 1.0} -->
+<!-- chunk {"id": "body-0025", "role": "body", "section": "Experimental Setup", "weight": 1.0} -->
 
 The following introduces the datasets and the evaluation protocol.
 
-<!-- chunk {"id": "body-0025", "role": "body", "section": "Datasets", "weight": 1.0} -->
-
-We utilize the Shifts Vehicle Motion Prediction Dataset \[malinin2021shifts\], which is designed to evaluate trajectory prediction under distribution shifts for automated driving. This dataset contains $388\, 406\ a$nd $36\, 804\ s$equences for training and testing, respectively, collected across six locations (Moscow, Skolkovo, Innopolis, Ann Arbor, Modiin, and Tel Aviv), three seasons (Summer, Autumn, Winter), three times of day (Astronomical Night, Daylight, Twilight), and four weather conditions (No precipitation, Rain, Sleet, Snow). The distribution shifts are environmental, where the testing set contains cities that are unseen during training (*i.e*., Ann Arbor and Tel Aviv) and additional precipitation conditions (*i.e*., Rain, Sleet, Snow). Each scene spans 10 seconds, divided into 5 seconds of history and 5 seconds of ground truth future for prediction. Additionally, we adapt the Argoverse 1 motion forecasting dataset \[Argoverse\] for distribution shift detection by artificially creating behavioural out-of-distribution scenarios.
-
 <!-- chunk {"id": "body-0026", "role": "body", "section": "Datasets", "weight": 1.0} -->
 
-Following the taxonomy of Schmidt et al. \[schmidt2022meat\], we remove specific trajectory manoeuvrers from the training set: left turns, right turns, and trajectories exceeding maximum velocity thresholds. We use the removed manoeuvres as the out-of-distribution scenarios during testing. The behaviour clustering methods are described in Sections 4.2.
+We utilize the Shifts Vehicle Motion Prediction Dataset \[malinin2021shifts\], which is designed to evaluate trajectory prediction under distribution shifts for automated driving. This dataset contains $388\,406\text{\,}\mathrm{a}$nd $36\,804\text{\,}\mathrm{s}$equences for training and testing, respectively, collected across six locations (Moscow, Skolkovo, Innopolis, Ann Arbor, Modiin, and Tel Aviv), three seasons (Summer, Autumn, Winter), three times of day (Astronomical Night, Daylight, Twilight), and four weather conditions (No precipitation, Rain, Sleet, Snow). The distribution shifts are environmental, where the testing set contains cities that are unseen during training (*i.e*., Ann Arbor and Tel Aviv) and additional precipitation conditions (*i.e*., Rain, Sleet, Snow). Each scene spans 10 seconds, divided into 5 seconds of history and 5 seconds of ground truth future for prediction.
 
-<!-- chunk {"id": "body-0027", "role": "body", "section": "Evaluation Protocol", "weight": 1.0} -->
+<!-- chunk {"id": "body-0027", "role": "body", "section": "Datasets", "weight": 1.0} -->
 
-For evaluation on Shifts \[malinin2021shifts\] (Figure 4), we compare our method with the baseline provided by the Shifts dataset, *i.e*. the RNN-based behavioral cloning network (RIP-BC) \[codevilla2018end\], the autoregressive flow--based deep imitative model (RIP-DIM) \[Rhinehart2020Deep\] and the latent Gaussian mixture model (lGMM) \[wiederer2023joint\]. To train our model, we take the pre-trained encoder-decoder network from \[wiederer2023joint\], and train our self-supervised decoder on top of the encoder. For the experiments on Argoverse \[Argoverse\], we use the HiVT trajectory prediction model \[zhou2022hivt\] as our encoder-decoder. We train individual HiVT predictors for each training set (turn left, turn right and max velocity) and evaluate their performance on the full Argoverse validation set.
+Additionally, we adapt the Argoverse 1 motion forecasting dataset \[Argoverse\] for distribution shift detection by artificially creating behavioural out-of-distribution scenarios. Following the taxonomy of Schmidt et al. \[schmidt2022meat\], we remove specific trajectory manoeuvrers from the training set: left turns, right turns, and trajectories exceeding maximum velocity thresholds. We use the removed manoeuvres as the out-of-distribution scenarios during testing. The behaviour clustering methods are described in Sections 4.2.
 
 <!-- chunk {"id": "body-0028", "role": "body", "section": "Evaluation Protocol", "weight": 1.0} -->
 
-We compare our approach with several baselines, including one-class support vector machine (OC-SVM), isolation forest (IF) and kernel density estimation (KDE), all of which trained on the latent space $z = {e_{\gamma}{(X_{past})}}$ of HiVT \[zhou2022hivt\].
+For evaluation on Shifts \[malinin2021shifts\] (Figure 4), we compare our method with the baseline provided by the Shifts dataset, *i.e*. the RNN-based behavioral cloning network (RIP-BC) \[codevilla2018end\], the autoregressive flow--based deep imitative model (RIP-DIM) \[Rhinehart2020Deep\] and the latent Gaussian mixture model (lGMM) \[wiederer2023joint\]. To train our model, we take the pre-trained encoder-decoder network from \[wiederer2023joint\], and train our self-supervised decoder on top of the encoder. For the experiments on Argoverse \[Argoverse\], we use the HiVT trajectory prediction model \[zhou2022hivt\] as our encoder-decoder. We train individual HiVT predictors for each training set (turn left, turn right and max velocity) and evaluate their performance on the full Argoverse validation set.
 
-<!-- chunk {"id": "body-0029", "role": "body", "section": "Evaluation Metrics", "weight": 1.0} -->
+<!-- chunk {"id": "body-0029", "role": "body", "section": "Evaluation Protocol", "weight": 1.0} -->
+
+We compare our approach with several baselines, including one-class support vector machine (OC-SVM), isolation forest (IF) and kernel density estimation (KDE), all of which trained on the latent space $z=e_{\gamma}(X_{past})$ of HiVT \[zhou2022hivt\].
+
+<!-- chunk {"id": "body-0030", "role": "body", "section": "Evaluation Metrics", "weight": 1.0} -->
 
 Like the prior work \[malinin2021shifts, wiederer2023joint\], we report the area under the receiver operating characteristic curve (AUROC) as the metric for distribution shift detection.
 
-<!-- chunk {"id": "body-0030", "role": "body", "section": "Trajectory Segmentation", "weight": 1.0} -->
+<!-- chunk {"id": "body-0031", "role": "body", "section": "Trajectory Segmentation", "weight": 1.0} -->
 
-For the self supervised task we split the historical trajectory as follows: the first half $X_{{past},1}$ (12 timesteps for Shifts \[malinin2021shifts\] and 10 timesteps for Argoverse \[Argoverse\]) is used to train the self-supervised decoder $d_{past}$ and the second half $X_{{past},2}$ (13 timesteps for Shifts \[malinin2021shifts\] and 10 timesteps for Argoverse \[Argoverse\]) is used as ground truth trajectory. Before feeding the trajectories to the model, we expand $X_{{past},1}$ and $X_{{past},2}$ to the size of original trajectory $X_{past}$ (25 for Shifts and 20 for Argoverse) and $X_{forecast}$ (25 for Shifts and 30 Argoverse) using linear interpolation to keep dimensionality consistency with the original encoder $e_{\gamma}$.
-
-<!-- chunk {"id": "body-0031", "role": "body", "section": "Trajectory Manoeuvrer Clustering", "weight": 1.0} -->
-
-For the Argoverse evaluation (Table 2) we cluster the trajectory orientation using a computational geometry technique.
+For the self supervised task we split the historical trajectory as follows: the first half $X_{past,1}$ (12 timesteps for Shifts \[malinin2021shifts\] and 10 timesteps for Argoverse \[Argoverse\]) is used to train the self-supervised decoder $d_{past}$ and the second half $X_{past,2}$ (13 timesteps for Shifts \[malinin2021shifts\] and 10 timesteps for Argoverse \[Argoverse\]) is used as ground truth trajectory. Before feeding the trajectories to the model, we expand $X_{past,1}$ and $X_{past,2}$ to the size of original trajectory $X_{past}$ (25 for Shifts and 20 for Argoverse) and $X_{forecast}$ (25 for Shifts and 30 Argoverse) using linear interpolation to keep dimensionality consistency with the original encoder $e_{\gamma}$.
 
 <!-- chunk {"id": "body-0032", "role": "body", "section": "Trajectory Manoeuvrer Clustering", "weight": 1.0} -->
 
-where ${\Deltap_{i}} = {P_{i + 1} - P_{i}}$ and ${\Deltap_{i + 1}} = {P_{i + 2} - P_{i + 1}}$. Positive values indicate left turns, negative values indicate right turns, and zero indicates straight motion. The overall trajectory orientation is $\phi_{total} = {\sum_{i = 1}^{N - 2}\phi_{i}}$. For distribution shift detection, we remove trajectories with $\phi_{total} < 1$ from the training set in the experiment "turn_right" and $\phi_{total} > {- 1}$ in the experiment "turn_right". We choose these threshold values to ensure that the model learns a strong directional bias.
+For the Argoverse evaluation (Table 2) we cluster the trajectory orientation using a computational geometry technique. Given consecutive points $P_{i},P_{i+1},P_{i+2}$ in trajectory $T$, we compute the 2D cross product: where $\Delta p_{i}=P_{i+1}-P_{i}$ and $\Delta p_{i+1}=P_{i+2}-P_{i+1}$. Positive values indicate left turns, negative values indicate right turns, and zero indicates straight motion. The overall trajectory orientation is $\phi_{total}=\sum_{i=1}^{N-2}\phi_{i}$. For distribution shift detection, we remove trajectories with $\phi_{total}<1$ from the training set in the experiment "turn_right" and $\phi_{total}>-1$ in the experiment "turn_right". We choose these threshold values to ensure that the model learns a strong directional bias.
 
 <!-- chunk {"id": "body-0033", "role": "body", "section": "Trajectory Velocity Clustering", "weight": 1.0} -->
 
-For the maximum velocity experiment in Argoverse \[Argoverse\], we compute velocity from the trajectory coordinates. The Argoverse dataset samples trajectory points at 10 Hz, providing consecutive positions $P_{i} = {(x_{i},y_{i})}$ and $P_{i + 1} = {(x_{i + 1},y_{i + 1})}$ with time interval ${\Deltat} = 0.1$ seconds.
+For the maximum velocity experiment in Argoverse \[Argoverse\], we compute velocity from the trajectory coordinates. The Argoverse dataset samples trajectory points at 10 Hz, providing consecutive positions $P_{i}=(x_{i},y_{i})$ and $P_{i+1}=(x_{i+1},y_{i+1})$ with time interval $\Delta t=0.1$ seconds. We calculate instantaneous velocity as: The maximum velocity for a trajectory is $v_{max}=\max_{i}v_{i}$. For distribution shift detection, we remove trajectories with $v_{max}>v_{threshold}$ from the training set, where $v_{threshold}$ is set to the median of observed velocities in the training data.
 
-<!-- chunk {"id": "body-0034", "role": "body", "section": "Trajectory Velocity Clustering", "weight": 1.0} -->
+<!-- chunk {"id": "body-0034", "role": "body", "section": "Training and Architecture", "weight": 1.0} -->
 
-The maximum velocity for a trajectory is $v_{max} = {\max_{i}v_{i}}$. For distribution shift detection, we remove trajectories with $v_{max} > v_{threshold}$ from the training set, where $v_{threshold}$ is set to the median of observed velocities in the training data.
+For Argoverse \[Argoverse\] and Shifts \[safeshift\], we freeze the encoder trained on the forecasting and we train a decoder with the same architecture and hyper-parameters of the trajectory predictor. For the Highway simulator we train a Transformer \[vaswani2017attention\] encoder and MLP decoder for intersection and merge. We train all the models with Adam optimizer and learning rate $1e-4$.
 
 <!-- chunk {"id": "body-0035", "role": "body", "section": "Training and Architecture", "weight": 1.0} -->
 
-For Argoverse \[Argoverse\] and Shifts \[safeshift\], we freeze the encoder trained on the forecasting and we train a decoder with the same architecture and hyper-parameters of the trajectory predictor. For the Highway simulator we train a Transformer \[vaswani2017attention\] encoder and MLP decoder for intersection and merge. We train all the models with Adam optimizer and learning rate ${1e} - 4$.
+RIP-BC (K=1) [safeshift, codevilla2018end] RIP-BC (K=5) [safeshift, codevilla2018end] RIP-DIM (K=1) [safeshift, Rhinehart2020Deep] RIP-DIM (K=5) [safeshift, Rhinehart2020Deep] lGMM [wiederer2023joint] Table 1: Performance of Distribution shifts detection on Shifts [malinin2021shifts] Table 2: OOD detection performance in terms of AUROC on the Argoverse Dataset.
 
 <!-- chunk {"id": "body-0036", "role": "body", "section": "Training and Architecture", "weight": 1.0} -->
 
@@ -148,8 +148,7 @@ For Argoverse \[Argoverse\] and Shifts \[safeshift\], we freeze the encoder trai
 
 <!-- chunk {"id": "body-0037", "role": "body", "section": "Training and Architecture", "weight": 1.0} -->
 
-Highway simulator gradient distributions.
-Figure 7: Kernel density estimation (KDE) [chen2017tutorial] of the last-layer gradients in the Highway environment [highway-env] for the intersection driving task. We observed very distinct gradients between ID on OOD samples, leading to almost perfect collision detection.
+Highway simulator gradient distributions. Figure 7: Kernel density estimation (KDE) [chen2017tutorial] of the last-layer gradients in the Highway environment [highway-env] for the intersection driving task. We observed very distinct gradients between ID on OOD samples, leading to almost perfect collision detection.
 
 <!-- chunk {"id": "body-0038", "role": "body", "section": "Results Analysis", "weight": 1.0} -->
 
@@ -173,8 +172,7 @@ Across repeated runs, the results on Shifts \[malinin2021shifts\] and Highway re
 
 <!-- chunk {"id": "body-0043", "role": "body", "section": "Stability of Results", "weight": 1.0} -->
 
-Last layer Highway [highway-env] Roundabout Inputs
-Figure 8: t-SNE visualization of the decoder’s last layer inputs for the Highway [highway-env] Roundabout scenario. Safe (ID) and collision (OOD) trajectories form well-separated clusters, demonstrating the discriminative power of the learned representations.
+Last layer Highway [highway-env] Roundabout Inputs Figure 8: t-SNE visualization of the decoder’s last layer inputs for the Highway [highway-env] Roundabout scenario. Safe (ID) and collision (OOD) trajectories form well-separated clusters, demonstrating the discriminative power of the learned representations.
 
 <!-- chunk {"id": "body-0044", "role": "body", "section": "Early-Detection of Planning Failures", "weight": 1.0} -->
 
@@ -198,15 +196,15 @@ Since we are testing in an online simulator, we evaluate the computational cost 
 
 <!-- chunk {"id": "body-0049", "role": "body", "section": "Loss Function for Distribution Shift Detection", "weight": 1.0} -->
 
-To prove the validity of our method we tested our Distribution Shift detection method on Shifts \[malinin2021shifts\] using the loss function value $L_{past}$ as score instead of the gradient of the function ${\|{\nabla_{h_{L}}\mathcal{L}_{past}}\|}_{2}$ w.r.t. the last hidden layer input $h_{L}$, as described in Sec. 3.2. As demonstrated in Fig. 9 and Table 3, using the loss function does not provide significant distribution shift information, yielding an AUROC of approximately 50%. In contrast, the gradient-based approach effectively captures variations in the loss landscape and performs significantly better for distribution shift detection. This confirms our hypothesis from Sec. 3.2 showing the superiority of the gradients in terms of Distribution Shifts detection versus the loss space.
+To prove the validity of our method we tested our Distribution Shift detection method on Shifts \[malinin2021shifts\] using the loss function value $L_{past}$ as score instead of the gradient of the function $||\nabla_{h_{L}}\mathcal{L}_{past}||_{2}$ w.r.t. the last hidden layer input $h_{L}$, as described in Sec. 3.2. As demonstrated in Fig. 9 and Table 3, using the loss function does not provide significant distribution shift information, yielding an AUROC of approximately 50%. In contrast, the gradient-based approach effectively captures variations in the loss landscape and performs significantly better for distribution shift detection. This confirms our hypothesis from Sec. 3.2 showing the superiority of the gradients in terms of Distribution Shifts detection versus the loss space.
 
 <!-- chunk {"id": "body-0050", "role": "body", "section": "Comparison with Other Self-Supervised Approaches", "weight": 1.0} -->
 
-Table 3 compares standard self-supervised methods for distribution shift detection on the Shifts dataset \[malinin2021shifts\]: an Autoencoder (AE) that reconstructs the full trajectory, and a Masked Autoencoder (MAE) that predicts randomly masked trajectory states. Formally, the AE minimizes the mean squared error (MSE) of the full historical trajectory: $\mathcal{L}_{AE} = {(X_{past},{AE{(X_{past})}})}^{2}$. The MAE processes a masked input, ${\overline{X}}_{past} = {M \odot X_{past}}$, where $M$ is a random binary mask, and minimizes $\mathcal{L}_{MAE} = {({{({1 - M})} \odot X_{past}},{MAE{({\overline{X}}_{past})}})}^{2}$. Our method, forecasting the past, applies causal masking by estimating the trajectory's second half.
+Table 3 compares standard self-supervised methods for distribution shift detection on the Shifts dataset \[malinin2021shifts\]: an Autoencoder (AE) that reconstructs the full trajectory, and a Masked Autoencoder (MAE) that predicts randomly masked trajectory states. Formally, the AE minimizes the mean squared error (MSE) of the full historical trajectory: $\mathcal{L}_{AE}=(X_{past},AE(X_{past}))^{2}$. The MAE processes a masked input, $\bar{X}_{past}=M\odot X_{past}$, where $M$ is a random binary mask, and minimizes $\mathcal{L}_{MAE}=((1-M)\odot X_{past},MAE(\bar{X}_{past}))^{2}$. Our method, forecasting the past, applies causal masking by estimating the trajectory's second half. For a fair comparison, the masked autoencoder also masks exactly 50% of the trajectory steps.
 
 <!-- chunk {"id": "body-0051", "role": "body", "section": "Comparison with Other Self-Supervised Approaches", "weight": 1.0} -->
 
-For a fair comparison, the masked autoencoder also masks exactly 50% of the trajectory steps. We compute anomaly scores using the loss function magnitude (recon/pred error), and the L2 norm of the loss gradient with respect to all parameters (all), the latent space (latent), and the final layer (last). The results indicate that the loss magnitude poorly identifies distribution shifts, yielding approximately 50% AUROC across all models. Gradient-based scores consistently perform better. Notably, our causal forecasting method combined with the last layer gradient achieves 71.30% AUROC, outperforming reconstruction and random masking methods by over 20%.
+We compute anomaly scores using the loss function magnitude (recon/pred error), and the L2 norm of the loss gradient with respect to all parameters (all), the latent space (latent), and the final layer (last). The results indicate that the loss magnitude poorly identifies distribution shifts, yielding approximately 50% AUROC across all models. Gradient-based scores consistently perform better. Notably, our causal forecasting method combined with the last layer gradient achieves 71.30% AUROC, outperforming reconstruction and random masking methods by over 20%.
 
 <!-- chunk {"id": "body-0052", "role": "body", "section": "Conclusion", "weight": 1.5} -->
 

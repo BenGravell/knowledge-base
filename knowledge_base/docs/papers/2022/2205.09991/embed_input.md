@@ -24,35 +24,35 @@ In this work, we propose an alternative approach to data-driven trajectory optim
 
 <!-- chunk {"id": "body-0006", "role": "body", "section": "Introduction", "weight": 1.5} -->
 
-We instantiate this idea as a trajectory-level diffusion probabilistic model called Diffuser, visualized in Figure 2. Whereas standard model-based planning techniques predict forward in time autoregressively, Diffuser predicts all timesteps of a plan simultaneously. The iterative sampling process of diffusion models leads to flexible conditioning, allowing for auxiliary guides to modify the sampling procedure to recover trajectories with high return or satisfying a set of constraints.
+We instantiate this idea as a trajectory-level diffusion probabilistic model called Diffuser, visualized in Figure 2. Whereas standard model-based planning techniques predict forward in time autoregressively, Diffuser predicts all timesteps of a plan simultaneously. The iterative sampling process of diffusion models leads to flexible conditioning, allowing for auxiliary guides to modify the sampling procedure to recover trajectories with high return or satisfying a set of constraints. This formulation of data-driven trajectory optimization has several appealing properties: Long-horizon scalability Diffuser is trained for the accuracy of its generated trajectories rather than its single-step error, so it does not suffer from the compounding rollout errors of single-step dynamics models and scales more gracefully with respect to long planning horizon.
 
 <!-- chunk {"id": "body-0007", "role": "body", "section": "Introduction", "weight": 1.5} -->
 
-Long-horizon scalability Diffuser is trained for the accuracy of its generated trajectories rather than its single-step error, so it does not suffer from the compounding rollout errors of single-step dynamics models and scales more gracefully with respect to long planning horizon.
+Task compositionality Reward functions provide auxiliary gradients to be used while sampling a plan, allowing for a straightforward way of planning by composing multiple rewards simultaneously by adding together their gradients.
 
 <!-- chunk {"id": "body-0008", "role": "body", "section": "Introduction", "weight": 1.5} -->
 
-Task compositionality Reward functions provide auxiliary gradients to be used while sampling a plan, allowing for a straightforward way of planning by composing multiple rewards simultaneously by adding together their gradients.
+Temporal compositionality Diffuser generates globally coherent trajectories by iteratively improving local consistency, allowing it to generalize to novel trajectories by stitching together in-distribution subsequences.
 
 <!-- chunk {"id": "body-0009", "role": "body", "section": "Introduction", "weight": 1.5} -->
 
-Temporal compositionality Diffuser generates globally coherent trajectories by iteratively improving local consistency, allowing it to generalize to novel trajectories by stitching together in-distribution subsequences.
+Effective non-greedy planning By blurring the line between model and planner, the training procedure that improves the model's predictions also has the effect of improving its planning capabilities. This design yields a learned planner that can solve the types of long-horizon, sparse-reward problems that prove difficult for many conventional planning methods.
 
 <!-- chunk {"id": "body-0010", "role": "body", "section": "Introduction", "weight": 1.5} -->
 
-Effective non-greedy planning By blurring the line between model and planner, the training procedure that improves the model's predictions also has the effect of improving its planning capabilities. This design yields a learned planner that can solve the types of long-horizon, sparse-reward problems that prove difficult for many conventional planning methods.
-
-<!-- chunk {"id": "body-0011", "role": "body", "section": "Introduction", "weight": 1.5} -->
-
 The core contribution of this work is a denoising diffusion model designed for trajectory data and an associated probabilistic framework for behavior synthesis. While unconventional compared to the types of models routinely used in deep model-based reinforcement learning, we demonstrate that Diffuser has a number of useful properties and is particularly effective in offline control settings that require long-horizon reasoning and test-time flexibility.
 
-<!-- chunk {"id": "body-0012", "role": "body", "section": "Problem Setting", "weight": 1.0} -->
+<!-- chunk {"id": "body-0011", "role": "body", "section": "Problem Setting", "weight": 1.0} -->
 
-where $T$ is the planning horizon. We use the abbreviation ${\mathbf{τ}} = {(\mathbf{s}_{0},\mathbf{a}_{0},\mathbf{s}_{1},\mathbf{a}_{1},\ldots,\mathbf{s}_{T},\mathbf{a}_{T})}$ to refer to a trajectory of interleaved states and actions and $\mathcal{J}{({\mathbf{τ}})}$ to denote the objective value of that trajectory.
+Consider a system governed by the discrete-time dynamics $\mathbf{s}_{t + 1} = {{\mathbf{f}}{(\mathbf{s}_{t},\mathbf{a}_{t})}}$ at state $\mathbf{s}_{t}$ given an action $\mathbf{a}_{t}$. Trajectory optimization refers to finding a sequence of actions $\mathbf{a}_{0:T}^{\ast}$ that maximizes (or minimizes) an objective $\mathcal{J}$ factorized over per-timestep rewards (or costs) $r{(\mathbf{s}_{t},\mathbf{a}_{t})}$: where $T$ is the planning horizon.
+
+<!-- chunk {"id": "body-0012", "role": "body", "section": "Diffusion Probabilistic Models", "weight": 1.0} -->
+
+Diffusion probabilistic models pose the data-generating process as an iterative denoising procedure $p_{\theta}{({{\mathbf{τ}}^{i - 1} \mid {\mathbf{τ}}^{i}})}$. This denoising is the reverse of a forward diffusion process $q{({{\mathbf{τ}}^{i} \mid {\mathbf{τ}}^{i - 1}})}$ that slowly corrupts the structure in data by adding noise. The data distribution induced by the model is given: where $p{({\mathbf{τ}}^{N})}$ is a standard Gaussian prior and ${\mathbf{τ}}^{0}$ denotes (noiseless) data.
 
 <!-- chunk {"id": "body-0013", "role": "body", "section": "Diffusion Probabilistic Models", "weight": 1.0} -->
 
-Diffusion probabilistic models pose the data-generating process as an iterative denoising procedure $p_{\theta}{({{\mathbf{τ}}^{i - 1} \mid {\mathbf{τ}}^{i}})}$. This denoising is the reverse of a forward diffusion process $q{({{\mathbf{τ}}^{i} \mid {\mathbf{τ}}^{i - 1}})}$ that slowly corrupts the structure in data by adding noise.
+Parameters $\theta$ are optimized by minimizing a variational bound on the negative log likelihood of the reverse process: ${\theta^{\ast} = {{\arg\min}_{\theta} - {{\mathbb{E}}_{{\mathbf{τ}}^{0}}\left\lbrack {{\log p_{\theta}}{({\mathbf{τ}}^{0})}} \right\rbrack}}}.$ The reverse process is often parameterized as Gaussian with fixed timestep-dependent covariances: The forward process $q{({{\mathbf{τ}}^{i} \mid {\mathbf{τ}}^{i - 1}})}$ is typically prespecified.
 
 <!-- chunk {"id": "body-0014", "role": "body", "section": "Planning with Diffusion", "weight": 1.0} -->
 
@@ -60,11 +60,11 @@ A major obstacle to using trajectory optimization techniques is that they requir
 
 <!-- chunk {"id": "body-0015", "role": "body", "section": "Planning with Diffusion", "weight": 1.0} -->
 
-We propose a tighter coupling between modeling and planning. Instead of using a learned model in the context of a classical planner, we subsume as much of the planning process as possible into the generative modeling framework, such that planning becomes nearly identical to sampling. We do this using a diffusion model of trajectories, $p_{\theta}{({\mathbf{τ}})}$.
+We propose a tighter coupling between modeling and planning. Instead of using a learned model in the context of a classical planner, we subsume as much of the planning process as possible into the generative modeling framework, such that planning becomes nearly identical to sampling. We do this using a diffusion model of trajectories, $p_{\theta}{({\mathbf{τ}})}$. The iterative denoising process of a diffusion model lends itself to flexible conditioning by way of sampling from perturbed distributions of the form: The function $h{({\mathbf{τ}})}$ can contain information about prior evidence (such as an observation history), desired outcomes (such as a goal to reach), or general functions to optimize (such as rewards or costs).
 
 <!-- chunk {"id": "body-0016", "role": "body", "section": "Planning with Diffusion", "weight": 1.0} -->
 
-The function $h{({\mathbf{τ}})}$ can contain information about prior evidence (such as an observation history), desired outcomes (such as a goal to reach), or general functions to optimize (such as rewards or costs). Performing inference in this perturbed distribution can be seen as a probabilistic analogue to the trajectory optimization problem posed in Section 2.1, as it requires finding trajectories that are both physically realistic under $p_{\theta}{({\mathbf{τ}})}$ and high-reward (or constraint-satisfying) under $h{({\mathbf{τ}})}$. Because the dynamics information is separated from the perturbation distribution $h{({\mathbf{τ}})}$, a single diffusion model $p_{\theta}{({\mathbf{τ}})}$ may be reused for multiple tasks in the same environment.
+Performing inference in this perturbed distribution can be seen as a probabilistic analogue to the trajectory optimization problem posed in Section 2.1, as it requires finding trajectories that are both physically realistic under $p_{\theta}{({\mathbf{τ}})}$ and high-reward (or constraint-satisfying) under $h{({\mathbf{τ}})}$. Because the dynamics information is separated from the perturbation distribution $h{({\mathbf{τ}})}$, a single diffusion model $p_{\theta}{({\mathbf{τ}})}$ may be reused for multiple tasks in the same environment.
 
 <!-- chunk {"id": "body-0017", "role": "body", "section": "Planning with Diffusion", "weight": 1.0} -->
 
@@ -84,130 +84,116 @@ Temporal locality. Despite not being autoregressive or Markovian, Diffuser featu
 
 <!-- chunk {"id": "body-0021", "role": "body", "section": "Generative Model for Trajectory Planning", "weight": 1.0} -->
 
-Trajectory representation. Diffuser is a model of trajectories designed for planning, meaning that the effectiveness of the controller derived from the model is just as important as the quality of the state predictions. As a result, states and actions in a trajectory are predicted jointly; for the purposes of prediction the actions are simply additional dimensions of the state.
+Trajectory representation. Diffuser is a model of trajectories designed for planning, meaning that the effectiveness of the controller derived from the model is just as important as the quality of the state predictions. As a result, states and actions in a trajectory are predicted jointly; for the purposes of prediction the actions are simply additional dimensions of the state. Specifically, we represent inputs (and outputs) of Diffuser as a two-dimensional array: with one column per timestep of the planning horizon.
 
 <!-- chunk {"id": "body-0022", "role": "body", "section": "Generative Model for Trajectory Planning", "weight": 1.0} -->
 
-with one column per timestep of the planning horizon.
+Architecture. We now have the ingredients needed to specify a Diffuser architecture: an entire trajectory should be predicted non-autoregressively, each step of the denoising process should be temporally local, and the trajectory representation should allow for equivariance along one dimension (the planning horizon) but not the other (the state and action features). We satisfy these criteria with a model consisting of repeated (temporal) convolutional residual blocks. The overall architecture resembles the types of U-Nets that have found success in image-based diffusion models, but with two-dimensional spatial convolutions replaced by one-dimensional temporal convolutions (Figure A1). Because the model is fully convolutional, the horizon of the predictions is determined not by the model architecture, but by the input dimensionality; it can change dynamically during planning if desired.
 
 <!-- chunk {"id": "body-0023", "role": "body", "section": "Generative Model for Trajectory Planning", "weight": 1.0} -->
 
-Architecture. We now have the ingredients needed to specify a Diffuser architecture: an entire trajectory should be predicted non-autoregressively, each step of the denoising process should be temporally local, and the trajectory representation should allow for equivariance along one dimension (the planning horizon) but not the other (the state and action features). We satisfy these criteria with a model consisting of repeated (temporal) convolutional residual blocks. The overall architecture resembles the types of U-Nets that have found success in image-based diffusion models, but with two-dimensional spatial convolutions replaced by one-dimensional temporal convolutions (Figure A1). Because the model is fully convolutional, the horizon of the predictions is determined not by the model architecture, but by the input dimensionality; it can change dynamically during planning if desired.
+Training. We use Diffuser to parameterize a learned gradient $\epsilon_{\theta}{({\mathbf{τ}}^{i},i)}$ of the trajectory denoising process, from which the mean $\mu_{\theta}$ can be solved in closed form. We use the simplified objective for training the $\epsilon$-model, given: in which $i \sim {\mathcal{U}{\{ 1,2,\ldots,N\}}}$ is the diffusion timestep, $\epsilon \sim {\mathcal{N}{(\mathbf{0},{\mathbf{I}})}}$ is the noise target, and ${\mathbf{τ}}^{i}$ is the trajectory ${\mathbf{τ}}^{0}$ corrupted with noise $\epsilon$. Reverse process covariances $\Sigma^{i}$ follow the cosine schedule of Nichol & Dhariwal.
 
 <!-- chunk {"id": "body-0024", "role": "body", "section": "Generative Model for Trajectory Planning", "weight": 1.0} -->
 
-Training. We use Diffuser to parameterize a learned gradient $\epsilon_{\theta}{({\mathbf{τ}}^{i},i)}$ of the trajectory denoising process, from which the mean $\mu_{\theta}$ can be solved in closed form.
+1: Require Diffuser μθ, guide 𝒥, scale α, covariances Σi 2: while not done do 3: Observe state s; initialize plan τN ∼ 𝒩 (0, I) 5: // parameters of reverse transition 7: // guide using gradients of return 9: // constrain first state of plan 12: Execute first action of plan τa00 Algorithm 1 Guided Diffusion Planning Figure 3: (Properties of diffusion planners) (a) Learned long-horizon planning: Diffuser’s learned planning procedure does not suffer from the myopic failure modes common to shooting algorithms and is able to plan over long horizons with sparse reward. (b) Temporal compositionality: Even though the model is not Markovian, it generates trajectories via iterated refinements to local consistency. As a result, it exhibits the types of generalization usually associated with Markovian models, with the ability to stitch together snippets of trajectories from the training data to generate novel plan. (c) Variable-length plans: Despite being a trajectory-level model, Diffuser’s planning horizon is not determined by its architecture.
 
 <!-- chunk {"id": "body-0025", "role": "body", "section": "Generative Model for Trajectory Planning", "weight": 1.0} -->
 
-in which $i \sim {\mathcal{U}{\{ 1,2,\ldots,N\}}}$ is the diffusion timestep, $\epsilon \sim {\mathcal{N}{(\mathbf{0},{\mathbf{I}})}}$ is the noise target, and ${\mathbf{τ}}^{i}$ is the trajectory ${\mathbf{τ}}^{0}$ corrupted with noise $\epsilon$. Reverse process covariances $\Sigma^{i}$ follow the cosine schedule of Nichol & Dhariwal.
+The horizon can be updated after training by changing the dimensionality of the input noise. (d) Task compositionality: Diffuser can be composed with new reward functions to plan for tasks unseen during training. In all subfigures, denotes a starting state and denotes a goal state.
 
-<!-- chunk {"id": "body-0026", "role": "body", "section": "Generative Model for Trajectory Planning", "weight": 1.0} -->
+<!-- chunk {"id": "body-0026", "role": "body", "section": "Reinforcement Learning as Guided Sampling", "weight": 1.0} -->
 
-1: Require Diffuser μθ, guide 𝒥, scale α, covariances Σi
-2: while not done do
-3: Observe state s; initialize plan τN ∼ 𝒩 (0,I)
-5: // parameters of reverse transition
-7: // guide using gradients of return
-9: // constrain first state of plan
-12: Execute first action of plan τa00
+In order to solve reinforcement learning problems with Diffuser, we must introduce a notion of reward. We appeal to the control-as-inference graphical model to do so. Let $\mathcal{O}_{t}$ be a binary random variable denoting the optimality of timestep $t$ of a trajectory, with ${p{({\mathcal{O}_{t} = 1})}} = {\exp{({r{(\mathbf{s}_{t},\mathbf{a}_{t})}})}}$. We can sample from the set of optimal trajectories by setting ${h{({\mathbf{τ}})}} = {p{({\mathcal{O}_{1:T} \mid {\mathbf{τ}}})}}$ in Equation 1: We have exchanged the reinforcement learning problem for one of *conditional sampling*. Thankfully, there has been much prior work on conditional sampling with diffusion models.
 
 <!-- chunk {"id": "body-0027", "role": "body", "section": "Reinforcement Learning as Guided Sampling", "weight": 1.0} -->
 
-In order to solve reinforcement learning problems with Diffuser, we must introduce a notion of reward. We appeal to the control-as-inference graphical model to do so. Let $\mathcal{O}_{t}$ be a binary random variable denoting the optimality of timestep $t$ of a trajectory, with ${p{({\mathcal{O}_{t} = 1})}} = {\exp{({r{(\mathbf{s}_{t},\mathbf{a}_{t})}})}}$.
+While it is intractable to sample from this distribution exactly, when $p{({\mathcal{O}_{1:T} \mid {\mathbf{τ}}^{i}})}$ is sufficiently smooth, the reverse diffusion process transitions can be approximated as Gaussian: where $\mu,\Sigma$ are the parameters of the original reverse process transition $p_{\theta}{({{\mathbf{τ}}^{i - 1} \mid {\mathbf{τ}}^{i}})}$ and This relation provides a straightforward translation between classifier-guided sampling, used to generate class-conditional images, and the reinforcement learning problem setting. We first train a diffusion model $p_{\theta}{({\mathbf{τ}})}$ on the states and actions of all available trajectory data. We then train a separate model $\mathcal{J}_{\phi}$ to predict the cumulative rewards of trajectory samples ${\mathbf{τ}}^{i}$.
 
 <!-- chunk {"id": "body-0028", "role": "body", "section": "Reinforcement Learning as Guided Sampling", "weight": 1.0} -->
 
-We have exchanged the reinforcement learning problem for one of *conditional sampling*. Thankfully, there has been much prior work on conditional sampling with diffusion models.
+The gradients of $\mathcal{J}_{\phi}$ are used to guide the trajectory sampling procedure by modifying the means $\mu$ of the reverse process according to Equation 3. The first action of a sampled trajectory ${\mathbf{τ}} \sim {p{({{{\mathbf{τ}} \mid \mathcal{O}_{1:T}} = 1})}}$ may be executed in the environment, after which the planning procedure begins again in a standard receding-horizon control loop. Pseudocode for the guided planning method is given in Algorithm 1.
 
-<!-- chunk {"id": "body-0029", "role": "body", "section": "Reinforcement Learning as Guided Sampling", "weight": 1.0} -->
-
-This relation provides a straightforward translation between classifier-guided sampling, used to generate class-conditional images, and the reinforcement learning problem setting. We first train a diffusion model $p_{\theta}{({\mathbf{τ}})}$ on the states and actions of all available trajectory data. We then train a separate model $\mathcal{J}_{\phi}$ to predict the cumulative rewards of trajectory samples ${\mathbf{τ}}^{i}$. The gradients of $\mathcal{J}_{\phi}$ are used to guide the trajectory sampling procedure by modifying the means $\mu$ of the reverse process according to Equation 3. The first action of a sampled trajectory ${\mathbf{τ}} \sim {p{({{{\mathbf{τ}} \mid \mathcal{O}_{1:T}} = 1})}}$ may be executed in the environment, after which the planning procedure begins again in a standard receding-horizon control loop. Pseudocode for the guided planning method is given in Algorithm 1.
-
-<!-- chunk {"id": "body-0030", "role": "body", "section": "Goal-Conditioned RL as Inpainting", "weight": 1.0} -->
+<!-- chunk {"id": "body-0029", "role": "body", "section": "Goal-Conditioned RL as Inpainting", "weight": 1.0} -->
 
 Some planning problems are more naturally posed as constraint satisfaction than reward maximization. In these settings, the objective is to produce any feasible trajectory that satisfies a set of constraints, such as terminating at a goal location. Appealing to the two-dimensional array representation of trajectories described by Equation 2, this setting can be translated into an *inpainting problem*, in which state and action constraints act analogously to observed pixels in an image. All unobserved locations in the array must be filled in by the diffusion model in a manner consistent with the observed constraints.
 
+<!-- chunk {"id": "body-0030", "role": "body", "section": "Goal-Conditioned RL as Inpainting", "weight": 1.0} -->
+
+The perturbation function required for this task is a Dirac delta for observed values and constant elsewhere. Concretely, if $\mathbf{c}_{t}$ is state constraint at timestep $t$, then The definition for action constraints is identical. In practice, this may be implemented by sampling from the unperturbed reverse process ${\mathbf{τ}}^{i - 1} \sim {p_{\theta}{({{\mathbf{τ}}^{i - 1} \mid {\mathbf{τ}}^{i}})}}$ and replacing the sampled values with conditioning values $\mathbf{c}_{t}$ after all diffusion timesteps $i \in {\{ 0,1,\ldots,N\}}$.
+
 <!-- chunk {"id": "body-0031", "role": "body", "section": "Goal-Conditioned RL as Inpainting", "weight": 1.0} -->
-
-The perturbation function required for this task is a Dirac delta for observed values and constant elsewhere. Concretely, if $\mathbf{c}_{t}$ is state constraint at timestep $t$, then
-
-<!-- chunk {"id": "body-0032", "role": "body", "section": "Goal-Conditioned RL as Inpainting", "weight": 1.0} -->
-
-The definition for action constraints is identical. In practice, this may be implemented by sampling from the unperturbed reverse process ${\mathbf{τ}}^{i - 1} \sim {p_{\theta}{({{\mathbf{τ}}^{i - 1} \mid {\mathbf{τ}}^{i}})}}$ and replacing the sampled values with conditioning values $\mathbf{c}_{t}$ after all diffusion timesteps $i \in {\{ 0,1,\ldots,N\}}$.
-
-<!-- chunk {"id": "body-0033", "role": "body", "section": "Goal-Conditioned RL as Inpainting", "weight": 1.0} -->
 
 Even reward maximization problems require conditioning-by-inpainting because all sampled trajectories should begin at the current state. This conditioning is described by line 10 in Algorithm 1.
 
-<!-- chunk {"id": "body-0034", "role": "body", "section": "Properties of Diffusion Planners", "weight": 1.0} -->
+<!-- chunk {"id": "body-0032", "role": "body", "section": "Properties of Diffusion Planners", "weight": 1.0} -->
 
 We discuss a number of Diffuser's important properties, focusing on those that are are either distinct from standard dynamics models or unusual for non-autoregressive trajectory prediction.
 
-<!-- chunk {"id": "body-0035", "role": "body", "section": "Properties of Diffusion Planners", "weight": 1.0} -->
+<!-- chunk {"id": "body-0033", "role": "body", "section": "Properties of Diffusion Planners", "weight": 1.0} -->
 
 Learned long-horizon planning. Single-step models are typically used as proxies for ground-truth environment dynamics $\mathbf{f}$, and as such are not tied to any planning algorithm in particular. In contrast, the planning routine in Algorithm 1 is closely tied to the specific affordances of diffusion models. Because our planning method is nearly identical to sampling (with the only difference being guidance by a perturbation function $h{({\mathbf{τ}})}$), Diffuser's effectiveness as a long-horizon predictor directly translates to effective long-horizon planning. We demonstrate the benefits of learned planning in a goal-reaching setting in Figure 3a, showing that Diffuser is able to generate feasible trajectories in the types of sparse reward settings where shooting-based approaches are known to struggle. We explore a more quantitative version of this problem setting in Section 5.1.
 
-<!-- chunk {"id": "body-0036", "role": "body", "section": "Properties of Diffusion Planners", "weight": 1.0} -->
+<!-- chunk {"id": "body-0034", "role": "body", "section": "Properties of Diffusion Planners", "weight": 1.0} -->
 
 Temporal compositionality. Single-step models are often motivated using the Markov property, allowing them to compose in-distribution transitions to generalize to out-of-distribution trajectories. Because Diffuser generates globally coherent trajectories by iteratively improving local consistency (Section 3.1), it can also stitch together familiar subsequences in novel ways. In Figure 3b, we train Diffuser on trajectories that only travel in a straight line, and show that it can generalize to v-shaped trajectories by composing trajectories at their point of intersection.
 
-<!-- chunk {"id": "body-0037", "role": "body", "section": "Properties of Diffusion Planners", "weight": 1.0} -->
+<!-- chunk {"id": "body-0035", "role": "body", "section": "Properties of Diffusion Planners", "weight": 1.0} -->
 
 Variable-length plans. Because our model is fully convolutional in the horizon dimension of its prediction, its planning horizon is not specified by architectural choices. Instead, it is determined by the size of the input noise ${\mathbf{τ}}^{N} \sim {\mathcal{N}{(\mathbf{0},\mathbf{I})}}$ that initializes the denoising process, allowing for variable-length plans (Figure 3c).
 
-<!-- chunk {"id": "body-0038", "role": "body", "section": "Properties of Diffusion Planners", "weight": 1.0} -->
+<!-- chunk {"id": "body-0036", "role": "body", "section": "Properties of Diffusion Planners", "weight": 1.0} -->
 
 Task compositionality. While Diffuser contains information about both environment dynamics and behaviors, it is independent of reward function. Because the model acts as a prior over possible futures, planning can be guided by comparatively lightweight perturbation functions $h{({\mathbf{τ}})}$ (or even combinations of multiple perturbations) corresponding to different rewards. We demonstrate this by planning for a new reward function unseen during training of the diffusion model (Figure 3d).
 
-<!-- chunk {"id": "body-0039", "role": "body", "section": "Experimental Evaluation", "weight": 1.0} -->
+<!-- chunk {"id": "body-0037", "role": "body", "section": "Experimental Evaluation", "weight": 1.0} -->
 
 The focus of our experiments is to evaluate Diffuser on the capabilities we would like from a data-driven planner. In particular, we evaluate the ability to plan over long horizons without manual reward shaping, the ability to generalize to new configurations of goals unseen during training, and the ability to recover an effective controller from heterogeneous data of varying quality. We conclude by studying practical runtime considerations of diffusion-based planning, including the most effective ways of speeding up the planning procedure while suffering minimally in terms of performance.
 
-<!-- chunk {"id": "body-0040", "role": "body", "section": "Long Horizon Multi-Task Planning", "weight": 1.0} -->
+<!-- chunk {"id": "body-0038", "role": "body", "section": "Long Horizon Multi-Task Planning", "weight": 1.0} -->
 
 We evaluate long-horizon planning in the Maze2D environments, which require traversing to a goal location where a reward of 1 is given. No reward shaping is provided at any other location. Because it can take hundreds of steps to reach the goal location, even the best model-free algorithms struggle to adequately perform credit assignment and reliably reach the goal (Table 1).
 
-<!-- chunk {"id": "body-0041", "role": "body", "section": "Long Horizon Multi-Task Planning", "weight": 1.0} -->
+<!-- chunk {"id": "body-0039", "role": "body", "section": "Long Horizon Multi-Task Planning", "weight": 1.0} -->
 
 We plan with Diffuser using the inpainting strategy to condition on a start and goal location. (The goal location is also available to the model-free methods; it is identifiable by being the only state in the dataset with non-zero reward.) We then use the sampled trajectory as an open-loop plan. Diffuser achieves scores over 100 in all maze sizes, indicating that it outperforms a reference expert policy. We visualize the reverse diffusion process generating Diffuser's plans in Figure 4.
 
-<!-- chunk {"id": "body-0042", "role": "body", "section": "Long Horizon Multi-Task Planning", "weight": 1.0} -->
+<!-- chunk {"id": "body-0040", "role": "body", "section": "Long Horizon Multi-Task Planning", "weight": 1.0} -->
 
 While the training data in Maze2D is undirected -- consisting of a controller navigating to and from randomly selected locations -- the evaluation is single-task in that the goal is always the same. In order to test multi-task flexibility, we modify the environment to randomize the goal location at the beginning of each episode. This setting is denoted as Multi2D in Table 1. Diffuser is naturally a multi-task planner; we do not need to retrain the model from the single-task experiments and simply change the conditioning goal. As a result, Diffuser performs as well in the multi-task setting as in the single-task setting. In contrast, there is a substantial performance drop of the best model-free algorithm in the single-task setting when adapted to the multi-task setting. Details of our multi-task IQL with hindsight experience relabeling are provided in Appendix A. MPPI uses the ground-truth dynamics; its poor performance compared to the learned planning algorithm of Diffuser highlights the difficulty posed by long-horizon planning even when there are no prediction inaccuracies.
 
-<!-- chunk {"id": "body-0043", "role": "body", "section": "Test-time Flexibility", "weight": 1.0} -->
+<!-- chunk {"id": "body-0041", "role": "body", "section": "Test-time Flexibility", "weight": 1.0} -->
 
 In order to evaluate the ability to generalize to new test-time goals, we construct a suite of block stacking tasks with three settings: Unconditional Stacking, for which the task is to build a block tower as tall as possible; Conditional Stacking, for which the task is to construct a block tower with a specified order of blocks, and Rearrangement, for which the task is to match a set of reference blocks' locations in a novel arrangement. We train all methods on 10000 trajectories from demonstrations generated by PDDLStream; rewards are equal to one upon successful stack placements and zero otherwise. These block stacking are challenging diagnostics of test-time flexibility; in the course of executing a partial stack for a randomized goal, a controller will venture into novel states not included in the training configuration.
 
-<!-- chunk {"id": "body-0044", "role": "body", "section": "Test-time Flexibility", "weight": 1.0} -->
+<!-- chunk {"id": "body-0042", "role": "body", "section": "Test-time Flexibility", "weight": 1.0} -->
 
 We use one trained Diffuser for all block-stacking tasks, only modifying the perturbation function $h{({\mathbf{τ}})}$ between settings. In the Unconditional Stacking task, we directly sample from the unperturbed denoising process $p_{\theta}{({\mathbf{τ}})}$ to emulate the PDDLStream controller. In the Conditional Stacking and Rearrangement tasks, we compose two perturbation functions $h{({\mathbf{τ}})}$ to bias the sampled trajectories: the first maximizes the likelihood of the trajectory's final state matching the goal configuration, and the second enforces a contact constraint between the end effector and a cube during stacking motions. (See Appendix B for details.)
 
-<!-- chunk {"id": "body-0045", "role": "body", "section": "Test-time Flexibility", "weight": 1.0} -->
+<!-- chunk {"id": "body-0043", "role": "body", "section": "Test-time Flexibility", "weight": 1.0} -->
 
 We compare with two prior model-free offline reinforcement learning algorithms: BCQ and CQL, training standard variants for Unconditional Stacking and goal-conditioned variants for Conditional Stacking and Rearrangement. (Baseline details are provided in Appendix A.) Quantitative results are given in Table 3, in which a score of 100 corresponds to a perfect execution of the task. Diffuser substantially outperforms both prior methods, with the conditional settings requiring flexible behavior generation proving especially difficult for the model-free algorithms. A visual depiction of an execution by Diffuser is provided in Figure 5.
 
-<!-- chunk {"id": "body-0046", "role": "body", "section": "Offline Reinforcement Learning", "weight": 1.0} -->
+<!-- chunk {"id": "body-0044", "role": "body", "section": "Offline Reinforcement Learning", "weight": 1.0} -->
 
 Finally, we evaluate the capacity to recover an effective single-task controller from heterogeneous data of varying quality using the D4RL offline locomotion suite. We guide the trajectories generated by Diffuser toward high-reward regions using the sampling procedure described in Section 3.2 and condition the trajectories on the current state using the inpainting procedure described in Section 3.3. The reward predictor $\mathcal{J}_{\phi}$ is trained on the same trajectories as the diffusion model.
 
-<!-- chunk {"id": "body-0047", "role": "body", "section": "Offline Reinforcement Learning", "weight": 1.0} -->
+<!-- chunk {"id": "body-0045", "role": "body", "section": "Offline Reinforcement Learning", "weight": 1.0} -->
 
 We compare to a variety of prior algorithms spanning other approaches to data-driven control, including the model-free reinforcement learning algorithms CQL and IQL; return-conditioning approaches like Decision Transformer; and model-based reinforcement learning approaches including Trajectory Transformer, MOPO, MOReL, and MBOP. In the single-task setting, Diffuser performance comparably to prior algorithms: better than the model-based MOReL and MBOP and return-conditioning DT, but worse than the best offline techniques designed specifically for single-task performance. We also investigated a variant using Diffuser as a dynamics model in conventional trajectory optimizers such as MPPI, but found that this combination performed no better than random, suggesting that the effectiveness of Diffuser stems from coupled modeling and planning, and not from improved open-loop predictive accuracy.
 
-<!-- chunk {"id": "body-0048", "role": "body", "section": "Warm-Starting Diffusion for Faster Planning", "weight": 1.0} -->
+<!-- chunk {"id": "body-0046", "role": "body", "section": "Warm-Starting Diffusion for Faster Planning", "weight": 1.0} -->
 
 A limitation of Diffuser is that individual plans are slow to generate (due to iterative generation). Naïvely, as we execute plans open loop, a new plan must be regenerated at each step of execution. To improve execution speed of Diffuser, we may further reuse previously generated plans to warm-start generations of subsequent plans.
 
-<!-- chunk {"id": "body-0049", "role": "body", "section": "Warm-Starting Diffusion for Faster Planning", "weight": 1.0} -->
+<!-- chunk {"id": "body-0047", "role": "body", "section": "Warm-Starting Diffusion for Faster Planning", "weight": 1.0} -->
 
 To warm-start planning, we may run a limited number of forward diffusion steps from a previously generated plan and then run a corresponding number of denoising steps from this partially noised trajectory to regenerate an updated plan. In Figure 7, we illustrate the trade-off between performance and runtime budget as we vary the underlying number of denoising steps used to regenerate each a new plan from 2 to 100. We find that we may reduce the planning budget of our approach markedly with only modest drop in performance.
 
-<!-- chunk {"id": "body-0050", "role": "body", "section": "Conclusion", "weight": 1.5} -->
+<!-- chunk {"id": "body-0048", "role": "body", "section": "Conclusion", "weight": 1.5} -->
 
 We have presented Diffuser, a denoising diffusion model for trajectory data. Planning with Diffuser is almost identical to sampling from it, differing only in the addition of auxiliary perturbation functions that serve to guide samples. The learned diffusion-based planning procedure has a number of useful properties, including graceful handling of sparse rewards, the ability to plan for new rewards without retraining, and a temporal compositionality that allows it to produce out-of-distribution trajectories by stitching together in-distribution subsequences. Our results point to a new class of diffusion-based planning procedures for deep model-based reinforcement learning.
 
-<!-- chunk {"id": "body-0051", "role": "body", "section": "Code References", "weight": 1.0} -->
+<!-- chunk {"id": "body-0049", "role": "body", "section": "Code References", "weight": 1.0} -->
 
 We used the following open-source libraries for this work: NumPy, PyTorch, and Diffusion Models in PyTorch.

@@ -26,7 +26,7 @@ Here we introduce the Imagination-based Planner (IBP), a model-based agent which
 
 <!-- chunk {"id": "body-0007", "role": "body", "section": "Introduction", "weight": 1.5} -->
 
-A fully learnable model-based planning agent for continuous control.
+Our novel contributions are: A fully learnable model-based planning agent for continuous control.
 
 <!-- chunk {"id": "body-0008", "role": "body", "section": "Introduction", "weight": 1.5} -->
 
@@ -62,7 +62,7 @@ The controller, $\pi^{C}:{{\mathcal{S} \times \mathcal{H}}\rightarrow\mathcal{A}
 
 <!-- chunk {"id": "body-0016", "role": "body", "section": "Model", "weight": 1.0} -->
 
-The imagination, $I:{{\mathcal{S} \times \mathcal{A}}\rightarrow{\mathcal{S} \times \mathcal{R}}}$ is a model of the world, which maps states, $s \in \mathcal{S}$, and actions, $a \in \mathcal{A}$, to consequent states, $s^{\prime} \in \mathcal{S}$, and scalar rewards, $r \in \mathcal{R}$.
+The imagination, $I:{{\mathcal{S} \times \mathcal{A}}\rightarrow{\mathcal{S} \times \mathcal{R}}}$ is a model of the world, which maps states, $s \in \mathcal{S}$, and actions, $a \in \mathcal{A}$, to consequent states, $s' \in \mathcal{S}$, and scalar rewards, $r \in \mathcal{R}$.
 
 <!-- chunk {"id": "body-0017", "role": "body", "section": "Model", "weight": 1.0} -->
 
@@ -86,7 +86,7 @@ We evaluated our model in a challenging continuous control task adapted from the
 
 <!-- chunk {"id": "body-0022", "role": "body", "section": "Spaceship task", "weight": 1.0} -->
 
-There are several other factors that influence possible solutions to the problem. The spaceship pilot must pay a linearly increasing price for fuel (${price} = {0.0002\text{~or~}0.0004}$ cost units), when the force magnitude is greater then a threshold value of $8$ distance units, i.e., ${fuel}\_{cost} = \max{(0,{({force}\_{magnitude} - 8)} \cdot {price}}$). This incentivizes the pilot to choose small thruster forces. We also included multiplicative noise in the control, which further incentivizes small controls and also bounds the resolution at the future states of the system can be accurately predicted.
+There are several other factors that influence possible solutions to the problem. The spaceship pilot must pay a linearly increasing price for fuel (${price} = {0.0002\text{~or~}0.0004}$ cost units), when the force magnitude is greater then a threshold value of $8$ distance units, i.e., ${fuel}_{cost} = \max{(0,{({force}_{magnitude} - 8)} \cdot {price}}$). This incentivizes the pilot to choose small thruster forces. We also included multiplicative noise in the control, which further incentivizes small controls and also bounds the resolution at the future states of the system can be accurately predicted.
 
 <!-- chunk {"id": "body-0023", "role": "body", "section": "Neural network implementation and training", "weight": 1.0} -->
 

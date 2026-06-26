@@ -44,11 +44,11 @@ A reference trajectory, denoted as ${\hat{\mathcal{T}}}_{t}:={\{{\hat{\mu}}_{0},
 
 <!-- chunk {"id": "body-0011", "role": "body", "section": "II-A Trajectory Optimization", "weight": 1.0} -->
 
-The feedforward control together with the feedback term formulates the control input that actuates the vehicle. The state of the vehicle and feedforward control are denoted $x$ and $u_{ff}$ respectively. When comparing states in $\hat{\mathcal{T}}$ and $\mathring{\tau}$ is required, we augment $\hat{\mu}$ to ${\mathbb{R}}^{\dim{(x)}}$ with the values of the augmented states set to the equilibrium point, and denote the augmented state as $\hat{x}$. Let $\hat{\tau} \triangleq {\lbrack{\hat{x}{(t)}^{T}},\ldots,{\hat{x}{({t + N})}^{T}}\rbrack}^{T}$ be the augmented vector of states from the reference trajectory. The trajectory optimization problem is defined,
+The feedforward control together with the feedback term formulates the control input that actuates the vehicle. The state of the vehicle and feedforward control are denoted $x$ and $u_{ff}$ respectively. When comparing states in $\hat{\mathcal{T}}$ and $\mathring{\tau}$ is required, we augment $\hat{\mu}$ to ${\mathbb{R}}^{\dim{(x)}}$ with the values of the augmented states set to the equilibrium point, and denote the augmented state as $\hat{x}$. Let $\hat{\tau} \triangleq {\lbrack{\hat{x}{(t)}^{T}},\ldots,{\hat{x}{({t + N})}^{T}}\rbrack}^{T}$ be the augmented vector of states from the reference trajectory.
 
 <!-- chunk {"id": "body-0012", "role": "body", "section": "II-A Trajectory Optimization", "weight": 1.0} -->
 
-where $f_{ff}{( \cdot, \cdot )}$ is the feedforward model of the vehicle, $U_{ff}$ is the vector of all feedforward terms over the samples from $t$ to $t + N$. $\mathcal{X}$ and $\mathcal{U}$ are the state constraint set and the feedforward input constraint set, respectively.
+The trajectory optimization problem is defined, where $f_{ff}{(\cdot, \cdot)}$ is the feedforward model of the vehicle, $U_{ff}$ is the vector of all feedforward terms over the samples from $t$ to $t + N$. $\mathcal{X}$ and $\mathcal{U}$ are the state constraint set and the feedforward input constraint set, respectively.
 
 <!-- chunk {"id": "body-0013", "role": "body", "section": "II-A Trajectory Optimization", "weight": 1.0} -->
 
@@ -56,100 +56,80 @@ While tracking performance requirements can imposed with an inequality constrain
 
 <!-- chunk {"id": "body-0014", "role": "body", "section": "II-B Vehicle Dynamics", "weight": 1.0} -->
 
-The trajectory optimization problem formulated in II-A relies on the equality constraint (1b) to predict future states and satisfying the differential constraints of the vehicle. The trajectory optimization estimates (1b) from the same dynamic model used in the feedback controller, which is defined as follows
+The trajectory optimization problem formulated in II-A relies on the equality constraint (1b) to predict future states and satisfying the differential constraints of the vehicle. The trajectory optimization estimates (1b) from the same dynamic model used in the feedback controller, which is defined as follows where $s$, $y$, $\theta$ are the pose at the center point of the rear axle of the vehicle in an inertial coordinate system. $\delta$, $v$, $\alpha$, $L$ are the steering-wheel angle, the longitudinal speed, the longitudinal acceleration, and the wheel base of the vehicle, respectively. $\delta_{in}$ and $\alpha_{in}$ are the control input of steering angle and the control input of acceleration/deceleration, respectively. A first order inertial response is added to both steering control and acceleration/deceleration control to formulate the system lag, where $\lambda_{1} > 0$ and $\lambda_{2} > 0$ are response coefficients.
 
 <!-- chunk {"id": "body-0015", "role": "body", "section": "II-B Vehicle Dynamics", "weight": 1.0} -->
 
-where $s$, $y$, $\theta$ are the pose at the center point of the rear axle of the vehicle in an inertial coordinate system. $\delta$, $v$, $\alpha$, $L$ are the steering-wheel angle, the longitudinal speed, the longitudinal acceleration, and the wheel base of the vehicle, respectively. $\delta_{in}$ and $\alpha_{in}$ are the control input of steering angle and the control input of acceleration/deceleration, respectively. A first order inertial response is added to both steering control and acceleration/deceleration control to formulate the system lag, where $\lambda_{1} > 0$ and $\lambda_{2} > 0$ are response coefficients.
+Direct implementation of the nonlinear model in the optimization results in a non-convex problem making real-time trajectory optimization intractable. It can be easily verified that even the one-step quadratic cost ${x^{T}Qx} + {u_{ff}^{T}Ru_{ff}}$ with is non-convex in $u_{ff}$ with both $Q$ and $R$ positive definite. In order to obtain a convex cost in $U_{ff}$, an LTV model is used to approximate. The linearized discrete-time LTV equation of with $x \triangleq {\lbrack s,y,\theta,\delta,v,\alpha\rbrack}^{T}$ is given as follows. where $\beta \in {\lbrack 0,1\rbrack}$ is a weighting coefficient. The input matrix $B$ is time-invariant. Values of states in $A{(t)}$ are assigned using the corresponding states in $\hat{\tau}{(t)}$. Fig. 2 shows numerical forward simulation of the LTV model compared to.
 
-<!-- chunk {"id": "body-0016", "role": "body", "section": "II-B Vehicle Dynamics", "weight": 1.0} -->
-
-Direct implementation of the nonlinear model in the optimization results in a non-convex problem making real-time trajectory optimization intractable. It can be easily verified that even the one-step quadratic cost ${x^{T}Qx} + {u_{ff}^{T}Ru_{ff}}$ with is non-convex in $u_{ff}$ with both $Q$ and $R$ positive definite. In order to obtain a convex cost in $U_{ff}$, an LTV model is used to approximate. The linearized discrete-time LTV equation of with $x \triangleq {\lbrack s,y,\theta,\delta,v,\alpha\rbrack}^{T}$ is given as follows.
-
-<!-- chunk {"id": "body-0017", "role": "body", "section": "II-B Vehicle Dynamics", "weight": 1.0} -->
-
-where $\beta \in {\lbrack 0,1\rbrack}$ is a weighting coefficient. The input matrix $B$ is time-invariant. Values of states in $A{(t)}$ are assigned using the corresponding states in $\hat{\tau}{(t)}$. Fig. 2 shows numerical forward simulation of the LTV model compared to.
-
-<!-- chunk {"id": "body-0018", "role": "body", "section": "II-C Convexity of Quadratic Functions", "weight": 1.0} -->
+<!-- chunk {"id": "body-0016", "role": "body", "section": "II-C Convexity of Quadratic Functions", "weight": 1.0} -->
 
 In the interest of formulating as a SCOP, we focus on the quadratic programming formulations with strictly convex cost functions admitting unique solutions. Uniqueness of the optimal solution ensures that the optimized nominal trajectory is reproducible and solver-invariant^11^1within the resolution tolerance set by the numerical solver.. Quadratic programs are well understood and various numerical solvers are available. While the focus is on quadratic programs, the synthesis approach proposed in this paper is applicable to SCOPs with cost functions of different categories. For instance, a SCOP with self-concordant barrier functions available on the constraints can be solved by a generic interior point method.
 
-<!-- chunk {"id": "body-0019", "role": "body", "section": "II-C Convexity of Quadratic Functions", "weight": 1.0} -->
+<!-- chunk {"id": "body-0017", "role": "body", "section": "II-C Convexity of Quadratic Functions", "weight": 1.0} -->
 
 The following is a brief review of some useful facts and also introduces some of the notation that will be used in subsequent sections. Throughout this work, let $\mathcal{S}_{+}^{n}$ (respectively, $\mathcal{S}_{+ +}^{n}$) be the set of positive semi-definite (respectively, positive definite) symmetric matrices in ${\mathbb{R}}^{n \times n}$.
 
+<!-- chunk {"id": "body-0018", "role": "body", "section": "III-A Cost Function Construction", "weight": 1.0} -->
+
+The dynamics of the LTV system over an $N$-step planning horizon is written compactly as The idea of trajectory optimization is to construct a cost function to meet objectives leveraged by the motion planner and the feedback control system (refer to the connections in Fig. 1). For instance, the motion planner could have riding comfort as an objective and the feedback controller prefers slow changes over the nominal trajectory. It is observed that derivatives of control input are required in the objectives of optimization in addition to control input itself. Therefore, we focus on constructing the cost function of (4 ‣ II-C Convexity of Quadratic Functions ‣ II PROBLEM FORMULATION ‣ Model Predictive Trajectory Optimization and Tracking for On-Road Autonomous Vehicles")) that extends a generic MPC cost function with penalties on differentiation of control input in trajectory optimization.
+
+<!-- chunk {"id": "body-0019", "role": "body", "section": "III-A Cost Function Construction", "weight": 1.0} -->
+
+The difference matrix $E \in {\mathbb{R}}^{{{2N} \times 2}N}$ over the feedforward sequence $U_{ff}$ is as follows then the change of the control sequence is represented as where $\Delta^{i}U_{ff}$ is the $i$-th order difference of $U_{ff}$ with ${\Delta^{0}U_{ff}} = U_{ff}$. $V_{i}$ is the estimation of the initial state that is stored at the previous step. For example, $V_{0} = {\lbrack{- {u_{ff}{({t - 1})}^{T}}},0,\ldots,0\rbrack}^{T}$ at sample $t$.
+
 <!-- chunk {"id": "body-0020", "role": "body", "section": "III-A Cost Function Construction", "weight": 1.0} -->
 
-The dynamics of the LTV system over an $N$-step planning horizon is written compactly as
+Here we focus on various differences of control input since the changes of the state are encoded in the equations for the system dynamics. Given $R_{i} \in \mathcal{S}_{+ +}^{2N}$, we have The cost function comprising system state and control input is constructed as follows where $M \geq 0$ is the difference order of interest. $Q \in \mathcal{S}_{+ +}^{6{({N + 1})}}$ is the weight coefficient of trajectory tracking deviation. ${{R_{i} \in \mathcal{S}_{+ +}^{2N}},{0 \leq i \leq M}},$ is the weight coefficient of the $i$-th order control input. If $M$ is set to $0$, is equivalent to the cost function of an MPC scheme for tracking. In particular, we have the quadratic program of trajectory optimization as minimizing subject to dynamic constraints, (1c), and (1d).
 
 <!-- chunk {"id": "body-0021", "role": "body", "section": "III-A Cost Function Construction", "weight": 1.0} -->
 
-The idea of trajectory optimization is to construct a cost function to meet objectives leveraged by the motion planner and the feedback control system (refer to the connections in Fig. 1). For instance, the motion planner could have riding comfort as an objective and the feedback controller prefers slow changes over the nominal trajectory. It is observed that derivatives of control input are required in the objectives of optimization in addition to control input itself. Therefore, we focus on constructing the cost function of (4 ‣ II-C Convexity of Quadratic Functions ‣ II PROBLEM FORMULATION ‣ Model Predictive Trajectory Optimization and Tracking for On-Road Autonomous Vehicles")) that extends a generic MPC cost function with penalties on differentiation of control input in trajectory optimization. The difference matrix $E \in {\mathbb{R}}^{{{2N} \times 2}N}$ over the feedforward sequence $U_{ff}$ is as follows
+Furthermore, we assume that the constraint sets $\mathcal{U}$ and $\mathcal{X}$ are polyhedra formulated by half planes generated by linear inequalities.
 
 <!-- chunk {"id": "body-0022", "role": "body", "section": "III-A Cost Function Construction", "weight": 1.0} -->
 
-then the change of the control sequence is represented as
-
-<!-- chunk {"id": "body-0023", "role": "body", "section": "III-A Cost Function Construction", "weight": 1.0} -->
-
-Here we focus on various differences of control input since the changes of the state are encoded in the equations for the system dynamics. Given $R_{i} \in \mathcal{S}_{+ +}^{2N}$, we have
-
-<!-- chunk {"id": "body-0024", "role": "body", "section": "III-A Cost Function Construction", "weight": 1.0} -->
-
-The cost function comprising system state and control input is constructed as follows
-
-<!-- chunk {"id": "body-0025", "role": "body", "section": "III-A Cost Function Construction", "weight": 1.0} -->
-
-where $M \geq 0$ is the difference order of interest. $Q \in \mathcal{S}_{+ +}^{6{({N + 1})}}$ is the weight coefficient of trajectory tracking deviation. ${{R_{i} \in \mathcal{S}_{+ +}^{2N}},{0 \leq i \leq M}},$ is the weight coefficient of the $i$-th order control input. If $M$ is set to $0$, is equivalent to the cost function of an MPC scheme for tracking. In particular, we have the quadratic program of trajectory optimization as minimizing subject to dynamic constraints, (1c), and (1d). Furthermore, we assume that the constraint sets $\mathcal{U}$ and $\mathcal{X}$ are polyhedra formulated by half planes generated by linear inequalities.
-
-<!-- chunk {"id": "body-0026", "role": "body", "section": "III-A Cost Function Construction", "weight": 1.0} -->
-
 With the cost function designed in the form of, we have the following result on uniqueness.
 
-<!-- chunk {"id": "body-0027", "role": "body", "section": "III-B Feedback and Feedforward Control", "weight": 1.0} -->
+<!-- chunk {"id": "body-0023", "role": "body", "section": "III-B Feedback and Feedforward Control", "weight": 1.0} -->
 
-When a new reference trajectory $\hat{\mathcal{T}}$ is available from the motion planner, the trajectory optimization takes the reference trajectory to set up the SCOP with and (1c-d). The solution to the SCOP, $U_{ff}^{\ast}$, and the corresponding nominal trajectory together with a feedback controller form the feedback-feedforward control scheme. State update of the closed-loop system implementing the feedback-feedforward scheme is given as follows
+When a new reference trajectory $\hat{\mathcal{T}}$ is available from the motion planner, the trajectory optimization takes the reference trajectory to set up the SCOP with and (1c-d). The solution to the SCOP, $U_{ff}^{\ast}$, and the corresponding nominal trajectory together with a feedback controller form the feedback-feedforward control scheme. State update of the closed-loop system implementing the feedback-feedforward scheme is given as follows where $u_{ff}^{\ast} \triangleq {\lbrack{U_{ff}^{\ast}{}},{U_{ff}^{\ast}{}}\rbrack}^{T}$, $\overset{\sim}{x} = {x - \hat{x}}$ is the state tracking error, $u_{fb}$ is the corresponding feedback input.
 
-<!-- chunk {"id": "body-0028", "role": "body", "section": "III-B Feedback and Feedforward Control", "weight": 1.0} -->
+<!-- chunk {"id": "body-0024", "role": "body", "section": "III-B Feedback and Feedforward Control", "weight": 1.0} -->
 
-The state feedback controller follows the scheme of TVLQR. First, the system is augmented to include the integral of tracking error.
+The state feedback controller follows the scheme of TVLQR. First, the system is augmented to include the integral of tracking error. where $\overset{\sim}{z} = {\lbrack{\overset{\sim}{x}}^{T},{\overset{\sim}{v}}^{T}\rbrack}^{T}$ is the augmented state with $\overset{\sim}{v}$ be the integrator state. The TVLQR problem is defined as follows where ${U_{fb}{(t)}} = {\lbrack{u_{fb}^{T}{(t)}},\ldots,{u_{fb}^{T}{({{t + N} - 1})}}\rbrack}^{T}$.
 
-<!-- chunk {"id": "body-0029", "role": "body", "section": "III-B Feedback and Feedforward Control", "weight": 1.0} -->
+<!-- chunk {"id": "body-0025", "role": "body", "section": "III-B Feedback and Feedforward Control", "weight": 1.0} -->
 
-where ${U_{fb}{(t)}} = {\lbrack{u_{fb}^{T}{(t)}},\ldots,{u_{fb}^{T}{({{t + N} - 1})}}\rbrack}^{T}$. $\overline{Q} \in \mathcal{S}_{+}^{12}$, $\overline{R} \in \mathcal{S}_{+ +}^{2}$, $\overline{P} \in \mathcal{S}_{+ +}^{12}$. Closed-loop stability and disturbance rejection properties of the feedback system can be found. The trajectory optimization is called when a new trajectory from the motion planner is available. In general, the controller updates at a higher rate than the motion planner. Multiple samples in $U_{ff}$ are used in the feedback-feedforward scheme, which is different from solving a quadratic program per control step implemented in an MPC scheme.
+$\overline{Q} \in \mathcal{S}_{+}^{12}$, $\overline{R} \in \mathcal{S}_{+ +}^{2}$, $\overline{P} \in \mathcal{S}_{+ +}^{12}$. Closed-loop stability and disturbance rejection properties of the feedback system can be found. The trajectory optimization is called when a new trajectory from the motion planner is available. In general, the controller updates at a higher rate than the motion planner. Multiple samples in $U_{ff}$ are used in the feedback-feedforward scheme, which is different from solving a quadratic program per control step implemented in an MPC scheme. The TVLQR is responsible for disturbance rejection of the closed-loop system, which requires less computation resource.
 
-<!-- chunk {"id": "body-0030", "role": "body", "section": "III-B Feedback and Feedforward Control", "weight": 1.0} -->
-
-The TVLQR is responsible for disturbance rejection of the closed-loop system, which requires less computation resource.
-
-<!-- chunk {"id": "body-0031", "role": "body", "section": "IV-A Trajectory Optimization Results", "weight": 1.0} -->
+<!-- chunk {"id": "body-0026", "role": "body", "section": "IV-A Trajectory Optimization Results", "weight": 1.0} -->
 
 A sample trajectory is used to test the trajectory optimization. The trajectory consists of states ${\lbrack s,y,\theta,v\rbrack}^{T}$ over a 5-second horizon. The update interval of the trajectory optimization is set to $0.1s$ with the optimization horizon set to $5s$. The cost function is designed to minimize a weighted norm of the tracking error, the feedforward input, and the rate of change of feedforward input. In particular, $Q = {\text{diag}{}}$, $R_{0} = {\text{diag}{(0.1,0.1)}}$, $R_{1} = {\text{diag}{}}$. The constraint set $\mathcal{U}$ is set as ${- 4.0} \leq \alpha_{in} \leq 2.5$, and ${- 0.1} \leq \delta_{in} \leq 0.1$.
 
-<!-- chunk {"id": "body-0032", "role": "body", "section": "IV-A Trajectory Optimization Results", "weight": 1.0} -->
+<!-- chunk {"id": "body-0027", "role": "body", "section": "IV-A Trajectory Optimization Results", "weight": 1.0} -->
 
 Using the state model with a 50 time-step horizon, the resulting quadratic program has 100 decision variables and 200 inequality constraints. The optimization problem is solved in MATLAB using $\mathbf{q}\mathbf{u}\mathbf{a}\mathbf{d}\mathbf{p}\mathbf{r}\mathbf{o}\mathbf{g}$ on a Windows laptop with an Intel Core i5 CPU at 2.50GHz in 43.65 milliseconds averaged over 150 tests.
 
-<!-- chunk {"id": "body-0033", "role": "body", "section": "IV-A Trajectory Optimization Results", "weight": 1.0} -->
+<!-- chunk {"id": "body-0028", "role": "body", "section": "IV-A Trajectory Optimization Results", "weight": 1.0} -->
 
 The reference trajectory from the planner is piecewise constant in steering angle and velocity consisting of 5 piecewise constant segments. The reference velocity and steering angle over each sub-segment are constant and only change at the starting point of each sub-segment, denoted as blue dots in Fig. 3. Fig. 3 shows the optimized trajectory in the $s - y - v$ space, depicted as the green curve. It is observed that the velocity over the optimized trajectory is adjusted in order to track the s-y position in the reference trajectory.
 
-<!-- chunk {"id": "body-0034", "role": "body", "section": "IV-B Feedback-feedforward Performance", "weight": 1.0} -->
+<!-- chunk {"id": "body-0029", "role": "body", "section": "IV-B Feedback-feedforward Performance", "weight": 1.0} -->
 
 In order to test the effectiveness of the proposed feedforward-feedback approach for motion trajectory tracking, a test scenario is designed considering an evasion maneuver. The host vehicle in the scenario needs to change lane to avoid a pulled-over vehicle while keeping safe inter-vehicle distance to the car in the target lane. The relative position of vehicles in the simulation is sequentially depicted in Fig. 4.
 
-<!-- chunk {"id": "body-0035", "role": "body", "section": "IV-B Feedback-feedforward Performance", "weight": 1.0} -->
+<!-- chunk {"id": "body-0030", "role": "body", "section": "IV-B Feedback-feedforward Performance", "weight": 1.0} -->
 
 The reference trajectory is obtained from the motion planner that minimizes deviations to a desired velocity profile calculated using time-headway and speed limits with forward kinematic simulation. The first 15-second of the planned trajectory is saved and is used as the reference trajectory. The dashed grey line in Fig. 5 shows the estimated feedforward input derived from the reference trajectory using without the first order lag. Steep changes of steering angle and acceleration are observed during $t = 7$ and $t = 10$ where the host vehicle needs to adjust longitudinal velocity while changing to the adjacent lane. Parameters of the trajectory optimization are set as the same to IV-A. Parameters of the TVLQR feedback controller is set as $\overline{Q} = {{diag}{(10,5,10,1,10,{{1e} - 4},{{1e} - 4},0,0,0,0)}}$, $\overline{R} = {{diag}{}}$. The sampling interval of the TVLQR is set to $0.02s$ with the horizon set equal to the trajectory optimization horizon.
 
-<!-- chunk {"id": "body-0036", "role": "body", "section": "IV-B Feedback-feedforward Performance", "weight": 1.0} -->
+<!-- chunk {"id": "body-0031", "role": "body", "section": "IV-B Feedback-feedforward Performance", "weight": 1.0} -->
 
 The feedback-feedforward scheme is then tested on a nonlinear vehicle model that takes into account acceleration saturation of the powertrain, aero dynamics, and noises on steering and acceleration measurements.
 
-<!-- chunk {"id": "body-0037", "role": "body", "section": "IV-B Feedback-feedforward Performance", "weight": 1.0} -->
+<!-- chunk {"id": "body-0032", "role": "body", "section": "IV-B Feedback-feedforward Performance", "weight": 1.0} -->
 
 Fig. 3 shows the tracking result of the feedback-feedforward scheme in $s - y$ plane. The corresponding input generated for the closed-loop system is shown in Fig. 5 together with the feedforward term from the trajectory optimization. The feedforward term has been smoothed out during the evasion maneuver as the trajectory optimization takes into account i) change rates of the feedforward term, and ii) a vehicle model sharing the same state space as the feedback controller. Fig. 7 shows the tracking error over longitudinal position, lateral position, vehicle heading, and longitudinal velocity.
 
-<!-- chunk {"id": "body-0038", "role": "body", "section": "CONCLUSIONS", "weight": 1.0} -->
+<!-- chunk {"id": "body-0033", "role": "body", "section": "CONCLUSIONS", "weight": 1.0} -->
 
 This paper proposes a trajectory tracking control approach for autonomous vehicles based on a model predictive trajectory optimization to generate a feedforward control and a time varying linear quadratic regulator for feedback. Optimization of a reference trajectory is formulated as a strictly convex quadratic program by leveraging a linearization about the reference trajectory, polyhedral constraints, and a family of strictly convex quadratic cost functions. Additionally, the quadratic cost function is developed taking into account the rate of change of the feedforward input. A feedback-feedforward control scheme is proposed to actuate the vehicle by combining the optimized feedforward input and the feedback input generated by a TVLQR. The trajectory optimization and tracking scheme has been tested in simulation with an evasive maneuver. The proposed approach shows satisfactory tracking results in realistic driving scenarios, and with computation times well within the sample rate of the controller.

@@ -96,7 +96,7 @@ We posit that by learning the manifold of the autoencoded embedding, specificall
 
 <!-- chunk {"id": "body-0024", "role": "body", "section": "III-E N2D", "weight": 1.0} -->
 
-Apply an autoencoder to the raw data to learn an initial representation.
+We summarize the high level steps of our proposed method N2D as: Apply an autoencoder to the raw data to learn an initial representation.
 
 <!-- chunk {"id": "body-0025", "role": "body", "section": "III-E N2D", "weight": 1.0} -->
 
@@ -108,128 +108,112 @@ Finally, given this new, more clusterable embedding, we apply a final shallow cl
 
 <!-- chunk {"id": "body-0027", "role": "body", "section": "III-E N2D", "weight": 1.0} -->
 
-More concisely, we may also simply represent N2D as
+More concisely, we may also simply represent N2D as where $C$ is the final clustering, $F_{C}$ is the clustering algorithm, $F_{M}$ is the manifold learner, $F_{A}$ is the autoencoder and $X$ is the original data.
 
 <!-- chunk {"id": "body-0028", "role": "body", "section": "III-E N2D", "weight": 1.0} -->
 
-where $C$ is the final clustering, $F_{C}$ is the clustering algorithm, $F_{M}$ is the manifold learner, $F_{A}$ is the autoencoder and $X$ is the original data.
-
-<!-- chunk {"id": "body-0029", "role": "body", "section": "III-E N2D", "weight": 1.0} -->
-
 We will study three manifold learning methods to understand the effect of the various approaches when applied to both the raw data and the autoencoded embedding, showing how one specific method, UMAP, achieves superior performance when applied to the embedding. On the question of why combine an autoencoder with a manifold learning method, we will demonstrate empirically in Section IV-D Deep Clustering via Clustering the Local Manifold of an Autoencoded Embedding") the contribution of each step to the overall performance, showing how this step can significantly increase performance. We will also demonstrate in Section IV-D Deep Clustering via Clustering the Local Manifold of an Autoencoded Embedding") how it is competitive with the state-of-the-art across a range of datasets, both image and time-series, and itself achieves state-of-the-art results on several.
 
-<!-- chunk {"id": "body-0030", "role": "body", "section": "Experiments", "weight": 1.0} -->
+<!-- chunk {"id": "body-0029", "role": "body", "section": "Experiments", "weight": 1.0} -->
 
 In order to validate our idea, we conduct experiments on a range of diverse datasets, including standard datasets used to evaluate deep clustering algorithms.
 
-<!-- chunk {"id": "body-0031", "role": "body", "section": "IV-A Datasets", "weight": 1.0} -->
+<!-- chunk {"id": "body-0030", "role": "body", "section": "IV-A Datasets", "weight": 1.0} -->
 
 MNIST: A traditional benchmark dataset consisting of 70,000 handwritten digits belong to 10 different classes.
 
-<!-- chunk {"id": "body-0032", "role": "body", "section": "IV-A Datasets", "weight": 1.0} -->
+<!-- chunk {"id": "body-0031", "role": "body", "section": "IV-A Datasets", "weight": 1.0} -->
 
 MNIST-test: A subset of the MNIST dataset, containing only the test set of 10,000 images.
 
-<!-- chunk {"id": "body-0033", "role": "body", "section": "IV-A Datasets", "weight": 1.0} -->
+<!-- chunk {"id": "body-0032", "role": "body", "section": "IV-A Datasets", "weight": 1.0} -->
 
 USPS: A dataset of 9298 images belonging to 10 different classes. Whereas MNIST images are 28x28, these images are 16x16.
 
+<!-- chunk {"id": "body-0033", "role": "body", "section": "IV-A Datasets", "weight": 1.0} -->
+
+Fashion: A more challenging alternative to the MNIST dataset, consisting of 70,000 images of clothing, for a total of 10 classes. pendigits: A time series dataset consisting of sampled points from a pressure sensitive tablet as ten different digits are written. Each digit is represented by 8 coordinates of the stylus when writing a specific digit. There are 10992 data points.
+
 <!-- chunk {"id": "body-0034", "role": "body", "section": "IV-A Datasets", "weight": 1.0} -->
-
-Fashion: A more challenging alternative to the MNIST dataset, consisting of 70,000 images of clothing, for a total of 10 classes.
-
-<!-- chunk {"id": "body-0035", "role": "body", "section": "IV-A Datasets", "weight": 1.0} -->
-
-pendigits: A time series dataset consisting of sampled points from a pressure sensitive tablet as ten different digits are written. Each digit is represented by 8 coordinates of the stylus when writing a specific digit. There are 10992 data points.
-
-<!-- chunk {"id": "body-0036", "role": "body", "section": "IV-A Datasets", "weight": 1.0} -->
 
 HAR: A time series dataset consisting of sensor data from a smart phone. It was collected from 30 people performing various activities of daily living, and contains 6 different activities; walking, walking upstairs, walking downstairs, sitting, standing and laying.
 
-<!-- chunk {"id": "body-0037", "role": "body", "section": "IV-B Evaluation Metrics", "weight": 1.0} -->
+<!-- chunk {"id": "body-0035", "role": "body", "section": "IV-B Evaluation Metrics", "weight": 1.0} -->
 
 We will use two standard evaluation metrics for validating the performance of unsupervised clustering algorithms. In both cases, values range between 0 and 1, where higher values correspond to better clustering performance.
 
-<!-- chunk {"id": "body-0038", "role": "body", "section": "IV-B1 Accuracy", "weight": 1.0} -->
+<!-- chunk {"id": "body-0036", "role": "body", "section": "IV-B1 Accuracy", "weight": 1.0} -->
 
-In clustering, accuracy (ACC) is defined as the best match between the ground truth and the predicted clusters.
+In clustering, accuracy (ACC) is defined as the best match between the ground truth and the predicted clusters. where $y$ are the ground truth labels, $c$ are the cluster labels, and $m$ enumerates mappings between clusters and labels.
 
-<!-- chunk {"id": "body-0039", "role": "body", "section": "IV-B1 Accuracy", "weight": 1.0} -->
+<!-- chunk {"id": "body-0037", "role": "body", "section": "IV-B2 Normalized Mutual Information", "weight": 1.0} -->
 
-where $y$ are the ground truth labels, $c$ are the cluster labels, and $m$ enumerates mappings between clusters and labels.
+The Normalized Mutual Information (NMI) can be viewed as a normalization of the mutual information to scale the results between 0 and 1, where 0 has no mutual information and 1 is perfect correlation. More concretely, NMI is defined as: where $y$ are the ground truth labels, $c$ are the cluster labels, $H$ measures the entropy, and $I$ is the mutual information between the ground truth labels and the cluster labels.
 
-<!-- chunk {"id": "body-0040", "role": "body", "section": "IV-B2 Normalized Mutual Information", "weight": 1.0} -->
-
-The Normalized Mutual Information (NMI) can be viewed as a normalization of the mutual information to scale the results between 0 and 1, where 0 has no mutual information and 1 is perfect correlation.
-
-<!-- chunk {"id": "body-0041", "role": "body", "section": "IV-B2 Normalized Mutual Information", "weight": 1.0} -->
-
-where $y$ are the ground truth labels, $c$ are the cluster labels, $H$ measures the entropy, and $I$ is the mutual information between the ground truth labels and the cluster labels.
-
-<!-- chunk {"id": "body-0042", "role": "body", "section": "IV-C Experimental Settings", "weight": 1.0} -->
+<!-- chunk {"id": "body-0038", "role": "body", "section": "IV-C Experimental Settings", "weight": 1.0} -->
 
 We base our autoencoder on the architecture described by Xie et al., which is a fully connected Multi-Layer Perceptron (MLP). The dimensions are inspired by those chosen by van der Maaten et al. in t-SNE, which are $d$-500-500-2000-$c$, where $d$ is the dimensionality of the data and $c$ is the number of clusters. As typical with autoencoders, the decoder network is a mirror of the encoder. All layers use ReLU activation. The optimizer is Adam. We train the autoencoder on for 1000 epochs for all datasets.
 
-<!-- chunk {"id": "body-0043", "role": "body", "section": "IV-C Experimental Settings", "weight": 1.0} -->
+<!-- chunk {"id": "body-0039", "role": "body", "section": "IV-C Experimental Settings", "weight": 1.0} -->
 
 We use UMAP with the following default parameter set across all datasets. The number of neighbours is 20, the number of dimensions is the number of clusters, and the minimum distance between each point in the manifold is 0.
 
-<!-- chunk {"id": "body-0044", "role": "body", "section": "IV-C Experimental Settings", "weight": 1.0} -->
+<!-- chunk {"id": "body-0040", "role": "body", "section": "IV-C Experimental Settings", "weight": 1.0} -->
 
 We use a GMM for the final clustering algorithm, where each component has its own general covariance matrix, and there are $c$ components, where $c$ is the number of clusters.
 
-<!-- chunk {"id": "body-0045", "role": "body", "section": "IV-E Role of Each Component of N2D", "weight": 1.0} -->
+<!-- chunk {"id": "body-0041", "role": "body", "section": "IV-E Role of Each Component of N2D", "weight": 1.0} -->
 
 Table I Deep Clustering via Clustering the Local Manifold of an Autoencoded Embedding") shows details of the accuracy and NMI of each individual component of N2D. This table shows that the performance of the non-deep clustering algorithm GMM is typically poorest across all datasets. When we introduce manifold learning methods, and cluster those embeddings, we see improvements in cluster accuracy and NMI.
 
-<!-- chunk {"id": "body-0046", "role": "body", "section": "IV-E Role of Each Component of N2D", "weight": 1.0} -->
+<!-- chunk {"id": "body-0042", "role": "body", "section": "IV-E Role of Each Component of N2D", "weight": 1.0} -->
 
 As well as the autoencoder, we use 3 different manifold learning methods with different properties. The first is Isomap, which is a globally focused manifold learner. It outperforms t-SNE, the local manifold learning technique, on 2 of the 4 datasets it was able to process. On 2 of the 6 datasets it was unable to complete the learning as it exhausted all memory on our 64GB system. Therefore, on two datasets t-SNE performed better than Isomap, and on two others, Isomap outperformed t-SNE.
 
-<!-- chunk {"id": "body-0047", "role": "body", "section": "IV-E Role of Each Component of N2D", "weight": 1.0} -->
+<!-- chunk {"id": "body-0043", "role": "body", "section": "IV-E Role of Each Component of N2D", "weight": 1.0} -->
 
 However, when Isomap and t-SNE are each applied to the autoencoded embedding, on only 1 of the 4 datasets does N2D with Isomap outperform N2D with t-SNE. This suggests that on some datasets the clusters are better discovered by a global method, and others by a local method. However, when applied the autoencoded embedding, the more local methods appear to be the better choice.
 
-<!-- chunk {"id": "body-0048", "role": "body", "section": "IV-E Role of Each Component of N2D", "weight": 1.0} -->
+<!-- chunk {"id": "body-0044", "role": "body", "section": "IV-E Role of Each Component of N2D", "weight": 1.0} -->
 
 This intuitively suggests that a technique which is primarily locally focused but captures global structure better than t-SNE may lead to further improvements. Therefore, when we experiment with UMAP, which meets this criteria, we see that UMAP is the superior approach on 3 of the 6 raw datasets. However, when applied to the autoencoded embedding, N2D with UMAP outperforms both Isomap and t-SNE on all datasets. This supports the hypothesis that a manifold learner, which, while locally focused, also captures a degree of the global structure, is best suited for discovering the clusterable manifold of an autoencoded embedding.
 
-<!-- chunk {"id": "body-0049", "role": "body", "section": "IV-E Role of Each Component of N2D", "weight": 1.0} -->
+<!-- chunk {"id": "body-0045", "role": "body", "section": "IV-E Role of Each Component of N2D", "weight": 1.0} -->
 
 The largest gains between our approach N2D and the sub-components is on HAR, where there is a 25 percentage point increase in performance compared to the AE and UMAP, while on MNIST and USPS, where there is an around a 15 percentage point increase in accuracy when using N2D.
 
-<!-- chunk {"id": "body-0050", "role": "body", "section": "IV-E Role of Each Component of N2D", "weight": 1.0} -->
+<!-- chunk {"id": "body-0046", "role": "body", "section": "IV-E Role of Each Component of N2D", "weight": 1.0} -->
 
 In Table III Deep Clustering via Clustering the Local Manifold of an Autoencoded Embedding") we show the amount of time it takes for each stage of the method in minutes, as well as the total time. From this, it is clear that our method is efficient, clustering MNIST and Fashion-MNIST in around 18 minutes, while clustering the remaining 4 datasets in between two and four minutes.
 
-<!-- chunk {"id": "body-0051", "role": "body", "section": "IV-F Comparison with other methods", "weight": 1.0} -->
+<!-- chunk {"id": "body-0047", "role": "body", "section": "IV-F Comparison with other methods", "weight": 1.0} -->
 
 In Table II Deep Clustering via Clustering the Local Manifold of an Autoencoded Embedding") we show the accuracy and NMI results for a wide set of clustering algorithms on six different datasets. The clustering algorithms chosen include a number of conventional non-deep methods, such as $k$-means, spectral clustering (SC) and GMMs. They also include recent deep-clustering based methods, such as ClusterGAN, IDEC, JULE and ASPC-DA. These methods make significant use of deep networks, and typically outperform the non-deep clustering methods.
 
-<!-- chunk {"id": "body-0052", "role": "body", "section": "IV-F Comparison with other methods", "weight": 1.0} -->
+<!-- chunk {"id": "body-0048", "role": "body", "section": "IV-F Comparison with other methods", "weight": 1.0} -->
 
 The most similar methods to N2D are IDEC and ASPC-DA. Both of these approaches pre-train an autoencoder before jointly training a second deep network with a clustering and non-clustering (reconstruction) loss. The clustering network weights are initialized with a non-deep clustering algorithm such as $k$-means.
 
-<!-- chunk {"id": "body-0053", "role": "body", "section": "IV-F Comparison with other methods", "weight": 1.0} -->
+<!-- chunk {"id": "body-0049", "role": "body", "section": "IV-F Comparison with other methods", "weight": 1.0} -->
 
 In contrast, we replace the second deep network with a manifold learning method, UMAP, and then use a non-deep clustering algorithm, a GMM, to cluster the resulting embedding. Hence, our less deep method, N2D, benefits from less complexity, but as can be seen in Table II Deep Clustering via Clustering the Local Manifold of an Autoencoded Embedding"), has competitive or superior performance to all other methods.
 
-<!-- chunk {"id": "body-0054", "role": "body", "section": "IV-F Comparison with other methods", "weight": 1.0} -->
+<!-- chunk {"id": "body-0050", "role": "body", "section": "IV-F Comparison with other methods", "weight": 1.0} -->
 
 On five of the six datasets tested, our approach is in the top 3 for at least one of the metrics. On MNIST-test we are around 1 percentage point lower in accuracy than JULE and DEPICT, and 2 percentage points lower than ASPC-DA which is top. However, on the Fashion dataset, we achieve the highest accuracy, around 5 absolute percentage points higher than ClusterGAN, and 8 absolute percentage points higher than ASPC-DA.
 
-<!-- chunk {"id": "body-0055", "role": "body", "section": "IV-F Comparison with other methods", "weight": 1.0} -->
+<!-- chunk {"id": "body-0051", "role": "body", "section": "IV-F Comparison with other methods", "weight": 1.0} -->
 
 We also include two non-image datasets, pendigits and HAR, to validate performance on different types of data. Many of the best-performing deep-clustering methods are intended for image clustering (e.g., JULE, DBC, DAC ), and thus we were unable to find or easily obtain results on these datasets. However, for the algorithms for which we could obtain or produce results, our method also achieved the best performance. For both datasets we compare our method with some of the most similar deep clustering approaches, DEC and IDEC. On pendigits, we achieve 11 percentage points higher accuracy than the closest approach IDEC and on HAR a 15 percentage point increase in accuracy. In fact, consistently across all datasets, we achieve higher accuracy and NMI scores than these methods.
 
-<!-- chunk {"id": "body-0056", "role": "body", "section": "IV-F Comparison with other methods", "weight": 1.0} -->
+<!-- chunk {"id": "body-0052", "role": "body", "section": "IV-F Comparison with other methods", "weight": 1.0} -->
 
 We also note that one of the closest competitors, ASPC-DA, which typically slightly outperforms our method on several datasets, achieves this performance due to data augmentation. When data augmentation is removed from ASPC-DA, they typically achieve less competitive performances, e.g. an accuracy of 0.924 (vs 0.988) on MNIST, 0.785 (vs 0.973) on MNIST-test and 0.688 (vs 0.982) on USPS. For future work we would like to evaluate our proposed method with data augmentation.
 
-<!-- chunk {"id": "body-0057", "role": "body", "section": "Conclusion", "weight": 1.5} -->
+<!-- chunk {"id": "body-0053", "role": "body", "section": "Conclusion", "weight": 1.5} -->
 
 In this paper we propose a simple deep clustering method, N2D, which reduces the deepness of typical deep clustering algorithms by replacing the clustering network with an alternative framework which seeks to find the manifold within the autoencoder embedding, and clusters this new embedding with a shallow clustering architecture. We studied both global and local manifold learning algorithms, with our results supporting the hypothesis that learning the local manifold of an autoencoded embedding, while also preserving global structure as UMAP does, is better able to discover the most clusterable manifold of an autoencoded embedding. N2D is the resulting combination which is shown to be effective on a range of datasets, including image and time-series datasets. We compare N2D with both conventional shallow clustering algorithms, and the latest state-of-the-art deep clustering algorithms. In the empirical comparison, we show how our proposed method is competitive with the current state-of-the-art clustering approaches, achieving top-3 performance in five of the six datasets datasets tested.
 
-<!-- chunk {"id": "body-0058", "role": "body", "section": "Conclusion", "weight": 1.5} -->
+<!-- chunk {"id": "body-0054", "role": "body", "section": "Conclusion", "weight": 1.5} -->
 
 Further, we outperform the state-of-the-art on several datasets, including surpassing the next best algorithm by around 5 absolute percentage points in accuracy on Fashion-MNIST and 15 percentage points on the activity recognition dataset HAR.

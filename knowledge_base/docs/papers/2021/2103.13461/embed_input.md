@@ -40,100 +40,60 @@ In this paper we resolve this issue by introducing a matrix version of Finsler's
 
 <!-- chunk {"id": "body-0010", "role": "body", "section": "Recap of data-driven stabilization and problem formulation", "weight": 1.0} -->
 
-We will first recap two data-driven stabilization results, for noise-free and noisy data, which can be found in the references. Consider the system
+We will first recap two data-driven stabilization results, for noise-free and noisy data, which can be found in the references. Consider the system where $\mathbf{x} \in {\mathbb{R}}^{n}$ is the state, $\mathbf{u} \in {\mathbb{R}}^{m}$ is the control input and $\mathbf{w} \in {\mathbb{R}}^{n}$ denotes noise. The real matrices $A_{s}$ and $B_{s}$ are not assumed to be known. Instead of this, it is assumed that input/state data are obtained, which are collected in the matrices We will also make use of shifted versions of the state sequence which are denoted by
 
-<!-- chunk {"id": "body-0011", "role": "body", "section": "Recap of data-driven stabilization and problem formulation", "weight": 1.0} -->
-
-where $\mathbf{x} \in {\mathbb{R}}^{n}$ is the state, $\mathbf{u} \in {\mathbb{R}}^{m}$ is the control input and $\mathbf{w} \in {\mathbb{R}}^{n}$ denotes noise. The real matrices $A_{s}$ and $B_{s}$ are not assumed to be known. Instead of this, it is assumed that input/state data are obtained, which are collected in the matrices
-
-<!-- chunk {"id": "body-0012", "role": "body", "section": "Recap of data-driven stabilization and problem formulation", "weight": 1.0} -->
-
-We will also make use of shifted versions of the state sequence which are denoted by
-
-<!-- chunk {"id": "body-0013", "role": "body", "section": "II-A Data-driven stabilization using exact data", "weight": 1.0} -->
+<!-- chunk {"id": "body-0011", "role": "body", "section": "II-A Data-driven stabilization using exact data", "weight": 1.0} -->
 
 In this section we focus on the noise-free situation in which $\mathbf{w} = 0$. The purpose is to use the input/state data $(U_{-},X)$ for the design of a stabilizing state feedback controller $\mathbf{u} = {K\mathbf{x}}$. Of course, this is only possible if the data contain sufficient information about the unknown system, i.e., if they are *informative* for control design.
 
-<!-- chunk {"id": "body-0014", "role": "body", "section": "II-B Data-driven stabilization using noisy data", "weight": 1.0} -->
+<!-- chunk {"id": "body-0012", "role": "body", "section": "II-B Data-driven stabilization using noisy data", "weight": 1.0} -->
 
-Next, we consider the system where $\mathbf{w}$ is not necessarily zero. The experimental input/state data are denoted by $(U_{-},X)$, as before. This time, we also denote the noise samples during an experiment by
+Next, we consider the system where $\mathbf{w}$ is not necessarily zero. The experimental input/state data are denoted by $(U_{-},X)$, as before. This time, we also denote the noise samples during an experiment by Of course, the matrix $W_{-}$ is not known, but is assumed to bounded as for known $\Phi_{11} = \Phi_{11}^{\top}$, $\Phi_{12}$ and $\Phi_{22} = \Phi_{22}^{\top} < 0$. This noise model was first introduced. It can be interpreted as the transposed (or dual) model as the one used. The inequality has the interpretation that the energy of $\mathbf{w}$ is bounded on the finite time interval $\lbrack 0,{T - 1}\rbrack$.
 
-<!-- chunk {"id": "body-0015", "role": "body", "section": "II-B Data-driven stabilization using noisy data", "weight": 1.0} -->
+<!-- chunk {"id": "body-0013", "role": "body", "section": "II-B Data-driven stabilization using noisy data", "weight": 1.0} -->
 
-Of course, the matrix $W_{-}$ is not known, but is assumed to bounded as
+Given the noise model, the set of all systems explaining the data is given by all $(A,B)$ such that is satisfied for some realization $W_{-}$ of the noise, that is, With this in mind, we recall the following notion of informative data for stabilization using noisy data.
 
-<!-- chunk {"id": "body-0016", "role": "body", "section": "II-B Data-driven stabilization using noisy data", "weight": 1.0} -->
-
-for known $\Phi_{11} = \Phi_{11}^{\top}$, $\Phi_{12}$ and $\Phi_{22} = \Phi_{22}^{\top} < 0$. This noise model was first introduced. It can be interpreted as the transposed (or dual) model as the one used. The inequality has the interpretation that the energy of $\mathbf{w}$ is bounded on the finite time interval $\lbrack 0,{T - 1}\rbrack$.
-
-<!-- chunk {"id": "body-0017", "role": "body", "section": "II-B Data-driven stabilization using noisy data", "weight": 1.0} -->
-
-Given the noise model, the set of all systems explaining the data is given by all $(A,B)$ such that
-
-<!-- chunk {"id": "body-0018", "role": "body", "section": "II-B Data-driven stabilization using noisy data", "weight": 1.0} -->
-
-is satisfied for some realization $W_{-}$ of the noise, that is,
-
-<!-- chunk {"id": "body-0019", "role": "body", "section": "II-B Data-driven stabilization using noisy data", "weight": 1.0} -->
-
-With this in mind, we recall the following notion of informative data for stabilization using noisy data.
-
-<!-- chunk {"id": "body-0020", "role": "body", "section": "II-C Problem formulation", "weight": 1.0} -->
+<!-- chunk {"id": "body-0014", "role": "body", "section": "II-C Problem formulation", "weight": 1.0} -->
 
 To summarize, in the case of noise-free data, Proposition 1 gives a necessary and sufficient condition for informativity for stabilization. Moreover, in the case of noisy data, Proposition 4 provides a necessary and sufficient condition for informativity for quadratic stabilization.
 
-<!-- chunk {"id": "body-0021", "role": "body", "section": "II-C Problem formulation", "weight": 1.0} -->
+<!-- chunk {"id": "body-0015", "role": "body", "section": "II-C Problem formulation", "weight": 1.0} -->
 
 A natural question is now the following: what is the relation between these two propositions, and can the former be obtained as a special case from the latter?
 
-<!-- chunk {"id": "body-0022", "role": "body", "section": "II-C Problem formulation", "weight": 1.0} -->
+<!-- chunk {"id": "body-0016", "role": "body", "section": "II-C Problem formulation", "weight": 1.0} -->
 
-Surprisingly, the answer to this question is far from trivial. To initiate our investigation, it is tempting to consider the noise model with
+Surprisingly, the answer to this question is far from trivial. To initiate our investigation, it is tempting to consider the noise model with Indeed, this noise model implies that ${W_{-}W_{-}^{\top}} \leq 0$, i.e., $W_{-} = 0$ which corresponds exactly to the case in which the data are noise-free.
 
-<!-- chunk {"id": "body-0023", "role": "body", "section": "II-C Problem formulation", "weight": 1.0} -->
-
-Indeed, this noise model implies that ${W_{-}W_{-}^{\top}} \leq 0$, i.e., $W_{-} = 0$ which corresponds exactly to the case in which the data are noise-free.
-
-<!-- chunk {"id": "body-0024", "role": "body", "section": "II-C Problem formulation", "weight": 1.0} -->
+<!-- chunk {"id": "body-0017", "role": "body", "section": "II-C Problem formulation", "weight": 1.0} -->
 
 Now, a problem arises when applying Proposition 4 to noise models of the form. The reason is that for $\Phi$, the matrix $N$ in is negative semidefinite. In turn, this implies that the Slater condition (9 ‣ II-B Data-driven stabilization using noisy data ‣ II Recap of data-driven stabilization and problem formulation ‣ A Matrix Finsler’s Lemma with Applications to Data-Driven Control")) is *not satisfied*. The conclusion is that Proposition 4 does not yield a necessary and sufficient condition for quadratic stabilization in the noise-free case (note that *sufficiency* of (FS) does hold, regardless of the Slater condition).
 
-<!-- chunk {"id": "body-0025", "role": "body", "section": "II-C Problem formulation", "weight": 1.0} -->
+<!-- chunk {"id": "body-0018", "role": "body", "section": "II-C Problem formulation", "weight": 1.0} -->
 
 Despite this potential shortcoming of Proposition 4, it turns out to be possible to bridge the results for exact and noisy data in Propositions 1 and 4. In order to understand this relation we need a new result, namely a matrix version of *Finsler's lemma*.
 
-<!-- chunk {"id": "body-0026", "role": "body", "section": "The matrix Finsler's lemma", "weight": 1.0} -->
+<!-- chunk {"id": "body-0019", "role": "body", "section": "The matrix Finsler's lemma", "weight": 1.0} -->
 
 Essentially, informativity for stabilization (Definition 1) asks for the existence of $P$ and $K$ such that a quadratic *inequality* holds for all $(A,B)$ satisfying the *equality* defined. This is more than reminiscent of the classical Finsler's lemma, named after Paul Finsler who proved the result in 1936. Two versions of Finsler's lemma are known, for both strict and non-strict inequalities. We will recall both results in the following two propositions that can be found.
 
-<!-- chunk {"id": "body-0027", "role": "body", "section": "Bridging the exact and noisy cases", "weight": 1.0} -->
+<!-- chunk {"id": "body-0020", "role": "body", "section": "Bridging the exact and noisy cases", "weight": 1.0} -->
 
 In this section, we will apply the matrix Finsler's lemma to find a new characterization of informativity for stabilization in the exact data case, thereby bridging the exact and noisy formulations. The result can be formulated as follows.
 
-<!-- chunk {"id": "body-0028", "role": "body", "section": "Data-driven stabilization of Lur'e systems", "weight": 1.0} -->
+<!-- chunk {"id": "body-0021", "role": "body", "section": "Data-driven stabilization of Lur'e systems", "weight": 1.0} -->
 
-In this section, we will apply the matrix Finsler's lemma to control Lur'e systems. First, we will explain the classical problem of absolute stability for such systems. Consider the Lur'e system
+In this section, we will apply the matrix Finsler's lemma to control Lur'e systems. First, we will explain the classical problem of absolute stability for such systems. Consider the Lur'e system where $\mathbf{x} \in {\mathbb{R}}^{n}$ is the state, $\mathbf{u} \in {\mathbb{R}}^{m}$ is the input and $\phi:{{\mathbb{R}}\rightarrow{\mathbb{R}}}$ is a (nonlinear) function satisfying the sector condition The real matrices $A,B,E$ and $C$ are of appropriate dimensions. Suppose that we apply a state feedback controller $\mathbf{u} = {K\mathbf{x}}$ resulting in For systems of the form, a problem with a rich history is that of *absolute stability*, i.e. global asymptotic stability of $0$ *for all* sector-bounded nonlinearities, c.f. for references.
 
-<!-- chunk {"id": "body-0029", "role": "body", "section": "Data-driven stabilization of Lur'e systems", "weight": 1.0} -->
+<!-- chunk {"id": "body-0022", "role": "body", "section": "Data-driven stabilization of Lur'e systems", "weight": 1.0} -->
 
-The real matrices $A,B,E$ and $C$ are of appropriate dimensions. Suppose that we apply a state feedback controller $\mathbf{u} = {K\mathbf{x}}$ resulting in
+We focus on proving absolute stability of by means of a quadratic Lyapunov function ${V{(z)}}:={z^{\top}Pz}$ where $P = P^{\top} > 0$. We thus want that ${V{({x{({t + 1})}})}} < {V{({x{(t)}})}}$ for all sector-bounded nonlinearities $\phi$ and all nonzero $x{(t)}$ and resulting $x{({t + 1})}$ satisfying. We will mimic the continuous-time setting of \[28, Ch. 5\]. Let $A_{K}:={A + {BK}}$. Then we require for all $w \in {\mathbb{R}}$ and nonzero $x \in {\mathbb{R}}^{n}$ satisfying ${w{({w - {Cx}})}} \leq 0$.
 
-<!-- chunk {"id": "body-0030", "role": "body", "section": "Data-driven stabilization of Lur'e systems", "weight": 1.0} -->
+<!-- chunk {"id": "body-0023", "role": "body", "section": "Data-driven stabilization of Lur'e systems", "weight": 1.0} -->
 
-For systems of the form, a problem with a rich history is that of *absolute stability*, i.e. global asymptotic stability of $0$ *for all* sector-bounded nonlinearities, c.f. for references. We focus on proving absolute stability of by means of a quadratic Lyapunov function ${V{(z)}}:={z^{\top}Pz}$ where $P = P^{\top} > 0$. We thus want that ${V{({x{({t + 1})}})}} < {V{({x{(t)}})}}$ for all sector-bounded nonlinearities $\phi$ and all nonzero $x{(t)}$ and resulting $x{({t + 1})}$ satisfying. We will mimic the continuous-time setting of \[28, Ch. 5\]. Let $A_{K}:={A + {BK}}$. Then we require
+Equivalently, for all $w \in {\mathbb{R}}$ and nonzero $x \in {\mathbb{R}}^{n}$ satisfying Since is not satisfied when $x = 0$ and $w \neq 0$, the latter statement is equivalent to being satisfied for all nonzero $(x,w)$ satisfying. Assuming $C \neq 0$, the inequality is strictly feasible. Thus, by the S-lemma \[28, p. 24\] we conclude that is satisfied for all nonzero $(x,w)$ satisfying if and only if for some scalar $\alpha \geq 0$. Proving absolute stability of by a quadratic Lyapunov function thus boils down to finding $P = P^{\top} > 0$ and $\alpha \geq 0$ such that holds. By homogeneity, we can even get rid of $\alpha$ and look for $P = P^{\top} > 0$ satisfying
 
-<!-- chunk {"id": "body-0031", "role": "body", "section": "Data-driven stabilization of Lur'e systems", "weight": 1.0} -->
+<!-- chunk {"id": "body-0024", "role": "body", "section": "V-A Data-driven stabilization", "weight": 1.0} -->
 
-Since is not satisfied when $x = 0$ and $w \neq 0$, the latter statement is equivalent to being satisfied for all nonzero $(x,w)$ satisfying. Assuming $C \neq 0$, the inequality is strictly feasible. Thus, by the S-lemma \[28, p. 24\] we conclude that is satisfied for all nonzero $(x,w)$ satisfying if and only if
-
-<!-- chunk {"id": "body-0032", "role": "body", "section": "Data-driven stabilization of Lur'e systems", "weight": 1.0} -->
-
-for some scalar $\alpha \geq 0$. Proving absolute stability of by a quadratic Lyapunov function thus boils down to finding $P = P^{\top} > 0$ and $\alpha \geq 0$ such that holds. By homogeneity, we can even get rid of $\alpha$ and look for $P = P^{\top} > 0$ satisfying
-
-<!-- chunk {"id": "body-0033", "role": "body", "section": "V-A Data-driven stabilization", "weight": 1.0} -->
-
-where $A_{s},B_{s}$ and $E_{s}$ are unknown but the matrix $C$ is known^11^1This assumption can be replaced by measurements of ${\mathbf{y}{(t)}}:={C\mathbf{x}{(t)}}$.. We aim at constructing an absolutely stabilizing controller $\mathbf{u} = {K\mathbf{x}}$ on the basis of measurements $X$ and $U_{-}$ as in and
-
-<!-- chunk {"id": "body-0034", "role": "body", "section": "V-A Data-driven stabilization", "weight": 1.0} -->
-
-If we define $X_{+}$ and $X_{-}$ as in then all systems $(A,B,E)$ explaining the data are given by the set $\Sigma$ defined by
+Next, we consider the system where $A_{s},B_{s}$ and $E_{s}$ are unknown but the matrix $C$ is known^11^1This assumption can be replaced by measurements of ${\mathbf{y}{(t)}}:={C\mathbf{x}{(t)}}$.. We aim at constructing an absolutely stabilizing controller $\mathbf{u} = {K\mathbf{x}}$ on the basis of measurements $X$ and $U_{-}$ as in and If we define $X_{+}$ and $X_{-}$ as in then all systems $(A,B,E)$ explaining the data are given by the set $\Sigma$ defined by

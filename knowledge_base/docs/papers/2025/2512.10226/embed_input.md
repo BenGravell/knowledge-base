@@ -40,7 +40,7 @@ We evaluate LCDrive on the large-scale PhysicalAI-AV dataset, consisting of 1727
 
 <!-- chunk {"id": "body-0010", "role": "body", "section": "Introduction", "weight": 1.5} -->
 
-We rethink the representation of reasoning in VLA models for E2E driving with LCDrive, which conducts latent CoT with latent reasoning tokens strongly aligned with driving actions and a latent world model.
+Contributions. The main contributions of our work are: We rethink the representation of reasoning in VLA models for E2E driving with LCDrive, which conducts latent CoT with latent reasoning tokens strongly aligned with driving actions and a latent world model.
 
 <!-- chunk {"id": "body-0011", "role": "body", "section": "Introduction", "weight": 1.5} -->
 
@@ -64,27 +64,27 @@ While textual CoT has become a popular strategy for eliciting reasoning in multi
 
 <!-- chunk {"id": "body-0016", "role": "body", "section": "Task", "weight": 1.0} -->
 
-We aim to design a policy that maps sensor streams and ego state inputs to future trajectories.
+We aim to design a policy that maps sensor streams and ego state inputs to future trajectories. Following previous works on reasoning VLA for driving, we regard E2E driving as modeling an autoregressive distribution over a token sequence that concatenates input information, (optional) reasoning trace, and the future trajectory of the ego vehicle $\tau$: where each component conditions on all previous ones. Throughout the paper, "E2E" refers to this inference-time mapping from sensor inputs to trajectory tokens. The inputs of the model include $o_{\text{image}}$, $M$ front-view (or multi-camera) frames over the last $L$ steps; and $o_{\text{ego}}$, egomotion history. Given these inputs, the model produces (optional) Reason tokens followed by the future trajectory of the ego vehicle $\tau$. We parameterize $\tau$ as the full 6.4
 
-<!-- chunk {"id": "body-0017", "role": "body", "section": "Task", "weight": 1.0} -->
+<!-- chunk {"id": "body-0017", "role": "body", "section": "Input Tokenizers", "weight": 1.0} -->
 
-where each component conditions on all previous ones. Throughout the paper, "E2E" refers to this inference-time mapping from sensor inputs to trajectory tokens. The inputs of the model include $o_{\text{image}}$, $M$ front-view (or multi-camera) frames over the last $L$ steps; and $o_{\text{ego}}$, egomotion history. Given these inputs, the model produces (optional) Reason tokens followed by the future trajectory of the ego vehicle $\tau$. We parameterize $\tau$ as the full 6.4
+Image tokenizer: Following standard VLM practice, each frame in $o_{\text{image}}$ is tokenized independently using a ViT-based encoder (e.g., ), producing a sequence of visual tokens $\;o_{\mathrm{img}}=\mathrm{Tok}_{\mathrm{img}}\!\big(V_{t-L:t}^{1:M}\big)$. Tokens from different camera views and timestamps are concatenated to form the full visual token sequence. Egomotion tokenizer: The ego vehicle's historical kinematics (speed, yaw rate, past $k$ control actions) are embedded into a compact set of tokens $\;o_{\mathrm{ego}}=\mathrm{Tok}_{\mathrm{ego}}(e_{t})$ with learned positional encoding.
 
-<!-- chunk {"id": "body-0018", "role": "body", "section": "Input Tokenizers", "weight": 1.0} -->
+<!-- chunk {"id": "body-0018", "role": "body", "section": "Trajectory Tokenizer", "weight": 1.0} -->
 
-Image tokenizer: Following standard VLM practice, each frame in $o_{\text{image}}$ is tokenized independently using a ViT-based encoder (e.g., ), producing a sequence of visual tokens $o_{img} = {{Tok}_{img}\left( V_{{t - L}:t}^{1:M} \right)}$. Tokens from different camera views and timestamps are concatenated to form the full visual token sequence. Egomotion tokenizer: The ego vehicle's historical kinematics (speed, yaw rate, past $k$ control actions) are embedded into a compact set of tokens $o_{ego} = {{Tok}_{ego}{(e_{t})}}$ with learned positional encoding.
+The $6.4$ s future trajectory at $10$ Hz is represented using 64 discrete trajectory tokens $\tau=a_{1:64}$, one token per time step. Each $a_{i}$ indexes a motion-primitive bin corresponding to the ego-frame $\Delta$-pose $(\Delta x,\Delta y,\Delta\psi)$. We build a 1024-code vocabulary via $k$-means on training $\Delta$-poses. We encode continuous trajectories by quantifying them to indices $a_{1:64}$ with nearest-code assignment. We decode discrete indices back to $\Delta$-poses via codebook lookup and integrate them over time to recover continuous trajectories $\hat{\tau}$.
 
-<!-- chunk {"id": "body-0019", "role": "body", "section": "Trajectory Tokenizer", "weight": 1.0} -->
+<!-- chunk {"id": "body-0019", "role": "body", "section": "Latent World Model (LWM)", "weight": 1.0} -->
 
-The $6.4$ s future trajectory at $10$ Hz is represented using 64 discrete trajectory tokens $\tau = a_{1:64}$, one token per time step. Each $a_{i}$ indexes a motion-primitive bin corresponding to the ego-frame $\Delta$-pose $({\Deltax},{\Deltay},{\Delta\psi})$. We build a 1024-code vocabulary via $k$-means on training $\Delta$-poses. We encode continuous trajectories by quantifying them to indices $a_{1:64}$ with nearest-code assignment. We decode discrete indices back to $\Delta$-poses via codebook lookup and integrate them over time to recover continuous trajectories $\hat{\tau}$.
+We introduce an ego-centric latent world model state $\mathrm{LWM}_{t}$ that captures vectorized agent boxes and poses from online perception. Each $\mathrm{LWM}_{t}$ summarizes a fixed 1.0 s window at 10 Hz (10 frames) as a fixed-size set of vectorized representations (ego + $K_{\text{agents}}$ nearest agents). $\mathrm{LWM}_{0}$ encodes the most recent history window up to the current time, which *starts* the reasoning process. It can be *given* from online perception (detection, tracking) or *predicted* by the VLA model itself. $\mathrm{LWM}_{1},\mathrm{LWM}_{2},\ldots$ represent future $1.0$ s windows produced during latent reasoning, conditioned on proposal actions.
 
 <!-- chunk {"id": "body-0020", "role": "body", "section": "Latent World Model (LWM)", "weight": 1.0} -->
 
-We introduce an ego-centric latent world model state ${LWM}_{t}$ that captures vectorized agent boxes and poses from online perception. Each ${LWM}_{t}$ summarizes a fixed 1.0 s window at 10 Hz (10 frames) as a fixed-size set of vectorized representations (ego + $K_{\text{agents}}$ nearest agents). ${LWM}_{0}$ encodes the most recent history window up to the current time, which *starts* the reasoning process. It can be *given* from online perception (detection, tracking) or *predicted* by the VLA model itself. ${LWM}_{1},{LWM}_{2},\ldots$ represent future $1.0$ s windows produced during latent reasoning, conditioned on proposal actions. We encode each $LWM$ into a small set of latent worldmodel tokens ${LWM}_{0}$ via a light Transformer module.
+We encode each $\mathrm{LWM}$ into a small set of latent worldmodel tokens $\mathrm{LWM}_{0}$ via a light Transformer module.
 
 <!-- chunk {"id": "body-0021", "role": "body", "section": "Reasoning Tokens", "weight": 1.0} -->
 
-The presence of Reason is optional and used differently across different models. For the *non-reasoning* baseline model, we set $\text{Reason} = \varnothing$. For a fair comparison, the baseline may *optionally* condition on *only* $\text{Reason} = \left\lbrack {LWM}_{0} \right\rbrack$ as context. For *text-based CoT* models (e.g., AR1 ), Reason consists of a sequence of natural-language tokens that verbally describe intermediate reasoning before action prediction. In this paper, we propose *latent CoT*, where Reason is instantiated as a short interleaved sequence of latent tokens composed of *action-proposal* tokens and counterfactual latent world-model tokens, initialized from the latent state ${LWM}_{0}$. By default, ${LWM}_{0}$ is predicted by the VLA model itself given the sensor inputs as context. We detail the construction of latent Reason tokens in the following section.
+The presence of Reason is optional and used differently across different models. For the *non-reasoning* baseline model, we set $\textsc{Reason}=\varnothing$. For a fair comparison, the baseline may *optionally* condition on *only* $\textsc{Reason}=\big[\mathrm{LWM}_{0}\big]$ as context. For *text-based CoT* models (e.g., AR1 ), Reason consists of a sequence of natural-language tokens that verbally describe intermediate reasoning before action prediction. In this paper, we propose *latent CoT*, where Reason is instantiated as a short interleaved sequence of latent tokens composed of *action-proposal* tokens and counterfactual latent world-model tokens, initialized from the latent state $\mathrm{LWM}_{0}$. By default, $\mathrm{LWM}_{0}$ is predicted by the VLA model itself given the sensor inputs as context. We detail the construction of latent Reason tokens in the following section.
 
 <!-- chunk {"id": "body-0022", "role": "body", "section": "Latent Chain-of-Thought Reasoning", "weight": 1.0} -->
 
@@ -92,95 +92,95 @@ We aim to design a compact, action-aligned reasoning process that performs laten
 
 <!-- chunk {"id": "body-0023", "role": "body", "section": "Token Scheme", "weight": 1.0} -->
 
-Here $A_{t}^{(i)}$ are *action-proposal* tokens drawn from the same action vocabulary as the final output, but grouped as a 1.0s
+We represent each reasoning branch as an interleaved action and latent world model trace $R^{(i)}$: Here $A_{t}^{(i)}$ are *action-proposal* tokens drawn from the same action vocabulary as the final output, but grouped as a 1.0s block of 10 stepwise tokens: which makes proposals easy to produce and interpret. $\mathrm{LWM}^{(i)}_{t+1}$ is the ego-centric latent world state summarizing the *same* 1.0 s window at 10 Hz. Reasoning is seeded by the history anchor $\mathrm{LWM}_{0}$, after which we interleave $(A_{t}^{(i)},\mathrm{LWM}_{t+1}^{(i)})$ for $t=1\dots K$ to form $R^{(i)}$.
 
-<!-- chunk {"id": "body-0024", "role": "body", "section": "Token Scheme", "weight": 1.0} -->
+<!-- chunk {"id": "body-0024", "role": "body", "section": "Action Proposal", "weight": 1.0} -->
 
-which makes proposals easy to produce and interpret. ${LWM}_{t + 1}^{(i)}$ is the ego-centric latent world state summarizing the *same* 1.0 s window at 10 Hz. Reasoning is seeded by the history anchor ${LWM}_{0}$, after which we interleave $(A_{t}^{(i)},{LWM}_{t + 1}^{(i)})$ for $t = {1\ldotsK}$ to form $R^{(i)}$.
+At step $t$, the VLA proposes $A_{t}^{(i)}$ conditioned on sensor tokens, the current world state, and the prior reasoning token sequence: Note that $A_{t}^{(i)}$ uses the same token vocabulary as the final trajectory prediction $\tau$. These proposals are only used as reasoning context and do *not* commit to a specific final plan.
 
-<!-- chunk {"id": "body-0025", "role": "body", "section": "Action Proposal", "weight": 1.0} -->
+<!-- chunk {"id": "body-0025", "role": "body", "section": "LWM Prediction", "weight": 1.0} -->
 
-Note that $A_{t}^{(i)}$ uses the same token vocabulary as the final trajectory prediction $\tau$. These proposals are only used as reasoning context and do *not* commit to a specific final plan.
+Given the proposal as context, we predict the next latent world state: Here, $\pi_{\theta}$ denotes the action policy and $q_{\phi}$ the LWM transition model. In practice, we compute it with $f_{\phi}(\mathbf{h}^{\mathrm{VLA}}_{t})$, where $\mathbf{h}^{\mathrm{VLA}}_{t}$ is the VLA hidden state after taking $A_{t}^{(i)}$ as input, and $f_{\phi}$ is a lightweight MLP producing LWM tokens.
 
-<!-- chunk {"id": "body-0026", "role": "body", "section": "LWM Prediction", "weight": 1.0} -->
+<!-- chunk {"id": "body-0026", "role": "body", "section": "Multi-Branch Reasoning", "weight": 1.0} -->
 
-Here, $\pi_{\theta}$ denotes the action policy and $q_{\phi}$ the LWM transition model. In practice, we compute it with $f_{\phi}{(\mathbf{h}_{t}^{VLA})}$, where $\mathbf{h}_{t}^{VLA}$ is the VLA hidden state after taking $A_{t}^{(i)}$ as input, and $f_{\phi}$ is a lightweight MLP producing LWM tokens.
+To allow the model to spend more reasoning tokens on diverse strategies and paths, we enable autoregressive generation of a fixed number of branches $B$ (default $B=2$). All branches share the history anchor $\mathrm{LWM}_{0}$ and are generated sequentially: for $i=1\ldots B$, we produce $R^{(i)}$ while conditioning on previously formed traces $R^{(<i)}$. This lets the model refer to prior latent reasoning when proposing the next branch, promoting diversity and yielding more plausible, complementary counterfactual futures under a bounded token budget. In this paper, we fix both $K$ and $B$ at training and evaluation for simplicity.
 
-<!-- chunk {"id": "body-0027", "role": "body", "section": "Multi-Branch Reasoning", "weight": 1.0} -->
+<!-- chunk {"id": "body-0027", "role": "body", "section": "Action Prediction", "weight": 1.0} -->
 
-To allow the model to spend more reasoning tokens on diverse strategies and paths, we enable autoregressive generation of a fixed number of branches $B$ (default $B = 2$). All branches share the history anchor ${LWM}_{0}$ and are generated sequentially: for $i = {1\ldotsB}$, we produce $R^{(i)}$ while conditioning on previously formed traces $R^{({< i})}$. This lets the model refer to prior latent reasoning when proposing the next branch, promoting diversity and yielding more plausible, complementary counterfactual futures under a bounded token budget. In this paper, we fix both $K$ and $B$ at training and evaluation for simplicity.
+The complete reasoning context is Conditioned on the sensor input and Reason in Eq.˜1, the model predicts the 64 stepwise trajectory tokens $a_{1:64}$ and decodes the final trajectory $\hat{\tau}$. The final actions attend to *all* proposals and their associated latent world model rollouts, forming rich counterfactual context that we will show yields higher-fidelity, safer, and more stable trajectories.
 
-<!-- chunk {"id": "body-0028", "role": "body", "section": "Action Prediction", "weight": 1.0} -->
-
-Conditioned on the sensor input and Reason in Eq.˜1, the model predicts the 64 stepwise trajectory tokens $a_{1:64}$ and decodes the final trajectory $\hat{\tau}$. The final actions attend to *all* proposals and their associated latent world model rollouts, forming rich counterfactual context that we will show yields higher-fidelity, safer, and more stable trajectories.
-
-<!-- chunk {"id": "body-0029", "role": "body", "section": "Training Strategy", "weight": 1.0} -->
+<!-- chunk {"id": "body-0028", "role": "body", "section": "Training Strategy", "weight": 1.0} -->
 
 We train LCDrive in three training stages (Fig.˜3).
 
-<!-- chunk {"id": "body-0030", "role": "body", "section": "Stage 0 - Non-reasoning Pretraining", "weight": 1.0} -->
+<!-- chunk {"id": "body-0029", "role": "body", "section": "Stage 0 - Non-reasoning Pretraining", "weight": 1.0} -->
 
-We start from a *non-reasoning* VLA (Reason $= \varnothing$) trained via supervised fine-tuning to predict trajectory tokens from driving data. We keep two copies of this model: one serves as the initialization for LCDrive in the later fine-tuning stage; the other is frozen and used solely to generate action-proposal tokens for latent reasoning.
+We start from a *non-reasoning* VLA (Reason $=\varnothing$) trained via supervised fine-tuning to predict trajectory tokens from driving data. We keep two copies of this model: one serves as the initialization for LCDrive in the later fine-tuning stage; the other is frozen and used solely to generate action-proposal tokens for latent reasoning.
 
-<!-- chunk {"id": "body-0031", "role": "body", "section": "Stage 1 - CoT Cold Start", "weight": 1.0} -->
+<!-- chunk {"id": "body-0030", "role": "body", "section": "Stage 1 - CoT Cold Start", "weight": 1.0} -->
 
 In this step, we aim to teach the VLA model the format and structure of latent CoT with teacher forcing. To this end, we construct supervision data for latent CoT Reason tokens through the following steps.
 
-<!-- chunk {"id": "body-0032", "role": "body", "section": "Action-conditioned LWM targets", "weight": 1.0} -->
+<!-- chunk {"id": "body-0031", "role": "body", "section": "Action-conditioned LWM targets", "weight": 1.0} -->
 
-For each block ${\overset{\sim}{A}}_{t}^{(i)}$, we integrate its ego-frame $\Delta$-poses to obtain the ego pose for that 1.0 s window, re-center the GT future tracked agent bounding boxes into this ego frame, and encode them to produce a target latent world state: ${\overset{\sim}{LWM}}_{t + 1}^{(i)}$. This yields branch-specific world tokens $\{{\overset{\sim}{LWM}}_{t + 1}^{(i)}\}$ that reflect the *consequences* of each proposal window.
+For each block $\tilde{A}^{(i)}_{t}$, we integrate its ego-frame $\Delta$-poses to obtain the ego pose for that 1.0 s window, re-center the GT future tracked agent bounding boxes into this ego frame, and encode them to produce a target latent world state: $\tilde{\mathrm{LWM}}^{(i)}_{t+1}$. This yields branch-specific world tokens $\{\tilde{\mathrm{LWM}}^{(i)}_{t+1}\}$ that reflect the *consequences* of each proposal window.
 
-<!-- chunk {"id": "body-0033", "role": "body", "section": "Supervision sequence", "weight": 1.0} -->
+<!-- chunk {"id": "body-0032", "role": "body", "section": "Supervision sequence", "weight": 1.0} -->
 
-Action proposals and targets are interleaved to form $B$ reasoning traces $R^{(i)}$ (Eq.˜3). The full training sequence in Eq.˜1 thus becomes
+Action proposals and targets are interleaved to form $B$ reasoning traces $R^{(i)}$ (Eq.˜3). The full training sequence in Eq.˜1 thus becomes We input this full sequence to LCDrive during training.
 
-<!-- chunk {"id": "body-0034", "role": "body", "section": "Supervision sequence", "weight": 1.0} -->
-
-We input this full sequence to LCDrive during training.
-
-<!-- chunk {"id": "body-0035", "role": "body", "section": "Stage 2 - Reinforcement Learning", "weight": 1.0} -->
+<!-- chunk {"id": "body-0033", "role": "body", "section": "Stage 2 - Reinforcement Learning", "weight": 1.0} -->
 
 The second stage post-trains LCDrive to actively produce useful latent reasoning and output better actions. By directly optimizing the final action conditioned on the latent reasoning process, the model learns to produce useful reasoning tokens beyond merely imitating the frozen model from Stage 1.
 
-<!-- chunk {"id": "body-0036", "role": "body", "section": "Rollout", "weight": 1.0} -->
+<!-- chunk {"id": "body-0034", "role": "body", "section": "Rollout", "weight": 1.0} -->
 
-For each training input, we keep the fixed reasoning budget $(K,B)$ and generate a group of $G$ stochastic completions: the policy autoregressively generates *action-proposal* blocks interleaved with latent world states to form branch traces $R^{(i)}$, and concatenates them into ${\text{Reason} = \left\lbrack {LWM}_{0},R^{},\ldots,R^{(B)} \right\rbrack}.$ Conditioned on Reason and the sensor tokens, the policy then produces the 64 trajectory tokens $a_{1:64}$ and decodes $\hat{\tau}$.
+For each training input, we keep the fixed reasoning budget $(K,B)$ and generate a group of $G$ stochastic completions: the policy autoregressively generates *action-proposal* blocks interleaved with latent world states to form branch traces $R^{(i)}$, and concatenates them into $\textsc{Reason}=\big[\mathrm{LWM}_{0},R^{},\ldots,R^{(B)}\big].$ Conditioned on Reason and the sensor tokens, the policy then produces the 64 trajectory tokens $a_{1:64}$ and decodes $\hat{\tau}$.
 
-<!-- chunk {"id": "body-0037", "role": "body", "section": "Reward", "weight": 1.0} -->
+<!-- chunk {"id": "body-0035", "role": "body", "section": "Reward", "weight": 1.0} -->
 
-We use a single trajectory-accuracy signal: *Average Displacement Error (ADE)* in meters between the predicted and expert trajectories over the 6.4
+We use a single trajectory-accuracy signal: *Average Displacement Error (ADE)* in meters between the predicted and expert trajectories over the 6.4 s horizon: where $\mathbf{p}_{i}$ is the $i$-th 2D ego location along the trajectory. The reward for completion $j$ is $r^{(j)}=-\mathrm{ADE}(\hat{\tau}^{(j)},\tau^{\star})$.
 
-<!-- chunk {"id": "body-0038", "role": "body", "section": "Learning Algorithm", "weight": 1.0} -->
+<!-- chunk {"id": "body-0036", "role": "body", "section": "Learning Algorithm", "weight": 1.0} -->
 
-We use Group Relative Policy Optimization (GRPO) for RL training. For each training example, we sample a group of $G$ completions ${\{{\hat{\tau}}^{(j)}\}}_{j = 1}^{G}$, compute a trajectory-level reward $r^{(j)}$, and construct centered advantages for each completion: $A^{(j)} = {r^{(j)} - {\frac{1}{G}{\sum_{k}r^{(k)}}}}$.
+We use Group Relative Policy Optimization (GRPO) for RL training. For each training example, we sample a group of $G$ completions $\{\hat{\tau}^{(j)}\}_{j=1}^{G}$, compute a trajectory-level reward $r^{(j)}$, and construct centered advantages for each completion: $A^{(j)}=r^{(j)}-\frac{1}{G}\sum_{k}r^{(k)}$. We then maximize the advantage-weighted log-probability of the *generated* tokens, including both proposal and final action tokens: Empirically, we found that GRPO performs best without KL regularization, so we omit the KL term in the final objective. Note that Stage 2 can also be applied to a non-reasoning baseline with $\textsc{Reason}=\varnothing$. We will show in Sec.˜4.2 that RL yields substantially larger gains for LCDrive than the baseline.
 
-<!-- chunk {"id": "body-0039", "role": "body", "section": "Learning Algorithm", "weight": 1.0} -->
-
-Empirically, we found that GRPO performs best without KL regularization, so we omit the KL term in the final objective. Note that Stage 2 can also be applied to a non-reasoning baseline with $\text{Reason} = \varnothing$. We will show in Sec.˜4.2 that RL yields substantially larger gains for LCDrive than the baseline.
-
-<!-- chunk {"id": "body-0040", "role": "body", "section": "Dataset", "weight": 1.0} -->
+<!-- chunk {"id": "body-0037", "role": "body", "section": "Dataset", "weight": 1.0} -->
 
 We conduct our experiments on the recently released PhysicalAI-AV dataset. It provides large-scale (1700+ hours) real-world multi-camera driving logs with precise ego trajectories and dense multi-agent annotations, enabling realistic end-to-end driving evaluation. In coordination with the dataset authors, we obtained a *scenario-balanced* subset that maintains consistency with the official public splits of the full dataset: 39,072 training clips (87 hours) and 23,758 validation clips (53 hours). For each clip, we consider 1.6 s of history and 6.4 s of future ego and surrounding-agent trajectories at 10 Hz.
 
-<!-- chunk {"id": "body-0041", "role": "body", "section": "Dataset", "weight": 1.0} -->
+<!-- chunk {"id": "body-0038", "role": "body", "section": "Dataset", "weight": 1.0} -->
 
 As summarized in Tab.˜2, the subset is constructed to balance nominal and eventful scenes: 30% of clips are *General Driving* and the remaining 70% are evenly distributed across 14 specific scenarios (e.g., lane keeping, intersection navigation, merges, cut-ins), with 5% of the data per category. In addition to its significantly larger scale compared to prior E2E driving validation benchmarks (e.g. nuScenes with only 150 validation clips, less than 1 hour), this split provides a near-uniform scenario distribution. It avoids dominance by easy cases (e.g., 73.9% straight driving in nuScenes ) and enables fair per-scenario evaluation.
 
-<!-- chunk {"id": "body-0042", "role": "body", "section": "Metrics", "weight": 1.0} -->
+<!-- chunk {"id": "body-0039", "role": "body", "section": "Metrics", "weight": 1.0} -->
 
 For each input clip, we randomly sample 6 trajectories from the evaluated model. Metrics are then computed for each sample, and the average over all samples is taken to be the overall score of the clip.
 
-<!-- chunk {"id": "body-0043", "role": "body", "section": "Metrics", "weight": 1.0} -->
+<!-- chunk {"id": "body-0040", "role": "body", "section": "Metrics", "weight": 1.0} -->
 
-To measure the similarity of the model output with the expert driving behaviors, we report ADE (meters) as the mean $\ell_{2}$ error between the predicted ego positions and expert positions at 10 Hz over the $T = 64$ steps. We also measure the safety of the model driving behavior: OffRoad~2.5~ and OffRoad~5.0~ (%) are the fraction of clips for which *any* point in the predicted ego footprint leaves the drivable area within the first $T \in {\{ 2.5,5.0\}}$ seconds. Coll@2.5 and Coll@5.0 (%) are the fraction of clips that experience *any* intersection between the ego polygon and any other agent polygon within the same $S \in {\{ 2.5,5.0\}}$ s window. Corner Dist (m) measures the mean Euclidean distance between corresponding corners of the predicted and expert ego boxes (with fixed vehicle dimensions) over the 64 steps at 10 Hz, capturing both translation and heading errors. Additional analyses are provided in Appendix C.
+To measure the similarity of the model output with the expert driving behaviors, we report ADE (meters) as the mean $\ell_{2}$ error between the predicted ego positions and expert positions at 10 Hz over the $T=64$ steps. We also measure the safety of the model driving behavior: OffRoad~2.5~ and OffRoad~5.0~ (%) are the fraction of clips for which *any* point in the predicted ego footprint leaves the drivable area within the first $T\!\in\!\{2.5,5.0\}$ seconds. Coll@2.5 and Coll@5.0 (%) are the fraction of clips that experience *any* intersection between the ego polygon and any other agent polygon within the same $S\in\{2.5,5.0\}$ s window. Corner Dist (m) measures the mean Euclidean distance between corresponding corners of the predicted and expert ego boxes (with fixed vehicle dimensions) over the 64 steps at 10 Hz, capturing both translation and heading errors. Additional analyses are provided in Appendix C.
+
+<!-- chunk {"id": "body-0041", "role": "body", "section": "Metrics", "weight": 1.0} -->
+
+Latent CoT (LCDrive) Table 1: Main evaluation results on the PhysicalAI-AV dataset. Lower is better for all metrics, bold is best.
+
+<!-- chunk {"id": "body-0042", "role": "body", "section": "Metrics", "weight": 1.0} -->
+
+ADE @ 6.4 s (in meters, lower is better) Stop for Vehicle Nudge Static Obstacle Maneuver Traffic Control Compliance Vulnerable Road Users (VRU) Lead Vehicle Following Lane Keeping Curve Table 2: ADE split by scenario. Columns are ordered with methods using GT LWM (marked with ∗) shown first. Bold is best.
+
+<!-- chunk {"id": "body-0043", "role": "body", "section": "Baselines", "weight": 1.0} -->
+
+All variants share the same non-reasoning backbone, trajectory tokenizer, and decoder. Unless noted, training uses the PhysicalAI split mentioned above. All models receive identical inputs and differ only in the format of the Reason tokens. We compare 1) No CoT ($\varnothing$): VLA without any reasoning tokens; 2) LWM~0~-only: the model conditions on the history latent world model state $\mathrm{LWM}_{0}$ but performs no interleaved rollout; 3) Latent CoT: our interleaved action-proposal and latent world-model tokens, initialized from $\mathrm{LWM}_{0}$; 4) Text CoT: a language-reasoning baseline that uses English text for reasoning. We mainly compare methods that *predict* all the LWM tokens needed in the reasoning stage. To show performance upper-bounds, we also compare with methods that take *GT* LWM tokens within the reasoning space, marked with ^∗^.
 
 <!-- chunk {"id": "body-0044", "role": "body", "section": "Baselines", "weight": 1.0} -->
 
-All variants share the same non-reasoning backbone, trajectory tokenizer, and decoder. Unless noted, training uses the PhysicalAI split mentioned above. All models receive identical inputs and differ only in the format of the Reason tokens. We compare 1) No CoT ($\varnothing$): VLA without any reasoning tokens; 2) LWM~0~-only: the model conditions on the history latent world model state ${LWM}_{0}$ but performs no interleaved rollout; 3) Latent CoT: our interleaved action-proposal and latent world-model tokens, initialized from ${LWM}_{0}$; 4) Text CoT: a language-reasoning baseline that uses English text for reasoning. We mainly compare methods that *predict* all the LWM tokens needed in the reasoning stage. To show performance upper-bounds, we also compare with methods that take *GT* LWM tokens within the reasoning space, marked with ^∗^. Our model, LCDrive, is Latent CoT with *Predicted LWM*; we also report performance with and without the RL training stage.
+Our model, LCDrive, is Latent CoT with *Predicted LWM*; we also report performance with and without the RL training stage.
 
 <!-- chunk {"id": "body-0045", "role": "body", "section": "Text CoT baseline", "weight": 1.0} -->
 
-Since obtaining Text-CoT labels for the PhysicalAI-AV dataset is non-trivial, we use model weights provided by the AR1 team. The model shares the same AR1 architecture, and is pretrained on a large proprietary dataset of driving logs that is an over $100 \times$ larger superset of our training set, followed by finetuning on a smaller set of Text-CoT-paired data (though still $\sim 10 \times$ larger than our training set). Given its substantially larger training corpus and direct supervision on carefully-curated text CoT dataset, this baseline is expected to perform better than models trained only on PhysicalAI-AV.
+Since obtaining Text-CoT labels for the PhysicalAI-AV dataset is non-trivial, we use model weights provided by the AR1 team. The model shares the same AR1 architecture, and is pretrained on a large proprietary dataset of driving logs that is an over $100\times$ larger superset of our training set, followed by finetuning on a smaller set of Text-CoT-paired data (though still $\sim 10\times$ larger than our training set). Given its substantially larger training corpus and direct supervision on carefully-curated text CoT dataset, this baseline is expected to perform better than models trained only on PhysicalAI-AV.
 
 <!-- chunk {"id": "body-0046", "role": "body", "section": "Implementation", "weight": 1.0} -->
 
@@ -188,11 +188,11 @@ We adopt a Qwen3-0.5B LLM as the language-action module and a DINOv2 ViT as the 
 
 <!-- chunk {"id": "body-0047", "role": "body", "section": "Implementation", "weight": 1.0} -->
 
-Stage-0 non-reasoning pretrain: We initialize from the pre-trained AR1 checkpoint, then train a non-reasoning model for 100k steps on the PhysicalAI-AV training split using batch size 128, learning rate 4e-5, and cosine annealing. Stage-1 CoT cold start: We then enable latent reasoning and train for 10k steps with the same optimizer settings. Action proposals are generated from the frozen non-reasoning model using temperature 0.6 and top-p $= 0.98$. The loss in Eq.˜4 is weighted by $\lambda = 0.1$. Stage-2 GRPO: We finally apply RL post-training with GRPO for 3k steps using group size 8, effective batch size 32 sampled completions per update, and a learning rate of 1e-6. We set $K = 5$ and $B = 2$ based on the cost-performance saturation analysis in Appendix D, where this setting provides a strong trade-off between reasoning budget, branch diversity, and final trajectory accuracy.
+Stage-0 non-reasoning pretrain: We initialize from the pre-trained AR1 checkpoint, then train a non-reasoning model for 100k steps on the PhysicalAI-AV training split using batch size 128, learning rate 4e-5, and cosine annealing. Stage-1 CoT cold start: We then enable latent reasoning and train for 10k steps with the same optimizer settings. Action proposals are generated from the frozen non-reasoning model using temperature 0.6 and top-p $=0.98$. The loss in Eq.˜4 is weighted by $\lambda=0.1$. Stage-2 GRPO: We finally apply RL post-training with GRPO for 3k steps using group size 8, effective batch size 32 sampled completions per update, and a learning rate of 1e-6. We set $K=5$ and $B=2$ based on the cost-performance saturation analysis in Appendix D, where this setting provides a strong trade-off between reasoning budget, branch diversity, and final trajectory accuracy.
 
 <!-- chunk {"id": "body-0048", "role": "body", "section": "Implementation", "weight": 1.0} -->
 
-For all approaches, we use temperature 0.6 and top-p $= 0.98$ during sampling of the 6 trajectories per input.
+For all approaches, we use temperature 0.6 and top-p $=0.98$ during sampling of the 6 trajectories per input.
 
 <!-- chunk {"id": "body-0049", "role": "body", "section": "PhysicalAI-AV evaluation", "weight": 1.0} -->
 
@@ -216,7 +216,7 @@ Overall, we conclude that LWM tokens provide a more effective reasoning medium t
 
 <!-- chunk {"id": "body-0054", "role": "body", "section": "Inference-time efficiency", "weight": 1.0} -->
 
-LCDrive achieves a $1.8 \times$ reasoning speedup over Text CoT on an RTX A5000 under identical decoding settings. This gain comes from the reasoning stage, since input encoding and final action decoding are shared across methods while latent CoT uses a shorter, more structured token sequence. See Appendix B for wall-clock latency and training-compute details.
+LCDrive achieves a $1.8\times$ reasoning speedup over Text CoT on an RTX A5000 under identical decoding settings. This gain comes from the reasoning stage, since input encoding and final action decoding are shared across methods while latent CoT uses a shorter, more structured token sequence. See Appendix B for wall-clock latency and training-compute details.
 
 <!-- chunk {"id": "body-0055", "role": "body", "section": "Scenario breakdown", "weight": 1.0} -->
 

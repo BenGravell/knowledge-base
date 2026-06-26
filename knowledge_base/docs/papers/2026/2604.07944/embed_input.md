@@ -68,164 +68,144 @@ We follow the motion planning formulation of GPT-Driver. At each planning step, 
 
 <!-- chunk {"id": "body-0017", "role": "body", "section": "Problem Formulation", "weight": 1.0} -->
 
-The goal is to produce a planned trajectory
+The goal is to produce a planned trajectory consisting of six waypoints at 0.5-second intervals over a 3-second horizon. The coordinate frame is ego-centric: the vehicle is located at the origin, the $y$-axis aligns with its current heading direction, and the $x$-axis is perpendicular. Coordinates are expressed in meters as decimal values.
 
 <!-- chunk {"id": "body-0018", "role": "body", "section": "Problem Formulation", "weight": 1.0} -->
 
-consisting of six waypoints at 0.5-second intervals over a 3-second horizon. The coordinate frame is ego-centric: the vehicle is located at the origin, the $y$-axis aligns with its current heading direction, and the $x$-axis is perpendicular. Coordinates are expressed in meters as decimal values.
+Following GPT-Driver, the planner produces not only the trajectory but a full structured reasoning trace. The assistant output contains four components in order: (i) Notable Objects, identifying the subset of perceived entities critical to the planned maneuver; (ii) Potential Effects, describing when and how each critical object is predicted to influence the ego vehicle; (iii) Meta Action, a high-level driving decision in natural language (e.g., "TURN RIGHT WITH A DECELERATION"); and (iv) Trajectory, the six numerical waypoints. This chain-of-thought structure, illustrated in Fig. 1, encourages the model to reason explicitly before committing to numerical coordinates, and provides interpretable explanations for every predicted maneuver.
 
 <!-- chunk {"id": "body-0019", "role": "body", "section": "Problem Formulation", "weight": 1.0} -->
 
-Following GPT-Driver, the planner produces not only the trajectory but a full structured reasoning trace. The assistant output contains four components in order: (i) Notable Objects, identifying the subset of perceived entities critical to the planned maneuver; (ii) Potential Effects, describing when and how each critical object is predicted to influence the ego vehicle; (iii) Meta Action, a high-level driving decision in natural language (e.g., "TURN RIGHT WITH A DECELERATION"); and (iv) Trajectory, the six numerical waypoints. This chain-of-thought structure, illustrated in Fig. 1, encourages the model to reason explicitly before committing to numerical coordinates, and provides interpretable explanations for every predicted maneuver.
+Formally, let $x$ denote the language prompt encoding $(\mathcal{O},\mathcal{S})$ and the high-level mission goal, and let $y^{\star}$ denote the ground-truth full assistant response. The planner is a conditional autoregressive language model $p_{\theta}(\cdot\mid x)$ trained to produce outputs $y$ that minimize displacement from $y^{\star}$. Importantly, the trajectory coordinates appear within the larger text output $y$, so the model must correctly generate the entire surrounding structure (section headers, reasoning text, and coordinate formatting) in addition to producing numerically accurate waypoints.
 
 <!-- chunk {"id": "body-0020", "role": "body", "section": "Problem Formulation", "weight": 1.0} -->
 
-Formally, let $x$ denote the language prompt encoding $(\mathcal{O},\mathcal{S})$ and the high-level mission goal, and let $y^{\star}$ denote the ground-truth full assistant response. The planner is a conditional autoregressive language model $p_{\theta}{( \cdot \mid x)}$ trained to produce outputs $y$ that minimize displacement from $y^{\star}$. Importantly, the trajectory coordinates appear within the larger text output $y$, so the model must correctly generate the entire surrounding structure (section headers, reasoning text, and coordinate formatting) in addition to producing numerically accurate waypoints.
+Perception & Prediction: car at (-8.67, 0.12), moving to (-8.50, -0.08). adult at (-1.21, 6.78), moving to (-1.29, 10.48). Ego-States: Velocity (vx,vy): (0.00, 1.46). Mission Goal: RIGHT Thoughts: Notable Objects: adult at (-1.21, 6.78). Potential Effects: within safety zone at 1.0s. Meta Action: TURN RIGHT WITH A CONSTANT SPEED Figure 1: Example input prompt and expected model output. The model generates a chain-of-thought reasoning trace before producing the final trajectory coordinates.
 
-<!-- chunk {"id": "body-0021", "role": "body", "section": "Problem Formulation", "weight": 1.0} -->
-
-Perception &amp; Prediction: car at (-8.67, 0.12), moving to (-8.50, -0.08). adult at (-1.21, 6.78), moving to (-1.29, 10.48).
-Ego-States: Velocity (vx,vy): (0.00, 1.46). Mission Goal: RIGHT
-Thoughts: Notable Objects: adult at (-1.21, 6.78). Potential Effects: within safety zone at 1.0s.
-Meta Action: TURN RIGHT WITH A CONSTANT SPEED
-Figure 1: Example input prompt and expected model output. The model generates a chain-of-thought reasoning trace before producing the final trajectory coordinates.
-
-<!-- chunk {"id": "body-0022", "role": "body", "section": "IV-A Teacher Training", "weight": 1.0} -->
+<!-- chunk {"id": "body-0021", "role": "body", "section": "IV-A Teacher Training", "weight": 1.0} -->
 
 We first train a strong teacher model using standard supervised fine-tuning (SFT). Concretely, we fine-tune Qwen3-8B on the GPT-Driver nuScenes training split using the qwen3_nothink chat template, which disables the model's extended chain-of-thought thinking mode to produce deterministic, structured outputs. The teacher is trained to generate full planning responses including the reasoning trace, meta-action, and trajectory. All student experiments use a single fixed teacher checkpoint selected by validation performance.
 
-<!-- chunk {"id": "body-0023", "role": "body", "section": "IV-A Teacher Training", "weight": 1.0} -->
+<!-- chunk {"id": "body-0022", "role": "body", "section": "IV-A Teacher Training", "weight": 1.0} -->
 
 The rationale for training the teacher with SFT rather than using an off-the-shelf pretrained model is that the nuScenes planning task requires a highly specific output format, domain-specific coordinate conventions, and the ability to reason about driving-specific entities. A general-purpose LLM would not reliably produce the structured output format required for trajectory parsing, making SFT on the task data a necessary prerequisite.
 
+<!-- chunk {"id": "body-0023", "role": "body", "section": "IV-B1 Motivation: Distribution Mismatch", "weight": 1.0} -->
+
+The core challenge in distilling an autoregressive planner is train-inference distribution mismatch. In standard supervised training, the student is conditioned on ground-truth or teacher-generated prefix tokens $y_{<n}^{\star}$ when predicting token $y_{n}$. At inference time, however, the student must condition on its own previously generated tokens $\hat{y}_{<n}$, which may contain errors. Since autoregressive models predict each token conditioned on all previous ones, even small early errors can cascade: a slightly off first coordinate influences the distribution over subsequent coordinates, potentially causing the entire trajectory to drift.
+
 <!-- chunk {"id": "body-0024", "role": "body", "section": "IV-B1 Motivation: Distribution Mismatch", "weight": 1.0} -->
-
-The core challenge in distilling an autoregressive planner is train-inference distribution mismatch. In standard supervised training, the student is conditioned on ground-truth or teacher-generated prefix tokens $y_{< n}^{\star}$ when predicting token $y_{n}$. At inference time, however, the student must condition on its own previously generated tokens ${\hat{y}}_{< n}$, which may contain errors. Since autoregressive models predict each token conditioned on all previous ones, even small early errors can cascade: a slightly off first coordinate influences the distribution over subsequent coordinates, potentially causing the entire trajectory to drift.
-
-<!-- chunk {"id": "body-0025", "role": "body", "section": "IV-B1 Motivation: Distribution Mismatch", "weight": 1.0} -->
 
 This problem is particularly acute in motion planning. The six waypoints form a physically coherent trajectory, and the coordinate values span multiple orders of magnitude (centimeters to tens of meters). An error in the integer part of an early waypoint (e.g., predicting "12" instead of "1") corrupts the implicit representation of vehicle speed and direction that subsequent waypoints must be consistent.
 
-<!-- chunk {"id": "body-0026", "role": "body", "section": "IV-B2 GKD Objective", "weight": 1.0} -->
+<!-- chunk {"id": "body-0025", "role": "body", "section": "IV-B2 GKD Objective", "weight": 1.0} -->
 
-On-policy GKD resolves the mismatch by training the student on its own self-generated outputs. Given an input prompt $x$, the student samples a full response $\hat{y} \sim p_{S}^{\theta}{( \cdot \mid x)}$.
+On-policy GKD resolves the mismatch by training the student on its own self-generated outputs. Given an input prompt $x$, the student samples a full response $\hat{y}\sim p_{S}^{\theta}(\cdot\mid x)$. The student is then trained to match the teacher's token-level distributions along this on-policy trajectory: where the token-averaged divergence is Crucially, gradients are not backpropagated through the student's sampling process that generates the trajectory $\hat{y}$. The sampled prefixes $\hat{y}_{<n}$ are treated as constants, and only the token-level divergence in is differentiated with respect to $\theta$. This corresponds to ignoring the dependence of the trajectory distribution on the model parameters (i.e., dropping the score-function term), resulting in a biased but low-variance estimator that improves training stability and efficiency, similar to stop-gradient formulations in on-policy imitation learning.
 
-<!-- chunk {"id": "body-0027", "role": "body", "section": "IV-B2 GKD Objective", "weight": 1.0} -->
+<!-- chunk {"id": "body-0026", "role": "body", "section": "IV-B3 Divergence Choice", "weight": 1.0} -->
 
-Crucially, gradients are not backpropagated through the student's sampling process that generates the trajectory $\hat{y}$. The sampled prefixes ${\hat{y}}_{< n}$ are treated as constants, and only the token-level divergence in is differentiated with respect to $\theta$. This corresponds to ignoring the dependence of the trajectory distribution on the model parameters (i.e., dropping the score-function term), resulting in a biased but low-variance estimator that improves training stability and efficiency, similar to stop-gradient formulations in on-policy imitation learning.
+We use the generalized Jensen-Shannon divergence as $D$: where $m=\beta p_{T}+(1-\beta)p_{S}$ is the mixture distribution and $\beta\in$ interpolates between the forward KL ($\beta\to 0$) and the reverse KL ($\beta\to 1$). Forward KL is mode-covering: it forces the student to assign probability mass wherever the teacher does, which can cause hallucination in low-capacity students. Reverse KL is mode-seeking: it concentrates the student's mass on the teacher's highest-probability tokens, which can reduce diversity but improves output quality. JSD with $\beta=0.5$ provides a balanced interpolation between these two behaviors. In our experiments we use the default TRL GKDTrainer parameters: $\beta=0.5$ and a student data fraction $\lambda=0.5$, meaning each training batch consists of 50% on-policy student-generated sequences and 50% ground-truth sequences.
 
-<!-- chunk {"id": "body-0028", "role": "body", "section": "IV-B3 Divergence Choice", "weight": 1.0} -->
-
-where $m = {{\betap_{T}} + {{({1 - \beta})}p_{S}}}$ is the mixture distribution and $\beta \in {\lbrack 0,1\rbrack}$ interpolates between the forward KL ($\beta\rightarrow 0$) and the reverse KL ($\beta\rightarrow 1$). Forward KL is mode-covering: it forces the student to assign probability mass wherever the teacher does, which can cause hallucination in low-capacity students. Reverse KL is mode-seeking: it concentrates the student's mass on the teacher's highest-probability tokens, which can reduce diversity but improves output quality. JSD with $\beta = 0.5$ provides a balanced interpolation between these two behaviors. In our experiments we use the default TRL GKDTrainer parameters: $\beta = 0.5$ and a student data fraction $\lambda = 0.5$, meaning each training batch consists of 50% on-policy student-generated sequences and 50% ground-truth sequences.
-
-<!-- chunk {"id": "body-0029", "role": "body", "section": "IV-B4 Why GKD Is Well-Suited for Planning", "weight": 1.0} -->
+<!-- chunk {"id": "body-0027", "role": "body", "section": "IV-B4 Why GKD Is Well-Suited for Planning", "weight": 1.0} -->
 
 The full-vocabulary supervision of GKD is especially valuable for coordinate generation. At each token position, the teacher provides a probability distribution over the entire vocabulary, effectively indicating which digit characters, decimal points, and delimiters are plausible continuations given the current trajectory prefix. This rich signal helps the student learn the implicit structure of coordinate sequences: that digits must form valid decimal numbers, that successive coordinates must encode physically realizable vehicle dynamics, and that the coordinate values must be consistent with the reasoning trace that preceded them. A scalar reward signal, by contrast, only tells the student whether the sampled token was relatively likely under the teacher, discarding all information about alternative continuations.
 
-<!-- chunk {"id": "body-0030", "role": "body", "section": "IV-C Dense-Feedback RL Baseline", "weight": 1.0} -->
+<!-- chunk {"id": "body-0028", "role": "body", "section": "IV-C Dense-Feedback RL Baseline", "weight": 1.0} -->
 
 As a baseline, we train a student using a teacher-guided policy gradient objective. This approach, introduced, provides on-policy supervision using the teacher's log-probabilities as dense per-token rewards, without requiring access to the full teacher vocabulary distribution.
 
-<!-- chunk {"id": "body-0031", "role": "body", "section": "IV-C Dense-Feedback RL Baseline", "weight": 1.0} -->
+<!-- chunk {"id": "body-0029", "role": "body", "section": "IV-C Dense-Feedback RL Baseline", "weight": 1.0} -->
 
-Given an input $x$ and a student rollout $\hat{y} \sim p_{S}^{\theta}{( \cdot \mid x)}$, the per-token advantage is defined as
+Given an input $x$ and a student rollout $\hat{y}\sim p_{S}^{\theta}(\cdot\mid x)$, the per-token advantage is defined as where $\mathrm{sg}[\cdot]$ denotes the stop-gradient operation. The advantage $A_{n}$ is positive when the teacher assigns higher probability to the sampled token than the student does, and negative when the teacher assigns lower probability, providing a per-token signal about whether the student's choice was consistent with the teacher. The policy gradient objective is then The gradient of takes the standard REINFORCE form: $A_{n}\nabla_{\theta}\log p_{S}^{\theta}(\hat{y}_{n}\mid x,\hat{y}_{<n})$, pushing the student's log-probabilities up on tokens the teacher preferred and down on tokens the teacher disfavored. No explicit KL penalty toward a reference policy is included, following.
 
-<!-- chunk {"id": "body-0032", "role": "body", "section": "IV-C Dense-Feedback RL Baseline", "weight": 1.0} -->
-
-where ${sg}{\lbrack \cdot \rbrack}$ denotes the stop-gradient operation. The advantage $A_{n}$ is positive when the teacher assigns higher probability to the sampled token than the student does, and negative when the teacher assigns lower probability, providing a per-token signal about whether the student's choice was consistent with the teacher. The policy gradient objective is then
-
-<!-- chunk {"id": "body-0033", "role": "body", "section": "IV-C Dense-Feedback RL Baseline", "weight": 1.0} -->
-
-The gradient of takes the standard REINFORCE form: $A_{n}{{\nabla_{\theta}\log}p_{S}^{\theta}}{({{\hat{y}}_{n} \mid {x,{\hat{y}}_{< n}}})}$, pushing the student's log-probabilities up on tokens the teacher preferred and down on tokens the teacher disfavored. No explicit KL penalty toward a reference policy is included, following.
-
-<!-- chunk {"id": "body-0034", "role": "body", "section": "IV-D Comparison Between GKD and the RL Baseline", "weight": 1.0} -->
+<!-- chunk {"id": "body-0030", "role": "body", "section": "IV-D Comparison Between GKD and the RL Baseline", "weight": 1.0} -->
 
 Both methods generate on-policy student rollouts and use the teacher as the source of supervision. The critical distinction lies in the granularity of the learning signal at each token position $n$.
 
-<!-- chunk {"id": "body-0035", "role": "body", "section": "IV-D Comparison Between GKD and the RL Baseline", "weight": 1.0} -->
+<!-- chunk {"id": "body-0031", "role": "body", "section": "IV-D Comparison Between GKD and the RL Baseline", "weight": 1.0} -->
 
 In GKD, the student receives feedback over the full vocabulary: the JSD between the complete teacher and student distributions is minimized. This exposes the student to the teacher's probability mass over all plausible next tokens, including those not sampled in the current rollout.
 
-<!-- chunk {"id": "body-0036", "role": "body", "section": "IV-D Comparison Between GKD and the RL Baseline", "weight": 1.0} -->
+<!-- chunk {"id": "body-0032", "role": "body", "section": "IV-D Comparison Between GKD and the RL Baseline", "weight": 1.0} -->
 
-In the RL baseline, the student receives feedback only at the sampled token ${\hat{y}}_{n}$: the advantage $A_{n}$ provides a scalar signal about that one token, discarding all information about alternative continuations. This is analogous to the difference between a dense process reward and a sparse outcome reward in RL.
+In the RL baseline, the student receives feedback only at the sampled token $\hat{y}_{n}$: the advantage $A_{n}$ provides a scalar signal about that one token, discarding all information about alternative continuations. This is analogous to the difference between a dense process reward and a sparse outcome reward in RL.
 
-<!-- chunk {"id": "body-0037", "role": "body", "section": "IV-D Comparison Between GKD and the RL Baseline", "weight": 1.0} -->
+<!-- chunk {"id": "body-0033", "role": "body", "section": "IV-D Comparison Between GKD and the RL Baseline", "weight": 1.0} -->
 
 For coordinate generation in particular, the full-distribution signal of GKD can convey that, for example, the digit "3" and "4" are both plausible next tokens (corresponding to nearby valid coordinates), while "9" is implausible. The RL baseline, having sampled "3", only learns that "3" was slightly preferred by the teacher over the student's own estimate, with no information about "4" or "9".
 
-<!-- chunk {"id": "body-0038", "role": "body", "section": "V-A Dataset and Evaluation", "weight": 1.0} -->
+<!-- chunk {"id": "body-0034", "role": "body", "section": "V-A Dataset and Evaluation", "weight": 1.0} -->
 
 We use the nuScenes autonomous driving dataset as processed by the GPT-Driver framework. The dataset contains 1,000 driving scenarios covering diverse locations and weather conditions. We follow the official train/validation split, training all models on the training set and evaluating on the 5,119 validation frames of the official planner benchmark. Prompts are reconstructed from the raw nuScenes data using the original GPT-Driver preprocessing pipeline, ensuring exact comparability with prior work. All models generate outputs with greedy decoding and a maximum of 512 new tokens.
 
-<!-- chunk {"id": "body-0039", "role": "body", "section": "V-A Dataset and Evaluation", "weight": 1.0} -->
+<!-- chunk {"id": "body-0035", "role": "body", "section": "V-A Dataset and Evaluation", "weight": 1.0} -->
 
-L2 displacement error (m). The Euclidean distance between predicted and ground-truth waypoints, reported at 1, 2, and 3 second horizons and summarized under two averaging conventions. The STP-3 convention computes a cumulative average: ${\overline{L}}_{k} = {\frac{1}{k}{\sum_{i = 1}^{k}L_{0.5i}}}$ for horizon $k \in {\{ 1,2,3\}}$s, then averages across horizons. The UniAD convention averages the exact-horizon L2 values at 1s, 2s, and 3s directly. Both are reported to provide a complete picture.
+We report two families of evaluation metrics, both widely used in the autonomous driving planning literature: L2 displacement error (m). The Euclidean distance between predicted and ground-truth waypoints, reported at 1, 2, and 3 second horizons and summarized under two averaging conventions. The STP-3 convention computes a cumulative average: $\bar{L}_{k}=\frac{1}{k}\sum_{i=1}^{k}L_{0.5i}$ for horizon $k\in\{1,2,3\}$s, then averages across horizons. The UniAD convention averages the exact-horizon L2 values at 1s, 2s, and 3s directly. Both are reported to provide a complete picture.
 
-<!-- chunk {"id": "body-0040", "role": "body", "section": "V-A Dataset and Evaluation", "weight": 1.0} -->
+<!-- chunk {"id": "body-0036", "role": "body", "section": "V-A Dataset and Evaluation", "weight": 1.0} -->
 
 Collision rate (%). The fraction of frames in which the ego-vehicle bounding box, placed at each predicted waypoint, overlaps with a ground-truth object bounding box. This measures trajectory safety independently of trajectory accuracy. Collision rates are reported at 1, 2, and 3 second horizons and averaged under the STP-3 convention.
 
-<!-- chunk {"id": "body-0041", "role": "body", "section": "V-A Dataset and Evaluation", "weight": 1.0} -->
+<!-- chunk {"id": "body-0037", "role": "body", "section": "V-A Dataset and Evaluation", "weight": 1.0} -->
 
 We also report the format error rate: the fraction of examples for which the parser could not extract a valid 6-waypoint trajectory from the model output. Geometry metrics are computed only on successfully parsed examples, so format errors effectively count as missed predictions.
 
-<!-- chunk {"id": "body-0042", "role": "body", "section": "V-B Implementation Details", "weight": 1.0} -->
+<!-- chunk {"id": "body-0038", "role": "body", "section": "V-B Implementation Details", "weight": 1.0} -->
 
 All experiments are conducted on a single node of 8 NVIDIA H200 GPUs.
 
-<!-- chunk {"id": "body-0043", "role": "body", "section": "V-B Implementation Details", "weight": 1.0} -->
+<!-- chunk {"id": "body-0039", "role": "body", "section": "V-B Implementation Details", "weight": 1.0} -->
 
-Teacher. Qwen3-8B fine-tuned using LLaMA-Factory with DeepSpeed ZeRO-3. Training uses learning rate $10^{- 4}$, batch size 4 per device with 2 gradient accumulation steps (effective batch size 8), and the qwen3_nothink chat template.
+Teacher. Qwen3-8B fine-tuned using LLaMA-Factory with DeepSpeed ZeRO-3. Training uses learning rate $10^{-4}$, batch size 4 per device with 2 gradient accumulation steps (effective batch size 8), and the qwen3_nothink chat template.
 
-<!-- chunk {"id": "body-0044", "role": "body", "section": "V-B Implementation Details", "weight": 1.0} -->
+<!-- chunk {"id": "body-0040", "role": "body", "section": "V-B Implementation Details", "weight": 1.0} -->
 
-GKD Student. Qwen3-1.7B trained using TRL GKDTrainer with learning rate $5 \times 10^{- 5}$, batch size 2 per device with 4 gradient accumulation steps (effective batch size 8), and maximum 512 new tokens per student rollout. Default TRL GKD parameters are used: $\beta = 0.5$ and $\lambda = 0.5$. The teacher's saved chat template is copied into the student training directory and used consistently across training, evaluation, and inference to ensure alignment between teacher and student tokenization.
+GKD Student. Qwen3-1.7B trained using TRL GKDTrainer with learning rate $5\times 10^{-5}$, batch size 2 per device with 4 gradient accumulation steps (effective batch size 8), and maximum 512 new tokens per student rollout. Default TRL GKD parameters are used: $\beta=0.5$ and $\lambda=0.5$. The teacher's saved chat template is copied into the student training directory and used consistently across training, evaluation, and inference to ensure alignment between teacher and student tokenization.
 
-<!-- chunk {"id": "body-0045", "role": "body", "section": "V-B Implementation Details", "weight": 1.0} -->
+<!-- chunk {"id": "body-0041", "role": "body", "section": "V-B Implementation Details", "weight": 1.0} -->
 
-RL Baseline. Qwen3-1.7B trained with the dense-feedback policy gradient objective. Learning rate $5 \times 10^{- 5}$, batch size 1 per device with 8 gradient accumulation steps (effective batch size 8). Student rollouts use temperature 0.7. All other settings match the GKD student.
+RL Baseline. Qwen3-1.7B trained with the dense-feedback policy gradient objective. Learning rate $5\times 10^{-5}$, batch size 1 per device with 8 gradient accumulation steps (effective batch size 8). Student rollouts use temperature 0.7. All other settings match the GKD student.
 
-<!-- chunk {"id": "body-0046", "role": "body", "section": "V-B Implementation Details", "weight": 1.0} -->
+<!-- chunk {"id": "body-0042", "role": "body", "section": "V-B Implementation Details", "weight": 1.0} -->
 
 Checkpoint selection. All three models are trained for 5 epochs with checkpoints saved after each epoch. We perform a sweep over all saved checkpoints on the validation set and report results from the best-performing checkpoint per model. This corresponds to epoch 3 for the teacher, epoch 3 for the GKD student, and epoch 1 for the RL student.
 
-<!-- chunk {"id": "body-0047", "role": "body", "section": "VI-A Quantitative Comparison", "weight": 1.0} -->
+<!-- chunk {"id": "body-0043", "role": "body", "section": "VI-A Quantitative Comparison", "weight": 1.0} -->
 
 Table I reports the main quantitative results on the nuScenes planning benchmark. The ordering Teacher $\geq$ GKD $\gg$ RL is consistent across all metrics.
 
-<!-- chunk {"id": "body-0048", "role": "body", "section": "VI-A Quantitative Comparison", "weight": 1.0} -->
+<!-- chunk {"id": "body-0044", "role": "body", "section": "VI-A Quantitative Comparison", "weight": 1.0} -->
 
 Trajectory accuracy. The GKD student achieves an average L2 of 0.373 m (STP-3) and 0.772 m (UniAD), compared to the teacher's 0.355 m and 0.730 m. This represents a performance gap of only 5% and 6% respectively, despite the student having 5$\times$ fewer parameters (1.7B vs. 8B). The RL baseline, by contrast, achieves 0.579 m (STP-3) and 1.092 m (UniAD), which is 55% and 41% worse than the GKD student on the respective conventions. At the individual horizon level, the GKD student's advantage over RL grows with time horizon: at 1s the L2 ratio is approximately 1.9$\times$, while at 3s it is 1.4$\times$, suggesting that RL's errors compound more severely over longer output sequences.
 
-<!-- chunk {"id": "body-0049", "role": "body", "section": "VI-A Quantitative Comparison", "weight": 1.0} -->
+<!-- chunk {"id": "body-0045", "role": "body", "section": "VI-A Quantitative Comparison", "weight": 1.0} -->
 
 Collision rate. The teacher achieves the best collision rates across all horizons. The GKD student follows closely, with an average STP-3 collision rate of 0.138% versus the teacher's 0.101%, while the RL student substantially lags behind at 0.363%. The gap between GKD and RL is 2.6$\times$ on this safety metric, reinforcing that on-policy distribution matching produces trajectories that are both more accurate and safer than the sampled-token RL approach.
 
-<!-- chunk {"id": "body-0050", "role": "body", "section": "VI-A Quantitative Comparison", "weight": 1.0} -->
+<!-- chunk {"id": "body-0046", "role": "body", "section": "VI-A Quantitative Comparison", "weight": 1.0} -->
 
-Format reliability. Both trained students produce zero format errors across all 5,119 validation examples, confirming that both learning algorithms reliably teach the structured output format. The teacher produces four format errors (rate $\approx {0.08\%}$).
+Format reliability. Both trained students produce zero format errors across all 5,119 validation examples, confirming that both learning algorithms reliably teach the structured output format. The teacher produces four format errors (rate ${\approx}0.08\%$).
 
-<!-- chunk {"id": "body-0051", "role": "body", "section": "VI-B Qualitative Comparison", "weight": 1.0} -->
+<!-- chunk {"id": "body-0047", "role": "body", "section": "VI-B Qualitative Comparison", "weight": 1.0} -->
 
 Fig. 2 shows planned trajectories on a challenging right-turn scenario. The teacher correctly executes the turn, closely tracking the ground-truth trajectory. Both students miss the turn, predicting a largely straight trajectory instead; however, the GKD student stays substantially closer to the ground truth (ADE 3.09 m) than the RL student (ADE 6.29 m, a 2$\times$ larger error). This example illustrates how on-policy distribution matching helps the student better capture the teacher's turning behavior, even when it does not fully replicate it.
 
-<!-- chunk {"id": "body-0052", "role": "body", "section": "VI-C Discussion", "weight": 1.0} -->
+<!-- chunk {"id": "body-0048", "role": "body", "section": "VI-C Discussion", "weight": 1.0} -->
 
 Full distribution vs. sampled token feedback. The large performance gap between GKD and the RL baseline is consistent with findings in general language model distillation. Full-distribution matching at every token position provides a richer signal than per-token scalar reward shaping. In the motion planning context this difference is especially consequential: coordinate tokens form tightly constrained sequences where the teacher's full distribution encodes implicit knowledge about physically plausible vehicle dynamics, and the student benefits from seeing this complete distribution rather than a scalar advantage at one sampled value.
 
-<!-- chunk {"id": "body-0053", "role": "body", "section": "VI-C Discussion", "weight": 1.0} -->
+<!-- chunk {"id": "body-0049", "role": "body", "section": "VI-C Discussion", "weight": 1.0} -->
 
 Training stability and early stopping. The RL baseline's best checkpoint occurs at epoch 1, with performance degrading in later epochs. This suggests overfitting or training instability characteristic of policy gradient methods when applied to structured sequence generation. The GKD student improves steadily through epoch 3, indicating more stable training dynamics. This is practically important: a method that is stable and predictable is easier to deploy in a safety-critical system.
 
-<!-- chunk {"id": "body-0054", "role": "body", "section": "VI-C Discussion", "weight": 1.0} -->
+<!-- chunk {"id": "body-0050", "role": "body", "section": "VI-C Discussion", "weight": 1.0} -->
 
 Parameter efficiency. The GKD student achieves near-teacher performance with 1.7B parameters versus the teacher's 8B, a compression ratio of approximately 5$\times$. This level of compression, with only 5--6% degradation in trajectory accuracy and competitive collision performance, suggests that on-policy distillation is a practical path to deploying LLM-based planners within the computational constraints of embedded automotive systems.
 
-<!-- chunk {"id": "body-0055", "role": "body", "section": "Conclusion", "weight": 1.5} -->
+<!-- chunk {"id": "body-0051", "role": "body", "section": "Conclusion", "weight": 1.5} -->
 
 We have presented a study of knowledge distillation for LLM-based autonomous vehicle motion planning. Starting from a Qwen3-8B teacher trained on the nuScenes GPT-Driver benchmark, we distilled a 5$\times$ smaller Qwen3-1.7B student using on-policy generalized knowledge distillation, and compared it against a teacher-guided dense-feedback RL baseline under controlled conditions. The GKD student closely approaches teacher-level performance on trajectory accuracy and collision avoidance, while substantially outperforming the RL baseline on all metrics. These results demonstrate that on-policy distillation is a principled and practical approach to compressing LLM-based planners for deployment in resource-constrained autonomous systems.
 
-<!-- chunk {"id": "body-0056", "role": "body", "section": "Conclusion", "weight": 1.5} -->
+<!-- chunk {"id": "body-0052", "role": "body", "section": "Conclusion", "weight": 1.5} -->
 
 Future work includes extending evaluation to closed-loop simulation, incorporating vectorized map and sensor inputs into the student prompt, studying the effect of the teacher-to-student capacity ratio on distillation quality, and exploring the integration of explicit safety objectives into the distillation training procedure.

@@ -28,7 +28,7 @@ To this end, we revisit the problem of samping-based manifold-constrained motion
 
 <!-- chunk {"id": "body-0007", "role": "body", "section": "Introduction", "weight": 1.5} -->
 
-We present a single-core CPU-only SIMD-accelerated sampling-based manifold-constrained motion planner that is capable of planning in the order of microseconds to milliseconds.
+Thus, our contribution is as follows We present a single-core CPU-only SIMD-accelerated sampling-based manifold-constrained motion planner that is capable of planning in the order of microseconds to milliseconds.
 
 <!-- chunk {"id": "body-0008", "role": "body", "section": "Introduction", "weight": 1.5} -->
 
@@ -64,80 +64,71 @@ In manifold-constrained sampling-based motion planning, local connections betwee
 
 <!-- chunk {"id": "body-0016", "role": "body", "section": "Methodology", "weight": 1.0} -->
 
-3: while iter &lt; MaxIterations do
-5: qneara ← Nearest (Ta,qrand)
-6: qproja ← ParallelConstrainedExtend (Ta,qneara,qrand)
-7: while qproja ≠ NULL do
-8: qnearb ← Nearest (Tb,qproja)
-9: qproja ← ParallelConstrainedExtend (Ta,qproja,qnearb)
-10: if qproja = qnearb then
-Algorithm 1 Vectorized Manifold-Constrained RRT-Connect
+3: while iter < MaxIterations do 5: qneara ← Nearest(Ta, qrand) 6: $q^{a}_{\text{proj}}\leftarrow{\color[rgb]{0.25390625,0.41015625,0.8828125}\definecolor[named]{pgfstrokecolor}{rgb}{0.25390625,0.41015625,0.8828125}\text{ParallelConstrainedExtend}}(T_{\text{a}},q^{a}_{\text{near}},q_{\text{rand}})$
 
 <!-- chunk {"id": "body-0017", "role": "body", "section": "Methodology", "weight": 1.0} -->
 
-1: T, qs, qtarget, ℱ, r, σ, n= SIMD width (e.g., 8 for Intel AVX) 3: dist ← min (∥qtarget−qs∥,r) 4: $v_{\text{extend}}\leftarrow\frac{q_{\text{target}} - q_{s}}{\left\| {q_{\text{target}} - q_{s}} \right\|}$ 5: qsteer ← qs + dist ⋅ vextend 6: qparticles(i) ← qsteer + ϵi vextend, ϵi ∼ 𝒩 (0,σ2), i = 1, …, n 7: qproj ← ParallelProject (qparticles) 8: if qproj = NULL then 10: if ¬CollisionFree (qproj) ∨ ∥qproj−qs∥ &gt; 2 ⋅ dist then 12: qinterp ← n interpolated points between qs and qproj 13: qint_proj ← ParallelProject (qinterp) 14: if ${\exists
+$q^{a}_{\text{proj}}\leftarrow{\color[rgb]{0.25390625,0.41015625,0.8828125}\definecolor[named]{pgfstrokecolor}{rgb}{0.25390625,0.41015625,0.8828125}\text{ParallelConstrainedExtend}}(T_{\text{a}},q^{a}_{\text{proj}},q^{b}_{\text{near}})$ 10: if qproja = qnearb then Algorithm 1 Vectorized Manifold-Constrained RRT-Connect 1: T, qs, qtarget, ℱ, r, σ, n= SIMD width (e.g.,
 
 <!-- chunk {"id": "body-0018", "role": "body", "section": "Methodology", "weight": 1.0} -->
 
-i}:{\left\| {q_{\text{int\_proj}}^{(i)} - q_{\text{int\_proj}}^{({i + 1})}} \right\| &gt; \frac{r}{n}}$ then 15: return NULL ⊳ Projected points too far apart 16: ⊳ Recursively interpolate and project until resolution δ is met ⊲ 24: return qparticles ⊳ All particles converged 25: step ← getDescentStep (qparticles) 26: if ∃i: ∥step(i)∥ &gt; MaxDistance then 27: return NULL ⊳ Projection diverging 28: qparticles ← qparticles + step 34: Δ q ← α JiT (Ji JiT+λ I)−1 d (or α (JiT Ji+λ I)−1 JiT d) 36: return qparticles − qinit
+$v_{\text{extend}}\leftarrow\frac{q_{\text{target}}-q_{s}}{\|q_{\text{target}}-q_{s}\|}$ 5: qsteer ← qs + dist ⋅ vextend 6: qparticles(i) ← qsteer + ϵivextend, ϵi ∼ 𝒩(0, σ2), i = 1, …, n 7: qproj ← ParallelProject(qparticles) 8: if $q_{\text{proj}}=\textsc{NULL}$ then 10: if ¬CollisionFree(qproj)∨∥qproj − qs∥ > 2 ⋅ dist then 12: qinterp ← n interpolated points between qs and qproj 13: qint_proj ← ParallelProject(qinterp) 14: if $\exists
 
-<!-- chunk {"id": "body-0019", "role": "body", "section": "IV-A Vectorized Projection-Based Sampling-Based Planning", "weight": 1.0} -->
+<!-- chunk {"id": "body-0019", "role": "body", "section": "Methodology", "weight": 1.0} -->
 
-[width=0.99]svg-inkscape/methodology_horizontal_svg-tex.pdf_tex
-Figure 2: Methodology. (a) RRT-Extend Step: A random configuration in ambient space is sampled. (b) qs t e e r is computed at a fixed distance from qn e a r and samples around qs t e e r are projected onto the manifold until any one succeeds. (c) Interpolated samples along the vector connecting the start and the initial projected point are projected in parallel. (d) Configurations are interpolated between the projected particles and are projected and validated recursively until desired resolution is achieved. n = 4 here for illustrative purposes, each represented by a different color.
+i:\big\|q_{\text{int_proj}}^{(i)}-q_{\text{int_proj}}^{(i+1)}\big\|>\frac{r}{n}$ then 15: return NULL ⊳ Projected points too far apart 16: ⊳ Recursively interpolate and project until resolution δ is met ⊲ 24: return qparticles ⊳ All particles converged 25: step ← getDescentStep(qparticles) 26: if ∃i: ∥step(i)∥ > MaxDistance then 27: return NULL ⊳ Projection diverging 28: qparticles ← qparticles + step 34: Δq ← αJiT(JiJiT + λI)−1d (or α(JiTJi + λI)−1JiTd) 36: return qparticles − qinit
 
 <!-- chunk {"id": "body-0020", "role": "body", "section": "IV-A Vectorized Projection-Based Sampling-Based Planning", "weight": 1.0} -->
 
-Our parallel vectorized manifold-constrained RRT-Connect algorithm is presented in Alg.˜1. This is a variant of the RRT-Connect algorithm \[undeff\] where all nodes and edges lie on the manifold $\mathcal{M}_{\text{free}}$ up to some discretization resolution $\delta$. In practice, we also use the dynamic-domain \[undefy\] and balancing heuristics \[undefz\], but have elided these from the pseudocode for clarity.
+[width=0.99]svg-inkscape/methodology_horizontal_svg-tex.pdf_tex Figure 2: Methodology. (a) RRT-Extend Step: A random configuration in ambient space is sampled. (b) qsteer is computed at a fixed distance from qnear and samples around qsteer are projected onto the manifold until any one succeeds. (c) Interpolated samples along the vector connecting the start and the initial projected point are projected in parallel. (d) Configurations are interpolated between the projected particles and are projected and validated recursively until desired resolution is achieved. n = 4 here for illustrative purposes, each represented by a different color.
 
 <!-- chunk {"id": "body-0021", "role": "body", "section": "IV-A Vectorized Projection-Based Sampling-Based Planning", "weight": 1.0} -->
 
-First, a $q_{rand}$ is sampled from the ambient space, and its nearest neighbor $q_{near}$ is found ( Alg 1, Line 5). The ParallelConstrainedExtend method attempts to connect $q_{near}$ to $q_{rand}$ ( Alg 1, Line 6). If the extension is successful, the planner repeatedly attempts to grow the projected configuration toward the goal tree using the same ParallelConstrainedExtend method with a fixed extension step size.
+Our parallel vectorized manifold-constrained RRT-Connect algorithm is presented in Alg.˜1. This is a variant of the RRT-Connect algorithm \[undeff\] where all nodes and edges lie on the manifold $\mathcal{M}_{\text{free}}$ up to some discretization resolution $\delta$. In practice, we also use the dynamic-domain \[undefy\] and balancing heuristics \[undefz\], but have elided these from the pseudocode for clarity.
 
 <!-- chunk {"id": "body-0022", "role": "body", "section": "IV-A Vectorized Projection-Based Sampling-Based Planning", "weight": 1.0} -->
 
-The key contribution of our work is the vectorized ParallelConstrainedExtend method (Alg.˜2). Following the intuition and empirical results from VAMP \[undefc\] we focus on the constrained motion validation step, and parallelize the projection and validation of interpolated configurations. However, this is not trivial since each point along the extension vector (i) could be at different distances from the manifold, and (ii) have to be projected such that there is a continuous path on the manifold between the projected points. To deal with these issues, we present a two step vectorized approach. Throughout the rest of the discussion, $n$ denotes the number of parallelized operations.
+First, a $q_{rand}$ is sampled from the ambient space, and its nearest neighbor $q_{near}$ is found ( Alg 1, Line 5). The ParallelConstrainedExtend method attempts to connect $q_{near}$ to $q_{rand}$ ( Alg 1, Line 6). If the extension is successful, the planner repeatedly attempts to grow the projected configuration toward the goal tree using the same ParallelConstrainedExtend method with a fixed extension step size.
 
 <!-- chunk {"id": "body-0023", "role": "body", "section": "IV-A Vectorized Projection-Based Sampling-Based Planning", "weight": 1.0} -->
 
-First, $q_{steer}$ (Alg 2, Line 5) is computed at a fixed distance away from $q_{near}$ along the vector $q_{nr}$. Then we sample $n$ points around $q_{steer}$ (Alg 2, Line 6) on direction vector, and attempt to project all points onto the manifold. We exit if any of them succeed and record the particle that succeeds the earliest, as $q_{proj}$ (Alg 2, Line 7). Then, $n$ points are linearly interpolated between $q_{near}$ and $q_{proj}$ and projected onto the manifold (Alg 2, Line 12) in parallel. The next batch of $n$ points are recursively interpolated and projected between adjacent projected points until the desired motion validation resolution is achieved. Collision checking is performed in parallel after projection, and we exit early if any projected point is in collision.
+The key contribution of our work is the vectorized ParallelConstrainedExtend method (Alg.˜2). Following the intuition and empirical results from VAMP \[undefc\] we focus on the constrained motion validation step, and parallelize the projection and validation of interpolated configurations. However, this is not trivial since each point along the extension vector (i) could be at different distances from the manifold, and (ii) have to be projected such that there is a continuous path on the manifold between the projected points. To deal with these issues, we present a two step vectorized approach. Throughout the rest of the discussion, $n$ denotes the number of parallelized operations.
 
 <!-- chunk {"id": "body-0024", "role": "body", "section": "IV-A Vectorized Projection-Based Sampling-Based Planning", "weight": 1.0} -->
 
-Sine the number of points to check along the motion vector is typically small (on the order of 8--64), this is perfectly suited to SIMD parallelization, which provides a high throughput without significant overhead, and allows flexible interleaving of sequential and parallel code, something that an iterative optimization method benefits. To support data parallelism necessary for SIMD instructions, all configurations, function evaluations, and Jacobians are stored in a structure-of-arrays layout.
+First, $q_{steer}$ (Alg 2, Line 5) is computed at a fixed distance away from $q_{near}$ along the vector $q_{nr}$. Then we sample $n$ points around $q_{steer}$ (Alg 2, Line 6) on direction vector, and attempt to project all points onto the manifold. We exit if any of them succeed and record the particle that succeeds the earliest, as $q_{proj}$ (Alg 2, Line 7). Then, $n$ points are linearly interpolated between $q_{near}$ and $q_{proj}$ and projected onto the manifold (Alg 2, Line 12) in parallel. The next batch of $n$ points are recursively interpolated and projected between adjacent projected points until the desired motion validation resolution is achieved. Collision checking is performed in parallel after projection, and we exit early if any projected point is in collision.
 
 <!-- chunk {"id": "body-0025", "role": "body", "section": "IV-A Vectorized Projection-Based Sampling-Based Planning", "weight": 1.0} -->
 
-The critical component of the parallel extend method is parallel projection of multiple points onto the manifold. To be able to perform this, a few pieces are needed.
+Sine the number of points to check along the motion vector is typically small (on the order of 8--64), this is perfectly suited to SIMD parallelization, which provides a high throughput without significant overhead, and allows flexible interleaving of sequential and parallel code, something that an iterative optimization method benefits. To support data parallelism necessary for SIMD instructions, all configurations, function evaluations, and Jacobians are stored in a structure-of-arrays layout.
 
 <!-- chunk {"id": "body-0026", "role": "body", "section": "IV-A Vectorized Projection-Based Sampling-Based Planning", "weight": 1.0} -->
 
-Tracing Compiler for Constraints In a manner similar to VAMP, we generate SIMD parallel code for evaluating constraint functions using a tracing compiler to *trace* the low-level operations needed to compute the distanceToConstraint (Alg 2, Line 22). We use build upon the existing tracing compiler used by VAMP which uses Pinocchio \[undefaa\] and CppAD \[undefab\] to generate efficient, branch-free, loop-unrolled code for robot kinematics, which is amenable to SIMD operations. By using automatic differentiation during the tracing process, we efficiently compute the corresponding Jacobian matrices of the constraint functions. To enable gradient-based optimization, we implement a differentiable version of $\log{(R_{s^{\prime}}^{w})}^{\vee}$ by using a first order Taylor Series approximation of the sinc function at singularities.
+The critical component of the parallel extend method is parallel projection of multiple points onto the manifold. To be able to perform this, a few pieces are needed.
 
 <!-- chunk {"id": "body-0027", "role": "body", "section": "IV-A Vectorized Projection-Based Sampling-Based Planning", "weight": 1.0} -->
 
+Tracing Compiler for Constraints In a manner similar to VAMP, we generate SIMD parallel code for evaluating constraint functions using a tracing compiler to *trace* the low-level operations needed to compute the distanceToConstraint (Alg 2, Line 22). We use build upon the existing tracing compiler used by VAMP which uses Pinocchio \[undefaa\] and CppAD \[undefab\] to generate efficient, branch-free, loop-unrolled code for robot kinematics, which is amenable to SIMD operations. By using automatic differentiation during the tracing process, we efficiently compute the corresponding Jacobian matrices of the constraint functions. To enable gradient-based optimization, we implement a differentiable version of $\operatorname{log}(R_{s^{\prime}}^{w})^{\vee}$ by using a first order Taylor Series approximation of the sinc function at singularities.
+
+<!-- chunk {"id": "body-0028", "role": "body", "section": "IV-A Vectorized Projection-Based Sampling-Based Planning", "weight": 1.0} -->
+
 Vectorized Levenberg--Marquardt: In addition to tracing the constraint functions and Jacobians, we also subsequently trace one step of the Levenberg-Marquardt (LM) algorithm to be able to more efficiently perform the gradient descent in projection. We exploit the known dimensionality of the robot and the constraint functions by using a second-order LM algorithm. To achieve this, we trace compile the Jacobian matrix pseudoinversion for each constraint. Given the semipositive definite (SPD) formulation of the LM step, we implement a custom Cholesky decomposition method \[undefac\], which also follows the SIMD principle of branchless control flow, and the fixed dimensionality allows us to perform loop-unrolled Cholesky solve expressions that can be parallelized. This subroutine is compiled for each constraint and allows us to perform one LM step in parallel for multiple particles. We provide both the inner and outer matrix pseudoinversions, the former is bounded by the dimension of the manifold function while the latter is bounded by the dimension of the robot.
-
-<!-- chunk {"id": "body-0028", "role": "body", "section": "IV-B Design Choices", "weight": 1.0} -->
-
-Vectorized projection provides a twofold benefit. First, we can quickly project and evaluate multiple configurations in parallel, which provides naively an $n$-times speed-up compared to the sequential counterpart. More importantly, the parallel step also allows us to invalidate infeasible configurations very quickly, reducing wasted computations, which leads to the empirical 100-times speed-up we see in our experiments. By checking future configurations further along the validate step, we can cheaply invalidate the entire motion if any particle fails to project or is in collision. This follows the ethos of sampling-based planning by quickly invalidating infeasible motion to focus search elsewhere.
 
 <!-- chunk {"id": "body-0029", "role": "body", "section": "IV-B Design Choices", "weight": 1.0} -->
 
-Early Exits The independent parallel nature of projection can cause inconsistencies where the interpolated points project to different parts of the manifold. Validating the connection between these points requires further interpolation, which may become unbounded. We avoid this altogether by exiting projection early if any particle has a large descent step, which likely indicates that the particles may be quite far from each other. Alg 2, Line 10 perform this early exit at different levels and invalidate the entire motion validation if any particle violates a projection distance threshold.
+Vectorized projection provides a twofold benefit. First, we can quickly project and evaluate multiple configurations in parallel, which provides naively an $n$-times speed-up compared to the sequential counterpart. More importantly, the parallel step also allows us to invalidate infeasible configurations very quickly, reducing wasted computations, which leads to the empirical 100-times speed-up we see in our experiments. By checking future configurations further along the validate step, we can cheaply invalidate the entire motion if any particle fails to project or is in collision. This follows the ethos of sampling-based planning by quickly invalidating infeasible motion to focus search elsewhere.
 
 <!-- chunk {"id": "body-0030", "role": "body", "section": "IV-B Design Choices", "weight": 1.0} -->
 
-Two-Stage Projection While the two-stage projection may seem unnecessary at first (as prior projection-based planners simply interpolate towards $q_{steer}$), for hard constraints this reduces the likelihood of interpolated points projecting far away from each other during descent, as they are already quite close to the manifold. We provide an ablation study of this in Sec.˜V-B. The two-step projection also behaves as an adaptive range parameter for extension step: by sampling points around $q_{steer}$, depending on the difficulty of the constraint, a point that is either closer or farther away from the manifold could be projected the earliest, and overall provides higher chance of successful extension.
+Early Exits The independent parallel nature of projection can cause inconsistencies where the interpolated points project to different parts of the manifold. Validating the connection between these points requires further interpolation, which may become unbounded. We avoid this altogether by exiting projection early if any particle has a large descent step, which likely indicates that the particles may be quite far from each other. Alg 2, Line 10 perform this early exit at different levels and invalidate the entire motion validation if any particle violates a projection distance threshold.
 
 <!-- chunk {"id": "body-0031", "role": "body", "section": "IV-B Design Choices", "weight": 1.0} -->
 
-Consequently, our tree growth approach is built with the following principles: (i) stay close to the manifold while extending to limit the amount of computationally expensive projection iterations, and (ii) employ particle-based optimization to improve the success of manifold sampling, as even when the initial seeds are proximal in the ambient space the local gradient landscape can lead to divergent behavior.
+Two-Stage Projection While the two-stage projection may seem unnecessary at first (as prior projection-based planners simply interpolate towards $q_{steer}$), for hard constraints this reduces the likelihood of interpolated points projecting far away from each other during descent, as they are already quite close to the manifold. We provide an ablation study of this in Sec.˜V-B. The two-step projection also behaves as an adaptive range parameter for extension step: by sampling points around $q_{steer}$, depending on the difficulty of the constraint, a point that is either closer or farther away from the manifold could be projected the earliest, and overall provides higher chance of successful extension.
 
 <!-- chunk {"id": "body-0032", "role": "body", "section": "IV-B Design Choices", "weight": 1.0} -->
 
-[width=0.7]svg-inkscape/manifold_intersection_svg-tex.pdf_tex
-Figure 3: Cyclic Projection to intersection of manifolds. At each iteration, we take one step towards each manifold in a pre-determined order, and the algorithm stops when we reach their intersections
+Consequently, our tree growth approach is built with the following principles: (i) stay close to the manifold while extending to limit the amount of computationally expensive projection iterations, and (ii) employ particle-based optimization to improve the success of manifold sampling, as even when the initial seeds are proximal in the ambient space the local gradient landscape can lead to divergent behavior. [width=0.7]svg-inkscape/manifold_intersection_svg-tex.pdf_tex Figure 3: Cyclic Projection to intersection of manifolds. At each iteration, we take one step towards each manifold in a pre-determined order, and the algorithm stops when we reach their intersections
 
 <!-- chunk {"id": "body-0033", "role": "body", "section": "IV-C Composition of Constraints", "weight": 1.0} -->
 
@@ -149,8 +140,7 @@ We evaluate our planner on a wide suite of problems with different types and com
 
 <!-- chunk {"id": "body-0035", "role": "body", "section": "V-A End-Effector Constraint for a Single Arm", "weight": 1.0} -->
 
-\includeinkscape[width=]svg-inkscape/line_plane_problems_cdf_svg-tex.pdf_tex
-Figure 5: CDF plot benchmarking planner performance for the line and plane constrained problems, binned by number of environment obstacles. 1. LP - Line with Position Constraint only, 2. LPO - Line with Position and Orientation Constraint, 3. PP - Plane with Position Constraint, 4. PPO - Plane with Position and Orientation Constraint For most problems, McVAMP is 1000 times faster than the baselines achieving a 100% success rates, while the other planners suffer in the success rate as the number of obstacles increases.
+\includeinkscape[width=]svg-inkscape/line_plane_problems_cdf_svg-tex.pdf_tex Figure 5: CDF plot benchmarking planner performance for the line and plane constrained problems, binned by number of environment obstacles. 1. LP - Line with Position Constraint only, 2. LPO - Line with Position and Orientation Constraint, 3. PP - Plane with Position Constraint, 4. PPO - Plane with Position and Orientation Constraint For most problems, McVAMP is 1000 times faster than the baselines achieving a 100% success rates, while the other planners suffer in the success rate as the number of obstacles increases.
 
 <!-- chunk {"id": "body-0036", "role": "body", "section": "V-A End-Effector Constraint for a Single Arm", "weight": 1.0} -->
 
@@ -162,92 +152,80 @@ Fig.˜5 shows the results for each class of constraint problem over a range of o
 
 <!-- chunk {"id": "body-0038", "role": "body", "section": "V-A End-Effector Constraint for a Single Arm", "weight": 1.0} -->
 
-(a) Generated plan to solve the maze
+(a) Generated plan to solve the maze (b) Real-time replanning for dynamic environments Figure 6: Solving a Maze. Here the tip of the marker is constrained to the floor of the maze. Consequently, the robot has to solve the maze to find a plan from start to goal. Planning is done at 20Hz. (b) when a dynamic obstacle blocks the path (red sphere here), the planner can compute a new path due to the high motion validation and planning throughput Next, we evaluate the effectiveness of our planner to navigate complex environments while respecting constraints using a maze (shown in Fig.˜6). We initialize 100 random start goal pairs at different points on the maze a minimum distance apart. We attach a marker to the end effector of the robot, whose tip is constrained to the bottom plane of the maze. In addition, we also impose an orientation constraint, such that only the yaw is free (i.e., the marker is free to rotate about its axis). We benchmark our algorithm against OMPL. As an ablation study, we replace the Pinocchio-based projection of OMPL with our compiled projection. For OMPL, we set the timeout to 100 seconds.
 
 <!-- chunk {"id": "body-0039", "role": "body", "section": "V-A End-Effector Constraint for a Single Arm", "weight": 1.0} -->
 
-(b) Real-time replanning for dynamic environments
-
-<!-- chunk {"id": "body-0040", "role": "body", "section": "V-A End-Effector Constraint for a Single Arm", "weight": 1.0} -->
-
-Next, we evaluate the effectiveness of our planner to navigate complex environments while respecting constraints using a maze (shown in Fig.˜6). We initialize 100 random start goal pairs at different points on the maze a minimum distance apart. We attach a marker to the end effector of the robot, whose tip is constrained to the bottom plane of the maze. In addition, we also impose an orientation constraint, such that only the yaw is free (i.e., the marker is free to rotate about its axis). We benchmark our algorithm against OMPL. As an ablation study, we replace the Pinocchio-based projection of OMPL with our compiled projection. For OMPL, we set the timeout to 100 seconds.
-
-<!-- chunk {"id": "body-0041", "role": "body", "section": "V-A End-Effector Constraint for a Single Arm", "weight": 1.0} -->
-
 From the results in Table˜I, our planner shows a remarkable improvement on planning times and success rates, achieving over a 1000$\times$ speed-up in some cases, opening the door to real-time planning for hard manifold constraint problems. We illustrate this in Fig.˜6(b) where the planner is able to avoid a dynamic obstacle that blocks its current path.
 
-<!-- chunk {"id": "body-0042", "role": "body", "section": "V-B Bimanual Arm Constraint", "weight": 1.0} -->
+<!-- chunk {"id": "body-0040", "role": "body", "section": "V-B Bimanual Arm Constraint", "weight": 1.0} -->
 
-To test the scalability of the planner to higher dimensions, we evaluate it on a box transport problem with a bimanual system. In this task, the 14-Dof arms are constrained such that the relative transform between the left and the right arm must be fixed throughout the motion, i.e., holding the box.
+To test the scalability of the planner to higher dimensions, we evaluate it on a box transport problem with a bimanual system. In this task, the 14-Dof arms are constrained such that the relative transform between the left and the right arm must be fixed throughout the motion, i.e., holding the box. To enforce this constraint, we formulate it as a TSR constraint: Following \[undefl\], we evaluate our planner on the same problem of moving the arms between shelves while maintaining the relative pose and avoiding collisions. For baselines, we use compare against both their IK-BiRRT planner as well as the IK-GCS approach; these both use a pre-computed analytic representation of the manifold constraint.
 
-<!-- chunk {"id": "body-0043", "role": "body", "section": "V-B Bimanual Arm Constraint", "weight": 1.0} -->
-
-Following \[undefl\], we evaluate our planner on the same problem of moving the arms between shelves while maintaining the relative pose and avoiding collisions. For baselines, we use compare against both their IK-BiRRT planner as well as the IK-GCS approach; these both use a pre-computed analytic representation of the manifold constraint.
-
-<!-- chunk {"id": "body-0044", "role": "body", "section": "V-B Bimanual Arm Constraint", "weight": 1.0} -->
+<!-- chunk {"id": "body-0041", "role": "body", "section": "V-B Bimanual Arm Constraint", "weight": 1.0} -->
 
 As this problem is more complex and higher-dimensional, we evaluate an ablation our two stage projection approach to prove its value. We test a single-stage projection, where points are interpolated between $q_{near}$ and $q_{steer}$ (McVAMP 1-step). Table˜II shows the results of the planners.
 
-<!-- chunk {"id": "body-0045", "role": "body", "section": "V-B Bimanual Arm Constraint", "weight": 1.0} -->
+<!-- chunk {"id": "body-0042", "role": "body", "section": "V-B Bimanual Arm Constraint", "weight": 1.0} -->
 
 Our approach provides 30--60$\times$ speed-up for solving the task compared to IK-BiRRT, and more than a 10$\times$ speed-up compared to IK-GCS. This result is interesting as IK-GCS requires pre-processing (about 70 seconds) to compute the graph of convex sets, which we do not count for benchmarking. However, IK-GCS produces shorter paths, owing to their optimization-based formulation. Our 2-step projection also outperforms the 1-step parallel projection approach, which indicates that it is beneficial as the complexity of the constraints increase.
 
+<!-- chunk {"id": "body-0043", "role": "body", "section": "V-C Whole Body Planning", "weight": 1.0} -->
+
+In this scenario, we scale beyond beyond constraints on just the end-effector of a fixed-based manipulator and evaluate the ability to tackle composition of constraints. We implement our planner for the Digit robot to perform quasi-static whole body planning to transport a box. The Digit robot has 30 joints and 6-DoF floating base. Of these 30 joints, 4 are high-stiffness springs, while another 6 are passive and constrained by closed-loop linkages. By assuming rigidity of the 4 spring joints and relying on the low-level tracking controller to handle the 4 closed-loop linkages associated with the ankles, we model it as a 28-Dof system, composed of 22 joints and a 6-Dof floating base, where 2 joints are passive and constrained by 2 closed-loop linkages. To generate a feasible motion plan for the Digit, the motion must respect the following four constraints (equations detailed in Fig.˜7): Stability Constraint: To maintain balance, the $xy$-projection of the center of mass (CoM), $\mathbf{x}_{com}^{xy}$, must remain within the convex hull of the support polygon $P$.
+
+<!-- chunk {"id": "body-0044", "role": "body", "section": "V-C Whole Body Planning", "weight": 1.0} -->
+
+The error is to the nearest point in the hull.
+
+<!-- chunk {"id": "body-0045", "role": "body", "section": "V-C Whole Body Planning", "weight": 1.0} -->
+
+Feet Constraint (TSR): For fixed feet placement, we stack the 6-DoF pose errors for both feet ($f\in\{l,r\}$) into a 12-element vector.
+
 <!-- chunk {"id": "body-0046", "role": "body", "section": "V-C Whole Body Planning", "weight": 1.0} -->
-
-In this scenario, we scale beyond beyond constraints on just the end-effector of a fixed-based manipulator and evaluate the ability to tackle composition of constraints. We implement our planner for the Digit robot to perform quasi-static whole body planning to transport a box. The Digit robot has 30 joints and 6-DoF floating base. Of these 30 joints, 4 are high-stiffness springs, while another 6 are passive and constrained by closed-loop linkages. By assuming rigidity of the 4 spring joints and relying on the low-level tracking controller to handle the 4 closed-loop linkages associated with the ankles, we model it as a 28-Dof system, composed of 22 joints and a 6-Dof floating base, where 2 joints are passive and constrained by 2 closed-loop linkages. To generate a feasible motion plan for the Digit, the motion must respect the following four constraints (equations detailed in Fig.˜7):
-
-<!-- chunk {"id": "body-0047", "role": "body", "section": "V-C Whole Body Planning", "weight": 1.0} -->
-
-Stability Constraint: To maintain balance, the $xy$-projection of the center of mass (CoM), $\mathbf{x}_{com}^{xy}$, must remain within the convex hull of the support polygon $P$. The error is to the nearest point in the hull.
-
-<!-- chunk {"id": "body-0048", "role": "body", "section": "V-C Whole Body Planning", "weight": 1.0} -->
-
-Feet Constraint (TSR): For fixed feet placement, we stack the 6-DoF pose errors for both feet ($f \in {\{ l,r\}}$) into a 12-element vector.
-
-<!-- chunk {"id": "body-0049", "role": "body", "section": "V-C Whole Body Planning", "weight": 1.0} -->
 
 Closed Link Constraint: The closed loop linkages between the hip and the tarsus joint are enforced as fixed lengths between the two links.
 
-<!-- chunk {"id": "body-0050", "role": "body", "section": "V-C Whole Body Planning", "weight": 1.0} -->
+<!-- chunk {"id": "body-0047", "role": "body", "section": "V-C Whole Body Planning", "weight": 1.0} -->
 
 Bimanual Constraint: The relative pose between the hands is fixed, same as in Sec.˜V-B.
 
-<!-- chunk {"id": "body-0051", "role": "body", "section": "V-C Whole Body Planning", "weight": 1.0} -->
+<!-- chunk {"id": "body-0048", "role": "body", "section": "V-C Whole Body Planning", "weight": 1.0} -->
 
 Satisfying the first three constraints is essential for the Digit, as they are required for stability and real-world operation. To control the robot to track the planned joint trajectory, a passivity-based controller \[undefag\] is used to generate feedforward motor torque commands that compensate for the ground reaction forces, and uses proportional-derivative feedback to correct tracking error.
 
-<!-- chunk {"id": "body-0052", "role": "body", "section": "V-C Whole Body Planning", "weight": 1.0} -->
+<!-- chunk {"id": "body-0049", "role": "body", "section": "V-C Whole Body Planning", "weight": 1.0} -->
 
 We evaluate our planner in two real-world experiments. In additional to planning time, we also verify successful planning by reporting the tracking errors of relevant joints. A small tracking error indicates that the motion plan is more dynamically feasible, as the controller does not need to adjust motion to respect the stability, feet, and closed-link constraints. For these tasks, the planner was run on a 4.8GHz Intel Core Ultra 7 258V device with 32GB of RAM.
 
-<!-- chunk {"id": "body-0053", "role": "body", "section": "V-C1 Box Transport", "weight": 1.0} -->
+<!-- chunk {"id": "body-0050", "role": "body", "section": "V-C1 Box Transport", "weight": 1.0} -->
 
 For this task, the robot is required to transport the box between three levels of the shelf, shown in Fig.˜1. Each task is repeated 3 times; Table˜III shows the planning times for each task. For motion segment, we show the distribution of the tracking error of the highest offending joints (the knee and the tarsus joints). Errors range less than 10 degrees on average, with a max error across all joints of 12 degrees at a single point for the left tarsus joint.
 
-<!-- chunk {"id": "body-0054", "role": "body", "section": "V-C1 Box Transport", "weight": 1.0} -->
+<!-- chunk {"id": "body-0051", "role": "body", "section": "V-C1 Box Transport", "weight": 1.0} -->
 
-Note: S: Standing Pose, T: Top, B: Bottom, M: Middle.
+Tracking error (deg) Left Knee Joint Left Tarsus Joint Right Knee Joint Right Tarsus Joint Note: S: Standing Pose, T: Top, B: Bottom, M: Middle.
 
-<!-- chunk {"id": "body-0055", "role": "body", "section": "V-C2 Dynamic Obstacle Avoidance", "weight": 1.0} -->
+<!-- chunk {"id": "body-0052", "role": "body", "section": "V-C2 Dynamic Obstacle Avoidance", "weight": 1.0} -->
 
 Here, the humanoid robot is tasked to repeatedly plan and execute a box transport task between fixed locations. A dynamic obstacle is introduced, and we test the ability of the robot to react and avoid the obstacles. Fig.˜8(a) illustrates the motion of the robot, while Fig.˜8(b) shows the tracking error and planning times.
 
-<!-- chunk {"id": "body-0056", "role": "body", "section": "V-C2 Dynamic Obstacle Avoidance", "weight": 1.0} -->
+<!-- chunk {"id": "body-0053", "role": "body", "section": "V-C2 Dynamic Obstacle Avoidance", "weight": 1.0} -->
 
 (a) Whole-body trajectory execution in dynamic environment. During the upward motion, an obstacle is detected, the robot plans a feasible trajectory around the obstacle.
 
-<!-- chunk {"id": "body-0057", "role": "body", "section": "V-C2 Dynamic Obstacle Avoidance", "weight": 1.0} -->
+<!-- chunk {"id": "body-0054", "role": "body", "section": "V-C2 Dynamic Obstacle Avoidance", "weight": 1.0} -->
 
-(b) Tracking error and planning times for the repeated start-goal-start motions for the bimanual
+(b) Tracking error and planning times for the repeated start-goal-start motions for the bimanual Figure 8: Experimental results for dynamic environment obstacle avoidance.
 
-<!-- chunk {"id": "body-0058", "role": "body", "section": "V-C2 Dynamic Obstacle Avoidance", "weight": 1.0} -->
+<!-- chunk {"id": "body-0055", "role": "body", "section": "V-C2 Dynamic Obstacle Avoidance", "weight": 1.0} -->
 
 Our planner is able to generate feasible trajectories in under 40ms, with the majority of planning times taking under 10ms, thereby enabling quick reactions to changing environments. All trajectories generated were feasible, and tracking errors remained under 8 degrees for the worst offending joints.
 
-<!-- chunk {"id": "body-0059", "role": "body", "section": "Conclusion and Future Work", "weight": 1.5} -->
+<!-- chunk {"id": "body-0056", "role": "body", "section": "Conclusion and Future Work", "weight": 1.5} -->
 
 In this work, we present a vectorized manifold-constrained sampling-based motion planner that is capable of generating constraint-satisfying motion plans on the order of milliseconds, achieving over 500$\times$ speedup in challenging, cluttered, and high-dimensional problems. We also demonstrate the scalability of our approach by tackling a real-time, whole body control problem with a 28-DoF Digit humanoid, demonstrating reactive real-time constraint-satisfying planning in dynamic environments. We believe that this capability opens up many possibilities for real-world tasks, and potentially for tackling more complex planning problems such as whole-body task and motion planning for humanoid robots.
 
-<!-- chunk {"id": "body-0060", "role": "body", "section": "Conclusion and Future Work", "weight": 1.5} -->
+<!-- chunk {"id": "body-0057", "role": "body", "section": "Conclusion and Future Work", "weight": 1.5} -->
 
 For future work, we are interested in investigating extensions to the manifold-constrained formulation that could be extended to kinodynamic planning, moving beyond the limitations of quasi-static planning. There are also improvements to the current planner that could be explored that are known in the literature, such as more sophisticated optimization techniques and integrating with continuation based methods. We also plan to investigate dynamic constraint and robot compilation, as currently our approach requires knowledge of constraints *a priori* to generate efficient SIMD kernels.

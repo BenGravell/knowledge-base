@@ -9,3 +9,907 @@ Topics include Convex optimization, Optimization, Control.
 <!-- chunk {"id": "abstract-0002", "role": "abstract", "section": "Abstract", "weight": 2.0} -->
 
 When are two algorithms the same? How can we be sure a recently proposed algorithm is novel, and not a minor twist on an existing method? In this paper, we present a framework for reasoning about equivalence between a broad class of iterative algorithms, with a focus on algorithms designed for convex optimization. We propose several notions of what it means for two algorithms to be equivalent, and provide computationally tractable means to detect equivalence. Our main definition, oracle equivalence, states that two algorithms are equivalent if they result in the same sequence of calls to the function oracles (for suitable initialization). Borrowing from control theory, we use state-space realizations to represent algorithms and characterize algorithm equivalence via transfer functions. Our framework can also identify and characterize some algorithm transformations including permutations of the update equations, repetition of the iteration, and conjugation of some of the function oracles in the algorithm. To support the paper, we have developed a software package named Linnaeus that implements the framework to identify other iterative algorithms that are equivalent to an input algorithm. More broadly, this framework and software advances the goal of making mathematics searchable.
+
+<!-- chunk {"id": "body-0003", "role": "body", "section": "Introduction", "weight": 1.5} -->
+
+Large-scale optimization problems in machine learning, signal processing, and imaging have fueled ongoing interest in iterative optimization algorithms.
+
+<!-- chunk {"id": "body-0004", "role": "body", "section": "Introduction", "weight": 1.5} -->
+
+New optimization algorithms are regularly proposed in order to capture more complicated models, reduce computational burdens, or obtain stronger performance and convergence guarantees. novelty of an algorithm can be difficult to establish because algorithms can be written in different equivalent forms. For example, algo\_i1 was originally proposed by Popov[popov1980modification] in the context of solving saddle point problems. This method was later generalized by Chiang et al.[chiang2012online] in the context of online optimization. algo\_i2 is a reformulation of algo\_i1 adapted for use in generative adversarial networks (GANs)[gidel2018a]. algo\_i3 is an adaptation of Optimistic Mirror Descent[OMD\_rakhlin] used by Daskalakis et al.[daskalakis2018training] and also used to train GANs. Finally, algo\_i4 was proposed by Malitsky[malitsky2015projected] for solving monotone variational inequality problems.
+
+<!-- chunk {"id": "body-0005", "role": "body", "section": "Introduction", "weight": 1.5} -->
+
+(Some of these algorithms were originally proposed in conjunction with projections or other operations that make them more distinct.) In all four algorithms, the vectors $x^k_1$ and $x^k_2$ are algorithm states, $\eta$ is a tunable parameter, and $F^k(\cdot)$ is the gradient of the loss function at time step $k$.
+
+<!-- chunk {"id": "body-0006", "role": "body", "section": "Introduction", "weight": 1.5} -->
+
+(Extrapolation from the past) (Optimistic Mirror Descent) (Reflected Gradient Method) algo\_i1algo\_i4 are equivalent in the sense that when suitably initialized, the sequences $(x^k_1)_{k\ge 0}$ and $(x^k_2)_{k\ge 0}$ are identical for all four algorithms.
+
+<!-- chunk {"id": "body-0007", "role": "body", "section": "Introduction", "weight": 1.5} -->
+
+In their original formulations, algo\_i1,algo\_i2,algo\_i4 included projections onto convex constraint sets. We assume an unconstrained setting here for illustrative purposes. Some of the equivalences no longer hold in the constrained case.
+
+<!-- chunk {"id": "body-0008", "role": "body", "section": "Introduction", "weight": 1.5} -->
+
+Although these particular equivalences are not difficult to verify and many have been explicitly pointed out in the literature, for example in[gidel2018a], algorithm equivalence is not always immediately apparent.
+
+<!-- chunk {"id": "body-0009", "role": "body", "section": "Introduction", "weight": 1.5} -->
+
+One famous example concerns the relations between the Chambolle-Pock method, Douglas-Rachford splitting, and the alternating directions method of multipliers (ADMM): indeed, showing the connection between Chambolle-Pock and Douglas-Rachford requires a full page of mathematics in In contrast, our analysis supports a single coherent view of these algorithms that can be summarized in a commutative diagram (fig11).
+
+<!-- chunk {"id": "body-0010", "role": "body", "section": "Introduction", "weight": 1.5} -->
+
+In this paper, we present a framework for reasoning about algorithm equivalence, with the ultimate goal of making the analysis and design of algorithms more principled and streamlined.
+
+<!-- chunk {"id": "body-0011", "role": "body", "section": "Introduction", "weight": 1.5} -->
+
+- A universal way of representing algorithms, inspired by methods from control theory. - Several definitions of what it means for algorithms to be equivalent. - A computationally efficient way to verify whether two algorithms are equivalent.
+
+<!-- chunk {"id": "body-0012", "role": "body", "section": "Introduction", "weight": 1.5} -->
+
+Briefly, our method is to parse each algorithm to a standard form as a linear system in feedback with a nonlinearity; to compute the transfer function of each linear system; and to check, using a computer algebra system, if there are parameter values that make the transfer functions equal.
+
+<!-- chunk {"id": "body-0013", "role": "body", "section": "Introduction", "weight": 1.5} -->
+
+We must point out a tension in our terminology: the notion of algorithm equivalence we define below is rather broad, which is in order to discover interesting connections between algorithms. As a consequence, equivalent algorithms (in our terminology) can nevertheless be extremely useful for different tasks: for example, writing one algorithm in different ways can yield different generalizations, different computational complexity, and different numerical stability. On the other hand, equivalent algorithms will share many properties, such as convergence, stability, and fixed points.
+
+<!-- chunk {"id": "body-0014", "role": "body", "section": "Introduction", "weight": 1.5} -->
+
+We also present a software package implementing this framework named Named after Carl Linnaeus, a botanist and zoologist who invented the modern system of naming organisms. for the classification and taxonomy of iterative algorithms. The software is a search engine, where the input is an algorithm described using natural syntax, and the output is a canonical form for the algorithm along with any known names and pointers to relevant literature. The approach described in this paper allows to search over first-order optimization algorithms such as gradient descent with acceleration, and the extragradient method. As the database in grows, it will help algorithm researchers understand and efficiently discover connections between algorithms. More generally, advances the goal of making mathematics searchable.
+
+<!-- chunk {"id": "body-0015", "role": "body", "section": "Introduction", "weight": 1.5} -->
+
+This paper is organized as follows. relatedwork, we briefly summarize existing literature related to our work. In example, we introduce three examples of equivalent algorithms that motivate our framework. In preliminary, we briefly review important background on linear systems and optimization used throughout the paper. We formally define two notions of algorithm equivalence, oracle equivalence and shift equivalence, in equivalence and discuss how to characterize them via transfer functions in charac-oracle,charac-shift. Certain transformations can also be identified and characterized with our framework including algorithm repetition, repeating an algorithm multiple times, and conjugation, a transformation using conjugate function oracles. These are discussed in repe,conjugation respectively. In package, we briefly introduce our software package for the classification of iterative algorithms.
+
+<!-- chunk {"id": "body-0016", "role": "body", "section": "Motivating examples", "weight": 1.0} -->
+
+To explain what we mean by algorithm equivalence, we introduce three motivating examples in this section. Each provides a different view of how two algorithms might be equivalent.
+
+<!-- chunk {"id": "body-0017", "role": "body", "section": "Motivating examples", "weight": 1.0} -->
+
+The first example consists of These algorithms are equivalent in a strong sense: when suitably initialized, we may transform the iterates of algo1 by the invertible linear map to yield the iterates of algo2. We say that the sequences $(x^k_1)_{k\ge 0}$ and $(x^k_2)_{k\ge 0}$ are up to an invertible linear transformation.
+
+<!-- chunk {"id": "body-0018", "role": "body", "section": "Motivating examples", "weight": 1.0} -->
+
+The second example consists of These algorithms do not even have the same number of state variables, so these algorithms are not equivalent up to an invertible linear transformation. But when suitably initialized, we may transform the iterates of algo3 by the linear map to yield the iterates of algo4. This transformation is linear but not invertible. Instead, notice that the sequence of calls to the gradient oracle are identical: the algorithms satisfy oracle equivalence, a notion we will define formally later in this paper.
+
+<!-- chunk {"id": "body-0019", "role": "body", "section": "Motivating examples", "weight": 1.0} -->
+
+The third example consists of With suitable initialization, they will generate the same sequence of calls to the proximal operator, ignoring the very first call to one of the oracles. Specifically, algo6 is initialized as $\xi^0_1 = x^0_3$, $\xi^0_2 = x^1_1$ and the first call to $\text{prox}_f$ in algo5 is ignored. We will say they are equivalent up to a prefix or shift: they satisfy shift equivalence.
+
+<!-- chunk {"id": "body-0020", "role": "body", "section": "Motivating examples", "weight": 1.0} -->
+
+Generalizing from these motivating examples, we will call algorithms equivalent when they generate an identical sequence (e.g., of states or oracle calls) up to some transformations, with suitable initialization.
+
+<!-- chunk {"id": "body-0021", "role": "body", "section": "Motivating examples", "weight": 1.0} -->
+
+To make our ideas formal, we need a few definitions and some ideas from control theory. We will then revisit those motivating examples and define algorithm equivalence.
+
+<!-- chunk {"id": "body-0022", "role": "body", "section": "Optimization", "weight": 1.0} -->
+
+Optimization problem, objective, and constraints An optimization problem is identified by an objective function and a constraint set. The objective may be written as the sum of several functions, and the constraint set may be the intersection of several sets. As an example, in the optimization problem eqp1[MAL-016] the objective function is $f(x)+g(z)$ and the constraint set is $\{(x,z): Ax + Bz = c\}$.
+
+<!-- chunk {"id": "body-0023", "role": "body", "section": "Optimization", "weight": 1.0} -->
+
+We assume an oracle model of optimization: we can only access an optimization problem at discrete query points[boyd\_vandenberghe\_2004MAL-050nesterov2018lectures. Oracles might include the gradient or proximal operator of a function, or projection onto a constraint set[doi:10.1137/1.9781611974997fenchel1953convexOPT-003. Each query to the oracle returns an output such as the function value, gradient, or proximal operator. For example, the oracles for problem eqp1 might include the gradients or proximal operators of $f$ and $g$, and projection onto the hyperplane $\{(x,z): Ax + Bz = c\}$.
+
+<!-- chunk {"id": "body-0024", "role": "body", "section": "Algorithms", "weight": 1.0} -->
+
+Detecting equivalence between anypair of algorithms is beyond the scope of this paper. Instead, we restrict our attention to equivalence between iterative linear time invariant optimization algorithms. In the following section, we provide some intuition and define each of these terms. Further formalism of these terms will be provided in the next subsection on control theory.
+
+<!-- chunk {"id": "body-0025", "role": "body", "section": "Algorithms", "weight": 1.0} -->
+
+Given an optimization problem and an initial point $x^0 \in \mathcal{X}$, an iterative algorithm $\mathcal{A}$ generates a sequence of points $\mathbf{x} \colonequals (x^k)_{k \geq 0}$ by repeated application of the map $\mathcal{A}: \mathcal X \to \mathcal X$. (We do not distinguish the algorithm from its associated map.) Hence, $x^{k+1} = \mathcal{A}(x^k)$ for $k \geq 0$. We call $x^k$ the state of the algorithm at time $k$. We make two important simplifying assumptions when treating algorithms.
+
+<!-- chunk {"id": "body-0026", "role": "body", "section": "Algorithms", "weight": 1.0} -->
+
+First, suppose the operator $\mathcal{A}$ calls each different oracle exactly once. (We will see how to extend our ideas to more complex algorithms later.) This assumption forbids trivial repetition, such as $\mathcal{A}' \colonequals \mathcal{A} \circ \mathcal{A}$. Second, we consider algorithms that are time-invariant. In general, one could envision an algorithm $\mathcal{A}^k$ that changes at each timestep. Such time-varying algorithms are common in practice: for example, gradient-based methods with diminishing stepsizes. We view time-varying algorithms as a scheme for switching between different time-invariant algorithms. Since our aim is to reason about algorithm equivalence, we restrict our attention to time-invariant algorithms. A nice benefit of this restriction is that we can define algorithm equivalence independently of the choice of initial point. $x^{k+1} = \mathcal{A}(x^k)$ is general enough to include algorithms with multiple timesteps.
+
+<!-- chunk {"id": "body-0027", "role": "body", "section": "Algorithms", "weight": 1.0} -->
+
+For example consider algo\_i4: If we define the new state $x_2^k \colonequals x_1^{k-1}$ and let $x^k \colonequals \sbmat{x_1^k \\ x_2^k}$, then we may rewrite the algorithm as = \mathcal{A}\left(\bmat{x_1^k\\x_2^k} \right) $\mathcal{A}$ contains a combination of oracle calls and state updates. Define $y^k$ and $u^k$ to be the input and output of the oracles called at time $k$, respectively. Now, write three separate equations for the state update, oracle input, and oracle output. Applying this to eq:algdemo, we obtain: y^k &= \bmat{2 & -1} \bmat{x_1^k \\ x_2^k} && \text{(oracle input)}, \\u^k &= F(y^k) && \text{(oracle output)}.
+
+<!-- chunk {"id": "body-0028", "role": "body", "section": "Algorithms", "weight": 1.0} -->
+
+We have defined an algorithm $\mathcal{A}$ as a map $\mathcal X \to \mathcal X$. In optimization, it is also conventional to write an algorithm as a sequence of update equations, that are executed sequentially on a computer to implement the map. When this sequence of updates is executed, we may record the sequence of states or the sequence of oracle calls (oracle and its input pairs), which we call the oracle sequence. There may be several ways of writing the algorithm as a sequence of updates, which may produce different state sequences or oracle sequences. We are not aware of any practical algorithm for optimization that may be written to produce two different oracle sequences. Hence we will assume for now that the oracle sequence produced by an algorithm This assumption eliminates the possibility that some oracles may be permuted without changing the state sequence: Here, the algorithm may be equally well written with the oracle sequence $(\mathcal A_1, \mathcal A_2, \mathcal A_3)$ as with the oracle sequence $(\mathcal A_2, \mathcal A_1, \mathcal A_3)$.
+
+<!-- chunk {"id": "body-0029", "role": "body", "section": "Algorithms", "weight": 1.0} -->
+
+But again, we are not aware of any concrete examples of optimization algorithms with this structure.
+
+<!-- chunk {"id": "body-0030", "role": "body", "section": "Algorithms", "weight": 1.0} -->
+
+We will revisit this assumption later in the paper (charac-shift) to see how our ideas extend to more complex (not-yet-discovered) algorithms. eq:algdemo0 have the general linear form We say that a time-invariant algorithm is linear if it can be written in the form of eqp2, where $x^k$ is the algorithm state and $\phi$ is the set of oracles. Here $\phi$ can be any nonlinear map, including a map with internal state. For example, the oracle $\phi$ corresponding to the subgradient $\partial f$ of a nondifferentiable function $f$ might make a choice to ensure the output is unique and consistent, for example, by selecting the subgradient of minimum norm; the oracle $\phi$ corresponding to a stochastic gradient might include an internal random seed that ensures the output is unique and deterministic, given the seed.
+
+<!-- chunk {"id": "body-0031", "role": "body", "section": "Algorithms", "weight": 1.0} -->
+
+In the rest of the paper, unless specifically noted, our discussion is limited to linear algorithms. We will see that the class of linear algorithms includes commonly used algorithms, such as accelerated methods, proximal methods, operator splitting methods, and more [hu2020analysis, doi:10.1137/15M1009597].
+
+<!-- chunk {"id": "body-0032", "role": "body", "section": "Algorithms", "weight": 1.0} -->
+
+The general form eqp2 represents a convenient parameterization of linear algorithms in terms of matrices $(A,B,C,D)$, but it is only a starting point. For example, algo\_i1algo\_i4 have different $(A,B,C,D)$parameters despite being equivalent algorithms. In the next section, we show how tools from control theory can be brought to bear on these sorts of representations.
+
+<!-- chunk {"id": "body-0033", "role": "body", "section": "Algorithms", "weight": 1.0} -->
+
+For an arbitrary state-space realization $(A, B, C, D)$, the corresponding algorithmic sequence may not exist or may not be unique. However, any implementable practical algorithm, written as a sequence of update equations has a corresponding algorithmic sequence that exists and is unique: it is obtained by performing the steps indicated in the update equations and recording the values of $x$, $u$, and $y$.
+
+<!-- chunk {"id": "body-0034", "role": "body", "section": "Control theory", "weight": 1.0} -->
+
+This subsection provides a brief overview of relevant methods and terminology from control theory. More detail can be found in standard references such as [antsaklis2006linear] and [williams2007linear].
+
+<!-- chunk {"id": "body-0035", "role": "body", "section": "Control theory", "weight": 1.0} -->
+
+Algorithms as linear systems Let $\mathbf{u}$ denote the entire sequence of $u^k$ and $\mathbf{y}$ denote the entire sequence of $y^k$. The equations in eqp2 can be separated into two parts. Equations eqp2a and eqp2b define a map $\mathbf{H}$ from $\mathbf{u}$ to $\mathbf{y}$ compactly as $\mathbf{y} = \mathbf{H}\mathbf{u}$, while eqp2c defines a map $\boldsymbol{\Phi}$ from $\mathbf{y}$ to $\mathbf{u}$ as $\mathbf{u} = \boldsymbol{\Phi}\mathbf{y}$, where $\boldsymbol{\Phi} = \mathrm{diag}\{\phi,\phi,\dots\}$. We can represent these algebraic relations visually via the block-diagram shown in figp1.
+
+<!-- chunk {"id": "body-0036", "role": "body", "section": "Control theory", "weight": 1.0} -->
+
+confidence=None created_by=None text='\\begin{tikzpicture}[>=latex]\n\t\t\n\t\t\\node[scale = 0.75][box9] at (algo) {$\\bH$};\n\t\t\\node[scale = 0.75][box9] at (0, -1.4) (oracle) {$\\bPhi$};\n\t\t\\node[scale = 0.75][box10] at (1.2, -0.7) (input) {$\\bu$};\n\t\t\\node[scale = 0.75][box10] at (-1.2, -0.7) (output) {$\\by$};\n\t\t\n\t\t\\draw[->] (algo) -| (output);\n\t\t\\draw[->] (output) |-
+
+<!-- chunk {"id": "body-0037", "role": "body", "section": "Control theory", "weight": 1.0} -->
+
+(oracle);\n\t\t\\draw[->] (oracle) -| (input);\n\t\t\\draw[->] (input) |- (algo);\n\t\t\n\t\\end{tikzpicture}' language=<CodeLanguageLabel.TIKZ: 'Tikz'> Block-diagram representation of an algorithm.
+
+<!-- chunk {"id": "body-0038", "role": "body", "section": "Control theory", "weight": 1.0} -->
+
+This is equivalent to the pair of equations $\mathbf{y} = \mathbf{H} \mathbf{u}$ and $\mathbf{u} = \boldsymbol{\Phi} \mathbf{y}$. $\mathbf{H}$ defined by eqp2a and eqp2b. For simplicity, we assume that $x^0 = 0$. As we eliminate $\{x^1, \dots, x^k\}$ from eqp2a and eqp2b, map $\mathbf{H}$can be represented as a semi-infinite matrix, \underbrace{\begin{bmatrix} \vdots & \ddots & \ddots & \ddots & \ddots \end{bmatrix}}_\mathbf{H} In control theory, map $\mathbf{H}$ is considered as a (discrete-time) system that maps a sequence of inputs $\mathbf{u}$ to a sequence of outputs $\mathbf{y}$.
+
+<!-- chunk {"id": "body-0039", "role": "body", "section": "Control theory", "weight": 1.0} -->
+
+Map $\mathbf{H}$ is linear since it can be represented as a semi-infinite matrix. The matrix representation is lower-triangular and it indicates $\mathbf{H}$ is causal. Further, $\mathbf{H}$ is time-invariant because the matrix representation is (block) Toeplitz, which means that $\mathbf{H}$ is (block) constant along diagonals from top-left to bottom right. Thus, $\mathbf{H}$ is a causal linear time-invariant system. For the rest of this paper, we will work with such systems and we will refer to such systems as linear systems.
+
+<!-- chunk {"id": "body-0040", "role": "body", "section": "Control theory", "weight": 1.0} -->
+
+Further, to combine maps $\mathbf{H}$ and $\boldsymbol{\Phi}$ together, a linear algorithm in the form of eqp2 can be regarded as a linear system connected in feedback with a nonlinearity shown by figp1. At time $k$, $u^k$ is the input and $y^k$ is the output of the system. Nonlinear feedback $\phi$ represents the set of oracles such as the gradient or subgradient of a convex function and it maps the output $y^k$ to the input $u^k$.
+
+<!-- chunk {"id": "body-0041", "role": "body", "section": "Control theory", "weight": 1.0} -->
+
+Reconsider equations eqp2a and eqp2b. They correspond to the state-space realization of system $\mathbf{H}$. In control theory, a state-space realization is characterized by an internal sequence of states $\mathbf{x}$ that evolves according to a difference equation with parameters $(A,B,C,D)$:% L = \left[\begin{array}{c:c}% \end{array}\right].
+
+<!-- chunk {"id": "body-0042", "role": "body", "section": "Control theory", "weight": 1.0} -->
+
+Here, $u^k \in \mathbb{R}^m$, $y^k \in \mathbb{R}^p$, and $x^k \in \mathbb{R}^n$. The parameters $(A,B,C,D)$ are matrices of compatible dimensions, so $A\in \mathbb{R}^{n\times n}$, $B \in \mathbb{R}^{n\times m}$, $C \in \mathbb{R}^{p\times n}$, and $D \in \mathbb{R}^{p\times m}$. The state-space realization corresponding to the system $\mathbf{H}$ can also be characterized by omitting all vectors and writing the block matrix $L$ shown in eqp4 (right), which is the map from $(x^k,u^k)$ to $(x^{k+1},y^k)$.
+
+<!-- chunk {"id": "body-0043", "role": "body", "section": "Control theory", "weight": 1.0} -->
+
+In this paper, we rely on such formalism that represents algorithms as linear systems using a state-space realization as eqp4 for each algorithm, following[hu2020analysis, doi:10.1137/15M1009597]. The state-space realization $L$ represents the linear part of an algorithm and map $\phi$ represents the nonlinear part. Moreover, we have $\mathcal{A} = (L, \phi)$. In this way, we can unroll figp1 in time to obtain the block-diagram shown in figp2. Each dashed box in figp2 represents map $\mathcal{A}$for each iteration.
+
+<!-- chunk {"id": "body-0044", "role": "body", "section": "Control theory", "weight": 1.0} -->
+
+confidence=None created_by=None text='\\begin{tikzpicture}[>=latex]\n\t\t\n\t\t\\node[scale = 0.75][box6] at (0,-0.2) (algo1) {$L$};\n\t\t\\node[scale = 0.75] at (ref1) {};\n\t\t\\node[scale = 0.75] at (0,-0.4) (ref2) {};\n\t\t\\node[scale = 0.75][box3, left of = ref1, node distance = 8em] (state0) {$x^{k-1}$};\n\t\t\\node[scale = 0.75][left of = ref1, node distance = 13em] (init1) {\\ldots};\n\t\t\\node[scale = 0.75][box3, right of = ref1, node distance = 8em] (state1)
+
+<!-- chunk {"id": "body-0045", "role": "body", "section": "Control theory", "weight": 1.0} -->
+
+{$x^{k}$};\n\t\t\\node[scale = 0.75][box] at (0, -1) (oracle1) {$\\phi$};\n\t\t\\node[scale = 0.75][box3, right of = oracle1, node distance = 6em] (output1) {$y^{k-1}$};\n\t\t\\node[scale = 0.75, left of= oracle1, node distance = 6em][box3] (input1) {$u^{k-1}$};\n\t\t\\node[scale = 0.75][box6, right of = algo1, node distance = 16em] (algo2) {$L$};\n\t\t\\node[scale = 0.75][box8] at (0, -0.55) (a1) {};\n\t\t\n\t\t\\draw[->] (init1) --
+
+<!-- chunk {"id": "body-0046", "role": "body", "section": "Control theory", "weight": 1.0} -->
+
+(state0);\n\t\t\\draw[->] (state0) -- (ref1-|algo1.west);\n\t\t\\draw[->] (state1-|algo1.east) -- (state1);\n\t\t\\draw[->] (input1) |- (ref2-|algo1.west);\n\t\t\\draw[->] (output1) -- (oracle1);\n\t\t\\draw[->] (oracle1) -- (input1);\n\t\t\\draw[->] (ref2-|algo1.east) -| (output1);\n\t\t\\draw[->] (state1) -- (state1-|algo2.west);\n\t\t\n\t\t\\node[scale = 0.75][box3, right of = state1, node distance = 16em] (state2)
+
+<!-- chunk {"id": "body-0047", "role": "body", "section": "Control theory", "weight": 1.0} -->
+
+{$x^{k+1}$};\n\t\t\\node[scale = 0.75][box, right of = oracle1, node distance = 16em] (oracle2) {$\\phi$};\n\t\t\\node[scale = 0.75][box3, right of = oracle2, node distance = 6em] (output2) {$y^{k}$};\n\t\t\\node[scale = 0.75, left of= oracle2, node distance = 6em][box3] (input2) {$u^{k}$};\n\t\t\\node[scale = 0.75][box6, right of = algo2, node distance = 16em] (algo3) {$L$};\n\t\t\\node[scale = 0.75][box8, right of = a1, node distance = 16em] (a2) {};\n\t\t\n\t\t\\draw[->]
+
+<!-- chunk {"id": "body-0048", "role": "body", "section": "Control theory", "weight": 1.0} -->
+
+(state1-|algo2.east) -- (state2);\n\t\t\\draw[->] (input2) |- (ref2-|algo2.west);\n\t\t\\draw[->] (output2) -- (oracle2);\n\t\t\\draw[->] (oracle2) -- (input2);\n\t\t\\draw[->] (ref2-|algo2.east) -| (output2);\n\t\t\\draw[->] (state2) -- (state1-|algo3.west);\n\t\t\n\t\t\\node[scale = 0.75][right of = state2, node distance = 16em] (end1) {\\ldots};\n\t\t\\node[scale = 0.75][box, right of = oracle2, node distance = 16em] (oracle3)
+
+<!-- chunk {"id": "body-0049", "role": "body", "section": "Control theory", "weight": 1.0} -->
+
+{$\\phi$};\n\t\t\\node[scale = 0.75][box3, right of = oracle3, node distance = 6em] (output3) {$y^{k+1}$};\n\t\t\\node[scale = 0.75, left of= oracle3, node distance = 6em][box3] (input3) {$u^{k+1}$};\n\t\t\\node[scale = 0.75][box8, right of = a2, node distance = 16em] (a3) {};\n\t\t\n\t\t\\draw[->] (state1-|algo3.east) -- (end1);\n\t\t\\draw[->] (input3) |- (ref2-|algo3.west);\n\t\t\\draw[->] (output3) -- (oracle3);\n\t\t\\draw[->] (oracle3) --
+
+<!-- chunk {"id": "body-0050", "role": "body", "section": "Control theory", "weight": 1.0} -->
+
+(input3);\n\t\t\\draw[->] (ref2-|algo3.east) -| (output3);\n\t\t\n\t\\end{tikzpicture}' language=<CodeLanguageLabel.TIKZ: 'Tikz'> Unrolled-in-time block-diagram representation of an algorithm.
+
+<!-- chunk {"id": "body-0051", "role": "body", "section": "Control theory", "weight": 1.0} -->
+
+Impulse response and transfer function From eqp3, without the assumption that $x^0 = 0$, we can obtain The output $y^k$ is the sum of $C(A)^kx^0$, which is due to the initial condition $x^0$, and $\sum_{j=0}^{k-1}C(A)^{k-(j+1)}Bu^j + Du^k$, which is due to the inputs $\{u^0,\dots,u^k\}$. The compact form $\mathbf{y} = \mathbf{H}\mathbf{u}$ and its matrix representation eqp3 omit the first term that depends on $x^0$. These representations are formally equivalent to the state-space model only when the state is initialized at $x^0 = 0$.
+
+<!-- chunk {"id": "body-0052", "role": "body", "section": "Control theory", "weight": 1.0} -->
+
+However, linearity of $\mathbf{H}$ allows the two contributions to be studied separately: $$(\text{total response}) = \underbrace{(\text{zero input response})}_{\text{set $u^k=0$ for $k \geq 0$}} \,+\, \underbrace{(\text{zero state response})}_{\text{set $x^0=0$}}.$$ This decomposition is analogous to writing the general solution to a linear differential (or difference) equation as the sum of a homogeneous solution (due to initial conditions only) and a particular solution (due to the non-homogeneous terms only). We will characterize linear systems by their input-output map. The input-output map depends only on the zero state response, which allows us to avoid details about initialization.
+
+<!-- chunk {"id": "body-0053", "role": "body", "section": "Control theory", "weight": 1.0} -->
+
+For simplicity, we denote the entries in the matrix representation of $\mathbf{H}$ in eqp3 as To study the zero state response, recall from eqp3 that The sequence $(H^k)_{k\geq 0}$ is called the impulse response of $\mathbf{H}$, because it corresponds to the impulsive input $u^0=1$ and $u^j=0$ for $j \geq 1$.
+
+<!-- chunk {"id": "body-0054", "role": "body", "section": "Control theory", "weight": 1.0} -->
+
+A convenient way to represent $\mathbf{H}$ is via the use of a transfer function. we can represent $\mathbf{y}$ and $\mathbf{u}$ as generating functions in the variable $z^{-1}$.
+
+<!-- chunk {"id": "body-0055", "role": "body", "section": "Control theory", "weight": 1.0} -->
+
+Equating powers of $z^{-1}$, we have: $$\underbrace{\left(y^0 + y^1 z^{-1} + y^{2} z^{-2} + \cdots \right)}_{\hat y(z)} = \underbrace{\left(H^0 + H^1 z^{-1} + H^2 z^{-2} + \cdots \right)}_{\hat H(z)} \underbrace{\left(u^0 + u^1 z^{-1} + u^{2} z^{-2} + \cdots \right)}_{\hat u(z)}.$$ We can recover eqp8 by expanding the multiplication in eqp9 and grouping terms with the same power of $z^{-1}$. So when written as generating functions, the output is related to the input via multiplication.
+
+<!-- chunk {"id": "body-0056", "role": "body", "section": "Control theory", "weight": 1.0} -->
+
+The functions $\hat y$ and $\hat u$ are the $z$-transforms of the sequences $\mathbf{y}$ and $\mathbf{u}$, respectively, and $\hat H$ is called the transfer function. If $p\geq 2$ or $m\geq 2$ (the $H^k$ are matrices), then $\hat H$ is called the transfer matrix.
+
+<!-- chunk {"id": "body-0057", "role": "body", "section": "Control theory", "weight": 1.0} -->
+
+eqp7 into the definition of the transfer function, we can write a compact form for the formal power series $\hat H$, which converges on some appropriate set: $$\hat H(z) = \left[\begin{array}{c|c} \end{array}\right] = D+\sum_{k=1}^{\infty}C(A)^{k-1}Bz^{-k} = C(zI - A)^{-1}B +D.$$ The transfer function $\hat H(z) = C(zI - A)^{-1}B + D$ can be directly computed from the state-space matrices $(A,B,C,D)$. Moreover, $\hat H(z)$ is a matrix whose entries are rational functions of $z$. Hence the transfer function provides a computationally efficient way to uniquely characterize the input-output map of a system. We will use the block notation with solid lines to indicate transfer function as in eqp10.
+
+<!-- chunk {"id": "body-0058", "role": "body", "section": "Control theory", "weight": 1.0} -->
+
+Linear transformations of state-space realizations Consider a linear transformation of the states $x^k$ in eqp4. Specifically, suppose $Q \in \mathbb{R}^{n\times n}$ is invertible, and define $\tilde{x}^k = Qx^k$ for each $k$. The new state-space realization in terms of the new variables $\tilde x^k$is \tilde x^{k+1} & = QAQ^{-1} \tilde x^k + QB u^k \\% \left[\begin{array}{c:c}% \end{array}\right].
+
+<!-- chunk {"id": "body-0059", "role": "body", "section": "Control theory", "weight": 1.0} -->
+
+It is straightforward to check that $\mathbf{H}$ and $\tilde \mathbf{H}$ have the same transfer function. whether we apply the linear system $\mathbf{H}$ or $\tilde \mathbf{H}$, the same input sequence $\mathbf{u}$ will produce the same output sequence $\mathbf{y}$, although the respective states $x^k$ and $\tilde x^k$ will generally be different. So although the state-space realization $(A,B,C,D)$ depend on the coordinates used to represent states $x^k$, the transfer function is invariant under linear transformations.
+
+<!-- chunk {"id": "body-0060", "role": "body", "section": "Control theory", "weight": 1.0} -->
+
+This invariance is the key to understanding when two optimization algorithms are the same, even if they look different as written. For example, this idea alone suffices to show that algo1,algo2 are equivalent.
+
+<!-- chunk {"id": "body-0061", "role": "body", "section": "Control theory", "weight": 1.0} -->
+
+Every set of appropriately-sized state-space parameters $(A,B,C,D)$ produces a transfer matrix whose entries are rational functions of $z$. Closer inspection of the formula $\hat H(z) = C(zI-A)^{-1}B + D$ reveals that $\hat H(z) \to D$ as $z\to\infty$. Therefore, the rational entries of $\hat H(z)$ must be proper: the degree of the numerator cannot exceed the degree of the denominator. Moreover, the degree of the common denominator of all entries of $\hat H(z)$ cannot exceed $n$ (the size of the matrix $A$). Further, given any transfer matrix $\hat H(z)$ whose entries are proper, there exists at least one realization $(A,B,C,D)$ whose transfer function is $\hat H(z)$.
+
+<!-- chunk {"id": "body-0062", "role": "body", "section": "Control theory", "weight": 1.0} -->
+
+Any realization of $\hat H(z)$ for which the size of $A$ is as small as possible All minimal realizations of $\hat H(z)$ are related by an invertible state transformation via a suitably chosen invertible matrix $Q$, as in eqp11.
+
+<!-- chunk {"id": "body-0063", "role": "body", "section": "Control theory", "weight": 1.0} -->
+
+Realizations can be non-minimal when the transfer function has factors that cancel from both the numerator and denominator.
+
+<!-- chunk {"id": "body-0064", "role": "body", "section": "Control theory", "weight": 1.0} -->
+
+For example, the following pair of state-space equations both have the same transfer function: \hat H(z) = & \left[\begin{array}{c|c} \end{array}\right] = 1 \cdot (z-1)^{-1} \cdot 1 = \frac{1}{z-1},\\% x^{k+1} &= \begin{bmatrix}1 & 2 \\ 0 & 3\end{bmatrix}x^k + \begin{bmatrix}1\\ 0\end{bmatrix}u^k \\% y^k &= \begin{bmatrix}1 & 6\end{bmatrix}x^k \hat H(z) = &\left[\begin{array}{cc|c} \end{array}\right] = \begin{bmatrix} 1 & 6\end{bmatrix} \begin{bmatrix}z-1 & -2 \\ 0 &
+
+<!-- chunk {"id": "body-0065", "role": "body", "section": "Control theory", "weight": 1.0} -->
+
+We can detect when two optimization algorithms are equivalent, even when one has additional (redundant) state variables, by computing their minimal realizations. This strategy shows that algo3,algo4are equivalent.
+
+<!-- chunk {"id": "body-0066", "role": "body", "section": "Control theory", "weight": 1.0} -->
+
+Inverse of state-space realization Consider a state-space system $\mathbf{H}$ with realization eqp4 and for which $m=p$ (input and output dimension are the same). Is it possible to find a state-space system $\mathbf{H}^{-1}$ that maps $\mathbf{y}$ back to $\mathbf{u}$? It turns out this is possible if and only if $D$ is invertible. In this case, the transfer function of $\mathbf{H}^{-1}$ is $\hat H^{-1}(z)$, a matrix whose entries are rational functions of $z$. One possible state-space realization of the inverse system $\mathbf{H}^{-1}$ is \left[\begin{array}{c|c} \end{array}\right]^{-1} \left[\begin{array}{c|c} \end{array}\right].$$ This explicit realization can be obtained by applying the matrix inversion lemma to eqp10.
+
+<!-- chunk {"id": "body-0067", "role": "body", "section": "Control theory", "weight": 1.0} -->
+
+The matrix $D$ and transfer matrix $\hat H(z)$ can also be partitioned conformally as \end{bmatrix} \quad\text{and}\quad \hat H(z) = \begin{bmatrix} \end{bmatrix},\quad\text{where }D_{ij} \in \mathbb{R}^{p_i \times m_j}\text{ and similarly for }\hat H(z).$$ If $D_{11}$ is invertible, we can partially invert $\mathbf{H}$ with respect to $\mathbf{u}_1$ and $\mathbf{y}_1$ to form a new system $\mathbf{H}'$ that maps $(\mathbf{y}_1,\mathbf{u}_2)\mapsto (\mathbf{u}_1,\mathbf{y}_2)$.
+
+<!-- chunk {"id": "body-0068", "role": "body", "section": "Control theory", "weight": 1.0} -->
+
+The transfer function $\hat H'(z)$ of the new system $\mathbf{H}'$ satisfies $$\hat H'(z) = \left[\begin{array}{c c} \hat H_{11}^{-1}(z) & -\hat H_{11}^{-1}(z)\hat H_{12}(z) \\\end{array}\right].$$ eqp13 is presented in proof-inversesystem. Note that if $D_{22}$ is invertible, we can perform a similar partial inverse with respect to the second component. When an optimization algorithm is related to another by conjugation of one of the function oracles, their transfer functions are related by (possibly partial) inversion.
+
+<!-- chunk {"id": "body-0069", "role": "body", "section": "Algorithm equivalence", "weight": 1.0} -->
+
+We are now ready to revisit the motivating examples and formally define algorithm equivalence.
+
+<!-- chunk {"id": "body-0070", "role": "body", "section": "Assumptions", "weight": 1.0} -->
+
+We now formally state the assumptions that we have discussed informally in preliminary. We assume all algorithms throughout the paper satisfy these assumptions unless specifically noted.
+
+<!-- chunk {"id": "body-0071", "role": "body", "section": "Assumptions", "weight": 1.0} -->
+
+The algorithm is causal, time-invariant, and linear.
+
+<!-- chunk {"id": "body-0072", "role": "body", "section": "Assumptions", "weight": 1.0} -->
+
+Any algorithm satisfying assump:linearalgo can be implemented as a sequence of update equations (because it is causal) and can be written in form eqp2(because it is linear and time-invariant).
+
+<!-- chunk {"id": "body-0073", "role": "body", "section": "Assumptions", "weight": 1.0} -->
+
+Given an oracle $\phi$, the oracle sequence produced by the algorithm is unique. assump:oracle follows if the output of $\phi$ is deterministic. It also follows if $\phi$ has internal state but is deterministic given the sequence of inputs to $\phi$ so far.
+
+<!-- chunk {"id": "body-0074", "role": "body", "section": "Assumptions", "weight": 1.0} -->
+
+Two algorithms can only produce the same sequences if called on the same set of oracles (or on compatible oracles, for example, related by convex conjugacy). We say that two algorithms are comparable if they use the same or compatible oracles.
+
+<!-- chunk {"id": "body-0075", "role": "body", "section": "Assumptions", "weight": 1.0} -->
+
+When we compare two algorithms to detect equivalence or other relations, we assume that they are comparable.
+
+<!-- chunk {"id": "body-0076", "role": "body", "section": "Assumptions", "weight": 1.0} -->
+
+We will discuss several kinds of compatible oracles in the sequel.
+
+<!-- chunk {"id": "body-0077", "role": "body", "section": "Oracle equivalence", "weight": 1.0} -->
+
+In the first motivating example, the algorithms have the same number of states, and the state sequences are equivalent up to an invertible linear transformation. We call these algorithms state-equivalent.
+
+<!-- chunk {"id": "body-0078", "role": "body", "section": "Oracle equivalence", "weight": 1.0} -->
+
+In the second motivating example, the state sequence of algo3 can be transformed into the state sequence of algo4 with a linear transformation. However, unlike the first motivating example, the linear transformation is not invertible; indeed, algo4 uses fewer state variables than algo3. Instead, recall that the sequence of calls to the gradient oracle are identical for algo3,algo4. Hence these algorithms are oracle-equivalent.
+
+<!-- chunk {"id": "body-0079", "role": "body", "section": "Oracle equivalence", "weight": 1.0} -->
+
+Two algorithms are oracle-equivalent on a set of optimization problems if, for any problem in the set and for all possible oracles, there exist initializations for both algorithms such that the two algorithms generate the same oracle sequence.
+
+<!-- chunk {"id": "body-0080", "role": "body", "section": "Oracle equivalence", "weight": 1.0} -->
+
+Oracle-equivalent algorithms generate identical sequence regardless of oracles. For example, if two oracle-equivalent algorithms both call oracle $\nabla f$ and generate identical oracle sequence, they will still produce identical oracle sequence if we replace oracle $\nabla f$ to $\nabla g$ or every other possible oracle. Further, oracle equivalence is a symmetric relation. Notice that if the oracle sequences (that is, the oracles and their arguments $y^k$) are the same, then the oracles produce the same inputs $u^k$ for the linear systems of each algorithm. Hence, as shown in fig5, oracle-equivalent algorithms have matching input $\mathbf{u}$ and output $\mathbf{y}$ sequences. The solid double-sided arrow indicates the sequences $y^k$ and $\tilde y^k$ are identical, and the sequences $u^k$ and $\tilde u^k$are identical.
+
+<!-- chunk {"id": "body-0081", "role": "body", "section": "Oracle equivalence", "weight": 1.0} -->
+
+confidence=None created_by=None text='\\begin{tikzpicture}[>=latex]\n\t\t\n\t\t%topline\n\t\t\\node[scale = 0.75][box6] at (0,1.9) (algo1) {$L$};\n\t\t\\node[scale = 0.75] at (0,1.7) (ref2) {};\n\t\t\\node[scale = 0.75] at (0,2.1) (ref1) {};\n\t\t\\node[scale = 0.75][box3, left of = ref1, node distance = 8em] (state0) {$x^{k-1}$};\n\t\t\\node[scale = 0.75][left of = ref1, node distance = 13em] (init1) {\\ldots};\n\t\t\\node[scale = 0.75][box3, right of
+
+<!-- chunk {"id": "body-0082", "role": "body", "section": "Oracle equivalence", "weight": 1.0} -->
+
+= ref1, node distance = 8em] (state1) {$x^{k}$};\n\t\t\\node[scale = 0.75][box] at (0, 1.1) (oracle1) {$\\phi$};\n\t\t\\node[scale = 0.75][box3, right of = oracle1, node distance = 6em] (output1) {$y^{k-1}$};\n\t\t\\node[scale = 0.75, left of= oracle1, node distance = 6em][box3] (input1) {$u^{k-1}$};\n\t\t\\node[scale = 0.75][box6, right of = algo1, node distance = 16em] (algo2) {$L$};\n\t\t\n\t\t\\draw[->] (init1) -- (state0);\n\t\t\\draw[->] (state0) --
+
+<!-- chunk {"id": "body-0083", "role": "body", "section": "Oracle equivalence", "weight": 1.0} -->
+
+(ref1-|algo1.west);\n\t\t\\draw[->] (state1-|algo1.east) -- (state1);\n\t\t\\draw[->] (input1) |- (ref2-|algo1.west);\n\t\t\\draw[->] (output1) -- (oracle1);\n\t\t\\draw[->] (oracle1) -- (input1);\n\t\t\\draw[->] (ref2-|algo1.east) -| (output1);\n\t\t\\draw[->] (state1) -- (state1-|algo2.west);\n\t\t\n\t\t\\node[scale = 0.75][box3, right of = state1, node distance = 16em] (state2) {$x^{k+1}$};\n\t\t\\node[scale =
+
+<!-- chunk {"id": "body-0084", "role": "body", "section": "Oracle equivalence", "weight": 1.0} -->
+
+0.75][box, right of = oracle1, node distance = 16em] (oracle2) {$\\phi$};\n\t\t\\node[scale = 0.75][box3, right of = oracle2, node distance = 6em] (output2) {$y^{k}$};\n\t\t\\node[scale = 0.75, left of= oracle2, node distance = 6em][box3] (input2) {$u^{k}$};\n\t\t\\node[scale = 0.75][box6, right of = algo2, node distance = 16em] (algo3) {$L$};\n\t\t\n\t\t\\draw[->] (state1-|algo2.east) -- (state2);\n\t\t\\draw[->] (input2) |- (ref2-|algo2.west);\n\t\t\\draw[->] (output2) --
+
+<!-- chunk {"id": "body-0085", "role": "body", "section": "Oracle equivalence", "weight": 1.0} -->
+
+(oracle2);\n\t\t\\draw[->] (oracle2) -- (input2);\n\t\t\\draw[->] (ref2-|algo2.east) -| (output2);\n\t\t\\draw[->] (state2) -- (state1-|algo3.west);\n\t\t\n\t\t\\node[scale = 0.75][right of = state2, node distance = 16em] (end1) {\\ldots};\n\t\t\\node[scale = 0.75][box, right of = oracle2, node distance = 16em] (oracle3) {$\\phi$};\n\t\t\\node[scale = 0.75][box3, right of = oracle3, node distance = 6em] (output3) {$y^{k+1}$};\n\t\t\\node[scale = 0.75, left of= oracle3, node distance =
+
+<!-- chunk {"id": "body-0086", "role": "body", "section": "Oracle equivalence", "weight": 1.0} -->
+
+6em][box3] (input3) {$u^{k+1}$};\n\t\t\n\t\t\\draw[->] (state1-|algo3.east) -- (end1);\n\t\t\\draw[->] (input3) |- (ref2-|algo3.west);\n\t\t\\draw[->] (output3) -- (oracle3);\n\t\t\\draw[->] (oracle3) -- (input3);\n\t\t\\draw[->] (ref2-|algo3.east) -| (output3);\n\t\t\n\t\t%botline\n\t\t\\node[scale = 0.75][box6] at (0,-0.8) (algo10) {$\\tilde{L}$};\n\t\t\\node[scale = 0.75] at (0,-1)
+
+<!-- chunk {"id": "body-0087", "role": "body", "section": "Oracle equivalence", "weight": 1.0} -->
+
+(ref10) {};\n\t\t\\node[scale = 0.75] at (0,-0.6) (ref20) {};\n\t\t\\node[scale = 0.75][box3, left of = ref10, node distance = 8em] (state00) {$\\tilde{x}^{k-1}$};\n\t\t\\node[scale = 0.75][left of = ref10, node distance = 13em] (init10) {\\ldots};\n\t\t\\node[scale = 0.75][box3, right of = ref10, node distance = 8em] (state10) {$\\tilde{x}^{k}$};\n\t\t\\node[scale = 0.75][box] at (oracle10) {$\\phi$};\n\t\t\\node[scale = 0.75][box3, right of = oracle10, node distance = 6em] (output10)
+
+<!-- chunk {"id": "body-0088", "role": "body", "section": "Oracle equivalence", "weight": 1.0} -->
+
+{$\\tilde{y}^{k-1}$};\n\t\t\\node[scale = 0.75, left of= oracle10, node distance = 6em][box3] (input10) {$\\tilde{u}^{k-1}$};\n\t\t\\node[scale = 0.75][box6, right of = algo10, node distance = 16em] (algo20) {$\\tilde{L}$};\n\t\t\n\t\t\\draw[->] (init10) -- (state00);\n\t\t\\draw[->] (state00) -- (ref10-|algo10.west);\n\t\t\\draw[->] (state10-|algo10.east) -- (state10);\n\t\t\\draw[->] (input10) |-
+
+<!-- chunk {"id": "body-0089", "role": "body", "section": "Oracle equivalence", "weight": 1.0} -->
+
+(ref20-|algo10.west);\n\t\t\\draw[->] (output10) -- (oracle10);\n\t\t\\draw[->] (oracle10) -- (input10);\n\t\t\\draw[->] (ref20-|algo10.east) -| (output10);\n\t\t\\draw[->] (state10) -- (state10-|algo20.west);\n\t\t\n\t\t\\node[scale = 0.75][box3, right of = state10, node distance = 16em] (state20) {$\\tilde{x}^{k+1}$};\n\t\t\\node[scale = 0.75][box, right of = oracle10, node distance = 16em] (oracle20) {$\\phi$};\n\t\t\\node[scale = 0.75][box3, right of = oracle20, node distance =
+
+<!-- chunk {"id": "body-0090", "role": "body", "section": "Oracle equivalence", "weight": 1.0} -->
+
+6em] (output20) {$\\tilde{y}^{k}$};\n\t\t\\node[scale = 0.75, left of= oracle20, node distance = 6em][box3] (input20) {$\\tilde{u}^{k}$};\n\t\t\\node[scale = 0.75][box6, right of = algo20, node distance = 16em] (algo30) {$\\tilde{L}$};\n\t\t\n\t\t\\draw[->] (state10-|algo20.east) -- (state20);\n\t\t\\draw[->] (input20) |- (ref20-|algo20.west);\n\t\t\\draw[->] (output20) -- (oracle20);\n\t\t\\draw[->] (oracle20) -- (input20);\n\t\t\\draw[->]
+
+<!-- chunk {"id": "body-0091", "role": "body", "section": "Oracle equivalence", "weight": 1.0} -->
+
+(ref20-|algo20.east) -| (output20);\n\t\t\\draw[->] (state20) -- (state10-|algo30.west);\n\t\t\n\t\t\\node[scale = 0.75][right of = state20, node distance = 16em] (end10) {\\ldots};\n\t\t\\node[scale = 0.75][box, right of = oracle20, node distance = 16em] (oracle30) {$\\phi$};\n\t\t\\node[scale = 0.75][box3, right of = oracle30, node distance = 6em] (output30) {$\\tilde{y}^{k+1}$};\n\t\t\\node[scale = 0.75, left of= oracle30, node distance = 6em][box3] (input30)
+
+<!-- chunk {"id": "body-0092", "role": "body", "section": "Oracle equivalence", "weight": 1.0} -->
+
+{$\\tilde{u}^{k+1}$};\n\t\t\n\t\t\\draw[->] (state10-|algo30.east) -- (end10);\n\t\t\\draw[->] (input30) |- (ref20-|algo30.west);\n\t\t\\draw[->] (output30) -- (oracle30);\n\t\t\\draw[->] (oracle30) -- (input30);\n\t\t\\draw[->] (ref20-|algo30.east) -| (output30);\n\t\t\n\t\t% connections\n\t\t\n\t\t\\draw[-{Straight Barb[left]}] ($(output1.south) + (0.02,0)$) -- ($(output10.north) +
+
+<!-- chunk {"id": "body-0093", "role": "body", "section": "Oracle equivalence", "weight": 1.0} -->
+
+(0.02,0)$);\n\t\t\\draw[-{Straight Barb[left]}] ($(input20.north) + (-0.02,0)$) -- ($(input2.south) + (-0.02,0)$);\n\t\t\n\t\t\\draw[-{Straight Barb[left]}] ($(input3.south) + (0.02,0)$) -- ($(input30.north) + (0.02,0)$);\n\t\t\\draw[-{Straight Barb[left]}] ($(input30.north) + (-0.02,0)$) -- ($(input3.south) + (-0.02,0)$);\n\t\t\n\t\\end{tikzpicture}' language=<CodeLanguageLabel.TIKZ: 'Tikz'> Unrolled block-diagram representation of oracle equivalence.
+
+<!-- chunk {"id": "body-0094", "role": "body", "section": "Oracle equivalence", "weight": 1.0} -->
+
+Further, since oracle-equivalent algorithms have identical input and output sequences, many analytical properties of interest, particularly those pertaining to algorithm convergence or robustness, are preserved. For example, suppose the target problem is to minimize $f(x)$ with $x\in R^n$, with solution $x^\star$ and corresponding objective value $f(x^\star)$. Further suppose $f$ is convex and differentiable with oracle $\nabla f$. If two algorithms are oracle-equivalent, the sequence of gradients $\left \| \nabla f(x) \right \|$, distance to the solution $\left \| x - x^\star \right \|$, and objective function values $\| f(x) - f(x^\star)\|$ evolve identically, so they have the same worst-case convergence, etc: the gradient sequence and objective value are controlled by the oracle sequence.
+
+<!-- chunk {"id": "body-0095", "role": "body", "section": "Oracle equivalence", "weight": 1.0} -->
+
+Moreover, even if the oracle is noisy (e.g., suffers from additive or multiplicative noise, or even adversarial noise), from the point of view of the oracle, the algorithms are indistinguishable and any analytical property that involves only the oracle sequence will be the same.
+
+<!-- chunk {"id": "body-0096", "role": "body", "section": "Shift equivalence", "weight": 1.0} -->
+
+confidence=None created_by=None text='\\begin{tikzpicture}[>=latex]\n\t\t\n\t\t%topline\n\t\t\\node[scale = 0.75][box6] at (0.35,1.9) (algo1) {$L$};\n\t\t\\node[scale = 0.75] at (0.35,1.7) (ref2) {};\n\t\t\\node[scale = 0.75] at (0.35,2.1) (ref1) {};\n\t\t\\node[scale = 0.75][box2, left of = ref1, node distance = 10em] (state0) {$x^{k-1}_1, x^{k-1}_2, x^{k-1}_3$};\n\t\t\\node[scale = 0.75][left of = ref1, node distance = 18em] (init1)
+
+<!-- chunk {"id": "body-0097", "role": "body", "section": "Shift equivalence", "weight": 1.0} -->
+
+0.75][box6, right of = algo1, node distance = 20em] (algo2) {$L$};\n\t\t\n\t\t\\draw[->] (init1) -- (state0);\n\t\t\\draw[->] (state0) -- (ref1-|algo1.west);\n\t\t\\draw[->] (state1-|algo1.east) -- (state1);\n\t\t\\draw[->] (input1) |- (ref2-|algo1.west);\n\t\t\\draw[->] (output1) -- (oracle1);\n\t\t\\draw[->] (oracle1) -- (input1);\n\t\t\\draw[->] (ref2-|algo1.east) -| (output1);\n\t\t\\draw[->] (state1) --
+
+<!-- chunk {"id": "body-0098", "role": "body", "section": "Shift equivalence", "weight": 1.0} -->
+
+(state1-|algo2.west);\n\t\t\n\t\t\\node[scale = 0.75][box2, right of = state1, node distance = 20em] (state2) {$x^{k+1}_1, x^{k+1}_2, x^{k+1}_3$};\n\t\t\\node[scale = 0.75][box, right of = oracle1, node distance = 20em] (oracle2) {$\\phi$};\n\t\t\\node[scale = 0.75][box4, right of = oracle2, node distance = 6.5em] (output2) {$y^{k}_1, \\quad y^k_2$};\n\t\t\\node[scale = 0.75, left of= oracle2, node distance = 6.5em][box4] (input2) {$u^{k}_1, \\quad
+
+<!-- chunk {"id": "body-0099", "role": "body", "section": "Shift equivalence", "weight": 1.0} -->
+
+u^k_2$};\n\t\t\n\t\t\\draw[->] (state1-|algo2.east) -- (state2);\n\t\t\\draw[->] (input2) |- (ref2-|algo2.west);\n\t\t\\draw[->] (output2) -- (oracle2);\n\t\t\\draw[->] (oracle2) -- (input2);\n\t\t\\draw[->] (ref2-|algo2.east) -| (output2);\n\t\t\\node[scale = 0.75][right of = state2, node distance = 8em] (end1) {\\ldots};\n\t\t\\draw[->] (state2) -- (end1);\n\t\t\n\t\t%botline\n\t\t\\node[scale = 0.75][box6]
+
+<!-- chunk {"id": "body-0100", "role": "body", "section": "Shift equivalence", "weight": 1.0} -->
+
+\\tilde{u}^{k-1}_2$};\n\t\t\\node[scale = 0.75][box6, right of = algo10, node distance = 20em] (algo20) {$\\tilde{L}$};\n\t\t\n\t\t\\draw[->] (init10) -- (state00);\n\t\t\\draw[->] (state00) -- (ref10-|algo10.west);\n\t\t\\draw[->] (state10-|algo10.east) -- (state10);\n\t\t\\draw[->] (input10) |- (ref20-|algo10.west);\n\t\t\\draw[->] (output10) -- (oracle10);\n\t\t\\draw[->] (oracle10) -- (input10);\n\t\t\\draw[->]
+
+<!-- chunk {"id": "body-0101", "role": "body", "section": "Shift equivalence", "weight": 1.0} -->
+
+(ref20-|algo10.east) -| (output10);\n\t\t\\draw[->] (state10) -- (state10-|algo20.west);\n\t\t\n\t\t\\node[scale = 0.75][box2, right of = state10, node distance = 20em] (state20) {$\\tilde{x}^{k+1}_1, \\tilde{x}^{k+1}_2, \\tilde{x}^{k+1}_3$};\n\t\t\\node[scale = 0.75][box, right of = oracle10, node distance = 20em] (oracle20) {$\\phi$};\n\t\t\\node[scale = 0.75][box4, right of = oracle20, node distance = 6.5em] (output20) {$\\tilde{y}^{k}_1, \\quad
+
+<!-- chunk {"id": "body-0102", "role": "body", "section": "Shift equivalence", "weight": 1.0} -->
+
+\\tilde{y}^{k}_2$};\n\t\t\\node[scale = 0.75, left of= oracle20, node distance = 6.5em][box4] (input20) {$\\tilde{u}^{k}_1, \\quad \\tilde{u}^{k}_2$};\n\t\t\n\t\t\\draw[->] (state10-|algo20.east) -- (state20);\n\t\t\\draw[->] (input20) |- (ref20-|algo20.west);\n\t\t\\draw[->] (output20) -- (oracle20);\n\t\t\\draw[->] (oracle20) -- (input20);\n\t\t\\draw[->] (ref20-|algo20.east) -| (output20);\n\t\t\\node[scale = 0.75][right
+
+<!-- chunk {"id": "body-0103", "role": "body", "section": "Shift equivalence", "weight": 1.0} -->
+
+of = state20, node distance = 8em] (end10) {\\ldots};\n\t\t\\draw[->] (state20) -- (end10);\n\t\t\n\t\t% matching\n\t\t\n\t\t\\draw[-{Straight Barb[left]}] ($(output1.south) + (-0.33,0)$) -- ($(output10.north) + (0.37,0)$);\n\t\t\\draw[-{Straight Barb[left]}] ($(output10.north) + (0.33,0)$) -- ($(output1.south) + (-0.37,0)$);\n\t\t\n\t\t\\draw[-{Straight Barb[left]}] ($(output1.south) + (0.39,0)$) -- ($(output20.north) +
+
+<!-- chunk {"id": "body-0104", "role": "body", "section": "Shift equivalence", "weight": 1.0} -->
+
+(-0.33,0)$) -- ($(input20.north) + (0.37,0)$);\n\t\t\\draw[-{Straight Barb[left]}] ($(input20.north) + (0.33,0)$) -- ($(input2.south) + (-0.37,0)$);\n\t\t\n\t\\end{tikzpicture}' language=<CodeLanguageLabel.TIKZ: 'Tikz'> Unrolled block-diagram representation of shift equivalence.
+
+<!-- chunk {"id": "body-0105", "role": "body", "section": "Shift equivalence", "weight": 1.0} -->
+
+algo5,algo6 from the third motivating example. They are not oracle-equivalent. However, their input and output sequences become identical after shifting algo5 one step backward: these algorithms are shift-equivalent.
+
+<!-- chunk {"id": "body-0106", "role": "body", "section": "Shift equivalence", "weight": 1.0} -->
+
+Two algorithms are shift-equivalent for any problem in the set and for all possible oracles, there exist initializations for both algorithms such that the oracle sequences match up to a prefix.
+
+<!-- chunk {"id": "body-0107", "role": "body", "section": "Shift equivalence", "weight": 1.0} -->
+
+Shift equivalence can also be interpreted as oracle equivalence up to a shift. We depict shift equivalence graphically in Conversely, oracle equivalence can be regarded as a special case of shift equivalence, where the oracle sequences match without any shift. Besides, similar as oracle equivalence, shift equivalence is also symmetric.
+
+<!-- chunk {"id": "body-0108", "role": "body", "section": "Discussion", "weight": 1.5} -->
+
+One algorithm, many interpretations Is it useful to have many different forms of an algorithm, if all the forms are (oracle- or shift-)equivalent? Yes: different rewritings of one algorithm often yield different (physical) intuition. algo\_i1 uses the current loss function for extrapolation[vasilyev2010extragradient]; while algo\_i2 seems to extrapolate from the previous loss function[censor2011subgradient]. Equivalent algorithms can differ in memory usage, computational efficiency, For example, implementations of algo\_i3,algo\_i4 lead to different memory usage[daskalakis2018training, malitsky2015projected]. In each time step $k$, algo\_i3 needs to store $x_2^{k}, x_2^{k+1}$ and $F^k(\cdot)$, but algo\_i4 only needs to store $x_1^{k}$ and $x_1^{k+1}$in memory.
+
+<!-- chunk {"id": "body-0109", "role": "body", "section": "Discussion", "weight": 1.5} -->
+
+These different rewritings also naturally yield different generalizations, for example, by projecting different state variables.
+
+<!-- chunk {"id": "body-0110", "role": "body", "section": "Discussion", "weight": 1.5} -->
+
+Do these formal notions of equivalence capture everything an optimization expert might mean by equivalent algorithms? No: an example is shown in algop3. algop3,algo4 are related by a nonlinear state transformation, $x^k = \textnormal{exp}(\xi^{k})$. However, none of the equivalences we have discussed capture this example. The difficulty is that algop3is a nonlinear algorithm, while all of our machinery for detecting algorithm equivalence requires linearity. While notions of nonlinear equivalence are certainly interesting, in this paper we will define only those types of equivalence that our framework can detect. $x^{k+1} = x^k \textnormal{exp} (- \frac{1}{5} \nabla f(\textnormal{log} x^k))$
+
+<!-- chunk {"id": "body-0111", "role": "body", "section": "A characterization of oracle equivalence", "weight": 1.0} -->
+
+In this section, we will discuss how to characterize oracle equivalence via transfer functions. Recall that oracle equivalence, introduced in equivalence, characterizes an algorithm by its oracle sequence. This sequence is uniquely determined by the initialization of the algorithm (which we ignore) and the input-output map of the linear system representing the algorithm. While the state-space realization of two equivalent algorithms may differ, from control, recall that the transfer function of a linear system uniquely characterizes the system as an input-output map. Fortunately, using eqp10, we can directly calculate the transfer function from the state-space realization of an algorithm; and we can use equality of transfer functions to check if two algorithms are equivalent. This machinery allows us to avoid the issue of initialization (or of the optimization problem!) entirely, as we can check algorithm equivalence without ever producing a sequence of iterates. consider two oracle-equivalent algorithms with the same number of oracle calls in each iteration. oracle-equ, we know that for every optimization problem, and for all possible oracles, there exist initializations for both algorithms so that the oracle sequence of the two algorithms is the same.
+
+<!-- chunk {"id": "body-0112", "role": "body", "section": "A characterization of oracle equivalence", "weight": 1.0} -->
+
+Concretely, by picking the initializations of both algorithms appropriately, we can ensure that the first output of the linear systems match. Hence (since the oracles are the same), the first input of the linear systems match, and so the second output of the linear systems match, etc. By induction, for each possible sequence of input $\mathbf{u}$, they produce identical sequences of output $\mathbf{y}$. Then from control, the algorithms must have identical impulse responses and consequently identical transfer functions. In light of the previous discussion, we have proved the following proposition, since each step in the reasoning above is necessary and sufficient. We defer a detailed mathematical proof to proof-oracleequivalence.
+
+<!-- chunk {"id": "body-0113", "role": "body", "section": "A characterization of oracle equivalence", "weight": 1.0} -->
+
+Algorithms with the same oracle calls in each iteration are oracle-equivalent if and only if they have identical transfer functions.
+
+<!-- chunk {"id": "body-0114", "role": "body", "section": "A characterization of oracle equivalence", "weight": 1.0} -->
+
+Importantly, oracle-equivalent algorithms have the same transfer function, even if they have a different number of state variables. But any realization of the algorithm must have at least as many state variables as the minimal realization of the linear system.
+
+<!-- chunk {"id": "body-0115", "role": "body", "section": "A characterization of oracle equivalence", "weight": 1.0} -->
+
+It is meaningless to compare algorithms with different oracle calls, as two algorithms are oracle equivalent if there exist initializations for both algorithms such that they generate the same oracle sequence. Hence throughout this section, we make assump:compare: when we compare two algorithms, we assume both algorithms use the same set of oracles. In this case, by control, we can always initialize both algorithms at zero to satisfy the requirement of oracle equivalence. For any algorithm that involves constant terms in its state-space realization, we can affinely transform it into an equivalent state-space realization without constant terms. Under this affine transformation, zero still satisfies the requirements of initialization for oracle-equivalence. This justifies our approach to characterize oracle equivalence with transfer functions and ignore the initializations. Further, from eqp6, the effect of initialization diminishes as time step goes to infinity, thus, asymptotically initialization does not affect the behavior of an algorithm such as convergence properties.
+
+<!-- chunk {"id": "body-0116", "role": "body", "section": "A characterization of oracle equivalence", "weight": 1.0} -->
+
+Oracle-equivalent algorithms have identical oracle sequences and hence converge to the same fixed point (if they converge).
+
+<!-- chunk {"id": "body-0117", "role": "body", "section": "A characterization of oracle equivalence", "weight": 1.0} -->
+
+Suppose algorithm $\mathcal{A}_1: \mathcal X \to \mathcal X$ with (nonlinear) oracle $\phi: \mathcal X \to \mathcal X$ and state-space realization $(A_1, B_1, C_1, D_1)$, converges to a fixed point $(y^\star, u^\star, x^\star)$ that satisfies x^\star & = A_1 x^\star + B_1 u^\star \\y^\star & = C_1 x^\star + D_1 u^\star \\u^\star & = \phi(y^\star).
+
+<!-- chunk {"id": "body-0118", "role": "body", "section": "A characterization of oracle equivalence", "weight": 1.0} -->
+
+If algorithm $\mathcal{A}_2$ is oracle-equivalent to $\mathcal{A}_1$, $\mathcal{A}_2$ converges to a fixed point $(y^\star, u^\star, \tilde x^\star)$ that has the same output and input as the fixed point of $\mathcal{A}_1$; however, the state $\tilde x^\star$may not be the same, or even have the same dimension.
+
+<!-- chunk {"id": "body-0119", "role": "body", "section": "A characterization of oracle equivalence", "weight": 1.0} -->
+
+Further, if there is an invertible linear map $Q$ between the states of $\mathcal{A}_1$ and $\mathcal{A}_2$ and $(y^\star, u^\star, x^\star)$ is a fixed point of $\mathcal{A}_1$, then $(y^\star, u^\star, Qx^\star)$ is a fixed point of $\mathcal{A}_2$.
+
+<!-- chunk {"id": "body-0120", "role": "body", "section": "A characterization of oracle equivalence", "weight": 1.0} -->
+
+We can use this fact to derive a relation between the state-space realizations of the two algorithms: the fixed point equation for $\mathcal{A}_2$ can be written as Qx^\star & = QA_1Q^{-1} Qx^\star + QB_1 u^\star \\y^\star & = C_1Q^{-1} Qx^\star + D_1 u^\star \\u^\star & = \phi(y^\star), which shows that the state-space realization $$% \left[\begin{array}{c:c c}% \end{array}\right], which can be obtained by eqp11.
+
+<!-- chunk {"id": "body-0121", "role": "body", "section": "Motivating examples: proof of equivalence", "weight": 1.0} -->
+
+Now, we will revisit the first and second motivating examples and apply prop1 to show equivalence. We perform the computation using the gradient oracle ($\nabla f$) as the oracle to compute the state-space realizations and transfer functions.
+
+<!-- chunk {"id": "body-0122", "role": "body", "section": "Motivating examples: proof of equivalence", "weight": 1.0} -->
+
+The state-space realization and transfer function of algo1 are shown as $$\hat H_1(z) = \left[\begin{array}{c c|c} \end{array}\right] = \left[\begin{array}{c c} 2 & -1 \end{array} \right] \left(zI - \left[\begin{array}{c c} 2 & -1 \\1 & 0 \end{array}\right]\right)^{-1} \left[\begin{array}{c} -\frac{1}{10}\\ 0 \end{array} \right] = \frac{-2z + 1}{10(z-1)^2}.$$ The state-space realization and the transfer function of algo2 are $$\hat H_2(z) = \left[\begin{array}{c c|c} \end{array}\right] = \left[\begin{array}{c c} 1 & 0 \end{array} \right] \left(zI -
+
+<!-- chunk {"id": "body-0123", "role": "body", "section": "Motivating examples: proof of equivalence", "weight": 1.0} -->
+
+\left[\begin{array}{c c} 1 & -1 \\0 & 1 \end{array}\right]\right)^{-1} \left[\begin{array}{c} -\frac{1}{5}\\ \frac{1}{10} \end{array} \right] = \frac{-2z + 1}{10(z-1)^2}.$$ Hence we see algo1,algo2 have the same transfer function, so by prop1 they are oracle-equivalent.
+
+<!-- chunk {"id": "body-0124", "role": "body", "section": "Motivating examples: proof of equivalence", "weight": 1.0} -->
+
+In fact, since the algorithms have the same number of state variables, there exists an invertible linear transformation to convert the state-space realization of algo1 to the state-space realization of algo2 following eqp11.
+
+<!-- chunk {"id": "body-0125", "role": "body", "section": "Motivating examples: proof of equivalence", "weight": 1.0} -->
+
+The state-space realization and transfer function of algo3 are $$\hat H_3(z) = \left[\begin{array}{c c|c} \end{array}\right] = \left[\begin{array}{c c} -1 & 2 \end{array} \right] \left(zI - \left[\begin{array}{c c} 3 & -2 \\1 & 0 \end{array}\right]\right)^{-1} \left[\begin{array}{c} \frac{1}{5}\\ 0 \end{array} \right] = -\frac{1}{5(z-1)}.$$ The state-space realization and transfer function of algo4 are $$\hat H_4(z) = \left[\begin{array}{c|c} \end{array}\right] = \left[\begin{array}{c} 1 \end{array} \right] \left(zI - \left[\begin{array}{c} 1
+
+<!-- chunk {"id": "body-0126", "role": "body", "section": "Motivating examples: proof of equivalence", "weight": 1.0} -->
+
+\end{array}\right]\right)^{-1} \left[\begin{array}{c} -\frac{1}{5} \end{array} \right] = -\frac{1}{5(z-1)}.$$ algo3,algo4 have the same transfer function, so by prop1 they are oracle-equivalent.
+
+<!-- chunk {"id": "body-0127", "role": "body", "section": "Motivating examples: proof of equivalence", "weight": 1.0} -->
+
+On the other hand, they have different numbers of states. Consider the invertible linear transformation $$Q = \left[\begin{array}{c c} -1 & 2 \\ 0 & 1 \end{array}\right].$$ Applying $Q$ to the state-space realization of algo3 leads to $$\left[\begin{array}{c c:c} \end{array}\right],$$ where we have used dashed lines to demarcate the blocks in the state-space realization. This has the same minimal realization as algo4 by control.
+
+<!-- chunk {"id": "body-0128", "role": "body", "section": "Motivating examples: proof of equivalence", "weight": 1.0} -->
+
+$$\left[\begin{array}{c:c} \end{array}\right].$$ Note that the state-space realization of algo4 is a minimal realization. This shows the reason why algo3,algo4are equivalent even if they have different numbers of states.
+
+<!-- chunk {"id": "body-0129", "role": "body", "section": "Motivating examples: proof of equivalence", "weight": 1.0} -->
+
+Now we show how the sausage was made. algo3 was designed by starting with the more complex Triple momentum algorithm algo13[doi:10.1137/15M1009597,tmm] and choosing parameters of the algorithm so its transfer function matched algo4.
+
+<!-- chunk {"id": "body-0130", "role": "body", "section": "Motivating examples: proof of equivalence", "weight": 1.0} -->
+
+Triple momentum algorithm $x^{k+1}_1 = (1+\beta)x^k_1 - \beta x^k_2 - \alpha \nabla f((1+\eta)x^k_1 - \eta x^k_2)$ The state-space realization and transfer function of $$\hat H_7(z) = \left[\begin{array}{c c|c} 1+\beta & -\beta & -\alpha \\\end{array}\right] = -\frac{\alpha((\eta+1)z-\eta)}{(z-1)(z-\beta)}.$$ We now demand that eq7(right) must equal the transfer function of algo4 for all values of $z$, resulting in the equations & 5\alpha\eta = \beta.
+
+<!-- chunk {"id": "body-0131", "role": "body", "section": "Motivating examples: proof of equivalence", "weight": 1.0} -->
+
+We solve for the parameters $\alpha$, $\eta$ and $\beta$ to find a solution $\alpha =-\frac{1}{5}$, $\beta = 2$ and $\eta = -2$ to eq3 that corresponds to algo3. Other solutions exist: for example, $\alpha = 1$, $\beta = -4$ and $\eta = -\frac{4}{5}$ solves eq3 and yields another (different!) algorithm equivalent to algo4.
+
+<!-- chunk {"id": "body-0132", "role": "body", "section": "A characterization of shift equivalence", "weight": 1.0} -->
+
+We can also characterize shift equivalence using transfer functions. Suppose an algorithm uses more than one oracle, and the call to the second oracle depends on the value of the first. Take algo5 as example: the first update equation calls the oracle $\textnormal{prox}_{f}$ to compute $x^{k+1}_1 = \textnormal{prox}_{f}(x^k_3)$, and the second update equation calls the oracle $\textnormal{prox}_{g}$ to compute $x^{k+1}_2 = \textnormal{prox}_{g}(2x^{k+1}_1 - x^k_3)$. This second update relies on the value of $x^{k+1}_1$. Imagine now that we reorder the update equations by some permutation. Generally this change produces an entirely different algorithm. But if the permutation is a cyclic permutation, the order of the oracle calls is preserved.
+
+<!-- chunk {"id": "body-0133", "role": "body", "section": "A characterization of shift equivalence", "weight": 1.0} -->
+
+In the example of algo5, we could start with the update equation and produce exactly the same sequence of oracle calls (after the first) by initializing $x^{k+1}_1$ and $x^k_3$ appropriately. This new algorithm is shift-equivalent to algo5 by def2. algo5 has three update equations, and so there are two other algorithms that may be produced by cyclic permutations of algo5, shown below as algo5\_1,algo5\_2.
+
+<!-- chunk {"id": "body-0134", "role": "body", "section": "A characterization of shift equivalence", "weight": 1.0} -->
+
+Both are shift-equivalent to but algo5\_2 is also oracle-equivalent to algo5. (We will revisit and formally prove this result later.) It is easy to see why: the oracles $\textnormal{prox}_{f}$ and $\textnormal{prox}_{g}$ are called in the same order in algo5,algo5\_2, but in the opposite order in algo5\_1.
+
+<!-- chunk {"id": "body-0135", "role": "body", "section": "A characterization of shift equivalence", "weight": 1.0} -->
+
+We introduce notation to generalize this idea to more complex algorithms. $\mathcal{A}$ that consists of $m$ update equations and makes $n$ sequential oracle calls in each iteration. We insist that no update equation may contain more than one oracle call, At iteration $k$, the algorithm generates states outputs $y^k_1, \ldots, y^k_n$, and inputs $u^k_1, \ldots, u^k_n$, respectively. Consider any permutation $\tilde \pi$ of the sequence $(m) = (1, \ldots, m)$. We call algorithm $\mathcal{B} = P_{\tilde \pi}\mathcal{A}$ a permutation of algorithm $\mathcal{A}$ if $\mathcal{B}$ performs the update equations of $\mathcal{A}$ in the order $\tilde \pi$ at each iteration.
+
+<!-- chunk {"id": "body-0136", "role": "body", "section": "A characterization of shift equivalence", "weight": 1.0} -->
+
+The algorithms $\mathcal{A}$ and $\mathcal{B}$ if and only if $\tilde \pi$ is a cyclic permutation of $(m)$.
+
+<!-- chunk {"id": "body-0137", "role": "body", "section": "A characterization of shift equivalence", "weight": 1.0} -->
+
+An algorithm and any of its cyclic permutations are shift-equivalent. Any two shift-equivalent algorithms are equivalent to cyclic permutations of each other.
+
+<!-- chunk {"id": "body-0138", "role": "body", "section": "A characterization of shift equivalence", "weight": 1.0} -->
+
+We provide a proof sketch here, and defer a detailed proof to proof-cyclicpermutation. Let us name the oracle calls of the original algorithm $\mathcal A$ so that the oracles are called in order $(n)$.
+
+<!-- chunk {"id": "body-0139", "role": "body", "section": "A characterization of shift equivalence", "weight": 1.0} -->
+
+Cyclic permutation implies shift equivalence. Suppose $\mathcal{B} = P_{\tilde \pi}\mathcal{A}$ where $\tilde \pi$ is a cyclic permutation of $(m)$. The permutation of update equations may reorder the oracle calls within one iteration, so that the oracle calls in algorithm $\mathcal{B}$ follow a cyclic permutation $\pi$ of $(n)$ (possibly, the identity). Hence $\mathcal{A}$ and $\mathcal{B}$ are shift-equivalent. (If the permutation is the identity, then the algorithms are also oracle-equivalent.)
+
+<!-- chunk {"id": "body-0140", "role": "body", "section": "A characterization of shift equivalence", "weight": 1.0} -->
+
+Shift equivalence implies cyclic permutation. Suppose algorithms $\mathcal A$ and $\mathcal B$ are shift-equivalent. If they are also oracle-equivalent, then they can be written using the same set of update equations. If they are not oracle-equivalent, we can always find a cyclic permutation of the update equations of $\mathcal A$ that produces the same oracle sequence as $\mathcal B$. Therefore $\mathcal A$ and $\mathcal B$ are equivalent to cyclic permutations of each other. (In the first case, the permutation is the identity.)
+
+<!-- chunk {"id": "body-0141", "role": "body", "section": "Reordering oracle calls", "weight": 1.0} -->
+
+Most optimization algorithms proceed by sequential updates, each of which depends on the previous update. However, for completeness, we consider a more general class of equivalences that arises for algorithms whose oracle updates have a more complex dependency structure. We may express the order of oracle calls at each iteration using a directed graph, where the graph has edge from oracle if oracle call $j$ depends on the result of oracle call $i$ (within the same iteration). In other words, within the iteration we must call oracle $i$ before oracle $j$. We call this directed graph the oracle dependence graph(ODG) of the algorithm.
+
+<!-- chunk {"id": "body-0142", "role": "body", "section": "Reordering oracle calls", "weight": 1.0} -->
+
+An example is provided below as Note that we are not aware of any practical algorithm for optimization with this ODG. It is constructed only for illustration. $x^{k+1}_4 = \textnormal{prox}_{tf}(\frac{1}{2}x^{k+1}_2 + \frac{1}{2}x^{k+1}_3)$ $x^{k+1}_4 = \textnormal{prox}_{tf}(\frac{1}{2}x^{k+1}_2 + \frac{1}{2}x^{k+1}_3)$ fig7 expresses the dependency of oracle calls within each iteration of algo6\_1. At each iteration, oracle calls 2 ($\nabla g$) and 3 ($\nabla h$) depends on the result of oracle call 1 ($\nabla f$); oracle call 4 ($\textnormal{prox}_{tf}$) depends on the results of oracle calls 1, 2, and 3.
+
+<!-- chunk {"id": "body-0143", "role": "body", "section": "Reordering oracle calls", "weight": 1.0} -->
+
+confidence=None created_by=None text="\\begin{tikzpicture}\n\t\t[->,>=stealth',shorten >=1pt,auto,node distance=1.5cm,semithick]\n\t\t\n\t\t\\node[state] (A) [minimum size=0.7cm] {$1$};\n\t\t\\node[state] (B) [below right of=A] [minimum size=0.7cm] {$2$};\n\t\t\\node[state] (C) [below left of=A] [minimum size=0.7cm] {$3$};\n\t\t\\node[state] (D) [below left of=B] [minimum size=0.7cm] {$4$};\n\t\t\\path (A) edge node {} (B);\n\t\t\\path (A) edge node {} (C);\n\t\t\\path
+
+<!-- chunk {"id": "body-0144", "role": "body", "section": "Reordering oracle calls", "weight": 1.0} -->
+
+(B) edge node {} (D);\n\t\t\\path (C) edge node {} (D);\n\t\t\\path (A) edge node {} (D);\n\t\\end{tikzpicture}" language=<CodeLanguageLabel.TIKZ: 'Tikz'> Directed graph representing dependency of oracle calls in algo6\_1.
+
+<!-- chunk {"id": "body-0145", "role": "body", "section": "Reordering oracle calls", "weight": 1.0} -->
+
+An algorithm is always written as a sequence of update equations. But some algorithms might have a directed graph that may be written as a sequence (with all edges pointing forward) in more than one way, and so can be implemented as a sequence of oracle calls in more than one way.
+
+<!-- chunk {"id": "body-0146", "role": "body", "section": "Reordering oracle calls", "weight": 1.0} -->
+
+For illustration, consider algo6\_1,algo6\_2. At each iteration, the oracle calls of algo6\_1,algo6\_2 calls to oracles $\nabla f$, $\nabla g$, $\nabla h$, and $\textnormal{prox}_{tf}$ are identical. The only difference is that the oracle calls $\nabla g$ and $\nabla h$ are swapped in the oracle sequence at each iteration. Notice that the state-space realizations of these algorithms still have the same transfer function (after swapping the second and third columns and rows), consistent with the fact that algo6\_1,algo6\_2 share the same directed graph of oracle calls (fig7).
+
+<!-- chunk {"id": "body-0147", "role": "body", "section": "Reordering oracle calls", "weight": 1.0} -->
+
+We know of no practical optimization algorithm like this. However, were one to be discovered, we would suggest an expanded definition of oracle equivalence: two algorithms are oracle-equivalent if there exists a way of writing each algorithm as a sequence of updates so that both algorithms have the same sequence of oracle calls. The transfer function still identifies algorithms that are oracle-equivalent in this The oracle calls in an algorithm at each iteration are always written in sequential form. This sequential form is lost in the state-space realization of the algorithm. However, the order (dependency) of oracle calls is encoded in the $D$ matrix of the state-space realization. In this sense, the $D$ matrix encodes the adjacency matrix of the directed graph. We have $D_{ij} \neq 0$ if and only if oracle call $i$ depends on the results of oracle call $j$ at each iteration. For example, in the state-space realization of algo6\_1, $$\left[\begin{array}{cccc} \end{array}\right].$$ In light of this discussion, we can strengthen prop3 to prop3\_1.
+
+<!-- chunk {"id": "body-0148", "role": "body", "section": "Reordering oracle calls", "weight": 1.0} -->
+
+An algorithm and any of its cyclic permutations are shift-equivalent; further, if they share the same $D$ matrix in their state-space realizations, they are also oracle-equivalent. Any two shift-equivalent algorithms are equivalent to cyclic permutations of each other.
+
+<!-- chunk {"id": "body-0149", "role": "body", "section": "Reordering oracle calls", "weight": 1.0} -->
+
+If an algorithm contains $m$ update equations and $n$ oracle calls at each iteration ($m \ge n$), there are $m$ possible cyclic permutations on the update equations. According to the $D$ matrix in the state-space realization, we can group the $m$ cyclic permutations into $n$ distinct equivalent classes. Algorithms within each equivalence class are oracle-equivalent and shift-equivalent, while algorithms in different equivalent classes are only shift-equivalent. The $n$ distinct equivalence classes correspond to the $n$ cyclic permutations of the original order of oracle calls $(n)$.
+
+<!-- chunk {"id": "body-0150", "role": "body", "section": "Characterization of cyclic permutation", "weight": 1.0} -->
+
+In the remainder of this paper, let us restrict our attention to algorithms for which a (cyclic) permutation of the algorithm changes the update order of oracle calls within one iteration, or in other words, changes the $D$ matrix in the state-space realization. In this way, we call algorithm $\mathcal{B} = P_{\pi}\mathcal{A}$ a permutation of algorithm $\mathcal{A}$ if $\mathcal{B}$ performs the update equations of $\mathcal{A}$ in a different order such that the update order of oracle calls of $\mathcal B$ $\mathcal{A}$ has state-space realization $(A, B, C, D)$, and $\mathcal{B} = P_{\pi}\mathcal{A}$ where $\pi = (j+1,\ldots, n, 1,\ldots, j)$ for $1< j < n$ is a cyclic permutation of $(n)$. We will show how to recognize this relationship between the algorithms using their transfer functions.
+
+<!-- chunk {"id": "body-0151", "role": "body", "section": "Characterization of cyclic permutation", "weight": 1.0} -->
+
+Partition the oracle calls into two parts, $(1, \ldots, j)$ and $(j+1, \ldots, n)$, and partition the input and output sequences in the same way: $\bar{\mathbf{u}}_1$, $\bar{\mathbf{u}}_2$ for inputs and $\bar{\mathbf{y}}_1$, $\bar{\mathbf{y}}_2$ for outputs.
+
+<!-- chunk {"id": "body-0152", "role": "body", "section": "Characterization of cyclic permutation", "weight": 1.0} -->
+
+The state-space realization $L_\mathcal{A}$ and transfer function $\hat H_{\mathcal{A}}(z)$ can also be partitioned accordingly as $$L_\mathcal{A} = \left[\begin{array}{c:c c} \end{array}\right],$$ $$\hat H_{\mathcal{A}}(z) = \left[\begin{array}{c c} = \left[\begin{array}{c c} \end{array}\right].$$ Now we can say how the transfer function of an algorithm is related to that of its cyclic permutation. Recall that by when we compare transfer functions to detect shift equivalence (or cyclic permutations), both algorithms call the same set of oracles in each iteration.
+
+<!-- chunk {"id": "body-0153", "role": "body", "section": "Characterization of cyclic permutation", "weight": 1.0} -->
+
+Instate notation as in eq8 and assume $D_{12} = 0$. Then $\mathcal{B}$ is equivalent to $P_{\pi}\mathcal{A}$ if and only if the transfer function of $\mathcal{B}$ satisfies $$\hat H_{\mathcal{B}}(z) = \left[\begin{array}{c c} \end{array}\right].$$ We provide a proof sketch here and defer a detailed proof to proof-shiftequivalence.
+
+<!-- chunk {"id": "body-0154", "role": "body", "section": "Characterization of cyclic permutation", "weight": 1.0} -->
+
+The state-space realization of $P_{\pi}\mathcal{A}$ is $$\left[\begin{array}{c c:c c} \end{array}\right].$$ From the state-space realization, we may compute the transfer function as $$\hat H_{\mathcal{B}}(z) = \left[\begin{array}{c c} \end{array}\right] = \left[\begin{array}{c c} \end{array}\right].$$ Finally, note two algorithms are equivalent if and only if they have identical transfer functions by prop1.
+
+<!-- chunk {"id": "body-0155", "role": "body", "section": "Characterization of cyclic permutation", "weight": 1.0} -->
+
+We have assumed that $D_{12} = 0$ for algorithm $\mathcal{A}$. This assumption is quite weak. for any algorithm $\mathcal{A}$ that can be represented as a causal linear time-invariant system. Here, causal means that we can implement the algorithm by calling state update equations sequentially. suppose the state update equations have been arranged in this order, and use eqp3 to write down the matrix representation of the infinite dimensional map $\mathbf{H}$ that maps input $\mathbf{u}$ to output $\mathbf{y}$ \vdots & \ddots & \ddots & \ddots & \ddots & \ddots & \ddots We can see that map $\mathbf{H}$ is (block) Toeplitz. Further, if algorithm $\mathcal{A}$ is causal, map $\mathbf{H}$ must be lower-triangular, By causality, at each iteration the former oracle calls must be independent with the latter oracle calls while the latter calls can depend on the former calls.
+
+<!-- chunk {"id": "body-0156", "role": "body", "section": "Characterization of cyclic permutation", "weight": 1.0} -->
+
+This indicates that there are no directed cycles in the directed graph representing oracle calls at each iteration for any causal algorithm. In other words, the graph is a directed acyclic graph (DAG). This is consistent with the fact that any causal algorithm has a lower-triangular (lower-triangular adjacency matrix of the directed graph).
+
+<!-- chunk {"id": "body-0157", "role": "body", "section": "Characterization of cyclic permutation", "weight": 1.0} -->
+
+Note that algorithms are not always written with state update equations ordered causally: for example, the state-space realization eq12 has a non-zero $D_{12}$ block. However, we may reorder these equations so that each equation depends only on previously-computed quantities to reveal that the iteration is causal; after this rearrangement, the new $D_{12}$ block is 0. We discuss permutations further in timedelay.
+
+<!-- chunk {"id": "body-0158", "role": "body", "section": "Characterization of cyclic permutation", "weight": 1.0} -->
+
+The fixed points of an algorithm and its cyclic permutations are the same up to a permutation, as stated by prop-shiftfixedpoint.
+
+<!-- chunk {"id": "body-0159", "role": "body", "section": "Applications: proof of shift equivalence", "weight": 1.0} -->
+
+Now, we can revisit algo5,algo6 in the third motivating example and show that they are shift-equivalent. Here the oracles of algo5,algo6 are $\text{prox}_f$ and $\text{prox}_g$. The transfer function of algo5 is $$\hat H_5(z) = \left[\begin{array}{ c c c | c c } \end{array}\right] = \left[\begin{array}{ c c } \end{array}\right].$$ The transfer functions of algo6 is $$\hat H_6(z) = \left[\begin{array}{ c c | c c } \end{array}\right] = \left[\begin{array}{ c c } \end{array}\right].$$ From prop3,prop4, we know that they are shift-equivalent and equivalent up to a cyclic permutation.
+
+<!-- chunk {"id": "body-0160", "role": "body", "section": "Applications: proof of shift equivalence", "weight": 1.0} -->
+
+Here we revisit algo5\_1,algo5\_2 at the beginning of this chapter and show their relations with algo5. The oracles are $\text{prox}_f$ and $\text{prox}_g$. The transfer function of algo5\_1 is $$\hat H_8(z) = \left[\begin{array}{ c c c | c c } \end{array}\right] = \left[\begin{array}{ c c } \end{array}\right].$$ The transfer function of algo5\_2 is $$\hat H_9(z) = \left[\begin{array}{ c c c | c c } \end{array}\right] = \left[\begin{array}{ c c } \end{array}\right].$$ From prop3,prop4, we know that algo5,algo5\_1 are shift-equivalent and equivalent up to a cyclic permutation.
+
+<!-- chunk {"id": "body-0161", "role": "body", "section": "Applications: proof of shift equivalence", "weight": 1.0} -->
+
+From prop1, we know algo5,algo5\_2are oracle-equivalent, thus they are also shift-equivalent. $x^{k+1}_2 = \textnormal{prox}_{t(g \circ L)}(2x^{k+1}_1 - x^k_3)$ $\xi^{k+1}_1 = \textnormal{argmin}_{\xi}\{g(\xi)+ \frac{\rho}{2} $\xi^{k+1}\_2 = \textnormal{argmin}\_{\xi}\{f(\xi)+ \frac{\rho}{2} Douglas-Rachford splitting and ADMM Consider a last example of algorithm permutation: Douglas-Rachford splitting (DR) (algo7[douglas1956numerical, eckstein1992douglas]) and the alternating direction method of multipliers (ADMM) (algo8[ryuyinconvex]).
+
+<!-- chunk {"id": "body-0162", "role": "body", "section": "Applications: proof of shift equivalence", "weight": 1.0} -->
+
+Suppose that linear operator $L$ is invertible, $A = L^{-1}$, $B = -I$, and $c = 0$ in eqp1. Then both DR and ADMM solve problem eqp1[MAL-016, wen2010alternating, lions1979splitting], and the update equations of ADMM can be simplified as algo8\_1. $\xi^{k+1}_1 = L\textnormal{prox}_{\frac{1}{\rho}(g \circ L)}(\xi^k_2 - \xi^k_3)$ $\xi^{k+1}_2 = \textnormal{prox}_{\frac{1}{\rho}f}(L^{-1}\xi^{k+1}_1 + \xi^k_3)$ Further, we assume $\rho = 1/t$ in ADMM.
+
+<!-- chunk {"id": "body-0163", "role": "body", "section": "Applications: proof of shift equivalence", "weight": 1.0} -->
+
+We will compute the transfer function of both algorithms using $\textnormal{prox}_{tf}$ and $\textnormal{prox}_{t(g \circ L)}$ as the oracles. The transfer function of DR is $$\hat H_{10}(z) = \left[\begin{array}{ c c c | c c } \end{array}\right] = \left[\begin{array}{ c c } \end{array}\right]$$ and the transfer function of ADMM is $$\hat H_{11}(z) = \left[\begin{array}{ c c c | c c } \end{array}\right] = \left[\begin{array}{ c c } \end{array}\right].$$ From prop3,prop4, we know that DR and ADMM (with $\rho = 1/t$) are shift-equivalent and that DR is equivalent to a cyclic permutation of ADMM.
+
+<!-- chunk {"id": "body-0164", "role": "body", "section": "Applications: proof of shift equivalence", "weight": 1.0} -->
+
+In fact, it is also possible to write the state-space realization for each algorithm using the gradient (or subgradient) of $f$ and $g$ as the oracle. The transfer functions depend on the choice of oracle, but in either case, we obtain the same results: the algorithms are shift-equivalent. We discuss the details further in dradmmsubgradient. We can write the state-space realizations of DR and ADMM using the (sub)gradients as oracles in dradmmsubgradient: the corresponding $D_{12}$blocks are still zero and thus still
+
+<!-- chunk {"id": "body-0165", "role": "body", "section": "Algorithm repetition", "weight": 1.0} -->
+
+we have defined equivalence between algorithms with the same number of oracle calls in each iteration. This section considers how to identify relations between two algorithms when the number of oracles in each iteration differs. For example, we would like to detect when one algorithm consists of another, simpler algorithm, repeated twice or more, possibly with changes to variables or shifts that obscure the relation. $\mathcal{A}$. Given a problem and an initialization, the algorithm will generate state sequence $(x^k_\mathcal{A})_{k\ge 0}$, input sequence $(u^k_\mathcal{A})_{k\ge 0}$, and output sequence $(y^k_\mathcal{A})_{k\ge 0}$, respectively. Specifically, the update at time step $k$ can be written as $x^{k+1}_\mathcal{A} = \mathcal{A}(x^k_\mathcal{A})$.
+
+<!-- chunk {"id": "body-0166", "role": "body", "section": "Algorithm repetition", "weight": 1.0} -->
+
+Suppose we have another algorithm $\mathcal{B}$ such that $\mathcal{B} = \mathcal A^2$: repeating $\mathcal A$ twice gives the same result as $\mathcal B$. We call $\mathcal B$ a repetition of $\mathcal A$.
+
+<!-- chunk {"id": "body-0167", "role": "body", "section": "Algorithm repetition", "weight": 1.0} -->
+
+Just as in the previous sections, algorithm repetition can be characterized by the transfer function. assump:compareensures the algorithms compared call the same set of oracles, although the number of times each oracle is called may be different.
+
+<!-- chunk {"id": "body-0168", "role": "body", "section": "Algorithm repetition", "weight": 1.0} -->
+
+Suppose $\mathcal{A}$ has state-space realization $(A, B, C, D)$. Then $\mathcal{B}$ is equivalent to $\mathcal{A}^2$ if and only if its transfer function has the form $$\left[\begin{array}{c c} \end{array}\right].$$ prop6 is provided in proof-repetition.
+
+<!-- chunk {"id": "body-0169", "role": "body", "section": "Algorithm repetition", "weight": 1.0} -->
+
+Repetition of gradient method One example of repetition consists the gradient method algo9 and its repetition algo10. Both call the same set of oracles ($\nabla f$). The transfer functions of each algorithm are computed as $\hat H_{12}(z)$ and $\hat H_{13}(z)$respectively: $$\hat H_{12}(z) = \left[\begin{array}{ c | c } \end{array}\right] = - \frac{t}{z-1}, \hat H_{13}(z) = \left[\begin{array}{ c | c c } \end{array}\right] = \left[\begin{array}{ c c } \end{array}\right].$$ prop6 reveals how the transfer function changes when an algorithm is In fact, we can identify an algorithm that has been repeated arbitrarily many times.
+
+<!-- chunk {"id": "body-0170", "role": "body", "section": "Algorithm repetition", "weight": 1.0} -->
+
+Suppose algorithm $\mathcal{C}$ is $\mathcal{A}$ repeated $n \geq 1$ times: Suppose $\mathcal{A}$ has state-space realization $(A, B, C, D)$. Then $\mathcal{C}$ is equivalent to $\mathcal{A}^n$ for $n\geq 1$ if and only if $\mathcal{C}$ has a transfer function given by eq26.
+
+<!-- chunk {"id": "body-0171", "role": "body", "section": "Algorithm repetition", "weight": 1.0} -->
+
+Sufficiency. We can represent $\mathcal{C}$ with state-space realization $$\left[\begin{array}{c:c c c c c} \vdots & \vdots & \ddots & \ddots & \ddots & \vdots \\\end{array}\right].$$ Note that $(zI - A^n)^{-1}A^l = A^l(zI - A^n)^{-1}$ for any $n$ and $l$.
+
+<!-- chunk {"id": "body-0172", "role": "body", "section": "Algorithm repetition", "weight": 1.0} -->
+
+and compute the transfer function of $\mathcal C$: $$\left[\begin{array}{c c c c c c} \tilde{C}A^{n-1}B + D & \tilde{C}A^{n-2}B & \dots & \dots & \tilde{C}AB & \tilde{C}B \\\tilde{C}A^{n}B + CB & \tilde{C}A^{n-1}B + D & \dots & \dots & \tilde{C}A^2B & \tilde{C}AB \\\vdots & \vdots & \ddots & \ddots & \vdots & \vdots \\\tilde{C}A^{2n-2}B + CA^{n-2}B & \tilde{C}A^{2n-3}B + CA^{n-3}B & \dots & \dots & \end{array}\right].$$ Necessity is provided by prop1 since the transfer function uniquely characterizes an
+
+<!-- chunk {"id": "body-0173", "role": "body", "section": "Algorithm repetition", "weight": 1.0} -->
+
+prop6 is a special case of prop7 when $n = 2$. The dimension of transfer function of $\mathcal{C}$ is $n$ times the dimension of transfer function of $\mathcal{A}$. Similarly, the dimension of input and output of $\mathcal{C}$ is $n$ times the dimension of the input and output of $\mathcal{A}$. At time step $k$, we have $y^k_\mathcal{C} = (y^{nk}_\mathcal{A}, \dots, y^{(n+1)k-1}_\mathcal{A})$ and $u^k_\mathcal{C} = (u^{nk}_\mathcal{A}, \dots, u^{(n+1)k-1}_\mathcal{A})$.
+
+<!-- chunk {"id": "body-0174", "role": "body", "section": "Algorithm repetition", "weight": 1.0} -->
+
+Just as for oracle equivalence and cyclic permutations, the fixed points of an algorithm and its repetitions are related, If algorithm $\mathcal{A}$ converges to a fixed point $(y^\star, u^\star, x^\star)$, then its repetition $\mathcal{A}^n$ for $n\geq 1$ converges to fixed point $(y', u', x^\star)$, with $y' = y^\star \bigotimes \mathbbm{1}^n$ and $u' = u^\star \bigotimes \mathbbm{1}^n$. Here $\bigotimes$ is the Kronecker product and $\mathbbm{1}^n$ is an $n$ dimensional vector whose entries are all ones.
+
+<!-- chunk {"id": "body-0175", "role": "body", "section": "Algorithm repetition", "weight": 1.0} -->
+
+Detailed proof is provided in proof-repetitionfixedpoint. Since $\mathcal{A}^n$ repeats $\mathcal{A}$ $n$ times, the input and output of the fixed point of $\mathcal{A}^n$ are obtained by repeating the input and output on the corresponding fixed point of $\mathcal{A}$ $n$times.
+
+<!-- chunk {"id": "body-0176", "role": "body", "section": "Algorithm repetition", "weight": 1.0} -->
+
+Repetition gives us many more ways to combine algorithms into complex and unwieldly (but convergent) new methods. We can repeat a sequence of iterations from different algorithms and regard them together as a new algorithm. $n$ algorithms $\mathcal{A}_1, \dots, \mathcal{A}_n$ with state-space realizations $(A_1, B_1, C_1, D_1), \dots, (A_n, B_n, C_n, D_n)$ and run one iteration of each as a single iteration of our new monster algorithm. For simplicity, suppose the state-space realization matrices $A_i, B_i, C_i, D_i$ for each algorithm $\mathcal A_i$ have the same dimensions as all others $i=1,\ldots,n$.
+
+<!-- chunk {"id": "body-0177", "role": "body", "section": "Algorithm repetition", "weight": 1.0} -->
+
+(Otherwise the result is harder to write down, but still straightforward to compute.) Then we can represent the resulting monster algorithm with transfer function $$\left[\begin{array}{c | c c c c c} \prod_{i = n}^{1}A_i &\prod_{i = n}^{2}A_iB_{1} & \dots & \dots & A_nB_{n-1} & B_n \\\vdots & \vdots & \ddots & \ddots & \ddots & \vdots \\C_n\prod_{i = n-1}^{1}A_i & C_n\prod_{i = n-1}^{2}A_iB_{1} &\dots & \dots & C_nB_{n-1} & D_n \\\end{array}\right].$$ Hence one way to develop a new optimization algorithm would be to combine existing algorithms into a new monster algorithm with similar convergence properties but (perhaps) new exciting interpretations.
+
+<!-- chunk {"id": "body-0178", "role": "body", "section": "Algorithm repetition", "weight": 1.0} -->
+
+For example, we could combine gradient descent with the proximal point method to derive a proximal gradient method for minimizing $f(x)$: $\textnormal{prox}_f(x - \nabla f(x))$. (We are not aware of any published optimization algorithms that have been constructed in this way.)
+
+<!-- chunk {"id": "body-0179", "role": "body", "section": "Algorithm repetition", "weight": 1.0} -->
+
+Using our software, it would be easy to detect such algorithm surgery by searching over all pairs (or trios, etc) of known algorithms. This combinatorial search is still not too expensive, since the list of known algorithms is still rather small, and the number of algorithms that makes up a monster algorithm is limited by the number of oracle calls at each iteration of the monster algorithm.
+
+<!-- chunk {"id": "body-0180", "role": "body", "section": "Algorithm conjugation", "weight": 1.0} -->
+
+In this section, we introduce one last algorithm transformation, conjugation, which alters the oracle calls but results in algorithms that still bear a family resemblance. algorithm conjugation naturally relates some oracles to others for example, when $f^*(y) = \sup_x \{x^Ty - f(x)\}$ is the Fenchel conjugate of $f$ [fenchel1953convex],
+
+<!-- chunk {"id": "body-0181", "role": "body", "section": "Algorithm conjugation", "weight": 1.0} -->
+
+- $(\partial f)^{-1} = \partial f^*$, and - Moreau's identity. $I - \textnormal{prox}_f = \textnormal{prox}_{f^*}$.
+
+<!-- chunk {"id": "body-0182", "role": "body", "section": "Algorithm conjugation", "weight": 1.0} -->
+
+We can rewrite any algorithm in terms of different, also easily computable, oracles using these identities. Consider a simple example: we will obfuscate the proximal gradient method (algo11 [doi:10.1137/1.9781611974997doi:10.1137/080716542) by rewriting it in terms of the conjugate of the original oracle $\textnormal{prox}_g$, using Moreau's identity, as algo12[moreau:hal-01867187].
+
+<!-- chunk {"id": "body-0183", "role": "body", "section": "Algorithm conjugation", "weight": 1.0} -->
+
+Proximal gradient method $x^{k+1} = \textnormal{prox}_{tg}(x^k - t\nabla f(x^k))$ Conjugate of proximal gradient method t\textnormal{prox}\_{\frac{1}{t}g^*}(\frac{1}{t}(\xi^k - t\nabla f(\xi^k)))$ The transfer function of the algorithm changes when we rewrite the algorithm to call a different oracle, $\textnormal{prox}_{f^*}$ instead of $\textnormal{prox}_f$. Yet the sequence of states is preserved! Similarly, when we rewrite an algorithm to call $\partial f^*$ instead of $\partial f$, the resulting algorithm is related to the original algorithm by swapping the input and output sequences.
+
+<!-- chunk {"id": "body-0184", "role": "body", "section": "Algorithm conjugation", "weight": 1.0} -->
+
+We say that algorithm $\mathcal B = \mathcal C_\kappa \mathcal A$ is a conjugate of algorithm $\mathcal A$ if algorithm $\mathcal B$ results from rewriting algorithm $\mathcal A$ to use the conjugates of the oracles in set $\kappa \subseteq [n]$, where $[n] = \{1, \ldots, n\}$ is the set of oracle indices for algorithm $\mathcal A$. Interestingly, conjugation preserves the state sequence but not the oracle sequence. We will also call two algorithms conjugates if they are oracle-equivalent to a conjugate pair. Our goal in this section is to describe how to identify conjugate algorithms.
+
+<!-- chunk {"id": "body-0185", "role": "body", "section": "Algorithm conjugation", "weight": 1.0} -->
+
+Restricting to (sub)gradients, we see from the identity that algorithm conjugation swaps the input and output of an algorithm: the algorithm after conjugation takes the output of the original algorithm as input and produces the input of the original one as output. As shown in fig10, the input sequence of the algorithm after conjugation is the original output sequence and the output sequence in the algorithm after conjugation is the original input sequence.
+
+<!-- chunk {"id": "body-0186", "role": "body", "section": "Algorithm conjugation", "weight": 1.0} -->
+
+confidence=None created_by=None text='\\begin{tikzpicture}[>=latex]\n\t\t\n\t\t%topline\n\t\t\\node[scale = 0.75][box6] at (0,1.9) (algo1) {$L$};\n\t\t\\node[scale = 0.75] at (0,1.7) (ref2) {};\n\t\t\\node[scale = 0.75] at (0,2.1) (ref1) {};\n\t\t\\node[scale = 0.75][box3, left of = ref1, node distance = 8em] (state0) {$x^{k-1}$};\n\t\t\\node[scale = 0.75][left of = ref1, node distance = 13em] (init1) {\\ldots};\n\t\t\\node[scale = 0.75][box3, right of
+
+<!-- chunk {"id": "body-0187", "role": "body", "section": "Algorithm conjugation", "weight": 1.0} -->
+
+= ref1, node distance = 8em] (state1) {$x^{k}$};\n\t\t\\node[scale = 0.75][box] at (0, 1.1) (oracle1) {$\\phi$};\n\t\t\\node[scale = 0.75][box3, right of = oracle1, node distance = 6em] (output1) {$y^{k-1}$};\n\t\t\\node[scale = 0.75, left of= oracle1, node distance = 6em][box3] (input1) {$u^{k-1}$};\n\t\t\\node[scale = 0.75][box6, right of = algo1, node distance = 16em] (algo2) {$L$};\n\t\t\n\t\t\\draw[->] (init1) -- (state0);\n\t\t\\draw[->] (state0) --
+
+<!-- chunk {"id": "body-0188", "role": "body", "section": "Algorithm conjugation", "weight": 1.0} -->
+
+(ref1-|algo1.west);\n\t\t\\draw[->] (state1-|algo1.east) -- (state1);\n\t\t\\draw[->] (input1) |- (ref2-|algo1.west);\n\t\t\\draw[->] (output1) -- (oracle1);\n\t\t\\draw[->] (oracle1) -- (input1);\n\t\t\\draw[->] (ref2-|algo1.east) -| (output1);\n\t\t\\draw[->] (state1) -- (state1-|algo2.west);\n\t\t\n\t\t\\node[scale = 0.75][box3, right of = state1, node distance = 16em] (state2) {$x^{k+1}$};\n\t\t\\node[scale =
+
+<!-- chunk {"id": "body-0189", "role": "body", "section": "Algorithm conjugation", "weight": 1.0} -->
+
+0.75][box, right of = oracle1, node distance = 16em] (oracle2) {$\\phi$};\n\t\t\\node[scale = 0.75][box3, right of = oracle2, node distance = 6em] (output2) {$y^{k}$};\n\t\t\\node[scale = 0.75, left of= oracle2, node distance = 6em][box3] (input2) {$u^{k}$};\n\t\t\\node[scale = 0.75][box6, right of = algo2, node distance = 16em] (algo3) {$L$};\n\t\t\n\t\t\\draw[->] (state1-|algo2.east) -- (state2);\n\t\t\\draw[->] (input2) |- (ref2-|algo2.west);\n\t\t\\draw[->] (output2) --
+
+<!-- chunk {"id": "body-0190", "role": "body", "section": "Algorithm conjugation", "weight": 1.0} -->
+
+(oracle2);\n\t\t\\draw[->] (oracle2) -- (input2);\n\t\t\\draw[->] (ref2-|algo2.east) -| (output2);\n\t\t\\draw[->] (state2) -- (state1-|algo3.west);\n\t\t\n\t\t\\node[scale = 0.75][right of = state2, node distance = 16em] (end1) {\\ldots};\n\t\t\\node[scale = 0.75][box, right of = oracle2, node distance = 16em] (oracle3) {$\\phi$};\n\t\t\\node[scale = 0.75][box3, right of = oracle3, node distance = 6em] (output3) {$y^{k+1}$};\n\t\t\\node[scale = 0.75, left of= oracle3, node distance =
+
+<!-- chunk {"id": "body-0191", "role": "body", "section": "Algorithm conjugation", "weight": 1.0} -->
+
+6em][box3] (input3) {$u^{k+1}$};\n\t\t\n\t\t\\draw[->] (state1-|algo3.east) -- (end1);\n\t\t\\draw[->] (input3) |- (ref2-|algo3.west);\n\t\t\\draw[->] (output3) -- (oracle3);\n\t\t\\draw[->] (oracle3) -- (input3);\n\t\t\\draw[->] (ref2-|algo3.east) -| (output3);\n\t\t\n\t\t%botline\n\t\t\\node[scale = 0.75][box6] at (0,-0.8) (algo10) {$\\tilde{L}$};\n\t\t\\node[scale = 0.75] at (0,-1)
+
+<!-- chunk {"id": "body-0192", "role": "body", "section": "Algorithm conjugation", "weight": 1.0} -->
+
+(ref10) {};\n\t\t\\node[scale = 0.75] at (0,-0.6) (ref20) {};\n\t\t\\node[scale = 0.75][box3, left of = ref10, node distance = 8em] (state00) {$\\tilde{x}^{k-1}$};\n\t\t\\node[scale = 0.75][left of = ref10, node distance = 13em] (init10) {\\ldots};\n\t\t\\node[scale = 0.75][box3, right of = ref10, node distance = 8em] (state10) {$\\tilde{x}^{k}$};\n\t\t\\node[scale = 0.75][box] at (oracle10) {$\\phi^{-1}$};\n\t\t\\node[scale = 0.75][box3, right of = oracle10, node distance =
+
+<!-- chunk {"id": "body-0193", "role": "body", "section": "Algorithm conjugation", "weight": 1.0} -->
+
+6em] (output10) {$\\tilde{y}^{k-1}$};\n\t\t\\node[scale = 0.75, left of= oracle10, node distance = 6em][box3] (input10) {$\\tilde{u}^{k-1}$};\n\t\t\\node[scale = 0.75][box6, right of = algo10, node distance = 16em] (algo20) {$\\tilde{L}$};\n\t\t\n\t\t\\draw[->] (init10) -- (state00);\n\t\t\\draw[->] (state00) -- (ref10-|algo10.west);\n\t\t\\draw[->] (state10-|algo10.east) -- (state10);\n\t\t\\draw[->] (input10) |-
+
+<!-- chunk {"id": "body-0194", "role": "body", "section": "Algorithm conjugation", "weight": 1.0} -->
+
+(ref20-|algo10.west);\n\t\t\\draw[->] (output10) -- (oracle10);\n\t\t\\draw[->] (oracle10) -- (input10);\n\t\t\\draw[->] (ref20-|algo10.east) -| (output10);\n\t\t\\draw[->] (state10) -- (state10-|algo20.west);\n\t\t\n\t\t\\node[scale = 0.75][box3, right of = state10, node distance = 16em] (state20) {$\\tilde{x}^{k+1}$};\n\t\t\\node[scale = 0.75][box, right of = oracle10, node distance = 16em] (oracle20) {$\\phi^{-1}$};\n\t\t\\node[scale = 0.75][box3, right of =
+
+<!-- chunk {"id": "body-0195", "role": "body", "section": "Algorithm conjugation", "weight": 1.0} -->
+
+oracle20, node distance = 6em] (output20) {$\\tilde{y}^{k}$};\n\t\t\\node[scale = 0.75, left of= oracle20, node distance = 6em][box3] (input20) {$\\tilde{u}^{k}$};\n\t\t\\node[scale = 0.75][box6, right of = algo20, node distance = 16em] (algo30) {$\\tilde{L}$};\n\t\t\n\t\t\\draw[->] (state10-|algo20.east) -- (state20);\n\t\t\\draw[->] (input20) |- (ref20-|algo20.west);\n\t\t\\draw[->] (output20) -- (oracle20);\n\t\t\\draw[->] (oracle20) --
+
+<!-- chunk {"id": "body-0196", "role": "body", "section": "Algorithm conjugation", "weight": 1.0} -->
+
+(input20);\n\t\t\\draw[->] (ref20-|algo20.east) -| (output20);\n\t\t\\draw[->] (state20) -- (state10-|algo30.west);\n\t\t\n\t\t\\node[scale = 0.75][right of = state20, node distance = 16em] (end10) {\\ldots};\n\t\t\\node[scale = 0.75][box, right of = oracle20, node distance = 16em] (oracle30) {$\\phi^{-1}$};\n\t\t\\node[scale = 0.75][box3, right of = oracle30, node distance = 6em] (output30) {$\\tilde{y}^{k+1}$};\n\t\t\\node[scale = 0.75, left of= oracle30, node distance = 6em][box3] (input30)
+
+<!-- chunk {"id": "body-0197", "role": "body", "section": "Algorithm conjugation", "weight": 1.0} -->
+
+{$\\tilde{u}^{k+1}$};\n\t\t\n\t\t\\draw[->] (state10-|algo30.east) -- (end10);\n\t\t\\draw[->] (input30) |- (ref20-|algo30.west);\n\t\t\\draw[->] (output30) -- (oracle30);\n\t\t\\draw[->] (oracle30) -- (input30);\n\t\t\\draw[->] (ref20-|algo30.east) -| (output30);\n\t\t\n\t\t% connections\n\t\t\n\t\t\\draw[-{Straight Barb[left]}] ($(input1.south) + (0.02,0)$) -- ($(output10.north) +
+
+<!-- chunk {"id": "body-0198", "role": "body", "section": "Algorithm conjugation", "weight": 1.0} -->
+
+language=<CodeLanguageLabel.TIKZ: 'Tikz'> Unrolled block-diagram representation of algorithm conjugation.
+
+<!-- chunk {"id": "body-0199", "role": "body", "section": "Algorithm conjugation", "weight": 1.0} -->
+
+First, let's introduce a bit of standard notation. $\mathcal{A}$ contains $n$ oracle calls in each iteration. The cardinality of a subset $\kappa \subseteq [n]$ is $ \left | \kappa \right |$ and the complement is $\bar{\kappa}=[n] \setminus \kappa$. For any matrix $M\in \mathbb{R}^{n\times n}$, $M[\kappa, \nu]$ is the sub-matrix of $M$ whose rows and columns are indexed by $\kappa$ and $\nu \subseteq [n]$, respectively. We write $M[\kappa, \kappa]$ as $M[\kappa]$ for simplicity. For $i \in [n]$, the conjugation operator $\mathcal C_{i}$ conjugates oracle $i$: it replaces the $i$th oracle by its inverse.
+
+<!-- chunk {"id": "body-0200", "role": "body", "section": "Algorithm conjugation", "weight": 1.0} -->
+
+The operator $\mathcal C_{\kappa}$ conjugates all oracles in the set $\kappa \subseteq [n]$ to produce the conjugate algorithm $\mathcal C_{\kappa}\mathcal{A}$.
+
+<!-- chunk {"id": "body-0201", "role": "body", "section": "Algorithm conjugation", "weight": 1.0} -->
+
+Suppose $\mathcal{A}$ has state-space realization $(A, B, C, D)$ and transfer function $\hat H(z)$, and $D[\kappa]$ is invertible.
+
+<!-- chunk {"id": "body-0202", "role": "body", "section": "Algorithm conjugation", "weight": 1.0} -->
+
+Then $\mathcal{B}$ is equivalent to $\mathcal C_{\kappa}\mathcal{A}$ if and only if the transfer function $\hat H'(z)$ of $\mathcal{B}$ satisfies \hat H[\kappa]^{-1}(z) & -\hat H[\kappa]^{-1}(z)\hat H[\kappa, \bar{\kappa}](z)\\\hat H[\bar{\kappa}, \kappa](z)\hat H[\kappa]^{-1}(z) & \hat H[\bar{\kappa}](z)-\hat H[\bar{\kappa}, \kappa](z)\hat H[\kappa]^{-1}(z)\hat H[\kappa, \bar{\kappa}](z) Here $P$ is a permutation matrix that swaps rows and columns so indices in $\kappa$ come first: \hat H[\kappa](z) & \hat H[\kappa,
+
+<!-- chunk {"id": "body-0203", "role": "body", "section": "Algorithm conjugation", "weight": 1.0} -->
+
+\bar{\kappa}](z)\\\hat H[\bar{\kappa}, \kappa](z) & \hat H[\bar{\kappa}](z) Sufficiency.
+
+<!-- chunk {"id": "body-0204", "role": "body", "section": "Algorithm conjugation", "weight": 1.0} -->
+
+Without loss of generality, suppose the oracles $\kappa = \{1,\ldots,|\kappa|\}$ appear first, $$\hat H(z) = \begin{bmatrix} \hat H[\kappa](z) & \hat H[\kappa, \bar{\kappa}](z)\\\hat H[\bar{\kappa}, \kappa](z) & \hat H[\bar{\kappa}](z) \end{bmatrix}, \qquad D = \begin{bmatrix} D[\kappa] & D[\kappa, \bar{\kappa}]\\D[\bar{\kappa}, \kappa] & D[\bar{\kappa}] \end{bmatrix},$$ and consequently the permutation matrix $P$ is the identity.
+
+<!-- chunk {"id": "body-0205", "role": "body", "section": "Algorithm conjugation", "weight": 1.0} -->
+
+Necessity is provided by prop1 as the transfer function uniquely characterizes an equivalence class of algorithms. prop8, the transfer function $\hat H(z)$ of algorithm $\mathcal{A}$ is partially inverted when the algorithm is conjugated by $\mathcal C_{\kappa}$. The new transfer function $\hat H'(z)$ results from applying the Sweep operator with indices $\kappa$ to $\hat H(z)$ If we consider the input and output sequences for each oracle separately, for any oracle in $\kappa$, the input sequence corresponding to $\mathcal C_{\kappa}\mathcal{A}$ is the original output sequence in $\mathcal{A}$ and the output sequence corresponding to $\mathcal C_{\kappa}\mathcal{A}$ is the original input sequence in $\mathcal{A}$. The input and output sequences of oracles in $[n] \setminus \kappa$ remain unchanged in the new algorithm $\mathcal C_{\kappa}\mathcal{A}$.
+
+<!-- chunk {"id": "body-0206", "role": "body", "section": "Algorithm conjugation", "weight": 1.0} -->
+
+Here, assump:compareensures the algorithms compared call either same oracles or their corresponding conjugate oracles and in each iteration the number of oracle calls are the same. prop8 assumes that $D[\kappa]$ is invertible. $\mathcal C_{\kappa}\mathcal A$ is a causal algorithm if and only if $D[\kappa]$is invertible. We need not condition on causality in the proposition, since any algorithm that can be written down as a set of update equations Now we consider two special cases: conjugating 2) all of the oracles.
+
+<!-- chunk {"id": "body-0207", "role": "body", "section": "Algorithm conjugation", "weight": 1.0} -->
+
+Consider algorithm $\mathcal{A}$ with state-space realization $(A, B, C, D)$ and transfer function $\hat H(z) \in \mathbb{R}^{n\times n}$.
+
+<!-- chunk {"id": "body-0208", "role": "body", "section": "Algorithm conjugation", "weight": 1.0} -->
+
+- Suppose $D_{kk} \neq 0$ for any $k \in [n]$. Then the new transfer function $\hat H'(z)$ of $\mathcal C_{k}\mathcal{A}$ can be expressed entrywise as - as $h_{ij}(z)$ and $h'_{ij}(z)$ $1\leq i,j \leq n$ denote the entries of $\hat H(z)$ and $\hat H'(z)$ respectively. - Suppose $D$ is invertible. Then the transfer function $\hat H'(z)$ of $\mathcal C_{[n]}\mathcal{A}$ satisfies $\hat H'(z) = \hat H^{-1}(z)$.
+
+<!-- chunk {"id": "body-0209", "role": "body", "section": "Algorithm conjugation", "weight": 1.0} -->
+
+Now we can revisit algo11,algo12 and show that they are conjugate. The transfer functions of algo11,algo12 are computed as $\hat H_{14}(z)$ and $\hat H_{15}(z)$ below. Note that the state-space realizations are written in terms of (sub)gradients. From coro1, they are conjugate with respect to the second oracle.
+
+<!-- chunk {"id": "body-0210", "role": "body", "section": "Algorithm conjugation", "weight": 1.0} -->
+
+$$\hat H_{14}(z) = \left[\begin{array}{ c c } \end{array}\right], \qquad \hat H_{15}(z) = \left[\begin{array}{ c c } \end{array}\right]$$ $x^{k+1}_1 = \textnormal{prox}_{\tau f}(x^k_1 - \tau M^T x^k_2)$ $x^{k+1}_2 = \textnormal{prox}_{\sigma g^*}(x^k_2 + \sigma M (2x^{k+1}_1 - x^k_1))$ Another important example is the relation between DR (algo7) and the primal-dual optimization method proposed by Chambolle and Pock (algo14[). Note that algo7 has parameter $t$ and linear operator $L$, and algo14 has parameters $\tau$ and $\sigma$ and linear operator $M$.
+
+<!-- chunk {"id": "body-0211", "role": "body", "section": "Algorithm conjugation", "weight": 1.0} -->
+
+Let $M = L$ so that algo7,algo14 solve the same problem. Further suppose that $M$ is invertible and $MM^T = \delta I$ for any $\delta > 0$. By coro1, we know that they are conjugate with respect to the second oracle if $\tau = t$ and $\sigma = 1/(\delta t)$. So DR and the Chambolle-Pock method (when the parameter value $\tau = t$ and $\sigma = 1/(\delta t)$) are conjugate. The transfer functions of algo7,algo14 are provided below as $\hat H_{10}(z)$ and $\hat H_{16}(z)$ respectively. We will say more about how to discover the correct parameter restriction in package.
+
+<!-- chunk {"id": "body-0212", "role": "body", "section": "Algorithm conjugation", "weight": 1.0} -->
+
+$$\hat H_{10}(z) = \begin{bmatrix} \end{bmatrix}, \quad \hat H_{16}(z) \xrightarrow[\sigma = \frac{1}{\delta t}, \tau = t]{M=L, LL^T = \delta I} In order to test equivalence, all algorithms must use the same set of oracles. This requirement becomes tricky when algorithms are written in terms of an argmin: what is the oracle? To resolve this issue, we compute the state-space realization of every algorithm in this section using the subgradient as the oracle. All these subgradient oracles are associated with proximal operators, and so they are unique-valued, even though subgradients are generally set-valued: the input-output pairs match those returned by the proximal operator. (These subgradient oracles are used for the analysis but need not be computed explicitly.)
+
+<!-- chunk {"id": "body-0213", "role": "body", "section": "Algorithm conjugation", "weight": 1.0} -->
+
+The fixed points of an algorithm and its conjugate are related as stated in If an algorithm $\mathcal{A}$ converges to a fixed point $(y[\kappa]^\star, y[\bar{\kappa}]^\star, u[\kappa]^\star, u[\bar{\kappa}]^\star, x^\star)$, then its conjugate $\mathcal C_{\kappa}\mathcal A$ converges to fixed point $(u[\kappa]^\star, y[\bar{\kappa}]^\star, y[\kappa]^\star, u[\bar{\kappa}]^\star, x^\star)$.
+
+<!-- chunk {"id": "body-0214", "role": "body", "section": "Algorithm conjugation", "weight": 1.0} -->
+
+By coro1, if $D_{ii} \neq 0$ and $D_{jj} \neq 0$, then $\mathcal C_i\mathcal A$ and $\mathcal C_j\mathcal A$ are causal. Note that entries above diagonal of $D$ are all zero because $\mathcal A$ is causal. Thus, $\det(D[\{ij\}]) = D_{ii}D_{jj} \neq 0$ and $\mathcal C_{\{ij\}}\mathcal A$ is causal. The commutative property of the Sweep operator gives the result $\mathcal C_i\mathcal C_j\mathcal A = \mathcal C_j\mathcal C_i\mathcal A = \mathcal C_{\{ij\}}\mathcal A$ [10.2307/2683825,TSATSOMEROS2000151]. prop10 states that conjugation of different oracles commutes.
+
+<!-- chunk {"id": "body-0215", "role": "body", "section": "Algorithm conjugation", "weight": 1.0} -->
+
+This justifies our notation $\mathcal C_\kappa$ for set $\kappa$, as the order of the oracles in $\kappa$ is irrelevant. Further, conjugation and cyclic permutation also commute; see prop11 and proof in proof-commutative.
+
+<!-- chunk {"id": "body-0216", "role": "body", "section": "Algorithm conjugation", "weight": 1.0} -->
+
+We showed in app-shift that the DR (algo7) and ADMM (algo8) are related by permutation with a certain choice of parameters. Here, we show that they are related by permutation and conjugation (in either order, as they commute), with a different choice of parameters: $A = L^T, B = I, c = 0, \rho = t$ for ADMM. Further suppose that linear operator $L$ is invertible. The transfer function of this special parameterization of ADMM is shown as $\hat H_{17}(z)$. Relations between DR and ADMM can be illustrated as follows. Recall $\hat H_{10}(z)$is the transfer function of DR. Here we can observe that different choices of parameters of algorithms can lead to different relations between algorithms.
+
+<!-- chunk {"id": "body-0217", "role": "body", "section": "Algorithm conjugation", "weight": 1.0} -->
+
+$$\hat H_{17}(z) = \begin{bmatrix} \end{bmatrix} \xrightarrow{\mathcal C_{12}} \end{bmatrix} \xrightarrow{ P_{21}} \end{bmatrix}= \hat H_{10}(z)$$ The commutative property is important to identify relations between algorithms efficiently. For example, suppose we would like to identify the relations between with transfer functions $\hat H_{10}(z)$ and $\hat H_{17}(z)$. We can first perform conjugation and next permutation on algo7, and then test equivalence between the resulting algorithm and algo8. We need not try permutation followed by conjugation; as these commute, both orders lead to the same transfer function.
+
+<!-- chunk {"id": "body-0218", "role": "body", "section": "Algorithm conjugation", "weight": 1.0} -->
+
+We have already shown several relations between ADMM (algo8), and the Chambolle-Pock method (algo14) using conjugation and permutation. We represent these relations in fig11. The figure relates 8 different algorithms: Starting from DR, since it contains 2 oracles, there are 2 possible different algorithms by permutation. From the state-space realization, we can conjugate both oracles, which yields 4 different algorithms by conjugation of different oracles. Therefore, in total there are 2 $\times$ 4 = 8 possible different algorithms, including both ADMM and Chambolle-Pock. In the figure, $\mathcal C_1$ and $\mathcal C_2$ denote conjugation with respect to the first and second oracles respectively, and we can move between algorithms by applying the transformation on each edge, as each transformation is an involution.
+
+<!-- chunk {"id": "body-0219", "role": "body", "section": "Algorithm conjugation", "weight": 1.0} -->
+
+Connections between DR, ADMM, and Chambolle-Pock method.
+
+<!-- chunk {"id": "body-0220", "role": "body", "section": "Linnaeus", "weight": 1.0} -->
+
+We have presented a framework for detecting equivalence between iterative algorithms for continuous optimization. In this section, we briefly introduce a software package called that implements these ideas. The implementation and documentation are available at More detailed information can be found in package\_detailed.
+
+<!-- chunk {"id": "body-0221", "role": "body", "section": "Linnaeus", "weight": 1.0} -->
+
+The input is an algorithm described in user-friendly syntax with variables, parameters, functions, oracles, and update equations. The system will automatically translate the input algorithm into a canonical form (the transfer function) and use the canonical form to identify whether the algorithm is equivalent to any reference algorithm, possibly after transformations such as permutation, conjugation, or repetition. are defined symbolically, using the python package for symbolic mathematics sympy.
+
+<!-- chunk {"id": "body-0222", "role": "body", "section": "Linnaeus", "weight": 1.0} -->
+
+Given two input algorithms, computes the transfer functions and can compare them to detect equivalence and other relations. Some algorithms are equivalent or related only when the parameters satisfy a certain condition: for example, DR and ADMM. If the transfer functions of each algorithm use different parameters, form symbolic equations and solve the equations to determine conditions that, if satisfied by the algorithm parameters, yield the desired relation between the algorithms; This package can be used by researchers (or peer reviewers) who wish to understand the novelty of new algorithmic ideas and connections Further, the software can also serve as a search engine, which will identify connections from the input algorithm to existing algorithms in the literature
+
+<!-- chunk {"id": "body-0223", "role": "body", "section": "Conclusion and future work", "weight": 1.5} -->
+
+In this paper, we have presented a framework for reasoning about equivalence between a broad class of iterative algorithms by using ideas from control theory to represent optimization algorithms. The main insight is that by representing an algorithm as a linear dynamical system in feedback with a static nonlinearity, we can recognize equivalent algorithms by detecting algebraic relations between the transfer functions of the associated linear systems. This framework can identify algorithms that result in the same sequence of oracle calls, or algorithms that are the same up to shifts of the update equations, repetition of the updates with the same unit block, and conjugation of the function oracles. These ideas are implemented in the software package, which allows researchers to search for algorithms that are related to a given input and identify parameter settings that make the algorithms equivalent. Our goal is to allow researchers add new algorithms to as they are developed, so that can remain a valuable resource for algorithm designers seeking to understand connections (if any) to previous methods.
+
+<!-- chunk {"id": "body-0224", "role": "body", "section": "Conclusion and future work", "weight": 1.5} -->
+
+Our framework requires that the algorithm is linear in the state and oracle outputs, but not necessarily in the parameters. This constraint still allows us to handle a surprisingly large class of algorithms. There are several interesting directions for future work.
+
+<!-- chunk {"id": "body-0225", "role": "body", "section": "Conclusion and future work", "weight": 1.5} -->
+
+Can we detect equivalence between stochastic or randomized algorithms? Our framework applies to such algorithms with almost no modifations, simply by allowing random oracles. For example, we can accept oracles like $\argmin \{ f(x + \omega_i): i=1,\ldots,k \}$, stochastic gradient $\nabla f(x) + \omega$, or noisy gradient $\nabla f(x + \omega)$. The definition of oracle equivalence would need a slight modification: for algorithms that use (pseudo-)randomized oracles, two algorithms are oracle-equivalent if they generate identical sequences of oracle calls given the same random seed.
+
+<!-- chunk {"id": "body-0226", "role": "body", "section": "Conclusion and future work", "weight": 1.5} -->
+
+Can we detect equivalence between parallel or distributed algorithms? Surprisingly, our framework still works for parallel or distributed algorithms. Notice that in a parallel algorithm, many oracle calls may be independently executed on different processors at about the same time. The precise ordering of these calls is not determined by the algorithm, and so different runs of the algorithm can generate different oracle sequences. However, all the possible oracle sequences generated by the same algorithm share the same dependence graph. Using the formalism defined in we can see that our framework can identify equivalence between parallel or distributed algorithms using the expanded definition of oracle equivalence: two algorithms are oracle-equivalent if there exists a way of writing each algorithm as a sequence of updates so that they generate identical sequences of oracle calls.
+
+<!-- chunk {"id": "body-0227", "role": "body", "section": "Conclusion and future work", "weight": 1.5} -->
+
+Can we detect equivalence between adaptive or nonlinear algorithms? Transfer functions are only defined for linear time-invariant (LTI) systems, so the LTI assumption in our framework is critical. Nevertheless, many of the other concepts from control do extend to systems that are almost LTI. For example, an algorithm with parameters that change on a fixed schedule but is otherwise linear, such as gradient descent with a diminishing stepsize, can be regarded as a linear time-varying (LTV) system[antsaklis2006linear], and the notion of a transfer function has been generalized to LTV systems[LTV\_TF]. If, instead, the parameters change adaptively based on the other state variables, the system can be regarded as a linear parameter varying (LPV) system[LPV\_book] or a switched system[sun2006switched]. Examples of such algorithms include nonlinear conjugate gradient methods and quasi-Newton methods.
+
+<!-- chunk {"id": "body-0228", "role": "body", "section": "Conclusion and future work", "weight": 1.5} -->
+
+For these more complicated cases, it is still reasonable to ask whether two algorithms invoke the same sequence of oracle calls. Discovering representations for nonlinear or time-varying algorithms that suffice to check equivalence is an interesting direction for future research.

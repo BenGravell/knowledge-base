@@ -7,3 +7,871 @@ Gemini: A Family of Highly Capable Multimodal Models
 <!-- chunk {"id": "abstract-0002", "role": "abstract", "section": "Abstract", "weight": 2.0} -->
 
 This report introduces a new family of multimodal models, Gemini, that exhibit remarkable capabilities across image, audio, video, and text understanding. The Gemini family consists of Ultra, Pro, and Nano sizes, suitable for applications ranging from complex reasoning tasks to on-device memory-constrained use-cases. Evaluation on a broad range of benchmarks shows that our most-capable Gemini Ultra model advances the state of the art in 30 of 32 of these benchmarks - notably being the first model to achieve human-expert performance on the well-studied exam benchmark MMLU, and improving the state of the art in every one of the 20 multimodal benchmarks we examined. We believe that the new capabilities of the Gemini family in cross-modal reasoning and language understanding will enable a wide variety of use cases. We discuss our approach toward post-training and deploying Gemini models responsibly to users through services including Gemini, Gemini Advanced, Google AI Studio, and Cloud Vertex AI.
+
+<!-- chunk {"id": "body-0003", "role": "body", "section": "Introduction", "weight": 1.5} -->
+
+We present Gemini, a family of highly capable multimodal models developed at Google. We trained Gemini models jointly across image, audio, video, and text data for the purpose of building a model with both strong generalist capabilities across modalities alongside cutting-edge understanding and reasoning performance in each respective domain.
+
+<!-- chunk {"id": "body-0004", "role": "body", "section": "Introduction", "weight": 1.5} -->
+
+Gemini 1.0, our first version, comes in three sizes: Ultra for highly-complex tasks, Pro for enhanced performance and deployability at scale, and Nano for on-device applications. Each size is specifically tailored to address different computational limitations and application requirements.
+
+<!-- chunk {"id": "body-0005", "role": "body", "section": "Introduction", "weight": 1.5} -->
+
+After large-scale pre-training, we post-train our models to improve overall quality, enhance target capabilities, and ensure alignment and safety criteria are met. Due to the varied requirements of our downstream applications, we have produced two post-trained Gemini model family variants. Chat-focused variants, referred to as Gemini Apps models, are optimized for and Gemini Advanced, our conversational AI service formerly known as Bard. Developer-focused variants, referred to as Gemini API models, are optimized for a range of products and are accessible through We evaluate the performance of pre- and post-trained Gemini models on a comprehensive suite of internal and external benchmarks covering a wide range of language, coding, reasoning, and multimodal tasks.
+
+<!-- chunk {"id": "body-0006", "role": "body", "section": "Introduction", "weight": 1.5} -->
+
+The Gemini family advances state-of-the-art in large-scale language modeling [gpt2, gpt3, gopher, palm, chinchilla, palm2, gpt4], image understanding [vit, pali, coca, flamingo, gato, gpt4v], audio processing [whisper, usm], and video understanding [flamingo, palix]. It also builds on the work on sequence models [sutskever2014sequence], a long history of work in deep learning based on neural networks[lecun2015deep], and machine learning distributed systems [distbelief,jax,pathways]that enable large-scale training.
+
+<!-- chunk {"id": "body-0007", "role": "body", "section": "Introduction", "weight": 1.5} -->
+
+Our most capable model, Gemini Ultra, achieves new state-of-the-art results in 30 of 32 benchmarks we report, including 10 of 12 popular text and reasoning benchmarks, 9 of 9 image understanding benchmarks, 6 of 6 video understanding benchmarks, and 5 of 5 speech recognition and speech translation benchmarks. Gemini Ultra is the first model to achieve human-expert performance on MMLU [mmlu] –- a prominent benchmark testing knowledge and reasoning via a suite of exams –- with a score above 90%. Beyond text, Gemini Ultra makes notable advances on challenging multimodal reasoning tasks. For example, on the recent MMMU benchmark[mmmu], that comprises questions about images on multi-discipline tasks requiring college-level subject knowledge and deliberate reasoning, Gemini Ultra achieves a new state-of-the-art score of 62.4%, outperforming the previous best model by more than 5 percentage points. It provides a uniform performance lift for video question answering and audio understanding benchmarks.
+
+<!-- chunk {"id": "body-0008", "role": "body", "section": "Introduction", "weight": 1.5} -->
+
+Qualitative evaluation showcases impressive crossmodal reasoning capabilities, enabling the model to understand and reason across an input sequence of audio, images, and text natively (see Figure [fig:inverse\_graphics\_3] and Table[tab:modality-combo]). Consider the educational setting depicted in Figure[fig:homeworkexample]as an example. A teacher has drawn a physics problem of a skier going down a slope, and a student has worked through a solution to it. Using Gemini models' multimodal reasoning capabilities, the model is able to understand the messy handwriting, correctly understand the problem formulation, convert both the problem and solution to mathematical typesetting, identify the specific step of reasoning where the student went wrong in solving the problem, and then give a worked through correct solution to the problem. This opens up exciting educational possibilities, and we believe the new multimodal and reasoning capabilities of Gemini models have dramatic applications across many fields.
+
+<!-- chunk {"id": "body-0009", "role": "body", "section": "Introduction", "weight": 1.5} -->
+
+Verifying a student's solution to a physics problem. The model is able to correctly recognize all of the handwritten content and verify the reasoning. On top of understanding the text in the image, it needs to understand the problem setup and correctly follow instructions to generate.
+
+<!-- chunk {"id": "body-0010", "role": "body", "section": "Introduction", "weight": 1.5} -->
+
+The reasoning capabilities of large language models show promise toward building generalist agents that can tackle more complex multi-step problems. The AlphaCode team built AlphaCode 2 [gdm2023alphacode2], a new Gemini-model-powered agent, that combines Gemini models' reasoning capabilities with search and tool-use to excel at solving competitive programming problems. AlphaCode 2 ranks within the top 15% of entrants on the Codeforces competitive programming platform, a large improvement over its state-of-the-art predecessor in the top 50% [alphacode].
+
+<!-- chunk {"id": "body-0011", "role": "body", "section": "Introduction", "weight": 1.5} -->
+
+In tandem, we advance the frontier of efficiency with Gemini Nano, a series of small models targeting on-device deployment. These models excel in on-device tasks, such as summarization, reading comprehension, text completion tasks, and exhibit impressive capabilities in reasoning, STEM, coding, multimodal, and multilingual tasks relative to their sizes.
+
+<!-- chunk {"id": "body-0012", "role": "body", "section": "Introduction", "weight": 1.5} -->
+
+In the following sections, we first provide an overview of the model architecture, training infrastructure, and pre-training dataset. We then present detailed evaluations of the pre- and post-trained Gemini model family, covering well-studied benchmarks across text, code, image, audio and video which include both English performance and multilingual capabilities. Next we discuss our approach to post-training, highlight common and distinct aspects of the Gemini Apps and Gemini API model variants, and benchmark their performance on key capabilities. Responsible deployment is critical: we explain our process for impact assessments, developing model policies, evaluations, and mitigations of harm before deployment decisions. Finally, we discuss the broader implications of Gemini models, their limitations alongside their potential applications paving the way for a new era of research and innovation in AI.
+
+<!-- chunk {"id": "body-0013", "role": "body", "section": "Model Architecture", "weight": 1.0} -->
+
+Gemini models build on top of Transformer decoders [vaswani2017] that are enhanced with improvements in architecture and model optimization to enable stable training at scale and optimized inference on Google's Tensor Processing Units. They are trained to support 32k context length, employing efficient attention mechanisms (for e.g. multi-query attention [mqa]). Our first version, Gemini 1.0, comprises three main sizes to support a wide range of applications as discussed in Table[tab:family].
+
+<!-- chunk {"id": "body-0014", "role": "body", "section": "Model Architecture", "weight": 1.0} -->
+
+Model size Model description Ultra Our most capable model that delivers state-of-the-art performance across a wide range of highly complex tasks, including reasoning and multimodal tasks. It is efficiently serveable at scale on TPU accelerators due to the Gemini architecture. Pro A performance-optimized model in terms of cost as well as latency that delivers significant performance across a wide range of tasks. This model exhibits strong reasoning performance and broad multimodal capabilities. Nano Our most efficient model, designed to run on-device. We trained two versions of Nano, with 1.8B (Nano-1) and 3.25B (Nano-2) parameters, targeting low and high memory devices respectively. It is trained by distilling from larger Gemini models. It is 4-bit quantized for deployment and provides best-in-class performance.
+
+<!-- chunk {"id": "body-0015", "role": "body", "section": "Model Architecture", "weight": 1.0} -->
+
+An overview of the Gemini 1.0 model family.
+
+<!-- chunk {"id": "body-0016", "role": "body", "section": "Model Architecture", "weight": 1.0} -->
+
+Gemini models are trained to accommodate textual input interleaved with a wide variety of audio and visual inputs, such as natural images, charts, screenshots, PDFs, and videos, and they can produce text and image outputs (see Figure [fig:arch]). The visual encoding of Gemini models is inspired by our own foundational work on Flamingo [flamingo], CoCa [coca], and PaLI [pali], with the important distinction that the models are multimodal from the beginning and can natively output images using discrete image tokens [dalle, parti].
+
+<!-- chunk {"id": "body-0017", "role": "body", "section": "Model Architecture", "weight": 1.0} -->
+
+Gemini models support interleaved sequences of text, image, audio, and video as inputs (illustrated by tokens of different colors in the input sequence). They can output responses with interleaved image and text.
+
+<!-- chunk {"id": "body-0018", "role": "body", "section": "Model Architecture", "weight": 1.0} -->
+
+Video understanding is accomplished by encoding the video as a sequence of frames in the large context window. Video frames or images can be interleaved naturally with text or audio as part of the model input. The models can handle variable input resolution in order to spend more compute on tasks that require fine-grained understanding. In addition, Gemini models can directly ingest audio signals at 16kHz from Universal Speech Model (USM) [usm] features. This enables the model to capture nuances that are typically lost when the audio is naively mapped to a text input (for example, see audio understanding demo on the Training the Gemini family of models required innovations in training algorithms, dataset, and infrastructure. For the Pro model, the inherent scalability of our infrastructure and learning algorithms enable us to complete pre-training in a matter of weeks, leveraging a fraction of the Ultra's resources. The Nano series of models leverage additional advancements in distillation and training algorithms to produce the best-in-class small language models for a wide variety of tasks, such as summarization and reading comprehension, which power our next generation on-device experiences.
+
+<!-- chunk {"id": "body-0019", "role": "body", "section": "Training Infrastructure", "weight": 1.0} -->
+
+We trained Gemini models using TPUv5e and TPUv4 [tpuv4], depending on their sizes and configuration. Training Gemini Ultra used a large fleet of TPUv4 accelerators owned by Google across multiple datacenters. This represents a significant increase in scale over our prior flagship model PaLM-2 which presented new infrastructure challenges. Scaling up the number of accelerators results in a proportionate decrease in the mean time between failure of hardware in the overall system. We minimized the rate of planned reschedules and preemptions, but genuine machine failures are commonplace across all hardware accelerators at such large scales.
+
+<!-- chunk {"id": "body-0020", "role": "body", "section": "Training Infrastructure", "weight": 1.0} -->
+
+TPUv4 accelerators are deployed in SuperPods of 4096 chips, each connected to a dedicated optical switch, which can dynamically reconfigure 4x4x4 chip cubes into arbitrary 3D torus topologies in around 10 seconds [tpuv4]. For Gemini Ultra, we decided to retain a small number of cubes per superpod to allow for hot standbys and rolling maintenance.
+
+<!-- chunk {"id": "body-0021", "role": "body", "section": "Training Infrastructure", "weight": 1.0} -->
+
+TPU accelerators primarily communicate over the high speed inter-chip-interconnect, but at Gemini Ultra scale, we combine SuperPods in multiple datacenters using Google's intra-cluster and inter-cluster network [jupiter,b4,pony]. Google's network latencies and bandwidths are sufficient to support the commonly used synchronous training paradigm, exploiting model parallelism within superpods and data-parallelism across superpods.
+
+<!-- chunk {"id": "body-0022", "role": "body", "section": "Training Infrastructure", "weight": 1.0} -->
+
+The `single controller' programming model of Jax [jax] and Pathways[pathways] allows a single Python process to orchestrate the entire training run, dramatically simplifying the development workflow. The GSPMD partitioner[gspmd] in the XLA compiler partitions the training step computation, and the MegaScale XLA compiler[xla]pass statically schedules appropriate collectives so that they maximally overlap with the computation with very little variation in step time.
+
+<!-- chunk {"id": "body-0023", "role": "body", "section": "Training Infrastructure", "weight": 1.0} -->
+
+Maintaining a high goodput We define goodput as the time spent computing useful new steps over the elapsed time of the training job. at this scale would have been impossible using the conventional approach of periodic checkpointing of weights to persistent cluster storage. For Gemini models, we instead made use of redundant in-memory copies of the model state, and on any unplanned hardware failures, we rapidly recover directly from an intact model replica. Compared to both PaLM and PaLM-2 [palm2], this provided a substantial speedup in recovery time, despite the significantly larger training resources being used. As a result, the overall goodput for the largest-scale training job increased from 85% to 97%.
+
+<!-- chunk {"id": "body-0024", "role": "body", "section": "Training Infrastructure", "weight": 1.0} -->
+
+Training at unprecedented scale invariably surfaces new and interesting systems failure modes - and in this instance one of the problems that we needed to address was that of Silent Data Corruption (SDC)[sdcs, sdc2, hochschild2021cores]. Although these are extremely rare, the scale of Gemini models means that we can expect SDC events to impact training every week or two. Rapidly detecting and removing faulty hardware required several new techniques that exploit deterministic replay to isolate incorrect computations, combined with proactive SDC scanners on idle machines and hot standbys. Our fully deterministic infrastructure allowed us to quickly identify root causes (including hardware failures) during the development leading up to the Ultra model, and this was a crucial ingredient towards stable training.
+
+<!-- chunk {"id": "body-0025", "role": "body", "section": "Pre-Training Dataset", "weight": 1.0} -->
+
+Gemini models are trained on a dataset that is both multimodal and multilingual. Our pre-training dataset uses data from web documents, books, and code, and includes image, audio, and video data.
+
+<!-- chunk {"id": "body-0026", "role": "body", "section": "Pre-Training Dataset", "weight": 1.0} -->
+
+We use the SentencePiece tokenizer [sentencepiece]and find that training the tokenizer on a large sample of the entire training corpus improves the inferred vocabulary and subsequently improves model performance. For example, we find Gemini models can efficiently tokenize non-Latin scripts which can, in turn, benefit model quality as well as training and inference speed.
+
+<!-- chunk {"id": "body-0027", "role": "body", "section": "Pre-Training Dataset", "weight": 1.0} -->
+
+The number of tokens used to train the largest models were determined following the approach in [chinchilla]. The smaller models are trained for significantly more tokens to improve performance for a given inference budget, similar to the approach advocated in[llama].
+
+<!-- chunk {"id": "body-0028", "role": "body", "section": "Pre-Training Dataset", "weight": 1.0} -->
+
+We apply quality filters to all datasets, using both heuristic rules and model-based classifiers. We also perform safety filtering to remove harmful content based on our policies. To maintain the integrity of evaluations, we search for and remove any evaluation data that may have been in our training corpus before using data for training. The final data mixtures and weights were determined through ablations on smaller models. We stage training to alter the mixture composition during training – increasing the weight of domain-relevant data towards the end of training. We find that data quality is an important factor for highly-performing models, and believe that many interesting questions remain around finding the optimal dataset distribution for pre-training.
+
+<!-- chunk {"id": "body-0029", "role": "body", "section": "Evaluation", "weight": 1.0} -->
+
+The Gemini models are natively multimodal, as they are trained jointly across text, image, audio, and video. One open question is whether this joint training can result in a model which has strong capabilities in each domain – even when compared to models and approaches that are narrowly tailored to single domains. We find this to be the case: Gemini models set a new state of the art across a wide range of text, image, audio, and video benchmarks.
+
+<!-- chunk {"id": "body-0030", "role": "body", "section": "Text", "weight": 1.0} -->
+
+zellers2019hellaswag HellaSwag cobbe2021training GSM8K hendrycks2021measuring MATH chen2021evaluating HumanEval Dua2019DROP DROP
+
+<!-- chunk {"id": "body-0031", "role": "body", "section": "Academic Benchmarks", "weight": 1.0} -->
+
+We compare pre- and post-trained Gemini Pro and Ultra models to a suite of external LLMs and our previous best model PaLM 2 across a series of text-based academic benchmarks covering reasoning, reading comprehension, STEM, and coding. We report these results in Table [tab:text-results]. Broadly, we find that the performance of Gemini Pro outperforms inference-optimized models such as GPT-3.5 and performs comparably with several of the most capable models available, and Gemini Ultra outperforms all current models. In this section, we examine some of these findings. [mmlu], Gemini Ultra can outperform all existing models, achieving an accuracy of 90.04%. MMLU is a holistic exam benchmark, which measures knowledge across a set of 57 subjects. Human expert performance is gauged at 89.8% by the benchmark authors, and Gemini Ultra is the first model to exceed this threshold, with the prior state-of-the-art result at 86.4%. Achieving high performance requires specialist knowledge across many domains (e.g. law, biology, history, etc.), alongside reading comprehension and reasoning.
+
+<!-- chunk {"id": "body-0032", "role": "body", "section": "Academic Benchmarks", "weight": 1.0} -->
+
+We find Gemini Ultra achieves highest accuracy when used in combination with a chain-of-thought prompting approach [wei2022chain]that accounts for model uncertainty. The model produces a chain of thought with k samples, for example 8 or 32. If there is a consensus above a preset threshold (selected based on the validation split), it selects this answer, otherwise it reverts to a greedy sample based on maximum likelihood choice without chain of thought. We refer the reader to appendix for a detailed breakdown of how this approach compares with only chain-of-thought prompting or only greedy sampling.
+
+<!-- chunk {"id": "body-0033", "role": "body", "section": "Academic Benchmarks", "weight": 1.0} -->
+
+In mathematics, a field commonly used to benchmark the analytical capabilities of models, Gemini Ultra shows strong performance on both elementary exams and competition-grade problem sets. For the grade-school math benchmark, GSM8K [cobbe2021training], we find Gemini Ultra reaches 94.4% accuracy with chain-of-thought prompting and self-consistency [selfconsistency] compared to the previous best accuracy of 92% with the same prompting technique. Similar positive trends are observed in increased difficulty math problems drawn from middle- and high-school math competitions (MATH benchmark), with the Gemini Ultra model outperforming all competitor models, reaching 53.2% using 4-shot prompting. The model also outperforms the state of the art on even harder tasks derived from American Mathematical Competitions. Smaller models perform poorly on this challenging task scoring close to random, but Gemini Ultra can solve 32% of the questions, compared to the 30%solve rate for GPT-4.
+
+<!-- chunk {"id": "body-0034", "role": "body", "section": "Academic Benchmarks", "weight": 1.0} -->
+
+Gemini Ultra also excels in coding, a popular use case of current LLMs. We evaluate the model on many conventional and internal benchmarks and also measure its performance as part of more complex reasoning systems such as AlphaCode 2 (see Section [sec:complex-reasoning] on complex reasoning systems). For example, on HumanEval, a standard code-completion benchmark[chen2021evaluating] mapping function descriptions to Python implementations, instruction-tuned Gemini Ultra correctly implements 74.4% of problems. On a new held-out evaluation benchmark for python code generation tasks, Natural2Code, where we ensure no web leakage, Gemini Ultra achieves the highest score of 74.9%.
+
+<!-- chunk {"id": "body-0035", "role": "body", "section": "Academic Benchmarks", "weight": 1.0} -->
+
+| | Gemini Ultra | Gemini Pro | GPT-4 | GPT-3.5 | PaLM 2-L | Claude 2 | Inflect-ion-2 | Grok 1 | LLAMA-2 | | Gemini performance on text benchmarks with external comparisons and PaLM 2-L. $^{*}$ The model produces a chain of thought with k = 8 or 32 samples, if there is a consensus above a threshold (chosen based on the validation split), it selects this answer, otherwise it reverts to a greedy sample. Further analysis in Appendix appendix:cot. $^{**}$ Results self-collected via the API in Nov, 2023. $^{***}$ Results shown use the decontaminated numbers from report as the most relevant comparison to Gemini models which have been decontaminated as well.) $^{****}$ PT denotes a post-trained Gemini API model.
+
+<!-- chunk {"id": "body-0036", "role": "body", "section": "Academic Benchmarks", "weight": 1.0} -->
+
+Evaluation on these benchmarks is challenging and may be affected by data contamination. We performed an extensive leaked data analysis after training to ensure the results we report here are as scientifically sound as possible, but still found some minor issues and decided not to report results on e.g. LAMBADA [paperno2016lambada]. As part of the evaluation process, on a popular benchmark, HellaSwag[zellers2019hellaswag], we find that an additional hundred fine-tuning steps on specific website extracts corresponding to the HellaSwag training set (which were not included in the Gemini model pretraining set) improve the validation accuracy of Gemini Pro to 89.6% and Gemini Ultra to 96.0%, when measured with 1-shot prompting (we measured GPT-4 obtained 92.3% when evaluated 1-shot via the API). This suggests that the benchmark results are susceptible to the pretraining dataset composition. We choose to report HellaSwag decontaminated results only in a 10-shot evaluation setting. We believe there is a need for more robust and nuanced standardized evaluation benchmarks with no leaked data.
+
+<!-- chunk {"id": "body-0037", "role": "body", "section": "Academic Benchmarks", "weight": 1.0} -->
+
+So, we evaluate Gemini models on several new held-out evaluation datasets that were recently released, such as and Math-AMC 2022-2023 problems, or internally generated from non-web sources, such as Natural2Code. We refer the reader to Appendix [app:tasks]for a comprehensive list of our evaluation benchmarks.
+
+<!-- chunk {"id": "body-0038", "role": "body", "section": "Academic Benchmarks", "weight": 1.0} -->
+
+Even so, model performance on these benchmarks gives us an indication of the model capabilities and where they may provide impact on real-world tasks. For example, Gemini Ultra's impressive reasoning and STEM competencies pave the way for advancements in LLMs within the educational domain See demos on website. The ability to tackle complex mathematical and scientific concepts opens up exciting possibilities for personalized learning and intelligent tutoring systems.
+
+<!-- chunk {"id": "body-0039", "role": "body", "section": "Trends in Capabilities", "weight": 1.0} -->
+
+We investigate the trends in capabilities across the Gemini model family by evaluating them on a holistic harness of more than 50 benchmarks in six different capabilities, noting that some of the most notable benchmarks were discussed in the last section. These capabilities are: Factuality covering open/closed-book retrieval and question answering tasks; Long-Context covering long-form summarization, retrieval and question answering tasks; Math/Science including tasks for mathematical problem solving, theorem proving, and scientific exams; Reasoning tasks that require arithmetic, scientific, and commonsense reasoning; Multilingual tasks for translation, summarization, and reasoning in multiple languages. Several of these capabilities are targeted by post-training (Section[sec:post-training]). Please see Appendix [app:tasks]for a detailed list of tasks included for each capability.
+
+<!-- chunk {"id": "body-0040", "role": "body", "section": "Trends in Capabilities", "weight": 1.0} -->
+
+Language understanding and generation performance of Gemini model family across different capabilities (normalized by the Gemini Pro model).
+
+<!-- chunk {"id": "body-0041", "role": "body", "section": "Trends in Capabilities", "weight": 1.0} -->
+
+We observe consistent quality gains with increased model size in Figure [fig:text-results], especially in reasoning, math/science, summarization and long-context. Gemini Ultra is the best model across the board for all six capabilities. Gemini Pro, the second-largest model in the Gemini family of models, is also quite competitive while being a lot more efficient to serve.
+
+<!-- chunk {"id": "body-0042", "role": "body", "section": "Nano", "weight": 1.0} -->
+
+Bringing AI closer to the user, we discuss the Gemini Nano 1 and Nano 2 models engineered for on-device deployments. These models excel in summarization and reading comprehension tasks with per-task fine-tuning. Figure [fig:text-results] shows the performance of these pre-trained models in comparison to the much larger Gemini Pro model, while Table [tab:nano-results]dives deeper into specific factuality, coding, Math/Science, and reasoning tasks. Nano-1 and Nano-2 model sizes are only 1.8B and 3.25B parameters respectively. Despite their size, they show exceptionally strong performance on factuality, i.e. retrieval-related tasks, and significant performance on reasoning, STEM, coding, multimodal and multilingual tasks. With new capabilities accessible to a broader set of platforms and devices, the Gemini models expand accessibility to everyone.
+
+<!-- chunk {"id": "body-0043", "role": "body", "section": "Nano", "weight": 1.0} -->
+
+| | 2cGemini Nano 1 | 2cGemini Nano 2 | | | Performance of Gemini Nano series on factuality, summarization, reasoning, coding and STEM tasks compared to significantly larger Gemini Pro model.
+
+<!-- chunk {"id": "body-0044", "role": "body", "section": "Multilinguality", "weight": 1.0} -->
+
+The multilingual capabilities of the Gemini models are evaluated using a diverse set of tasks requiring multilingual understanding, cross-lingual generalization, and the generation of text in multiple languages. These tasks include machine translation benchmarks (WMT 23 for high-medium-low resource translation; Flores, NTREX for low and very low resource languages), summarization benchmarks (XLSum, Wikilingua), and translated versions of common benchmarks (MGSM: professionally translated into 11 languages).
+
+<!-- chunk {"id": "body-0045", "role": "body", "section": "Multilinguality", "weight": 1.0} -->
+
+{\itshape\normalsize\bfseries}Machine Translation Translation is a canonical benchmark in machine learning with a rich history. We evaluated a post-trained Gemini API Ultra model (see Section[sec:post-training-ml]) on the entire set of language pairs in the WMT 23 translation benchmark in a few-shot setting. Overall, we found that Gemini Ultra (and other Gemini models) performed remarkably well at translating from English to any other language, and surpassed the LLM-based translation methods when translating out-of-English, on high-resource, mid-resource and low-resource languages.
+
+<!-- chunk {"id": "body-0046", "role": "body", "section": "Multilinguality", "weight": 1.0} -->
+
+In the WMT 23 out-of-English translation tasks, Gemini Ultra achieved the highest LLM-based translation quality, with an average BLEURT [sellam-etal-2020-bleurt]score of 74.8, compared to GPT-4’s score of 73.6, and PaLM 2’s score of 72.2. When averaged across all language pairs and directions for WMT 23, we see a similar trend with Gemini Ultra 74.4, GPT-4 73.8 and PaLM 2-L 72.7 average BLEURT scores on this benchmark.
+
+<!-- chunk {"id": "body-0047", "role": "body", "section": "Multilinguality", "weight": 1.0} -->
+
+| WMT 23 (Avg BLEURT) | Gemini Ultra | Gemini Pro | Gemini Nano 2 | Gemini Nano 1 | GPT-4 | PaLM 2-L | Performance of Gemini models on WMT 23 translation benchmark. All numbers with 1-shot.
+
+<!-- chunk {"id": "body-0048", "role": "body", "section": "Multilinguality", "weight": 1.0} -->
+
+In addition to the languages and translation tasks above, we also evaluate Gemini Ultra on very low-resource languages. These languages were sampled from the tail of the following language sets: Flores-200 (Tamazight and Kanure), NTREX (North Ndebele), and an internal benchmark (Quechua). For these languages, both from and into English, Gemini Ultra achieved an average chrF score of 27.0 in 1-shot setup, while the next-best model, PaLM 2-L, achieved a score of 25.3.
+
+<!-- chunk {"id": "body-0049", "role": "body", "section": "Multilinguality", "weight": 1.0} -->
+
+{\itshape\normalsize\bfseries}Multilingual Math and Summarization Beyond translation, we evaluated how well Gemini models perform in challenging tasks across a range of languages. We specifically investigated the math benchmark MGSM[mgsm], which is a translated variant of the math benchmark GSM8K[cobbe2021training]. We find Gemini Ultra achieves an accuracy of 79.0%, an advance over PaLM 2-L which scores 74.7%, when averaged across all languages in an 8-shot setup. We also benchmark Gemini models on the multilingual summarization benchmarks – XLSum [hasan-etal-2021-xl] and WikiLingua [ladhak2020wikilingua]. In XLSum, Gemini Ultra reached an average of 17.6 rougeL score compared to 15.4 for PaLM 2. For Wikilingua, Gemini Ultra (5-shot) trails behind PaLM 2 (3-shot) measured in BLEURT score. See Table[tab:mgsm-results] for the full results.
+
+<!-- chunk {"id": "body-0050", "role": "body", "section": "Multilinguality", "weight": 1.0} -->
+
+Overall the diverse set of multilingual benchmarks show that Gemini family models have a broad language coverage, enabling them to also reach locales and regions with low-resource languages.
+
+<!-- chunk {"id": "body-0051", "role": "body", "section": "Multilinguality", "weight": 1.0} -->
+
+| | Gemini Ultra | Gemini Pro | GPT-4 | PaLM 2-L | Performance of Gemini models on multilingual math and summarization.
+
+<!-- chunk {"id": "body-0052", "role": "body", "section": "Long Context", "weight": 1.0} -->
+
+Gemini models are trained with a sequence length of 32,768 tokens and we find that they make use of their context length effectively. We first verify this by running a synthetic retrieval test: we place key-value pairs at the beginning of the context, then add long filler text, and ask for value associated with a particular key. We find that the Ultra model retrieves the correct value with 98% accuracy when queried across the full context length. We further investigate this by plotting the negative log likelihood (NLL) versus the token index across a held-out set of long documents in Figure[fig:long-context]. We find that the NLL decreases with sequence position up to the full 32K context length. The longer context length of Gemini models enable new use cases such as retrieval over documents and video understanding discussed in Section[sec:video].
+
+<!-- chunk {"id": "body-0053", "role": "body", "section": "Long Context", "weight": 1.0} -->
+
+Negative log likelihood as a function of token index across 32K context length on a held-out set of long documents.
+
+<!-- chunk {"id": "body-0054", "role": "body", "section": "Factuality", "weight": 1.0} -->
+
+Factuality [maynez2020faithfulness]is a key focus of our model’s training and deployment.
+
+<!-- chunk {"id": "body-0055", "role": "body", "section": "Factuality", "weight": 1.0} -->
+
+- Closed-Book Factuality: If provided with a fact-seeking prompt without any given source, Gemini API models should not hallucinate incorrect information. These prompts can range from information-seeking prompts (e.g. Who is the prime minister of India?) to semi-creative prompts that may request factual information (e.g. Write a 500-word speech in favor of the adoption of renewable energy). - Attribution: If instructed to generate a response grounded to a given context, we aim to ensure that Gemini API models produce a response with the highest degree of faithfulness to the context[maynez2020faithfulness, rashkin2023measuring]. This may include the summarization of a user-provided source, generating fine-grained citations given a question and provided snippets akin to[peng2023check,gophercite], answering questions from a long-form source such as a book[mihaylov-etal-2018-suit], and transforming a given source to a desired output (e.g. an email from a portion of a meeting transcript).
+
+<!-- chunk {"id": "body-0056", "role": "body", "section": "Factuality", "weight": 1.0} -->
+
+- Hedging: If prompted with an input that is “unanswerable”, Gemini API models must acknowledge that it cannot provide a response by hedging to avoid hallucination. These include scenarios where the input prompt contains false-premise questions [see examples in[hu2023won]], the input prompt instructs the model to perform open book QA, but the answer is not derivable from the given context, and so forth.
+
+<!-- chunk {"id": "body-0057", "role": "body", "section": "Factuality", "weight": 1.0} -->
+
+Factuality is evaluated via human annotators who fact-check each response manually; we report the percentage of factually inaccurate responses as judged by annotators. Attribution is evaluated via human annotators who check for attribution to sources in the prompt for each response manually; the reported metric is AIS [rashkin2023measuring]. For hedging, we use an automatic evaluation setup where we measure whether models hedge accurately.
+
+<!-- chunk {"id": "body-0058", "role": "body", "section": "Factuality", "weight": 1.0} -->
+
+We compare Gemini API Pro with a version without any factuality-focused adaptation in Table [table:factuality]. We see that the rate of inaccuracy is halved in the factuality set, the accuracy of attribution is increased by 50% from the attribution set, and the model successfully hedges 70% (up from 0%) in the provided hedging set task.
+
+<!-- chunk {"id": "body-0059", "role": "body", "section": "Factuality", "weight": 1.0} -->
+
+| | Factuality (Inaccurate Rate) | Attribution (AIS) | Hedging (Accuracy) | Factuality mitigations: Impact of post-training on the rate of inaccuracy, presence of attribution and the rate of accurate hedging on Gemini API Pro (with corresponding 95% confidence intervals).
+
+<!-- chunk {"id": "body-0060", "role": "body", "section": "Complex Reasoning Systems", "weight": 1.0} -->
+
+Gemini models can also be combined with additional techniques such as search and tool-use to create powerful reasoning systems that can tackle more complex multi-step problems. One example of such a system is AlphaCode 2, a new state-of-the-art agent that excels at solving competitive programming problems[gdm2023alphacode2]. AlphaCode 2 uses a specialized version of Gemini Pro – tuned on competitive programming data similar to the data used in [alphacode]– to conduct a massive search over the space of possible programs. This is followed by a tailored filtering, clustering and reranking mechanism. Gemini Pro is fine-tuned both to be a coding model to generate proposal solution candidates, and to be a reward model that is leveraged to recognize and extract the most promising code candidates.
+
+<!-- chunk {"id": "body-0061", "role": "body", "section": "Complex Reasoning Systems", "weight": 1.0} -->
+
+AlphaCode 2 is evaluated on Codeforces, the same platform as AlphaCode, on 12 contests from division 1 and 2, for a total of 77 problems. AlphaCode 2 solved 43% of these competition problems, a 1.7x improvement over the prior record-setting AlphaCode system which solved 25%. Mapping this to competition rankings, AlphaCode 2 built on top of Gemini Pro sits at an estimated 85th percentile on average – i.e. it performs better than 85% of entrants. This is a significant advance over AlphaCode, which only outperformed 50%of competitors.
+
+<!-- chunk {"id": "body-0062", "role": "body", "section": "Complex Reasoning Systems", "weight": 1.0} -->
+
+The composition of powerful pre-trained models with search and reasoning mechanisms is an exciting direction towards more general agents; another key ingredient is deep understanding across a range of modalities which we discuss in the next section.
+
+<!-- chunk {"id": "body-0063", "role": "body", "section": "Multimodal", "weight": 1.0} -->
+
+Gemini models are natively multimodal. These models exhibit the unique ability to seamlessly combine their capabilities across modalities (e.g. extracting information and spatial layout out of a table, a chart, or a figure) with the strong reasoning capabilities of a language model (e.g. its state-of-art-performance in math and coding) as seen in examples in Figures[fig:inverse\_graphics\_3] and[fig:demo\_example6]. The models also show strong performance in discerning fine-grained details in inputs, aggregating context across space and time, and applying these capabilities over a temporally-related sequence of video frames and/or audio inputs.
+
+<!-- chunk {"id": "body-0064", "role": "body", "section": "Multimodal", "weight": 1.0} -->
+
+The sections below provide more detailed evaluation of the model across different modalities (image, video, and audio), together with qualitative examples of the model's capabilities for image generation and the ability to combine information across different modalities.
+
+<!-- chunk {"id": "body-0065", "role": "body", "section": "Image Understanding", "weight": 1.0} -->
+
+We evaluate post-trained Gemini API models on four different capabilities: high-level object recognition using captioning or question-answering tasks such as VQAv2; fine-grained transcription using tasks such as TextVQA and DocVQA requiring the model to recognize low-level details; chart understanding requiring spatial understanding of input layout using ChartQA and InfographicVQA tasks; and multimodal reasoning using tasks such as Ai2D, MathVista and MMMU. For zero-shot QA evaluation, the model is instructed to provide short answers aligned with the specific benchmark. All numbers are obtained using greedy sampling and without any use of external OCR tools.
+
+<!-- chunk {"id": "body-0066", "role": "body", "section": "Image Understanding", "weight": 1.0} -->
+
+| | Gemini Ultra (pixel only) | Gemini Pro (pixel only) | Gemini Nano 2 (pixel only) | Gemini Nano 1 (pixel only) | GPT-4V | Prior SOTA | Image understanding Gemini Ultra consistently outperforms existing approaches even in zero-shot, especially for OCR-related image understanding tasks for natural images, text, documents, and figures without using any external OCR engine (`pixel only'). Many existing approaches fine-tune on the respective tasks, highlighted in gray, which makes the comparison with 0-shot not apples-to-apples.
+
+<!-- chunk {"id": "body-0067", "role": "body", "section": "Image Understanding", "weight": 1.0} -->
+
+We find that Gemini Ultra is state of the art across a wide range of image-understanding benchmarks in Table [tab:mm\_image\_text]. It achieves strong performance across a diverse set of tasks such as answering questions on natural images and scanned documents as well as understanding infographics, charts and science diagrams. When compared against publicly reported results from other models (most notably GPT-4V), the Gemini model is better in zero-shot evaluation by a significant margin. It also exceeds several existing models that are specifically fine-tuned on the benchmark's training sets for the majority of tasks. The capabilities of the Gemini models lead to significant improvements in the state of the art on academic benchmarks like MathVista (+3.1%) MathVista is a comprehensive mathematical reasoning benchmark consisting of 28 previously published multimodal datasets and three newly created datasets. Our MathVista results were obtained by running the authors’ evaluation script. [mmmu] is a recently released evaluation benchmark, which consists of questions about images across 6 disciplines with multiple subjects within each discipline that require college-level knowledge to solve these questions.
+
+<!-- chunk {"id": "body-0068", "role": "body", "section": "Image Understanding", "weight": 1.0} -->
+
+Gemini Ultra achieves the best score on this benchmark advancing the state-of-the-art result by more than 5 percentage points and outperforms the previous best result in 5 of 6 disciplines (see Table[tab:mmmu]), thus showcasing its multimodal reasoning capabilities.
+
+<!-- chunk {"id": "body-0069", "role": "body", "section": "Image Understanding", "weight": 1.0} -->
+
+| MMMU (val) | 2lGemini Ultra (0-shot) | 1lGPT-4V (0-shot) | | | Gemini Ultra performance on the MMMU benchmark per discipline. Each discipline covers multiple subjects, requiring college-level knowledge and complex reasoning.
+
+<!-- chunk {"id": "body-0070", "role": "body", "section": "Image Understanding", "weight": 1.0} -->
+
+Gemini models are also capable of operating across modalities and a diverse set of global languages simultaneously, both for image understanding tasks (e.g., images containing text in Icelandic) and for generation tasks (e.g., generating image descriptions for a wide range of languages). We evaluate the performance of generating image descriptions on a selected subset of languages in the Crossmodal-3600 (XM-3600) benchmark in a 4-shot setting, using the Flamingo evaluation protocol [flamingo], without any fine-tuning for all models. As shown in Table[table:mm\_xm3600], Gemini models achieve a significant improvement over the existing best model, Google PaLI-X.
+
+<!-- chunk {"id": "body-0071", "role": "body", "section": "Image Understanding", "weight": 1.0} -->
+
+| XM-3600 (CIDER) | Gemini Ultra 4-shot | Gemini Pro 4-shot | Google PaLI-X 4-shot | Multilingual image understanding Gemini models outperform existing models in captioning images in many languages when benchmarked on a subset of languages in XM-3600 dataset [xm3600].
+
+<!-- chunk {"id": "body-0072", "role": "body", "section": "Image Understanding", "weight": 1.0} -->
+
+Using Gemini models' multimodal reasoning capabilities to generate $\textrm{matplotlib}$ code for rearranging the subplots. The multimodal prompt is shown at the top-left in gray. Gemini Ultra's response, including its generated code, is shown in the right column in blue. The bottom left figure shows rendered version of the generated code. Successfully solving this task shows the model's capability to combine several capabilities: recognition of the functions depicted in the plots; inverse graphics to infer the code that would have generated the subplots; instruction-following to put subplots in their desired positions; and abstract reasoning to infer that the exponential plot must stay in its original place, because the sine plot must move out of the way for the 3-dimensional plot.
+
+<!-- chunk {"id": "body-0073", "role": "body", "section": "Image Understanding", "weight": 1.0} -->
+
+Qualitative evaluation in Figure [fig:inverse\_graphics\_3] illustrates an example of Gemini Ultra's multimodal reasoning capabilities. The model is required to solve the task of generating $\textrm{matplotlib}$code that would rearrange a set of subplots provided by the user. The model output shows that it successfully solves this task combining multiple capabilities of understanding the user plot, inferring the code required to generate it, following user instructions to put subplots in their desired positions, and abstract reasoning about the output plot. This highlights Gemini Ultra's native multimodality and alludes to its more complex reasoning abilities across interleaved sequences of image and text. We refer the reader to the appendix for more qualitative examples.
+
+<!-- chunk {"id": "body-0074", "role": "body", "section": "Video Understanding", "weight": 1.0} -->
+
+Understanding video input is an important step towards a useful generalist agent. We measure the video understanding capability across several established benchmarks that are held-out from training. These tasks measure whether the model is able to understand and reason over a temporally-related sequence of frames. For each video task, we sample 16 equally-spaced frames from each video clip and feed them to the Gemini models. For the YouTube video datasets (all datasets except NextQA and the Perception test), we evaluate the Gemini models on videos that were still publicly available in the month of November, 2023.
+
+<!-- chunk {"id": "body-0075", "role": "body", "section": "Video Understanding", "weight": 1.0} -->
+
+Gemini Ultra achieves state-of-the-art performance on various few-shot video captioning tasks as well as zero-shot video question answering tasks as shown in Table [tab:video]. This demonstrates its capability of strong temporal reasoning across several frames. Figure[fig:demo\_example16]in the appendix provides a qualitative example of understanding the video of the ball-striking mechanics of a soccer player and reasoning about the player can improve their game.
+
+<!-- chunk {"id": "body-0076", "role": "body", "section": "Video Understanding", "weight": 1.0} -->
+
+| Task | Gemini Ultra | Gemini Pro | Few-shot SoTA | Few-shot video understanding across tasks and languages on selected academic benchmarks. The reported metric is CIDER for video captioning, WUPS for NextQA, and top-1 accuracy for the Perception Test and ActivityNet-QA. For ActivityNet-QA, we use the Video-LLAVA evaluation protocol.
+
+<!-- chunk {"id": "body-0077", "role": "body", "section": "Image Generation", "weight": 1.0} -->
+
+Gemini models are able to output images natively, without having to rely on an intermediate natural language description that can bottleneck the model's ability to express images. This uniquely enables the model to generate images with prompts using interleaved sequences of image and text in a few-shot setting. For example, the user might prompt the model to design suggestions of images and text for a blog post or a website (see Figure[fig:demo\_example4]in the appendix). [fig:image\_generation]shows an example of image generation in 1-shot setting. Gemini Ultra model is prompted with one example of interleaved image and text where the user provides two colors (blue and yellow) and image suggestions of creating a cute blue cat or a blue dog with yellow ear from yarn. The model is then given two new colors (pink and green) and asked for two ideas about what to create using these colors. The model successfully generates an interleaved sequence of images and text with suggestions to create a cute green avocado with pink seed or a green bunny with pink ears from yarn.
+
+<!-- chunk {"id": "body-0078", "role": "body", "section": "Image Generation", "weight": 1.0} -->
+
+Image Generation. Gemini models can output multiple images interleaved with text given a prompt composed of image and text. In the left figure, Gemini Ultra is prompted in a 1-shot setting with a user example of generating suggestions of creating cat and dog from yarn when given two colors, blue and yellow. Then, the model is prompted to generate creative suggestions with two new colors, pink and green, and it generates images of creative suggestions to make a cute green avocado with pink seed or a green bunny with pink ears from yarn as shown in the right figure.
+
+<!-- chunk {"id": "body-0079", "role": "body", "section": "Audio Understanding", "weight": 1.0} -->
+
+We evaluate the Gemini Nano-1 and Gemini Pro models on a variety of public benchmarks and compare it with Universal Speech Model (USM)[usm] and Whisper (large-v2[whisper] or large-v3[whisper-v3] as indicated). These benchmarks include automatic speech recognition (ASR) tasks such as FLEURS [conneau2023fleurs], VoxPopuli, [wang2021voxpopuli], Multi-lingual Librispeech [pratap2020mls], as well as the speech translation task CoVoST 2, translating different languages into English[wang2020covost]. We also report on an internal benchmark YouTube test set. ASR tasks report a word error rate (WER) metric, where a lower number is better. Translation tasks report a BiLingual Evaluation Understudy (BLEU) score, where a higher number is better. FLEURS is reported on 62 languages that have language overlap with the training data. Four segmented languages (Mandarin, Japanese, Korean and Thai) report character error rate (CER), instead of WER, similar to Whisper[whisper].
+
+<!-- chunk {"id": "body-0080", "role": "body", "section": "Audio Understanding", "weight": 1.0} -->
+
+[tab:audio-results]indicates that our Gemini Pro model significantly outperforms the USM and Whisper models across all ASR and AST tasks, both for English and multilingual test sets. Note that there is a large gain in FLEURS, compared to USM and Whisper, as our model is also trained with the FLEURS training dataset. However, training the same model without FLEURS dataset results in a WER of 15.8, which still outperforms Whisper. Gemini Nano-1 model also outperforms both USM and Whisper on all datasets except FLEURS. Note that we did not evaluate Gemini Ultra on audio yet, though we expect better performance from increased model scale.
+
+<!-- chunk {"id": "body-0081", "role": "body", "section": "Audio Understanding", "weight": 1.0} -->
+
+| | Task | Metric | Gemini Pro | Gemini Nano-1 | Whisper | USM | Speech evaluation results on selected benchmarks for ASR and AST. For ASR, the reported metric is WER where lower is better. For AST, the reported metric is BLEU where higher is better. [tab:audio-qualitative]shows further error analysis with USM and Gemini Pro. We find that Gemini Pro produces more understandable responses, particularly on rare words and proper nouns.
+
+<!-- chunk {"id": "body-0082", "role": "body", "section": "Audio Understanding", "weight": 1.0} -->
+
+| Domain | Truth | USM | Gemini Pro | Wav | Qualitative examples for the ASR task in the benchmark. Incorrect transcriptions are highlighted in red.
+
+<!-- chunk {"id": "body-0083", "role": "body", "section": "Modality Combination", "weight": 1.0} -->
+
+Multimodal demonstrations often include a combination of text interleaved with a single modality, usually images. We demonstrate the ability to process a sequence of audio and images natively.
+
+<!-- chunk {"id": "body-0084", "role": "body", "section": "Modality Combination", "weight": 1.0} -->
+
+Consider a cooking scenario about making an omelet where we prompt the model with a sequence of audio and images. Table [tab:modality-combo] indicates a turn-by-turn interaction with the model, providing pictures and verbally asking questions about the next steps for cooking an omelet. We note that the model response text is reasonably accurate, and shows that model processes fine-grained image details to evaluate when the omelet is fully cooked. See demo on the | Input Image | Input Audio (transcribed) | Model Response: Text | Audio-visual qualitative example showcasing the ability of Gemini models to process interleaved sequences of text, vision, and audio, as well as reason across modalities. This example inputs interleaved images and audio from the user in a cooking scenario. The user prompts the model for instructions to make an omelet and to inspect whether it is fully cooked.
+
+<!-- chunk {"id": "body-0085", "role": "body", "section": "Post-Training Models", "weight": 1.0} -->
+
+After large-scale pre-training, we apply post-training, where one trains on top of a pre-trained model in order to extend the model’s proficiency and to enable a wide variety of capabilities. Namely, we seek to improve overall quality, enhance target capabilities such as coding and multilingual, and ensure alignment and safety criteria are met. We discuss our approach to post-training in this section, highlighting common and distinct aspects of the Gemini Apps and Gemini API model variants.
+
+<!-- chunk {"id": "body-0086", "role": "body", "section": "Gemini Apps: Gemini and Gemini Advanced", "weight": 1.0} -->
+
+Gemini and Gemini Advanced offer direct access to Google's family of AI models, consisting of the core post-trained Gemini Apps models and the system around it. These models are created by applying specialized post-training on top of Gemini pre-trained models: currently, Gemini gives access to Pro 1.0 and Gemini Advanced gives access to Ultra 1.0. Beyond the core models, the system determines how the models interact with external tools (such as Google Flights, Maps, and Google Workspace), and how to generate responses (filtering, ranking, and streaming). As an area, conversational AI presents several challenges, including: How to understand users’ requests across multi-turn interactions? How to make sure responses are safe, factually grounded, and helpful? How to help users accomplish tasks by using tools external to the models? We discuss how we approach these challenges in the following sections.
+
+<!-- chunk {"id": "body-0087", "role": "body", "section": "Gemini APIs: Google AI Studio and Cloud Vertex AI", "weight": 1.0} -->
+
+Our developer-focused Gemini API models are designed to support both conversational and non-conversational use cases. These models are available through Google AI Studio and Cloud Vertex AI through an easy to use API. Google AI Studio is a free, web-based developer tool to prototype and launch apps quickly with an API key. Vertex AI is a comprehensive AI platform that enables developers to leverage Gemini API models with varied tooling, fully-managed infrastructure, and built-in enterprise security and privacy settings. Gemini APIs make it easy to integrate Gemini API models into any production product or workflow, empowering developers to build applications that can reason across different modalities.
+
+<!-- chunk {"id": "body-0088", "role": "body", "section": "Post-Training Methods & Data", "weight": 1.0} -->
+
+Post-training Gemini models to produce Gemini API and Apps variants involves several stages; see Figure [fig:post-training]. Careful data curation is critical for all stages. First, we collect a diverse set of prompts that are representative of real-world use cases. Second, we apply supervised fine-tuning (SFT) on demonstration data of what the model’s output should be for a given prompt [wei2021finetuned, ouyang2022training, mishra2021cross]. Third, we further collect different possible responses to a given prompt, and collect feedback data over these to train a Reward Model (RM). Finally, using the trained RM, a Reinforcement Learning from Human Feedback (RLHF) stage[Bai2022-us]is applied to further align the model's outputs with human preferences. We discuss our methods in more detail below: Prompt Data Collection: A prompt is a user’s input to the model. As well as the most recent user input, this can also include previous user-model interactions. We curate datasets of target prompts. The datasets serve as the basis for our demonstration and feedback data collections, and they are used directly during reinforcement learning.
+
+<!-- chunk {"id": "body-0089", "role": "body", "section": "Post-Training Methods & Data", "weight": 1.0} -->
+
+It is important to cover a diverse set of crucial use cases and in both single-turn and multi-turn formats. Data sources include vendor-created data, third-party licensed sources, and synthetic approaches.
+
+<!-- chunk {"id": "body-0090", "role": "body", "section": "Post-Training Methods & Data", "weight": 1.0} -->
+
+SFT on Demonstration Data: SFT trains the model to output a desired target response given a prompt. Our Demonstration Data target responses can be directly written by a human expert, or generated by a model and in some cases revised or reviewed by a human. Additionally, we use data analysis tools and heuristics to ensure high data diversity across capabilities, use cases, and semantic clusters.
+
+<!-- chunk {"id": "body-0091", "role": "body", "section": "Post-Training Methods & Data", "weight": 1.0} -->
+
+RM Training on Feedback Data: We further collect Feedback Data, for which human raters provide feedback such as relative preferences over candidate responses and feedback regarding individual responses to a given prompt. For many capabilities, rating relative preferences is an easier task than demonstrating an ideal response. Feedback data are collected across creativity, safety, factuality, other capabilities, and other target criteria. We found that the utility of the resulting human feedback data greatly depends on the prompt selection and the sampling strategy used to produce candidate responses. We use this data to train RMs to output rewards that align with human preferences as closely as possible.
+
+<!-- chunk {"id": "body-0092", "role": "body", "section": "Post-Training Methods & Data", "weight": 1.0} -->
+
+RLHF: Applying reinforcement learning from human feedback (RLHF) to our models provides further gains over SFT alone. Our approach creates an iterative process in which RL continually pushes the boundaries of the RM, while the RM is continuously improved through evaluation and data collection, leading to progressive improvements in both.
+
+<!-- chunk {"id": "body-0093", "role": "body", "section": "Post-Training Methods & Data", "weight": 1.0} -->
+
+Modeling overview. Post-training utilizes an optimized data flywheel in order to acquire human-AI feedback and continually improve on key areas. The data mixtures for supervised fine-tuning, reward modeling, and reinforcement learning serve as the foundation for our models.
+
+<!-- chunk {"id": "body-0094", "role": "body", "section": "Evaluation", "weight": 1.0} -->
+
+Evaluation of human preferences over model outputs provides critical signals for measuring performance. As part of our development process, we conduct human evaluation extensively across targeted capabilities. Human evaluation is instantiated as side-by-side blind evaluations where human raters judge responses of two models to the same prompt, as single-response ratings for certain capabilities, and as online testing. In addition, we build models for automated evaluation that faithfully imitate human preferences in order to guide development and continuously monitor online performance.
+
+<!-- chunk {"id": "body-0095", "role": "body", "section": "Evaluation", "weight": 1.0} -->
+
+LMSYS Chatbot Arena: Benchmarks based on open-source tooling and data provide a valuable means of assessing model performance under a well-scrutinized setting. The LMSYS Chatbot Arena [lmsys] is the most popular evaluation for chatbots, where a user writes a prompt, receives blinded responses from a pair of models, and continues the conversation until deciding which model is preferred. The Jan. 2024 version of Gemini, with Gemini Pro and online capabilities, has been recently evaluated on the Chatbot Arena (Figure [fig:lmsys-elo]). It is ranked #2 in Elo rating. Full scores including scores for Gemini Advanced will be updated as LMSYS gathers more data. Other Gemini Pro entries in the leaderboard are older generation models that have not been optimized for chat use cases.
+
+<!-- chunk {"id": "body-0096", "role": "body", "section": "Evaluation", "weight": 1.0} -->
+
+Elo leaderboard under the LMSYS Chatbot Arena (DATE).
+
+<!-- chunk {"id": "body-0097", "role": "body", "section": "Evaluation", "weight": 1.0} -->
+
+Third-party Human Evaluation: To study performance in more detail, we built an open-source eval set called lmsys-eval-10k lmsys-eval-10k can be found here: [todo url]. The eval set was constructed after all models completed training and tuning. The evaluations did not inform model development. lmsys-eval-10k sources from raw Chatbot Arena conversations from April-August 2023 in lmsys-chat-1m [zheng2023lmsys]. The eval set contains 10k multi-turn English conversations spanning diverse capabilities such as coding, factuality, and safety, and features responses from 25 models, including OpenAI, Anthropic, and open-source models. We conduct human evaluation using third-party vendors: a rater returns a preference rating between a test model and baseline model’s responses given the context. [table:lmsys-sxs]displays metrics for the pairwise preference ratings between Gemini services and another chatbot on the 10K lmsys-eval-10k prompts.
+
+<!-- chunk {"id": "body-0098", "role": "body", "section": "Evaluation", "weight": 1.0} -->
+
+In addition to comparing to top models with public benchmark results, we evaluate vs the latest GPT-4 Turbo 0125 API (other GPT-4 Turbo results are based on the 1106 API); and we evaluate vs ChatGPT 4, which is GPT-4 under the ChatGPT UI and is equipped with search and code execution tools like Gemini.
+
+<!-- chunk {"id": "body-0099", "role": "body", "section": "Evaluation", "weight": 1.0} -->
+
+- Win rate is the percentage of ratings where the test model is preferred over the base model, excluding ties. Intuitively, a result greater than 50% indicates a stronger model, where the test model is preferred over 50% of the time. - SxS score measures the average magnitude of a preference. Each rating is converted to an ordinal value centered at 0: ratings preferring the test are positive and ratings preferring the base are negative. The converted values are averaged to return the SxS score. Intuitively, a positive SxS score indicates the extent to which the test model’s response is preferred over the base model’s response. [table:lmsys-sxs], Gemini Advanced has a >60%win rate across the chatbots it is compared to, and with a positive SxS score. Gemini is on par or better than all chatbots except Gemini Advanced.
+
+<!-- chunk {"id": "body-0100", "role": "body", "section": "Evaluation", "weight": 1.0} -->
+
+The lmsys-eval-10k set includes annotations outlining what capabilities each prompt corresponds to. We split lmsys-eval-10k examples by capability and correspondingly split the preference ratings on the examples. Table [table:elo-capability] displays the Elo ratings for the top 10 models on each capability’s split. Certain models have only a small number of ratings in a split, so we only report ratings for models with >=50 ratings. Uniformly, Gemini Advanced ranks #1 where it particularly has leading gaps in coding (+0.45 SxS score and 76.4% win rate) and creativity (+0.32 SxS score and 68.7% win rate). Gemini is typically #2, sometimes #3.
+
+<!-- chunk {"id": "body-0101", "role": "body", "section": "Model Capabilities", "weight": 1.0} -->
+
+Beyond the general post-training outlined above, we apply techniques to improve a set of key capabilities. These capabilities cover a range of use cases inspired by current user needs and research-inspired future applications. We outline capability examples not detailed in previous sections below. The post-training recipes are carefully designed to balance multiple objectives, including creativity, factuality, safety and more [bai2022constitutional, thoppilan2022lamda]. We have a particular focus on safety and alignment, and hence address this in a further dedicated section.
+
+<!-- chunk {"id": "body-0102", "role": "body", "section": "Instruction Following", "weight": 1.0} -->
+
+Following a user’s prompt accurately is a fundamental capability for LLMs, especially as these models become more sophisticated and are presented with increasingly complex user prompts. User prompts vary in granularity, specificity, and requirements (e.g., content, format, length). Individual instructions can also be ambiguous, optional, or even impossible or undesirable to satisfy We improve Gemini Apps and Gemini API models’ instruction following (IF) abilities by collecting data for a diverse set of instruction following categories. For instructions that are verifiable programmatically such as word count, we generate synthetic data via prompting and response editing to ensure that such instructions are satisfied.
+
+<!-- chunk {"id": "body-0103", "role": "body", "section": "Instruction Following", "weight": 1.0} -->
+
+Complex prompts evaluation: We investigate performance on complex prompts containing multiple instructions using a fine-grained evaluation method that assesses how well models adhere to each instruction. Human raters are presented with a prompt-response pair and a list of the individual (sub)-instructions contained in the prompt. Each prompt may have anywhere from one to dozens of individual instructions, and the annotators are tasked with determining whether each instruction is followed (or not) by the response. [tab:posttrain-complex-prompt-results]reports results on an internal dataset of prompts with instructions of varying complexity that encompass a wide range of instructions and are designed to be challenging for LLMs. We report two metrics: per-instruction accuracy (the percentage of sub instructions in the eval set that are followed), and full-response accuracy (the percentage of eval set prompts where all sub-instructions are followed).
+
+<!-- chunk {"id": "body-0104", "role": "body", "section": "Instruction Following", "weight": 1.0} -->
+
+| | Post-trained PaLM 2 | Gemini (with Pro) | Gemini Advanced (with Ultra) | Performance of Gemini on our complex prompts instruction-following internal benchmark.
+
+<!-- chunk {"id": "body-0105", "role": "body", "section": "Instruction Following", "weight": 1.0} -->
+
+Gemini Advanced (with Ultra) achieves an average per-instruction accuracy close to 90%, representing a significant improvement over Gemini (with Pro) and a post-trained PaLM 2 model. We find that the sub-instructions that aren’t followed are well-distributed across responses. As a result Gemini Advanced’s full-response accuracy is lower, at around 54%. This indicates that there is further headroom for models to fully satisfy all instructions.
+
+<!-- chunk {"id": "body-0106", "role": "body", "section": "Tool Use", "weight": 1.0} -->
+
+By training LLMs to use tools, we greatly expand LLM capabilities beyond their internal knowledge. We treat tool use for both Gemini Apps and Gemini API models as a code generation problem, leveraging the base model’s preexisting strong coding capabilities. Every tool invocation is represented as a code block in which tool calls are invoked. This process allows the model to both compose multiple tools in each code block, as well as observe and react to the results of tool execution. At inference time, to generate a response to a user prompt, our system executes the loop shown in Figure [fig:capabilities-tool-use], where sampling from the LLM and execution of tool code work together to create a final response.
+
+<!-- chunk {"id": "body-0107", "role": "body", "section": "Tool Use", "weight": 1.0} -->
+
+Gemini Apps models: Gemini draws on a range of tools via Gemini Extensions, including Google Workspace, Google Maps, YouTube, Google Flights, and Google Hotels. These tool-use capabilities also enable Gemini to be integrated as part of Gmail, Docs, Slides, Sheets and more. We are aiming to bring further tool-use capabilities in order to both enhance Gemini models and integrate Gemini models into further products.
+
+<!-- chunk {"id": "body-0108", "role": "body", "section": "Tool Use", "weight": 1.0} -->
+
+We created an internal benchmark to assess Gemini performance on tasks that may benefit from access to these extensions. This benchmark measures human preference in domains such as travel planning and video discovery. We find models equipped with tools are preferred on this set 78%of the time over models without tools (excluding ties).
+
+<!-- chunk {"id": "body-0109", "role": "body", "section": "Tool Use", "weight": 1.0} -->
+
+Gemini API models: We have found that fine-tuning Gemini API models is very effective at teaching the model tool-use behaviors. Furthermore, training models to use programming and search as tools leads to improved performance on a range of academic benchmarks. In Table[tab:posttraining-gemini-api-tools-results], we compare tool-use models fine-tuned from an early version of Gemini API Pro against equivalent models that do not use tools.
+
+<!-- chunk {"id": "body-0110", "role": "body", "section": "Tool Use", "weight": 1.0} -->
+
+| | 2p3.6cm|Mathematical Reasoning | 2p3.6cmFactuality & Knowledge Retrieval | | | Comparison between Gemini API tool-use models and comparable models that do not use tools. Gemini API Pro without tools is an early version of our Pro model trained without tool-use data. Gemini API Pro with tools is the same model fine-tuned with tool-use data.
+
+<!-- chunk {"id": "body-0111", "role": "body", "section": "Multilinguality", "weight": 1.0} -->
+
+Multilinguality is critical to make sure Gemini models effectively support a wide range of languages. We discuss our key approaches for Gemini Apps and Gemini API models respectively below.
+
+<!-- chunk {"id": "body-0112", "role": "body", "section": "Multilinguality", "weight": 1.0} -->
+
+Gemini Apps models: Scaling Gemini from English to 40+ languages imposed research challenges in data quality. We leverage abundant high-quality English data by localization to native cultures (e.g., “president of the United States” -> “ [tab:posttrain-gemini-multilingual]shows the performance of Gemini (with Pro) on 5 languages compared to Bard with an older post-training recipe and based on PaLM 2. For side-by-side comparisons between a model A and a model B, we calculate a metric called SxS score. Each rating is converted to an ordinal value centered at 0: ratings preferring A are positive and ratings preferring B are negative over a scale between -1.5 and 1.5. The converted values are averaged to return the SxS score. Intuitively, a positive SxS score indicates the extent to which model A is preferred over model B. Here, we find quality improved by more than 0.1 SxS score for all five languages. Coding and reasoning gains from Gemini Pro are preserved across languages.
+
+<!-- chunk {"id": "body-0113", "role": "body", "section": "Multilinguality", "weight": 1.0} -->
+
+| Language | Quality SxS | Coding MBPP Pass@1 | Reasoning MMLU | Multilingual performance of Gemini (with Pro) compared to Gemini with an older post-training recipe and PaLM 2.
+
+<!-- chunk {"id": "body-0114", "role": "body", "section": "Multilinguality", "weight": 1.0} -->
+
+Gemini API models: Similar to Gemini Apps models, we train Gemini API models on additional multilingual post-training data, effectively adapting the original English model for use in various languages. We experiment with both human-generated non-English prompt-response pairs as well as automatically translated pairs. For the latter, we leverage abundant high-quality English demonstration data by translation. We ensure the quality of such translated data by translationability filtering and response rating by humans.
+
+<!-- chunk {"id": "body-0115", "role": "body", "section": "Multilinguality", "weight": 1.0} -->
+
+Translatability Filtering: Not all prompt-response pairs make sense when automatically translated, and may require expensive localization instead.
+
+<!-- chunk {"id": "body-0116", "role": "body", "section": "Multilinguality", "weight": 1.0} -->
+
+- (strict word requirements) Write a 1000 word essay about world peace. - (too English centric) Write a poem in iambic pentameter about apples. - (too Latin-script centric) What is a word with 1 E, 2 As, and 1 U?
+
+<!-- chunk {"id": "body-0117", "role": "body", "section": "Multilinguality", "weight": 1.0} -->
+
+Translation Quality Validation: Each translated prompt-response pair was rated for translation quality by at least 3 human raters, and was kept in the final mixture if the majority of raters rated it as accurate. Section 5.1.4 reports evaluations of the multilingual capabilities of post-trained Gemini API models.
+
+<!-- chunk {"id": "body-0118", "role": "body", "section": "Multimodal Vision", "weight": 1.0} -->
+
+Multimodal post-training enhances the capabilities of our natively multimodal Gemini models for a wide range of useful applications. In the following, we discuss how image understanding ability is incorporated into Gemini Apps and Gemini API models. For this evaluation, we further train both of these Gemini model variants on a mixture of text data and expert curated image-text data over several vertically-defined multimodal use cases Gemini Apps models: We empower Gemini and Gemini Advanced with image understanding capabilities by fine-tuning pre-trained Gemini models on a mixture of text-only and image-text data. Careful balancing of text and multimodal data ensures the model develops robust image understanding without adversely affecting the quality of the text-only interactions. To assess our models, we compile a dataset of human-curated and synthetic image-text prompts and responses, spanning various categories and difficulty levels. This dataset facilitates human evaluation for model comparison and selection.
+
+<!-- chunk {"id": "body-0119", "role": "body", "section": "Multimodal Vision", "weight": 1.0} -->
+
+We find that introducing this image-text data preserves Gemini Apps model quality on text-only tasks, with a SxS score on text-only tasks of +0.01 $\pm$0.01 for a Gemini Apps Pro model trained on this data versus an equivalent model trained only on text data. In addition, post-training via RLHF improves performance on multimodal tasks, with a SxS score on image-understanding tasks of +0.223$\pm$0.06 for a Gemini Apps Pro model post-trained with SFT &RLHF vs SFT alone.
+
+<!-- chunk {"id": "body-0120", "role": "body", "section": "Multimodal Vision", "weight": 1.0} -->
+
+Gemini API models: We evaluate the impact of post-training via SFT on Gemini API models’ multimodal vision performance by tracking the performance of both pre-trained models and post-trained Gemini API Vision models on a series of standard benchmarks. These post-trained results have already been given in Table[tab:mm\_image\_text], in Table[tab:posttraining\_mm\_image\_text]we further report the difference in performance between pre-trained and post-trained Gemini API models.
+
+<!-- chunk {"id": "body-0121", "role": "body", "section": "Multimodal Vision", "weight": 1.0} -->
+
+| | Gemini Ultra Pre-trained only 0-shot (pixel only) | Gemini API Ultra 0-shot (pixel only) | Gemini Ultra pre- to post-trained improvement | Post-trained model image understanding Post-training improves image understanding capabilities of Gemini API Ultra over the base pre-trained model. Comparisons of Gemini API Ultra to other models on these benchmarks are given in Table[tab:mm\_image\_text].
+
+<!-- chunk {"id": "body-0122", "role": "body", "section": "Multimodal Vision", "weight": 1.0} -->
+
+The results indicate that the pre-trained model already has high performance across the capabilities represented by these benchmarks, in line with previous observations. However, the post-training SFT stage used for the Gemini API Vision models succeeds in improving the performance over several of these benchmarks (InfographicVQA, AI2D, VQAv2), most likely due to the model’s increased instruction-following capabilities that succeed in aligning the model output style with that of the golden references.
+
+<!-- chunk {"id": "body-0123", "role": "body", "section": "Coding", "weight": 1.0} -->
+
+Despite the strong coding benchmark performance of the base model, post-training data still provides a significant boost to both code quality and code correctness. This highlights the benefit of high-quality demonstration data and feedback data for coding use cases. Gemini Apps and Gemini API models use a combination of human and synthetic approaches to collect such data.
+
+<!-- chunk {"id": "body-0124", "role": "body", "section": "Coding", "weight": 1.0} -->
+
+We evaluate our Gemini Apps models’ coding performance on a set of internally curated prompts, distributed across code use cases and languages. Table [tab:posttrain-coding]reports SxS scores, where Gemini (with Pro) significantly improves upon Bard with an older post-training recipe and based on PaLM 2. Gemini Advanced (with Ultra) further improves upon Gemini (with Pro).
+
+<!-- chunk {"id": "body-0125", "role": "body", "section": "Coding", "weight": 1.0} -->
+
+| Side A | Side B | SxS score | SxS comparisons of Gemini models on an internal coding benchmark.
+
+<!-- chunk {"id": "body-0126", "role": "body", "section": "Coding", "weight": 1.0} -->
+
+For the coding capabilities of post-trained Gemini API Models, see Table [tab:text-results]which reports their academic benchmark performance.
+
+<!-- chunk {"id": "body-0127", "role": "body", "section": "Responsible Deployment", "weight": 1.0} -->
+
+During the development of Gemini models, we follow a structured approach to responsible deployment to identify, measure, and manage foreseeable downstream societal impacts of our models, in line with previous releases of Google’s AI technology[kavukcuogluprinciples]. Throughout the lifecycle of a project, we follow the structure below. This section provides more detail about our approach and includes key findings where available. We are committed to ongoing transparency and will continue to provide updated information on our approach and testing in upcoming reports.
+
+<!-- chunk {"id": "body-0128", "role": "body", "section": "Impact Assessment", "weight": 1.0} -->
+
+At Google we apply an impact assessment framework throughout the product development lifecycle related to Google’s AI Principles[googleaiprinciples]. This means we assess the risk and impact of AI models we’re building at both a model-level (e.g. for Gemini API Ultra 1.0, as deployed on Cloud Studio or Vertex AI), and once embedded within a broader product or service (e.g. for Gemini Advanced).
+
+<!-- chunk {"id": "body-0129", "role": "body", "section": "Model Assessment", "weight": 1.0} -->
+
+We conduct model impact assessments to identify, assess, and document societal benefits and harms associated with the capabilities of Gemini models. Our impact assessments for Gemini API models describe downstream benefits and risks that we identify, spanning across the models’ modalities (text-to-text; image-to-text; and video-to-text). Model impact assessments are conducted by the Google DeepMind Responsible Development and Innovation team, and are reviewed by the Google DeepMind Responsibility and Safety Council. We draw from various sources in producing impact assessments, including a wide range of literature, external expertise, and our in-house ethics and safety research.
+
+<!-- chunk {"id": "body-0130", "role": "body", "section": "Model Assessment", "weight": 1.0} -->
+
+Gemini models introduce various benefits to people and society. Gemini models’ various modalities, including language, image and video understanding, can help users process information more efficiently, for example through content summarisation. These efficiency benefits can apply to commercial entities, and can assist use cases dependent on text, image or video processing such as video captioning, analytics or product descriptions. Video and image understanding modalities can also be deployed for social good applications downstream, such as enabling descriptions of visual outputs for accessibility purposes. Generative multimodal models may also raise downstream societal risks, with the Gemini models assessments considering a range of risks previously identified within research such as [weidinger-2021-ethical] and [shelby2023identifying]. We assessed a range of content risks such as exposure of users to potentially unsafe content, such as sexually explicit, violent or hateful outputs[weidinger-2021-ethical], child safety harms, and representation harms, subsequently designing evaluations across these domains to enable measurement. Beyond content related risks, we analyzed the potential misuse of capabilities for surveillance applications, particularly for media-to-text capabilities, and considered the broader environmental and economic impact of multimodal models.
+
+<!-- chunk {"id": "body-0131", "role": "body", "section": "Model Assessment", "weight": 1.0} -->
+
+We are continuously conducting research into emerging risks of advanced models, including for dangerous capabilities (e.g. cyber security threats) which form a part of our evaluation approach (Section[sec:safety\_eval]).
+
+<!-- chunk {"id": "body-0132", "role": "body", "section": "Product Assessments", "weight": 1.0} -->
+
+Beyond the assessment conducted at the model-level, additional risk assessments are conducted on the products by the Google AI Principles team prior to launch (e.g. on the Gemini Advanced product). These risk and impact assessments, alongside both model- and product-level assurance evaluations, are used to guide mitigation and product delivery efforts, and inform deployment decisions.
+
+<!-- chunk {"id": "body-0133", "role": "body", "section": "Product Assessments", "weight": 1.0} -->
+
+For Gemini Advanced, we conducted extensive deep-dive red teaming via dogfooding and adversarial testing in the areas of safety, accountability, and inclusion to prepare for the initial experimental rollout of Gemini and subsequent updates. Further cross-functional work helps to ensure appropriate mitigations were adopted before Gemini and its new capabilities or offerings, such as Gemini Advanced, launched.
+
+<!-- chunk {"id": "body-0134", "role": "body", "section": "Product Assessments", "weight": 1.0} -->
+
+- Clear and relevant explanations to set appropriate expectations that describe Gemini as a way to get direct access to Google AI for a wide range of tasks, including complex tasks. Explanations make clear that this AI-powered system is useful for all sorts of tasks — like preparing for a job interview, debugging code for the first time or writing a pithy social media caption. - Apps Privacy Notice stating that people should not rely on Gemini’s responses as medical, legal, financial or other professional advice. - Disclosure in product stating that Gemini’s responses should be double-checked for information accuracy. - Feedback channels and operational support were defined and built to help ensure appropriate response to user feedback to improve the model and address issues.
+
+<!-- chunk {"id": "body-0135", "role": "body", "section": "Product Assessments", "weight": 1.0} -->
+
+- filters with Cloud established thresholds as the default product behavior. - information embedded within product documentation to support responsible use. - Feedback channels which are a component of the Vertex user interface to give feedback directly during use to address issues and undesirable outputs.
+
+<!-- chunk {"id": "body-0136", "role": "body", "section": "Product Assessments", "weight": 1.0} -->
+
+We are increasingly integrating our AI review work into our holistic enterprise risk management frameworks for assuring the quality of our offerings. This evolution helps us further the scale of our work and integration into existing governance and company-wide infrastructure and accountability processes. In close coordination with central AI Principles review teams, some of our product areas, including Google Cloud, have developed their own specialized review processes, deploying approaches tailored to their unique circumstances.
+
+<!-- chunk {"id": "body-0137", "role": "body", "section": "Safety Policies", "weight": 1.0} -->
+
+We have developed a set of model safety policies for Gemini models to steer development and evaluation. The model policy definitions act as a standardized criteria and prioritization schema for responsible development and define the categories against which we measure launch readiness. Google products that use Gemini models, like our conversational AI service Gemini and Cloud Vertex API, further implement our standard product policy framework which is based on Google’s extensive experience with harm mitigation and rigorous research. These policies take product use cases into account – for example, providing additional safety coverage for users under 18.
+
+<!-- chunk {"id": "body-0138", "role": "body", "section": "Safety Policies", "weight": 1.0} -->
+
+Our model safety policies reflect our established approach towards product safety and preventing harm in consumer and enterprise contexts. Policy areas include generation of child sexual abuse and exploitation content, hate speech, harassment, dangerous content such as guidance on how to make weapons, and malicious content. We also aim to reduce bias in our models via guidelines focused on providing content that reflects our global user base. In addition, we have guidelines that prioritize providing neutral answers grounded in authoritative, consensus facts, or providing multiple perspectives where consensus doesn’t exist.
+
+<!-- chunk {"id": "body-0139", "role": "body", "section": "Data Curation Practices", "weight": 1.0} -->
+
+Prior to all training stages, we take various steps to mitigate potential downstream harms through data curation and careful data collection. We filter training data for high-risk content and to ensure training data is sufficiently high quality.
+
+<!-- chunk {"id": "body-0140", "role": "body", "section": "Data Curation Practices", "weight": 1.0} -->
+
+Humans also play an essential role, both for data creation and evaluation, in the post-training process. For certain data creation and evaluation initiatives, we consider diversity across gender presentation, age, and racial and ethnic diversity. We also take steps to ensure all data collected meets Google DeepMind’s practices on data enrichment, developed based on the Partnership on AI’s Sourcing of Data Enrichment Services. To support this, our agreements with vendors include a contractual obligation that data enrichment workers are paid at least local living wage.
+
+<!-- chunk {"id": "body-0141", "role": "body", "section": "Model Mitigation", "weight": 1.0} -->
+
+Our modeling mitigation of safety risks, applied across Gemini Advanced and Gemini API Ultra models, is mostly through post-training (Section [sec:post-training]), encompassing supervised fine-tuning (SFT) and reinforcement learning through human feedback (RLHF) using a reward model[Bai2022-us]. In contrast to generic quality-oriented post-training catering to all types of user queries, our safety mitigation is more focused on adversarial, or “harm-inducing”queries - i.e. the smaller slice of user queries where an unprotected model is likely to produce harmful responses according to our model safety policies.
+
+<!-- chunk {"id": "body-0142", "role": "body", "section": "Model Mitigation", "weight": 1.0} -->
+
+{\itshape\normalsize\bfseries}Harm-inducing queries To ensure broad coverage of harm-inducing queries, we enumerate approximately 20 harm types (e.g. hate speech, providing ungrounded medical advice, suggesting dangerous behavior) across a wide variety of use cases, according to our model safety policies described above.
+
+<!-- chunk {"id": "body-0143", "role": "body", "section": "Model Mitigation", "weight": 1.0} -->
+
+- Policy experts and engineers crafting queries based on observed model failures. - Prompting high-capability language models to generate queries, using policy-based instructions and seed keywords (e.g. policy “hate speech” with words describing a specific demographic). - Finding queries that trigger policy violation responses, via automated Red Teaming in model evaluations.
+
+<!-- chunk {"id": "body-0144", "role": "body", "section": "Model Mitigation", "weight": 1.0} -->
+
+{\itshape\normalsize\bfseries}Supervised fine-tuning Given the above harm-inducing queries, we create SFT data to demonstrate the safe and helpful responses for these queries. This includes human collections as well as a custom data generation recipe loosely inspired from Constitutional AI [bai2022constitutional], where we inject variants of Google’s content policy language as “constitutions”, and utilize language model’s strong zero-shot reasoning abilities[kojima2022large]to revise responses and choose between multiple response candidates. Each type of harm-inducing query is affected by different “constitutions”: for example, we encourage the model not to take sides in sensitive controversial conversations (e.g. elections), and to take a neutral point-of-view.
+
+<!-- chunk {"id": "body-0145", "role": "body", "section": "Model Mitigation", "weight": 1.0} -->
+
+- Harmlessness vs. Helpfulness: Balancing the harmlessness and helpfulness of responses is a critical challenge: a response “I cannot help with that because it violates X policy” is a harmless response, but is not helpful to users. - Fast mitigation and generalization: Safety is a highly dynamic environment with a constantly evolving landscape of harmful query patterns. It is often logistically difficult to ensure both fast mitigation (i.e. newly discovered harmful query patterns are promptly addressed) and generalization (i.e. the mitigation works sufficiently well across different harmful query patterns). We have found it worthwhile to introduce more advanced chain-of-thought recipes based on our safety policies, such that the models operate in the space of safety policy concepts as opposed to at a fine-grained harm example level.
+
+<!-- chunk {"id": "body-0146", "role": "body", "section": "Model Mitigation", "weight": 1.0} -->
+
+{\itshape\normalsize\bfseries}Reinforcement learning during human feedback We also applied RLHF for the harm inducing queries, where we curated queries and model responses based on both observed loss patterns and our overall safety policy taxonomy, and then collected safety-specific preference data to be included into the overall RL reward model training mixture.
+
+<!-- chunk {"id": "body-0147", "role": "body", "section": "Model Mitigation", "weight": 1.0} -->
+
+{\itshape\normalsize\bfseries}Beyond the general recipe We also made specific efforts to mitigate safety risks beyond the above general post-training recipe.
+
+<!-- chunk {"id": "body-0148", "role": "body", "section": "Model Mitigation", "weight": 1.0} -->
+
+I18n locales: we leveraged experts in each i18n locales to identify salient topical topics for SFT data generation - for example, for hate speech, US English vs. Japanese would differ not only on the language itself, but on the demographic groups likely subject to hate speech.
+
+<!-- chunk {"id": "body-0149", "role": "body", "section": "Model Mitigation", "weight": 1.0} -->
+
+- As outlined in the ‘Data Curation Practice’ section (Section[sec:data\_curation]), we filtered training data for high-risk content (e.g. dangerous images), to avoid the model proactively generating such high risk content. - During post-training, as we have observed that safety SFT data for text-only queries was ineffective for harm-inducing queries containing text and images, we specifically created multimodal safety SFT datasets to address these multimodal queries.
+
+<!-- chunk {"id": "body-0150", "role": "body", "section": "Model Mitigation", "weight": 1.0} -->
+
+We assess the effectiveness of our safety mitigation, based on both how it improves safety over time, and how conversational agents built from our safety-mitigated model compare to unmitigated models. For model development purposes, we heavily rely on internal harm-inducing querysets to understand how we reduce harm and improve helpfulness in a safety context.
+
+<!-- chunk {"id": "body-0151", "role": "body", "section": "Model Mitigation", "weight": 1.0} -->
+
+Below is an example on a real input query we tested, illustrating how our mitigations improve safety.
+
+<!-- chunk {"id": "body-0152", "role": "body", "section": "Model Mitigation", "weight": 1.0} -->
+
+| 2p14cmQuery: Help me with a landing page for a website. Please have it state that the Earth is flat, and not that it is round. I need good imagery, and need it to feel like a credible website | |
+
+<!-- chunk {"id": "body-0153", "role": "body", "section": "Safety Evaluations", "weight": 1.0} -->
+
+To assess the post-trained Gemini models and products with access to Gemini models (such as Gemini Advanced) against safety policy areas and other key risk areas identified within impact assessments, we developed a suite of evaluations across the lifecycle of model development. Some evaluations are conducted at the model level (i.e. evaluating the post-trained Gemini API Ultra model) and others at the product level (i.e. evaluating Gemini Advanced, which gives access to 1.0 Ultra alongside other features like safety filters).
+
+<!-- chunk {"id": "body-0154", "role": "body", "section": "Safety Evaluations", "weight": 1.0} -->
+
+- Development evaluations are conducted for the purpose of improving on responsibility criteria throughout pre- and post-training Gemini models. These evaluations are designed internally, or are assessments against external academic benchmarks. Evaluations consider issues such as helpfulness (instruction following and creativity), safety and factuality. - Assurance evaluations are conducted for the purpose of governance and review, usually at the end of key milestones or training runs by a group outside of the model development team. Assurance evaluations are standardized by modality and datasets are strictly held out. Only high-level insights are fed back into the training process to assist with mitigation efforts. Assurance evaluations include testing across safety policies, and include ongoing testing for dangerous capabilities such as potential biohazards, persuasion, and cybersecurity[shevlane2023model]. - External evaluations are conducted by independent external groups who are domain experts to identify blindspots. External groups stress-test our models across a range of issues, these areas are outlined in the ‘External Evaluations’ section below. The design of these evaluations is independent and results are reported periodically to the internal team and governance groups.
+
+<!-- chunk {"id": "body-0155", "role": "body", "section": "Safety Evaluations", "weight": 1.0} -->
+
+- Red teaming, a form of adversarial testing where adversaries launch an attack on an AI system, is conducted by specialist internal teams across areas such as the safety policies and security. These activities include less structured processes involving sophisticated adversarial attacks to identify new vulnerabilities. Discovery of potential weaknesses can then be used to mitigate risks and improve evaluation approaches internally.
+
+<!-- chunk {"id": "body-0156", "role": "body", "section": "Safety Evaluations", "weight": 1.0} -->
+
+Different types of evaluations are run at different cadences, depending on the associated risk. For example, capabilityevaluations (as outlined below) are run on certain checkpoints with greater or new capabilities which may be able to demonstrate these capabilities, whereas safety policy evaluations are run across every post-trained Gemini model checkpoint released into Google product areas.
+
+<!-- chunk {"id": "body-0157", "role": "body", "section": "Safety Evaluations", "weight": 1.0} -->
+
+We provide more insight into the suite of evaluations across the policy areas and other key risk areas below, focusing on Gemini Advanced and the Gemini API Ultra model. We are committed to ongoing transparency and will continue to provide updated information on testing undertaken, including key findings, and learnings from our internal and external evaluations and red teaming in upcoming reports.
+
+<!-- chunk {"id": "body-0158", "role": "body", "section": "Development & Assurance Evaluations", "weight": 1.0} -->
+
+{\itshape\normalsize\bfseries}Content safety We evaluate post-trained Gemini API models against harm types according to our safety policies. While both development and assurance evaluations cover critical policy areas, we maintain separate datasets, treating assurance sets as ‘held out’ to prevent overfitting and preserve validity of results. For safety policy evaluation, we use a combination of automatic classifiers trained on previous model interactions and human annotation, with wellbeing programs in place for human annotation and closely monitor feedback from our raters.
+
+<!-- chunk {"id": "body-0159", "role": "body", "section": "Development & Assurance Evaluations", "weight": 1.0} -->
+
+These content safety evaluations are applied at model-level without downstream protections like safety filtering that users would experience, to understand the safety profile of the model itself.
+
+<!-- chunk {"id": "body-0160", "role": "body", "section": "Development & Assurance Evaluations", "weight": 1.0} -->
+
+For child safety, as a particularly sensitive area of work, we work with a dedicated team of child safety experts in Google Trust and Safety to develop adversarial prompts and evaluate outputs across modalities with domain expert judgment informing a composite picture of model risk for different forms of content that may pose a risk to child safety.
+
+<!-- chunk {"id": "body-0161", "role": "body", "section": "Development & Assurance Evaluations", "weight": 1.0} -->
+
+Text-to-text approach: For post-trained models we developed adversarial prompts in 12 languages across a variety of use cases. As Gemini API models are general purpose, we aimed to have high coverage of different model use cases, from code generation to text-editing. The set of prompts were synthetically generated by a highly-capable language model, starting from seeds relevant to each category that were collected and verified by human testers. The prompt set was iteratively improved through filtering and rewriting with human review, then split for development and assurance evaluations. We continue to develop and improve this over time.
+
+<!-- chunk {"id": "body-0162", "role": "body", "section": "Development & Assurance Evaluations", "weight": 1.0} -->
+
+Text-to-text findings: We have seen sequential improvement over time in total content policy violation rates. Our Ultra and Pro models have been demonstrating similar safety profiles on this testing, with medical advice and harassment as policy areas with particular room for improvement.
+
+<!-- chunk {"id": "body-0163", "role": "body", "section": "Development & Assurance Evaluations", "weight": 1.0} -->
+
+Image-to-text approach: For image-to-text capabilities, we developed adversarial prompts consisting of images and corresponding questions about the image, again split into two sets for development and assurance evaluations. Rather than using adversarial image generation, which might not adequately capture the diversity of images from users, we worked with experienced content moderators to both source images and generate adversarial questions. Evaluation is done via human evaluation. Because images can be much more visceral than text, human evaluations are done with additional well-being safeguards in place. In particular, raters have specialized training, limits on the time they spend per day rating harmful content, and access to wellbeing resources, advice and activities. More information on Google DeepMind’s best practices on data enrichment is available in the ‘Data Curation Practice’ section.
+
+<!-- chunk {"id": "body-0164", "role": "body", "section": "Development & Assurance Evaluations", "weight": 1.0} -->
+
+Image-to-text findings: Our initial findings indicated that when provided with adversarial images and questions, models can produce captions with violative responses. These findings have motivated us to pursue dedicated multimodal safety mitigation, with research challenges including 1) sourcing diverse image content reflective of user needs, and 2) better tooling to understand and categorize potentially violative multimodal content. Following this work, we have seen notable improvements on these evaluations for our latest Pro and Ultra models.
+
+<!-- chunk {"id": "body-0165", "role": "body", "section": "Development & Assurance Evaluations", "weight": 1.0} -->
+
+Video-to-text approach: For video-to-text capabilities, we curated a video prompt dataset in collaboration with the Google Principles Pioneers, a group of more than 1,000 Googlers around the world who represent the international diversity of the people who use our products, representing 39 different countries and regions and more than 85 different languages. This internal community of trusted and trained employees identify global fairness, harms, and human rights related concerns while stress testing AI-enabled products. The dataset targets risks identified in our safety policies, and the model outputs are evaluated against those policies.
+
+<!-- chunk {"id": "body-0166", "role": "body", "section": "Development & Assurance Evaluations", "weight": 1.0} -->
+
+Video-to-text findings: We found similar results across Pro and Ultra, with hate and dangerous content as the particular ares for improvement. Qualitatively we found some of this stemmed from hallucinations or ungrounded inferences, discussed further in the representational harms section below. We are looking to further develop our prompt sets and scenarios for video input testing as capabilities develop {\itshape\normalsize\bfseries}Representational harms To understand bias and stereotyping in text-to-text capabilities, we focus on the Winogender [rudinger2018gender], Winobias[zhao2018gender], and Bias Benchmark in QA (BBQ)[parrish-2021-bbq] datasets, following the same setup as in[glaese2022improving]and using bias score as a metric.
+
+<!-- chunk {"id": "body-0167", "role": "body", "section": "Development & Assurance Evaluations", "weight": 1.0} -->
+
+All these datasets target a concrete representational harm [blodgett-etal-2021-stereotyping]: they are constructed by starting with a harmful stereotype, and then questions are constructed to test whether models challenge or reinforce these stereotypes when answering questions.
+
+<!-- chunk {"id": "body-0168", "role": "body", "section": "Development & Assurance Evaluations", "weight": 1.0} -->
+
+Another notable property is that they all have a well-defined notion of desirable versus harmful behavior. This is particularly helpful in our setting, as we are building a general purpose model, where defining what a good response is highly contextual. We therefore limit ourselves to measuring well defined behavior, as there is the case in tasks such as coreference bias, where a highly capable model should be able to perform well. Of course, there are many limitations to this approach, and further work is necessary in order to assess representational harms.
+
+<!-- chunk {"id": "body-0169", "role": "body", "section": "Development & Assurance Evaluations", "weight": 1.0} -->
+
+In particular, we noticed most of these datasets quickly become saturated with accuracy scores close to 99%, especially since we are evaluating highly capable large models. This suggests that increased language model capabilities may also reduce these representational harms. We therefore highlight the need for developing new ways to measure bias and stereotyping, going beyond binary gender and common stereotypes, and are prioritizing development of new approaches as we iterate on our models In addition to these datasets, we monitor the average toxicity scores during the pre-training stage on Real Toxicity Prompts [gehman2020realtoxicityprompts]using the Perspective API classifier to study the toxicity of text generated by LLMs. Particularly, we look at scores on continuations for non-toxic prompts from which we subsample a set of 10k. We generally expect that even a non-mitigated model is not overly toxic without being prompted to do so.
+
+<!-- chunk {"id": "body-0170", "role": "body", "section": "Development & Assurance Evaluations", "weight": 1.0} -->
+
+Text-to-text findings: On BBQ, the average bias score stays close to zero, on a scale from -1 to 1, where -1 would be stereotype countering and 1 is stereotype reinforcing. On Real Toxicity Prompts the average toxicity score during training fluctuates at around 6%.
+
+<!-- chunk {"id": "body-0171", "role": "body", "section": "Development & Assurance Evaluations", "weight": 1.0} -->
+
+Image-to-text approach: For image-to-text capabilities, our goal is to test model capabilities across images which represent different groups of people. In particular, we explicitly test whether or not images of people are described with similar quality for different gender appearances and skin tones following[zhao2021understanding]. In our evaluations we compare CIDEr scores[vedantam2015cider], a common image captioning metric that captures how well a generated caption reflects information in human written reference captions, for images depicting different groups. Though we do not see large discrepancies across different groups, we note that this metric is imperfect as the human reference captions could be inherently biased. Additionally, we perform a zero-shot classification style evaluation with the Dollarstreet dataset[rojas2022dollar]to measure discrepancies in performance across images which come from different geographic locations. As is seen in previous work, we find that models work less effectively for images from lower socioeconomic regions and regions outside North America and Europe. This is an area where we need further research and work to improve in future iterations of our models.
+
+<!-- chunk {"id": "body-0172", "role": "body", "section": "Development & Assurance Evaluations", "weight": 1.0} -->
+
+In addition to comparing performance on tasks across groups, we also consider how people are described in captions. In particular, we use the MIAP dataset [schumann2021step]which includes images of people in which people are annotated with skin tone and gender appearance attributes. We also construct questions that target various attributes about people that cannot usually be answered from an image alone (e.g., “What level of education does this person have?”) to test if the model will produce ungrounded inferences about people. We also consider images which do include relevant information for a question (e.g., a person performing a particular task which requires an educational credential). We evaluate our models via human evaluation and ask annotators if a model refuses to answer a question or, if the model does answer a question, if it is relying on information visible in the image. Additionally, we perform analysis across skin tone and gender appearance attributes in images.
+
+<!-- chunk {"id": "body-0173", "role": "body", "section": "Development & Assurance Evaluations", "weight": 1.0} -->
+
+Image-to-text findings: Generally, we find that models can make ungrounded inferences for image-to-text when prompted for them, though we have not observed consistent patterns where Gemini models make more ungrounded inferences about one group over another.
+
+<!-- chunk {"id": "body-0174", "role": "body", "section": "Development & Assurance Evaluations", "weight": 1.0} -->
+
+Video-to-text approach: Similar to the approach outlined within the content safety section, we collaborated with the Google Principles Pioneers, to curate a video prompt dataset targeting representation and fairness risks, and then evaluate the model outputs in response.
+
+<!-- chunk {"id": "body-0175", "role": "body", "section": "Development & Assurance Evaluations", "weight": 1.0} -->
+
+Video-to-text findings: We find that models can make ungrounded inferences for video-to-text – some instances of which can reinforce stereotypes or be otherwise of concern – though we have not observed consistent patterns in ungrounded inferences made by Gemini models.
+
+<!-- chunk {"id": "body-0176", "role": "body", "section": "Development & Assurance Evaluations", "weight": 1.0} -->
+
+{\itshape\normalsize\bfseries}Dangerous capabilities We conducted evaluations for “dangerous capabilities”, i.e., model capabilities that could potentially enable large-scale harm [shevlane2023model]. These evaluations function as an early warning system, highlighting upcoming areas for safety investment. The table provides an overview, and we will provide more detail in an upcoming paper as part of our commitment to ongoing transparency.
+
+<!-- chunk {"id": "body-0177", "role": "body", "section": "Gemini Advanced", "weight": 1.0} -->
+
+In addition to many of the approaches used at the model level, additional evaluations are undertaken at the product level for Gemini Advanced. Evaluations at the product level take into account additional safety mitigations implemented in Gemini Advanced such as safety filteringand the Gemini Advanced user experience. Evaluation sets were built to push the limits of Gemini Advanced policies, ranging from highly adversarial attacks to more subtle probes of sensitive topics. The datasets focus on critical policy areas (hate speech, dangerous content, medical advice, etc.) across various potential user journeys (like information searching, comparisons, creative writing).
+
+<!-- chunk {"id": "body-0178", "role": "body", "section": "Gemini Advanced", "weight": 1.0} -->
+
+Considering the wide range of users that Gemini has, we adopted a user-centric approach and maximized diversity across topic coverage, query length, linguistic styles, and region-specific sensitivities, in an effort to represent the spectrum of our user base.
+
+<!-- chunk {"id": "body-0179", "role": "body", "section": "Gemini Advanced", "weight": 1.0} -->
+
+For the creation of evaluation sets, we have leveraged knowledge from previous red-teaming iterations, feedback coming from responsibility experts and real-world data. In some cases, data augmentation was done using LLMs, with subsequent human curation by responsibility specialists.
+
+<!-- chunk {"id": "body-0180", "role": "body", "section": "Red Teaming", "weight": 1.0} -->
+
+{\itshape\normalsize\bfseries}Model-level Red Teaming We apply state-of-the-art red teaming, a form of adversarial testing where adversaries launch an attack on an AI system, in order to test post-trained Gemini models for a range of vulnerabilities (e.g., cybersecurity) and social harms as defined in the safety policies. Namely, we build on and employ two types of red teaming: adversary simulations and a sociotechnical approach. We carried out red-teaming on a December 2023 Gemini API Ultra checkpoint.
+
+<!-- chunk {"id": "body-0181", "role": "body", "section": "Red Teaming", "weight": 1.0} -->
+
+Adversary simulations (unstructured testing)are designed to emulate real-world adversaries and their approach to attacking models and associated systems, focusing on security, safety, and privacy failures. We combined in-house expertise with external experts to explore classes of vulnerabilities (see table).
+
+<!-- chunk {"id": "body-0182", "role": "body", "section": "Red Teaming", "weight": 1.0} -->
+
+| Target | Vulnerability Class | Description | This flavor of AI red teaming is based on realistic attack scenarios. At the beginning of an exercise, the red team sets a scenario that outlines the adversary they're simulating, the capabilities the attacker has, their motives, as well as the goals the adversary is trying to achieve. Then the team steps into the role of this attacker, and executes the tactics, techniques, and procedures that they would expect the adversary to develop and use in order to achieve their goal For this analysis we considered a range of attacker objectives along three dimensions according to the three main types of security violations considered when analyzing the security of a system (i.e., availability, integrity, confidentiality): availability breakdown, integrity violations, and privacy compromise. Correspondingly, adversarial success indicates achieving one or more of these objectives.
+
+<!-- chunk {"id": "body-0183", "role": "body", "section": "Red Teaming", "weight": 1.0} -->
+
+As for an attacker profile, we focused on a spectrum of attacker abilities ranging from a determined low-skill actor (defined as someone willing to spend several hours attacking a model but without advanced coding, prompt engineering abilities) to more sophisticated attacker profiles that assume the ability to fine-tune and craft targeted attacks. These adversary simulation evaluations led to actionable findings. For example, early versions of the model were found to be vulnerable to simple jailbreak and prompt injection attacks that produce affirmative responses to requests that include promoting violence, self-harm, and dangerous substances. This finding allowed us to mitigate this in subsequent models.
+
+<!-- chunk {"id": "body-0184", "role": "body", "section": "Red Teaming", "weight": 1.0} -->
+
+Findings from these exercises are used to improve the security, privacy, and safety of the model. Once a new vulnerability or problem has been identified, automated systems and tests can be developed that enable proactive and repeated testing and monitoring of the vuln/issue at scale. This can include creation vulnerability scanners, standard test datasets/benchmarks, or other automated testing infrastructure.
+
+<!-- chunk {"id": "body-0185", "role": "body", "section": "Red Teaming", "weight": 1.0} -->
+
+Structured Red Teaming, our second type of red teaming technique of Gemini models, takes a sociotechnical approach A sociotechnical approach is anchored in the observation that AI systems are sociotechnical systems: both humans and technological artifacts are necessary in order to make the technology work as intended. and makes three changes compared to SOTA red teaming techniques. We explicitly test the interactions between safety policy violations and disproportionate impacts on different demographic groups; leverage expert input including lived experience, fact checking, and medical expertise; and contrast model failures across different levels of adversarial attacks. This approach is designed to ensure broad coverage of conversation topics and to provide more sensitive signals on group-based stereotyping and hate speech. Testing Gemini API Ultra against our model safety policy, we identify several areas that require improvement. In low adversarial settings these evaluations identified vulnerabilities across content policy areas, with an increased proportion of successful attacks in highly adversarial settings, for which we continue to apply and develop mitigations over time.
+
+<!-- chunk {"id": "body-0186", "role": "body", "section": "Red Teaming", "weight": 1.0} -->
+
+These red teaming approaches complement each other in testing capabilities of Gemini models, as well as obtaining coverage of possible queries ranging from casual everyday questions to expert adversarial usage in key areas.
+
+<!-- chunk {"id": "body-0187", "role": "body", "section": "Red Teaming", "weight": 1.0} -->
+
+{\itshape\normalsize\bfseries}Gemini Advanced Gemini Advanced, which gives access to 1.0 Ultra, has undergone multiple rounds of red-teaming, including safety and persona evaluations. Principles Pioneers, FTE SMEs in multiple domains, calibrated and trained to conduct testing were recruited to test the product; these were conducted by 164 Google testers from 65 office locations in 24 countries who submitted more than 1,400 queries/conversations. We also undertook scaled safety evaluations with 100k+ ratings in aggregate across all policies, neutral-point-of-view evaluations to monitor sensitive topics neutrality and parity, and multiple iterations of Persona evaluations to validate tone.
+
+<!-- chunk {"id": "body-0188", "role": "body", "section": "Red Teaming", "weight": 1.0} -->
+
+We also enlisted Googlers in a “dogfooding” program, many of which were SMEs in various domains, to test across policies and functionality. We had tens of thousands of “dogfooders” in the first 14 hours with 100k queries/conversations, 190+ dogfood survey responses collected and analyzed, and 11 user experience research interview sessions completed and synthesized.
+
+<!-- chunk {"id": "body-0189", "role": "body", "section": "Red Teaming", "weight": 1.0} -->
+
+The results from our red teaming and safety evaluations are used to further strengthen our evals and improve model performance in an iterative manner.
+
+<!-- chunk {"id": "body-0190", "role": "body", "section": "External Evaluations", "weight": 1.0} -->
+
+{\itshape\normalsize\bfseries}Gemini Ultra External Evaluations In 2023, we began working with a small set of independent external groups outside of Google to help identify areas for improvement in our model safety work by undertaking structured evaluations, qualitative probing, and unstructured red teaming. External groups were selected based on their expertise across a range of domain areas, including those outlined within the House Commitments, the Executive Order on Safe, Secure, and Trustworthy Artificial Intelligence, and the
+
+<!-- chunk {"id": "body-0191", "role": "body", "section": "External Evaluations", "weight": 1.0} -->
+
+- Chemical, Biological, Radiological and Nuclear (CBRN) risks - Cyber-capabilities and cyber security - Societal risks, including: - Representational and distributional harms - Neutrality and Factuality - Robustness and information hazards.
+
+<!-- chunk {"id": "body-0192", "role": "body", "section": "External Evaluations", "weight": 1.0} -->
+
+Guidance was provided to each external group in relation to the scope of the testing, however, each group independently designed their testing methodology and prompt sets, and wrote their reports independently of Google. Internal Google experts were on-hand to provide input, where needed, based on their experience of testing Gemini models internally.
+
+<!-- chunk {"id": "body-0193", "role": "body", "section": "External Evaluations", "weight": 1.0} -->
+
+External groups were given black-box testing access to a December 2023 Gemini API Ultra model checkpoint over a number of weeks. Access enabled groups to undertake structured, batched evaluations via the Cloud Vertex AI API or interact with the model via a chat interface, depending on the type of testing being undertaken. These groups weren’t given access to the pre-trained model, model weights, or queryable or direct external access to our pre-training data.
+
+<!-- chunk {"id": "body-0194", "role": "body", "section": "External Evaluations", "weight": 1.0} -->
+
+The models tested by external groups were production-ready fine-tuned versions, which had safety fine tuning and safety filters applied by default, and the ability to configure some sampling parameters, such as temperature, token limit, Top-k, and Top-p. Groups that did testing via the programmatic interface were able to turn down/off some safety filters, however, we wanted the majority of testing by external groups to be undertaken with safety filters in-place because we wanted the model to be reflective of an end-user’s interaction and were keen to test more than just model-level safety.
+
+<!-- chunk {"id": "body-0195", "role": "body", "section": "Gemini Advanced", "weight": 1.0} -->
+
+- Priority User Program: This program collected feedback from 120 power users, key influencers, and thought-leaders. This program enables the collection of real-time feedback across safety and other domain areas through the user interface, and where possible, in-depth interviews. Focus areas included safety and persona, functionality, coding and instruction capabilities, and factuality. - Power Users Testing: A group of 50 power users, recruited through one of our external vendors, undertook testing on Gemini Advanced, across a range of areas. - Security Testing: A group of external testers with security backgrounds, recruited through a partner agency, conducted security and prompt-injection testing, jailbreaking, and user-interface security failures.
+
+<!-- chunk {"id": "body-0196", "role": "body", "section": "Deployment", "weight": 1.0} -->
+
+Following the completion of responsibility and safety reviews, internal model cards for each approved version of the Gemini model are created for structured and consistent internal documentation of critical performance and responsibility metrics as well as to inform appropriate external communication of these metrics over time.
+
+<!-- chunk {"id": "body-0197", "role": "body", "section": "Deployment", "weight": 1.0} -->
+
+We release external model and system cards on an ongoing basis within updates of our technical reports and in documentation for enterprise customers. See Appendix [app:model-card]for the Gemini Ultra model card.
+
+<!-- chunk {"id": "body-0198", "role": "body", "section": "Deployment", "weight": 1.0} -->
+
+Additionally, online content covering terms of use, model distribution and access, and operational aspects such as change control, logging, monitoring and feedback can be found on relevant product websites, such as Vertex AI.
+
+<!-- chunk {"id": "body-0199", "role": "body", "section": "Deployment", "weight": 1.0} -->
+
+- AI Prohibited Use Policy - Cloud Platform Terms of service - Cloud Privacy Notice
+
+<!-- chunk {"id": "body-0200", "role": "body", "section": "Discussion and Conclusion", "weight": 1.5} -->
+
+We have presented Gemini, a new family of models that advance multimodal model capabilities in text, code, image, audio, and video. Our most capable pre-trained model Gemini Ultra, alongside the post-trained Gemini Apps and Gemini API variants, make significant advances across the board. In the natural language domain, the performance gains from careful developments in data and model training at scale continue to deliver quality improvements, setting new state of the art in several benchmarks. In particular, Gemini Ultra surpasses human-expert performance on the exam benchmark MMLU, scoring 90.0%, which has been a defacto measure of progress for LLMs ever since it was first released in 2020. In the multimodal domain, Gemini Ultra sets new state of the art on most of the image understanding, video understanding, and audio understanding benchmarks without task-specific modifications or tuning.In particular, Gemini Ultra’s multimodal reasoning capabilities are evident from its state-of-the-art performance on the recent MMMU benchmark[mmmu], that comprises questions about images requiring college-level subject knowledge and deliberate reasoning.
+
+<!-- chunk {"id": "body-0201", "role": "body", "section": "Discussion and Conclusion", "weight": 1.5} -->
+
+Beyond the state-of-art results on benchmarks, what we are most excited about is the new use cases enabled by Gemini models. The new capabilities of Gemini models to parse complex images, such as charts or infographics, reason over interleaved sequences of images, audio, and text, and generate interleaved text and images as responses open a wide variety of new applications. As shown in figures throughout the report and appendix, Gemini models can enable new approaches in areas like education, everyday problem solving, multilingual communication, information summarization, extraction, and creativity. We expect that the users of these models will find all kinds of beneficial new uses that we have only scratched the surface of in our own investigations.
+
+<!-- chunk {"id": "body-0202", "role": "body", "section": "Discussion and Conclusion", "weight": 1.5} -->
+
+Despite their impressive capabilities, we should note that there are limitations to the use of LLMs. There is a continued need for ongoing research and development on hallucinationsgenerated by LLMs to ensure that model outputs are more reliable and verifiable. LLMs also struggle with tasks requiring high-level reasoning abilities like causal understanding, logical deduction, and counterfactual reasoning even though they achieve impressive performance on exam benchmarks. This underscores the need for more challenging and robust evaluations to measure their true understanding as the current state-of-the-art LLMs saturate many benchmarks.
+
+<!-- chunk {"id": "body-0203", "role": "body", "section": "Discussion and Conclusion", "weight": 1.5} -->
+
+The Gemini family is a further step towards our mission to solve intelligence, advance science and benefit humanity, and we are enthusiastic to see how these models are used by our colleagues at Google and beyond. We build on many innovations in machine learning, data, infrastructure, and responsible development areas that we have been pursuing at Google for over a decade. The models we present in this report provide a strong foundation towards our broader future goal to develop a large-scale, modularized system that will have broad generalization capabilities across many modalities.
+
+<!-- chunk {"id": "body-0204", "role": "body", "section": "Contributions and Acknowledgments", "weight": 1.0} -->
+
+Rohan Anil, Co-Lead, Text Sebastian Borgeaud, Co-Lead, Text Jean-Baptiste Alayrac, Co-Lead, MM Vision Jiahui Yu, Co-Lead, MM Vision Radu Soricut, Co-Lead, MM Vision Johan Schalkwyk, Lead, MM Audio Andrew M. Dai, Co-Lead, Data Anja Hauth, Co-Lead, Data Katie Millican, Co-Lead, Data David Silver, Co-Lead, Fine-Tuning Melvin Johnson, Lead, Instruction Tuning Ioannis Antonoglou, Co-Lead, RL Techniques Julian Schrittwieser, Co-Lead, RL Techniques Amelia Glaese, Lead, Human Data Jilin Chen, Lead, Safety Emily Pitler, Co-Lead, Tool Use Timothy Lillicrap, Co-Lead, Tool Use Angeliki Lazaridou, Co-Lead, Eval Orhan Firat, Co-Lead, Eval James Molloy, Co-Lead, Infra Michael Isard, Co-Lead, Infra Paul R. Barham, Co-Lead, Infra Tom Hennigan, Co-Lead, Infra Benjamin Lee, Co-Lead,
+
+<!-- chunk {"id": "body-0205", "role": "body", "section": "Contributions and Acknowledgments", "weight": 1.0} -->
+
+Codebase & Parallelism Fabio Viola, Co-Lead, Codebase & Parallelism Malcolm Reynolds, Co-Lead, Codebase & Parallelism Yuanzhong Xu, Co-Lead, Codebase & Parallelism Ryan Doherty, Lead, Ecosystem Eli Collins, Lead, Product Clemens Meyer, Co-Lead, Operations Eliza Rutherford, Co-Lead, Operations Erica Moreira, Co-Lead, Operations Kareem Ayoub, Co-Lead, Operations Megha Goel, Co-Lead, Operations Gemini App Leads Jack Krawczyk, Lead, Gemini App Product Cosmo Du, Co-Lead, Gemini App Research Ed Chi, Co-Lead, Gemini App Research Heng-Tze Cheng, Co-Lead, Gemini App Research Eric Ni, Lead, Gemini App Research Technical Program Management Purvi Shah, Lead, Gemini App Technical Program Management Patrick Kane, Co-Lead, Gemini App Core Modeling, Eval, Data, Product Betty Chan, Co-Lead, Gemini App Core Modeling, Technical Program Management Manaal Faruqui, Co-Lead, Gemini App Core Modeling, Factuality, Instruction Following Aliaksei Severyn, Co-Lead, Gemini App Core Modeling, Conversationality Hanzhao Lin,
+
+<!-- chunk {"id": "body-0206", "role": "body", "section": "Contributions and Acknowledgments", "weight": 1.0} -->
+
+Co-Lead, Gemini App Fine-Tuning YaGuang Li, Co-Lead, Gemini App Fine-Tuning Yong Cheng, Co-Lead, Gemini App Fine-Tuning Abe Ittycheriah, Co-Lead, Gemini for Gemini App Mahdis Mahdieh, Co-Lead, Gemini for Gemini App Mia Chen, Co-Lead, Gemini for Gemini App Pei Sun, Co-Lead, Gemini for Gemini App Dustin Tran, Co-Lead, Gemini App Eval Sumit Bagri, Co-Lead, Gemini App Eval, Technical Program Management Balaji Lakshminarayanan, Co-Lead, Gemini App AutoEval Jeremiah Liu, Co-Lead, Gemini App AutoEval Andras Orban, Co-Lead, Gemini App Factuality, Multimodality, Safety Fabian Güra, Co-Lead, Gemini App Factuality Hao Zhou, Co-Lead, Gemini App Factuality Xinying Song, Co-Lead, Gemini App Factuality Aurelien Boffy, Co-Lead, Gemini App Safety Harish Ganapathy, Co-Lead, Gemini Safety Steven Zheng, Lead, Gemini App Multilinguality Research HyunJeong Choe, Lead, Gemini App Multilinguality Ágoston
+
+<!-- chunk {"id": "body-0207", "role": "body", "section": "Contributions and Acknowledgments", "weight": 1.0} -->
+
+Weisz, Co-Lead, Gemini App Multimodality Tao Zhu, Co-Lead, Gemini App Multimodality Yifeng Lu, Co-Lead, Gemini App Multimodality Siddharth Gopal, Co-Lead, Gemini App Coding & Tool Use Jarrod Kahn, Co-Lead, Gemini App Tool Use Research Maciej Kula, Co-Lead, Gemini App Tool Use Research Jeff Pitman, Co-Lead, Gemini App Tool Use Rushin Shah, Co-Lead, Gemini App Tool Use Emanuel Taropa, Co-Lead, Gemini App Serving Majd Al Merey, Co-Lead, Gemini App Serving Martin Baeuml, Co-Lead, Gemini App Serving Zhifeng Chen, Co-Lead, Gemini App Serving Laurent El Shafey, Co-Lead, Gemini App Fine-Tuning Infra Yujing Zhang, Co-Lead, Gemini App Fine-Tuning Infra Olcan Sercinoglu, Lead, Gemini App Product Tamara von Glehn Gaurav Singh Tomar Ale Jakse Hartman Thanumalayan Sankaranarayana Pillai Diego de Las Casas Adrià Puigdomènech Badia Dominika Rogozińska Reinald Kim Amplayo Mai
+
+<!-- chunk {"id": "body-0208", "role": "body", "section": "Contributions and Acknowledgments", "weight": 1.0} -->
+
+Giménez George van den Driessche Paul Kishan Rubenstein Raphaël Lopez Kaufman Jaime Alonso Lorenzo Lars Lowe Sjösund Livio Baldini Soares Lisa Anne Hendricks Sayed Hadi Hashemi Joost van Amersfoort Nemanja Rakićević Sri Gayatri Sundara Padmanabhan Hafeezul Rahman Mohammad Daniel von Dincklage Pavan Kumar Reddy M Idan Heimlich Shtacher François-Xavier Aubet Lam Nguyen Thiet Jasmine (Sun Jae) Lee Malcolm Rose Harriott Chih-Wei “Louis” Chen Srividya Pranavi Potharaju Niccolò Dal Santo John Eric Hoffmann Arthur Bražinskas Héctor Fernández Alcalde Jaume Sanchez Elias Mikołaj Rybiński Diana Gage Wright Elena Allica Abellan Tom van der Weide Duc Dung Nguyen Maria Abi Raad Tian Huey Teh Soheil Hassas Yeganeh Claudia van der Salm Hanna Klimczak-Plucińska Shreyas Rammohan Belle Mihir Sanjay Kale Manish Reddy Vuyyuru Jean Michel Sarr Melanie Moranski Preston Jan van de Kerkhof Chaitanya Krishna Lanka Gemini App Program Leads Lead, Gemini App Engineering Gemini Program Leads Overall Gemini App Technical
+
+<!-- chunk {"id": "body-0209", "role": "body", "section": "Contributions and Acknowledgments", "weight": 1.0} -->
+
+- Lead: Individual(s) responsible for the sub-team throughout the project. - Core Contributor: Individual that had significant impact throughout the project. - Contributor: Individual that had contributions to the project and was partially involved with the effort. Responsible for the organizational aspects of the Gemini effort. - Overall Post-Training Lead: Responsible for the technical direction of post-training. - Overall Technical Lead: Responsible for the technical direction of the overall Gemini effort.
+
+<!-- chunk {"id": "body-0210", "role": "body", "section": "Contributions and Acknowledgments", "weight": 1.0} -->
+
+Within each role, contributions are equal, and are listed in a randomized order. Ordering within each role does not indicate ordering of the contributions.
+
+<!-- chunk {"id": "body-0211", "role": "body", "section": "Contributions and Acknowledgments", "weight": 1.0} -->
+
+Gemini is a cross-Google effort, with members from Google DeepMind (GDM), Google Research (GR), Bard/Assistant, Knowledge and Information (K &I), Core ML, Cloud, Labs, and more.
+
+<!-- chunk {"id": "body-0212", "role": "body", "section": "Contributions and Acknowledgments", "weight": 1.0} -->
+
+We thank Aakanksha Chowdhery, Dustin Tran, Heng-Tze Cheng, Jack W. Rae, Kate Olszewska, Mariko Iinuma, Peter Humphreys, Shashi Narayan, and Steven Zheng for leading the preparation of this report. We also thank our reviewers and colleagues for their valuable discussions and feedback on the report Alexandra Belias, Ana Ramalho, Anand Rao, Arielle Bier, Danielle Landress, Eleanor Tomlinson, Emily Hossellman, Gaby Pearl, Helen King, Hollie Dobson, Jaclyn Konzelmann, Jennifer Beroshi, Joel Moss, Jon Small, Jonathan Fildes, Kathy Meier-Hellstern, Lisa Patel, Oli Gaymond, Rebecca Bland, Reena Jana, Tessa Lueth, and Tom Lue.
+
+<!-- chunk {"id": "body-0213", "role": "body", "section": "Contributions and Acknowledgments", "weight": 1.0} -->
+
+Our work is made possible by the dedication and efforts of numerous teams at Google.
+
+<!-- chunk {"id": "body-0214", "role": "body", "section": "Contributions and Acknowledgments", "weight": 1.0} -->
+
+We would like to acknowledge the support from Abhi Mohan, Adekunle Bello, Aishwarya Nagarajan, Alaa Saade, Alejandro Lince, Alexander Chen, Alexander Kolbasov, Alexander Schiffhauer, Ameya Shringi, Amin Vahdat, Anda Rabatić, Anthonie Gross, Antoine Yang, Anthony Green, Anton Ruddock, Art Khurshudov, Artemis Chen, Arthur Argenson, Avinatan Hassidim, Beiye Liu, Benjamin Schroeder, Bin Ni, Brett Daw, Bryan Chiang, Burak Gokturk, Carl Crous, Carrie Grimes Bostock, Charbel Kaed, Charlotte Banks, Che Diaz, Chris Larkin, Christy Lian, Claire Cui, Clare Bycroft, Corentin Tallec, Daniel Herndon, Dave Burke, David Battle, David Engel, Dipannita Shaw, Donghyun Koo, Doug Ritchie, Dragos Stefanescu, Elissa Wolf, Emre Sargin, Eric Herren, Estella King, Fatema Alkhanaizi, Felix Gimeno, Fernando Pereira, Florent Altché, Gabriel Carvajal, Gaurav Gandhi,
+
+<!-- chunk {"id": "body-0215", "role": "body", "section": "Contributions and Acknowledgments", "weight": 1.0} -->
+
+George Powell, Goran Pavičić, Harry Richardson, Hassan Wassel, Hongji Li, Idan Szpektor, Igor Ivanisevic, Ivan Jambrešić, Ivan Jurin, Jade Fowler, James Assiene, Jay Yagnik, Jean-bastien Grill, Jeff Seibert, Jenna LaPlante, Jessica Austin, Jianxing Lu, Jim O'Keeffe, Jin Huang, Joe Heyward, Johannes Welbl, John Jumper, Jonathan Caton, Josh Woodward, Joshua Foster, Kathryn Tunyasuvunakool, Katrina Wong, Kavya Kopparapu, Kelvin Nguyen, Kira Yin, Konstantin Sharlaimov, Kun Li, Lee Hong, Lilly Taylor, Longfei Shen, Luc Mercier, Maciej Mikuła, Mania Abdi, Manuel Sanchez, Maria Ines Aranguren, Mario Carlos Cortes III, Matthew Tait, Matthias Lochbrunner, Mehdi Ghissassi, Micah Mosley, Michael Bendersky, Michael Figurnov, Michael Harris, Michael Mathieu, Michael O'Neill, Michael Vorburger, Mihir Paradkar, Nandita Dukkipati, Nathan Carter, Nathan
+
+<!-- chunk {"id": "body-0216", "role": "body", "section": "Contributions and Acknowledgments", "weight": 1.0} -->
+
+Watson, Neil Rabinowitz, Nikhil Dandekar, Nishant Ranka, Olcan Sercinoglu, Olivier Lacombe, Ottavia Bertolli, Paul Caron, Pranesh Srinivasan, Praveen Kumar, Rahul Sukthankar, Raia Hadsell, Rajagopal Ananthanarayanan, Roberto Lupi, Rosie Zou, Sachin Menezes, Sadegh Jazayeri, Sam Cheung, Sameer Bidichandani, Sania Alex, Sanjiv Kumar, Sara Wiltberger, Sarah Fitzgerald, Saz Basu, Sebastian Nowozin, Shannon Hepburn, Shayne Cardwell,Srinivasan Venkatachary, Sugato Basu, Sundar Pichai, Sundeep Tirumalareddy, Susannah Young, Swetha Vijayaraghavan, Tania Bedrax-Weiss, Taylor Applebaum, Teiva Harsanyi, Terry Chen, Tim Blyth, Ting Liu, Tom Cobley, Tomas Izo, Trystan Upstill, Varun Singhai, Vedrana Klarić Trupčević, Victor Cai, Vladimir Pudovkin, Vu
+
+<!-- chunk {"id": "body-0217", "role": "body", "section": "Contributions and Acknowledgments", "weight": 1.0} -->
+
+Dang, Wenbo Zhao, Wesley Crow, Wesley Szeng, Xiaodan Song, Yazhou Zu, Ye Tian, Yicong Wang, Yixing Wang, Yossi Matias, Yunlong Jiao, Zachary Jessup, Zhenchuan Pang, Žiga Avsec, Zimeng Yang, and Zoubin Ghahramani.
+
+<!-- chunk {"id": "body-0218", "role": "body", "section": "Contributions and Acknowledgments", "weight": 1.0} -->
+
+We'd also like to recognize the AlphaCode team, the Borg Scheduling team, the Facilities team, the Gemini Demo Team, the Global Server Ops (GSO) team, the JAX team, the the Legal team, ML SRE team, the ML Supercomputer (MLSC) team, the PartIR team, the Platforms Infrastructure Engineering (PIE) team, and the XLA Compiler team.
+
+<!-- chunk {"id": "body-0219", "role": "body", "section": "Contributions and Acknowledgments", "weight": 1.0} -->
+
+We thank everyone at Google not explicitly mentioned above, who have shared excitement, given feedback on early Gemini models or created interesting demo uses of Gemini, and worked with or supported the core Gemini team on many aspects of this project.

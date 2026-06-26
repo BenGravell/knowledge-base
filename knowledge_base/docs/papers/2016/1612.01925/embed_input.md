@@ -56,7 +56,7 @@ We tested the two network architectures introduced by Dosovitskiy *et al*.: Flow
 
 <!-- chunk {"id": "body-0014", "role": "body", "section": "Dataset Schedules", "weight": 1.0} -->
 
-Results of networks trained on Chairs and Things3D with the different schedules are given in Table 1.
+Results of networks trained on Chairs and Things3D with the different schedules are given in Table 1. The results lead to the following observations: Figure 3: Learning rate schedules: Sshort is similar to the schedule in Dosovitskiy et al.. We investigated another longer version Slong and a fine-tuning schedule Sfine.
 
 <!-- chunk {"id": "body-0015", "role": "body", "section": "Dataset Schedules", "weight": 1.0} -->
 

@@ -170,124 +170,108 @@ Drawing on our review of the social science literature in Section 4, we propose 
 
 <!-- chunk {"id": "body-0043", "role": "body", "section": "Framework for DDD", "weight": 1.0} -->
 
-In this framework, work is understood in the context of both the physical environment, where physical tasks are performed, and the social environment, where workers interact with other people.
+In this framework, work is understood in the context of both the physical environment, where physical tasks are performed, and the social environment, where workers interact with other people. For each term---dull, dirty, and dangerous---the framework gathers key pieces of information to reflect on what physical and/or social aspects of the work are, in fact, DDD: Figure 2: A DDD Framework for Examining Jobs/Tasks Dangerous: What information do we have about injuries and hazardous exposures from doing this job?
 
 <!-- chunk {"id": "body-0044", "role": "body", "section": "Framework for DDD", "weight": 1.0} -->
 
-Dangerous: What information do we have about injuries and hazardous exposures from doing this job?
+Examples: physical injury rates (physical) or exposure to harassment at work (social) Dirty: What information do we have about the stigma associated with this job?
 
 <!-- chunk {"id": "body-0045", "role": "body", "section": "Framework for DDD", "weight": 1.0} -->
 
-Examples: physical injury rates (physical) or exposure to harassment at work (social)
+Examples: handling of garbage, death, effluent (physical) or interacting with stigmatized groups (social) Dull: What information do we have about routine activities and autonomy in this job?
 
 <!-- chunk {"id": "body-0046", "role": "body", "section": "Framework for DDD", "weight": 1.0} -->
 
-Dirty: What information do we have about the stigma associated with this job?
+Examples: experience working with repetitive motions (physical) or with little opportunity to interact with others (social) The framework encourages the collection of a range of quantitative and qualitative information, and consideration of potential sources of bias in the information. Ideally, someone looking to automate a task would gather information about the DDD nature of jobs under consideration, including how workers themselves make sense of that work. Here, both positive and negative perspectives from workers should be considered in order to paint a holistic picture of how that work is carried out in practice. The worker perspective is central to our framework and cuts across all three dull, dirty, and dangerous concepts.
 
 <!-- chunk {"id": "body-0047", "role": "body", "section": "Framework for DDD", "weight": 1.0} -->
 
-Examples: handling of garbage, death, effluent (physical) or interacting with stigmatized groups (social)
+In addition to answering the questions, the framework attends to the following: Awareness of context dependence: As noted in Section 4, the physical and social environment surrounding a job plays an important role in the extent to which that job is dull, dirty, or dangerous work. As a result, this framework encourages close attention to the broader context of that occupation and industry. This framework also encourages examining the positive dimensions of the physical and social environment of work, in ways that are not captured in the more narrow, negative, conventional use of DDD.
 
 <!-- chunk {"id": "body-0048", "role": "body", "section": "Framework for DDD", "weight": 1.0} -->
 
-Dull: What information do we have about routine activities and autonomy in this job?
-
-<!-- chunk {"id": "body-0049", "role": "body", "section": "Framework for DDD", "weight": 1.0} -->
-
-Examples: experience working with repetitive motions (physical) or with little opportunity to interact with others (social)
-
-<!-- chunk {"id": "body-0050", "role": "body", "section": "Framework for DDD", "weight": 1.0} -->
-
-The framework encourages the collection of a range of quantitative and qualitative information, and consideration of potential sources of bias in the information. Ideally, someone looking to automate a task would gather information about the DDD nature of jobs under consideration, including how workers themselves make sense of that work. Here, both positive and negative perspectives from workers should be considered in order to paint a holistic picture of how that work is carried out in practice. The worker perspective is central to our framework and cuts across all three dull, dirty, and dangerous concepts.
-
-<!-- chunk {"id": "body-0051", "role": "body", "section": "Framework for DDD", "weight": 1.0} -->
-
-Awareness of context dependence: As noted in Section 4, the physical and social environment surrounding a job plays an important role in the extent to which that job is dull, dirty, or dangerous work. As a result, this framework encourages close attention to the broader context of that occupation and industry. This framework also encourages examining the positive dimensions of the physical and social environment of work, in ways that are not captured in the more narrow, negative, conventional use of DDD.
-
-<!-- chunk {"id": "body-0052", "role": "body", "section": "Framework for DDD", "weight": 1.0} -->
-
 Awareness of multiple perspectives: As noted in Section 4, social science literature highlights the importance of gathering a range of perspectives in order to have a more nuanced understanding of whether a job is rightly considered DDD. Some data may come from surveys or administrative records (for example, occupational injury rates for "dangerous" work), while other data may come from in-depth interviews, diary entries, or observations/ethnographies of workers doing the jobs (for example, qualitative data about the pride felt by workers doing socially stigmatized "dirty" jobs). Here, it is important to draw on a range of quantitative and qualitative data, and consider potential sources of bias.
 
-<!-- chunk {"id": "body-0053", "role": "body", "section": "Applying the Framework to the Waste and Recycling Industry", "weight": 1.0} -->
+<!-- chunk {"id": "body-0049", "role": "body", "section": "Applying the Framework to the Waste and Recycling Industry", "weight": 1.0} -->
 
 In this section, we briefly demonstrate how our framework can be applied to clarify what aspects of jobs/tasks may be considered dull, dirty, and/or dangerous. We show this by way of an example from the waste and recycling industry. The world currently generates over 2 billion tons of waste annually, and this figure is expected to rise to nearly 4 billion tons by 2050. Waste management is important for planning a sustainable and healthy future for all.
 
-<!-- chunk {"id": "body-0054", "role": "body", "section": "Applying the Framework to the Waste and Recycling Industry", "weight": 1.0} -->
+<!-- chunk {"id": "body-0050", "role": "body", "section": "Applying the Framework to the Waste and Recycling Industry", "weight": 1.0} -->
 
 Dangerous: What information do we have about injuries/hazardous exposures from doing this job?
 
-<!-- chunk {"id": "body-0055", "role": "body", "section": "Applying the Framework to the Waste and Recycling Industry", "weight": 1.0} -->
+<!-- chunk {"id": "body-0051", "role": "body", "section": "Applying the Framework to the Waste and Recycling Industry", "weight": 1.0} -->
 
 Globally, workers in the waste management and recycling industry face significant health hazards. Workers are exposed to toxic chemicals and biological agents and endure physical injuries such as falls, vehicle and object impact, cuts and lacerations, back injuries, and muscle strains. For example, in the United States, the occupational injury and illness incidence rates for refuse and recycling material collectors is 1.4 times higher than other transportation and material moving occupations and 3.6 times higher than the national average.^22^2For data gathering, we used the "Refuse and Recyclable Materials Collector" occupation under the Standard Occupational Classification (SOC) code 53-7081. Data from the International Labor Organization (ILO) and the World Bank suggest that injury rates in the waste and recycling industry are likely to be significantly higher in the Global South, where over 75% of workers are estimated to be employed informally.^33^3Official statistics on worker injury rates in the waste and recycling industry at the global scale are limited and likely to be underreported, as the majority of workers are employed informally. Workers employed informally are often without basic social protections and employment benefits.
 
-<!-- chunk {"id": "body-0056", "role": "body", "section": "Applying the Framework to the Waste and Recycling Industry", "weight": 1.0} -->
+<!-- chunk {"id": "body-0052", "role": "body", "section": "Applying the Framework to the Waste and Recycling Industry", "weight": 1.0} -->
 
 In countries where occupational safety and health regulations are poorly enforced, workers are even more vulnerable to injuries and hazardous exposure.
 
-<!-- chunk {"id": "body-0057", "role": "body", "section": "Applying the Framework to the Waste and Recycling Industry", "weight": 1.0} -->
+<!-- chunk {"id": "body-0053", "role": "body", "section": "Applying the Framework to the Waste and Recycling Industry", "weight": 1.0} -->
 
 Dirty: What information do we have about the physical, social, or moral taint of this job?
 
-<!-- chunk {"id": "body-0058", "role": "body", "section": "Applying the Framework to the Waste and Recycling Industry", "weight": 1.0} -->
+<!-- chunk {"id": "body-0054", "role": "body", "section": "Applying the Framework to the Waste and Recycling Industry", "weight": 1.0} -->
 
 Globally, waste collection is often seen as a low-status job and usually occupied by more marginal members of society. Data for the United States from the General Social Survey shows that people view refuse and recyclable collection workers as having relatively low occupational prestige, with a score of 34.22 on a scale of 0 (bottom) to 100 (top). This score ranks refuse and recyclable workers above embalmers (25.41) and below personal care aides (46.5) in terms of how the public views the prestige of these occupations (Davern et al., Machine-readable data file). The majority of solid waste in the world is collected in the Global South, and in many of these countries waste collectors are often migrants from rural areas and members of social minority groups. In India, waste collectors are more likely to be from the lowest caste (Dalits) and in many Muslim-majority countries, a higher share of non-Muslims take on the task of waste collection.
 
-<!-- chunk {"id": "body-0059", "role": "body", "section": "Applying the Framework to the Waste and Recycling Industry", "weight": 1.0} -->
+<!-- chunk {"id": "body-0055", "role": "body", "section": "Applying the Framework to the Waste and Recycling Industry", "weight": 1.0} -->
 
 Even within waste collection, higher status roles that collect more valuable materials (e.g., metals) tend to be occupied by men, whereas lower status roles that collect lower value materials (e.g., paper, glass) are typically occupied by women.
 
-<!-- chunk {"id": "body-0060", "role": "body", "section": "Applying the Framework to the Waste and Recycling Industry", "weight": 1.0} -->
+<!-- chunk {"id": "body-0056", "role": "body", "section": "Applying the Framework to the Waste and Recycling Industry", "weight": 1.0} -->
 
 How do workers make sense of the taint associated with the job? In an ethnography of New York City sanitation workers, Nagle refers to an "invisibility syndrome": sanitation workers know that they provide an essential service, but feel invisible to people for whom they provide that service. This invisibility is also noted by sanitation workers in Europe and across the Global South. For example, a study conducted in Bogotá, Colombia and Durban, South Africa finds that 80% of waste pickers report repeated public harassment, and 97% identify social exclusion as a significant issue in their daily work. Consequently, these workers often experience low levels of self-esteem. However, some sociological research suggests that workers in the refuse and recycling industry cope with this social stigma by reframing their work, choosing to take pride in the social accomplishments of protecting the environment and providing an essential service to the public.
 
-<!-- chunk {"id": "body-0061", "role": "body", "section": "Applying the Framework to the Waste and Recycling Industry", "weight": 1.0} -->
+<!-- chunk {"id": "body-0057", "role": "body", "section": "Applying the Framework to the Waste and Recycling Industry", "weight": 1.0} -->
 
 Dull: What information do we have about routine activities / autonomy in this job?
 
-<!-- chunk {"id": "body-0062", "role": "body", "section": "Applying the Framework to the Waste and Recycling Industry", "weight": 1.0} -->
+<!-- chunk {"id": "body-0058", "role": "body", "section": "Applying the Framework to the Waste and Recycling Industry", "weight": 1.0} -->
 
 Data from the US Department of Labor indicates that refuse and recycling collection workers often perform repetitive tasks, with 57% of workers responding that they continually spend time making repetitive motions on the job. Workers also report limited autonomy on the job, with only 39% of workers responding affirmatively to having freedom to determine tasks, priorities, or goals (U.S. Department of Labor, ).
 
-<!-- chunk {"id": "body-0063", "role": "body", "section": "Applying the Framework to the Waste and Recycling Industry", "weight": 1.0} -->
+<!-- chunk {"id": "body-0059", "role": "body", "section": "Applying the Framework to the Waste and Recycling Industry", "weight": 1.0} -->
 
 How do workers make sense of the routine activities and autonomy in this job? Qualitative studies of refuse and recycling collection workers suggest that workers often find their routes and schedules to be repetitive. However, workers also find enjoyment in their job. Specifically, workers cite the day-to-day interaction with people on their routes and with their coworkers, which are manifested in their extensive insider vocabulary and work hacks, and in long-standing employee mutual aid groups that support each other in times of need. Nagle found camaraderie among New York City sanitation workers built through daily enactment of \"house rules,\" or insider forms of expertise that counter formal managerial regulations. Workers cite task variety as one of the most captivating aspects of the job. The range of tasks vary considerably, from inspecting their vehicle and equipment, driving their truck, coordinating with crew members, lifting bins and bags, detecting incorrect sorting of waste, to unloading at the end destination.
 
-<!-- chunk {"id": "body-0064", "role": "body", "section": "Applying the Framework to the Waste and Recycling Industry", "weight": 1.0} -->
+<!-- chunk {"id": "body-0060", "role": "body", "section": "Applying the Framework to the Waste and Recycling Industry", "weight": 1.0} -->
 
 After going through our DDD framework, we have a range of data sources that highlight the aspects of the job that are dull, dirty, and/or dangerous. In the waste and recycling industry example, we found a range of evidence about the extent to which the work of refuse and recycling material collectors is dangerous, the stigma associated with the job, and ways in which the work is perceived to be dull---both by workers themselves and by others in society.
 
-<!-- chunk {"id": "body-0065", "role": "body", "section": "Applying the Framework to the Waste and Recycling Industry", "weight": 1.0} -->
+<!-- chunk {"id": "body-0061", "role": "body", "section": "Applying the Framework to the Waste and Recycling Industry", "weight": 1.0} -->
 
 The collected data indicate that sanitation work is dangerous and dirty relative to other occupations, and some parts of the job are dull to workers themselves. However, the data also shows that there are aspects of the job that workers value: task variety, social interaction with coworkers and the public, and a sense of autonomy.
 
-<!-- chunk {"id": "body-0066", "role": "body", "section": "Applying the Framework to the Waste and Recycling Industry", "weight": 1.0} -->
+<!-- chunk {"id": "body-0062", "role": "body", "section": "Applying the Framework to the Waste and Recycling Industry", "weight": 1.0} -->
 
 This matters, because introducing some types of robotic solutions will inherently reduce task variety for incumbent workers. For instance, consider the adoption of automated systems recommended by the National Institute for Occupational Safety and Health (NIOSH). NIOSH recommends the adoption of automated side loader trucks aided by sensors and cameras to pick up and dump containers (to prevent back injuries and muscle strains), as well as the installation of proximity detection and collision avoidance systems (to protect workers from vehicle accidents). Implementing these recommendations would address safety concerns, but would also lead to reduction of task variety. For example, side-loading trucks require only one worker (the driver) and eliminate the need for a worker to step off trucks to handle bins: now the sole worker operates a joystick in the cab to direct the hydraulic arm. Another potential downstream consequence of implementing these recommendations would be a reduction in social interaction (no more need for the verbal and non-verbal communication that has contributed to workplace camaraderie in the industry) and autonomy (managerial surveillance via sensors and cameras can create worker concern about always being watched, as noted for the introduction of GPS technology in the industry ).
 
-<!-- chunk {"id": "body-0067", "role": "body", "section": "Applying the Framework to the Waste and Recycling Industry", "weight": 1.0} -->
+<!-- chunk {"id": "body-0063", "role": "body", "section": "Applying the Framework to the Waste and Recycling Industry", "weight": 1.0} -->
 
 Our framework reveals these tradeoffs, highlighting an opportunity to consider what tasks to prioritize in designing automation solutions. It challenges us to ask: How might we both reduce the incidents of injury while also retaining or creating new forms of autonomy and social interaction? Our framework provides an accessible and actionable set of questions for roboticists to examine work under the lens of DDD.
 
-<!-- chunk {"id": "body-0068", "role": "body", "section": "Limitations & Future Work", "weight": 1.5} -->
+<!-- chunk {"id": "body-0064", "role": "body", "section": "Limitations & Future Work", "weight": 1.5} -->
 
 In this paper, we conducted an empirical review of robotics papers to examine the use of DDD. Our review was limited to peer-reviewed papers and did not examine the use of DDD more broadly in industry or government.
 
-<!-- chunk {"id": "body-0069", "role": "body", "section": "Limitations & Future Work", "weight": 1.5} -->
+<!-- chunk {"id": "body-0065", "role": "body", "section": "Limitations & Future Work", "weight": 1.5} -->
 
 We proposed an accessible and actionable DDD framework. However, research has shown that the widespread use of these kinds of resources (e.g., toolkits, frameworks) is limited by the amount of effort required from users to adapt it to their context Deng et al. ). To avoid the burden of requiring users of our framework to collect new primary data, our framework encourages users to take advantage of the extensive and valuable worker data already collected by social scientists. A future direction of this work could be primary data collection in relevant areas where existing data is lacking, such as disaggregated data on gender (as discussed in Section 4.4.2).
 
-<!-- chunk {"id": "body-0070", "role": "body", "section": "Limitations & Future Work", "weight": 1.5} -->
+<!-- chunk {"id": "body-0066", "role": "body", "section": "Limitations & Future Work", "weight": 1.5} -->
 
 Future work can focus on how to simplify gathering information about dull, dirty, and dangerous aspects of tasks and jobs. To this end, our team is developing a database that links various data sources under our DDD framework to help streamline the information-gathering process. To inform database design, we plan to conduct a user study with roboticists to examine how they apply the framework.
 
-<!-- chunk {"id": "body-0071", "role": "body", "section": "Conclusion", "weight": 1.5} -->
+<!-- chunk {"id": "body-0067", "role": "body", "section": "Conclusion", "weight": 1.5} -->
 
 In this paper, we reviewed publications in robotics between 1980 and 2024 and have shown that while the term "dull, dirty, dangerous" (DDD) is widely used to motivate research, very few papers define these terms or provide provenance citations. Only 8.7% of reviewed papers provided a concrete example of a task or job that the authors categorized as DDD, and a mere 2.7% of papers provided a definition of the specific terms.
 
-<!-- chunk {"id": "body-0072", "role": "body", "section": "Conclusion", "weight": 1.5} -->
+<!-- chunk {"id": "body-0068", "role": "body", "section": "Conclusion", "weight": 1.5} -->
 
 The lack of definition around DDD can create an illusion of consensus among roboticists about what tasks and occupations are DDD. In other words, roboticists may be basing DDD determination on personal beliefs and ideas about occupations, rather than on an informed understanding of the types of tasks and occupations where robotics can add value to society. Our social science literature review establishes definitions and measures that add robustness to the terms as applied to robotics. Finally, our DDD framework offers an actionable way for the robotics community to think about how tasks and jobs will be impacted by technology. Our framework encourages us to engage with multiple sources of information---most importantly, workers' perspectives---to consider how our automation choices can be guided by real-world data.
 
-<!-- chunk {"id": "body-0073", "role": "body", "section": "Conclusion", "weight": 1.5} -->
+<!-- chunk {"id": "body-0069", "role": "body", "section": "Conclusion", "weight": 1.5} -->
 
 Because much of robotics development and deployment is task-specific (versus general purpose), we believe it is important for roboticists to consider the job context that technology will impact. As a community, we have an opportunity to identify and focus efforts on making technical advancements that can solve meaningful problems and create more positive experiences in the world.

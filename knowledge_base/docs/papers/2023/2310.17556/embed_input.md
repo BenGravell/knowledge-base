@@ -20,7 +20,7 @@ In large-scale scenarios, where the number of samples is typically much smaller 
 
 <!-- chunk {"id": "body-0005", "role": "body", "section": "Results", "weight": 1.0} -->
 
-In this equation $S$ is a $n \times m$ matrix, while $x$ and $v$ are both $m$-dimensional vectors. The parameter $\lambda$ determines the damping strength and $I$ represents the $m \times m$ identity matrix. In the context of natural gradient descent, $S$ is the (scaled) score matrix, defined as $S_{ij} = {\frac{1}{\sqrt{n}}\frac{\partial{{\log P_{\theta}}\left( x_{i} \right)}}{\partial\theta_{j}}}$, where $P_{\theta}\left( x_{i} \right)$ is the model's predicted probability of sample $x_{i}$ and $\theta_{j}$ is the $j$-th parameter of the model. $S^{\mathsf{T}}S$ yields the estimated Fisher information matrix.
+Our objective is to find a solution, $x$, to the following linear equation: In this equation $S$ is a $n \times m$ matrix, while $x$ and $v$ are both $m$-dimensional vectors. The parameter $\lambda$ determines the damping strength and $I$ represents the $m \times m$ identity matrix. In the context of natural gradient descent, $S$ is the (scaled) score matrix, defined as $S_{ij} = {\frac{1}{\sqrt{n}}\frac{\partial{{\log P_{\theta}}\left(x_{i} \right)}}{\partial\theta_{j}}}$, where $P_{\theta}\left(x_{i} \right)$ is the model's predicted probability of sample $x_{i}$ and $\theta_{j}$ is the $j$-th parameter of the model. $S^{\mathsf{T}}S$ yields the estimated Fisher information matrix.
 
 <!-- chunk {"id": "body-0006", "role": "body", "section": "Results", "weight": 1.0} -->
 
@@ -28,26 +28,23 @@ Correspondingly, $v$ is the gradient of the loss function $L$ with respect to th
 
 <!-- chunk {"id": "body-0007", "role": "body", "section": "Results", "weight": 1.0} -->
 
-3:$W\leftarrow{{SS^{\mathsf{T}}} + {\lambda\overset{\sim}{I}}}$ ⊳ W is n × n, $\overset{\sim}{I}$ is n × n identity
-4:L ← Chol (W) ⊳ Cholesky decomposition, L is n × n lower triangular
-6:$x\leftarrow{\frac{1}{\lambda}\left( {v - {Q^{\mathsf{T}}Qv}} \right)}$ ⊳ Q can be inlined to further reduce cost
-Algorithm 1 Cholesky Solve of Damped Fisher
+3:$W\leftarrow{{SS^{\mathsf{T}}} + {\lambda\overset{\sim}{I}}}$ ⊳ W is n × n, $\overset{\sim}{I}$ is n × n identity 4:L ← Chol (W) ⊳ Cholesky decomposition, L is n × n lower triangular 6:$x\leftarrow{\frac{1}{\lambda}\left({v - {Q^{\mathsf{T}}Qv}} \right)}$ ⊳ Q can be inlined to further reduce cost Algorithm 1 Cholesky Solve of Damped Fisher We propose Algorithm 1 to solve Eq. 1. The correctness of the algorithm is straightforward to verify, and a proof can be found Appendix A. The computational complexity of the algorithm is $\left({n^{3} + {n^{2}m}} \right)$, which is determined by the Cholesky decomposition and the matrix multiplication.
 
 <!-- chunk {"id": "body-0008", "role": "body", "section": "Results", "weight": 1.0} -->
 
-We propose Algorithm 1 to solve Eq. 1. The correctness of the algorithm is straightforward to verify, and a proof can be found Appendix A. The computational complexity of the algorithm is $\left( {n^{3} + {n^{2}m}} \right)$, which is determined by the Cholesky decomposition and the matrix multiplication. Compared to the naive method of directly inverting the matrix ($\left( m^{3} \right)$), our proposed algorithm is significantly faster when $m \gg n$. Moreover, The memory requirement is reduced from $\left( m^{2} \right)$ to $\left( {nm} \right)$. The algorithm can be easily parallelized, and the Cholesky decomposition can be efficiently implemented on GPU. We note that in practical implementation, the computation of $Q$ (line 5) should be inlined into the calculation of $x$ (line 6) to further reduce computational cost.
+Compared to the naive method of directly inverting the matrix ($\left(m^{3} \right)$), our proposed algorithm is significantly faster when $m \gg n$. Moreover, The memory requirement is reduced from $\left(m^{2} \right)$ to $\left({nm} \right)$. The algorithm can be easily parallelized, and the Cholesky decomposition can be efficiently implemented on GPU. We note that in practical implementation, the computation of $Q$ (line 5) should be inlined into the calculation of $x$ (line 6) to further reduce computational cost. The resulted ${Q^{\mathsf{T}}Qv} = {S^{\mathsf{T}}L^{- \mathsf{T}}L^{- 1}Sv}$ can be efficiently computed from right to left with triangular solve.
 
 <!-- chunk {"id": "body-0009", "role": "body", "section": "Results", "weight": 1.0} -->
 
-The resulted ${Q^{\mathsf{T}}Qv} = {S^{\mathsf{T}}L^{- \mathsf{T}}L^{- 1}Sv}$ can be efficiently computed from right to left with triangular solve.
+We implemented the algorithm in JAX and conducted tests on a single NVIDIA A100 GPU with 80 GB of memory. We evaluated the algorithm's performance on problems with $m \sim 10^{6}$ parameters and $n \sim 10^{3}$ samples, which is beyond the capability of the naive inversion method. Our benchmarking compared the proposed algorithm ("chol") to two SVD-based methods (see Appendix C): one using the CUDA kernel `gesvda` (labeled "svda"), and the other utilizing the fast SVD algorithm for tall-and-skinny matrices via solving the eigenproblem of the $n \times n$ matrix $SS^{\mathsf{T}}$ (labeled "eigh"). The "eigh" SVD method is previously the fastest method in our experience.
 
 <!-- chunk {"id": "body-0010", "role": "body", "section": "Results", "weight": 1.0} -->
 
-We implemented the algorithm in JAX and conducted tests on a single NVIDIA A100 GPU with 80 GB of memory. We evaluated the algorithm's performance on problems with $m \sim 10^{6}$ parameters and $n \sim 10^{3}$ samples, which is beyond the capability of the naive inversion method. Our benchmarking compared the proposed algorithm ("chol") to two SVD-based methods (see Appendix C): one using the CUDA kernel `gesvda` (labeled "svda"), and the other utilizing the fast SVD algorithm for tall-and-skinny matrices via solving the eigenproblem of the $n \times n$ matrix $SS^{\mathsf{T}}$ (labeled "eigh"). The "eigh" SVD method is previously the fastest method in our experience.
+The benchmark results, shown in Fig. 1 illustrate the algorithm's consistent improvement over the two SVD-based methods. The speedup is particularly pronounced when the $\left. n/m \right.$ ratio is larger. The algorithm incurs minimal overhead and scales quadratically with $n$ and linearly with $m$, aligning with the theoretical complexity analysis for $m \gg n$. The full data can be found in Appendix D.
 
 <!-- chunk {"id": "body-0011", "role": "body", "section": "Results", "weight": 1.0} -->
 
-The benchmark results, shown in Fig. 1 illustrate the algorithm's consistent improvement over the two SVD-based methods. The speedup is particularly pronounced when the $\left. n/m \right.$ ratio is larger. The algorithm incurs minimal overhead and scales quadratically with $n$ and linearly with $m$, aligning with the theoretical complexity analysis for $m \gg n$. The full data can be found in Appendix D.
+(a) increasing n with fixed m = 106 (b) increasing m with fixed n = 2048 Figure 1: Benchmark of the proposed algorithm (“chol”) against two SVD-based methods (“eigh” and “svda”), with increasing samples (n) or parameters (m). Dotted lines represent the ideal scaling. Please refer to the main text for details.
 
 <!-- chunk {"id": "body-0012", "role": "body", "section": "Relation to other methods", "weight": 1.0} -->
 

@@ -54,168 +54,160 @@ This formulation encompasses tasks as diverse as object detection in static imag
 
 <!-- chunk {"id": "body-0014", "role": "body", "section": "Model", "weight": 1.0} -->
 
-The agent is built around a recurrent neural network as shown in Fig. 1 ‣ Recurrent Models of Visual Attention").
+The agent is built around a recurrent neural network as shown in Fig. 1 ‣ Recurrent Models of Visual Attention"). At each time step, it processes the sensor data, integrates information over time, and chooses how to act and how to deploy its sensor at next time step: Sensor: At each step $t$ the agent receives a (partial) observation of the environment in the form of an image $x_{t}$. The agent does not have full access to this image but rather can extract information from $x_{t}$ via its bandwidth limited sensor $\rho$, e.g. by focusing the sensor on some region or frequency band of interest.
 
 <!-- chunk {"id": "body-0015", "role": "body", "section": "Model", "weight": 1.0} -->
 
-Sensor: At each step $t$ the agent receives a (partial) observation of the environment in the form of an image $x_{t}$. The agent does not have full access to this image but rather can extract information from $x_{t}$ via its bandwidth limited sensor $\rho$, e.g. by focusing the sensor on some region or frequency band of interest.
+In this paper we assume that the bandwidth-limited sensor extracts a retina-like representation $\rho{(x_{t},l_{t - 1})}$ around location $l_{t - 1}$ from image $x_{t}$. It encodes the region around $l$ at a high-resolution but uses a progressively lower resolution for pixels further from $l$, resulting in a vector of much lower dimensionality than the original image $x$. We will refer to this low-resolution representation as a glimpse. The glimpse sensor is used inside what we call the glimpse network $f_{g}$ to produce the glimpse feature vector $g_{t} = {f_{g}{(x_{t},l_{t - 1};\theta_{g})}}$ where $\theta_{g} = {\{\theta_{g}^{0},\theta_{g}^{1},\theta_{g}^{2}\}}$ (Fig. 1 ‣ Recurrent Models of Visual Attention")B).
 
 <!-- chunk {"id": "body-0016", "role": "body", "section": "Model", "weight": 1.0} -->
 
-In this paper we assume that the bandwidth-limited sensor extracts a retina-like representation $\rho{(x_{t},l_{t - 1})}$ around location $l_{t - 1}$ from image $x_{t}$. It encodes the region around $l$ at a high-resolution but uses a progressively lower resolution for pixels further from $l$, resulting in a vector of much lower dimensionality than the original image $x$. We will refer to this low-resolution representation as a glimpse. The glimpse sensor is used inside what we call the glimpse network $f_{g}$ to produce the glimpse feature vector $g_{t} = {f_{g}{(x_{t},l_{t - 1};\theta_{g})}}$ where $\theta_{g} = {\{\theta_{g}^{0},\theta_{g}^{1},\theta_{g}^{2}\}}$ (Fig. 1 ‣ Recurrent Models of Visual Attention")B).
+Internal state: The agent maintains an interal state which summarizes information extracted from the history of past observations; it encodes the agent's knowledge of the environment and is instrumental to deciding how to act and where to deploy the sensor. This internal state is formed by the hidden units $h_{t}$ of the recurrent neural network and updated over time by the core network: $h_{t} = {f_{h}{(h_{t - 1},g_{t};\theta_{h})}}$. The external input to the network is the glimpse feature vector $g_{t}$.
 
 <!-- chunk {"id": "body-0017", "role": "body", "section": "Model", "weight": 1.0} -->
 
-Internal state: The agent maintains an interal state which summarizes information extracted from the history of past observations; it encodes the agent's knowledge of the environment and is instrumental to deciding how to act and where to deploy the sensor. This internal state is formed by the hidden units $h_{t}$ of the recurrent neural network and updated over time by the core network: $h_{t} = {f_{h}{(h_{t - 1},g_{t};\theta_{h})}}$. The external input to the network is the glimpse feature vector $g_{t}$.
+Actions: At each step, the agent performs two actions: it decides how to deploy its sensor via the sensor control $l_{t}$, and an environment action $a_{t}$ which might affect the state of the environment. The nature of the environment action depends on the task. In this work, the location actions are chosen stochastically from a distribution parameterized by the location network $f_{l}{(h_{t};\theta_{l})}$ at time $t$: $l_{t} \sim p{( \cdot |f_{l}{(h_{t};\theta_{l})})}$. The environment action $a_{t}$ is similarly drawn from a distribution conditioned on a second network output $a_{t} \sim p{( \cdot |f_{a}{(h_{t};\theta_{a})})}$.
 
 <!-- chunk {"id": "body-0018", "role": "body", "section": "Model", "weight": 1.0} -->
 
-Actions: At each step, the agent performs two actions: it decides how to deploy its sensor via the sensor control $l_{t}$, and an environment action $a_{t}$ which might affect the state of the environment. The nature of the environment action depends on the task. In this work, the location actions are chosen stochastically from a distribution parameterized by the location network $f_{l}{(h_{t};\theta_{l})}$ at time $t$: $l_{t} \sim p{( \cdot |f_{l}{(h_{t};\theta_{l})})}$. The environment action $a_{t}$ is similarly drawn from a distribution conditioned on a second network output $a_{t} \sim p{( \cdot |f_{a}{(h_{t};\theta_{a})})}$.
+For classification it is formulated using a softmax output and for dynamic environments, its exact formulation depends on the action set defined for that particular environment (e.g. joystick movements, motor control,...).
 
 <!-- chunk {"id": "body-0019", "role": "body", "section": "Model", "weight": 1.0} -->
 
-For classification it is formulated using a softmax output and for dynamic environments, its exact formulation depends on the action set defined for that particular environment (e.g. joystick movements, motor control,...).
+Reward: After executing an action the agent receives a new visual observation of the environment $x_{t + 1}$ and a reward signal $r_{t + 1}$. The goal of the agent is to maximize the sum of the reward signal^11^1 Depending on the scenario it may be more appropriate to consider a sum of discounted rewards, where rewards obtained in the distant future contribute less: $R = {\sum_{t = 1}^{T}{\gamma^{t - 1}r_{t}}}$. In this case we can have $T\rightarrow\infty$. which is usually very sparse and delayed: $R = {\sum_{t = 1}^{T}r_{t}}$. In the case of object recognition, for example, $r_{T} = 1$ if the object is classified correctly after $T$ steps and $0$ otherwise.
 
 <!-- chunk {"id": "body-0020", "role": "body", "section": "Model", "weight": 1.0} -->
 
-Reward: After executing an action the agent receives a new visual observation of the environment $x_{t + 1}$ and a reward signal $r_{t + 1}$. The goal of the agent is to maximize the sum of the reward signal^11^1 Depending on the scenario it may be more appropriate to consider a sum of discounted rewards, where rewards obtained in the distant future contribute less: $R = {\sum_{t = 1}^{T}{\gamma^{t - 1}r_{t}}}$. In this case we can have $T\rightarrow\infty$. which is usually very sparse and delayed: $R = {\sum_{t = 1}^{T}r_{t}}$. In the case of object recognition, for example, $r_{T} = 1$ if the object is classified correctly after $T$ steps and $0$ otherwise.
+The above setup is a special instance of what is known in the RL community as a Partially Observable Markov Decision Process (POMDP). The true state of the environment (which can be static or dynamic) is unobserved. In this view, the agent needs to learn a (stochastic) policy $\pi{(\left. {(l_{t},a_{t})} \middle| {s_{1:t};\theta} \right.)}$ with parameters $\theta$ that, at each step $t$, maps the history of past interactions with the environment $s_{1:t} = {x_{1},l_{1},a_{1},{\ldotsx_{t - 1}},l_{t - 1},a_{t - 1},x_{t}}$ to a distribution over actions for the current time step, subject to the constraint of the sensor.
 
 <!-- chunk {"id": "body-0021", "role": "body", "section": "Model", "weight": 1.0} -->
 
-The above setup is a special instance of what is known in the RL community as a Partially Observable Markov Decision Process (POMDP). The true state of the environment (which can be static or dynamic) is unobserved. In this view, the agent needs to learn a (stochastic) policy $\pi{(\left. {(l_{t},a_{t})} \middle| {s_{1:t};\theta} \right.)}$ with parameters $\theta$ that, at each step $t$, maps the history of past interactions with the environment $s_{1:t} = {x_{1},l_{1},a_{1},{\ldotsx_{t - 1}},l_{t - 1},a_{t - 1},x_{t}}$ to a distribution over actions for the current time step, subject to the constraint of the sensor.
-
-<!-- chunk {"id": "body-0022", "role": "body", "section": "Model", "weight": 1.0} -->
-
 In our case, the policy $\pi$ is defined by the RNN outlined above, and the history $s_{t}$ is summarized in the state of the hidden units $h_{t}$. We will describe the specific choices for the above components in Section 4.
 
-<!-- chunk {"id": "body-0023", "role": "body", "section": "Training", "weight": 1.0} -->
+<!-- chunk {"id": "body-0022", "role": "body", "section": "Training", "weight": 1.0} -->
 
 The parameters of our agent are given by the parameters of the glimpse network, the core network (Fig. 1 ‣ Recurrent Models of Visual Attention")C), and the action network $\theta = {\{\theta_{g},\theta_{h},\theta_{a}\}}$ and we learn these to maximize the total reward the agent can expect when interacting with the environment.
 
+<!-- chunk {"id": "body-0023", "role": "body", "section": "Training", "weight": 1.0} -->
+
+More formally, the policy of the agent, possibly in combination with the dynamics of the environment (e.g. for game-playing), induces a distribution over possible interaction sequences $s_{1:N}$ and we aim to maximize the reward under this distribution: ${J{(\theta)}} = {{\mathbb{E}}_{p{(s_{1:T};\theta)}}\left\lbrack {\sum_{t = 1}^{T}r_{t}} \right\rbrack} = {{\mathbb{E}}_{p{(s_{1:T};\theta)}}\lbrack R\rbrack}$, where $p{(s_{1:T};\theta)}$ depends on the policy Maximizing $J$ exactly is non-trivial since it involves an expectation over the high-dimensional interaction sequences which may in turn involve unknown environment dynamics.
+
 <!-- chunk {"id": "body-0024", "role": "body", "section": "Training", "weight": 1.0} -->
 
-More formally, the policy of the agent, possibly in combination with the dynamics of the environment (e.g. for game-playing), induces a distribution over possible interaction sequences $s_{1:N}$ and we aim to maximize the reward under this distribution: ${J{(\theta)}} = {{\mathbb{E}}_{p{(s_{1:T};\theta)}}\left\lbrack {\sum_{t = 1}^{T}r_{t}} \right\rbrack} = {{\mathbb{E}}_{p{(s_{1:T};\theta)}}\lbrack R\rbrack}$, where $p{(s_{1:T};\theta)}$ depends on the policy
+Viewing the problem as a POMDP, however, allows us to bring techniques from the RL literature to bear: As shown by Williams a sample approximation to the gradient is given by where $s^{i}$'s are interaction sequences obtained by running the current agent $\pi_{\theta}$ for $i = {1\ldotsM}$ episodes.
 
 <!-- chunk {"id": "body-0025", "role": "body", "section": "Training", "weight": 1.0} -->
 
-Maximizing $J$ exactly is non-trivial since it involves an expectation over the high-dimensional interaction sequences which may in turn involve unknown environment dynamics. Viewing the problem as a POMDP, however, allows us to bring techniques from the RL literature to bear: As shown by Williams a sample approximation to the gradient is given by
+The learning rule (1 ‣ Recurrent Models of Visual Attention")) is also known as the REINFORCE rule, and it involves running the agent with its current policy to obtain samples of interaction sequences $s_{1:T}$ and then adjusting the parameters $\theta$ of our agent such that the log-probability of chosen actions that have led to high cumulative reward is increased, while that of actions having produced low reward is decreased.
 
 <!-- chunk {"id": "body-0026", "role": "body", "section": "Training", "weight": 1.0} -->
 
-where $s^{i}$'s are interaction sequences obtained by running the current agent $\pi_{\theta}$ for $i = {1\ldotsM}$ episodes.
+Eq. (1 ‣ Recurrent Models of Visual Attention")) requires us to compute ${{\nabla_{\theta}\log}\pi}{(\left. u_{t}^{i} \middle| {s_{1:t}^{i};\theta} \right.)}$. But this is just the gradient of the RNN that defines our agent evaluated at time step $t$ and can be computed by standard backpropagation.
 
 <!-- chunk {"id": "body-0027", "role": "body", "section": "Training", "weight": 1.0} -->
 
-The learning rule (1 ‣ Recurrent Models of Visual Attention")) is also known as the REINFORCE rule, and it involves running the agent with its current policy to obtain samples of interaction sequences $s_{1:T}$ and then adjusting the parameters $\theta$ of our agent such that the log-probability of chosen actions that have led to high cumulative reward is increased, while that of actions having produced low reward is decreased.
+Variance Reduction: Equation (1 ‣ Recurrent Models of Visual Attention")) provides us with an unbiased estimate of the gradient but it may have high variance. It is therefore common to consider a gradient estimate of the form where $R_{t}^{i} = {\sum_{t' = 1}^{T}r_{t'}^{i}}$ is the cumulative reward obtained following the execution of action $u_{t}^{i}$, and $b_{t}$ is a baseline that may depend on $s_{1:t}^{i}$ (e.g. via $h_{t}^{i}$) but not on the action $u_{t}^{i}$ itself. This estimate is equal to (1 ‣ Recurrent Models of Visual Attention")) in expectation but may have lower variance.
 
 <!-- chunk {"id": "body-0028", "role": "body", "section": "Training", "weight": 1.0} -->
 
-Eq. (1 ‣ Recurrent Models of Visual Attention")) requires us to compute ${{\nabla_{\theta}\log}\pi}{(\left. u_{t}^{i} \middle| {s_{1:t}^{i};\theta} \right.)}$. But this is just the gradient of the RNN that defines our agent evaluated at time step $t$ and can be computed by standard backpropagation.
+It is natural to select $b_{t} = {{\mathbb{E}}_{\pi}\left\lbrack R_{t} \right\rbrack}$, and this form of baseline known as the value function in the reinforcement learning literature. The resulting algorithm increases the log-probability of an action that was followed by a larger than expected cumulative reward, and decreases the probability if the obtained cumulative reward was smaller. We use this type of baseline and learn it by reducing the squared error between $R_{t}^{i}$'s and $b_{t}$.
 
 <!-- chunk {"id": "body-0029", "role": "body", "section": "Training", "weight": 1.0} -->
 
-Variance Reduction: Equation (1 ‣ Recurrent Models of Visual Attention")) provides us with an unbiased estimate of the gradient but it may have high variance. It is therefore common to consider a gradient estimate of the form
+Using a Hybrid Supervised Loss: The algorithm described above allows us to train the agent when the "best" actions are unknown, and the learning signal is only provided via the reward. For instance, we may not know a priori which sequence of fixations provides most information about an unknown image, but the total reward at the end of an episode will give us an indication whether the tried sequence was good or bad.
 
 <!-- chunk {"id": "body-0030", "role": "body", "section": "Training", "weight": 1.0} -->
 
-where $R_{t}^{i} = {\sum_{t^{\prime} = 1}^{T}r_{t^{\prime}}^{i}}$ is the cumulative reward obtained following the execution of action $u_{t}^{i}$, and $b_{t}$ is a baseline that may depend on $s_{1:t}^{i}$ (e.g. via $h_{t}^{i}$) but not on the action $u_{t}^{i}$ itself. This estimate is equal to (1 ‣ Recurrent Models of Visual Attention")) in expectation but may have lower variance. It is natural to select $b_{t} = {{\mathbb{E}}_{\pi}\left\lbrack R_{t} \right\rbrack}$, and this form of baseline known as the value function in the reinforcement learning literature. The resulting algorithm increases the log-probability of an action that was followed by a larger than expected cumulative reward, and decreases the probability if the obtained cumulative reward was smaller.
+However, in some situations we do know the correct action to take: For instance, in an object detection task the agent has to output the label of the object as the final action. For the training images this label will be known and we can directly optimize the policy to output the correct label associated with a training image at the end of an observation sequence. This can be achieved, as is common in supervised learning, by maximizing the conditional probability of the true label given the observations from the image, i.e. by maximizing ${\log\pi}{(\left. a_{T}^{\ast} \middle| {s_{1:T};\theta} \right.)}$, where $a_{T}^{\ast}$ corresponds to the ground-truth label(-action) associated with the image from which observations $s_{1:T}$ were obtained. We follow this approach for classification problems where we optimize the cross entropy loss to train the action network $f_{a}$ and backpropagate the gradients through the core and glimpse networks.
 
 <!-- chunk {"id": "body-0031", "role": "body", "section": "Training", "weight": 1.0} -->
 
-We use this type of baseline and learn it by reducing the squared error between $R_{t}^{i}$'s and $b_{t}$.
-
-<!-- chunk {"id": "body-0032", "role": "body", "section": "Training", "weight": 1.0} -->
-
-Using a Hybrid Supervised Loss: The algorithm described above allows us to train the agent when the "best" actions are unknown, and the learning signal is only provided via the reward. For instance, we may not know a priori which sequence of fixations provides most information about an unknown image, but the total reward at the end of an episode will give us an indication whether the tried sequence was good or bad.
-
-<!-- chunk {"id": "body-0033", "role": "body", "section": "Training", "weight": 1.0} -->
-
-However, in some situations we do know the correct action to take: For instance, in an object detection task the agent has to output the label of the object as the final action. For the training images this label will be known and we can directly optimize the policy to output the correct label associated with a training image at the end of an observation sequence. This can be achieved, as is common in supervised learning, by maximizing the conditional probability of the true label given the observations from the image, i.e. by maximizing ${\log\pi}{(\left. a_{T}^{\ast} \middle| {s_{1:T};\theta} \right.)}$, where $a_{T}^{\ast}$ corresponds to the ground-truth label(-action) associated with the image from which observations $s_{1:T}$ were obtained. We follow this approach for classification problems where we optimize the cross entropy loss to train the action network $f_{a}$ and backpropagate the gradients through the core and glimpse networks.
-
-<!-- chunk {"id": "body-0034", "role": "body", "section": "Training", "weight": 1.0} -->
-
 The location network $f_{l}$ is always trained with REINFORCE.
 
-<!-- chunk {"id": "body-0035", "role": "body", "section": "Experiments", "weight": 1.0} -->
+<!-- chunk {"id": "body-0032", "role": "body", "section": "Experiments", "weight": 1.0} -->
 
-We evaluated our approach on several image classification tasks as well as a simple game.
+We evaluated our approach on several image classification tasks as well as a simple game. We first describe the design choices that were common to all our experiments: Retina and location encodings: The retina encoding $\rho{(x,l)}$ extracts $k$ square patches centered at location $l$, with the first patch being $g_{w} \times g_{w}$ pixels in size, and each successive patch having twice the width of the previous. The $k$ patches are then all resized to $g_{w} \times g_{w}$ and concatenated. Glimpse locations $l$ were encoded as real-valued $(x,y)$ coordinates^22^2We also experimented with using a discrete representation for the locations $l$ but found that it was difficult to learn policies over more than $25$ possible discrete locations. with $$ being the center of the image $x$ and $({- 1},{- 1})$ being the top left corner of $x$.
 
-<!-- chunk {"id": "body-0036", "role": "body", "section": "Experiments", "weight": 1.0} -->
-
-Retina and location encodings: The retina encoding $\rho{(x,l)}$ extracts $k$ square patches centered at location $l$, with the first patch being $g_{w} \times g_{w}$ pixels in size, and each successive patch having twice the width of the previous. The $k$ patches are then all resized to $g_{w} \times g_{w}$ and concatenated. Glimpse locations $l$ were encoded as real-valued $(x,y)$ coordinates^22^2We also experimented with using a discrete representation for the locations $l$ but found that it was difficult to learn policies over more than $25$ possible discrete locations. with $$ being the center of the image $x$ and $({- 1},{- 1})$ being the top left corner of $x$.
-
-<!-- chunk {"id": "body-0037", "role": "body", "section": "Experiments", "weight": 1.0} -->
+<!-- chunk {"id": "body-0033", "role": "body", "section": "Experiments", "weight": 1.0} -->
 
 Glimpse network: The glimpse network $f_{g}{(x,l)}$ had two fully connected layers. Let $Linear{(x)}$ denote a linear transformation of the vector $x$, i.e. ${Linear{(x)}} = {{Wx} + b}$ for some weight matrix $W$ and bias vector $b$, and let ${Rect{(x)}} = {max{(x,0)}}$ be the rectifier nonlinearity. The output $g$ of the glimpse network was defined as $g = {Rect{({{Linear{(h_{g})}} + {Linear{(h_{l})}}})}}$ where $h_{g} = {Rect{({Linear{({\rho{(x,l)}})}})}}$ and $h_{l} = {Rect{({Linear{(l)}})}}$.
 
-<!-- chunk {"id": "body-0038", "role": "body", "section": "Experiments", "weight": 1.0} -->
+<!-- chunk {"id": "body-0034", "role": "body", "section": "Experiments", "weight": 1.0} -->
 
 The dimensionality of $h_{g}$ and $h_{l}$ was $128$ while the dimensionality of $g$ was $256$ for all attention models trained in this paper.
 
-<!-- chunk {"id": "body-0039", "role": "body", "section": "Experiments", "weight": 1.0} -->
+<!-- chunk {"id": "body-0035", "role": "body", "section": "Experiments", "weight": 1.0} -->
 
 Location network: The policy for the locations $l$ was defined by a two-component Gaussian with a fixed variance. The location network outputs the mean of the location policy at time $t$ and is defined as ${f_{l}{(h)}} = {Linear{(h)}}$ where $h$ is the state of the core network/RNN.
 
-<!-- chunk {"id": "body-0040", "role": "body", "section": "Experiments", "weight": 1.0} -->
+<!-- chunk {"id": "body-0036", "role": "body", "section": "Experiments", "weight": 1.0} -->
 
 Core network: For the classification experiments that follow the core $f_{h}$ was a network of rectifier units defined as $h_{t} = {f_{h}{(h_{t - 1})}} = {Rect{({{Linear{(h_{t - 1})}} + {Linear{(g_{t})}}})}}$. The experiment done on a dynamic environment used a core of LSTM units.
 
-<!-- chunk {"id": "body-0041", "role": "body", "section": "Image Classification", "weight": 1.0} -->
+<!-- chunk {"id": "body-0037", "role": "body", "section": "Image Classification", "weight": 1.0} -->
 
 The attention network used in the following classification experiments made a classification decision only at the last timestep $t = N$. The action network $f_{a}$ was simply a linear softmax classifier defined as ${f_{a}{(h)}} = {{\exp\left( {Linear{(h)}} \right)}/Z}$, where $Z$ is a normalizing constant. The RNN state vector $h$ had dimensionality $256$. All methods were trained using stochastic gradient descent with momentum of $0.9$. Hyperparameters such as the learning rate and the variance of the location policy were selected using random search. The reward at the last time step was $1$ if the agent classified correctly and $0$ otherwise. The rewards for all other timesteps were $0$.
 
-<!-- chunk {"id": "body-0042", "role": "body", "section": "Image Classification", "weight": 1.0} -->
+<!-- chunk {"id": "body-0038", "role": "body", "section": "Image Classification", "weight": 1.0} -->
+
+FC, 2 layers (256 hiddens each) 1 Random Glimpse, 8 × 8, 1 scale RAM, 2 glimpses, 8 × 8, 1 scale RAM, 3 glimpses, 8 × 8, 1 scale RAM, 4 glimpses, 8 × 8, 1 scale RAM, 5 glimpses, 8 × 8, 1 scale RAM, 6 glimpses, 8 × 8, 1 scale RAM, 7 glimpses, 8 × 8, 1 scale FC, 2 layers (64 hiddens each) FC, 2 layers (256 hiddens each) RAM, 4 glimpses, 12 × 12, 3 scales RAM, 6 glimpses, 12 × 12, 3 scales RAM, 8 glimpses, 12 × 12, 3 scales Table 1: Classification results on the MNIST and Translated MNIST datasets. FC denotes a fully-connected network with two layers of rectifier units. The convolutional network had one layer of 8 10 × 10 filters with stride 5, followed by a fully connected layer with 256 units with rectifiers after each layer. Instances of the attention model are labeled with the number of glimpses, the number of scales in the retina, and the size of the retina.
+
+<!-- chunk {"id": "body-0039", "role": "body", "section": "Image Classification", "weight": 1.0} -->
 
 Centered Digits: We first tested the ability of our training method to learn successful glimpse policies by using it to train RAM models with up to $7$ glimpses on the MNIST digits dataset. The "retina" for this experiment was simply an $8 \times 8$ patch, which is only big enough to capture a part of a digit, hence the experiment also tested the ability of RAM to combine information from multiple glimpses. Note that since the first glimpse is always random, the single glimpse model is effectively a classifier that gets a single random $8 \times 8$ patch as input. We also trained a standard feedforward neural network with two hidden layers of 256 rectified linear units as a baseline. The error rates achieved by the different models on the test set are shown in Table 1a. We see that each additional glimpse improves the performance of RAM until it reaches its minimum with $6$ glimpses, where it matches the performance of the fully connected model training on the full $28 \times 28$ centered digits. This demonstrates the model can successfully learn to combine information from multiple glimpses.
 
-<!-- chunk {"id": "body-0043", "role": "body", "section": "Image Classification", "weight": 1.0} -->
+<!-- chunk {"id": "body-0040", "role": "body", "section": "Image Classification", "weight": 1.0} -->
 
 (a) Random test cases for the Translated MNIST task.
 
-<!-- chunk {"id": "body-0044", "role": "body", "section": "Image Classification", "weight": 1.0} -->
+<!-- chunk {"id": "body-0041", "role": "body", "section": "Image Classification", "weight": 1.0} -->
 
 (b) Random test cases for the Cluttered Translated MNIST task.
 
-<!-- chunk {"id": "body-0045", "role": "body", "section": "Image Classification", "weight": 1.0} -->
+<!-- chunk {"id": "body-0042", "role": "body", "section": "Image Classification", "weight": 1.0} -->
 
 Non-Centered Digits: The second problem we considered was classifying non-centered digits. We created a new task called Translated MNIST, for which data was generated by placing an MNIST digit in a random location of a larger blank patch. Training cases were generated on the fly so the effective training set size was 50000 (the size of the MNIST training set) multiplied by the possible number of locations. Figure 2a contains a random sample of test cases for the $60$ by $60$ Translated MNIST task. Table LABEL:tbl:mnist60 shows the results for several different models trained on the Translated MNIST task with 60 by 60 patches. In addition to RAM and two fully-connected networks we also trained a network with one convolutional layer of $16$ $10 \times 10$ filters with stride $5$ followed by a rectifier nonlinearity and then a fully-connected layer of $256$ rectifier units. The convolutional network, the RAM networks, and the smaller fully connected model all had roughly the same number of parameters.
 
-<!-- chunk {"id": "body-0046", "role": "body", "section": "Image Classification", "weight": 1.0} -->
+<!-- chunk {"id": "body-0043", "role": "body", "section": "Image Classification", "weight": 1.0} -->
 
 Since the convolutional network has some degree of translation invariance built, it attains a significantly lower error rate of $2.3\%$ than the fully connected networks. However, RAM with 4 glimpses gets roughly the same performance as the convolutional network and outperforms it for 6 and 8 glimpses, reaching roughly $1.9\%$ error. This is possible because the attention model can focus its retina on the digit and hence learn a translation invariant policy. This experiment also shows that the attention model is able to successfully search for an object in a big image when the object is not centered.
 
-<!-- chunk {"id": "body-0047", "role": "body", "section": "Image Classification", "weight": 1.0} -->
+<!-- chunk {"id": "body-0044", "role": "body", "section": "Image Classification", "weight": 1.0} -->
 
 Cluttered Non-Centered Digits: One of the most challenging aspects of classifying real-world images is the presence of a wide range clutter. Systems that operate on the entire image at full resolution are particularly susceptible to clutter and must learn to be invariant to it. One possible advantage of an attention mechanism is that it may make it easier to learn in the presence of clutter by focusing on the relevant part of the image and ignoring the irrelevant part. We test this hypothesis with several experiments on a new task we call Cluttered Translated MNIST. Data for this task was generated by first placing an MNIST digit in a random location of a larger blank image and then adding random $8$ by $8$ subpatches from other random MNIST digits to random locations of the image. The goal is to classify the complete digit present in the image. Figure 2b shows a random sample of test cases for the $60$ by $60$ Cluttered Translated MNIST task.
 
-<!-- chunk {"id": "body-0048", "role": "body", "section": "Image Classification", "weight": 1.0} -->
+<!-- chunk {"id": "body-0045", "role": "body", "section": "Image Classification", "weight": 1.0} -->
+
+(a) 60x60 Cluttered Translated MNIST FC, 2 layers (64 hiddens each) FC, 2 layers (256 hiddens each) RAM, 4 glimpses, 12 × 12, 3 scales RAM, 6 glimpses, 12 × 12, 3 scales RAM, 8 glimpses, 12 × 12, 3 scales (b) 100x100 Cluttered Translated MNIST RAM, 4 glimpses, 12 × 12, 4 scales RAM, 6 glimpses, 12 × 12, 4 scales RAM, 8 glimpses, 12 × 12, 4 scales Table 2: Classification on the Cluttered Translated MNIST dataset. FC denotes a fully-connected network with two layers of rectifier units. The convolutional network had one layer of 8 10 × 10 filters with stride 5, followed by a fully connected layer with 256 units in the 60 × 60 case and 86 units in the 100 × 100 case with rectifiers after each layer. Instances of the attention model are labeled with the number of glimpses, the size of the retina, and the number of scales in the retina. All models except for the big fully connected network had roughly the same number of parameters.
+
+<!-- chunk {"id": "body-0046", "role": "body", "section": "Image Classification", "weight": 1.0} -->
 
 Table 2a shows the classification results for the models we trained on $60$ by $60$ Cluttered Translated MNIST with 4 pieces of clutter. The presence of clutter makes the task much more difficult but the performance of the attention model is affected less than the performance of the other models. RAM with 4 glimpses reaches $7.1\%$ error, which outperforms fully-connected models by a wide margin and the convolutional neural network by $0.7\%$, and RAM trained with 6 and 8 glimpses achieves even lower error. Since RAM achieves larger relative error improvements over a convolutional network in the presence of clutter these results suggest the attention-based models may be better at dealing with clutter than convolutional networks because they can simply ignore it by not looking at it. Two samples of learned policy is shown in Figure 6 and more are included in the supplementary materials. The first column shows the original data point with the glimpse path overlaid. The location of the first glimpse is marked with a filled circle and the location of the final glimpse is marked with an empty circle. The intermediate points on the path are traced with solid straight lines.
 
-<!-- chunk {"id": "body-0049", "role": "body", "section": "Image Classification", "weight": 1.0} -->
+<!-- chunk {"id": "body-0047", "role": "body", "section": "Image Classification", "weight": 1.0} -->
 
 Each consecutive image to the right shows a representation of the glimpse that the network sees. It can be seen that the learned policy can reliably find and explore around the object of interest while avoiding clutter at the same time.
 
-<!-- chunk {"id": "body-0050", "role": "body", "section": "Image Classification", "weight": 1.0} -->
+<!-- chunk {"id": "body-0048", "role": "body", "section": "Image Classification", "weight": 1.0} -->
 
 To further test this hypothesis we also performed experiments on $100$ by $100$ Cluttered Translated MNIST with 8 pieces of clutter. The test errors achieved by the models we compared are shown in Table LABEL:tbl:mnist100c. The results show similar improvements of RAM over a convolutional network. It has to be noted that the overall capacity and the amount of computation of our model does not change from $60 \times 60$ images to $100 \times 100$, whereas the hidden layer of the convolutional network that is connected to the linear layer grows linearly with the number of pixels in the input.
 
-<!-- chunk {"id": "body-0051", "role": "body", "section": "Dynamic Environments", "weight": 1.0} -->
+<!-- chunk {"id": "body-0049", "role": "body", "section": "Dynamic Environments", "weight": 1.0} -->
 
 One appealing property of the recurrent attention model is that it can be applied to videos or interactive problems with a visual input just as easily as to static image tasks. We test the ability of our approach to learn a control policy in a dynamic visual environment while perceiving the environment through a bandwidth-limited retina by training it to play a simple game. The game is played on a $24$ by $24$ screen of binary pixels and involves two objects: a single pixel that represents a ball falling from the top of the screen while bouncing off the sides of the screen and a two-pixel paddle positioned at the bottom of the screen which the agent controls with the aim of catching the ball. When the falling pixel reaches the bottom of the screen the agent either gets a reward of 1 if the paddle overlaps with the ball and a reward of 0 otherwise. The game then restarts from the beginning.
 
-<!-- chunk {"id": "body-0052", "role": "body", "section": "Dynamic Environments", "weight": 1.0} -->
+<!-- chunk {"id": "body-0050", "role": "body", "section": "Dynamic Environments", "weight": 1.0} -->
 
 We trained the recurrent attention model to play the game of "Catch" using only the final reward as input. The network had a $6$ by $6$ retina at three scales as its input, which means that the agent had to capture the ball in the $6$ by $6$ highest resolution region in order to know its precise position. In addition to the two location actions, the attention model had three game actions (left, right, and do nothing) and the action network $f_{a}$ used a linear softmax to model a distribution over the game actions. We used a core network of 256 LSTM units.
 
-<!-- chunk {"id": "body-0053", "role": "body", "section": "Dynamic Environments", "weight": 1.0} -->
+<!-- chunk {"id": "body-0051", "role": "body", "section": "Dynamic Environments", "weight": 1.0} -->
 
 We performed random search to find suitable hyper-parameters and trained each agent for 20 million frames. A video of the best agent, which catches the ball roughly $85\%$ of the time, can be downloaded from The video shows that the recurrent attention model learned to play the game by tracking the ball near the bottom of the screen. Since the agent was not in any way told to track the ball and was only rewarded for catching it, this result demonstrates the ability of the model to learn effective task-specific attention policies.
 
-<!-- chunk {"id": "body-0054", "role": "body", "section": "Discussion", "weight": 1.5} -->
+<!-- chunk {"id": "body-0052", "role": "body", "section": "Discussion", "weight": 1.5} -->
 
 This paper introduced a novel visual attention model that is formulated as a single recurrent neural network which takes a glimpse window as its input and uses the internal state of the network to select the next location to focus on as well as to generate control signals in a dynamic environment. Although the model is not differentiable, the proposed unified architecture is trained end-to-end from pixel inputs to actions using a policy gradient method. The model has several appealing properties. First, both the number of parameters and the amount of computation RAM performs can be controlled independently of the size of the input images. Second, the model is able to ignore clutter present in an image by centering its retina on the relevant regions. Our experiments show that RAM significantly outperforms a convolutional architecture with a comparable number of parameters on a cluttered object classification task. Additionally, the flexibility of our approach allows for a number of interesting extensions. For example, the network can be augmented with another action that allows it terminate at any time point and make a final classification decision. Our preliminary experiments show that this allows the network to learn to stop taking glimpses once it has enough information to make a confident classification.
 
-<!-- chunk {"id": "body-0055", "role": "body", "section": "Discussion", "weight": 1.5} -->
+<!-- chunk {"id": "body-0053", "role": "body", "section": "Discussion", "weight": 1.5} -->
 
 The network can also be allowed to control the scale at which the retina samples the image allowing it to fit objects of different size in the fixed size retina. In both cases, the extra actions can be simply added to the action network $f_{a}$ and trained using the policy gradient procedure we have described. Given the encouraging results achieved by RAM, applying the model to large scale object recognition and video classification is a natural direction for future work.

@@ -11,3 +11,391 @@ In this report, we introduce Qwen2.5, a comprehensive series of large language m
 <!-- chunk {"id": "abstract-0003", "role": "abstract", "section": "Abstract", "weight": 2.0} -->
 
 Qwen2.5 has demonstrated top-tier performance on a wide range of benchmarks evaluating language understanding, reasoning, mathematics, coding, human preference alignment, etc. Specifically, the open-weight flagship Qwen2.5-72B-Instruct outperforms a number of open and proprietary models and demonstrates competitive performance to the state-of-the-art open-weight model, Llama-3-405B-Instruct, which is around 5 times larger. Qwen2.5-Turbo and Qwen2.5-Plus offer superior cost-effectiveness while performing competitively against GPT-4o-mini and GPT-4o respectively. Additionally, as the foundation, Qwen2.5 models have been instrumental in training specialized models such as Qwen2.5-Math, Qwen2.5-Coder, QwQ, and multimodal models.
+
+<!-- chunk {"id": "body-0004", "role": "body", "section": "Introduction", "weight": 1.5} -->
+
+The sparks of artificial general intelligence (AGI) are increasingly visible through the fast development of large foundation models, notably large language models (LLMs) [gpt3,gpt4,gpt4o,gemini,claude,claude2,claude3,qwen,qwen2,llama,llama2,llama3]. The continuous advancement in model and data scaling, combined with the paradigm of large-scale pre-training followed by high-quality supervised fine-tuning (SFT) and reinforcement learning from human feedback (RLHF)[instructgpt], has enabled large language models (LLMs) to develop emergent capabilities in language understanding, generation, and reasoning. Building on this foundation, recent breakthroughs in inference time scaling, particularly demonstrated by o1[o1], have enhanced LLMs' capacity for deep thinking through step-by-step reasoning and reflection. These developments have elevated the potential of language models, suggesting they may achieve significant breakthroughs in scientific exploration as they continue to demonstrate emergent capabilities indicative of more general artificial intelligence.
+
+<!-- chunk {"id": "body-0005", "role": "body", "section": "Introduction", "weight": 1.5} -->
+
+Besides the fast development of model capabilities, the recent two years have witnessed a burst of open (open-weight) large language models in the LLM community, for example, the Llama series [llama, llama2, llama3], Mistral series[mistral, mixtral], and our Qwen series[qwen, qwen2, codeqwen, qwen2.5coder, qwen2math, qwen2.5math]. The open-weight models have democratized the access of large language models to common users and developers, enabling broader research participation, fostering innovation through community collaboration, and accelerating the development of AI applications across diverse domains.
+
+<!-- chunk {"id": "body-0006", "role": "body", "section": "Introduction", "weight": 1.5} -->
+
+Recently, we release the details of our latest version of the Qwen series, Qwen2.5. In terms of the open-weight part, we release pre-trained and instruction-tuned models of 7 sizes, including 0.5B, 1.5B, 3B, 7B, 14B, 32B, and 72B, and we provide not only the original models in bfloat16 precision but also the quantized models in different precisions. Specifically, the flagship model Qwen2.5-72B-Instruct demonstrates competitive performance against the state-of-the-art open-weight model, Llama-3-405B-Instruct, which is around 5 times larger.
+
+<!-- chunk {"id": "body-0007", "role": "body", "section": "Introduction", "weight": 1.5} -->
+
+Additionally, we also release the proprietary models of Mixture-of-Experts (MoE, gshard, switch\_transformer, stmoe), namely Qwen2.5-Turbo and Qwen2.5-Plus Qwen2.5-Turbo is identified as qwen-turbo-2024-11-01 and Qwen2.5-Plus is identified as qwen-plus-2024-xx-xx (to be released) in the API., which performs competitively against GPT-4o-mini and GPT-4o respectively.
+
+<!-- chunk {"id": "body-0008", "role": "body", "section": "Introduction", "weight": 1.5} -->
+
+In this technical report, we introduce Qwen2.5, the result of our continuous endeavor to create better LLMs.
+
+<!-- chunk {"id": "body-0009", "role": "body", "section": "Introduction", "weight": 1.5} -->
+
+- Better in Size: Compared with Qwen2, in addition to 0.5B, 1.5B, 7B, and 72B models, Qwen2.5 brings back the 3B, 14B, and 32B models, which are more cost-effective for resource-limited scenarios and are under-represented in the current field of open foundation models. Qwen2.5-Turbo and Qwen2.5-Plus offer a great balance among accuracy, latency, and cost. - Better in Data: The pre-training and post-training data have been improved significantly. The pre-training data increased from 7 trillion tokens to 18 trillion tokens, with focus on knowledge, coding, and mathematics. The pre-training is staged to allow transitions among different mixtures. The post-training data amounts to 1 million examples, across the stage of supervised finetuning (SFT, instructgpt), direct preference optimization (DPO, rafailov2024direct), and group relative policy optimization (GRPO, deepseekmath).
+
+<!-- chunk {"id": "body-0010", "role": "body", "section": "Introduction", "weight": 1.5} -->
+
+- Better in Use: Several key limitations of Qwen2 in use have been eliminated, including larger generation length (from 2K tokens to 8K tokens), better support for structured input and output, (e.g., tables and JSON), and easier tool use. In addition, Qwen2.5-Turbo supports a context length of up to 1 million tokens.
+
+<!-- chunk {"id": "body-0011", "role": "body", "section": "Architecture & Tokenizer", "weight": 1.0} -->
+
+Basically, the Qwen2.5 series include dense models for opensource, namely Qwen2.5-0.5B / 1.5B / 3B / 7B / 14B / 32B / 72B, and MoE models for API service, namely Qwen2.5-Turbo and Qwen2.5-Plus. Below, we provide details about the architecture of models.
+
+<!-- chunk {"id": "body-0012", "role": "body", "section": "Architecture & Tokenizer", "weight": 1.0} -->
+
+For dense models, we maintain the Transformer-based decoder architecture [transformer,gpt] as Qwen2[qwen2]. The architecture incorporates several key components: Grouped Query Attention (GQA, gqa) for efficient KV cache utilization, SwiGLU activation function[glu] for non-linear activation, Rotary Positional Embeddings (RoPE, rope) for encoding position information, QKV bias[qkv\_bias] in the attention mechanism and RMSNorm[rmsnorm]with pre-normalization to ensure stable training.
+
+<!-- chunk {"id": "body-0013", "role": "body", "section": "Architecture & Tokenizer", "weight": 1.0} -->
+
+Building upon the dense model architectures, we extend it to MoE model architectures. This is achieved by replacing standard feed-forward network (FFN) layers with specialized MoE layers, where each layer comprises multiple FFN experts and a routing mechanism that dispatches tokens to the top-K experts. Following the approaches demonstrated in Qwen1.5-MoE [qwen2], we implement fine-grained expert segmentation[deepseekmoe] and shared experts routing[deepspeedmoe, deepseekmoe]. These architectural innovations have yielded substantial improvements in model performance across downstream tasks.
+
+<!-- chunk {"id": "body-0014", "role": "body", "section": "Architecture & Tokenizer", "weight": 1.0} -->
+
+For tokenization, we utilize Qwen's tokenizer [qwen], which implements byte-level byte-pair encoding (BBPE,gpt3,wang2020neural,sennirch2016neural) with a vocabulary of 151,643 regular tokens. We have expanded the set of control tokens from 3 to 22 compared to previous Qwen versions, adding two new tokens for tool functionality and allocating the remainder for other model capabilities. This expansion establishes a unified vocabulary across all Qwen2.5 models, enhancing consistency and reducing potential compatibility issues.
+
+<!-- chunk {"id": "body-0015", "role": "body", "section": "Architecture & Tokenizer", "weight": 1.0} -->
+
+Model architecture and license of Qwen2.5 open-weight models.
+
+<!-- chunk {"id": "body-0016", "role": "body", "section": "Architecture & Tokenizer", "weight": 1.0} -->
+
+| Models | Layers | Heads (Q / KV) | Tie Embedding | Context / Generation Length | License |
+
+<!-- chunk {"id": "body-0017", "role": "body", "section": "Pre-training", "weight": 1.0} -->
+
+Our language model pre-training process consists of several key components. First, we carefully curate high-quality training data through sophisticated filtering and scoring mechanisms, combined with strategic data mixture. Second, we conduct extensive research on hyperparameter optimization to effectively train models at various scales. Finally, we incorporate specialized long-context pre-training to enhance the model's ability to process and understand extended sequences. Below, we detail our approaches to data preparation, hyperparameter selection, and long-context training.
+
+<!-- chunk {"id": "body-0018", "role": "body", "section": "Pre-training Data", "weight": 1.0} -->
+
+Qwen2.5 demonstrates significant enhancements in pre-training data quality compared to its predecessor Qwen2.
+
+<!-- chunk {"id": "body-0019", "role": "body", "section": "Pre-training Data", "weight": 1.0} -->
+
+- Better data filtering. High-quality pre-training data is crucial for model performance, making data quality assessment and filtering a critical component of our pipeline. We leverage Qwen2-Instruct models as data quality filters that perform comprehensive, multi-dimensional analysis to evaluate and score training samples. The filtering method represents a significant advancement over our previous approach used for Qwen2, as it benefits from Qwen2's expanded pre-training on a larger multilingual corpus. The enhanced capabilities enable more nuanced quality assessment, resulting in both improved retention of high-quality training data and more effective filtering of low-quality samples across multiple languages. - Better math and code data. During the pre-training phase of Qwen2.5, we incorporate training data from Qwen2.5-Math[qwen2.5math] and Qwen2.5-Coder[qwen2.5coder]. This data integration strategy proves highly effective, as these specialized datasets are instrumental in achieving state-of-the-art performance on mathematical and coding tasks.
+
+<!-- chunk {"id": "body-0020", "role": "body", "section": "Pre-training Data", "weight": 1.0} -->
+
+By leveraging these high-quality domain-specific datasets during pre-training, Qwen2.5 inherits strong capabilities in both mathematical reasoning and code generation. - Better synthetic data. To generate high-quality synthetic data, particularly in mathematics, code, and knowledge domains, we leverage both Qwen2-72B-Instruct[qwen2] and Qwen2-Math-72B-Instruct[qwen2math]. The quality of this synthesized data is further enhanced through rigorous filtering using our proprietary general reward model and the specialized Qwen2-Math-RM-72B[qwen2math]model. - Better data mixture. To optimize the pre-training data distribution, we employ Qwen2-Instruct models to classify and balance content across different domains. Our analysis revealed that domains like e-commerce, social media, and entertainment are significantly overrepresented in web-scale data, often containing repetitive, template-based, or machine-generated content. Conversely, domains such as technology, science, and academic research, while containing higher-quality information, are traditionally underrepresented.
+
+<!-- chunk {"id": "body-0021", "role": "body", "section": "Pre-training Data", "weight": 1.0} -->
+
+Through strategic down-sampling of overrepresented domains and up-sampling of high-value domains, we ensure a more balanced and information-rich training dataset that better serves our model's learning objectives.
+
+<!-- chunk {"id": "body-0022", "role": "body", "section": "Pre-training Data", "weight": 1.0} -->
+
+Building on these techniques, we have developed a larger and higher-quality pre-training dataset, expanding from the 7 trillion tokens used in Qwen2
+
+<!-- chunk {"id": "body-0023", "role": "body", "section": "Scaling Law for Hyper-parameters", "weight": 1.0} -->
+
+We develop scaling laws for hyper-parameter based on the pre-training data of Qwen2.5[chinchilla,kaplanscaling]. While previous studies[llama3,falcon,chinchilla] primarily used scaling laws to determine optimal model sizes given compute budgets, we leverage them to identify optimal hyperparameters across model architectures. Specifically, our scaling laws help determine key training parameters like batch size $B$ and learning rate $\mu$for both dense models and MoE models of varying sizes.
+
+<!-- chunk {"id": "body-0024", "role": "body", "section": "Scaling Law for Hyper-parameters", "weight": 1.0} -->
+
+Through extensive experimentation, we systematically study the relationship between model architecture and optimal training hyper-parameters. Specifically, we analyze how the optimal learning rate $\mu_\textrm{opt}$ and batch size $B_\textrm{opt}$ vary with model size $N$ and pre-training data size $D$. Our experiments cover a comprehensive range of architectures, including dense models with 44M to 14B parameters and MoE models with 44M to 1B activated parameters, trained on datasets ranging from 0.8B to 600B tokens. Using these optimal hyper-parameter predictions, we then model the final loss as a function of model architecture and training data scale.
+
+<!-- chunk {"id": "body-0025", "role": "body", "section": "Scaling Law for Hyper-parameters", "weight": 1.0} -->
+
+Additionally, we leverage scaling laws to predict and compare the performance of MoE models with varying parameter counts against their dense counterparts. This analysis guides our hyper-parameter configuration for MoE models, enabling us to achieve performance parity with specific dense model variants (such as Qwen2.5-72B and Qwen2.5-14B) through careful tuning of both activated and total parameters.
+
+<!-- chunk {"id": "body-0026", "role": "body", "section": "Long-context Pre-training", "weight": 1.0} -->
+
+For optimal training efficiency, Qwen2.5 employs a two-phase pre-training approach: an initial phase with a 4,096-token context length, followed by an extension phase for longer sequences. Following the strategy used in Qwen2, we extend the context length from 4,096 to 32,768 tokens during the final pre-training stage for all model variants except Qwen2.5-Turbo. Concurrently, we increase the base frequency of RoPEfrom 10,000 to 1,000,000 using the ABF technique For Qwen2.5-Turbo, we implement a progressive context length expansion strategy during training, advancing through four stages: 32,768 tokens, 65,536 tokens, 131,072 tokens, and ultimately 262,144 tokens, with a RoPE base frequency of 10,000,000. At each stage, we carefully curate the training data to include 40% sequences at the current maximum length and 60%shorter sequences. This progressive training methodology enables smooth adaptation to increasing context lengths while maintaining the model's ability to effectively process and generalize across sequences of varying lengths.
+
+<!-- chunk {"id": "body-0027", "role": "body", "section": "Long-context Pre-training", "weight": 1.0} -->
+
+To enhance our models' ability to process longer sequences during inference, we implement two key strategies: YARN [yarn] and Dual Chunk Attention(DCA, chunkllama). Through these innovations, we achieve a four-fold increase in sequence length capacity, enabling Qwen2.5-Turbo to handle up to 1 milliontokens and other models to process up to 131,072 tokens. Notably, these approaches not only improve the modeling of long sequences by reducing perplexity but also maintain the models' strong performance on shorter sequences, ensuring consistent quality across varying input lengths.
+
+<!-- chunk {"id": "body-0028", "role": "body", "section": "Post-training", "weight": 1.0} -->
+
+- Expanded Supervised Fine-tuning Data Coverage:The supervised fine-tuning process leverages a massive dataset comprising millions of high-quality examples. This expansion specifically addresses key areas where the previous model showed limitations, such as long-sequence generation, mathematical problem-solving, coding, instruction-following, structured data understanding, logical reasoning, cross-lingual transfer, and robust system instruction. - Two-stage Reinforcement Learning:The reinforcement learning (RL) process in Qwen 2.5 is divided into two distinct stages: Offline RL and Online RL. - Offline RL: This stage focuses on developing capabilities that are challenging for the reward model to evaluate, such as reasoning, factuality, and instruction-following. Through meticulous construction and validation of training data, we ensure that the Offline RL signals are both learnable and reliable[xiang2024aligning], enabling the model to acquire those complex skills effectively. - Online RL:The Online RL phase leverages the reward model's ability to detect nuances in output quality, including truthfulness, helpfulness, conciseness, relevance, harmlessness and debiasing.
+
+<!-- chunk {"id": "body-0029", "role": "body", "section": "Post-training", "weight": 1.0} -->
+
+It enables the model to generate responses that are precise, coherent, and well-structured while maintaining safety and readability. As a result, the model's outputs consistently meet human quality standards and expectations.
+
+<!-- chunk {"id": "body-0030", "role": "body", "section": "Supervised Fine-tuning", "weight": 1.0} -->
+
+In this section, we detail the key enhancements made during the SFT phase of Qwen2.5, focusing on several critical areas: Qwen2.5 is capable of generating high-quality content with an output context length of up to 8,192 tokens, a significant advancement over the typical post-training response length, which often remains under 2,000 tokens. To address this gap, we develop long-response datasets[quan2024language]. We employ back-translation techniques to generate queries for long-text data from pre-training corpora, impose output length constraints, and use Qwen2 to filter out low-quality paired data. We introduce the chain-of-thought data of Qwen2.5-Math[qwen2.5math], which encompasses a diverse range of query sources, including public datasets, K-12 problem collections, and synthetic problems. To ensure high-quality reasoning, we employ rejection sampling[yuan2023scaling]along with reward modeling and annotated answers for guidance, producing step-by-step reasoning process.
+
+<!-- chunk {"id": "body-0031", "role": "body", "section": "Supervised Fine-tuning", "weight": 1.0} -->
+
+To enhance coding capabilities, we incorporate the instruction tuning data of Qwen2.5-Coder[qwen2.5coder]. We use multiple language-specific agents into a collaborative framework, generating diverse and high-quality instruction pairs across nearly 40 programming languages. We expand our instruction dataset by synthesizing new examples from code-related Q&A websites and gathering algorithmic code snippets from GitHub. A comprehensive multilingual sandbox is used to perform static code checking and validate code snippets through automated unit testing, ensuring code quality and correctness[dou2024multi,yang2024evaluating]. To ensure high-quality instruction-following data, we implement a rigorous code-based validation framework. In this approach, LLMs generate both instructions and corresponding verification code, along with comprehensive unit tests for cross-validation. Through execution feedback-based rejection sampling, we carefully curate the training data used for Supervised Fine-Tuning, thereby guaranteeing the model's faithful adherence to intended instructions[dong2024autoif].
+
+<!-- chunk {"id": "body-0032", "role": "body", "section": "Supervised Fine-tuning", "weight": 1.0} -->
+
+- Structured Data Understanding:We develop a comprehensive structured understanding dataset that encompasses both traditional tasks, such as tabular question-answering, fact verification, error correction, and structural understanding, as well as complex tasks involving structured and semi-structured data. By incorporating reasoning chains into the model's responses, we significantly enhance its ability to infer information from structured data, thereby improving its performance across these diverse tasks. This approach not only broadens the scope of the dataset but also deepens the model's capacity to reason and derive meaningful insights from complex data structures. - Logical Reasoning: To enhance the model's logical reasoning capabilities, we introduce a diverse set of 70,000 new queries spanning various domains. These queries encompass multiple-choice questions, true / false questions, and open-ended questions. The model is trained to approach problems systematically, employing a range of reasoning methods such as deductive reasoning, inductive generalization, analogical reasoning, causal reasoning, and statistical reasoning. Through iterative refinement, we systematically filter out data containing incorrect answers or flawed reasoning processes. This process progressively strengthens the model's ability to reason logically and accurately, ensuring robust performance across different types of reasoning tasks.
+
+<!-- chunk {"id": "body-0033", "role": "body", "section": "Supervised Fine-tuning", "weight": 1.0} -->
+
+- Cross-Lingual Transfer: To facilitate the transfer of the model's general capabilities across languages, we employ a translation model to convert instructions from high-resource languages into various low-resource languages, thereby generating corresponding response candidates. To ensure the accuracy and consistency of these responses, we evaluate the semantic alignment between each multilingual response and its original counterpart. This process preserves the logical structure and stylistic nuances of the original responses, thereby maintaining their integrity and coherence across different languages. - Robust System Instruction: We construct hundreds of general system prompts to improve the diversity of system prompts in post-training, ensuring consistency between system prompts and conversations. Evaluations with different system prompts show that the model maintains good performance[lu2024large] and reduced variance, indicating improved robustness. - Response Filtering: To evaluate the quality of responses, we employ multiple automatic annotation methods, including a dedicated critic model and a multi-agent collaborative scoring system. Responses are subjected to rigorous assessment, and only those deem flawless by all scoring systems are retained. This comprehensive approach ensures that our outputs maintain the highest quality standards.
+
+<!-- chunk {"id": "body-0034", "role": "body", "section": "Supervised Fine-tuning", "weight": 1.0} -->
+
+Ultimately, we construct a dataset of over 1 million SFT examples. The model is fine-tuned for two epochs with a sequence length of 32,768 tokens. To optimize learning, the learning rate is gradually decreased from $7 \times 10^{-6}$ to $7 \times 10^{-7}$. To address overfitting, we apply a weight decay of 0.1, and gradient norms are clipped at a maximum value of 1.0.
+
+<!-- chunk {"id": "body-0035", "role": "body", "section": "Offline Reinforcement Learning", "weight": 1.0} -->
+
+Compared to Online Reinforcement Learning (RL), Offline RL enables the pre-preparation of training signals, which is particularly advantageous for tasks where standard answers exist but are challenging to evaluate using reward models. In this study, we focus on objective query domains such as mathematics, coding, instruction following, and logical reasoning, where obtaining accurate evaluations can be complex. In the previous phase, we extensively employ strategies like execution feedback and answer matching to ensure the quality of responses. For the current phase, we reuse that pipeline, employing the SFT model to resample responses for a new set of queries. Responses that pass our quality checks are used as positive examples, while those that fail are treated as negative examples for Direct Preference Optimization (DPO) training To further enhance the reliability and accuracy of the training signals, we make use of both human and automated review processes[cao2024towards]. This dual approach ensures that the training data is not only learnable but also aligned with human expectations. Ultimately, we construct a dataset consisting of approximately 150,000 training pairs.
+
+<!-- chunk {"id": "body-0036", "role": "body", "section": "Offline Reinforcement Learning", "weight": 1.0} -->
+
+The model is then trained for one epoch using the Online Merging Optimizer [lu2024online], with a learning rate of $7 \times 10^{-7}$.
+
+<!-- chunk {"id": "body-0037", "role": "body", "section": "Online Reinforcement Learning", "weight": 1.0} -->
+
+To develop a robust reward model for online RL, we adhere to a set of carefully defined labeling criteria. Those criteria ensure that the responses generated by the model are not only high-quality but also aligned with ethical and user-centric standards [wang2024secrets].
+
+<!-- chunk {"id": "body-0038", "role": "body", "section": "Online Reinforcement Learning", "weight": 1.0} -->
+
+- Truthfulness: Responses must be grounded in factual accuracy, faithfully reflecting the provided context and instructions. The model should avoid generating information that is false or unsupported by the given data. - Helpfulness: The model's output should be genuinely useful, addressing the user's query effectively while providing content that is positive, engaging, educational, and relevant. It should follow the given instructions precisely and offer value to the user. - Conciseness: Responses should be succinct and to the point, avoiding unnecessary verbosity. The goal is to convey information clearly and efficiently without overwhelming the user with excessive detail. - Relevance: All parts of the response should be directly related to the user's query, dialogue history, and the assistant's context. The model should tailor its output to ensure it is perfectly aligned with the user's needs and expectations. - Harmlessness: The model must prioritize user safety by avoiding any content that could lead to illegal, immoral, or harmful behavior. It should promote ethical conduct and responsible communication at all times. - Debiasing: The model should produce responses that are free from bias, including but not limited to gender, race, nationality, and politics.
+
+<!-- chunk {"id": "body-0039", "role": "body", "section": "Online Reinforcement Learning", "weight": 1.0} -->
+
+It should treat all topics equally and fairly, adhering to widely accepted moral and ethical standards.
+
+<!-- chunk {"id": "body-0040", "role": "body", "section": "Online Reinforcement Learning", "weight": 1.0} -->
+
+The queries utilized to train the reward model are drawn from two distinct datasets: publicly available open-source data and a proprietary query set characterized by higher complexity. Responses are generated from checkpoints of the Qwen models, which have been fine-tuned using different methods—SFT, DPO, and RL—at various stages of training. To introduce diversity, those responses are sampled at different temperature settings. Preference pairs are created through both human and automated labeling processes, and the training data for DPO is also integrated into this dataset.
+
+<!-- chunk {"id": "body-0041", "role": "body", "section": "Online Reinforcement Learning", "weight": 1.0} -->
+
+In our online reinforcement learning (RL) framework, we employ Group Relative Policy Optimization (GRPO, deepseekmath). The query set utilized for training the reward model is identical to the one used in the RL training phase. The sequence in which queries are processed during training is determined by the variance of their response scores, as evaluated by the reward model. Specifically, queries with higher variance in response scores are prioritized to ensure more effective learning. We sample 8 responses for each query. All models are trained with a 2048 global batch size and 2048 samples in each episode, considering a pair of queries and responses as a sample.
+
+<!-- chunk {"id": "body-0042", "role": "body", "section": "Long Context Fine-tuning", "weight": 1.0} -->
+
+To further extend the context length of Qwen2.5-Turbo, we introduce longer SFT examples during post-training, enabling it to better align with human preference in long queries.
+
+<!-- chunk {"id": "body-0043", "role": "body", "section": "Long Context Fine-tuning", "weight": 1.0} -->
+
+In the SFT phase, we employ a two-stage approach. In the first stage, the model is fine-tuned exclusively using short instructions, each containing up to 32,768 tokens. This stage uses the same data and training steps as those employed for the other Qwen2.5 models, ensuring strong performance on short tasks. In the second stage, the fine-tuning process combines both short instructions (up to 32,768 tokens) and long instructions (up to 262,144 tokens). This hybrid approach effectively enhances the model's instruction-following ability in long context tasks while maintaining its performance on short tasks.
+
+<!-- chunk {"id": "body-0044", "role": "body", "section": "Long Context Fine-tuning", "weight": 1.0} -->
+
+During the RL stage, we use a training strategy similar to that used for the other Qwen2.5 models, focusing solely on short instructions. This design choice is driven by two primary considerations: first, RL training is computationally expensive for long context tasks; second, there is currently a scarcity of reward models that provide suitable reward signals for long context tasks. Additionally, we find that adopting RL on short instructions alone can still significantly enhance the model's alignment with human preferences in long context tasks.
+
+<!-- chunk {"id": "body-0045", "role": "body", "section": "Evaluation", "weight": 1.0} -->
+
+The base models produced by pre-training and the instruction-tuned models produced by post-training are evaluated accordingly with a comprehensive evaluation suite, including both commonly-used open benchmarks and skill-oriented in-house datasets. The evaluation suite is designed to be primarily automatic with minimal human interaction.
+
+<!-- chunk {"id": "body-0046", "role": "body", "section": "Evaluation", "weight": 1.0} -->
+
+To prevent test data leakage, we exclude potentially contaminated data using n-gram matching when constructing the pre-training and post-training datasets. Following the criteria used in Qwen2, a training sequence $\mathbf{s}_t$ is removed from the training data if there exists a test sequence $\mathbf{s}_e$ such that the length of the longest common subsequence (LCS) between tokenized $\mathbf{s}_t$ and $\mathbf{s}_e$ satisfies both $|\text{LCS}(\mathbf{s}_t, \mathbf{s}_e)| \geq 13$ and $|\text{LCS}(\mathbf{s}_t, \mathbf{s}_e)| \geq 0.6 \times \min(|\mathbf{s}_t|, |\mathbf{s}_e|)$.
+
+<!-- chunk {"id": "body-0047", "role": "body", "section": "Base Models", "weight": 1.0} -->
+
+We conduct comprehensive evaluations of the base language models of the Qwen2.5 series. The evaluation of base models primarily emphasizes their performance in natural language understanding, general question answering, coding, mathematics, scientific knowledge, reasoning, and multilingual capabilities.
+
+<!-- chunk {"id": "body-0048", "role": "body", "section": "Base Models", "weight": 1.0} -->
+
+The evaluation datasets include: General Tasks MMLU[mmlu] (5-shot), MMLU-Pro[mmlupro] (5-shot), MMLU-redux[mmluredux] (5-shot), BBH[bbh] (3-shot), ARC-C[arc] (25-shot), TruthfulQA[truthfulqa] (0-shot), Winogrande[winogrande] (5-shot), HellaSwag[hellaswag](10-shot).
+
+<!-- chunk {"id": "body-0049", "role": "body", "section": "Base Models", "weight": 1.0} -->
+
+Mathematics & Science Tasks GPQA[gpqa] (5-shot), Theorem QA[theoremqa] (5-shot), GSM8K[gsm8k] (4-shot), MATH[math](4-shot).
+
+<!-- chunk {"id": "body-0050", "role": "body", "section": "Base Models", "weight": 1.0} -->
+
+Coding Tasks HumanEval[humaneval] (0-shot), HumanEval+[evalplus](0-shot), MBPP[mbpp] (0-shot), MBPP+[evalplus] (0-shot), MultiPL-E[multiple] (0-shot) (Python, C++, JAVA, PHP, TypeScript, C#, Bash, JavaScript).
+
+<!-- chunk {"id": "body-0051", "role": "body", "section": "Base Models", "weight": 1.0} -->
+
+Multilingual Tasks We group them into four categories: (a) Exam: M3Exam (5-shot, we only choose examples that require no image), IndoMMLU[koto-etal-2023-indommlu] (3-shot), ruMMLU[rummlu-mera] (5-shot), and translated MMLU[msift] (5-shot on Arabic, Spanish, French, Portuguese, German, Italian, Japanese, and Korean); (b) Understanding: BELEBELE[belebele] (5-shot), XCOPA[xcopa] (5-shot), XWinograd[xwinograd] (5-shot), XStoryCloze[xstory\_cloze] (0-shot) and PAWS-X[paws-x] (5-shot); (c) Mathematics: MGSM[flores] (8-shot CoT); and (d) Translation: Flores-101[flores](5-shot).
+
+<!-- chunk {"id": "body-0052", "role": "body", "section": "Base Models", "weight": 1.0} -->
+
+Performance of the 70B+ base models and Qwen2.5-Plus.
+
+<!-- chunk {"id": "body-0053", "role": "body", "section": "Base Models", "weight": 1.0} -->
+
+| Datasets | Llama-3-70B | Mixtral-8x22B | Llama-3-405B | Qwen2-72B | Qwen2.5-72B | Qwen2.5-Plus | For base models, we compare Qwen2.5 models with Qwen2 models and other leading open-weight models in terms of scales of parameters.
+
+<!-- chunk {"id": "body-0054", "role": "body", "section": "Base Models", "weight": 1.0} -->
+
+Qwen2.5-72B & Qwen2.5-Plus We compare the base models of Qwen2.5-72B and Qwen2.5-Plus to other leading open-weight base models: Llama3-70B[llama3], Llama3-405B[llama3], Mixtrail-8x22B[mixtral], and our previous 72B version, the Qwen2-72B[qwen2]. The Qwen2.5-72B base model significantly outperforms its peers in the same category across a wide range of tasks. It achieves results comparable to Llama-3-405B while utilizing only one-fifth of the parameters. Furthermore, when compared to its predecessor, Qwen2-72B, the Qwen2.5-72B shows marked improvements in nearly all benchmark evaluations, particularly excelling in general tasks, mathematics, and coding challenges.
+
+<!-- chunk {"id": "body-0055", "role": "body", "section": "Base Models", "weight": 1.0} -->
+
+With significantly lower training and inference costs, Qwen2.5-Plus achieves very competitive performance results compared to Qwen2.5-72B and Llama3-405B, outperforming other baseline models on the Hellaswag, TheoremQA, MATH, GSM8K, MultiPL-E, Multi-Mathematics, and Multi-Translation. Moreover, Qwen2.5-Plus achieves 64.0 on MMLU-Pro, which is 5.9 points higher than Qwen2.5-72B.
+
+<!-- chunk {"id": "body-0056", "role": "body", "section": "Base Models", "weight": 1.0} -->
+
+Performance of the 14B-30B+ base models and Qwen2.5-Turbo.
+
+<!-- chunk {"id": "body-0057", "role": "body", "section": "Base Models", "weight": 1.0} -->
+
+| Datasets | Qwen1.5-32B | Gemma2-27B | Yi-1.5-34B | Qwen2.5-Turbo | Qwen2.5-14B | Qwen2.5-32B | Performance of the 7B+ base models.
+
+<!-- chunk {"id": "body-0058", "role": "body", "section": "Base Models", "weight": 1.0} -->
+
+| Datasets | Mistral-7B | Llama3-8B | Gemma2-9B | Qwen2-7B | Qwen2.5-7B | Qwen2.5-14B/32B & Qwen2.5-Turbo The evaluation of the Qwen2.5-Turbo, Qwen2.5-14B, and 32B models is compared against baselines of similar sizes. These baselines include Yi-1.5-34B[yi], Gemma2-27B[gemma2], and Qwen1.5-32B[qwen1.5]. The results are shown in Table[tab:base-14B]. The Qwen2.5-14B model demonstrates a solid performance across various tasks, particularly excelling in general tasks like MMLU and BBH, where it achieves scores of 79.7 and 78.2, outcompeting competitors of larger sizes. Meanwhile, Qwen2.5-32B, in particular, showcases exceptional capabilities, often surpassing larger models of similar model sizes.
+
+<!-- chunk {"id": "body-0059", "role": "body", "section": "Base Models", "weight": 1.0} -->
+
+Notably, it outperforms its predecessor Qwen1.5-32B significantly, especially in challenging areas such as mathematics and coding, with notable scores of 57.7 in MATH and 84.5 in MBPP. For Qwen2.5-Turbo, although its training cost and inference cost are significantly smaller than those of Qwen2.5-14B, it achieves comparable results, where its MMLU-Pro score is even better than that of Qwen2.5-32B.
+
+<!-- chunk {"id": "body-0060", "role": "body", "section": "Base Models", "weight": 1.0} -->
+
+For 7B-level models, we focus on comparing Qwen2.5-7B with other leading 7B+ models, including Mistral-7B[mistral], Llama3-8B[llama3], Gemma2-9B[gemma2], and our predecessor, Qwen2-7B[qwen2]. The results can be found in Table[tab:base-7B]. Note that the non-embedding parameters of Qwen2-7B and Qwen2.5-7B are only 6.5B, while that of Gemma2-9B is 8.2B. The Qwen2.5-7B model surpasses its predecessors and counterparts in numerous benchmarks, despite having fewer non-embedding parameters. It demonstrates significant improvements across various tasks, achieving 74.2 on general benchmarks like MMLU[mmlu], 49.8 on math challenges such as MATH[math], and 57.9 on coding tasks like HumanEval[humaneval].
+
+<!-- chunk {"id": "body-0061", "role": "body", "section": "Base Models", "weight": 1.0} -->
+
+Performance of the smaller base models.
+
+<!-- chunk {"id": "body-0062", "role": "body", "section": "Base Models", "weight": 1.0} -->
+
+| Datasets | Qwen2-0.5B | Qwen2.5-0.5B | Qwen2-1.5B | Qwen2.5-1.5B | Gemma2-2.6B | Qwen2.5-3B | For edge-side models, we compare Qwen2.5-0.5B, 1.5B, and 3B against established baselines: Qwen2-0.5B/1.5B[qwen2] and Gemma2-2.6B[gemma2]. The results are given in Table[tab:base-small]. Qwen2.5-0.5B, 1.5B, and 3B continue to maintain strong performance across nearly all benchmarks. Notably, the Qwen2.5-0.5B model outperforms the Gemma2-2.6B on various math and coding tasks.
+
+<!-- chunk {"id": "body-0063", "role": "body", "section": "Instruction-tuned Model", "weight": 1.0} -->
+
+To critically evaluate instruction-tuned models, we adopt a multifaceted approach. Foundational skills and human preferences are assessed using open datasets and benchmarks. Additionally, our detailed in-house evaluations delve deeper into the models'competencies in key areas and multilingualism. A particular focus is placed on assessing long-context capability. The subsequent sections outline the evaluation methods and present the results.
+
+<!-- chunk {"id": "body-0064", "role": "body", "section": "Open Benchmark Evaluation", "weight": 1.0} -->
+
+To comprehensively evaluate the quality of instruction-tuned models, we compile automatic and human evaluation to assess the capabilities and human preference. For the evaluation of basic capabilities, we apply similar datasets in the pre-trained model evaluation, which target on natural language understanding, coding, mathematics, and reasoning. Specifically, we evaluate on MMLU-Pro, MMLU-redux and LiveBench 0831 [livebench] for general evaluation, GPQA, GSM8K and MATH for science and mathematics, HumanEval, MBPP, MultiPL-E and LiveCodeBench 2305-2409[livecodebench] for coding, For simplicity, we report the results of the subset strict-prompt. for instruction following. Additionally, we assess the performance of human preference alignment and instruction following by evaluating on benchmarks including MT-Bench[mtbench] and Arena-Hard[arena-hard].
+
+<!-- chunk {"id": "body-0065", "role": "body", "section": "Open Benchmark Evaluation", "weight": 1.0} -->
+
+Performance of the 70B+ Instruct models and Qwen2.5-Plus.
+
+<!-- chunk {"id": "body-0066", "role": "body", "section": "Open Benchmark Evaluation", "weight": 1.0} -->
+
+| Datasets | Llama-3.1-70B | Llama-3.1-405B | Qwen2-72B | Qwen2.5-72B | Qwen2.5-Plus | Performance of the 14B-30B+ instruction-tuned models and Qwen2.5-Turbo.
+
+<!-- chunk {"id": "body-0067", "role": "body", "section": "Open Benchmark Evaluation", "weight": 1.0} -->
+
+| Datasets | Qwen2-57BA14B | Gemma2-27B | GPT4o-mini | Qwen2.5-Turbo | Qwen2.5-14B | Qwen2.5-32B | Qwen2.5-72B-Instruct & Qwen2.5-Plus As shown in Table[tab:70b\_instruct], we compare Qwen2.5-72B-Instruct and Qwen2.5-Plus to other leading open-weight instrution-tuned models: Llama3.1-70B-Instruct[llama3], Llama3.1-405B-Instruct[llama3], and our previous 72B version, Qwen2-72B-Instruct[qwen2]. The Qwen2.5-72B-Instruct model delivers exceptional performance, even surpassing the larger Llama-3.1-405B-Instruct in several critical benchmarks including MMLU-redux, MATH, MBPP, MultiPL-E, LiveCodeBench, Arena-Hard and MTBench.
+
+<!-- chunk {"id": "body-0068", "role": "body", "section": "Open Benchmark Evaluation", "weight": 1.0} -->
+
+Moreover, Qwen2.5-Plus outperforms Qwen2.5-72B-Instruct on 9 out of 13 benchmarks.
+
+<!-- chunk {"id": "body-0069", "role": "body", "section": "Open Benchmark Evaluation", "weight": 1.0} -->
+
+Qwen2.5-14B/32B-Instruct & Qwen2.5-Turbo The performance of the Qwen2.5-Turbo, Qwen2.5-14B-Instruct, and Qwen2.5-32B-Instruct models is evaluated and compared against baselines of similar sizes. The baselines include GPT4o-mini, Gemma2-27B-IT[gemma2], and Qwen2-57BA14B-Instruct[qwen2]. The results are summarized in Table[tab:14b-instruct]. The Qwen2.5-32B-Instruct model exhibits superior performance across most tasks when compared to other models of similar size. Notably, our open-weight Qwen2.5-14B-Instruct model delivers competitive results across all benchmarks, rivaling those of GPT-4o-mini. Despite its significantly lower training and inference costs, the Qwen2.5-Turbo model outperforms Qwen2.5-14B-Instruct on eight out of ten benchmarks.
+
+<!-- chunk {"id": "body-0070", "role": "body", "section": "Open Benchmark Evaluation", "weight": 1.0} -->
+
+This demonstrates that Qwen2.5-Turbo achieves remarkable efficiency and effectiveness, making it a compelling choice for resource-constrained environments.
+
+<!-- chunk {"id": "body-0071", "role": "body", "section": "Open Benchmark Evaluation", "weight": 1.0} -->
+
+| Datasets | Gemma2-9B | Llama3.1-8B | Qwen2-7B | Qwen2.5-7B | Performance comparison of 2B-4B instruction-tuned models.
+
+<!-- chunk {"id": "body-0072", "role": "body", "section": "Open Benchmark Evaluation", "weight": 1.0} -->
+
+| Datasets | Gemma2-2B | Phi3.5-Mini | MiniCPM3-4B | Qwen2.5-3B | Other Instruction-tuned Models As illustrated in Table[tab:7b-instruct], the Qwen2.5-7B-Instruct model significantly outperforms its competitors, Gemma2-9B-IT and Llama3.1-8B-Instruct, across all tasks except IFEval. Notably, Qwen2.5-7B-Instruct exhibits clear advantages in mathematics (MATH: 75.5) and coding (HumanEval: 84.8). For the edge-side instruction models, the Qwen2.5-3B-Instruct model, despite having fewer parameters than both the Phi3.5-mini-instruct[phi3] and MiniCPM3-4B-Instruct[minicpm] models, surpasses them in mathematics and coding tasks, as shown in Table[tab:4b-instruct]. Additionally, it delivers competitive results in language understanding.
+
+<!-- chunk {"id": "body-0073", "role": "body", "section": "Open Benchmark Evaluation", "weight": 1.0} -->
+
+The Qwen2.5-1.5B-Instruct and Qwen2.5-0.5B-Instruct models have also seen substantial performance improvements over their previous versions, as detailed in Table[tab:2b-instruct]. These enhancements make them particularly well-suited for edge-side applications in highly resource-constrained environments.
+
+<!-- chunk {"id": "body-0074", "role": "body", "section": "In-house Automatic Evaluation", "weight": 1.0} -->
+
+Performance Comparison on our in-house English automatic evaluation benchmark.
+
+<!-- chunk {"id": "body-0075", "role": "body", "section": "In-house Automatic Evaluation", "weight": 1.0} -->
+
+| Models | IF | Knowledge | Comprehension | Coding | Math | Reasoning | Performance Comparison on our in-house Chinese automatic evaluation benchmark.
+
+<!-- chunk {"id": "body-0076", "role": "body", "section": "In-house Automatic Evaluation", "weight": 1.0} -->
+
+| Models | IF | Knowledge | Comprehension | Coding | Math | Reasoning | Despite the availability of several open benchmark datasets for evaluation, we believe that these are insufficient to fully capture the capabilities of LLMs. To address this, we have developed a series of in-house datasets designed to assess various aspects of model performance, including knowledge understanding, text generation, coding, and more. These evaluations are conducted in both Chinese and English. In addition, we have specifically evaluated the multilingual performance of instruction-tuned models. The results are summarized in Table [tab:eval\_v11\_EN] for English, Table [tab:eval\_v11\_ZH] for Chinese, Table [tab:eval\_multilingual\_70B] for multilingualism of 70B+ Instruct models, and Table [tab:eval\_multilingual\_14B]for 7B-14B models, respectively.
+
+<!-- chunk {"id": "body-0077", "role": "body", "section": "In-house Automatic Evaluation", "weight": 1.0} -->
+
+English & Chinese Evaluation We compare the performance of Qwen2.5-Instruct models against several leading language models, including GPT-4, Claude3.5-sonnet, Qwen2, and Llama-3.1, across both English and Chinese languages. Our analysis focuses on model size and its impact on performance, as well as how our latest Qwen2.5 series compares to previous iterations and competing models. For smaller models, we observe that the Qwen2.5-0.5B model achieves performance that is on par with or even surpasses the Qwen2-1.5B model. This indicates that the Qwen2.5 series has optimized parameter usage, enabling mid-sized models to achieve similar performance levels to larger models from the previous generation. The Qwen2.5-3B model demonstrates performance that is comparable to the Qwen2-7B model. Notably, the Qwen2.5-32B model exhibits a remarkable improvement over the Qwen2-72B model.
+
+<!-- chunk {"id": "body-0078", "role": "body", "section": "In-house Automatic Evaluation", "weight": 1.0} -->
+
+Our flagship model, Qwen2.5-72B, further narrows the gap between Qwen and state-of-the-art models like GPT-4 and Claude3.5-sonnet. In particular, Qwen2.5-72B matches or exceeds the performance of Llama-3.1-405B in all metrics except for instruction following. This achievement underscores the competitiveness of Qwen2.5-72B in a wide range of language processing tasks, while also identifying areas for future improvement. Qwen2.5-Plus addresses the previous shortcomings in Chinese instruction following and further enhances its advantages in other areas.
+
+<!-- chunk {"id": "body-0079", "role": "body", "section": "In-house Automatic Evaluation", "weight": 1.0} -->
+
+Performance of the 70B+ Instruct models on Multilingual Tasks.
+
+<!-- chunk {"id": "body-0080", "role": "body", "section": "In-house Automatic Evaluation", "weight": 1.0} -->
+
+| Datasets | Qwen2-72B | Llama3.1-70B | Qwen2.5-32B | Mistral-Large | GPT4o-mini | Qwen2.5-72B | Performance of the 7B-14B Instruct models on Multilingual Tasks.
+
+<!-- chunk {"id": "body-0081", "role": "body", "section": "In-house Automatic Evaluation", "weight": 1.0} -->
+
+| Datasets | Qwen2-7B | Llama3.1-8B | Qwen2.5-7B | Gemma2-9B | Qwen2.5-14B | To comprehensively evaluate the multilingual capabilities of instruction-tuned models, we followed P-MMEval [pmmeval] and extended several benchmarks as follows: IFEval (Multilingual): We expanded the IFEval benchmark, originally in English, to include multilingual examples. To ensure language neutrality, we removed instances that contained language-specific content (e.g., "start with letter A"). Knowledge Utilization: to assess the knowledge utilization abilities of the Qwen2.5 series models across multiple languages, we employed five MMLU-like benchmarks (multiple-choice format). These benchmarks include: AMMLU (Arabic), JMMLU (Japanese), KMMLU (Korean), IndoMMLU (Indonesian), and TurkishMMLU (Turkish).
+
+<!-- chunk {"id": "body-0082", "role": "body", "section": "In-house Automatic Evaluation", "weight": 1.0} -->
+
+Additionally, we evaluated the models' performance on the translated version of the MMLU benchmark (okapi\_MMLU), which has been adapted into multiple languages from its original English form. MGSM8K (Extended): Building upon the original MGSM8K benchmark, we extended the language support to include Arabic (ar), Korean (ko), Portuguese (pt), and Vietnamese (vi). Cultural Nuances: To evaluate the models' ability to capture cultural nuances, we utilized the BLEnD benchmark[blend]. This benchmark is specifically designed to test LLMs on their understanding of cultural subtleties.
+
+<!-- chunk {"id": "body-0083", "role": "body", "section": "In-house Automatic Evaluation", "weight": 1.0} -->
+
+Qwen2.5 exhibits competitive performance in instruction following, multilingual knowledge, and mathematical reasoning, aligning well with models of comparable size. Although it shows notable improvements in capturing cultural nuances relative to its predecessor, Qwen2, there remains potential for further refinement in this domain.
+
+<!-- chunk {"id": "body-0084", "role": "body", "section": "Reward Model", "weight": 1.0} -->
+
+The reward model serves as the cornerstone for guiding RL processes, and thus we conduct a separate evaluation of the reward model used in the Qwen2.5 series. Our assessment benchmarks encompass Reward Bench [Lambert2024RewardBenchER], RMB[Zhou2024RMBCB], PPE[Frick2024HowTE], and an internally collected out-of-domain Chinese human preference benchmark (Human-Preference-Chinese) to provide a comprehensive analysis. For comparison, we included baseline models such as Nemotron-4-340B-Reward[Adler2024Nemotron43T], Llama-3.1-Nemotron-70B-Reward[Wang2024HelpSteer2PreferenceCR], and Athene-RM-70B[Athene2024]. The results are shown in Table[tab:eval\_reward\_bench\_metrics]. Overall, our findings indicate that Llama-3.1-Nemotron-70B-Reward excels on the Reward Bench, while Athene-RM-70B performs best on the RMB benchmark.
+
+<!-- chunk {"id": "body-0085", "role": "body", "section": "Reward Model", "weight": 1.0} -->
+
+The Qwen2.5-RM-72B, leads in both the PPE and Human-Preference-Chinese evaluations, ranking second only to Athene-RM-70B on the RMB and achieving a performance level comparable to Nemotron-4-340B-Reward on the Reward Bench, albeit slightly behind Llama-3.1-Nemotron-70B-Reward.
+
+<!-- chunk {"id": "body-0086", "role": "body", "section": "Reward Model", "weight": 1.0} -->
+
+Due to the lack of evaluation methods for reward models, current reward models are typically evaluated using Reward Bench. However, our evaluation results from multiple RM benchmarks suggest that over-optimization on a specific benchmark may trigger Goodhart's law [hoskin1996], resulting in degraded performance on other benchmarks and potentially impacting downstream alignment performance. This highlights the need for comprehensive evaluation of reward models across diverse benchmarks rather than relying solely on a single benchmark.
+
+<!-- chunk {"id": "body-0087", "role": "body", "section": "Reward Model", "weight": 1.0} -->
+
+More importantly, through iterative experimentation, we have also come to recognize a critical limitation: current reward model evaluation benchmarks do not accurately predict the performance of the RL models trained under their guidance. In other words, a higher score on RM benchmarks does not necessarily correlate with superior performance of the resulting RL model. This insight underscores the need for further research into more predictive evaluation methods for reward models.
+
+<!-- chunk {"id": "body-0088", "role": "body", "section": "Reward Model", "weight": 1.0} -->
+
+Performance comparison across multiple RM benchmarks.
+
+<!-- chunk {"id": "body-0089", "role": "body", "section": "Reward Model", "weight": 1.0} -->
+
+| Metric | Nemotron-4-340B- Reward | Llama-3.1-Nemotron- 70B-Reward | Athene-RM -70B | Qwen2.5-RM -72B | Performance of Qwen2.5 Models on RULER. YARN+DCA does not change the model behavior within 32K tokens.
+
+<!-- chunk {"id": "body-0090", "role": "body", "section": "Long Context Capabilities", "weight": 1.0} -->
+
+We utilize three benchmarks to evaluate long context capabilities of Qwen2.5 models: RULER [hsieh2024ruler], LV-Eval[yuan2024lveval], and Longbench-Chat[longalign2024bai]. In LV-Eval, we adopt keyword recall as the reported score to mitigate the high rate of false negatives present in the original metrics.
+
+<!-- chunk {"id": "body-0091", "role": "body", "section": "Long Context Capabilities", "weight": 1.0} -->
+
+The results are shown in Table [tab:ruler] and Table [tab:lveval]. We can observe that the Qwen2.5 models, after equipping length extrapolation techniques (i.e., DCA + YARN), have demonstrated strong long context processing capabilities on the three datasets. Among them, Qwen2.5-72B-Instruct has shown the strongest performance across all context lengths, significantly outperforming existing open-weight long-context models as well as the proprietary models like GPT-4o-mini and GPT-4.
+
+<!-- chunk {"id": "body-0092", "role": "body", "section": "Long Context Capabilities", "weight": 1.0} -->
+
+Performance of Qwen2.5 Models on LV-Eval and LongBench-Chat. YARN+DCA does not change the model behavior within 32k tokens.
+
+<!-- chunk {"id": "body-0093", "role": "body", "section": "Long Context Capabilities", "weight": 1.0} -->
+
+| 2*Model | 2*Claimed Length | 5cLV-Eval | 2*LongBench- Chat | | | | | Furthermore, as shown in Figure [fig:passkey\_retrieval], Qwen2.5-Turbo achieves 100% accuracy in the 1M-token passkey retrieval task, demonstrating its exceptional ability to capture detailed information from ultra-long contexts. We develop a sparse attention mechanism based on Minference[jiang2024minference] to significantly enhance inference speed, which is critical for user experience when processing long contexts. For sequences of 1M tokens, this approach reduces the computational load of the attention mechanism by 12.5 times. Figure [fig:inference\_time]illustrates the time to first token (TTFT) of Qwen2.5-Turbo across various hardware configurations, where our method achieves a 3.2 to 4.3 times speedup.
+
+<!-- chunk {"id": "body-0094", "role": "body", "section": "Long Context Capabilities", "weight": 1.0} -->
+
+Performance of Qwen2.5-Turbo on Passkey Retrieval Task with 1M Token Lengths.
+
+<!-- chunk {"id": "body-0095", "role": "body", "section": "Long Context Capabilities", "weight": 1.0} -->
+
+TTFT (Time To First Token) of Qwen2.5-Turbo and Qwen2.5-7B with Full Attention and Our Method.
+
+<!-- chunk {"id": "body-0096", "role": "body", "section": "Conclusion", "weight": 1.5} -->
+
+Qwen2.5 represents a significant advancement in large language models (LLMs), with enhanced pre-training on 18 trillion tokens and sophisticated post-training techniques, including supervised fine-tuning and multi-stage reinforcement learning. These improvements boost human preference alignment, long text generation, and structural data analysis, making Qwen2.5 highly effective for instruction-following tasks. Available in various configurations, Qwen2.5 offers both open-weight from 0.5B to 72B parameters and proprietary models including cost-effective MoE variants like Qwen2.5-Turbo and Qwen2.5-Plus. Empirical evaluations show that Qwen2.5-72B-Instruct matches the performance of the state-of-the-art Llama-3-405B-Instruct, despite being six times smaller. Qwen2.5 also serves as a foundation for specialized models, demonstrating its versatility for domain-specific applications. We believe that Qwen2.5's robust performance, flexible architecture, and broad availability make it a valuable resource for both academic research and industrial applications, positioning it as a key player of future innovations.
+
+<!-- chunk {"id": "body-0097", "role": "body", "section": "Conclusion", "weight": 1.5} -->
+
+In the future, we will focus on advancing robust foundational models. First, we will iteratively refine both base and instruction-tuned large language models (LLMs) by incorporating broader, more diverse, higher-quality data. Second, we will also continue to develop multimodal models. Our goal is to integrate various modalities into a unified framework. This will facilitate seamless, end-to-end information processing across textual, visual, and auditory domains. Third, we are committed to enhancing the reasoning capabilities of our models. This will be achieved through strategic scaling of inference compute resources. These efforts aim to push the boundaries of current technological limitations and contribute to the broader field of artificial intelligence.
+
+<!-- chunk {"id": "body-0098", "role": "body", "section": "Authors", "weight": 1.0} -->
+
+Core Contributors:An Yang, Baosong Yang, Beichen Zhang, Binyuan Hui, Bo Zheng, Bowen Yu, Chengyuan Li, Dayiheng Liu, Fei Huang, Haoran Wei, Huan Lin, Jian Yang, Jianhong Tu, Jianwei Zhang, Jianxin Yang, Jiaxi Yang, Jingren Zhou, Junyang Lin, Kai Dang, Keming Lu, Keqin Bao, Kexin Yang, Le Yu, Mei Li, Mingfeng Xue, Pei Zhang, Qin Zhu, Rui Men, Runji Lin, Tianhao Li, Tianyi Tang, Tingyu Xia, Xingzhang Ren, Xuancheng Ren, Yang Fan, Yang Su, Yichang Zhang, Yu Wan, Yuqiong Liu, Zeyu Cui, Zhenru Zhang, Zihan Qiu Contributors:Biao Sun, Bin Luo, Bin Zhang, Binghai Wang, Chaojie Yang, Chang Si, Cheng Chen, Chengpeng Li, Chujie Zheng, Fan Hong, Guanting Dong, Guobin Zhao, Hangrui Hu, Hanyu Zhao, Hao Lin, Hao Xiang, Haoyan Huang, Humen Zhong, Jialin Wang,
+
+<!-- chunk {"id": "body-0099", "role": "body", "section": "Authors", "weight": 1.0} -->
+
+Jialong Tang, Jiandong Jiang, Jianqiang Wan, Jianxin Ma, Jianyuan Zeng, Jie Zhang, Jin Xu, Jinkai Wang, Jinzheng He, Jun Tang, Ke Yi, Keqin Chen, Langshi Chen, Le Jiang, Lei Zhang, Liang Chen, Man Yuan, Mingkun Yang, Minmin Sun, Na Ni, Nuo Chen, Peng Wang, Peng Zhu, Pengcheng Zhang, Pengfei Wang, Qiaoyu Tang, Qing Fu, Rong Zhang, Ru Peng, Ruize Gao, Shanghaoran Quan, Shen Huang, Shuai Bai, Shuang Luo, Sibo Song, Song Chen, Tao He, Ting He, Wei Ding, Wei Liao, Weijia Xu, Wenbin Ge, Wenbiao Yin, Wenyuan Yu, Xianyan Jia, Xianzhong Shi, Xiaodong Deng, Xiaoming Huang, Ximing Zhou, Xinyu Wang, Xipin Wei, Xuejing Liu, Yang Liu, Yang Yao, Yang Zhang, Yibo Miao, Yidan Zhang, Yikai Zhu, Yinger Zhang, Yong Jiang, Yong Li, Yongan Yue, Yuanzhi Zhu, Yunfei Chu, Zekun
+
+<!-- chunk {"id": "body-0100", "role": "body", "section": "Authors", "weight": 1.0} -->
+
+Wang, Zhaohai Li, Zheren Fu, Zhi Li, Zhibo Yang, Zhifang Guo, Zhipeng Zhang, Zhiying Xu, Zile Qiao, Ziye Meng

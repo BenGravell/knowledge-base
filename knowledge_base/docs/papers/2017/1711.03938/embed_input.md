@@ -136,39 +136,39 @@ The network was trained with $10$ parallel actor threads, for a total of $10$ mi
 
 <!-- chunk {"id": "body-0034", "role": "body", "section": "Experiments", "weight": 1.0} -->
 
-We evaluate the three methods -- modular pipeline (MP), imitation learning (IL), and reinforcement learning (RL) -- on four increasingly difficult driving tasks, in each of the two available towns, in six weather conditions. Note that for each of the three approaches we use the same agent on all four tasks and do not fine-tune separately for each scenario. The tasks are set up as goal-directed navigation: an agent is initialized somewhere in town and has to reach a destination point. In these experiments, the agent is allowed to ignore speed limits and traffic lights.
+We evaluate the three methods -- modular pipeline (MP), imitation learning (IL), and reinforcement learning (RL) -- on four increasingly difficult driving tasks, in each of the two available towns, in six weather conditions. Note that for each of the three approaches we use the same agent on all four tasks and do not fine-tune separately for each scenario. The tasks are set up as goal-directed navigation: an agent is initialized somewhere in town and has to reach a destination point. In these experiments, the agent is allowed to ignore speed limits and traffic lights. We organize the tasks in order of increasing difficulty as follows: Straight: Destination is straight ahead of the starting point, and there are no dynamic objects in the environment. Average driving distance to the goal is 200 m in Town 1 and 100 m in Town 2.
 
 <!-- chunk {"id": "body-0035", "role": "body", "section": "Experiments", "weight": 1.0} -->
 
-Straight: Destination is straight ahead of the starting point, and there are no dynamic objects in the environment. Average driving distance to the goal is 200 m in Town 1 and 100 m in Town 2.
+One turn: Destination is one turn away from the starting point; no dynamic objects. Average driving distance to the goal is 400 m in Town 1 and 170 m in Town 2.
 
 <!-- chunk {"id": "body-0036", "role": "body", "section": "Experiments", "weight": 1.0} -->
 
-One turn: Destination is one turn away from the starting point; no dynamic objects. Average driving distance to the goal is 400 m in Town 1 and 170 m in Town 2.
+Navigation: No restriction on the location of the destination point relative to the starting point, no dynamic objects. Average driving distance to the goal is 770 m in Town 1 and 360 m in Town 2.
 
 <!-- chunk {"id": "body-0037", "role": "body", "section": "Experiments", "weight": 1.0} -->
 
-Navigation: No restriction on the location of the destination point relative to the starting point, no dynamic objects. Average driving distance to the goal is 770 m in Town 1 and 360 m in Town 2.
+Navigation with dynamic obstacles: Same as the previous task, but with dynamic objects (cars and pedestrians).
 
 <!-- chunk {"id": "body-0038", "role": "body", "section": "Experiments", "weight": 1.0} -->
 
-Navigation with dynamic obstacles: Same as the previous task, but with dynamic objects (cars and pedestrians).
+Experiments are conducted in two towns. Town 1 is used for training, Town 2 for testing. We consider six weather conditions for the experiments, organized in two groups. Training Weather Set was used for training and includes clear day, clear sunset, daytime rain, and daytime after rain. Test Weather Set was never used during training and includes cloudy daytime and soft rain at sunset.
 
 <!-- chunk {"id": "body-0039", "role": "body", "section": "Experiments", "weight": 1.0} -->
 
-Experiments are conducted in two towns. Town 1 is used for training, Town 2 for testing. We consider six weather conditions for the experiments, organized in two groups. Training Weather Set was used for training and includes clear day, clear sunset, daytime rain, and daytime after rain. Test Weather Set was never used during training and includes cloudy daytime and soft rain at sunset.
-
-<!-- chunk {"id": "body-0040", "role": "body", "section": "Experiments", "weight": 1.0} -->
-
 For each combination of a task, a town, and a weather set, testing is carried out over $25$ episodes. In each episode, the objective is to reach a given goal location. An episode is considered successful if the agent reaches the goal within a time budget. The time budget is set to the time needed to reach the goal along the optimal path at a speed of $10$ km/h. Infractions, such as driving on the sidewalk or collisions, do not lead to termination of an episode, but are logged and reported.
 
-<!-- chunk {"id": "body-0041", "role": "body", "section": "Results", "weight": 1.0} -->
+<!-- chunk {"id": "body-0040", "role": "body", "section": "Results", "weight": 1.0} -->
 
 Table 1 reports the percentage of successfully completed episodes under four different conditions. The first is the training condition: Town 1, Training Weather Set. Note that start and goal locations are different from those used during training: only the general environment and ambient conditions are the same. The other three experimental conditions test more aggressive generalization: to the previously unseen Town 2 and to previously unencountered weather from the Test Weather Set.
 
-<!-- chunk {"id": "body-0042", "role": "body", "section": "Results", "weight": 1.0} -->
+<!-- chunk {"id": "body-0041", "role": "body", "section": "Results", "weight": 1.0} -->
 
 Results presented in Table 1 suggest several general conclusions. Overall, the performance of all methods is not perfect even on the simplest task of driving in a straight line, and the success rate further declines for more difficult tasks. Generalization to new weather is easier than generalization to a new town. The modular pipeline and the agent trained with imitation learning perform on par on most tasks and conditions. Reinforcement learning underperforms relative to the other two approaches. We now discuss these four key findings in more detail.
+
+<!-- chunk {"id": "body-0042", "role": "body", "section": "Results", "weight": 1.0} -->
+
+New town & weather Table 1: Quantitative evaluation of three autonomous driving systems on goal-directed navigation tasks. The table reports the percentage of successfully completed episodes in each condition. Higher is better. The tested methods are: modular pipeline (MP), imitation learning (IL), and reinforcement learning (RL).
 
 <!-- chunk {"id": "body-0043", "role": "body", "section": "Results", "weight": 1.0} -->
 
@@ -200,16 +200,20 @@ Finally, the poor generalization of reinforcement learning may be explained by t
 
 <!-- chunk {"id": "body-0050", "role": "body", "section": "Results", "weight": 1.0} -->
 
-Infraction analysis. CARLA supports fine-grained analysis of driving policies. We now examine the behavior of the three systems on the hardest task: navigation in the presence of dynamic objects. We characterize the approaches by average distance traveled between infractions of the following five types: driving on the opposite lane, driving on the sidewalk, colliding with other vehicles, colliding with pedestrians, and hitting static objects. Details are provided in the supplement.
+New town & weather Table 2: Average distance (in kilometers) traveled between two infractions. Higher is better.
 
 <!-- chunk {"id": "body-0051", "role": "body", "section": "Results", "weight": 1.0} -->
 
-Table 2 reports the average distance (in kilometers) driven between two infractions. All approaches perform better in the training town. For all conditions, IL strays onto the opposite lane least frequently, and RL is the worst in this metric. A similar pattern is observed with regards to veering onto the sidewalk. Surprisingly, RL collides with pedestrians least often, which could be explained by the large negative reward incurred by such collisions. However, the reinforcement learning agent is not successful at avoiding collisions with cars and static objects, while the modular pipeline generally performs best according to this measure.
+Infraction analysis. CARLA supports fine-grained analysis of driving policies. We now examine the behavior of the three systems on the hardest task: navigation in the presence of dynamic objects. We characterize the approaches by average distance traveled between infractions of the following five types: driving on the opposite lane, driving on the sidewalk, colliding with other vehicles, colliding with pedestrians, and hitting static objects. Details are provided in the supplement.
 
 <!-- chunk {"id": "body-0052", "role": "body", "section": "Results", "weight": 1.0} -->
 
+Table 2 reports the average distance (in kilometers) driven between two infractions. All approaches perform better in the training town. For all conditions, IL strays onto the opposite lane least frequently, and RL is the worst in this metric. A similar pattern is observed with regards to veering onto the sidewalk. Surprisingly, RL collides with pedestrians least often, which could be explained by the large negative reward incurred by such collisions. However, the reinforcement learning agent is not successful at avoiding collisions with cars and static objects, while the modular pipeline generally performs best according to this measure.
+
+<!-- chunk {"id": "body-0053", "role": "body", "section": "Results", "weight": 1.0} -->
+
 These results highlight the susceptibility of end-to-end approaches to rare events: breaking or swerving to avoid a pedestrian is a rare occurrence during training. While CARLA can be used to increase the frequency of such events during training to support end-to-end approaches, deeper advances in learning algorithms and model architectures may be necessary for significant improvements in robustness.
 
-<!-- chunk {"id": "body-0053", "role": "body", "section": "Conclusion", "weight": 1.5} -->
+<!-- chunk {"id": "body-0054", "role": "body", "section": "Conclusion", "weight": 1.5} -->
 
 We have presented CARLA, an open simulator for autonomous driving. In addition to open-source code and protocols, CARLA provides digital assets that were created specifically for this purpose and can be reused freely. We leverage CARLA's simulation engine and content to test three approaches to autonomous driving: a classic modular pipeline, a deep network trained end-to-end via imitation learning, and a deep network trained via reinforcement learning. We challenged these systems to navigate urban environments in the presence of other vehicles and pedestrians. CARLA provided us with the tools to develop and train the systems and then evaluate them in controlled scenarios. The feedback provided by the simulator enables detailed analyses that highlight particular failure modes and opportunities for future work. We hope that CARLA will enable a broad community to actively engage in autonomous driving research. The simulator and accompanying assets will be released open-source at

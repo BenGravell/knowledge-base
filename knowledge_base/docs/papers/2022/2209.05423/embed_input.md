@@ -7,3 +7,807 @@ Statistical Learning Theory for Control: A Finite Sample Perspective
 <!-- chunk {"id": "abstract-0002", "role": "abstract", "section": "Abstract", "weight": 2.0} -->
 
 This tutorial survey provides an overview of recent non-asymptotic advances in statistical learning theory as relevant to control and system identification. While there has been substantial progress across all areas of control, the theory is most well-developed when it comes to linear system identification and learning for the linear quadratic regulator, which are the focus of this manuscript. From a theoretical perspective, much of the labor underlying these advances has been in adapting tools from modern high-dimensional statistics and learning theory. While highly relevant to control theorists interested in integrating tools from machine learning, the foundational material has not always been easily accessible. To remedy this, we provide a self-contained presentation of the relevant material, outlining all the key ideas and the technical machinery that underpin recent results. We also present a number of open problems and future directions.
+
+<!-- chunk {"id": "body-0003", "role": "body", "section": "FINITE SAMPLE PERSPECTIVE", "weight": 1.0} -->
+
+Anastasios Tsiamis*, Ingvar Ziemann*, Nikolai Matni, and George J. Pappas A. Tsiamis (atsiamis@control.ee.ethz.ch) is with the Dept. of Information Technology and Electrical Engineering, ETH Zürich, Zürich, Switzerland.
+
+<!-- chunk {"id": "body-0004", "role": "body", "section": "FINITE SAMPLE PERSPECTIVE", "weight": 1.0} -->
+
+I. Ziemann (ziemann@kth.se) is with the Division of Decision and Control Systems, KTH Royal Institute of Technology, Stockholm, Sweden.
+
+<!-- chunk {"id": "body-0005", "role": "body", "section": "FINITE SAMPLE PERSPECTIVE", "weight": 1.0} -->
+
+N. Matni (nmatni@seas.upenn.edu) and G. J. Pappas (pappasg@seas.upenn.edu) are with the Dept. of Electrical and Systems Engineering, University of Pennsylvania, Philadelphia, USA. *Both authors contributed equally.
+
+<!-- chunk {"id": "body-0006", "role": "body", "section": "FINITE SAMPLE PERSPECTIVE", "weight": 1.0} -->
+
+L earning algorithms have become an integral component to modern engineering solutions. Examples range from self-driving cars, recommender systems, finance and even critical infrastructure, many of which are typically under the purview of control theory. While these algorithms have already shown tremendous promise in certain applications there are considerable challenges, in particular with respect to guaranteeing safety and gauging fundamental limits of operation. Thus, as we integrate tools from machine learning into our systems, we also require an integrated theoretical understanding of how they operate in the presence of dynamic and system-theoretic phenomena.
+
+<!-- chunk {"id": "body-0007", "role": "body", "section": "FINITE SAMPLE PERSPECTIVE", "weight": 1.0} -->
+
+Over the past few years, intense efforts toward this goal-an integrated theoretical understanding of learning, dynamics and control-have been made. While much work remains to be done, a relatively clear and complete picture has begun to emerge for (fully observed) linear dynamical systems. These systems already allow for reasoning about concrete failure modes, thus helping to indicate a path forward. Moreover, while simple at a glance, these systems can be challenging to analyze. Recently, a host of methods from learning theory and highdimensional statistics, not typically in the control-theoretic toolbox, have been introduced to our community.
+
+<!-- chunk {"id": "body-0008", "role": "body", "section": "Outline", "weight": 1.0} -->
+
+This tutorial survey serves as an introduction to these results for learning in the context of unknown linear dynamical systems. We review the current state of the art and emphasize which tools are needed to arrive at these results. Our focus is on characterizing the sample efficiency and fundamental limits of learning algorithms. Along the way, we also delineate a number of open problems. More concretely, this paper is structured as follows: We begin by revisiting recent advances in the finite sample analysis of system identification. Next, we discuss how these finite sample bounds can be used downstream to give guaranteed performance for learning-based offline control. The last technical section discusses the more challenging online control setting. Finally, in light of the material discussed, we outline a number of future directions.
+
+<!-- chunk {"id": "body-0009", "role": "body", "section": "Summary", "weight": 1.0} -->
+
+T his tutorial survey provides an overview of recent advances in statistical learning theory relevant to control and system identification featuring non-asymptotics. While there has been substantial progress across all areas of control, the theory is most well-developed when it comes to linear system identification and learning for the linear quadratic regulator, which are the focus of this manuscript. From a theoretical perspective, much of the labor underlying these advances has been in adapting tools from modern high-dimensional statistics and learning theory. While highly relevant to control theorists interested in integrating tools from machine learning, the foundational material has not always been easily accessible. To remedy this, we provide a self-contained presentation of the relevant material, outlining all the key ideas and provide an overview of the technical machinery that underpin recent results. We also present a number of open problems and future directions.
+
+<!-- chunk {"id": "body-0010", "role": "body", "section": "FINITE SAMPLE ANALYSIS OF SYSTEM IDENTIFICATION", "weight": 1.0} -->
+
+In linear system identification, the goal is to recover the model of an unknown system of the form below: where xt ∈ R d x represents the state, yt ∈ R d y represents the observations, ut ∈ R d u is the control signal, and wt ∈ R d x, vt ∈ R d y are the process and measurement noises respectively.
+
+<!-- chunk {"id": "body-0011", "role": "body", "section": "FINITE SAMPLE ANALYSIS OF SYSTEM IDENTIFICATION", "weight": 1.0} -->
+
+The question we answer in this section is ' how many samples are needed to guarantee that system identification error is small "? We will make this question more formal by introducing the notion of sample complexity. Prior to doing so, we establish the statistical learning framing of the problem.
+
+<!-- chunk {"id": "body-0012", "role": "body", "section": "FINITE SAMPLE ANALYSIS OF SYSTEM IDENTIFICATION", "weight": 1.0} -->
+
+While many of the results presented in the following subsections can be extended to more general noise models, we keep the exposition simple by focusing on Gaussian noise models. In particular, we assume that both the process noise wt and measurement noise vt are i.i.d. zero mean Gaussians with covariance matrices S w and S v respectively, and that these process are all mutually independent of each other. Similarly, we let the initial state x 0 be a zero mean Gaussian, with covariance G 0, and independent of the process and measurement noise. We denote the covariance of the state xt at time t by G t ≜ E xtx ⊤ t.
+
+<!-- chunk {"id": "body-0013", "role": "body", "section": "FINITE SAMPLE ANALYSIS OF SYSTEM IDENTIFICATION", "weight": 1.0} -->
+
+Here and in the sequel, the state parameters ( A ⋆, B ⋆, C ⋆ ) ∈ R d x × ( d x + d u + d y ) are unknown. The goal of the system identification problem is to recover the a priori unknown model of system from finite inputoutput samples { ( yi, ui ) } N tot i = 1, where N tot is the total number of samples. As such, this is an offline learning problem. The data can come from a single trajectory of length T, i.e., N tot = T, or come from N traj multiple independent trajectories with horizon T, i.e., N tot = TN traj. While the learning task is to recover the state-space parameters q ⋆ ≜ ( A ⋆, B ⋆, C ⋆, S w, S v ) of using this data, the state-space representation of system is in general not unique. As such, we instead seek to recover one such representation or a function f ( q ⋆ ) of the underlying true parameters q ⋆.
+
+<!-- chunk {"id": "body-0014", "role": "body", "section": "FINITE SAMPLE ANALYSIS OF SYSTEM IDENTIFICATION", "weight": 1.0} -->
+
+To streamline exposition, we focus on the single trajectory case N tot = T. A more refined analysis can be used when samples are drawn from multiple trajectories to yield similar conclusions but under weaker stability-type assumptions.
+
+<!-- chunk {"id": "body-0015", "role": "body", "section": "FINITE SAMPLE ANALYSIS OF SYSTEM IDENTIFICATION", "weight": 1.0} -->
+
+Let the identification algorithm A be a (measurable) function that takes as an input the horizon T and the data { ( y 0, u 0 ), ( y 1, u 1 ),..., ( yT, uT ) }, and returns an estimate ̂ fT of the desired system quantity f ( q ⋆ ). In some settings, the algorithm A may also encompass an exploration policy, i.e., the choice of control inputs ut used during the datacollection phase. The goal of the exploration policy is to excite the system in a way that maximizes the 'richness" of the data, that is, how much information the data carry about the underlying system. Formally, we define an exploration policy p to be a sequence of (measurable) functions p = { p t } ¥ t = 0, where every function p t maps previous output-input values y 0,..., yt, u 0,..., ut -1 and potentially an auxiliary randomization signal to the new input ut. This definition encompasses both closed and open-loop policies-in the latter case, the exploration policy is only a function of the auxiliary randomness.
+
+<!-- chunk {"id": "body-0016", "role": "body", "section": "FINITE SAMPLE ANALYSIS OF SYSTEM IDENTIFICATION", "weight": 1.0} -->
+
+We can now define the notion of sample complexity. Let P q, p denote the probability distribution of the inputoutput data for the system defined by parameters q ⋆ evolving under the exploration policy p.
+
+<!-- chunk {"id": "body-0017", "role": "body", "section": "FINITE SAMPLE ANALYSIS OF SYSTEM IDENTIFICATION", "weight": 1.0} -->
+
+Sample Complexity. Fix a class C of systems of the form and a norm ‖·‖. Let f (q ⋆) be the system quantity to be identified. Fix an identification algorithm A with an exploration policy p. Pick an accuracy parameter # and a failure probability d ∈. Let ̂ fT be the system identification output under the algorithm A. Then the sample complexity Nc of learning f given the class C, the algorithm A, and the policy p is the minimum Nc = Nc (#, d, C, A, p) such that: We say that a class of systems C is learnable if there exist an algorithm A and a policy p such that for any # > 0, d ∈ the sample complexity Nc is finite.
+
+<!-- chunk {"id": "body-0018", "role": "body", "section": "FINITE SAMPLE ANALYSIS OF SYSTEM IDENTIFICATION", "weight": 1.0} -->
+
+In the case of multiple trajectories, we can replace T with N tot in the above definition. We can also define algorithm-independent and/or policy-independent sample complexity, by considering the minimum Nc over all possible algorithms/policies. By choosing C to be a neighborhood around some system q ⋆, we can also define local, instance-specific sample complexities, see for example. Note that for the sample complexity to be non-trivial, the algorithm should perform well across all possible q ⋆ ∈ C,
+
+<!-- chunk {"id": "body-0019", "role": "body", "section": "What do finite-sample methods bring?", "weight": 1.0} -->
+
+where | a ⋆ | < 1, wt is i.i.d. and mean-zero Gaussian with variance 1. Assume that our goal is to recover the unknown scalar a ⋆ from single trajectory data (x 0,..., xT). One of the simplest algorithms is to minimize the squared prediction errors Given the stochastic nature of the data, the least-square estimate ˆ aT will fluctuate around the 'true" value a ⋆.
+
+<!-- chunk {"id": "body-0020", "role": "body", "section": "What do finite-sample methods bring?", "weight": 1.0} -->
+
+Both asymptotic and non-asymptotic methods aim to characterize the statistical variability of the error ˆ aT -a ⋆. One of the most powerful asymptotic tools is establishing asymptotic normality, i.e. a time-series version of the Central Limit Theorem (CLT). For this particular scalar system, Mann and Wald proved that as the number of samples approaches infinity T → ¥, the estimation error is asymptotically normal where ⇒ denotes convergence in distribution and N (m, s 2) denotes the normal distribution with mean m and variance s 2. This result can give us the sharpest bound in the asymptotic regime. However, it requires an infinite number of samples and can only be used as a heuristic under finite samples. Some questions remained unanswered. For example, what is the distribution of the error under finite samples? What is the transient behavior?
+
+<!-- chunk {"id": "body-0021", "role": "body", "section": "What do finite-sample methods bring?", "weight": 1.0} -->
+
+We can partially answer these questions by applying the non-asymptotic tools reviewed in this survey. In particular, by following the arguments in Sample Complexity Upper Bounds, we can establish a finite-sample tail bound of the form which is what the supremum over C achieves. Otherwise, we can construct trivial algorithms that overfit to a specific system and fail to identify any other system in the class.
+
+<!-- chunk {"id": "body-0022", "role": "body", "section": "What do finite-sample methods bring?", "weight": 1.0} -->
+
+Let us also point out that one often encounters ranges of T and d for which the sample complexity dependency on # behaves poorly. Typically, this is due to transient phenomena. For instance, in a d -dimensional linear regression problem, the design matrix can be near singular if we have too few measurements (e.g. if fewer than d independent measurements are available). Informally, for a fixed d, one typically refers to the smallest sample size T such that there exists a finite (or meaningful) sample complexity at accuracy # as the burn-in time. The burn-in for linear system identification is given. for a large enough sample size where # controls the accuracy of identification and d controls the confidence. The constant c is a so-called 'universal" constant, i.e. it just takes a numerical value and is independent of system parameters, confidence, and accuracy. The burn-in time T burn -in captures the complexity of transient phenomena, e.g. the minimum time until we achieve persistency of excitation (excitation of all modes of the system). It typically depends on the desired confidence but not on the accuracy #.
+
+<!-- chunk {"id": "body-0023", "role": "body", "section": "What do finite-sample methods bring?", "weight": 1.0} -->
+
+For the simple scalar system (S1), we can take T burn -in = c ′ log 1 / d, where c ′ is another universal constant.
+
+<!-- chunk {"id": "body-0024", "role": "body", "section": "What do finite-sample methods bring?", "weight": 1.0} -->
+
+While we did not fully characterize the finite-sample distribution of the estimation error, we managed to characterize the tail probabilities. For example, we have a log 1 / d term in the required number of samples, which is sharp. This was not possible before by applying only asymptotic tools-see [4, Ch 2.1] for a more technical explanation. We can even achieve a finite-sample bound for a ⋆ = 1 (not presented in this sidebar), when the system does not converge to a steady-state distribution. Similar properties hold in the case of general vector-valued systems of high dimensions d x > 1. In fact, we can even allow the state dimension d x to increase with the number of samples T, which is not covered by CLT.
+
+<!-- chunk {"id": "body-0025", "role": "body", "section": "What do finite-sample methods bring?", "weight": 1.0} -->
+
+A downside of finite-sample bounds is that we lose sharpness in the asymptotic regime. In particular, the universal constants c, c ′ (see for exact expressions) are typically large numerical values, much larger than the ones that we would obtain from a heuristic application of CLT. Nonetheless, nonasymptotic bounds can provide a detailed qualitative characterization of learning complexity.
+
+<!-- chunk {"id": "body-0026", "role": "body", "section": "From Asymptotics to Finite Sample Guarantees", "weight": 1.0} -->
+
+Before we proceed let us take a step back and briefly discuss the historical development of system identification from a mathematical methods perspective. Clearly, the statistical analysis of system identification algorithms has a long history. Until recently, this line of work has emphasized providing guarantees for system identification algorithms in the asymptotic regime, in which the number of collected samples tends to infinity. The main focus of asymptotic analysis has been to establish consistency, i.e., the convergence of the estimated system parameters to the ground truth (as modelled). Typically this is achieved if certain persistency of excitation conditions hold. Asymptotic tools can also go beyond consistency and provide convergence rates. Standard tools for characterizing such rates are the Law of Iterated Logarithm (LIL) and the Central Limit Theorem (CLT)-see for a detailed exposition of both techniques. Nevertheless, even the more advanced techniques, i.e. the LIL and the CLT, only hold as the number of samples tend to infinity.
+
+<!-- chunk {"id": "body-0027", "role": "body", "section": "Toward a finite sample analysis", "weight": 1.0} -->
+
+Early work on the non-asymptotic analysis of system identification appeared in the 90s and 00s. The setting of focuses on worst-case noise, which is different from the statistical setting considered in this survey. In approximate expressions for the finitetime identification-error variance are given. We cannot derive sample complexity guarantees directly; the expressions therein are not directly computable in our setting, and they do not characterize the finite-sample distribution of the identification error and how it depends on the number of samples. The statistical learning setting was first studied, where the guarantees are typically given for the prediction error of the learned model. Moreover, the guarantees rely heavily on having a mixing, i.e., a stable, process. As we will soon see, in many settings mixing is not required, and in fact faster mixing systems can be harder to learn-at least when it comes to parameter recovery. Following the papers by Abbasi-Yadkori and Szepesvári and Dean et al., there has been a resurgence of interest in using finite data tools for system identification and controls.
+
+<!-- chunk {"id": "body-0028", "role": "body", "section": "Toward a finite sample analysis", "weight": 1.0} -->
+
+This is partially motivated by recent advances in high-dimensional probability and statistics, which provide us with new, powerful, tools and allow us to bypass asymptotic reasoning.
+
+<!-- chunk {"id": "body-0029", "role": "body", "section": "Why do we need finite sample guarantees?", "weight": 1.0} -->
+
+In principle, our view is that both asymptotic and nonasymptotic methods are useful for both control and learning theorists to have in their toolbox. On the one hand, a careful asymptotic analysis can provide sharp bounds and give a clear picture of some key quantities involved in the problem at hand. However, in reality, all data is finite, and asymptotic bounds are heuristics, albeit often sharp if the sample size is large enough. On the other hand, non-asymptotic analysis is often more appropriate to carefully delineate notions such as transient phenomena (e.g. burn-in times) and failure probabilities-see what do finite-sample methods bring?. We gain a more detailed qualitative characterization of learning difficulty, often at the expense of sharpness in the asymptotic regime. For instance, the question "how many samples do we need to stabilize an unknown linear system with a certainty equivalent LQR controller?" is necessarily answered using finite sample methods. Being able to combine these sometimes distinct styles of analysis gives us a richer understanding of the dynamic phenomena under consideration.
+
+<!-- chunk {"id": "body-0030", "role": "body", "section": "Why do we need finite sample guarantees?", "weight": 1.0} -->
+
+Many datasets are high-dimensional with the number of explanatory variables not necessarily being small in proportion to the number of samples collected, e.g. the state dimension d x might be of the same order as T. In this case, asymptotic bounds with fixed dimension d x are not always meaningful, while finite-sample guarantees still hold. Examples from systems theory for when this may be relevant include large networked system and autoregressions of unknown order. An insightful discussion on this matter from a statistics perspective is held by Wainwright [24, Chapter 1].
+
+<!-- chunk {"id": "body-0031", "role": "body", "section": "Why do we need finite sample guarantees?", "weight": 1.0} -->
+
+From the perspective of a control theorist, obtaining sample complexity bounds as a function of system theoretic parameters, e.g. system dimension, controllability gramian, stability radius, etc, could be very useful. Finitesample bounds can be qualitatively informative about learning difficulty and what can go wrong with it. We can answer questions like 'which systems are hard to learn?", 'how does the controllability structure affect learnability?", 'which algorithms are optimal?". Naturally, some of these questions can also be answered using asymptotic tools. Nonetheless, we believe that a finite-sample approach offers a new perspective, giving us tools to even pose new questions-see, for instance, the open problems later.
+
+<!-- chunk {"id": "body-0032", "role": "body", "section": "Why do we need finite sample guarantees?", "weight": 1.0} -->
+
+Learning control systems is also interesting from the perspective of a machine learning theorist. While the setting of learning under independent or weakly-dependent (mixing) data has been studied extensively, new challenges arise in control systems, where the data are not only dependent but also affected by control inputs. Some questions that are of interest are 'when is learning under dependent data as easy as learning under independent data?", "is mixing required?", 'what is the tradeoff between exploration and exploitation?".
+
+<!-- chunk {"id": "body-0033", "role": "body", "section": "Why do we need finite sample guarantees?", "weight": 1.0} -->
+
+Lastly, a goal of this survey is to establish a common language between control theorists, learning theorists and statisticians. Machine learning theory has in principle been non-asymptotic from the outset and modern statistics has very much moved in this direction. Meanwhile, the classical literature of system identification and adaptive control relies, more often than not, on asymptotic tools. A common language facilitates an exchange of ideas that is likely to benefit all three fields. Besides, Machine Learning, Statistics and Control Theory share common research agendas and often seek to tackle the same problems.
+
+<!-- chunk {"id": "body-0034", "role": "body", "section": "Asymptotic Notation", "weight": 1.0} -->
+
+In this paper, we sometimes use the asymptotic notation O, Q, W to simplify the presentation. This does not imply that our statements are asymptotic. For example, the statement f ( T ) = O ( g ( T )) ( f ( T ) = W ( g ( T )) ) can be replaced by statements of the form 'there exists universal positive constant c > 0 such that f ( T ) ≤ cg ( T ) ( f ( T ) ≥ cg ( T ) ), for T ≥ T burn -in ", where a universal constant just takes a numerical value and is independent of system and algorithmic parameters. Exact finite-time expressions for g ( T ), c, T burn -in are given either here, e.g. see, or in the respective papers. The statement f ( T ) = Q ( g ( T )) is equivalent to f ( T ) = O ( g ( T )), f ( T ) = W ( g ( T )) holding simultaneously.
+
+<!-- chunk {"id": "body-0035", "role": "body", "section": "Asymptotic Notation", "weight": 1.0} -->
+
+Lastly, the ˜ O notation ignores polylogarithmic terms, e.g. f ( T ) = ˜ O ( g ( T )) is equivalent to f ( T ) = O ( g ( T ) poly ( log T )), where poly denotes some arbitrary polynomial function of fixed degree.
+
+<!-- chunk {"id": "body-0036", "role": "body", "section": "Fully Observed Systems", "weight": 1.0} -->
+
+Let us now return to the technical task at hand: to provide a finite sample analysis system identification. Recall that we focus on the single trajectory case N tot = T. We start by analyzing the simplest system identification, namely the case of fully observed systems with C ⋆ = I and S v = 0, yielding direct state measurements yt = xt, t ≤ T. We will only focus on identification of A ⋆, B ⋆, but the same techniques could be applied for the estimation of the covariance S w. For this reason, abusing the notation introduced above, we will denote q ⋆ = (A ⋆, B ⋆), f (q) = q. Given the data { (x 0, u 0),..., (xT, uT) }, a natural way to obtain an estimate of the system matrices is to employ the least squares algorithm After some algebraic manipulations, we can verify that provided the matrix inverse on the right hand side of equation exists.
+
+<!-- chunk {"id": "body-0037", "role": "body", "section": "Fully Observed Systems", "weight": 1.0} -->
+
+We characterize the sample complexity of the least squares estimator by establishing bounds on the operator norm ‖ ̂ q T -q ⋆ ‖ op. It is possible to provide similar guarantees for the Frobenius norm, but dimensional factors differ slightly. The techniques presented below can be applied to open-loop non-explosive systems, when all the eigenvalues of matrix A ⋆ are inside or on the unit circle, i.e. r ( A ⋆ ) ≤ 1, where r ( A ⋆ ) denotes the spectral radius. We also assume that the open-loop inputs are i.i.d. zero-mean Gaussians with E utu ⊤ t = s 2 u I, for some s u > 0. We will discuss generalizations later. To simplify the exposition, we will also assume that the noise is full rank, i.e., S w ≻ 0. This implies that the noise directly excites all system states directly, making persistency of excitation easier to establish. We can also obtain persistency of excitation for indirectly excited systems, as long as the controllability structure of the system is well-defined.
+
+<!-- chunk {"id": "body-0038", "role": "body", "section": "Fully Observed Systems", "weight": 1.0} -->
+
+Finally, we assume that the system starts from the fixed initial condition x 0 = 0, and hence the initial state-covariance is G 0 = 0.
+
+<!-- chunk {"id": "body-0039", "role": "body", "section": "Fully Observed Systems", "weight": 1.0} -->
+
+The following terms will be useful in the analysis of the least squares algorithm Using the above notation, we can break the least-squares error into two separate terms where V -1/2 T denotes a symmetric positive definite matrix such that V -1/2 T V -1/2 T = V -1 T. To obtain sample complexity bounds for the least square algorithm, we need to analyze both terms. The self-normalized term captures the contribution of the noise to the least squares error. The PE term captures Persistency of Excitation (PE), i.e., the richness of the data. The richer the data, the larger the magnitude of the eigenvalues of the Gram matrix VN, leading to a smaller identification error.
+
+<!-- chunk {"id": "body-0040", "role": "body", "section": "Persistency of excitation", "weight": 1.0} -->
+
+If the collected trajectory data is rich enough, i.e., if all modes of the system are excited, then the gram matrix VT defined in is both invertible and well-conditioned. In particular, if l min ( VT ) grows unbounded with T, we say that Persistency of Excitation (PE) holds. Moreover, the smallest eigenvalue of VT captures the direction of the system which is the most difficult to excite.
+
+<!-- chunk {"id": "body-0041", "role": "body", "section": "Persistency of excitation", "weight": 1.0} -->
+
+Recall that G t = E xtx ⊤ t is the covariance of the state. Under i.i.d. white inputs, we can compute Since the state is driven by both exogenous inputs and noise, both factors appear in the state covariance. By the definition of the Gram matrix VT, we have Note that G t is increasing in the positive semi-definite cone, since G 0 = 0. It is easy to show that the expected Gram matrix E VT is invertible and well-conditioned, i.e., its eigenvalues increase with time T. For example, we can choose a t > 0 such that G t ≻ 0. Then, by monotonicity we have T t = 0 G t ⪰ (T -t) G t.
+
+<!-- chunk {"id": "body-0042", "role": "body", "section": "Persistency of excitation", "weight": 1.0} -->
+
+The main technical difficulty is to control the difference between the Gram matrix and its expectation ‖ VT -E VT ‖. Such a task might be possible in the case of strictly stable systems r ( A ⋆ ) < 1, by using concentration inequalities and mixing arguments. However, this approach gives sample complexity bounds that explode as r ( A ⋆ ) approaches 1: two-sided concentration necessitates stability. Instead, we appeal to small-ball techniques. Rather than bounding the difference between VT and its expectation, we only seek to obtain a one-sided lower bound. The name smallball refers to the fact that the distribution of l min ( VT ) / T is not concentrated in a neighborhood of the origin-it exhibits anti-concentration.
+
+<!-- chunk {"id": "body-0043", "role": "body", "section": "Persistency of excitation", "weight": 1.0} -->
+
+Define the extended covariance matrix Choose a time index t > 0. Invoking the small-ball methods described in the sidebar Persistency of excitation and small-ball bounds, it is possible to show that with probability at least 1 -d where c is universal constant, provided that we have a large enough number of samples The right-hand side of the equation above increases with T; fortunately, under the assumption that the system is nonexplosive r (A) ≤ 1, it increases at most logarithmically with T. Hence, condition will be satisfied for nonexplosive systems for large enough T. The minimum time such that condition is satisfied is also known as the burn-in time.
+
+<!-- chunk {"id": "body-0044", "role": "body", "section": "Persistency of excitation", "weight": 1.0} -->
+
+The time index t gives us some control on the size of the lower bound ˜ G ⌊ t /2 ⌋. Recall that the sequence G t is increasing in the positive semi-definite cone. Hence, choosing a larger time index t, allows us to guarantee a stronger lower bound ˜ G ⌊ t /2 ⌋. On the other hand, the required burn-in time increases linearly with t.
+
+<!-- chunk {"id": "body-0045", "role": "body", "section": "Self-normalized term", "weight": 1.0} -->
+
+We begin with two observations about the self-normalized term First, we note that the process noise wt is independent of xt, ut for all t ≤ T, i.e., the sum ST has a martingale structure. Second, as its name suggests, the term is selfnormalized: if the covariates xt, ut are large for some t, then any increase in ST will be compensated by an increase in V -1/2 T. For this reason STV -1/2 T is called a self-normalized martingale. Such terms have been studied previously in statistics in the asymptotic regime. Here, we are interested in establishing finite sample bounds. We will invoke the results of Abbasi-Yadkori et al. see the sidebar on Self-Normalized Martingales for more details. Let V be a symmetric positive definite matrix (to be decided later) and set ¯ Vt = Vt + V. The extra term V guarantees positive definiteness of matrix ¯ Vt. Then Crucially, self-normalization implies that the above term increases slowly (at most logarithmically) with the norm of ¯ VT.
+
+<!-- chunk {"id": "body-0046", "role": "body", "section": "Self-normalized term", "weight": 1.0} -->
+
+If the data is generated by a stable system, this dependency can be further reduced to order constant in the inverse stability margin [see e.g. 30, Section 5.2].
+
+<!-- chunk {"id": "body-0047", "role": "body", "section": "Self-normalized term", "weight": 1.0} -->
+
+In order to apply equation, we need to carefully select V. Moreover, to obtain data-independent sample complexity guarantees we require a data-independent upper bound of ¯ VT. For the former, we choose V = c t ⌊ T t ⌋ ˜ G ⌊ t /2 ⌋. When lower bound on VT holds, we then also have that For the latter, we may appeal to the matrix version of Markov's inequality (due to Ahlswede and Winter [31, Theorem 12]): where { VT ̸⪯ d x + d u d T ˜ G T } is the complement of { VT ⪯ d x + d u d T ˜ G T }. Note that the application of Markov's inequality here is not particularly sub-optimal since ¯ VT (and a factor 1/ d) already appears inside the logarithm.
+
+<!-- chunk {"id": "body-0048", "role": "body", "section": "Sample Complexity Upper Bounds", "weight": 1.0} -->
+
+Combining the previous bounds we finally obtain instance specific sample complexity upper bounds. For the leastsquares estimator, we have that if the burn-in time condition is satisfied along with where c ′ is a universal constant. Once again the right-hand side of inequality increases at most logarithmically with the estimation horizon T for non-explosive systems (r (A) ≤ 1), and hence will be satisfied for large enough T. In fact, the rate defined in is near-optimal in the sense that it nearly matches the linear regression rate achieved when all the samples are drawn independently. See Figure 1 for an illustration.
+
+<!-- chunk {"id": "body-0049", "role": "body", "section": "Sample Complexity Upper Bounds", "weight": 1.0} -->
+
+To simplify the presentation, assume for now that we have strict stability r (A) < 1. In this case the burn-in condition and sample complexity bound can be combined and rewritten as where c ′′ is another universal constant, and captures the 'signal to noise ratio' of the system. The larger the snr the larger the excitation of the state compared to the magnitude of the noise. If the system has eigenvalues on the unit circle (r (A) = 1), then the expression looks similar but with some additional logarithmic terms; for simplicity, we omit this discussion here.
+
+<!-- chunk {"id": "body-0050", "role": "body", "section": "Persistency of excitation and small-ball bounds", "weight": 1.0} -->
+
+L et zt ∈ R d z, t ≥ 0 be a stochastic process adapted to a filtration {F t } ¥ t = 0. Let the Gram matrix be We say that the process zt is persistently exciting with probability at least 1 -d if there exist c, T 0 (d) > 0 such that for all T ≥ T 0 (d). To prove persistency of excitation, we only need to establish one-sided lower bounds of the form In other words, we need to show that the least singular value of the Gram matrix does not concentrate in a small ball around the origin. We now discuss a sufficient condition first presented in based on the small-ball method. An alternative approach via exponential inequalities can be found.
+
+<!-- chunk {"id": "body-0051", "role": "body", "section": "BLOCK MARTINGALE SMALL-BALL CONDITION", "weight": 1.0} -->
+
+Before establishing persistency of excitation for the whole vector zt, we first study the projected processes x ⊤ zt, where x ∈ R d z is a unit vector. We say that the process zt satisfies the block martingale small-ball (BMSB) condition with parameters (k, G lb, p) if for every unit x ∈ R d z and every t ≥ 0 Ignoring logarithmic terms, the sample complexity grows as fast as 1/ # 2, as we require more accuracy. Alternatively, the identification error decays as fast as ˜ O (1/ √ T), with the number of samples T. It also increases linearly with the dimension of the unknowns d x + d u. Intuitively, matrices A ⋆, B ⋆ have d 2 x + d x d u unknown entries. Every state measurement has d x entries. Hence, we need at least d x + d u state samples to match the number of unknowns in A ⋆, B ⋆. The sample complexity is also inversely proportional to the signal-to-noise ratio. Finally, it depends logarithmically on d, as (heuristically) predicted by the Central Limit Theorem.
+
+<!-- chunk {"id": "body-0052", "role": "body", "section": "BLOCK MARTINGALE SMALL-BALL CONDITION", "weight": 1.0} -->
+
+It is worth mentioning that the signal to noise ratio depends heavily on the controllability structure of the system. In particular, under white-noise inputs, the statecovariance matrix G k is actually the controllability Gramian of the pair ( A, [ s 2 u B S 1/2 w ] ). In this setting, controllability is equivalent to excitability of the system. When the noise is isotropic (or non-singular), the noise covariance S w has full rank. Then, we can confirm that G 1 ⪰ S w ≻ 0, which implies that the state is directly excited. It is, thus, sufficient to select t = 2 in the burn-in time condition and sample complexity bound. When the noise is rank-deficient, The above condition states that, conditioned on t, the blockaverage probability of being away from the origin is non-zero. The average probability is taken over blocks of size k. The geometry of the lower bound is captured by the matrix G lb.
+
+<!-- chunk {"id": "body-0053", "role": "body", "section": "BLOCK MARTINGALE SMALL-BALL CONDITION", "weight": 1.0} -->
+
+Let condition (S1) hold. Then, it follows that zt is persistently exciting, with the lower bound depending on the parameter G lb as long as we have a large enough number of samples with G ub = d z d max t ≤ T { E zt z ′ t }. Informally, the term G ub is an upper bound of VT / T, while the term G lb is a lower bound of VT / T. Hence the burn-in time N 0 depends logarithmically on the condition number of VT. The proof of the result can be found.
+
+<!-- chunk {"id": "body-0054", "role": "body", "section": "LINEAR SYSTEMS", "weight": 1.0} -->
+
+In the case of fully-observed linear systems, we can select zt = [x ⊤ t u ⊤ t] ⊤ to be the vector of stacked state and input. Under white noise inputs, it can be shown that the process zt satisfies the (k, ˜ G ⌊ k / 2 ⌋, 3 / 20) block martingale small-ball condition, where the state can only be indirectly excited; we can still achieve persistency of excitation if there exists a t > 0 such that ˜ G ⌊ t /2 ⌋ is non-zero. In particular, we can select ⌊ t /2 ⌋ to be equal to the controllability index of the system, that is the smallest possible k > 0 such that G k ≻ 0.
+
+<!-- chunk {"id": "body-0055", "role": "body", "section": "LINEAR SYSTEMS", "weight": 1.0} -->
+
+The above sample complexity upper bound is instance specific, i.e., it holds for a specific system ( A ⋆, B ⋆, S w ). To obtain class-specific sample complexity upper bounds for some class C, we need to impose global bounds on the norms of all ( A ⋆, B ⋆, S w ) ∈ C as well as a global bound on l -1 max ( G t ), for some t > 0-see for example.
+
+<!-- chunk {"id": "body-0056", "role": "body", "section": "Confidence ellipsoids", "weight": 1.0} -->
+
+Sample complexity guarantees are qualitative and dataindependent. That is, they provide intuition about how the number of required samples depends on various control theoretic parameters such as the dimension of the system, the signal to noise ratio, etc. These guarantees depend directly on the quantities of the unknown system being estimated-see equations and -limiting their practical applicability. Another limitation is that the operator norm ‖ q ⋆ -̂ q ‖ op picks up the direction of largest error. As a result, a guarantee as in equations and
+
+<!-- chunk {"id": "body-0057", "role": "body", "section": "Self-Normalized Martingales", "weight": 1.0} -->
+
+A n object that arises often in standard least squares analyses is the so called self-normalized martingale. Let {F t } ¥ t = 0 be a filtration and let zt ∈ R d z, for some d z > 0, be a stochastic process such that zt is F t -1 -measurable. Let h t ∈ R d h, d h > 0, be a martingale difference sequence with respect to F t, i.e., h t is integrable, F t -measurable, with E (h t |F t -1) = 0. Then, a self-normalized martingale Mk ∈ R d h × d z is defined as where V is an arbitrary symmetric positive definite matrix of appropriate dimensions.
+
+<!-- chunk {"id": "body-0058", "role": "body", "section": "BOUNDS FOR SCALAR PROCESSES", "weight": 1.0} -->
+
+Assume that h t ∈ R is a scalar process. Under some regularity conditions on the tail of h t, we can establish finite sample bounds on the magnitude of Mk. Let the process h t be conditionally K -sub-Gaussian for some K > 0: The above condition requires that the tails of h t decay at least as quickly as a Gaussian distribution. Now, we can invoke Theorem 1 of. Letting we then have the following finite sample bound. Pick a failure probability d ∈: then with probability at least 1 -d provides confidence balls which can be conservative in certain directions of the state-space.
+
+<!-- chunk {"id": "body-0059", "role": "body", "section": "BOUNDS FOR SCALAR PROCESSES", "weight": 1.0} -->
+
+In practice, it might be more useful provide datadependent confidence ellipsoids. Towards this end, we can still apply the tools for self-normalized martingales presented in sidebar Self-Normalized Martingales. Let V be symmetric positive definite and define ¯ Vt = Vt + V. Using the properties of the least-squares estimator Define the ellipsoid radius to be Invoking equation, we obtain Interestingly, the ellipsoid adapts to the informativity of the data, as captured by ¯ VT. If some mode of the system
+
+<!-- chunk {"id": "body-0060", "role": "body", "section": "EXTENSION TO VECTOR PROCESSES", "weight": 1.0} -->
+
+Assume now that the process h t is vectored-valued, with d h > 1, and conditionally K -sub-Gaussian, i.e., for any unit vector v ∈ R d h, ‖ v ‖ 2 = 1, the projected process v ⊤ h t is conditionally K -sub-Gaussian. The bound ( S1 ) does not apply directly since it relies on the process h t being scalar. Nevertheless, by appealing to covering techniques, it is straightforward to generalize this argument to vector processes. The idea is to apply ( S1 ) to projections v ⊤ h t of h t onto several directions v of the unit sphere.
+
+<!-- chunk {"id": "body-0061", "role": "body", "section": "EXTENSION TO VECTOR PROCESSES", "weight": 1.0} -->
+
+In particular, we discretize the unit sphere by considering points vi, i = 1,..., N # such that the points are an # -net, i.e., they cover the whole sphere with # -balls around them. Then by taking a union bound over all points vj, we obtain that with probability at least 1 -d where the number of points is at most The term (1 -#) -2 comes from the discretization error and decreases as the discretization becomes finer. However, as the discretization becomes finer, the number of points N # increases. A typical choice is # = 1 / 2.
+
+<!-- chunk {"id": "body-0062", "role": "body", "section": "EXTENSION TO VECTOR PROCESSES", "weight": 1.0} -->
+
+The above guarantees are with respect to the operator norm. We could also obtain guarantees for the Frobenius norm by applying (S1) to e ⊤ i vt, where ei, i = 1,..., d h are the canonical vectors of R d h: in this case, with probability at least 1 -d is well-excited in VT, the respective parameter error will be small. With the exception of ‖ S w ‖ op, all other quantities can be computed directly from data. In practice, one could replace ‖ S w ‖ op by an upper-bound or compute an empirical covariance from data. Although this quantity provides sharper confidence ellipsoids, it does not reveal directly how the identification error depends on the number of samples, i.e., it does not reveal the statistical rate of estimating q ⋆. Other data-dependent methods for establishing confidence ellipsoids can be found.
+
+<!-- chunk {"id": "body-0063", "role": "body", "section": "Sample Complexity Lower Bounds", "weight": 1.0} -->
+
+The upper bounds on the sample complexity of system identification of the previous section are only valid for the least squares estimator. One may naturally ask whether we can do better with a different algorithm, i.e., are the sample requirements of the least squares algorithm a fundamental limitation or are they suboptimal? One way to FIGURE 1: The plot shows the essence of the learning without mixing phenomenon: dependence does not necessarily impede the rate of convergence.
+
+<!-- chunk {"id": "body-0064", "role": "body", "section": "Sample Complexity Lower Bounds", "weight": 1.0} -->
+
+(a) We plot the operator norm error of least squares identification for r ( A ⋆ ) ∈ { 0.3, 0, 9, 0.99 }, l min ( A ⋆ ) ≈ 0 and d x = 25. Lines marked "Trajectory" are sampled from a linear dynamical system xt + 1 = A ⋆ xt + wt whereas lines marked "i.i.d." are drawn from an independent baseline motivated. These i.i.d. lines correspond to a linear regression model yt = A ⋆ xt + wt in which the xt are drawn i.i.d. from N ( 0, dlyap ( A ⋆, I d x )).
+
+<!-- chunk {"id": "body-0065", "role": "body", "section": "Sample Complexity Lower Bounds", "weight": 1.0} -->
+
+(b) Even as the correlation length 1/ (1 -r (A ⋆)) increases, the relative performance of the dynamic model to the independent baseline oscillates around 1. answer these questions is by establishing minimax lowerbounds. The main technical workhorse underpinning such lower bounds are information theoretic inequalities.
+
+<!-- chunk {"id": "body-0066", "role": "body", "section": "Sample Complexity Lower Bounds", "weight": 1.0} -->
+
+As we will show next, the least squares identification algorithm analyzed above is nearly-optimal in the case of fully-observed systems. To prove this, it is sufficient to construct system instances that are difficult to identify for all possible identification algorithms. By invoking information theoretic inequalities, we can show that any algorithm requires at least as many samples as the least squares algorithm.
+
+<!-- chunk {"id": "body-0067", "role": "body", "section": "Sample Complexity Lower Bounds", "weight": 1.0} -->
+
+We establish lower bounds for systems without exogenous inputs but the same results also apply to systems with white-noise exogenous inputs. For simplicity, we focus on the former case. Since there is no control input to implement an exploration policy, we denote this setting by p = ˘. Note that the case of more general exploration policies is an active front of research and is also discussed later. Fix a spectral radius r, and define the class of scaled orthogonal systems Let Nc = Nc (#, d, O r, A, ˘) denote the best possible sample complexity for learning over the class of scaled orthogonal systems. In, it is shown that for any identification algorithm A The result follows from a standard application of information theoretic lower bounds-see the sidebar on Birgé's Inequality for more details. This shows that the rate 1/ # 2, the dimension factor d x, and the confidence log 1/ d are fundamental, implying that the least-squares algorithm is near optimal.
+
+<!-- chunk {"id": "body-0068", "role": "body", "section": "Sample Complexity Lower Bounds", "weight": 1.0} -->
+
+The above result holds for the specific subclass O r of autonomous scaled orthogonal systems. It is also possible to obtain stronger, instance-specific lower bounds, namely, lower bounds that hold locally around any fixed system. In particular, let q ⋆ be an unknown system and consider a ball B (q ⋆, 3 #) of radius 3 # around q ⋆. Let Nc = Nc (#, d, B (q ⋆, 3 #), A, ˘) denote the minimum number of samples for identifying the local class B (q ⋆, 3 #). In it is shown that for any identification algorithm A, and any failure probability d ∈ and accuracy # ∈ (0, ¥) it holds true that: The proof is also based on Birgé's Inequality.
+
+<!-- chunk {"id": "body-0069", "role": "body", "section": "Sample Complexity Lower Bounds", "weight": 1.0} -->
+
+Terms capturing the snr, appear in both upper and lower bounds. However, there is a gap between the upper and lower bounds. The former depend on l -1 min ( G t ), for some small enough t, while the latter depend on l -1 min ( G T ), where T is the number of samples collected. Note that we cannot increase t too much, since it affects the burn-in time condition. In the case of stable systems r ( A ⋆ ) < 1, this gap can be closed at the expense of a burn-in time that depends on the mixing time 1/ ( 1 -r ( A ⋆ )) of the system. The gap can be also made small, i.e., t = Q ( T ), in the case of diagonalizable marginally stable systems with r ( A ⋆ ) = 1.
+
+<!-- chunk {"id": "body-0070", "role": "body", "section": "Sample Complexity Lower Bounds", "weight": 1.0} -->
+
+In the case of systems with white-noise control inputs the same analysis can be applied. In the case of general exploration policies the landscape is more complex, since both the policy p and the identification algorithm A affect sample complexity. Let Nc = Nc (#, d, B (q ⋆, 3 #), A, p) be the local sample complexity defined as before, where now the policy p can also be varied. Following the result of, we obtain the lower bound condition where the exploration policy p is chosen to optimize the snr term: In order to avoid arbitrarily large exploration inputs, we we limit the control input energy for some s u > 0, as otherwise, we trivially obtain snr ⋆ = ¥. Finding the optimal exploration policy is not a simple problem and requires knowledge of the system dynamics. In it is shown that the above lower bound can be achieved asymptotically (as d → 0) by following an active exploration policy based on sinusoidal signals.
+
+<!-- chunk {"id": "body-0071", "role": "body", "section": "Summary and Generalizations", "weight": 1.0} -->
+
+In Table 1, we summarize some of the main results for the sample complexity of identifying fully-observed systems. For compactness, we denote d = d x + d u. Only results for open-loop non-explosive systems ( r ( A ⋆ ) ≤ 1 ) are shown.
+
+<!-- chunk {"id": "body-0072", "role": "body", "section": "Summary and Generalizations", "weight": 1.0} -->
+
+If a stabilizing feedback gain K 0 is somehow known beforehand, the results can immediately be extended to the case of closed-loop stable systems ( r ( A ⋆ -B ⋆ K 0 ) < 1 ) under the stabilizing feedback law ut = K 0 xt + h t. The case of open-loop unstable systems with r ( A ⋆ ) > 1 is analyzed, where it is shown that under a regularity condition on the eigenvalues of A ⋆, the error of learning explosive systems decays exponentially quickly with the number of samples. In it is further shown that the error of learning systems with all eigenvalues on the unit circle decays at least as fast as ˜ O ( 1/ T ) as opposed to the ˜ O ( 1/ √ T ) error we get for strictly stable systems. The above rates agree with previous asymptotic results.
+
+<!-- chunk {"id": "body-0073", "role": "body", "section": "Summary and Generalizations", "weight": 1.0} -->
+
+As we discussed in the presentation of the lower bounds, the least squares algorithm is near optimal in the case of white-noise excitation. In the case of non-explosive systems r ( A ⋆ ) = 1, there is a gap between the upper and lower bounds. The gap can be closed in the case of stable systems r ( A ⋆ ) < 1. This can be achieved by exploiting the Hanson-Wright Inequality (see sidebar for more details) instead of small-ball techniques. However, the downside of using Hanson-Wright is that the burn-in time depends on the mixing time of the system 1/ ( 1 -r ( A ⋆ )). As the system approaches instability r ( A ⋆ ) → 1, then the finite sample guarantees degrade rapidly due to the burnin time going to infinity. A benefit of small ball techniques is that they hold even in the regime r ( A ⋆ ) = 1.
+
+<!-- chunk {"id": "body-0074", "role": "body", "section": "Summary and Generalizations", "weight": 1.0} -->
+
+In the presentation of sample complexity upper bounds, we only considered white-noise input signals. Although white-noise input signals can guarantee persistency of excitation and lead to parameter recovery, they constitute a suboptimal exploration policy. It is a passive form of exploration that does not adapt online to the gathered information. Instead an active exploration policy is employed based on sinusoidal inputs, leading to sharper sample complexity guarantees. In fact, in the regime where the failure probability goes to zero d → 0, the proposed active exploration policy together with the least squares identification algorithm are near-optimal and achieve the minimax lower bound.
+
+<!-- chunk {"id": "body-0075", "role": "body", "section": "Summary and Generalizations", "weight": 1.0} -->
+
+Another interesting problem is sparse system identification, where there might be an underlying sparse structure in the matrices ( A ⋆, B ⋆ ). In, it is shown that under an ℓ 1 -regularization penalty and certain mutual incoherence conditions, the sample complexity of correctly identifying the non-zero elements of ( A ⋆, B ⋆ ) scales with d 2 s, i.e., the number of non-zero elements, instead of the problem's dimensions d x + d u. Hence, if the non-zero elements are fewer than the dimension of the problem, we suffer from a smaller sample complexity. It is an open problem whether the power of d s can be improved. Moreover, it is an open question whether the results can be extended to open-loop non-explosive systems r ( A ⋆ ) = 1; currently, the burn-in time depends on the mixing time 1/ ( 1 -r ( A ⋆ -K 0 B ⋆ )), where K 0 is a stabilizing gain, known a priori.
+
+<!-- chunk {"id": "body-0076", "role": "body", "section": "Summary and Generalizations", "weight": 1.0} -->
+
+So far, we have focused on single trajectory data. In practice, we might have access to data generated by several trajectories. In, learning from multiple independent trajectories is studied, where N tot = N traj T is the total number of samples, T is the trajectory length, and N traj is the number of trajectories. In, many samples are discarded (all but the last two) to turn system identification into an i.i.d. regression problem. As a result, there is an O ( T ) extra sample overhead. These limitations are addressed, where single trajectory and multiple trajectory learning were treated in a unified way; the parameter recovery guarantees are different and given in expectation, hence, we did not include them in Table 1. An interesting conclusion in is that in the 'many" trajectories regime, e.g. N traj = W ( d ), learning is more efficient that in the 'few" trajectories regime, e.g. N traj = o ( d ). Hence, it might be more beneficial to increase the number of trajectories N traj rather than the horizon T, while keeping the total number of samples constant.
+
+<!-- chunk {"id": "body-0077", "role": "body", "section": "Summary and Generalizations", "weight": 1.0} -->
+
+All previous results rely on the process noise being full rank with positive definite covariance S w ≻ 0. In this case, all modes of the system are directly excited by the process noise, making learning easier, as the system snr is always lower bounded by the condition number of the noise, i.e., snr t ≥ ‖ S w ‖ op l min ( S w ). As a result, in this case, system identification exhibits sample complexity, which scales polynomially with the system dimension d. If we take away this structural assumption and allow degenerate noise, then, sample complexity can increase dramatically. In, it is shown that there exist non-trivial classes of systems for which the sample complexity scales exponentially with the dimension d. Such classes include underactuated systems, e.g. systems with integrator/network structure.
+
+<!-- chunk {"id": "body-0078", "role": "body", "section": "Birgé's Inequality", "weight": 1.0} -->
+
+B irgé's inequality is a sharper version of Fano's inequality, a classical tool from information theory. It can be used to establish lower bounds in multiple testing problems. Before we state the inequality, recall the definition of Kullback-Leibler (KL) divergence between two probability distributions (P, Q), where we assume that Q is absolutely continuous with respect to P and d Q d P denotes the density of Q with respect to P. Now let P 0,..., P n be probability distributions over some measurable space (W, F), such that P i, i = 1,..., n are absolutely continuous with respect to P 0. These probability distributions represent, for instance, different hypotheses in a multiple hypothesis testing scenario. Let E 0,..., En ∈ F be disjoint events. For instance, P i (Ei) might represent the probability of making a correct guess.
+
+<!-- chunk {"id": "body-0079", "role": "body", "section": "Birgé's Inequality", "weight": 1.0} -->
+
+Birgé's inequality states that a necessary condition for the minimum success-probability to be lower bounded as is that the average pairwise KL divergence between the P i and P 0 satisfies the lower bound where h (p, q) = p log p / q +(1 -p) log (1 -p) / (1 -q). The above condition states that making a correct guess with high probability is possible only if the distributions P 1,... P n are sufficiently distinguishable from P 0. Note that condition (S1) is permutation invariant, i.e. it is independent of the ordering of the probability distributions. Hence, Birgé's inequality (S2) should also hold if we swap P 0 with any P j, j ≤ n. Hence P 0,..., P n should be mutually distinguishable.
+
+<!-- chunk {"id": "body-0080", "role": "body", "section": "SYSTEM IDENTIFICATION", "weight": 1.0} -->
+
+Let C = { q 0,..., q n } be a class of systems that are 2 # -separated, i.e., ‖ q i -q j ‖ > 2 #. Let P i be the probability distribution of the data { ( y 0, u 0 ),..., ( yT, uT ) } when the underlying system is q i. Let ̂ q be the output of any identification algorithm. Since the systems are separated, the events Ei ≜ {‖ q i -̂ q ‖ ≤ # } will be disjoint. If some algorithm performs well with high probability across all systems, then ( S1 ) holds, which, in turn, implies that ( S2 ) holds.
+
+<!-- chunk {"id": "body-0081", "role": "body", "section": "SYSTEM IDENTIFICATION", "weight": 1.0} -->
+
+To obtain the tightest lower bounds possible, we aim to construct sets of 2 # -separated systems which nonetheless lead to data distributions with small KL divergence. In other words, the separation should not be too large, so that the distributions are as indistinguishable as possible.
+
+<!-- chunk {"id": "body-0082", "role": "body", "section": "SYSTEM IDENTIFICATION", "weight": 1.0} -->
+
+| Paper | Trajectory | Stability | Actuation | Upper Bound | Burn-in time | Lower Bound | Such systems are structurally hard to control/excite, and, thus, difficult to identify. Under an additional robust controllability requirement, it is shown in that the sample complexity of identifying underactuated systems cannot be worse than exponential with the dimension d. In fact, it cannot be worse than exponential in the so called controllability index, which quantifies the degree of underactuation of a system.
+
+<!-- chunk {"id": "body-0083", "role": "body", "section": "SYSTEM IDENTIFICATION", "weight": 1.0} -->
+
+Finally, we can obtain finite sample guarantees if the process noise sequence is a martingale difference sequence, thus relaxing the i.i.d. requirement. Still, the methods presented here at quite fragile to the martingale difference noise assumption, which essentially amounts to a strong realizability assumption, implying in some sense that the model class contains the true model. In certain situations with colored noise, it still possible to reduce the problem to a white noise problem-allowing us invoke the self-normalized martingale inequality-for instance by fitting a filter of sufficient length. However, in full generality, sharply dealing with colored noise in the non-asymptotic regime is very challenging. If one seeks to go beyond sub-Gaussian tails the situation becomes even more subtle. In a heavy-tailed noise model, with for instance E ‖ wt ‖ 4 < ¥ but E ‖ wt ‖ p = ¥ for some finite p > 4 then the least squares estimator is still optimal in expectation for most problems (at least for i.i.d. data ). However, it is no longer optimal in deviation-not even for i.i.d.
+
+<!-- chunk {"id": "body-0084", "role": "body", "section": "SYSTEM IDENTIFICATION", "weight": 1.0} -->
+
+data-meaning that it does not uniformly in d attain the optimal log ( 1/ d ) failure probability. Still for i.i.d. data, this optimal dependency can however we obtained by an alternative estimator (obtained by minimizing the socalled Huber loss, see [43, Section 6.4]). We do not know of any results that sharply characterize the failure probability in heavy-tailed linear system-identification.
+
+<!-- chunk {"id": "body-0085", "role": "body", "section": "Partially Observed Systems", "weight": 1.0} -->
+
+We now consider the more general case of partially observed systems with C ⋆ = I and S v = 0. Partial observability makes system identification harder as we do not have direct access to state measurements. In the case where we do not know anything about the system, identifying the 'true' state-space parameters is impossible as the statespace representation is no longer unique, as the inputoutput map from inputs u to measured outputs y remains the same under similarity transformations. That is, for any invertible matrix X, the following systems are equivalent from an input-output point of view. Another source of ambiguity is that the noise model is also non- unique. Consider the system where L ⋆ is the steady-state Kalman filter gain The innovation error is defined as The innovation process is i.i.d., zero-mean Gaussian with covariance S e ≜ C ⋆ S ⋆ C ⊤ ⋆ + S v.
+
+<!-- chunk {"id": "body-0086", "role": "body", "section": "Partially Observed Systems", "weight": 1.0} -->
+
+System is called the (steady-state) Kalman filter form or innovations form of system. Under the assumption that the system is initialized under its stationary distribution, i.e., that G 0 = S ⋆, system and its innovation form are statistically equivalent from an input-output perspective in that they generate outputs with identical statistics. It has been common practice in the system identification literature to work with the representation instead of the original system. One reason is that the innovation noise is always output-measurable, as opposed to the process/measurement noise. Another reason is that under certain observability conditions, the closed-loop map A ⋆ -L ⋆ C ⋆ is stable, i.e., r ( A ⋆ -L ⋆ C ⋆ ) < 1.
+
+<!-- chunk {"id": "body-0087", "role": "body", "section": "Partially Observed Systems", "weight": 1.0} -->
+
+We present techniques which can be applied to openloop non-explosive systems that satisfy r ( A ⋆ ) ≤ 1. We again assume that the open-loop inputs are white noise zero-mean Gaussian, i.i.d., with E utu ⊤ t = s 2 u I, for some s u > 0. We also assume that ( A ⋆, C ⋆ ) is detectable, ( A ⋆, S 1/2 w ) is stabilizable, and S v is invertible so that the innovation form is well-defined and r ( A ⋆ -L ⋆ C ⋆ ) < 1. To simplify the analysis, we assume that the Kalman filter starts from its steady-state G 0 = S ⋆, E x 0 = 0. The latter is a weak assumption; due to the stability of the Kalman filter, we will converge to the steady-state exponentially fast.
+
+<!-- chunk {"id": "body-0088", "role": "body", "section": "Partially Observed Systems", "weight": 1.0} -->
+
+Most identification methods follow the prediction error approach or the subspace method. The prediction error approach is typically non-convex and directly searches over the system parameters q ⋆ by minimizing a prediction error cost. In the subspace approach, Hankel matrices of the system are estimated first based on a convex regression problem. Then, realization is performed, typically based on Singular Value Decomposition (SVD). In this survey, we focus on the subspace/realization approach. Prior work on the analysis of the prediction error method can be found.
+
+<!-- chunk {"id": "body-0089", "role": "body", "section": "Regression Step", "weight": 1.0} -->
+
+The first step is to establish a regression between future outputs and past inputs and outputs. Let p > 0 be a past horizon. By unrolling the innovation form, at any time step k > 0, we can express y k as a function of p -past
+
+<!-- chunk {"id": "body-0090", "role": "body", "section": "The Hanson-Wright Inequality", "weight": 1.0} -->
+
+I n many situations of interest, e.g., when analyzing Gram matrices, we need to work with quadratic functions of random variables. The Hanson-Wright inequality is a standard tool for analyzing concentration of such quadratic forms when the underlying random variables are sub-gaussian. Let X = (X 1,..., Xn) ∈ R n be a random vector with independent mean zero K -sub-gaussian coordinates satisfying Let M ∈ R n × n be a matrix. Then, there exists a universal constant c such that for every s ≥ 0, we have outputs and inputs where Zk is the vector of all regressors stacked: and K p is an extended controllability matrix: Equation shows that there is a linear relation between future outputs and past inputs/outputs, which is determined by matrix Gp = C ⋆ K p. We have a linear regression problem which is similar to the one encountered in the fully-observed case since the innovation process et is i.i.d. and the regressors Zk are independent of e k at time k. The main differences are that i) there exists a bias error term and ii) the unknown matrix Gp has a special structure.
+
+<!-- chunk {"id": "body-0091", "role": "body", "section": "The Hanson-Wright Inequality", "weight": 1.0} -->
+
+We can deal with the bias by increasing the past horizon p; the bias term goes to zero exponentially fast due to the stability of the Kalman filter.
+
+<!-- chunk {"id": "body-0092", "role": "body", "section": "The Hanson-Wright Inequality", "weight": 1.0} -->
+
+The above step is common in both prediction error and subspace identification methods. In the prediction error approach, we optimize over the original state-space parameters, e.g. A, B, C etc, hence preserving the special structure of Gp. In the subspace approach, we do not optimize over the original system parameters. Instead, we optimize directly over the higher-dimensional representation Gp by treating it as an unknown without structure. This leads to a convex least-squares problem In machine learning, this lifting to higher-dimensions is referred to as improper learning. After some algebraic manipulations, we can verify that Hanson-Wright has been used as an alternative method for establishing persistency of excitation in the case of identification of fully-observed, stable systems. Contrary to small-ball methods, Hanson-Wright inequality is a two-sided result, which is a stronger requirement. Hence, it can be conservative in the case of unstable or marginally stable systems. Hanson-Wright inequality has also been utilized for proving Isometry for Hankel Matrices when the elements of the Hankel matrix are i.i.d.
+
+<!-- chunk {"id": "body-0093", "role": "body", "section": "The Hanson-Wright Inequality", "weight": 1.0} -->
+
+where the bias terms includes factors (A ⋆ -L ⋆ C ⋆) p which decay exponentially with the past horizon p.
+
+<!-- chunk {"id": "body-0094", "role": "body", "section": "The Hanson-Wright Inequality", "weight": 1.0} -->
+
+The analysis now proceeds in a similar way as in the case of fully-observed systems. We break the least squares error into two terms, a self-normalized term and a term capturing persistence of excitation: where ST, and VT are analogously defined as For the self-normalized term, we exploit the techniques for Self-Normalized Martingales. For the second term, we need to show persistency of excitation. One way is to use again the small-ball techniques discussed in the fullyobserved case. An alternative way is establishing Isometry for Hankel Matrices.
+
+<!-- chunk {"id": "body-0095", "role": "body", "section": "The Hanson-Wright Inequality", "weight": 1.0} -->
+
+Using the tools listed above, we can obtain sample complexity upper bounds for recovering the matrix Gp. Let G Z, k = E Zk Z ⊤ k be the covariance of the regressors. For example, in the case of no inputs B ⋆ = 0, Tsiamis and Pappas show that under the least-squares algorithm defined above we have that if we select p = W (log T) and where c is a universal constant and the signal to noise ratio is defined as When we have inputs B ⋆ = 0, we can obtain a similar result by repeating the same arguments as in and replacing d y with d y + d u. Once again we recover a rate of ˜ O (1/ # 2). Equivalently, the error scales as ˜ O (1/ √ T). The main caveat is that we need to select p to increase logarithmically with the horizon T to mitigate the bias term. Ignoring #, the snr and other system-theoretic parameters, we obtain that the sample complexity upper bound scales with p (d y + d u), i.e., it depends at linearly on the size of the past horizon p.
+
+<!-- chunk {"id": "body-0096", "role": "body", "section": "The Hanson-Wright Inequality", "weight": 1.0} -->
+
+This upper bound suggests that there is a tradeoff between reducing the bias term (large p) and reducing sample complexity (small p). This dependence on the past horizon p arises because we ignore the structure of Gp and we treat it as an unknown matrix. In this case Gp has p (d y + d u) d y unknown entries. Since every measurement y k contributes with d y components, then a sample complexity of O (p (d y + d u)) suffices. However, it might be the case that this sample complexity is suboptimal since the true number of unknowns in q ⋆ is of the order of d 2 x + d x (d y + d u). It seems that by lifting the problem to higher dimensions, we suffer from larger sample complexity.
+
+<!-- chunk {"id": "body-0097", "role": "body", "section": "Realization", "weight": 1.0} -->
+
+Let us introduce the notation A cl, ⋆ ≜ A ⋆ -L ⋆ C ⋆ and ˜ B ⋆ ≜ [B ⋆ L ⋆]. For this section, assume for simplicity that system (C ⋆, A cl, ⋆, ˜ B ⋆) is minimal, i.e. (C ⋆, A cl, ⋆) is observable and (A cl, ⋆, ˜ B ⋆) is controllable. Under this notation, matrix Gp contains the Markov parameters C ⋆ A k cl, ⋆ ˜ B ⋆, k ≤ p -1 of system (C ⋆, A cl, ⋆, ˜ B ⋆), allowing for the use of standard realization techniques to extract (C ⋆, A cl, ⋆, ˜ B ⋆) from the Markov parameters. A standard such approach is the Ho-Kalman realization technique.
+
+<!-- chunk {"id": "body-0098", "role": "body", "section": "Realization", "weight": 1.0} -->
+
+If we assume that we know the true Markov parameters Gp, then we can construct the following Hankel matrix The Hankel matrix has rank d x, since it can be written as the outer-product of a controllability and an observability matrix: To make sure that the Hankel matrix is of rank d x, it is sufficient to select k 1, p -1 -k 1 ≥ d x. In the setting where we know the true Markov parameters a simple Singular Value Decomposition (SVD) suffices to recover the observability and controllability matrices up to a similarity transformation. In particular letting the singular decomposition be written as we can select a balanced realization O k 1 = U 1 S 1/2 1, C p -1 -k 1 = S 1/2 1 V ⊤ 1. Then, from the observability/controllability matrices it is easy to recover (C ⋆, A cl, ⋆, ˜ B ⋆) up to a similarity transformation-see for example.
+
+<!-- chunk {"id": "body-0099", "role": "body", "section": "Realization", "weight": 1.0} -->
+
+However, in practice we only have access to noisy Markov parameter estimates ˆ Gp, N, obtained for example via the least-squares identification step described above. In this case, the corresponding Hankel matrix ˆ H k 1, p will also be noisy, and in particular will no longer have rank d x -instead it will in general have a higher rank. In this case, a low-rank approximation step is crucial for recovering the correct observability and controllability matrices. Assume that we know the true order d x of the system. Then, we can perform SVD truncation, i.e., choose the singular vectors corresponding to the d x largest singular values. If the SVD of the noisy Hankel matrix is then one solution is to keep the d x -largest singular values, i.e., select ˆ O k 1, T = ˆ U 1 ˆ S 1/2 1, ˆ C p -1 -k 1, T = ˆ S 1/2 1 ˆ V ⊤ 1.
+
+<!-- chunk {"id": "body-0100", "role": "body", "section": "Realization", "weight": 1.0} -->
+
+To capture the error between the true and estimated observability/controllability matrices we appeal to SVD perturbation results-more details can be found, see also [54, Theorem 5.14]. Essentially these results state that, for some similarity transformation T, the error ‖O k 1 -ˆ O k 1, T ‖ op (similarly for the controllability matrix) scales with the Markov parameter error ‖ Gp -ˆ Gp, T ‖ op as long as a robustness condition is satisfied. Ignoring dependencies on k 1, p, the robustness condition is typically of the form namely, the Markov parameter estimation error should be smaller than the smallest singular value of the true Hankel matrix H k 1, p. Such a condition is a fundamental limitation of the SVD procedure; it guarantees that the singular vectors related to small singular values of H k 1, p are separated from the singular vectors coming from the noise which can be arbitrary. While in the asymptotic regime such a condition is satisfied asymptotically, in the finite sample regime, it imposes a high sample complexity as the smallest singular value of the Hankel matrix can be very small in practice.
+
+<!-- chunk {"id": "body-0101", "role": "body", "section": "Realization", "weight": 1.0} -->
+
+It is an interesting open problem to look at different realization approaches or model reduction techniques so that we avoid this restrictive robustness condition.
+
+<!-- chunk {"id": "body-0102", "role": "body", "section": "Realization", "weight": 1.0} -->
+
+Open Problem 1 (Comparison of subspace algorithms). Most results in the finite sample regime analyze the performance of the Ho-Kalman method (or similar variants). However, in the subspace identification literature
+
+<!-- chunk {"id": "body-0103", "role": "body", "section": "Isometry for Hankel Matrices", "weight": 1.0} -->
+
+L et h 0,..., h N -1 be a sequence of i.i.d. zero-mean isotropic Gaussian variables in R d h, that is h t ∼ N (0, I d h), and consider the following Hankel matrix Such matrices arise in the analysis of system identification algorithm that use information of the past L steps for prediction. For example h t could be the input process ut and/or the (normalized) innovations et. A crucial problem is determining whether the matrices HL, N are persistently exciting. One solution is to exploit the small-ball approach as reviewed in this realization approach is rarely used. Popular subspace identification algorithms, e.g., MOESP and N4SID, pre-multiply and/or post-multiply the Hankel matrix with appropriate weighting matrices, before performing the SVD step-see, for example, Section 3. Several asymptotic properties of such algorithmic variations have been studied before. However, it is an open problem to compare such algorithms using finite-sample methods. In particular, under finite samples, a robustness condition like should be satisfied for the SVD step to be well-behaved.
+
+<!-- chunk {"id": "body-0104", "role": "body", "section": "Isometry for Hankel Matrices", "weight": 1.0} -->
+
+Different methods lead to different robustness conditions, affecting finite-sample performance. Such robustness conditions did not appear before in asymptotic analyses, e.g. see, since as the number of samples goes to infinity, the SVD error decays continuously.
+
+<!-- chunk {"id": "body-0105", "role": "body", "section": "Overview and Limitations", "weight": 1.0} -->
+
+An overview of prior work can be found in Table 2. Up to now, we studied identification of Markov parameters of both the deterministic part, i.e., (C ⋆, A cl, ⋆, ˜ B ⋆), and the stochastic part of the system, i.e., (C ⋆, A ⋆, L ⋆). Prior work has also studied identification of exclusively the deterministic part, i.e., the Markov parameters of (C ⋆, A ⋆, B ⋆), where only past inputs are used as regressors. By using only inputs, these results only hold for stable systems r (A ⋆) < 1 unless we use multiple trajectories. In it is shown that identification of non-explosive systems r (A ⋆) = 1 is possible if we also use past outputs as regressors and include a pre-filtering step in the system identification algorithm, i.e. learn an AutoRegressive (AR) filter first before estimating the Markov parameters. Identification of the stochastic part, i.e., the Markov parameters of (C ⋆, A ⋆, L ⋆), is investigated.
+
+<!-- chunk {"id": "body-0106", "role": "body", "section": "Overview and Limitations", "weight": 1.0} -->
+
+A non-parametric approach was considered. sidebar Persistency of excitation and small-ball bounds.
+
+<!-- chunk {"id": "body-0107", "role": "body", "section": "Overview and Limitations", "weight": 1.0} -->
+
+Here, we will review an alternative way to answer this question, which leads to a stronger two-sided result. Fix a failure probability d ≤ 1 / 2. Then there exists a universal constant c such that if then with probability at least 1 -d The result is adapted from Theorem A.2. The proof is based on the Hanson-Wright Inequality along with Fourier domain techniques. Similar results appeared in but require slightly larger burn-in time.
+
+<!-- chunk {"id": "body-0108", "role": "body", "section": "The excitation policy", "weight": 1.0} -->
+
+Most of the aforementioned works rely on whitenoise open-loop excitation to achieve parameter recovery. Closed-loop identification under finite samples has been analyzed, where the closed-loop controller is a linear dynamic feedback law, potentially driven by whitenoise. The problem of experiment design, i.e. finding good excitation policies in the finite sample regime, remains quite open. Still, it was studied in the classical system identification literature using asymptotic tools.
+
+<!-- chunk {"id": "body-0109", "role": "body", "section": "The noise model", "weight": 1.0} -->
+
+In the case of non-Gaussian noise, the system and its Kalman form have similar second moments. However, they are no longer statistically equivalent and the innovation process is no longer i.i.d. Gaussian. For this reason, some of the techniques presented above might not be applicable. We also point out that in the case of i.i.d. sub-Gaussian noise, the results of still hold, but only recover the deterministic part of the system.
+
+<!-- chunk {"id": "body-0110", "role": "body", "section": "System order", "weight": 1.0} -->
+
+The realization procedure that we presented previously requires the order of the system d x to be known. Identification of systems under unknown model order is studied.
+
+<!-- chunk {"id": "body-0111", "role": "body", "section": "Lower bounds", "weight": 1.0} -->
+
+Lower bounds have been studied before in the classical literature [7, Ch. 7]. In the case of known system order, we can characterize the best possible parameter estimation variance among all estimators by invoking the CramérRao inequality, a variant of Van Trees' Inequality which is studied below. One difference with Birgé's inequality is that the Cramér-Rao inequality characterizes the expected error (variance) while Birgé's inequality characterizes tail probabilities providing information about the confidence level d. Unlike fully-observed systems, existing lower bounds for partially observed systems in state-space form do not have transparent expressions in terms of system theoretic properties like the system dimension, controllability gramians, etc. This is mainly due to the non-uniqueness of state-space representations and the nonlinearity of the input-to-output map with respect to the state-space parameters.
+
+<!-- chunk {"id": "body-0112", "role": "body", "section": "Open problems in the partially observed setting", "weight": 1.0} -->
+
+Under the assumption that the model order is known and under certain conditions on the inputs, asymptotic optimality of several algorithms has been established. In particular, it has been shown that the prediction error method is equivalent to the maximum likelihood method [7, Ch. 9], while some subspace identification algorithms asymptotically match the maximum likelihood method under white noise excitation. Obtaining a finite sample analog is an open problem.
+
+<!-- chunk {"id": "body-0113", "role": "body", "section": "Open problems in the partially observed setting", "weight": 1.0} -->
+
+Open Problem 2 (Optimal Sample Complexity). What is the optimal sample complexity in the case of partialobservability? In the case of known system order, can we match the asymptotic performance of match maximum likelihood by a non-asymptotic analysis? What if the order is unknown? How do system theoretic parameters affect complexity?
+
+<!-- chunk {"id": "body-0114", "role": "body", "section": "Open problems in the partially observed setting", "weight": 1.0} -->
+
+An open question is whether the optimal sample complexity should depend on the past horizon p. As discussed in the Regression Step, this might not be the case since the number of unknowns in q ⋆ is independent of the horizon p. Some progress in this regard has already been made:, it is shown that in the absence of process noise the sample complexity depends only logarithmically on the past horizon p, while retaining the 1/ # 2 complexity rate. This is achieved by de-noising Hankel matrices at different scales. In the case of process noise, the complexity bound in still scales linearly with p. In, the sample complexity is shown to be logarithmic with p, at the expense of a worse 1/ # 4 complexity rate. This is achieved by adding an ℓ 1 regularization penalty on Gp in the regression step.
+
+<!-- chunk {"id": "body-0115", "role": "body", "section": "Open problems in the partially observed setting", "weight": 1.0} -->
+
+To conclude, another open problem is identification of open-loop (explosively) unstable systems ( r ( A ⋆ ) > 1 ) in the case of single trajectory data. While this problem is resolved in the case of fully-observed systems (under certain regularity conditions) it is still open in the case of partial observability.
+
+<!-- chunk {"id": "body-0116", "role": "body", "section": "Open problems in the partially observed setting", "weight": 1.0} -->
+
+Open Problem 3. Existing results for partially observable systems rely on stability r ( A ⋆ ) ≤ 1. What, if any, are the necessary conditions for conducting open-loop unstable identification based on single trajectory of data?
+
+<!-- chunk {"id": "body-0117", "role": "body", "section": "Open problems in the partially observed setting", "weight": 1.0} -->
+
+One of the main technical difficulties in the case of unstable systems is dealing with the bias term. If the state is increasing exponentially fast with time k, the bias term might not decay fast enough with p. In the case of non-explosive systems, two-step procedures, e.g. performing a pre-filtering step or estimating components of the marginally stable subspace first, guarantee learnability. It is an open question whether a two-step procedure would work for (explosively) unstable systems.
+
+<!-- chunk {"id": "body-0118", "role": "body", "section": "OFFLINE CONTROL", "weight": 1.0} -->
+
+In the previous section, we studied system identification of unknown systems under a finite number of samples. Although system identification is a problem of independent interest, our ultimate goal is to control the underlying unknown system. In this section, we connect the previous results with controlling unknown systems in a model-based framework. We also review some model-free methods. We focus on offline learning architectures, where we design the controller once after collecting the data.
+
+<!-- chunk {"id": "body-0119", "role": "body", "section": "OFFLINE CONTROL", "weight": 1.0} -->
+
+This setup is very similar to the setting of episodic Reinforcement Learning (RL). Reinforcement learning has seen tremendous success. However, most existing analyses focus on finite state and input (action) spaces. As learning methods are becoming increasingly ubiquitous even for complex continuous control tasks, the gap between theory and practice has become considerable. The linear quadratic regulator (LQR) and the linear quadratic Gaussian (LQG) problems offer a theoretically tractable path forward to reason about RL for continuous control tasks. By leveraging the theoretically tractable natures of LQR and LQG we obtain baselines and are able to quantify the performance of learning algorithms in terms of natural control-theoretic parameters. Perhaps most importantly, given the safety-critical nature of many applications, we are able to quantify what makes learning hard and when it necessarily fails.
+
+<!-- chunk {"id": "body-0120", "role": "body", "section": "OFFLINE CONTROL", "weight": 1.0} -->
+
+To make this concrete, suppose a learner (control engineer) knows that the system has dynamics of the form: where, as in the previous section, we let xt, wt ∈ R d x be the state and process noise respectively, ut ∈ R d u be the control input. The dynamics matrices are A ⋆ ∈ R d x × d x, and B ⋆ ∈ R d x × d u. In the learning task, the parameters (A ⋆, B ⋆) are unknown to the learner. All that is known is that (A ⋆, B ⋆) ∈ Q where Q is some subset of parameters - typically those corresponding to stabilizable systems. In the offline setting, the learner is given access to N traj sampled trajectories of length T (total of N tot = N traj T samples) from the system and is tasked to output a policy p that renders the following cost as small as possible: TABLE 2: System Identification of Partially-Observed Systems.
+
+<!-- chunk {"id": "body-0121", "role": "body", "section": "OFFLINE CONTROL", "weight": 1.0} -->
+
+| Paper | Trajectory | Stability | System Part | Order d x | Actuation | noise | where expectation E K q is taken with respect to dynamics q = (A, B) under the feedback law ut = Kxt.
+
+<!-- chunk {"id": "body-0122", "role": "body", "section": "Model-Based Methods", "weight": 1.0} -->
+
+A classical approach to designing the optimal LQR controller for an unknown system, which we will revisit from a finite data perspective, is to perform system identification followed by a control design step. In RL terminology this approach is referred to as a model-based approach because we explicitly parameterize and learn the transition dynamics, which are then used compute a policy. In particular, suppose that we have obtained estimates ( ̂ A, ̂ B ) of q ⋆ = ( A ⋆, B ⋆ ) and that these estimates are guaranteed to be e -accurate, i.e., max {‖ A ⋆ -̂ A ‖ op, ‖ B ⋆ -̂ B ‖ op } ≤ e. Such estimates can be acquired and guaranteed to satisfy the desired accuracy level (with high probability) by leveraging the results of the above discussion on Sample Complexity Upper Bounds. Based on the system estimates, we can either apply certainty equivalent control or design a robust controller using the error information #.
+
+<!-- chunk {"id": "body-0123", "role": "body", "section": "Certainty Equivalence", "weight": 1.0} -->
+
+The certainty equivalent (CE) approach is to simply use the estimates ( ̂ A, ̂ B ) as if they were the ground truth and play the controller ̂ K = K ( ̂ A, ̂ B ).
+
+<!-- chunk {"id": "body-0124", "role": "body", "section": "Certainty Equivalence", "weight": 1.0} -->
+
+The situation described above is the precisely that analyzed in Mania et al. [72, Theorem 2]. They demonstrate that the controller ̂ K = K (̂ A, ̂ B) enjoys the sub-optimality guarantee where poly q ⋆ denotes a quantity polynomial in system quantities such as ‖ P ⋆ ‖ op and the spectral radius of the optimal closed-loop dynamics A ⋆ + B ⋆ K ⋆ -one can view the term poly q ⋆ as capturing that systems with well- conditioned closed-loop behavior are easier to learn to control. Similar guarantees can also be provided for the partially observed LQG setting in which the entire linear dynamic controller is estimated from data [72, Theorem 3].
+
+<!-- chunk {"id": "body-0125", "role": "body", "section": "Certainty Equivalence", "weight": 1.0} -->
+
+It is important to recognize, however, that guarantee comes with the caveat that the accuracy e needs to be small enough so that the controller ̂ K can be shown to be stabilizing for the instance q ⋆ = ( A ⋆, B ⋆ ). Mania et al. provide sufficient conditions on the accuracy e in terms system parameters by leveraging Riccati Equation Perturbation Theory. The dependence on e in inequality is optimal and in fact it can be shown that for almost every experiment consisting of input-state data { ( x 0, u 0 ),..., ( uN tot -1, xN tot ) }, the least squares estimator described above in combination with certainty equivalent control is optimal [73, Theorem 2.1] in that up to universal constants there exists no better strategy. In fact, we will later see that the CE approach is also the best known strategy in the more challenging online control setting.
+
+<!-- chunk {"id": "body-0126", "role": "body", "section": "Certainty Equivalence", "weight": 1.0} -->
+
+Combining guarantee with the Sample Complexity Upper Bounds of the previous section, we can obtain endto-end guarantees for the offline learning of the optimal LQR controller. In particular, we obtain that the suboptimality gap decreases at least as fast as ˜ O ( 1/ N tot ). However, as stated earlier, this result assumes that the number of samples is large enough such that the CE controller ˆ K is stabilizing for the original system, which may require a large burn-in time.
+
+<!-- chunk {"id": "body-0127", "role": "body", "section": "Robust Control Methods", "weight": 1.0} -->
+
+While the CE controller is optimal when the model error # is very small, there are nevertheless many cases of interest where only a coarse model is available and the model error is too large to guarantee that the CE controller is stabilizing. In such settings, an alternative is to design a robust controller which stabilizes all possible systems consistent with the model estimates and error bounds. In, the problem of robust control from coarse system identification was studied in the non-asymptotic regime. In a robust control scheme based on System Level Synthesis (SLS) is introduced which uses finite sample model error information. The aforementioned robust
+
+<!-- chunk {"id": "body-0128", "role": "body", "section": "Riccati Equation Perturbation Theory", "weight": 1.0} -->
+
+T o provide a guarantee of the form for the CE approach we need to guarantee that small errors in the estimates max {‖ A ⋆ -̂ A ‖ op, ‖ B ⋆ -̂ B ‖ op } ≤ e translate to small errors in Riccati equation quantities -. Key to achieving such guarantees is an operator-theoretic proof strategy due to. control designs are safer than the CE controller in general. However, the cost of this robustness is that the resulting controller suboptimality guarantees are worse. Contrary to, they enjoy suboptimality guarantees of the order of where ̂ K is the robust controller. It is unknown whether this suboptimality is inherent or an artefact of the analysis. SLS controllers can also be deployed in the case of state/input constraints as well as partially observed systems. An alternative Input-Output Parameterization (IOP) framework was adapted in to deal with uncertain partially observed systems.
+
+<!-- chunk {"id": "body-0129", "role": "body", "section": "Model-Free Methods", "weight": 1.0} -->
+
+Model-free methods, in which (essentially) no structural information about the problem is used to derive a learningbased policy, are very popular in the RL literature. The most basic class of such methods are policy gradient methods, which we discuss next in the context of the LQR problem.
+
+<!-- chunk {"id": "body-0130", "role": "body", "section": "Policy Gradient Methods", "weight": 1.0} -->
+
+Policy gradient methods work exactly as their name advertises: they run (stochastic) gradient descent on a controllerparameterization with respect to the cost. To make this concrete, let us for simplicity first discuss the statefeedback setting in which C ⋆ = I d x and vt = 0. In light of the form - of the optimal policy, it appears reasonable to parametrize the cost by linear controllers of the form ut = Kxt and run our descent steps on matrices K ∈ R d u × d x.
+
+<!-- chunk {"id": "body-0131", "role": "body", "section": "Do Exact Gradients Converge?", "weight": 1.0} -->
+
+Assume for the moment that we have oracle access to exact gradients and that we are able to run (non-stochastic) gradient descent on the cost function: It is not obvious that such an algorithm will work, as even in this simplified setting, there are two potential obstacles to convergence: 1) the cost function is nonconvex in K; and 2) the cost function is not globally Roughly, the idea is to construct a map F of which the error P ⋆ -̂ P is the unique fixed point over a set of elements with small norm. A more detailed account can be found in [72, Section 4.1]. We also note that [39, Section 3] has recently developed an alternative ODE approach which gives tighter bounds in terms of system-theoretic parameters. smooth-in fact, it is not even finite for those K that do not stabilize the system. Thankfully, the LQR objective satisfies "weaker versions" of convexity and smoothness which are entirely sufficient.
+
+<!-- chunk {"id": "body-0132", "role": "body", "section": "Do Exact Gradients Converge?", "weight": 1.0} -->
+
+These weaker conditions were first established by Fazel et al. who showed that if initialized with a stabilizing controller K 0, after only O (log 1/ e) iterations, (non-stochastic) gradient descent outputs a controller ˜ K satisfying It should be noted that consider a slightly different cost function than the cost considered here. Namely, they consider the infinite horizon case with wt = 0 and only the initial condition x 0 is allowed to be random. However, the infinite horizon and ergodic average cost functions are almost identical (as functions of K), and it is straightforward to verify that the convergence guarantee mentioned above remains true with only minor modifications to problemspecific constants when applied to the ergodic average cost. Having established that the exact gradient method converges, Fazel et al. also showed that a method based on zero-order gradient estimates also converges. However, their results only apply to the noiseless setting with random initial condition. By contrast, analyze a noisy finite horizon setting and show that such methods still provably converge. We also point out that the assumption of an initial stabilizing controller mentioned above can be removed with a more sophisticated gradient strategy.
+
+<!-- chunk {"id": "body-0133", "role": "body", "section": "Do Exact Gradients Converge?", "weight": 1.0} -->
+
+We refer the reader to the recent survey for a more comprehensive overview of policy gradient methods.
+
+<!-- chunk {"id": "body-0134", "role": "body", "section": "Fundamental Limits and Model-Based versus Model-Free", "weight": 1.0} -->
+
+Given the optimality of the CE controller in the offline LQR setting, it is natural to wonder whether similar guarantees are achievable by model-free methods based on policy gradients. To this end Tu and Recht study a simplified version of LQR in which R = 0 and the optimal solution is of the form K ⋆ = -B † ⋆ A ⋆. In this simplified scenario they compute asymptotically exact expressions for the risk of CE and a stochastic policy gradient method (REINFORCE), and show that that there is a polynomial gap in the problem dimension in their respective sample complexities, with CE outperforming REINFORCE. The fundamental limits of policy gradient methods are further investigated and related to various system-theoretic quantities.
+
+<!-- chunk {"id": "body-0135", "role": "body", "section": "ONLINE CONTROL", "weight": 1.0} -->
+
+Having discussed episodic RL tasks through the lens of control, we now turn our attention to the more technically challenging setting of online adaptive control. We will rely on the notion of regret to quantify the performance of an online algorithm.
+
+<!-- chunk {"id": "body-0136", "role": "body", "section": "ONLINE CONTROL", "weight": 1.0} -->
+
+Just as in offline control, we suppose the system has dynamics are of the form: where xt, wt ∈ R d x, ut ∈ R d u, yt, vt ∈ R d y and A ⋆ ∈ R d x × d x, B ⋆ ∈ R d x × d u and C ⋆ ∈ R d y × d x. However, in contrast to the offline control setting, the learner now interacts iteratively with only a single trajectory (N traj = 1, T = N tot) from the system. The parameters of (A ⋆, B ⋆, C ⋆) are as before unknown to the learner.
+
+<!-- chunk {"id": "body-0137", "role": "body", "section": "ONLINE CONTROL", "weight": 1.0} -->
+
+In either setting, the goal in the adaptive LQR and LQG problems is to regulate the system using a policy p so as to render the following cost functional as small as possible: where E p q stands for expectation with respect to dynamics q = (A, B, C) under policy p and where (Q, QT, R) are positive definite weighting matrices. The difficulty of the task arises from the fact that the parameter q is assumed a priori unknown, and hence the optimal cost V ⋆ T (q ⋆) ≜ inf p ∈ V p T (q) can not be realized. Instead, one seeks to design a policy (algorithm) p with small regret.
+
+<!-- chunk {"id": "body-0138", "role": "body", "section": "ONLINE CONTROL", "weight": 1.0} -->
+
+Regret. The regret of an algorithm measures the cumulative suboptimality accrued over the entire time horizon as compared to the optimal policy: where the law of { xt, ut } T t = 0 is specified by (q, p). Alternatively, one may be interested in the expected regret: We note that the regret is a random quantity whereas the expected regret is not-however, in either case the interpretation is that one seeks to design a policy which has small cumulative suboptimality as compared to the optimal policy p ⋆ (x) = K ⋆ x, which can be computed via Riccati equations -. Abstracting slightly, the regret of an algorithm can be thought of as the rate of convergence of an adaptive algorithm (cf.). Moreover, it quantifies the dual nature of control (in RL terminology: the exploration-exploitation trade-off). We will see in the sequel that for an algorithm to have low regret it necessarily must generate a sufficiently rich experiment.
+
+<!-- chunk {"id": "body-0139", "role": "body", "section": "ONLINE CONTROL", "weight": 1.0} -->
+
+At a high level, by relating (or) to quantities of interest such as the time horizon T, dimensional factors and systemtheoretic quantities we gain understanding of the statistical properties of adaptation and under which circumstances adaptation-if only in an idealized environment-is easy or hard. We should also point out that in the formulation - we compete with a policy that has good average case performance (LQR) but does not necessarily take into robust or stability margins. While certainly important, in this survey we do not cover robustness aspects of adaptive methods but rather emphasize their statistical analysis.
+
+<!-- chunk {"id": "body-0140", "role": "body", "section": "State Feedback Systems", "weight": 1.0} -->
+
+For state feedback systems (C ⋆ = I d x, vt = 0), it has been shown by Simchowitz and Foster that Certainty Equivalence with naive exploration (additive Gaussian noise injected into the control input) attains with probability 1 -d: for a system-dependendent constant c sys > 0 and provided that T is sufficiently large (polynomial in dimension and system-dependent quantities).
+
+<!-- chunk {"id": "body-0141", "role": "body", "section": "State Feedback Systems", "weight": 1.0} -->
+
+Their result refined an earlier result of and essentially settled the question of what the optimal dependence on system dimensions and time horizon is. A recent result due to Jedra and Proutiere also shows that, up to logarithmic factors, the same rate can be attained in expectation E R p T ( q ⋆ ) = ˜ O (√ d x d 2 u T ). Simchowitz and Foster also provide a matching lower bound with sup q ∈ B ( q ⋆, e ) E R p T ( q ) = W (√ d x d 2 u T ). However, characterizing the optimal dependence on the system parameters ( A ⋆, B ⋆ ) is still open. There is for instance polynomial gap in the best known upper bounds the best known lower bounds in regards to the dependence on P ⋆ = P ( A ⋆, B ⋆ ) (recall ). A summary of the state of the art for both state feedback and partially observed systems is given in Table 3.
+
+<!-- chunk {"id": "body-0142", "role": "body", "section": "Certainty Equivalence", "weight": 1.0} -->
+
+The key algorithmic idea to solve the regret minimization problem for LQR is again certainty equivalence (CE). The
+
+<!-- chunk {"id": "body-0143", "role": "body", "section": "LQR, Polyak-Łojasiewicz and Approximate Smoothness", "weight": 1.0} -->
+
+W hile the LQR objective is not convex, the objective satisfies the so-called Polyak-Łojasiewicz (PL) condition. Namely, Fazel et al. [80, Lemma 3] show that as long as the tuple (A, √ S W) is controllable, the following PL condition holds: for some problem-specific constant l > 0. PL Conditions such as inequality (S1) are known to be sufficient alternatives to (strong) convexity in the optimization literature. In particular, condition (S1) enforces that any stationary point is a global minimizer, as is the case for convex functions. An alternative perspective on the condition (S1) is offered, in which it is shown to be a consequence of the existence of a convex re-parametrization for the LQR objective.
+
+<!-- chunk {"id": "body-0144", "role": "body", "section": "LQR, Polyak-Łojasiewicz and Approximate Smoothness", "weight": 1.0} -->
+
+Similarly, even though the objective is not globally smooth, it is sufficiently regular in that: in a neighborhood of the optimal policy K ⋆.
+
+<!-- chunk {"id": "body-0145", "role": "body", "section": "LQR, Polyak-Łojasiewicz and Approximate Smoothness", "weight": 1.0} -->
+
+In combination, these properties can be used to verify that if gradient descent is initialized with a stabilizing controller, its updates remain stable and converge to the global optimum at the rate.
+
+<!-- chunk {"id": "body-0146", "role": "body", "section": "LQR, Polyak-Łojasiewicz and Approximate Smoothness", "weight": 1.0} -->
+
+| Paper | Setting | Method | Upper Bound √ | Lower Bound | idea dates back to the late 50s and was first analyzed in the context of adaptive control of linear models by Åström and Wittenmark in 1973. Initially, the emphasis was solely on asymptotic average cost optimality, corresponding to sublinear regret, R p T = o (T), in our formulation. Regret minimization was introduced to the adaptive control literature roughly a decade later by Lai.
+
+<!-- chunk {"id": "body-0147", "role": "body", "section": "LQR, Polyak-Łojasiewicz and Approximate Smoothness", "weight": 1.0} -->
+
+Online CE LQR control takes continuously updated parameter estimates ( ̂ A, ̂ B, ̂ C ) of ( A ⋆, B ⋆, C ⋆ ) as inputs and then solves the dynamic programming problem for these estimates as if they were the ground truth. For LQR, the dynamic programming solution has a closed form solution in terms of the (discrete algebraic) Riccati recursion which can be solved efficiently by numerical schemes. The resulting controller is then used to regulate the system.
+
+<!-- chunk {"id": "body-0148", "role": "body", "section": "LQR, Polyak-Łojasiewicz and Approximate Smoothness", "weight": 1.0} -->
+
+To see why the CE strategy is successful in LQR we note the following elementary relation between expected regret and the Riccati recursion: where q = (A, B), Pt = Pt (q) and Kt = Kt (q) are given by and where the terminal condition is PT = QT. We further denote the steady state versions of the recursion - by P (A, B) and K (A, B). It will be convenient to denote P ⋆ ≜ P (A ⋆, B ⋆) and K ⋆ ≜ K (A ⋆, B ⋆).
+
+<!-- chunk {"id": "body-0149", "role": "body", "section": "LQR, Polyak-Łojasiewicz and Approximate Smoothness", "weight": 1.0} -->
+
+Equation follows from the "completing-the-square" proof of LQR optimality, cf. [101, Theorem 11.2]. Crucially, for naive exploration policies of the form p: ut = ̂ Ktxt + h t, with { h t } a mean zero sequence of exploratory noise, independent of all other randomness, equation becomes Equation shows that the expected regret of a CE policy is a quadratic form in the estimation error ̂ Kt -Kt. Moreover, by a stability argument it suffices to use the steady-state versions of the Riccati recursion (38-39). This suggests that the CE strategy with ̂ Kt = K (̂ A, ̂ B) can be shown to be successful provided that one shows that the
+
+<!-- chunk {"id": "body-0150", "role": "body", "section": "LQR, Polyak-Łojasiewicz and Approximate Smoothness", "weight": 1.0} -->
+
+- 1) estimates (̂ A, ̂ B) are consistent estimators of the true dynamics; and - 2) map (A, B) ↦→ Kt (A, B) is sufficiently smooth in the parameters (A, B); and - 3) policy p is stabilizing in that the state process xt does not become too large.
+
+<!-- chunk {"id": "body-0151", "role": "body", "section": "LQR, Polyak-Łojasiewicz and Approximate Smoothness", "weight": 1.0} -->
+
+Analogous reasoning is applicable in the high probability regret setting, but becomes a little more involved, see [39, Lemma 5.2].
+
+<!-- chunk {"id": "body-0152", "role": "body", "section": "LQR, Polyak-Łojasiewicz and Approximate Smoothness", "weight": 1.0} -->
+
+Before we proceed one remark is in order: equation suggests that E R p T ( q ) = O ( logT ) should be possible. Namely, we noted in the finite sample analysis of system identification that the identification errors generally decline as O ( 1/ √ t ), where t is the number of samples collected so far. As the suboptimality bound is quadratic in the identification error, the square errors decline as O ( 1/ t ) and the regret induced will scale as the sum of 1/ t, t = 0,..., T -1, which is of order log T. We will soon ask: "Why do we need Exploration?" and see that logarithmic regret is not possible in general for reasons of closed-loop identifiability.
+
+<!-- chunk {"id": "body-0153", "role": "body", "section": "Why do we need Exploration?", "weight": 1.0} -->
+
+In the sketch of the certainty equivalent approach presented above we mentioned that one typically requires a perturbation h t of the input ut. The most common exploration strategy, known as e -greedy exploration, uses simple additive perturbations to the control policy, yielding inputs of the form ut = Ktxt + h t as above. More intricate exploration strategies are however possible, as described in the sidebar on Optimism and Thompson Sampling. To understand why such perturbations are necessary, consider again the least-squares algorithm. Recall that the error of the estimator ̂ q s = (̂ As, ̂ Bs) satisfies the following equation: provided the matrix inverse on the right hand side of equation exists. As mentioned above, as long as the covariates do not grow more than polynomially with the time horizon, it can be shown using the theory of SelfNormalized Martingales that the rate of convergence of ̂ q s -q ⋆ is dictated by the smallest eigenvalue of the covariates matrix Suppose for the moment ut ≈ K ⋆ xt in equation. In this case the matrix is nearly singular.
+
+<!-- chunk {"id": "body-0154", "role": "body", "section": "Why do we need Exploration?", "weight": 1.0} -->
+
+To see this, note that [I d x K ⊤ ⋆] ⊤ is a tall matrix-the outer product of tall matrices is singular. Thus, the error diverges if the policy is too close to the optimal policy K ⋆, i.e., the true parameters A ⋆ and B ⋆ are not identifiable under the optimal closed-loop policy K ⋆. In fact, this lack of identifiability is true under any policy of the form ut = Kxt.
+
+<!-- chunk {"id": "body-0155", "role": "body", "section": "Why do we need Exploration?", "weight": 1.0} -->
+
+Alternatively, the need for exploration can be seen by noting that for every perturbation D ∈ R d x × d u and (A (D), B (D)) of the form A (D) = A ⋆ -s D K ⋆, B (D) = B + s D (s ∈ R) the closed loop systems A ⋆ + B ⋆ K ⋆ and A (D) + B (D) K ⋆ are identical: A ⋆ + B ⋆ K ⋆ = A (D) + B (D) K ⋆ for all such D, s. As such, from observing trajectories generated by the two systems it is impossible to distinguish between them. The reasoning above indicates that in order to obtain estimates that convergence sufficiently quickly to the true parameters (A ⋆, B ⋆), exciting inputs that lead to exploration away from the optimal policy K ⋆ are necessary.
+
+<!-- chunk {"id": "body-0156", "role": "body", "section": "Why do we need Exploration?", "weight": 1.0} -->
+
+Do we actually need to identify the true parameters (A ⋆, B ⋆) ? The answer to this question is in the affirmative. To see this, we recall from [39, Lemma 2.1] that As long as (A ⋆ + B ⋆ K ⋆) in the matrix on the right hand side of equation is nonzero this implies that there exists a confusing parameter variation (which is not closed-loop distinguishable) that has a different optimal policy. Hence, one necessarily must identify the true parameters A ⋆ and B ⋆ in the adaptive control problem.
+
+<!-- chunk {"id": "body-0157", "role": "body", "section": "Why do we need Exploration?", "weight": 1.0} -->
+
+A historical tangent on identifiability. Closed-loop identifiability issues are well-known in the system identification literature. Indeed, in the LQR setting, Polderman gives an elegant geometric argument showing that the true parameters need to be identified. It is also interesting to note that, precisely because the minimum variance controller ( Q = I, R = 0) is closedloop identifiable (in contrast to the more general LQR controller), logarithmic regret can be achieved in this setting. Reiterating the point above: the reason for the necessity of the "exploratory signals" h t in equation is precisely a lack of closed-loop identifiability.
+
+<!-- chunk {"id": "body-0158", "role": "body", "section": "Why do we need Exploration?", "weight": 1.0} -->
+
+Returning to our estimation guarantee, we note that an i.i.d. sequence h t of rescaled isotropic noise of magnitude (standard deviation) t -a is sufficient to guarantee parameter recovery at the rate: ‖ ̂ q t -q ⋆ ‖ op = ˜ O ( t a -1/2 ). In this case, smoothness (combined with a naive taylor
+
+<!-- chunk {"id": "body-0159", "role": "body", "section": "Optimism and Thompson Sampling", "weight": 1.0} -->
+
+A lternative expoloration strategies include Optimism and Thompson sampling. Indeed, the first complete treatment of regret minimization in LQR, due to Abbasi-Yadkori and Szepesvári, relies on the principle of optimism in the face of uncertainty (OFU). Just as in the CE approach discussed in the main text OFU is based on constructing parameter estimates (̂ A, ̂ B). However, OFU also maintains a (tuned) confidence interval for these estimates. The adaptive control law is then expansion) suggests that ‖ K (̂ At, ̂ Bt) -K ⋆ ‖ op = ˜ O (t a -1/2). Balancing the two terms in equation we see that a = 1/4 leads to RT = ˜ O (√ T), which is optimal. While the reasoning above about the necessity of the perturbations h t is entirely heuristic, it can be made formal and will be discussed further in the section on regret lower bounds below.
+
+<!-- chunk {"id": "body-0160", "role": "body", "section": "Regret Lower Bounds", "weight": 1.0} -->
+
+We now argue that the scaling R p T = Q (√ d x d 2 u T) is optimal for state feedback systems by finding matching lower bounds. The modern approach to lower bounds, or fundamental performance limits, for sequential decision making problems seeks to characterize local minimax lower bounds. Such bounds quantify statements of the form "there exists no algorithm which uniformly outperforms a certain fundamental limit across a small (local) neighborhood of problem parameters". For the regret minimization problem such lower bounds typically take the form: for some e > 0, some function f and for every (causal) policy p. The lower bound states that the worst case expected regret over a neighborhood of the true parameter is lower bounded by some function of the instance parameter q ⋆ and the horizon T. The appearance of sup q ∈ B (q ⋆, e) in inequality is not restrictive-while such lower bounds are "worst case" one can typically allow for e → 0. In other words, such lower bounds are applicable to all algorithms which are in some sense robust to infinitesimal perturbations in the model parameter q ⋆, a rather mild criterion.
+
+<!-- chunk {"id": "body-0161", "role": "body", "section": "Regret Lower Bounds", "weight": 1.0} -->
+
+Put yet differently, a lower bound of the form for vanishing e → 0 states that there exists no algorithm which uniformly outperforms the lower bound in an infinitesimal neighborhood.
+
+<!-- chunk {"id": "body-0162", "role": "body", "section": "Regret Lower Bounds", "weight": 1.0} -->
+
+Regret Lower Bounds via Reduction to Bayesian Estimation To arrive at a local minimax lower bound let us suppose for simplicity that QT = P, so that equation obtained by selecting the most optimistic parameter and CE control law-those resulting in the lowest estimated cost- in this confidence interval. The original algorithm of was not computationally tractable, but this was later remedied. A related method, Thompson Sampling, is studied.
+
+<!-- chunk {"id": "body-0163", "role": "body", "section": "Regret Lower Bounds", "weight": 1.0} -->
+
+We note in passing that even though these strategies in principle are more sophisticated, to date, the tightest bounds have been proven for the simple input perturbation approach described in the main text. where le = min q ∈ B (q ⋆, e) l min (B ⊤ (q) P (q) B (q) + R) ≥ l min (R) > 0. The next step is crucial: we relax the supremum in inequality by a introducing a prior l over q ∈ B (q ⋆, e). The exact choice of l is not particularly interesting and its influence on the final bound can be made to vanish. By weak duality we have for any such l that The key insight is now that the quantity inf ut E q ∼ l E p q ‖ ut -K (q) xt ‖ 2 2 is simply the MMSE for estimating the random variable K (q) xt where q is drawn according to the prior distribution l.
+
+<!-- chunk {"id": "body-0164", "role": "body", "section": "Regret Lower Bounds", "weight": 1.0} -->
+
+Although it does require rather a few intermediate steps [91, Theorem 4.1], one can in principle lower bound the right hand side of inequality using estimation-theoretic lower bounds such as the Bayesian Cramér-Rao inequality, namely Van Trees' Inequality. The leading term in such lower bounds is the inverse of the Fisher Information: Heuristically, as e → 0, for two problem dependendent constants c (q), c ′ (q), we have The reason the constant c (q ⋆) is nonzero is a consequence of the derivative calcuation. This expression allows us to conclude that the jacobian terms discussed in Van Trees' Inequality are invertible. Further, it is instructive to note
+
+<!-- chunk {"id": "body-0165", "role": "body", "section": "Van Trees' Inequality and Fisher Information", "weight": 1.0} -->
+
+V an Trees' inequality is an MMSE lower bound for Bayesian estimation problems. Suppose the learner seeks to estimate a smooth function y (q) of a parameter q. The learner is given access to a sample Z drawn conditionally from a density p (z | q) and has access to a prior l (q). To state Van Trees' inequality, define the Fisher Information as Under a few relatively mild regularity conditions, Van Trees' Inequality states that any estimate using Z satisfies the lower that the expression inside the conditional expection in the expression is proportional to the leading term in the estimation error related to recovery of the parameter q = (A, B).
+
+<!-- chunk {"id": "body-0166", "role": "body", "section": "Van Trees' Inequality and Fisher Information", "weight": 1.0} -->
+
+As we argued above following equation, the optimal policy ut = Kxt renders the matrix singular and so one needs to deviate from this policy to consistenly estimate the parameter q = (A, B). In fact, it can be shown that the expected regret is an upper bound for the Fisher information: for a third problem dependent constant c ′′ (q), see [91, Lemma 3.6]. This offers a slight change of perspective: the expected regret acts as a constraint on the set of possible experiment designs available to the learner. This idea has also been explored from the perspective of regret upper bounds.
+
+<!-- chunk {"id": "body-0167", "role": "body", "section": "Van Trees' Inequality and Fisher Information", "weight": 1.0} -->
+
+Balancing the upper and lower bounds on the Fisher information in terms of the regret as in the heuristic inequalities -, yields that the optimal scaling must be √ T. In particular, any policy attaining expected regret on the order of magnitude O ( √ T ) generates a dataset where the smallest eigenvalue of the Fisher information is O ( √ T ). Hence, identification of the parameter q ⋆ = ( A ⋆, B ⋆ ) can occur no faster than at the rate O ( 1/ √ T ) for a regret-optimal policy, by which we can deduce that the optimal rate in fact is W ( √ T ). To obtain the correct dimensional dependence in the lower bound W ( √ d x d 2 u T ), this argument needs to be slightly refined. Namely, we note that it in fact is not just the smallest eigenvalue of I p ( q ) that is zero for laws of the form ut = Kxt but in fact all the smallest d x d u -many eigenvalues.
+
+<!-- chunk {"id": "body-0168", "role": "body", "section": "Van Trees' Inequality and Fisher Information", "weight": 1.0} -->
+
+To see this, note that the entire linear manifold { ( A, B ): A + BK ⋆ = A ⋆ + B ⋆ K ⋆ }, corresponds to parameters lacking persistency of excitation in closed-loop.
+
+<!-- chunk {"id": "body-0169", "role": "body", "section": "Van Trees' Inequality and Fisher Information", "weight": 1.0} -->
+
+As mentioned above, the optimal dimensional scaling bound where E denotes expectation with respect to p (y, q) = p (y | q) l (q).
+
+<!-- chunk {"id": "body-0170", "role": "body", "section": "Van Trees' Inequality and Fisher Information", "weight": 1.0} -->
+
+For our purposes, it is important to note that the Fisher Information I p (q) for Z = { xt, ut } T -1 t = 0 with xt + 1 = Axt + But + wt and q = vec (A, B) is equal to of regret for feedback systems has been settled. However, there is currently a gap in our understanding of the best possible scaling of the regret in terms of key system-theoretic quantities. In particular, tight bounds for the scaling in terms the solution P ⋆ to the steady state Riccati equation are unavailabe; the best known upper bound is due to [39, Theorem 2] and is of order √ ‖ P ⋆ ‖ 11 op, whereas the best known lower bound is of order s min (P ⋆) [91, Corollaries 4.2 and 4.3]. We note that ascertaining the exact optimal dependence of the regret on P ⋆ and other system-theoretic quantities in LQR remains an open problem.
+
+<!-- chunk {"id": "body-0171", "role": "body", "section": "P ⋆ can be exponential in the dimension", "weight": 1.0} -->
+
+We saw above that if one regards system-theoretic parameters as "dimension-less", the optimal dimensionaldependency for the state-feedback regret minimization scenario is polynomial in d x and d u. We will now see that these system-theoretic quantities can be rather significant.
+
+<!-- chunk {"id": "body-0172", "role": "body", "section": "P ⋆ can be exponential in the dimension", "weight": 1.0} -->
+
+To this end, consider the following system, which consists of two independent subsystems The first subsystem (A 1, B 1) corresponding to the top and leftmost part of the arrays in equation is just a simple memoryless system. The second subsystem (A 2, B 2) is an integrator of order d x -1. The system is decoupled, but is very sensitive to miss-specification in their coupling due to the integrator component's potential for error amplification. Moreover, the solution P ⋆ (A 2, B 2) is on the order 2 d x [97, Lemma 9]. Using this one can construct a local minimax regret lower bound for the instance (A, B) (system) with scaling A more general statement is given in [97, Theorem 3]. While the particular system has exponential complexity in the state dimension d x they establish a more general phenomenon: the controllability index k -the number of steps it takes to reset a noise free system to the origincan be used to characterize the local minimax regret and that this dependence is exponential. See also Table 3.
+
+<!-- chunk {"id": "body-0173", "role": "body", "section": "P ⋆ can be exponential in the dimension", "weight": 1.0} -->
+
+- 1) Learning to control can be hard; exponential complexity in the dimension can arise for examples as simple as integrators. - 2) To appreciate this hardness, we need to understand the role of control-theoretic quantities such as P ⋆.
+
+<!-- chunk {"id": "body-0174", "role": "body", "section": "Partially Observed Systems", "weight": 1.0} -->
+
+While our current understanding of the state-feedback setting is relatively complete, less is known when the learner only has access to a measured output and not the actual system state. In the state-feedback setting, we know that the correct scaling with time is √ T, that the dimensional dependence is √ d x d 2 u and that the key system-theoretic quantity is P ⋆. By contrast, in the partially observed setting we currently only know that the correct scaling with the time horizon is √ T. Determining the correct instancespecific scaling, and which quantities are key to this, is an open problem. Moreover, no current approach can handle the general LQG cost structure but instead apply to the criterion: With these caveats in mind, we now sketch an elegant approach due to based on the classical Youla parametrization leading to ˜ O (√ T) regret for partially observed systems.
+
+<!-- chunk {"id": "body-0175", "role": "body", "section": "Disturbance Feedback Control", "weight": 1.0} -->
+
+Unrolling the dynamics, it is straightforward to verify that for some error signal et decaying exponentially fast to 0 for stable systems. The approach as sketched here requires r (A ⋆) < 1 but can be extended to open-loop unstable systems [96, Appendix C].
+
+<!-- chunk {"id": "body-0176", "role": "body", "section": "Disturbance Feedback Control", "weight": 1.0} -->
+
+The representation suggests that there are two separate components to the input-output dynamics. The first component is referred to as "nature's y " and is a counterfactual object representing the evolution of the output in the absence of controller inputs. The second component is simply the discrete convolution of the inputs u 0: t -1 with the system Markov parameters G 0: t -1 ⋆ where G ⋆ (s) = C ⋆ A s ⋆ B ⋆. Hence yt = y nat t + G 0: t -1 ⋆ ∗ u 0: t -1. With these preliminaries established, for a sequence of matrices { Ms } m -1 s = 0 define disturbance response controllers (DRC) of order m as controllers of the form Notice that since y nat t = yt -t -1 s = 0 C ⋆ A t -s -1 ⋆ B ⋆ us, these are admissible causal controllers by construction - had the dynamics (A ⋆, B ⋆, C ⋆) been known, we would have been able to execute controllers of the form.
+
+<!-- chunk {"id": "body-0177", "role": "body", "section": "Disturbance Feedback Control", "weight": 1.0} -->
+
+It can be shown that controllers of the form can approximate linear dynamic controllers such as the separation principle solution to LQG (Kalman filter with LQR controller).
+
+<!-- chunk {"id": "body-0178", "role": "body", "section": "Regret Bounds for Partially Observed Systems", "weight": 1.0} -->
+
+The following algorithm combines the convex Youla-like parametrization with modern Online Convex Optimization. In particular, Simchowitz et al.
+
+<!-- chunk {"id": "body-0179", "role": "body", "section": "Regret Bounds for Partially Observed Systems", "weight": 1.0} -->
+
+- 1) inject exploratory noise for a period of length proportional to √ T; - 2) use this dataset to estimate the Markov parameters M; - 3) for the remainder of the horizon compute estimates of nature's y using the estimated Markov parameters; and - 4) use the estimated nature's y to run online (projected) gradient descent on the parameters Ms of the disturbance feedback controller.
+
+<!-- chunk {"id": "body-0180", "role": "body", "section": "Regret Bounds for Partially Observed Systems", "weight": 1.0} -->
+
+Simchowitz et al. show that for a properly tuned order m of DRC the approach outlined above yields ˜ O ( √ T ) regret. While in this setting there is no general lower bound to date, have shown that W ( √ T ) regret is unavoidable in the worst case by considering instances with large input dimension.
+
+<!-- chunk {"id": "body-0181", "role": "body", "section": "Logarithmic Regret?", "weight": 1.0} -->
+
+It is also interesting to note that for an alternative notion of regret, in which the learner competes with the best persistently exciting policy instead of the optimal policy, has shown that logarithmic regret is possible in the partially observed setting. We note however that the optimal LQG policy might not necessarily be persistently exciting. Indeed, known lower bounds show that it is not persistently exciting in i) the state-feedback setting (cf. ); and ii) the partially observed setting for certain large input dimension systems. Thus, it is an open problem to characterize the relation between the regret definition and the one defined.
+
+<!-- chunk {"id": "body-0182", "role": "body", "section": "Logarithmic Regret?", "weight": 1.0} -->
+
+We note in passing that a related situation arises in the state-feedback setting if the learner is given access to the precise value of B ⋆. In this case, it suffices to identify the matrix A ⋆, which is identifiable in closedloop given knowledge of B ⋆. Cassel et al. show that this observation leads to logarithmic regret-against the optimal controller-if B ⋆ is known a priori.
+
+<!-- chunk {"id": "body-0183", "role": "body", "section": "Logarithmic Regret?", "weight": 1.0} -->
+
+A related problem where logarithmic regret is possible is that of adaptive Kalman filtering or online prediction. The objective is to predict future observations y k online based on the past y k -1, uk -1,..., y 0, u 0. Since the only goal is prediction, the cost of control does not enter the objective. Interestingly, for this problem it is possible to attain logarithmic regret. Hence, we can learn the Kalman filter online with a smaller regret than that achievable in online LQR control. In light of our discussion, this is hopefully no longer surprising. In the LQR problem, we need to inject additional exploratory signals into the system, which also affects the cost of control. In the prediction problem, exploration is 'free' as the cost of control does not affect prediction performance. In fact, we can predict even without persistence of excitation; informally, if the covariates lie on a certain subspace, so will their future versions.
+
+<!-- chunk {"id": "body-0184", "role": "body", "section": "Logarithmic Regret?", "weight": 1.0} -->
+
+Open Problem 4. Provide matching upper and lower bounds on either the regret or the expected regret. In the partially observed setting, we currently do not even know the correct dimensional-dependence (or what the correct notion of dimension is-although it is to be suspected that this is related to the order of the system and the input and output dimensions d u and d y ).
+
+<!-- chunk {"id": "body-0185", "role": "body", "section": "Logarithmic Regret?", "weight": 1.0} -->
+
+To resolve this problem it is required to find a function f such that for a universal constant c 1 > 0 independent of all problem parameters, we have: for some some specific algorithm p and for T sufficiently large with high probability (or in expectation). A resolution will also provide a matching lower bound, which for some e = oT and some constant c 2 > 0 only depending on e establishes that: for all algorithms p and for T sufficiently large with at least constant probability (or in expectation). A partial resolution only applying to state-feedback systems, thus determining the correct dependence on system-theoretic quantities is also of interest.
+
+<!-- chunk {"id": "body-0186", "role": "body", "section": "SUMMARY AND DISCUSSION", "weight": 1.0} -->
+
+We have provided a tutorial survey of recent advances in statistical learning for control. One of the key takeaway messages is that we now have a relatively complete picture of the learning problem in fully observed linear dynamical systems, both in terms of system identification, as summarized in Table 1, and in terms regret minimization as summarized in Table 3. We have also provided an overview and listed a number of open problems in particular with respect to partially observed extensions of the above-mentioned results. Indeed, as exciting as the developments over the past few years in this field have been, there is still much work to be done. With this mind, we now outline some future directions we believe are important for the field to consider as next steps.
+
+<!-- chunk {"id": "body-0187", "role": "body", "section": "Control Oriented Identification", "weight": 1.0} -->
+
+In finite sample analysis of system identification, we studied methods of obtaining high probability bounds on the parameter estimation error of the form where ˆ AT is the output of the least squares algorithm. Similar bounds can be obtained for the other state parameters as well. As we discussed in Confidence ellipsoids, the operator norm picks up the worst-case direction which is the most difficult to identify. In fact, as shown, the sample complexity of identifying the worst-case direction can grow very large for certain systems. However, a question that arises is whether this worst-case direction affects control. ' Does the bottleneck of identification, i.e., the worst direction, affect control design? Do we always need to identify everything? " Consider for example the following system where only a and b are unknown. Let the control objective be stabilization by state feedback, i.e. finding a feedback gain K such that the closed-loop system A + BK is asymptotically stable. The only way to excite x k,2 is via x k,3; the coupling coefficient b determines the degree of excitation. Note that as the coupling b goes to zero, the excitation of x k,2 becomes smaller and smaller.
+
+<!-- chunk {"id": "body-0188", "role": "body", "section": "Control Oriented Identification", "weight": 1.0} -->
+
+As a result, if b is very small it is very difficult to identify the parameter a and the complexity of system identification increases with b -1. However, it is trivial to stabilize the system, even without knowledge of a e.g. with K = 0. In this particular example, the worst direction of identification error is not relevant for stabilization. Hence, the complexity of stabilization should be independent of b -1.
+
+<!-- chunk {"id": "body-0189", "role": "body", "section": "Control Oriented Identification", "weight": 1.0} -->
+
+On the other hand, consider system where now the first state has marginally stable dynamics. Unfortunately, for this pathological example, it is in fact necessary to identify a in order to stabilize the system (this example is adapted from), suffering from complexity which scales with b -1. In particular, we cannot stabilize the system unless we identify the sign of a, showing that for some systems, the worst direction of the identification error matters. The example above shows a system for which stabilization depends on an identification bottleneck. However, it seems that the constructed systems are artificial or pathological. It is an open problem to characterize the conditions under which we can avoid such corner cases.
+
+<!-- chunk {"id": "body-0190", "role": "body", "section": "Control Oriented Identification", "weight": 1.0} -->
+
+Similar questions have been previously studied in the context of control-oriented identification or identification for control. In many situations of practical interest we only need to identify the part of the model that matters for a specific closed-loop objective. In this case, it is reasonable to tune the identification towards the objective for which the model is to be used, i.e., to ensure that the model error is 'orthogonal' to the control objective. This is particularly important in the case of agnostic learning, i.e., when there is no 'true model" and the model class can only approximate the system, which is typically the case in practice.
+
+<!-- chunk {"id": "body-0191", "role": "body", "section": "Learning with Structure and Regularization", "weight": 1.0} -->
+
+In many practical situations, certain structural properties of the system to be identified and controlled are known a priori. For instance, when trying to learn a networked system, the engineer might have prior knowledge that interconnections between states are relatively sparse. Other examples of relevant structural priors include low order, as captured by the rank of a system Hankel matrix, or physical properties such as passivity and dissipativity.
+
+<!-- chunk {"id": "body-0192", "role": "body", "section": "Sparsity", "weight": 1.0} -->
+
+In the case of a linear dynamical system, sparsity amounts to the matrix A ⋆ in the dynamics xt + 1 = A ⋆ xt + wt having many zero entries, i.e., A ⋆ will be sparse and have only s ≪ d 2 x nonzero entries. Many modern networked systems have the property that they are large scale but not maximally connected, leading to a high-dimensional state vector with sparse A ⋆. There are many other examples that fall into this category, including snake-like robots, which can be modeled by an integrator-like structure: The matrix A snake has only s = 2 d x ≪ d 2 x many nonzero entries and so one is justified to hope for a polynomial speed-up in the sample complexity of system identification as compared to the standard minimax rate achieved by the least squares estimator.
+
+<!-- chunk {"id": "body-0193", "role": "body", "section": "Sparsity", "weight": 1.0} -->
+
+In such high-dimensional situations, running linear regression, which suffers a minimax rate of convergence proportional to the d 2 x in Frobenius norm (proportional to d x in operator norm), is not sample efficient or might not even be tractable. To alleviate this issue, Fattahi et al. analyze the LASSO estimator as applied to system identification. Recall that the ℓ 1 -norm of a vector v = (v 1,..., v d) ∈ R d takes the form ‖ v ‖ ℓ 1 = d i = 1 | vi |. The LASSO penalizes the least squares solution by this norm using a fixed regularization parameter l > 0, and takes the form: It is by now well known that ℓ 1 -regularization promotes sparse least squares solutions. Indeed, the authors of show that the LASSO also avoids polynomial dependence on the state dimension for linear dynamical systems. Unfortunately however, the rate in degrades with the stability of the system-precisely that which we sought to avoid in our discussion of finite sample analysis of system identification by leveraging Persistency of excitation and small-ball bounds.
+
+<!-- chunk {"id": "body-0194", "role": "body", "section": "Sparsity", "weight": 1.0} -->
+
+Moreover, by instantiating recent results in it can be shown that the minimax rate (in Frobenius norm) over the class of s -sparse linear dynamical systems is no more than ˜ O (√ s s 2 w l min (G T)) where G T is as in (with B ⋆ = 0). Unfortunately, instantiating does not yield an effective algorithm and reduces to running (d 2 x s) = O (d x exp (2 s)) separate regressions, each one over an s -dimensional sub-manifold. This quickly becomes intractable even for rather moderate cases of the degree of sparsity s.
+
+<!-- chunk {"id": "body-0195", "role": "body", "section": "Sparsity", "weight": 1.0} -->
+
+Open Problem 5. Studying the tension between dependence on mixing time (stability) and computational intractability is an exciting direction for future work. Can we refine existing analysis of the LASSO (or provide some other polynomial algorithm) to match minimax rates, or is there a fundamental computational barrier introduced by sparsity? Resolving this issue may well require the development of new tools since existing analyses of the LASSO in the i.i.d. setting invariably depend on the condition number of the covariates matrix, which for a linear dynamic system is proportional to the mixing time (degree of stability), leading to sub-optimal rates.
+
+<!-- chunk {"id": "body-0196", "role": "body", "section": "Low Order Models", "weight": 1.0} -->
+
+Sparsity as discussed above is also relevant when estimating input-output models of unknown order. For example, consider the following model: In this scenario, there is no nontrivial upper bound on the lag order available to the engineer, and it may be as large as the entire horizon T. Converting the process into state space form and running least squares is not tractable: recall that the minimax rate of convergence depends on the ratio of the number of unknown parameters and the number of samples (in this case, given by the horizon T). Without further assumption this ratio is constant in the worst-case for model. However, if there is hope that the true model is of low order so that many of the { Aj, Bj } are zero, a variation of the LASSO may also be appropriate for model selection in this scenario.
+
+<!-- chunk {"id": "body-0197", "role": "body", "section": "Low Rank Models", "weight": 1.0} -->
+
+A more sophisticated notion of model order than discussed in the preceding paragraph is that of Hankel matrix rank (McMillan degree). Let h ⋆ = [C ⋆ B ⋆ C ⋆ A ⋆ B ⋆ C ⋆ A 2 ⋆ B ⋆...] denote the impulse response (matrix) associated to the tuple (A ⋆, B ⋆, C ⋆) and notice that model can be written as where ∗ denotes discrete convolution, and { h t } is some (not necessarily i.i.d.) noise sequence. Denote by H the Hankel (linear) operator, mapping impulse responses to Hankel matrices. The nuclear norm of a matrix M ∈ R d × d is ‖ M ‖∗ = d i = 1 s i (M). This norm plays a similar role to the ℓ 1 -norm but promotes low rank solutions rather than sparse solutions. Since the rank of the Hankel matrix H (h ⋆) coincides with the McMillan degree of the system, it is natural to consider the following nuclear norm regularized problem (see e.g.): As of the writing of this article, no finite sample analysis exists for the nuclear norm regularized estimator.
+
+<!-- chunk {"id": "body-0198", "role": "body", "section": "Learning for Nonlinear Identification and Control", "weight": 1.0} -->
+
+While the vast majority of the literature on statistical learning for identification and control has been on linear systems, most real systems are not. Learning in linear dynamical systems escapes many nonlinear phenomena and does not capture one of the most fundamental issues in modern machine learning, distribution shift. For linear models, parameter recovery is always possible as long as the average covariance matrix of the covariates is sufficiently non-degenerate (invertible) and the rate of parameter recovery is (asymptotically) completely described by the second order statistics of the process under investigation. Put differently, all equilibrium points of a linear system are (dynamically) equivalent. This stands in stark contrast to more general nonlinear systems in which, in the worst case, learning the behavior around one equilibrium point gives no information about the behavior of the system in other regions of the state-space.
+
+<!-- chunk {"id": "body-0199", "role": "body", "section": "Learning for Nonlinear Identification and Control", "weight": 1.0} -->
+
+Moreover, recent advances in learning and estimation for nonlinear dynamics bypass these issues of distribution shift by either considering models which behave almost linearly or by sidestepping the issue entirely and only considering a prediction error associated to the invariant measure of the system. For statistical learning to be truly informative for downstream control applications a more integrated understanding of learnability, nonlinear dynamic phenomena, and control-theoretic notions such as incremental stability or contraction are needed.
+
+<!-- chunk {"id": "body-0200", "role": "body", "section": "Realizability and Approximation", "weight": 1.0} -->
+
+Existing work on learning in dynamical systems make strong realizability assumptions. For instance, it is often assumed that the true model is generated by a linear dynamical system of the form driven by i.i.d. mean zero (or martingale difference) noise. Even if one considers more complicated nonlinear models, such additive mean zero noise models completely sidestep bias or misspecification challenges.
+
+<!-- chunk {"id": "body-0201", "role": "body", "section": "Realizability and Approximation", "weight": 1.0} -->
+
+This is significant since ignoring this issue might mean that existing analyses are overly optimistic. Indeed, shows that in the worst case, misspefication in a simple linear regression model leads to a deflated sample complexity by a factor linear in the mixing time of the covariates process. This stands in stark contrast to the results in in which linear regression over a well-specified model class is analyzed completely without reference to mixing. While the fundamental limits in may seem discouraging at first, they are worst case, and may be avoidable by introducing further regularity assumptions. As a first step, one could analyze the sample complexity of recovering the best linear approximation to an almost linear autoregression, e.g., adding a small nonlinearity, or considering a generalized linear model with nearly isometric link function.
+
+<!-- chunk {"id": "body-0202", "role": "body", "section": "Structured Nonlinear Identification", "weight": 1.0} -->
+
+A host of new opportunities present themselves in structural nonlinear identification as compared to the linear setting. While, sparse and low-rank structure are certainly of interest and applicable to learning in nonlinear dynamical systems, there are other exciting, and arguably more fundamentally system-theoretic, alternatives. For instance, one might ask how properties such as passivity or dissipativity affect the minimax rate of estimation and whether there are efficient algorithms that might take advantage of this. More concretely, one might be interested in the 1-dimensional autoregression xt + 1 = f ⋆ ( xt ) + wt and seek to identify f ⋆ under the physically motivated hypothesis that f ⋆ is the negative gradient of an unknown convex potential.
+
+<!-- chunk {"id": "body-0203", "role": "body", "section": "Structured Nonlinear Identification", "weight": 1.0} -->
+
+Taking advantage of structure may also be inherently more important in nonlinear identification since otherwise the curse of dimensionality is quick to present itself. For instance, in the model running regression over the hypothesis class F = { f: R d x → ⊂ R and f is k -smooth } incurs a minimax rate which degrades exponentially with large d x.

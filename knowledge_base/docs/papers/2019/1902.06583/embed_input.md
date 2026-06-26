@@ -60,94 +60,104 @@ We evaluate HOOF across a range of simulated continuous control tasks using the 
 
 <!-- chunk {"id": "body-0015", "role": "body", "section": "Hyperparameter Optimisation on the Fly", "weight": 1.0} -->
 
-The main idea behind HOOF is to automatically adapt the hyperparameters during training by greedily maximising the value of the updated policy, i.e., starting with policy $\pi_{n}$ at iteration $n$, HOOF sets
+The main idea behind HOOF is to automatically adapt the hyperparameters during training by greedily maximising the value of the updated policy, i.e., starting with policy $\pi_{n}$ at iteration $n$, HOOF sets Given a set of sampled trajectories, $f{(\psi)}$ can be computed for any $\psi$, and thus we can generate different candidate $\pi_{n + 1}$ without requiring any further samples. However, solving the optimisation problem in requires evaluating $J{(\pi_{n + 1})}$ for each such candidate. Any on-policy approach would have prohibitive sample requirements, so HOOF uses weighted importance sampling (WIS) to construct an off-policy estimate of $J{(\pi_{n + 1})}$.
 
 <!-- chunk {"id": "body-0016", "role": "body", "section": "Hyperparameter Optimisation on the Fly", "weight": 1.0} -->
 
-Given a set of sampled trajectories, $f{(\psi)}$ can be computed for any $\psi$, and thus we can generate different candidate $\pi_{n + 1}$ without requiring any further samples. However, solving the optimisation problem in requires evaluating $J{(\pi_{n + 1})}$ for each such candidate. Any on-policy approach would have prohibitive sample requirements, so HOOF uses weighted importance sampling (WIS) to construct an off-policy estimate of $J{(\pi_{n + 1})}$.
+\tau \middle| \pi \right.)}} = {p{(s_{0})}{\prod_{i = 0}^{T}{\pi{(\left. a_{i} \middle| s_{i} \right.)}p{(\left. s_{i + 1} \middle| {s_{i},a_{i}} \right.)}}}}$, the transitions cancel out and we have: The success of this approach depends critically on the quality of the WIS estimates, which can suffer from high variance that grows rapidly as the distributions of $\pi_{n + 1}$ and $\pi_{n}$ diverge. Fortunately, for natural gradient methods like NPG, $KL{(\pi_{n + 1}||\pi_{n})}$ is automatically approximately bounded by the update, ensuring reasonable WIS estimates when HOOF directly uses. In the following, we consider the more challenging case of first order methods.
 
-<!-- chunk {"id": "body-0017", "role": "body", "section": "Hyperparameter Optimisation on the Fly", "weight": 1.0} -->
+<!-- chunk {"id": "body-0017", "role": "body", "section": "First Order HOOF", "weight": 1.0} -->
 
-The success of this approach depends critically on the quality of the WIS estimates, which can suffer from high variance that grows rapidly as the distributions of $\pi_{n + 1}$ and $\pi_{n}$ diverge. Fortunately, for natural gradient methods like NPG, $KL{(\pi_{n + 1}||\pi_{n})}$ is automatically approximately bounded by the update, ensuring reasonable WIS estimates when HOOF directly uses. In the following, we consider the more challenging case of first order methods.
+Without a KL bound on the policy update, it may seem that WIS will not yield adequate estimates to solve. However, a key insight is that, while the estimated policy value can have high variance, the relative ordering of the policies, which HOOF solves, has much lower variance (See Appendix E for an illustrative example). Nonetheless, HOOF could still fail if $KL{(\pi_{n + 1}||\pi_{n})}$ becomes too large, which can occur in first order methods. Hence, First Order HOOF modifies by constraining $KL{(\pi_{n + 1}||\pi_{n})}$: While this yields an update that superficially resembles that of natural gradient methods, the KL constraint is applied only during the search for the optimal hyperparameter settings using WIS. The direction of the update is determined solely by a first order gradient update rule, and estimation and inversion of the FIM is not required.
 
 <!-- chunk {"id": "body-0018", "role": "body", "section": "First Order HOOF", "weight": 1.0} -->
 
-Without a KL bound on the policy update, it may seem that WIS will not yield adequate estimates to solve. However, a key insight is that, while the estimated policy value can have high variance, the relative ordering of the policies, which HOOF solves, has much lower variance (See Appendix E for an illustrative example). Nonetheless, HOOF could still fail if $KL{(\pi_{n + 1}||\pi_{n})}$ becomes too large, which can occur in first order methods.
+From a practical perspective, this constraint is enforced by computing the KL for each candidate policy based on the observed trajectories, and the candidate is rejected if this sample KL is greater than the constraint.
 
 <!-- chunk {"id": "body-0019", "role": "body", "section": "First Order HOOF", "weight": 1.0} -->
 
-While this yields an update that superficially resembles that of natural gradient methods, the KL constraint is applied only during the search for the optimal hyperparameter settings using WIS. The direction of the update is determined solely by a first order gradient update rule, and estimation and inversion of the FIM is not required. From a practical perspective, this constraint is enforced by computing the KL for each candidate policy based on the observed trajectories, and the candidate is rejected if this sample KL is greater than the constraint.
+If learning the learning rate using HOOF, we can also use the KL constraint to dynamically adjust the search bounds: At each iteration, if none of the candidates violate the KL constraint, we increase the upper bound of the search space by a factor $\nu$, while if a large proportion of the candidates violate the KL constraint, we reduce the upper bound by $\nu$. This makes HOOF even more robust to the initial setting of the search space. Note that this is entirely optional, and is simply a means to reduce the number of number of candidates that would otherwise need to be generated and evaluated to ensure that a good solution of is found.
 
 <!-- chunk {"id": "body-0020", "role": "body", "section": "First Order HOOF", "weight": 1.0} -->
 
-If learning the learning rate using HOOF, we can also use the KL constraint to dynamically adjust the search bounds: At each iteration, if none of the candidates violate the KL constraint, we increase the upper bound of the search space by a factor $\nu$, while if a large proportion of the candidates violate the KL constraint, we reduce the upper bound by $\nu$. This makes HOOF even more robust to the initial setting of the search space. Note that this is entirely optional, and is simply a means to reduce the number of number of candidates that would otherwise need to be generated and evaluated to ensure that a good solution of is found.
+0: Initial policy π0, number of policy iterations N, search space for ψ, KL constraint ϵ if using first order policy gradient method. 2: Sample trajectories τ1: K using πn. 4: Generate candidate hyperparameter {ψz} from the search space. 5: Compute candidate policy πz using ψz in 6: Estimate J (πz) using WIS 7: Compute KL(πz||πn) if using first order policy gradient method, 9: Select ψn, and hence πn + 1, according to or
 
-<!-- chunk {"id": "body-0021", "role": "body", "section": "First Order HOOF", "weight": 1.0} -->
-
-0: Initial policy π0, number of policy iterations N, search space for ψ, KL constraint ϵ if using first order policy gradient method.
-2: Sample trajectories τ1: K using πn.
-4: Generate candidate hyperparameter {ψz} from the search space.
-5: Compute candidate policy πz using ψz in
-6: Estimate J (πz) using WIS
-7: Compute KL(πz||πn) if using first order policy gradient method,
-9: Select ψn, and hence πn + 1, according to or
-
-<!-- chunk {"id": "body-0022", "role": "body", "section": "$({\\mathbf{γ}},{\\mathbf{λ}})$ Conditioned Value Function", "weight": 1.0} -->
+<!-- chunk {"id": "body-0021", "role": "body", "section": "$({\\mathbf{γ}},{\\mathbf{λ}})$ Conditioned Value Function", "weight": 1.0} -->
 
 If we use HOOF to learn $(\gamma,\lambda)$, $g_{n}$ has to be computed for each setting of $(\gamma,\lambda)$. With neural net value functions, we modify our value function such that its inputs are $(s,\gamma,\lambda)$, similar to Universal Value Function Approximators. Thus we learn a $(\gamma,\lambda)$-conditioned value function that can make value predictions for any candidate $(\gamma,\lambda)$ at the cost of a single forward pass. In Appendix D Conditional Value Functions ‣ Fast Efficient Hyperparameter Tuning for Policy Gradient Methods") we present some experimental results to show that learning a $(\gamma,\lambda)$-conditioned value function is key to the success of HOOF.
 
-<!-- chunk {"id": "body-0023", "role": "body", "section": "Robustness to HOOF Hyperparameters and Computational Costs", "weight": 1.0} -->
+<!-- chunk {"id": "body-0022", "role": "body", "section": "Robustness to HOOF Hyperparameters and Computational Costs", "weight": 1.0} -->
 
 HOOF introduces two types of hyperparameters of its own: the search spaces for the various hyperparameters it tunes, and the number of candidate policies generated for evaluation. Since the candidate policies are generated using random search, these hyperparameters express a straight up trade-off between performance and computational cost: A larger search space and larger number of candidates should lead to better solution, but incur higher computational cost. However, just like in random search, the generation and evaluation of the candidate policies can be performed in parallel to reduce wall clock time. Alternatively, Bayesian Optimisation could be used to solve efficiently. Finally, we note that HOOF with random search is always more computationally efficient than grid/random search over the hyperparameters with the same number of candidates, as HOOF saves on the additional computational cost of sampling trajectories for each candidate incurred by grid/random search. HOOF additionally introduces the KL constraint hyperparameter for first order methods. We show experimentally that the performance of HOOF is robust to a wide range of settings for this.
 
-<!-- chunk {"id": "body-0024", "role": "body", "section": "Choice of Optimiser", "weight": 1.0} -->
+<!-- chunk {"id": "body-0023", "role": "body", "section": "Choice of Optimiser", "weight": 1.0} -->
 
 Throughout this paper we use random search as the optimiser for to show that the simplest methods suffice. However, any gradient-free optimiser could be used instead. For example, grid search, CMA-ES, or Bayesian Optimisation are all viable alternatives.
 
-<!-- chunk {"id": "body-0025", "role": "body", "section": "Choice of Optimiser", "weight": 1.0} -->
+<!-- chunk {"id": "body-0024", "role": "body", "section": "Choice of Optimiser", "weight": 1.0} -->
 
 Gradient based methods are not viable for two reasons. First, they require that $J{(\pi_{n + 1})}$ be differentiable w.r.t. the hyperparameters, which might be difficult or impossible to compute, e.g. with the TRPO update. Second, they introduce learning rate and initialisation hyperparameters, which require tuning at the expense of sample efficiency.
 
-<!-- chunk {"id": "body-0026", "role": "body", "section": "Experiments", "weight": 1.0} -->
+<!-- chunk {"id": "body-0025", "role": "body", "section": "Experiments", "weight": 1.0} -->
 
 To experimentally validate HOOF, we apply it to four simulated continuous control tasks from MuJoCo OpenAI Gym: HalfCheetah, Hopper, Ant, and Walker. We start with A2C, and show that HOOF performs better than multiple baselines, and is also far more sample efficient. Next, we use NPG as the underlying policy gradient method and apply HOOF to learn $(\delta,\gamma,\lambda)$ and show that it outperforms TRPO.
 
-<!-- chunk {"id": "body-0027", "role": "body", "section": "Experiments", "weight": 1.0} -->
+<!-- chunk {"id": "body-0026", "role": "body", "section": "Experiments", "weight": 1.0} -->
 
 We repeat all experiments across 10 random starts. In all figures solid lines represent the median, and shaded regions the quartiles. Similarly all results in tables represent the median. Hyperparameters that are not tuned are held constant across HOOF and baselines to ensure comparability. Details about all hyperparameters can be found in the appendices.
 
+<!-- chunk {"id": "body-0027", "role": "body", "section": "HOOF with A2C", "weight": 1.0} -->
+
+In the A2C framework, a neural net with parameters $\theta$ is commonly used to represent both the policy and the value function, usually with some shared layers. The update function for A2C is a linear combination of the gradients of the policy loss, the value loss, and the policy entropy: where we have omitted the dependence on the timestep and other hyperparameters for ease of notation. The performance of A2C is particularly sensitive to the choice of the learning rate $\alpha$, which requires careful tuning.
+
 <!-- chunk {"id": "body-0028", "role": "body", "section": "HOOF with A2C", "weight": 1.0} -->
-
-In the A2C framework, a neural net with parameters $\theta$ is commonly used to represent both the policy and the value function, usually with some shared layers.
-
-<!-- chunk {"id": "body-0029", "role": "body", "section": "HOOF with A2C", "weight": 1.0} -->
-
-where we have omitted the dependence on the timestep and other hyperparameters for ease of notation. The performance of A2C is particularly sensitive to the choice of the learning rate $\alpha$, which requires careful tuning.
-
-<!-- chunk {"id": "body-0030", "role": "body", "section": "HOOF with A2C", "weight": 1.0} -->
 
 We learn $\alpha$ using HOOF with the KL constraint $\epsilon = 0.03$ ('HOOF'). We compare this against two baselines: Baseline A2C, i.e., A2C with the initial learning rate set to the OpenAI Baselines default (0.0007), and learning rate being learnt by meta-gradients ('Tuned Meta-Gradient'), where the hyperparameters introduced by meta-gradients were tuned using grid search.
 
-<!-- chunk {"id": "body-0031", "role": "body", "section": "HOOF with A2C", "weight": 1.0} -->
+<!-- chunk {"id": "body-0029", "role": "body", "section": "HOOF with A2C", "weight": 1.0} -->
 
 The learning curves in Figure 1 shows that across all environments HOOF learns faster than Baseline A2C, and also outperforms it in HalfCheetah and Walker, demonstrating that learning the learning rate online can yield significant gains.
 
-<!-- chunk {"id": "body-0032", "role": "body", "section": "HOOF with A2C", "weight": 1.0} -->
+<!-- chunk {"id": "body-0030", "role": "body", "section": "HOOF with A2C", "weight": 1.0} -->
 
-The update rule for meta-gradients when learning $\alpha$ reduces to $\alpha^{\prime} = {\alpha + {\beta{{\nabla_{\theta^{\prime}}\log}\pi_{\theta^{\prime}}}{(\left. a \middle| s \right.)}{({R - {V_{\theta^{\prime}}{(s)}}})}\frac{f_{\theta}{(\psi)}}{\alpha}}}$, where $\beta$ is the meta learning rate. This leads to two issues: what should the learning rate be initialised to ($\alpha_{0}$), and what should the meta learning rate be set to? Like all gradient based methods, the performance of meta gradients can be sensitive to the choices of these two hyperparamters. When we set $\alpha_{0}$ to the OpenAI baselines default setting and $\beta$ to 0.001 as per Xu et al. A2C fails to learn at all.
+The update rule for meta-gradients when learning $\alpha$ reduces to $\alpha' = {\alpha + {\beta{{\nabla_{\theta'}\log}\pi_{\theta'}}{(\left. a \middle| s \right.)}{({R - {V_{\theta'}{(s)}}})}\frac{f_{\theta}{(\psi)}}{\alpha}}}$, where $\beta$ is the meta learning rate. This leads to two issues: what should the learning rate be initialised to ($\alpha_{0}$), and what should the meta learning rate be set to? Like all gradient based methods, the performance of meta gradients can be sensitive to the choices of these two hyperparamters. When we set $\alpha_{0}$ to the OpenAI baselines default setting and $\beta$ to 0.001 as per Xu et al. A2C fails to learn at all.
 
-<!-- chunk {"id": "body-0033", "role": "body", "section": "HOOF with A2C", "weight": 1.0} -->
+<!-- chunk {"id": "body-0031", "role": "body", "section": "HOOF with A2C", "weight": 1.0} -->
 
 Thus, we had to run a grid search over $(\alpha_{0},\beta)$ to find the optimal settings across these hyperparameters. In Figure 1 we plot the best run from this grid search. Despite using 36 times as many samples (due to the grid search), meta-gradients still cannot outperform HOOF, and learns slower in 3 of the 4 tasks. The returns for each of the 36 points on the grid are presented in Appendix B.1 and they show that the performance of meta gradients can be sensitive to these two hyperparamters.
 
-<!-- chunk {"id": "body-0034", "role": "body", "section": "HOOF with A2C", "weight": 1.0} -->
+<!-- chunk {"id": "body-0032", "role": "body", "section": "HOOF with A2C", "weight": 1.0} -->
 
 To show that HOOF's performance is robust to $\epsilon$, its own hyperparameter quantifying the KL constraint, we repeated our experiments with different values of $\epsilon$. The results presented in Table 1 show that HOOF's performance is stable across different values of this parameter. This is not surprising -- the sole purpose of the constraint is to ensure that the WIS estimates remain viable.
 
+<!-- chunk {"id": "body-0033", "role": "body", "section": "HOOF with A2C", "weight": 1.0} -->
+
+Max return over subsampled grid of size Table 2: Comparison of sample efficiency of HOOF over grid search.
+
+<!-- chunk {"id": "body-0034", "role": "body", "section": "HOOF with A2C", "weight": 1.0} -->
+
+Finally, to ascertain the sample efficiency of HOOF relative to grid search, we perform a benchmarking exercise. We used HOOF to learn both the learning rate and the entropy coefficient ($c_{2}$ in ). We split the search bounds for these across a grid with 11x11 points and ran A2C for each setting on the grid. For computational reasons we set the budget for each training run to 1 million timesteps. Given a budget of $n$ training runs, we randomly subsample $n$ points from the grid (without replacement) and note the best return. We repeat this 1000 times to get an estimate of the expected best return of the grid search with a budget of $n$ training runs. The results presented in Table 2 compares the returns of HOOF to that of the expected best return for grid search with different training budgets. The performance of grid search is much worse than that of HOOF with the same budget (i.e., only 1 training run). The results show that grid search can take more than 10 times as many samples to match HOOF's performance.
+
 <!-- chunk {"id": "body-0035", "role": "body", "section": "HOOF with A2C", "weight": 1.0} -->
 
-Max return over subsampled grid of size
+Appendix A.3 contains further experimental details, including results confirming that the KL constraint is crucial to ensuring sound WIS estimates.
 
 <!-- chunk {"id": "body-0036", "role": "body", "section": "HOOF with A2C", "weight": 1.0} -->
 
-Finally, to ascertain the sample efficiency of HOOF relative to grid search, we perform a benchmarking exercise. We used HOOF to learn both the learning rate and the entropy coefficient ($c_{2}$ in ). We split the search bounds for these across a grid with 11x11 points and ran A2C for each setting on the grid. For computational reasons we set the budget for each training run to 1 million timesteps. Given a budget of $n$ training runs, we randomly subsample $n$ points from the grid (without replacement) and note the best return. We repeat this 1000 times to get an estimate of the expected best return of the grid search with a budget of $n$ training runs. The results presented in Table 2 compares the returns of HOOF to that of the expected best return for grid search with different training budgets. The performance of grid search is much worse than that of HOOF with the same budget (i.e., only 1 training run). The results show that grid search can take more than 10 times as many samples to match HOOF's performance.
+In Appendix A.4 we show that HOOF is also robust to the choice of the optimiser by running the experiments with SGD (instead of RMSProp) as the optimiser. In this case the difference in performance is highly significant with Baseline A2C failing to learn at all.
+
+<!-- chunk {"id": "body-0037", "role": "body", "section": "HOOF with Truncated Natural Policy Gradients (TNPG)", "weight": 1.0} -->
+
+A major disadvantage of natural policy gradient methods is that they require the inversion of the FIM, which can be prohibitively expensive for large neural net policies with thousands of parameters. TNPG and TRPO address this by using the conjugate gradient algorithm to efficiently approximate $I{(\pi)}^{- 1}g$. TRPO has been shown to perform better than TNPG in continuous control tasks, a result attributed to stricter enforcement of the KL constraint.
+
+<!-- chunk {"id": "body-0038", "role": "body", "section": "HOOF with Truncated Natural Policy Gradients (TNPG)", "weight": 1.0} -->
+
+However, in this section, we show that stricter enforcement of the KL constraint becomes unnecessary once we properly adapt TNPG's learning rate. To do so, we apply HOOF to learn $(\delta,\gamma,\lambda)$ of TNPG ('HOOF-TNPG'), and compare it with TRPO with the OpenAI Baselines default settings of $({{\epsilon = 0.01},{{\gamma = 0.99},{\lambda = 0.98}}})$ ('Baseline TRPO').
+
+<!-- chunk {"id": "body-0039", "role": "body", "section": "Conclusions & Future Work", "weight": 1.0} -->
+
+The performance of a policy gradient method is highly dependent on its hyperparameters. However, methods typically used to tune these hyperparameters are highly sample inefficient, computationally expensive, and learn only a fixed setting of the hyperparameters. In this paper we presented HOOF, a sample efficient method that automatically learns a schedule for the learning rate and GAE hyperparameters of policy gradient methods without requiring multiple training runs. We believe that this, combined with its simplicity and ease of implementation, makes HOOF a compelling method for optimising policy gradient hyperparameters.
+
+<!-- chunk {"id": "body-0040", "role": "body", "section": "Conclusions & Future Work", "weight": 1.0} -->
+
+While we have presented HOOF as a method to learn the hyperparameters of a policy gradient algorithm, the underlying principles are far more general. For example, one could compute a distribution for the gradient and generate candidate policies by sampling from that distribution, instead of just using the point estimate of the gradient. It has also been hypothesised that state/action dependent discount factors might help speed up learning. This could be achieved by using HOOF to learn the parameters of a function that maps the states/actions to the discount factors.

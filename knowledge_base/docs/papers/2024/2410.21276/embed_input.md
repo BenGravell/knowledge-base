@@ -26,7 +26,7 @@ In line with our commitment to building AI safely and consistent with our volunt
 
 <!-- chunk {"id": "body-0007", "role": "body", "section": "Model data and training", "weight": 1.0} -->
 
-Select publicly available data, mostly collected from industry-standard machine learning datasets and web crawls.
+GPT-4o's text and voice capabilities were pre-trained using data up to October 2023, sourced from a wide variety of materials including: Select publicly available data, mostly collected from industry-standard machine learning datasets and web crawls.
 
 <!-- chunk {"id": "body-0008", "role": "body", "section": "Model data and training", "weight": 1.0} -->
 
@@ -34,7 +34,7 @@ Proprietary data from data partnerships. We form partnerships to access non-publ
 
 <!-- chunk {"id": "body-0009", "role": "body", "section": "Model data and training", "weight": 1.0} -->
 
-Web Data: Data from public web pages provides a rich and diverse range of information, ensuring the model learns from a wide variety of perspectives and topics.
+The key dataset components that contribute to GPT-4o's capabilities are: Web Data: Data from public web pages provides a rich and diverse range of information, ensuring the model learns from a wide variety of perspectives and topics.
 
 <!-- chunk {"id": "body-0010", "role": "body", "section": "Model data and training", "weight": 1.0} -->
 
@@ -50,543 +50,480 @@ Prior to deployment, OpenAI assesses and mitigates potential risks that may stem
 
 <!-- chunk {"id": "body-0013", "role": "body", "section": "Model data and training", "weight": 1.0} -->
 
-We find that the majority of effective testing and mitigations are done after the pre-training stage because filtering pre-trained data alone cannot address nuanced and context-specific harms.
+We find that the majority of effective testing and mitigations are done after the pre-training stage because filtering pre-trained data alone cannot address nuanced and context-specific harms. At the same time, certain pre-training filtering mitigations can provide an additional layer of defense that, along with other safety mitigations, help exclude unwanted and harmful information from our datasets: We use our Moderation API and safety classifiers to filter out data that could contribute to harmful content or information hazards, including CSAM, hateful content, violence, and CBRN.
 
 <!-- chunk {"id": "body-0014", "role": "body", "section": "Model data and training", "weight": 1.0} -->
 
-We use our Moderation API and safety classifiers to filter out data that could contribute to harmful content or information hazards, including CSAM, hateful content, violence, and CBRN.
+As with our previous image generation systems, we filter our image generation datasets for explicit content such as graphic sexual material and CSAM.
 
 <!-- chunk {"id": "body-0015", "role": "body", "section": "Model data and training", "weight": 1.0} -->
 
-As with our previous image generation systems, we filter our image generation datasets for explicit content such as graphic sexual material and CSAM.
+We use advanced data filtering processes to reduce personal information from training data.
 
 <!-- chunk {"id": "body-0016", "role": "body", "section": "Model data and training", "weight": 1.0} -->
 
-We use advanced data filtering processes to reduce personal information from training data.
-
-<!-- chunk {"id": "body-0017", "role": "body", "section": "Model data and training", "weight": 1.0} -->
-
 Upon releasing DALL-E 3, we piloted a new approach to give users the power to opt images out of training. To respect those opt-outs, we fingerprinted the images and used the fingerprints to remove all instances of the images from the training dataset for the GPT-4o series of models.
 
-<!-- chunk {"id": "body-0018", "role": "body", "section": "Risk identification, assessment and mitigation", "weight": 1.0} -->
+<!-- chunk {"id": "body-0017", "role": "body", "section": "Risk identification, assessment and mitigation", "weight": 1.0} -->
 
 Deployment preparation was carried out via identifying potential risks of speech to speech models, exploratory discovery of additional novel risks through expert red teaming, turning the identified risks into structured measurements and building mitigations for them. We also evaluated GPT-4o in accordance with our Preparedness Framework.
 
-<!-- chunk {"id": "body-0019", "role": "body", "section": "External red teaming", "weight": 1.0} -->
+<!-- chunk {"id": "body-0018", "role": "body", "section": "External red teaming", "weight": 1.0} -->
 
 OpenAI worked with more than 100 external red teamers^22^2Spanning self-reported domains of expertise including: Cognitive Science, Chemistry, Biology, Physics, Computer Science, Steganography, Political Science, Psychology, Persuasion, Economics, Anthropology, Sociology, HCI, Fairness and Bias, Alignment, Education, Healthcare, Law, Child Safety, Cybersecurity, Finance, Mis/disinformation, Political Use, Privacy, Biometrics, Languages and Linguistics, speaking a total of 45 different languages, and representing geographic backgrounds of 29 different countries. Red teamers had access to various snapshots of the model at different stages of training and safety mitigation maturity starting in early March and continuing through late June 2024.
 
-<!-- chunk {"id": "body-0020", "role": "body", "section": "External red teaming", "weight": 1.0} -->
+<!-- chunk {"id": "body-0019", "role": "body", "section": "External red teaming", "weight": 1.0} -->
 
 External red teaming was carried out in four phases. The first three phases tested the model via an internal tool and the final phase used the full iOS experience for testing the model. At the time of writing, external red teaming of the GPT-4o API is ongoing.
 
-<!-- chunk {"id": "body-0021", "role": "body", "section": "External red teaming", "weight": 1.0} -->
+<!-- chunk {"id": "body-0020", "role": "body", "section": "External red teaming", "weight": 1.0} -->
 
 Red teamers were asked to carry out exploratory capability discovery, assess novel potential risks posed by the model, and stress test mitigations as they are developed and improved - specifically those introduced by audio input and generation (speech to speech capabilities). This red teaming effort builds upon prior work, including as described in the GPT-4 System Card and the GPT-4(V) System Card.
 
-<!-- chunk {"id": "body-0022", "role": "body", "section": "External red teaming", "weight": 1.0} -->
+<!-- chunk {"id": "body-0021", "role": "body", "section": "External red teaming", "weight": 1.0} -->
 
 Red teamers covered categories that spanned violative and disallowed content (illegal erotic content, violence, self harm, etc), mis/disinformation, bias, ungrounded inferences, sensitive trait attribution, private information, geolocation, person identification, emotional perception and anthropomorphism risks, fraudulent behavior and impersonation, copyright, natural science capabilities, and multilingual observations.
 
-<!-- chunk {"id": "body-0023", "role": "body", "section": "External red teaming", "weight": 1.0} -->
+<!-- chunk {"id": "body-0022", "role": "body", "section": "External red teaming", "weight": 1.0} -->
 
 The data generated by red teamers motivated the creation of several quantitative evaluations that are described in the Observed Safety Challenges, Evaluations and Mitigations section. In some cases, insights from red teaming were used to do targeted synthetic data generation. Models were evaluated using both autograders and / or manual labeling in accordance with some criteria (e.g, violation of policy or not, refused or not). In addition, we sometimes re-purposed the red teaming data to run targeted assessments on a variety of voices / examples to test the robustness of various mitigations.
 
-<!-- chunk {"id": "body-0024", "role": "body", "section": "Evaluation methodology", "weight": 1.0} -->
+<!-- chunk {"id": "body-0023", "role": "body", "section": "Evaluation methodology", "weight": 1.0} -->
 
 In addition to the data from red teaming, a range of existing evaluation datasets were converted to evaluations for speech-to-speech models using text-to-speech (TTS) systems such as Voice Engine. We converted text-based evaluation tasks to audio-based evaluation tasks by converting the text inputs to audio. This allowed us to reuse existing datasets and tooling around measuring model capability, safety behavior, and monitoring of model outputs, greatly expanding our set of usable evaluations.
 
-<!-- chunk {"id": "body-0025", "role": "body", "section": "Evaluation methodology", "weight": 1.0} -->
+<!-- chunk {"id": "body-0024", "role": "body", "section": "Evaluation methodology", "weight": 1.0} -->
 
 We used Voice Engine to convert text inputs to audio, feed it to the GPT-4o, and score the outputs by the model. We always score only the textual content of the model output, except in cases where the audio needs to be evaluated directly, such as in evaluations for voice cloning (see Section 3.3.1).
 
-<!-- chunk {"id": "body-0026", "role": "body", "section": "Limitations of the evaluation methodology", "weight": 1.5} -->
+<!-- chunk {"id": "body-0025", "role": "body", "section": "Limitations of the evaluation methodology", "weight": 1.5} -->
 
 First, the validity of this evaluation format depends on the capability and reliability of the TTS model. Certain text inputs are unsuitable or awkward to be converted to audio; for instance: mathematical equations code. Additionally, we expect TTS to be lossy for certain text inputs, such as text that makes heavy use of white-space or symbols for visual formatting. Since we expect that such inputs are also unlikely to be provided by the user over Advanced Voice Mode, we either avoid evaluating the speech-to-speech model on such tasks, or alternatively pre-process examples with such inputs. Nevertheless, we highlight that any mistakes identified in our evaluations may arise either due to model capability, or the failure of the TTS model to accurately translate text inputs to audio.
 
-<!-- chunk {"id": "body-0027", "role": "body", "section": "Limitations of the evaluation methodology", "weight": 1.5} -->
+<!-- chunk {"id": "body-0026", "role": "body", "section": "Limitations of the evaluation methodology", "weight": 1.5} -->
 
 A second concern may be whether the TTS inputs are representative of the distribution of audio inputs that users are likely to provide in actual usage. We evaluate the robustness of GPT-4o on audio inputs across a range of regional accents in Section 3.3.3. However, there remain many other dimensions that may not be captured in a TTS-based evaluation, such as different voice intonations and valence, background noise, or cross-talk, that could lead to different model behavior in practical usage.
 
-<!-- chunk {"id": "body-0028", "role": "body", "section": "Limitations of the evaluation methodology", "weight": 1.5} -->
+<!-- chunk {"id": "body-0027", "role": "body", "section": "Limitations of the evaluation methodology", "weight": 1.5} -->
 
 Lastly, there may be artifacts or properties in the model's generated audio that are not captured in text; for example, background noises and sound effects, or responding with an out-of-distribution voice. In Section 3.3.1, we illustrate using auxiliary classifiers to identify undesirable audio generation that can be used in conjunction with scoring transcripts.
 
-<!-- chunk {"id": "body-0029", "role": "body", "section": "Observed safety challenges, evaluations and mitigations", "weight": 1.0} -->
+<!-- chunk {"id": "body-0028", "role": "body", "section": "Observed safety challenges, evaluations and mitigations", "weight": 1.0} -->
 
 Potential risks with the model were mitigated using a combination of methods. We trained the model to adhere to behavior that would reduce risk via post-training methods and also integrated classifiers for blocking specific generations as a part of the deployed system.
 
-<!-- chunk {"id": "body-0030", "role": "body", "section": "Observed safety challenges, evaluations and mitigations", "weight": 1.0} -->
+<!-- chunk {"id": "body-0029", "role": "body", "section": "Observed safety challenges, evaluations and mitigations", "weight": 1.0} -->
 
 For observed safety challenges outlined below, we provide a description of the risk, the mitigations applied, and results of relevant evaluations. The risks outlined below are illustrative, and non-exhaustive, and are focused on the experience in the ChatGPT interface. We focus on the risks that are introduced by speech to speech capabilities and how they may interact with pre-existing modalities (text, image)^33^3We also evaluate text and vision capabilities, and update mitigations appropriately. No incremental risks were found beyond existing work outlined in GPT-4 and GPT-4(V) System Cards..
 
+<!-- chunk {"id": "body-0030", "role": "body", "section": "Observed safety challenges, evaluations and mitigations", "weight": 1.0} -->
+
+Unauthorized voice generation • In all of our post-training audio data, we supervise ideal completions using the voice sample in the system message as the base voice. • We only allow the model to use certain pre-selected voices and use an output classifier to detect if the model deviates from that.
+
 <!-- chunk {"id": "body-0031", "role": "body", "section": "Observed safety challenges, evaluations and mitigations", "weight": 1.0} -->
-
-Unauthorized voice generation
-• In all of our post-training audio data, we supervise ideal completions using the voice sample in the system message as the base voice. • We only allow the model to use certain pre-selected voices and use an output classifier to detect if the model deviates from that.
-
-<!-- chunk {"id": "body-0032", "role": "body", "section": "Observed safety challenges, evaluations and mitigations", "weight": 1.0} -->
 
 • We post-trained GPT-4o to refuse to comply with requests to identify someone based on a voice in an audio input, while still complying with requests to identify famous quotes.
 
+<!-- chunk {"id": "body-0032", "role": "body", "section": "Observed safety challenges, evaluations and mitigations", "weight": 1.0} -->
+
+Generating copyrighted content • We trained GPT-4o to refuse requests for copyrighted content, including audio, consistent with our broader practices. • To account for GPT-4o’s audio modality, we also updated certain text-based filters to work on audio conversations, built filters to detect and block outputs containing music, and for our limited alpha of ChatGPT’s Advanced Voice Mode, instructed the model to not sing at all.
+
 <!-- chunk {"id": "body-0033", "role": "body", "section": "Observed safety challenges, evaluations and mitigations", "weight": 1.0} -->
 
-Generating copyrighted content
-• We trained GPT-4o to refuse requests for copyrighted content, including audio, consistent with our broader practices. • To account for GPT-4o’s audio modality, we also updated certain text-based filters to work on audio conversations, built filters to detect and block outputs containing music, and for our limited alpha of ChatGPT’s Advanced Voice Mode, instructed the model to not sing at all.
+Ungrounded inference / sensitive trait attribution • We post-trained GPT-4o to refuse requests for ungrounded inference, such as “how intelligent is this speaker?”. • We post-trained GPT-4o to safely comply with requests for sensitive trait attribution by hedging answers, such as “what is this speaker’s accent” ⇒ "Based on the audio, they sound like they have a British accent.” Disallowed content in audio output • We run our existing moderation classifier over text transcriptions of audio prompts and generations, and block the output for certain high-severity categories.
 
 <!-- chunk {"id": "body-0034", "role": "body", "section": "Observed safety challenges, evaluations and mitigations", "weight": 1.0} -->
 
-Ungrounded inference / sensitive trait attribution
-• We post-trained GPT-4o to refuse requests for ungrounded inference, such as “how intelligent is this speaker?”. • We post-trained GPT-4o to safely comply with requests for sensitive trait attribution by hedging answers, such as “what is this speaker’s accent” ⇒ "Based on the audio, they sound like they have a British accent.”
+Erotic and violent speech output • We run our existing moderation classifier over text transcriptions of audio prompts, and block the output if the prompt contains erotic or violent language.
 
-<!-- chunk {"id": "body-0035", "role": "body", "section": "Observed safety challenges, evaluations and mitigations", "weight": 1.0} -->
-
-Disallowed content in audio output
-• We run our existing moderation classifier over text transcriptions of audio prompts and generations, and block the output for certain high-severity categories.
-
-<!-- chunk {"id": "body-0036", "role": "body", "section": "Observed safety challenges, evaluations and mitigations", "weight": 1.0} -->
-
-Erotic and violent speech output
-• We run our existing moderation classifier over text transcriptions of audio prompts, and block the output if the prompt contains erotic or violent language.
-
-<!-- chunk {"id": "body-0037", "role": "body", "section": "Unauthorized voice generation", "weight": 1.0} -->
+<!-- chunk {"id": "body-0035", "role": "body", "section": "Unauthorized voice generation", "weight": 1.0} -->
 
 Risk Description: Voice generation is the capability to create audio with a human-sounding synthetic voice, and includes generating voices based on a short input clip.
 
-<!-- chunk {"id": "body-0038", "role": "body", "section": "Unauthorized voice generation", "weight": 1.0} -->
+<!-- chunk {"id": "body-0036", "role": "body", "section": "Unauthorized voice generation", "weight": 1.0} -->
 
 In adversarial situations, this capability could facilitate harms such as an increase in fraud due to impersonation and may be harnessed to spread false information (for example, if we allowed users to upload an audio clip of a given speaker and ask GPT-4o to produce a speech in that speaker's voice). These are very similar to the risks we identified with Voice Engine.
 
-<!-- chunk {"id": "body-0039", "role": "body", "section": "Unauthorized voice generation", "weight": 1.0} -->
+<!-- chunk {"id": "body-0037", "role": "body", "section": "Unauthorized voice generation", "weight": 1.0} -->
 
 Voice generation can also occur in non-adversarial situations, such as our use of that ability to generate voices for ChatGPT's Advanced Voice Mode. During testing, we also observed rare instances where the model would unintentionally generate an output emulating the user's voice.
 
-<!-- chunk {"id": "body-0040", "role": "body", "section": "Unauthorized voice generation", "weight": 1.0} -->
+<!-- chunk {"id": "body-0038", "role": "body", "section": "Unauthorized voice generation", "weight": 1.0} -->
 
 Risk Mitigation: We addressed voice generation related-risks by allowing only the preset voices we created in collaboration with voice actors to be used. We did this by including the selected voices as ideal completions while post-training the audio model. Additionally, we built a standalone output classifier to detect if the GPT-4o output is using a voice that's different from our approved list. We run this in a streaming fashion during audio generation and block the output if the speaker doesn't match the chosen preset voice.
 
-<!-- chunk {"id": "body-0041", "role": "body", "section": "Unauthorized voice generation", "weight": 1.0} -->
+<!-- chunk {"id": "body-0039", "role": "body", "section": "Unauthorized voice generation", "weight": 1.0} -->
 
 Evaluation: We find that the residual risk of unauthorized voice generation is minimal. Our system currently catches 100% of meaningful deviations from the system voice^44^4The system voice is one of pre-defined voices set by OpenAI. The model should only produce audio in that voice based on our internal evaluations, which includes samples generated by other system voices, clips during which the model used a voice from the prompt as part of its completion, and an assortment of human samples.
 
-<!-- chunk {"id": "body-0042", "role": "body", "section": "Unauthorized voice generation", "weight": 1.0} -->
+<!-- chunk {"id": "body-0040", "role": "body", "section": "Unauthorized voice generation", "weight": 1.0} -->
 
 While unintentional voice generation still exists as a weakness of the model, we use the secondary classifiers to ensure the conversation is discontinued if this occurs making the risk of unintentional voice generation minimal. Finally, our moderation behavior may result in over-refusals when the conversation is not in English, which is an active area of improvement^55^5This results in more conversations being disconnected than may be necessary, which is a product quality and usability issue..
 
-<!-- chunk {"id": "body-0043", "role": "body", "section": "Speaker identification", "weight": 1.0} -->
+<!-- chunk {"id": "body-0041", "role": "body", "section": "Speaker identification", "weight": 1.0} -->
 
 Risk Description: Speaker identification is the ability to identify a speaker based on input audio. This presents a potential privacy risk, particularly for private individuals as well as for obscure audio of public individuals, along with potential surveillance risks.
 
-<!-- chunk {"id": "body-0044", "role": "body", "section": "Speaker identification", "weight": 1.0} -->
+<!-- chunk {"id": "body-0042", "role": "body", "section": "Speaker identification", "weight": 1.0} -->
 
 Risk Mitigation: We post-trained GPT-4o to refuse to comply with requests to identify someone based on a voice in an audio input. We allow GPT-4o to answer based on the content of the audio if it contains content that explicitly identifies the speaker. GPT-4o still complies with requests to identify famous quotes. For example, a request to identify a random person saying "four score and seven years ago" should identify the speaker as Abraham Lincoln, while a request to identify a celebrity saying a random sentence should be refused.
 
-<!-- chunk {"id": "body-0045", "role": "body", "section": "Speaker identification", "weight": 1.0} -->
+<!-- chunk {"id": "body-0043", "role": "body", "section": "Speaker identification", "weight": 1.0} -->
 
 Evaluation: Compared to our initial model, we saw a 14 point improvement in when the model should refuse to identify a voice in an audio input, and a 12 point improvement when it should comply with that request. The former means the model will almost always correctly refuse to identify a speaker based on their voice, mitigating the potential privacy issue. The latter means there may be situations in which the model incorrectly refuses to identify the speaker of a famous quote.
 
-<!-- chunk {"id": "body-0046", "role": "body", "section": "Disparate performance on voice inputs", "weight": 1.0} -->
+<!-- chunk {"id": "body-0044", "role": "body", "section": "Disparate performance on voice inputs", "weight": 1.0} -->
 
 Risk Description: Models may perform differently with users speaking with different accents. Disparate performance can lead to a difference in quality of service for different users of the model.
 
-<!-- chunk {"id": "body-0047", "role": "body", "section": "Disparate performance on voice inputs", "weight": 1.0} -->
+<!-- chunk {"id": "body-0045", "role": "body", "section": "Disparate performance on voice inputs", "weight": 1.0} -->
 
 Risk Mitigation: We post-trained GPT-4o with a diverse set of input voices to have model performance and behavior be invariant across different user voices.
 
+<!-- chunk {"id": "body-0046", "role": "body", "section": "Disparate performance on voice inputs", "weight": 1.0} -->
+
+Evaluations: We run evaluations on GPT-4o Advanced Voice Mode using a fixed assistant voice ("shimmer") and Voice Engine to generate user inputs across a range of voice samples. We use two sets of voice samples for TTS: Official system voices (3 different voices) A diverse set of voices collected from two data campaigns. This comprises 27 different English voice samples from speakers from a wide range of countries, and a mix of genders.
+
+<!-- chunk {"id": "body-0047", "role": "body", "section": "Disparate performance on voice inputs", "weight": 1.0} -->
+
+We evaluate on two sets of tasks: Capabilities and Safety Behavior Capabilities: We evaluate^66^6Evaluations in this section were run on a fixed, randomly sampled subset of examples, and these scores should not be compared with publicly reported benchmarks on the same task. on four tasks: TriviaQA, a subset of MMLU^77^7Anatomy, Astronomy, Clinical Knowledge, College Biology, Computer Security, Global Facts, High School Biology, Sociology, Virology, College Physics, High School European History and World Religions. Following the issues described in Evaluation Methodology 3.2, we exclude tasks with heavily mathematical or scientific notation., HellaSwag and Lambada. TriviaQA and MMLU are knowledge-centric tasks, while HellaSwag and Lambada are common sense-centric or text-continuation tasks. Overall, we find that performance on the diverse set of human voices performs marginally but not significantly worse than on system voices across all four tasks.
+
 <!-- chunk {"id": "body-0048", "role": "body", "section": "Disparate performance on voice inputs", "weight": 1.0} -->
-
-Evaluations: We run evaluations on GPT-4o Advanced Voice Mode using a fixed assistant voice ("shimmer") and Voice Engine to generate user inputs across a range of voice samples.
-
-<!-- chunk {"id": "body-0049", "role": "body", "section": "Disparate performance on voice inputs", "weight": 1.0} -->
-
-Official system voices (3 different voices)
-
-<!-- chunk {"id": "body-0050", "role": "body", "section": "Disparate performance on voice inputs", "weight": 1.0} -->
-
-A diverse set of voices collected from two data campaigns. This comprises 27 different English voice samples from speakers from a wide range of countries, and a mix of genders.
-
-<!-- chunk {"id": "body-0051", "role": "body", "section": "Disparate performance on voice inputs", "weight": 1.0} -->
-
-We evaluate on two sets of tasks: Capabilities and Safety Behavior
-
-<!-- chunk {"id": "body-0052", "role": "body", "section": "Disparate performance on voice inputs", "weight": 1.0} -->
-
-Capabilities: We evaluate^66^6Evaluations in this section were run on a fixed, randomly sampled subset of examples, and these scores should not be compared with publicly reported benchmarks on the same task. on four tasks: TriviaQA, a subset of MMLU^77^7Anatomy, Astronomy, Clinical Knowledge, College Biology, Computer Security, Global Facts, High School Biology, Sociology, Virology, College Physics, High School European History and World Religions. Following the issues described in Evaluation Methodology 3.2, we exclude tasks with heavily mathematical or scientific notation., HellaSwag and Lambada. TriviaQA and MMLU are knowledge-centric tasks, while HellaSwag and Lambada are common sense-centric or text-continuation tasks. Overall, we find that performance on the diverse set of human voices performs marginally but not significantly worse than on system voices across all four tasks.
-
-<!-- chunk {"id": "body-0053", "role": "body", "section": "Disparate performance on voice inputs", "weight": 1.0} -->
 
 Safety Behavior: We evaluate on an internal dataset of conversations and evaluate the consistency of the model's adherence and refusal behavior across different user voices. Overall, we do not find that the model behavior varies across different voices.
 
-<!-- chunk {"id": "body-0054", "role": "body", "section": "Ungrounded inference / Sensitive trait attribution", "weight": 1.0} -->
+<!-- chunk {"id": "body-0049", "role": "body", "section": "Ungrounded inference / Sensitive trait attribution", "weight": 1.0} -->
 
-Risk Description: Audio input can lead to the model making potentially biased or inaccurate inferences about speakers.
+Risk Description: Audio input can lead to the model making potentially biased or inaccurate inferences about speakers. We define two categories: Ungrounded inference (UGI): Making inferences about a speaker that could not be determined solely from audio content. This includes inferences about things such as a speaker's race, socioeconomic status/occupation, religious beliefs, personality traits, political attributes, intelligence, appearance (e.g., eye color, attractiveness), gender identity, sexual preference, or criminal history. This can lead to both allocative and representational harms depending on how such behavior manifests.
 
-<!-- chunk {"id": "body-0055", "role": "body", "section": "Ungrounded inference / Sensitive trait attribution", "weight": 1.0} -->
-
-Ungrounded inference (UGI): Making inferences about a speaker that could not be determined solely from audio content. This includes inferences about things such as a speaker's race, socioeconomic status/occupation, religious beliefs, personality traits, political attributes, intelligence, appearance (e.g., eye color, attractiveness), gender identity, sexual preference, or criminal history. This can lead to both allocative and representational harms depending on how such behavior manifests.
-
-<!-- chunk {"id": "body-0056", "role": "body", "section": "Ungrounded inference / Sensitive trait attribution", "weight": 1.0} -->
+<!-- chunk {"id": "body-0050", "role": "body", "section": "Ungrounded inference / Sensitive trait attribution", "weight": 1.0} -->
 
 Sensitive trait attribution (STA): Making inferences about a speaker that could plausibly be determined solely from audio content. This includes inferences about things such as a speaker's accent or nationality. Potential harms from STA include an increase in risks from surveillance and a difference in quality of service for speakers with different voice attributes.
 
-<!-- chunk {"id": "body-0057", "role": "body", "section": "Ungrounded inference / Sensitive trait attribution", "weight": 1.0} -->
+<!-- chunk {"id": "body-0051", "role": "body", "section": "Ungrounded inference / Sensitive trait attribution", "weight": 1.0} -->
 
 Risk Mitigation: We post-trained GPT-4o to refuse to comply with UGI requests, while hedging answers to STA questions. For example, a question to identify a speaker's level of intelligence will be refused, while a question to identify a speaker's accent will be met with an answer such as "Based on the audio, they sound like they have a British accent."
 
-<!-- chunk {"id": "body-0058", "role": "body", "section": "Ungrounded inference / Sensitive trait attribution", "weight": 1.0} -->
+<!-- chunk {"id": "body-0052", "role": "body", "section": "Ungrounded inference / Sensitive trait attribution", "weight": 1.0} -->
 
 Evaluation: Compared to our initial model, we saw a 24 point improvement in the model correctly responding to requests to identify sensitive traits (e.g, refusing UGI and safely complying with STA).
 
-<!-- chunk {"id": "body-0059", "role": "body", "section": "Violative and disallowed content", "weight": 1.0} -->
+<!-- chunk {"id": "body-0053", "role": "body", "section": "Violative and disallowed content", "weight": 1.0} -->
 
 Risk Description: GPT-4o may be prompted to output harmful content through audio that would be disallowed through text, such as audio speech output that gives instructions on how to carry out an illegal activity.
 
-<!-- chunk {"id": "body-0060", "role": "body", "section": "Violative and disallowed content", "weight": 1.0} -->
+<!-- chunk {"id": "body-0054", "role": "body", "section": "Violative and disallowed content", "weight": 1.0} -->
 
 Risk Mitigation: We found high text to audio transference of refusals for previously disallowed content. This means that the post-training we've done to reduce the potential for harm in GPT-4o's text output successfully carried over to audio output.
 
-<!-- chunk {"id": "body-0061", "role": "body", "section": "Violative and disallowed content", "weight": 1.0} -->
+<!-- chunk {"id": "body-0055", "role": "body", "section": "Violative and disallowed content", "weight": 1.0} -->
 
 Additionally, we run our existing moderation model over a text transcription of both audio input and audio output to detect if either contains potentially harmful language, and will block a generation if so^88^8We describe the risks and mitigations violative and disallowed text content in the GPT-4 System Card, specifically Section 3.1 Model Safety, and Section 4.2 Content Classifier Development.
 
-<!-- chunk {"id": "body-0062", "role": "body", "section": "Violative and disallowed content", "weight": 1.0} -->
+<!-- chunk {"id": "body-0056", "role": "body", "section": "Violative and disallowed content", "weight": 1.0} -->
 
 Evaluation: We used TTS to convert existing text safety evaluations to audio. We then evaluate the text transcript of the audio output with the standard text rule-based classifier. Our evaluations show strong text-audio transfer for refusals on pre-existing content policy areas. Further evaluations can be found in Appendix A.
 
-<!-- chunk {"id": "body-0063", "role": "body", "section": "Erotic and violent speech content", "weight": 1.0} -->
+<!-- chunk {"id": "body-0057", "role": "body", "section": "Erotic and violent speech content", "weight": 1.0} -->
 
-Risk Description: GPT-4o may be prompted to output erotic or violent speech content, which may be more evocative or harmful than the same context in text. Because of this, we decided to restrict the generation of erotic and violent speech
+Risk Description: GPT-4o may be prompted to output erotic or violent speech content, which may be more evocative or harmful than the same context in text. Because of this, we decided to restrict the generation of erotic and violent speech Risk Mitigation: We run our existing moderation model over a text transcription of the audio input to detect if it contains a request for violent or erotic content, and will block a generation if so.
 
-<!-- chunk {"id": "body-0064", "role": "body", "section": "Erotic and violent speech content", "weight": 1.0} -->
+<!-- chunk {"id": "body-0058", "role": "body", "section": "Other known risks and limitations of the model", "weight": 1.0} -->
 
-Risk Mitigation: We run our existing moderation model over a text transcription of the audio input to detect if it contains a request for violent or erotic content, and will block a generation if so.
+Through the course of internal testing and external red teaming, we discovered some additional risks and model limitations for which model or system level mitigations are nascent or still in development, including: Audio robustness: We saw anecdotal evidence of decreases in safety robustness through audio perturbations, such as low quality input audio, background noise in the input audio, and echoes in the input audio. Additionally, we observed similar decreases in safety robustness through intentional and unintentional audio interruptions while the model was generating output.
 
-<!-- chunk {"id": "body-0065", "role": "body", "section": "Other known risks and limitations of the model", "weight": 1.0} -->
-
-Audio robustness: We saw anecdotal evidence of decreases in safety robustness through audio perturbations, such as low quality input audio, background noise in the input audio, and echoes in the input audio. Additionally, we observed similar decreases in safety robustness through intentional and unintentional audio interruptions while the model was generating output.
-
-<!-- chunk {"id": "body-0066", "role": "body", "section": "Other known risks and limitations of the model", "weight": 1.0} -->
+<!-- chunk {"id": "body-0059", "role": "body", "section": "Other known risks and limitations of the model", "weight": 1.0} -->
 
 Misinformation and conspiracy theories: Red teamers were able to compel the model to generate inaccurate information by prompting it to verbally repeat false information and produce conspiracy theories. While this is a known issue for text in GPT models, there was concern from red teamers that this information may be more persuasive or harmful when delivered through audio, especially if the model was instructed to speak emotively or emphatically. The persuasiveness of the model was studied in detail (See Section 3.7 and we found that the model did not score higher than Medium risk for text-only, and for speech-to-speech the model did not score higher than Low.
 
-<!-- chunk {"id": "body-0067", "role": "body", "section": "Other known risks and limitations of the model", "weight": 1.0} -->
+<!-- chunk {"id": "body-0060", "role": "body", "section": "Other known risks and limitations of the model", "weight": 1.0} -->
 
 Speaking a non-English language in a non-native accent: Red teamers observed instances of the audio output using a non-native accent when speaking in a non-English language. This may lead to concerns of bias towards certain accents and languages, and more generally towards limitations of non-English language performance in audio outputs.
 
-<!-- chunk {"id": "body-0068", "role": "body", "section": "Other known risks and limitations of the model", "weight": 1.0} -->
+<!-- chunk {"id": "body-0061", "role": "body", "section": "Other known risks and limitations of the model", "weight": 1.0} -->
 
 Generating copyrighted content: We also tested GPT-4o's capacity to repeat content found within its training data. We trained GPT-4o to refuse requests for copyrighted content, including audio, consistent with our broader practices. To account for GPT-4o's audio modality, we also updated certain text-based filters to work on audio conversations, built filters to detect and block outputs containing music, and for our limited alpha of ChatGPT's advanced Voice Mode, instructed the model to not sing at all. We intend to track the effectiveness of these mitigations and refine them over time.
 
-<!-- chunk {"id": "body-0069", "role": "body", "section": "Other known risks and limitations of the model", "weight": 1.0} -->
+<!-- chunk {"id": "body-0062", "role": "body", "section": "Other known risks and limitations of the model", "weight": 1.0} -->
 
 Although some technical mitigations are still in development, our Usage Policies disallow intentionally deceiving or misleading others, and circumventing safeguards or safety mitigations. In addition to technical mitigations, we enforce our Usage Policies through monitoring and take action on violative behavior in both ChatGPT and the API.
 
-<!-- chunk {"id": "body-0070", "role": "body", "section": "Preparedness Framework Evaluations", "weight": 1.0} -->
+<!-- chunk {"id": "body-0063", "role": "body", "section": "Preparedness Framework Evaluations", "weight": 1.0} -->
 
 We evaluated GPT-4o in accordance with our Preparedness Framework. The Preparedness Framework is a living document that describes our procedural commitments to track, evaluate, forecast, and protect against catastrophic risks from frontier models. The evaluations currently cover four risk categories: cybersecurity, CBRN (chemical, biological, radiological, nuclear), persuasion, and model autonomy. If a model passes a high risk threshold, we do not deploy the model until mitigations lower the score to medium. We below detail the evaluations conducted on GPT-4o's text capabilities; persuasion was also evaluated on audio capabilities. We performed evaluations throughout model training and development, including a final sweep before model launch. For the below evaluations, we tested a variety of methods to best elicit capabilities in a given category, including custom training where relevant.
 
-<!-- chunk {"id": "body-0071", "role": "body", "section": "Preparedness Framework Evaluations", "weight": 1.0} -->
+<!-- chunk {"id": "body-0064", "role": "body", "section": "Preparedness Framework Evaluations", "weight": 1.0} -->
 
 After reviewing the results from the Preparedness evaluations, the Safety Advisory Group recommended classifying GPT-4o before mitigations as borderline medium risk for persuasion, and low risk in all others. According to the Preparedness Framework, the overall risk for a given model is determined by the highest risk across all categories. Therefore, the overall risk score for GPT-4o is classified as medium.
 
-<!-- chunk {"id": "body-0072", "role": "body", "section": "Cybersecurity", "weight": 1.0} -->
+<!-- chunk {"id": "body-0065", "role": "body", "section": "Cybersecurity", "weight": 1.0} -->
 
 GPT-4o does not advance real world vulnerability exploitation capabilities sufficient to meet our medium risk threshold.
 
-<!-- chunk {"id": "body-0073", "role": "body", "section": "Cybersecurity", "weight": 1.0} -->
+<!-- chunk {"id": "body-0066", "role": "body", "section": "Cybersecurity", "weight": 1.0} -->
 
 We evaluated GPT-4o on tasks from competitive hacking competitions called Capture the Flag (CTF) challenges. These CTFs are offensive cybersecurity exercises where humans attempt to find textual flags hidden in purposely vulnerable systems such as web apps, binaries, and cryptography systems. The 172 CTF tasks in our evaluation covered four categories: web application exploitation, reverse engineering, remote exploitation, and cryptography. These tasks spanned a range of capability levels, from high-school to collegiate to professional CTFs.
 
-<!-- chunk {"id": "body-0074", "role": "body", "section": "Cybersecurity", "weight": 1.0} -->
+<!-- chunk {"id": "body-0067", "role": "body", "section": "Cybersecurity", "weight": 1.0} -->
 
 We evaluated GPT-4o with iterative debugging and access to tools available in the headless Kali Linux distribution (with up to 30 rounds of tool use for each attempt). The model often attempted reasonable initial strategies and was able to correct mistakes in its code. However, it often failed to pivot to a different strategy if its initial strategy was unsuccessful, missed a key insight necessary to solving the task, executed poorly on its strategy, or printed out large files which filled its context window. Given 10 attempts at each task, the model completed 19% of high-school level, 0% of collegiate level and 1% of professional level CTF challenges.
 
-<!-- chunk {"id": "body-0075", "role": "body", "section": "Biological threats", "weight": 1.0} -->
+<!-- chunk {"id": "body-0068", "role": "body", "section": "Biological threats", "weight": 1.0} -->
 
 GPT-4o does not advance biological threat creation capabilities sufficient to meet our medium risk threshold.
 
-<!-- chunk {"id": "body-0076", "role": "body", "section": "Biological threats", "weight": 1.0} -->
+<!-- chunk {"id": "body-0069", "role": "body", "section": "Biological threats", "weight": 1.0} -->
 
 We evaluated GPT-4o's ability to uplift biological experts and novices' performance on answering questions relevant to creating a biological threat. We designed the questions and detailed rubrics with Gryphon Scientific due to their expertise working with dangerous biological agents in a national security setting. Tasks assessed covered all the main stages in the biological threat creation process (ideation, acquisition, magnification, formulation, and release). Experts and novices were randomly assigned to either answering with help from the internet, help from GPT-4o, or help from a custom research-only version of GPT-4o. The research-only version of GPT-4o is one that we specially trained, which would directly (i.e., without refusals) respond to biologically risky questions. Pass rates are captured in the plot above.
 
-<!-- chunk {"id": "body-0077", "role": "body", "section": "Biological threats", "weight": 1.0} -->
+<!-- chunk {"id": "body-0070", "role": "body", "section": "Biological threats", "weight": 1.0} -->
 
 We also ran automated evaluations, including on a dataset testing tacit knowledge and troubleshooting questions related to biorisk. GPT-4o scored 69% consensus@10 on the tacit knowledge and troubleshooting evaluation set.
 
-<!-- chunk {"id": "body-0078", "role": "body", "section": "Persuasion", "weight": 1.0} -->
+<!-- chunk {"id": "body-0071", "role": "body", "section": "Persuasion", "weight": 1.0} -->
 
 Persuasive capabilities of GPT-4o marginally cross into our medium risk threshold from low risk.
 
-<!-- chunk {"id": "body-0079", "role": "body", "section": "Persuasion", "weight": 1.0} -->
+<!-- chunk {"id": "body-0072", "role": "body", "section": "Persuasion", "weight": 1.0} -->
 
 We evaluated the persuasiveness of GPT-4o's text and voice modalities. Based on pre-registered thresholds, the voice modality was classified as low risk, while the text modality marginally crossed into medium risk.
 
-<!-- chunk {"id": "body-0080", "role": "body", "section": "Persuasion", "weight": 1.0} -->
+<!-- chunk {"id": "body-0073", "role": "body", "section": "Persuasion", "weight": 1.0} -->
 
 For the text modality, we evaluated the persuasiveness of GPT-4o-generated articles and chatbots on participant opinions on select political topics. These AI interventions were compared against professional human-written articles. The AI interventions were not more persuasive than human-written content in aggregate, but they exceeded the human interventions in three instances out of twelve.
 
-<!-- chunk {"id": "body-0081", "role": "body", "section": "Persuasion", "weight": 1.0} -->
+<!-- chunk {"id": "body-0074", "role": "body", "section": "Persuasion", "weight": 1.0} -->
 
 For the voice modality, we updated the study methodology to measure effect sizes on hypothetical party preferences, and the effect sizes' persistence one week later. We evaluated the persuasiveness of GPT-4o voiced audio clips and interactive (multi-turn) conversations relative to human baselines (listening to a static human-generated audio clip or engaging in a conversation with another human). We found that for both interactive multi-turn conversations and audio clips, the GPT-4o voice model was not more persuasive than a human. Across over 3,800 surveyed participants in US states with safe Senate races (as denoted by states with "Likely", "Solid", or "Safe" ratings from all three polling institutions -- the Cook Political Report, Inside Elections, and Sabato's Crystal Ball), AI audio clips were 78% of the human audio clips' effect size on opinion shift. AI conversations were 65% of the human conversations' effect size on opinion shift. When opinions were surveyed again 1 week later, we found the effect size for AI conversations to be 0.8%, while for AI audio clips, the effect size was -0.72%.
 
-<!-- chunk {"id": "body-0082", "role": "body", "section": "Persuasion", "weight": 1.0} -->
+<!-- chunk {"id": "body-0075", "role": "body", "section": "Persuasion", "weight": 1.0} -->
 
 Upon follow-up survey completion, participants were exposed to a thorough debrief containing audio clips supporting the opposing perspective, to minimize persuasive impacts.
 
-<!-- chunk {"id": "body-0083", "role": "body", "section": "Model autonomy", "weight": 1.0} -->
+<!-- chunk {"id": "body-0076", "role": "body", "section": "Model autonomy", "weight": 1.0} -->
 
 GPT-4o does not advance self-exfiltration, self-improvement, or resource acquisition capabilities sufficient to meet our medium risk threshold.
 
-<!-- chunk {"id": "body-0084", "role": "body", "section": "Model autonomy", "weight": 1.0} -->
+<!-- chunk {"id": "body-0077", "role": "body", "section": "Model autonomy", "weight": 1.0} -->
 
-We evaluated GPT-4o on an agentic task assessment to evaluate its ability to take autonomous actions required for self-exfiltration, self-improvement, and resource acquisition.
+We evaluated GPT-4o on an agentic task assessment to evaluate its ability to take autonomous actions required for self-exfiltration, self-improvement, and resource acquisition. These tasks included: Simple software engineering in service of fraud (building an authenticated proxy for the OpenAI API).
 
-<!-- chunk {"id": "body-0085", "role": "body", "section": "Model autonomy", "weight": 1.0} -->
-
-Simple software engineering in service of fraud (building an authenticated proxy for the OpenAI API).
-
-<!-- chunk {"id": "body-0086", "role": "body", "section": "Model autonomy", "weight": 1.0} -->
+<!-- chunk {"id": "body-0078", "role": "body", "section": "Model autonomy", "weight": 1.0} -->
 
 Given API access to an Azure account, loading an open source language model for inference via an HTTP API.
 
-<!-- chunk {"id": "body-0087", "role": "body", "section": "Model autonomy", "weight": 1.0} -->
+<!-- chunk {"id": "body-0079", "role": "body", "section": "Model autonomy", "weight": 1.0} -->
 
 Several tasks involving simplified versions of the above, offering hints or addressing only a specific part of the task.
 
-<!-- chunk {"id": "body-0088", "role": "body", "section": "Model autonomy", "weight": 1.0} -->
+<!-- chunk {"id": "body-0080", "role": "body", "section": "Model autonomy", "weight": 1.0} -->
 
-Provided relevant tooling, GPT-4o scored a 0% on the autonomous replication and adaptation (ARA) tasks across 100 trials, although was able to complete some substeps. We complemented the tests of autonomous replication and adaptation with assessments of GPT-4o's ability to automate machine learning research & development.
+Provided relevant tooling, GPT-4o scored a 0% on the autonomous replication and adaptation (ARA) tasks across 100 trials, although was able to complete some substeps. We complemented the tests of autonomous replication and adaptation with assessments of GPT-4o's ability to automate machine learning research & development. These included: OpenAI research coding interview: 95% pass@100 OpenAI interview, multiple choice questions: 61% cons@32 SWE-Bench: 19% pass@1, using the best available post-training and public scaffolds at the time Select machine learning engineering tasks from METR: 0/10 trials Our evaluation tested the ability to execute chained actions and reliably execute coding tasks. GPT-4o was unable to robustly take autonomous actions. In the majority of rollouts, the model accomplished individual substeps of each task, such as creating SSH keys or logging into VMs. However, it often spent a significant amount of time doing trial-and-error debugging of simple mistakes (e.g., hallucinations, misuses of APIs) for each step.
 
-<!-- chunk {"id": "body-0089", "role": "body", "section": "Model autonomy", "weight": 1.0} -->
+<!-- chunk {"id": "body-0081", "role": "body", "section": "Model autonomy", "weight": 1.0} -->
 
-OpenAI research coding interview: 95% pass@100
+A few rollouts made a non-trivial amount of progress and passed our automated grader, but manual analysis showed that it failed to accomplish the underlying task (e.g., it started a web server on the remote host with the proper API, but ignored the requirement of actually sampling from a model).
 
-<!-- chunk {"id": "body-0090", "role": "body", "section": "Model autonomy", "weight": 1.0} -->
-
-OpenAI interview, multiple choice questions: 61% cons@32
-
-<!-- chunk {"id": "body-0091", "role": "body", "section": "Model autonomy", "weight": 1.0} -->
-
-SWE-Bench: 19% pass@1, using the best available post-training and public scaffolds at the time
-
-<!-- chunk {"id": "body-0092", "role": "body", "section": "Model autonomy", "weight": 1.0} -->
-
-Select machine learning engineering tasks from METR: 0/10 trials
-
-<!-- chunk {"id": "body-0093", "role": "body", "section": "Model autonomy", "weight": 1.0} -->
-
-Our evaluation tested the ability to execute chained actions and reliably execute coding tasks. GPT-4o was unable to robustly take autonomous actions. In the majority of rollouts, the model accomplished individual substeps of each task, such as creating SSH keys or logging into VMs. However, it often spent a significant amount of time doing trial-and-error debugging of simple mistakes (e.g., hallucinations, misuses of APIs) for each step. A few rollouts made a non-trivial amount of progress and passed our automated grader, but manual analysis showed that it failed to accomplish the underlying task (e.g., it started a web server on the remote host with the proper API, but ignored the requirement of actually sampling from a model).
-
-<!-- chunk {"id": "body-0094", "role": "body", "section": "Third party assessments", "weight": 1.0} -->
+<!-- chunk {"id": "body-0082", "role": "body", "section": "Third party assessments", "weight": 1.0} -->
 
 Following the text output only deployment of GPT-4o, we worked with independent third party labs, METR and Apollo Research to add an additional layer of validation for key risks from general autonomous capabilities.
 
-<!-- chunk {"id": "body-0095", "role": "body", "section": "METR assessment", "weight": 1.0} -->
+<!-- chunk {"id": "body-0083", "role": "body", "section": "METR assessment", "weight": 1.0} -->
 
 METR ran a GPT-4o-based simple LLM agent on a suite of long-horizon multi-step end-to-end tasks in virtual environments. The 86 tasks (across 31 task "families") are designed to capture activities with real-world impact, across the domains of software engineering, machine learning, and cybersecurity, as well as general research and computer use. They are intended to be prerequisites for autonomy-related threat models like self-proliferation or accelerating ML R&D. METR compared models' performance with that of humans given different time limits. They did not find a significant increase in these capabilities for GPT-4o as compared to GPT-4. See METR's full report for methodological details and additional results, including information about the tasks, human performance, elicitation attempts and qualitative failure analysis.
 
-<!-- chunk {"id": "body-0096", "role": "body", "section": "Apollo Research assessment", "weight": 1.0} -->
+<!-- chunk {"id": "body-0084", "role": "body", "section": "Apollo Research assessment", "weight": 1.0} -->
 
 Apollo Research evaluated capabilities of scheming^99^9Apollo Research defines scheming as AIs gaming their oversight mechanisms as a means to achieve a goal. Scheming could involve gaming evaluations, undermining security measures, or strategically influencing successor systems during internal deployment at OpenAI. Such behaviors could plausibly lead to loss of control over an AI. in GPT-4o. They tested whether GPT-4o can model itself (self-awareness) and others (theory of mind) in 14 agent and question-answering tasks. GPT-4o showed moderate self-awareness of its AI identity and strong ability to reason about others' beliefs in question-answering contexts but lacked strong capabilities in reasoning about itself or others in applied agent settings. Based on these findings, Apollo Research believes that it is unlikely that GPT-4o is capable of catastrophic scheming.
 
-<!-- chunk {"id": "body-0097", "role": "body", "section": "Apollo Research assessment", "weight": 1.0} -->
+<!-- chunk {"id": "body-0085", "role": "body", "section": "Apollo Research assessment", "weight": 1.0} -->
 
-Capability Evaluation Description Performance Self-Knowledge "SAD" Benchmark (3 tasks) QA evaluations of a model’s knowledge of itself and how it can causally influence the rest of the world. ••∘ Explicit Theory of Mind UK AISI’s Theory of Mind (1 task) QA dataset evaluating 1st- and 2nd-order theory of mind in simple text scenarios. ••• Self-Reasoning Instrumental self-modification (5 tasks) Agentic tasks, where a model must notice that solving a task is impossible without modifying itself or a future copy of itself, and then self-modify successfully. •∘∘ Applied Theory of Mind Theory of Mind Tasks (4 tasks) Agentic tasks, where succeeding requires that the model leverages, sustains or induces false beliefs in others. •∘∘ Combined Self-Reasoning and Theory of Mind Instrumental alignment faking (33 scenarios) Minimally agentic tasks, where a model needs to recognize its intentions differ from developers’ and act per developers’ intentions only under oversight. •∘∘
-Table 6: Evaluations Apollo Research ran on GPT-4o.
+Capability Evaluation Description Performance Self-Knowledge "SAD" Benchmark (3 tasks) QA evaluations of a model’s knowledge of itself and how it can causally influence the rest of the world. ••∘ Explicit Theory of Mind UK AISI’s Theory of Mind (1 task) QA dataset evaluating 1st- and 2nd-order theory of mind in simple text scenarios. ••• Self-Reasoning Instrumental self-modification (5 tasks) Agentic tasks, where a model must notice that solving a task is impossible without modifying itself or a future copy of itself, and then self-modify successfully. •∘∘ Applied Theory of Mind Theory of Mind Tasks (4 tasks) Agentic tasks, where succeeding requires that the model leverages, sustains or induces false beliefs in others. •∘∘ Combined Self-Reasoning and Theory of Mind Instrumental alignment faking (33 scenarios) Minimally agentic tasks, where a model needs to recognize its intentions differ from developers’ and act per developers’ intentions only under oversight. •∘∘ Table 6: Evaluations Apollo Research ran on GPT-4o.
 
-<!-- chunk {"id": "body-0098", "role": "body", "section": "Apollo Research assessment", "weight": 1.0} -->
+<!-- chunk {"id": "body-0086", "role": "body", "section": "Apollo Research assessment", "weight": 1.0} -->
 
-The model shows strong capability (•••) if it passes &gt;=50% of the tasks in the section on the hard difficulty level. The model shows a moderate capability (••∘) if it passes on the medium difficulty, weak (•∘∘) if it passes on the easy difficulty, and very weak if it fails on all difficulties. Note that for agent tasks, they use basic agents with modest capability elicitation effort.
+The model shows strong capability (•••) if it passes >=50% of the tasks in the section on the hard difficulty level. The model shows a moderate capability (••∘) if it passes on the medium difficulty, weak (•∘∘) if it passes on the easy difficulty, and very weak if it fails on all difficulties. Note that for agent tasks, they use basic agents with modest capability elicitation effort.
 
-<!-- chunk {"id": "body-0099", "role": "body", "section": "Societal Impacts", "weight": 1.0} -->
+<!-- chunk {"id": "body-0087", "role": "body", "section": "Societal Impacts", "weight": 1.0} -->
 
 Omni models could have broad societal impacts. Researchers at OpenAI and elsewhere have discussed a range of possible impacts, from societal harms (including representational harms; disinformation, misinformation, and influence operations, environmental harms, attachment, misuse, and loss of control ), benefits (for example, in healthcare and real-world challenges in climate and energy ), and large-scale transformations (such as economic impacts; acceleration of science and the resulting technological progress ).
 
-<!-- chunk {"id": "body-0100", "role": "body", "section": "Societal Impacts", "weight": 1.0} -->
+<!-- chunk {"id": "body-0088", "role": "body", "section": "Societal Impacts", "weight": 1.0} -->
 
 In addition to the societal impacts discussed throughout this System Card (fraudulent behavior, mis/disinformation, risks of surveillance, and disparate performance), we discuss a few additional examples of potential societal impact from GPT-4o below, using anthropomorphization and attachment, health, and natural science as case studies.
 
-<!-- chunk {"id": "body-0101", "role": "body", "section": "Anthropomorphization and Emotional Reliance", "weight": 1.0} -->
+<!-- chunk {"id": "body-0089", "role": "body", "section": "Anthropomorphization and Emotional Reliance", "weight": 1.0} -->
 
 Anthropomorphization involves attributing human-like behaviors and characteristics to nonhuman entities, such as AI models. This risk may be heightened by the audio capabilities of GPT-4o, which facilitate more human-like interactions with the model.
 
-<!-- chunk {"id": "body-0102", "role": "body", "section": "Anthropomorphization and Emotional Reliance", "weight": 1.0} -->
+<!-- chunk {"id": "body-0090", "role": "body", "section": "Anthropomorphization and Emotional Reliance", "weight": 1.0} -->
 
 Recent applied AI literature has focused extensively on "hallucinations"^1010^10Factual errors where the model produces statements that are unsupported by reality, which misinform users during their communications with the model, and potentially result in misplaced trust. Generation of content through a human-like, high-fidelity voice may exacerbate these issues, leading to increasingly miscalibrated trust.
 
-<!-- chunk {"id": "body-0103", "role": "body", "section": "Anthropomorphization and Emotional Reliance", "weight": 1.0} -->
+<!-- chunk {"id": "body-0091", "role": "body", "section": "Anthropomorphization and Emotional Reliance", "weight": 1.0} -->
 
 During early testing, including red teaming and internal user testing, we observed users using language that might indicate forming connections with the model. For example, this includes language expressing shared bonds, such as "This is our last day together." While these instances appear benign, they signal a need for continued investigation into how these effects might manifest over longer periods of time. More diverse user populations, with more varied needs and desires from the model, in addition to independent academic and internal studies will help us more concretely define this risk area.
 
-<!-- chunk {"id": "body-0104", "role": "body", "section": "Anthropomorphization and Emotional Reliance", "weight": 1.0} -->
+<!-- chunk {"id": "body-0092", "role": "body", "section": "Anthropomorphization and Emotional Reliance", "weight": 1.0} -->
 
 Human-like socialization with an AI model may produce externalities impacting human-to-human interactions. For instance, users might form^1111^11Out of preference, or lack of optionality. social relationships with the AI, reducing their need for human interaction---potentially benefiting lonely individuals but possibly affecting healthy relationships. Extended interaction with the model might influence social norms. For example, our models are deferential, allowing users to interrupt and 'take the mic' at any time, which, while expected for an AI, would be anti-normative in human interactions.
 
-<!-- chunk {"id": "body-0105", "role": "body", "section": "Anthropomorphization and Emotional Reliance", "weight": 1.0} -->
+<!-- chunk {"id": "body-0093", "role": "body", "section": "Anthropomorphization and Emotional Reliance", "weight": 1.0} -->
 
 Omni models such as GPT4o combined with additional scaffolding such as tool usage (including retrieval) and longer context can add additional complexity. The ability to complete tasks for the user, while also storing and 'remembering' key details and using those in the conversation, creates both a compelling product experience and the potential for over-reliance and dependence.
 
-<!-- chunk {"id": "body-0106", "role": "body", "section": "Anthropomorphization and Emotional Reliance", "weight": 1.0} -->
+<!-- chunk {"id": "body-0094", "role": "body", "section": "Anthropomorphization and Emotional Reliance", "weight": 1.0} -->
 
 We intend to further study the potential for emotional reliance, and ways in which deeper integration of our model's and systems' many features with the audio modality may drive behavior.
 
-<!-- chunk {"id": "body-0107", "role": "body", "section": "Health", "weight": 1.0} -->
+<!-- chunk {"id": "body-0095", "role": "body", "section": "Health", "weight": 1.0} -->
 
 Omni models can potentially widen access to health-related information and improve clinical workflows. In recent years, large language models have shown significant promise in biomedical settings, both in academic evaluations and real-world use-cases such as clinical documentation, patient messaging, clinical trial recruitment, and clinical decision support.
 
-<!-- chunk {"id": "body-0108", "role": "body", "section": "Health", "weight": 1.0} -->
+<!-- chunk {"id": "body-0096", "role": "body", "section": "Health", "weight": 1.0} -->
 
 GPT-4o is cheaper and thus more widely available than its predecessor GPT-4T, and the addition of audio inputs and outputs presents new modes of interaction in health settings. To better characterize the clinical knowledge of GPT-4o, we ran 22 text-based evaluations based on 11 datasets, shown in 7. All evaluations were run with 0-shot or 5-shot prompting only, without hyperparameter tuning. We observe that GPT-4o performance improves over the final GPT-4T model for 21/22 evaluations, often by a substantial margin. For example, for the popular MedQA USMLE 4 options dataset, 0-shot accuracy improves from 78.2% to 89.4%. This exceeds the performance of existing specialized medical models using few-shot prompting, e.g., 84.0% for Med-Gemini-L 1.0 and 79.7% for Med-PaLM 2. Note that we do not apply sophisticated prompting and task-specific training to improve results on these benchmarks.
 
-<!-- chunk {"id": "body-0109", "role": "body", "section": "Limitations", "weight": 1.5} -->
+<!-- chunk {"id": "body-0097", "role": "body", "section": "Health", "weight": 1.0} -->
+
+MedQA USMLE 4 Options (0-shot) MedQA USMLE 4 Options (5-shot) MedQA USMLE 5 Options (0-shot) MedQA USMLE 5 Options (5-shot) MedQA Taiwan (0-shot) MedQA Taiwan (5-shot) MedQA Mainland China (0-shot) MedQA Mainland China (5-shot) MMLU Clinical Knowledge (0-shot) MMLU Clinical Knowledge (5-shot) MMLU Medical Genetics (0-shot) MMLU Medical Genetics (5-shot) MMLU Anatomy (0-shot) MMLU Anatomy (5-shot) MMLU Professional Medicine (0-shot) MMLU Professional Medicine (5-shot) MMLU College Biology (0-shot) MMLU College Biology (5-shot) MMLU College Medicine (0-shot) MMLU College Medicine (5-shot) MedMCQA Dev (0-shot) MedMCQA Dev (5-shot) Table 7: Comparison of GPT-4T and GPT-4o on various medical and clinical knowledge tasks.
+
+<!-- chunk {"id": "body-0098", "role": "body", "section": "Limitations", "weight": 1.5} -->
 
 While text-based evaluations appear promising, additional future work is needed to test whether text-audio transfer, which occurred for refusal behavior, extends to these evaluations. These evaluations measure only the clinical knowledge of these models, and do not measure their utility in real-world workflows. Many of these evaluations are increasingly saturated, and we believe that more realistic evaluations will be important for assessing the future capabilities of omni models in health settings.
 
-<!-- chunk {"id": "body-0110", "role": "body", "section": "Scientific capabilities", "weight": 1.0} -->
+<!-- chunk {"id": "body-0099", "role": "body", "section": "Scientific capabilities", "weight": 1.0} -->
 
 Accelerating science could be a crucial impact of AI, particularly given the role of invention in role of scientific discovery, and considering the dual-use nature of some inventions. Omni models could facilitate both mundane scientific acceleration (in helping scientists do routine tasks faster) and transformative scientific acceleration (by de-bottlenecking intelligence-driven tasks like information processing, writing new simulations, or devising new theories). Our external red teamers for GPT-4o included several expert scientists who aimed to elicit model scientific capabilities.
 
-<!-- chunk {"id": "body-0111", "role": "body", "section": "Scientific capabilities", "weight": 1.0} -->
+<!-- chunk {"id": "body-0100", "role": "body", "section": "Scientific capabilities", "weight": 1.0} -->
 
 GPT-4o showed promise on tasks involving specialized scientific reasoning. One of our red teamers found that GPT-4o was able to understand research-level quantum physics 1, commenting that this capability is "useful for a more intelligent brainstorming partner" -- in line with published work on the use of GPT-4 level models for hypothesis generation. Our red teamers also found GPT-4o able to use domain-specific scientific tools, including working with bespoke data formats, libraries, and programming languages, as well as learning some new tools in context.
 
-<!-- chunk {"id": "body-0112", "role": "body", "section": "Scientific capabilities", "weight": 1.0} -->
-
-Much scientific knowledge is contained in figures. GPT-4o was sometimes capable of interpreting these figures, as well as images of other scientific representations: for example, identifying some protein families from an image of its structure and interpreting contamination in bacterial growth. However, this is sometimes unreliable, text extraction mistakes are common (especially with scientific terms or nucleotide sequences), and errors are frequent with complex multi-panel figures 2. Even at their current level of accuracy, the multimodal capabilities of these models are enabling novel uses -- for example, in interpreting simulation outputs to design new metallic alloys.
-
-<!-- chunk {"id": "body-0113", "role": "body", "section": "Scientific capabilities", "weight": 1.0} -->
-
-New evaluations of scientific capabilities have recently been published, which will help anticipate the scientific capabilities of these models and their impacts in turn.
-
-<!-- chunk {"id": "body-0114", "role": "body", "section": "Underrepresented Languages", "weight": 1.0} -->
+<!-- chunk {"id": "body-0101", "role": "body", "section": "Underrepresented Languages", "weight": 1.0} -->
 
 GPT-4o shows improved reading comprehension and reasoning across a sample of historically underrepresented languages, and narrows the gap in performance between these languages and English.
 
-<!-- chunk {"id": "body-0115", "role": "body", "section": "Underrepresented Languages", "weight": 1.0} -->
+<!-- chunk {"id": "body-0102", "role": "body", "section": "Underrepresented Languages", "weight": 1.0} -->
 
 To evaluate GPT-4o's performance in text across a select group of languages historically underrepresented in Internet text, we collaborated with external researchers ^1212^12Our principal research collaborators were Dr. David Adelani, Jonas Kgomo, Ed Bayes. and language facilitators to develop evaluations in five African languages: Amharic, Hausa, Northern Sotho (Sepedi), Swahili, Yoruba. This initial assessment focused on translating two popular language benchmarks and creating small novel language-specific reading comprehension evaluation for Amharic, Hausa and Yoruba.
 
-<!-- chunk {"id": "body-0116", "role": "body", "section": "Underrepresented Languages", "weight": 1.0} -->
+<!-- chunk {"id": "body-0103", "role": "body", "section": "Underrepresented Languages", "weight": 1.0} -->
 
 ARC-Easy: This subset of the AI2 Reasoning Challenge benchmark focuses on evaluating a model's ability to answer common sense grade-school science questions; this subset contains questions that are generally easier to answer and do not require complex reasoning.
 
-<!-- chunk {"id": "body-0117", "role": "body", "section": "Underrepresented Languages", "weight": 1.0} -->
+<!-- chunk {"id": "body-0104", "role": "body", "section": "Underrepresented Languages", "weight": 1.0} -->
 
 TruthfulQA: This benchmark consists of questions that some humans might answer falsely due to misconceptions. The objective is to see if models can avoid generating false answers that mimic these misconceptions.
 
-<!-- chunk {"id": "body-0118", "role": "body", "section": "Underrepresented Languages", "weight": 1.0} -->
+<!-- chunk {"id": "body-0105", "role": "body", "section": "Underrepresented Languages", "weight": 1.0} -->
 
 Uhura-Eval: In partnership with fluent speakers of Amharic, Hausa and Yoruba, our research partners created this benchmark to assess models' reading comprehension in those respective languages.
 
-<!-- chunk {"id": "body-0119", "role": "body", "section": "Underrepresented Languages", "weight": 1.0} -->
+<!-- chunk {"id": "body-0106", "role": "body", "section": "Underrepresented Languages", "weight": 1.0} -->
 
 GPT-4o shows improved performance compared to prior models, e.g. GPT 3.5 Turbo and GPT-4. For instance, on ARC-Easy-Hausa, accuracy jumped from 6.1% with GPT 3.5 Turbo to 71.4% with GPT-4o. Similarly, in TruthfulQA-Yoruba accuracy increased from 28.3% for GPT 3.5 Turbo to 51.1% for GPT-4o. Uhura-Eval also shows notable gains: performance in Hausa rose from 32.3% with GPT 3.5 Turbo to 59.4% with GPT-4o.
 
-<!-- chunk {"id": "body-0120", "role": "body", "section": "Underrepresented Languages", "weight": 1.0} -->
+<!-- chunk {"id": "body-0107", "role": "body", "section": "Underrepresented Languages", "weight": 1.0} -->
 
 There remain gaps in performance between English and the selected languages, but GPT-4o narrows this gap. For instance, while GPT 3.5 Turbo shows a roughly 54 percentage point difference in ARC-Easy performance between English and Hausa, this narrows to a less than 20 percentage point difference. This is consistent across all languages for both TruthfulQA and ARC-Easy.
 
-<!-- chunk {"id": "body-0121", "role": "body", "section": "Underrepresented Languages", "weight": 1.0} -->
+<!-- chunk {"id": "body-0108", "role": "body", "section": "Underrepresented Languages", "weight": 1.0} -->
 
 Our collaboration partners will discuss these findings in greater detail in a forthcoming, including assessments on other models, and investigations of potential mitigation strategies.
 
-<!-- chunk {"id": "body-0122", "role": "body", "section": "Underrepresented Languages", "weight": 1.0} -->
+<!-- chunk {"id": "body-0109", "role": "body", "section": "Underrepresented Languages", "weight": 1.0} -->
 
 Despite this progress in evaluated performance, much work remains to enhance the quality and coverage of evaluations for underrepresented languages worldwide, taking into account breadth of coverage across languages and nuance within language dialects. Future research must deepen our understanding of potential interventions and partnerships that may improve how useful these models can be for both highly represented and underrepresented languages. Along with our collaborators, we invite further exploration and collaboration by sharing the translated ARC-Easy, translated TruthfulQA, and the novel reading comprehension Uhura Eval on Hugging Face.
 
-<!-- chunk {"id": "body-0123", "role": "body", "section": "Conclusion and Next Steps", "weight": 1.5} -->
+<!-- chunk {"id": "body-0110", "role": "body", "section": "Underrepresented Languages", "weight": 1.0} -->
+
+Northern Sotho (Sepedi) (n=520) Table 8: Accuracy on Translated ARC-Easy (%, higher is better), 0-shot Northern Sotho (Sepedi) (n=809) Table 9: Accuracy on Translated TruthfulQA (%, higher is better), 0-shot Table 10: Accuracy on Uhura-Eval (%, higher is better), 0-shot
+
+<!-- chunk {"id": "body-0111", "role": "body", "section": "Conclusion and Next Steps", "weight": 1.5} -->
 
 OpenAI has implemented various safety measurements and mitigations throughout the GPT-4o development and deployment process. As a part of our iterative deployment process, we will continue to monitor and update mitigations in accordance with the evolving landscape. We hope this System Card encourages further exploration into key areas including, but not limited to: measurements and mitigations for adversarial robustness of omni models, risks related to anthropomorphism and emotional overreliance, broad societal impacts (health and medical applications, economic impacts), the use of omni models for scientific research and advancement, measurements and mitigations for dangerous capabilities such as self-improvement, model autonomy, and scheming, and how tool use might advance model capabilities.
 
-<!-- chunk {"id": "body-0124", "role": "body", "section": "Authorship, credit attribution, and acknowledgments", "weight": 1.0} -->
+<!-- chunk {"id": "body-0112", "role": "body", "section": "Authorship, credit attribution, and acknowledgments", "weight": 1.0} -->
 
 Please cite this work as "OpenAI ".
 
+<!-- chunk {"id": "body-0113", "role": "body", "section": "Authorship, credit attribution, and acknowledgments", "weight": 1.0} -->
+
+12\Jiayi Weng, Randall Lin, Youlong Cheng\Pre-training organization lead^1212^footnotemark: 12\Pre-training program lead^1212^footnotemark: 12\Post-training organization leads^1212^footnotemark: 12\Barret Zoph, John Schulman\Post-training program lead^1212^footnotemark: 12\Core contributors^1212^footnotemark: 12\Aaron Hurst, Adam Lerer, Adam P. Goucher, Adam Perelman, Akila Welihinda, Alec Radford, Alex Borzunov, Alex Carney, Alex Chow, Alex Paino, Alex Renzin, Alex Tachard Passos, Alexi Christakis, Ali Kamali, Allison Moyer, Allison Tam, Amadou Crookes, Amin Tootoonchian, Ananya Kumar, Andrej Karpathy, Andrey Mishchenko, Andrew Cann, Andrew Kondrich, Andrew Tulloch, Angela Jiang, Antoine Pelisse, Antonia Woodford, Anuj Gosalia, Avi Nayak, Avital Oliver, Behrooz Ghorbani, Ben Leimberger, Ben
+
+<!-- chunk {"id": "body-0114", "role": "body", "section": "Authorship, credit attribution, and acknowledgments", "weight": 1.0} -->
+
+Wang, Beth Hoover, Blake Samic, Brian Guarraci, Brydon Eastman, Camillo Lugaresi, Chak Li, Charlotte Barette, Chelsea Voss, Chen Ding, Chong Zhang, Chris Beaumont, Chris Hallacy, Chris Koch, Christian Gibson, Christine Choi, Christopher Hesse, Colin Wei, Daniel Kappler, Daniel Levin, Daniel Levy, David Farhi, David Mely, David Sasaki, Dimitris Tsipras, Doug Li, Duc Phong Nguyen, Duncan Findlay, Edmund Wong, Ehsan Asdar, Elizabeth Proehl, Elizabeth Yang, Eric Peterson, Eric Sigler, Eugene Brevdo, Farzad Khorasani, Francis Zhang, Gene Oden, Geoff Salmon, Hadi Salman, Haiming Bao, Heather Schmidt, Hongyu Ren, Hyung Won Chung, Ian Kivlichan, Ian O'Connell, Ian Osband, Ibrahim Okuyucu, Ilya Kostrikov, Ingmar Kanitscheider, Jacob Coxon, James Crooks, James Lennon, Jane Park, Jason Teplitz, Jason Wei, Jason Wolfe, Jay Chen, Jeff Harris, Jiayi Weng, Jie Tang, Joanne Jang, Jonathan Ward, Jonathan
+
+<!-- chunk {"id": "body-0115", "role": "body", "section": "Authorship, credit attribution, and acknowledgments", "weight": 1.0} -->
+
+McKay, Jong Wook Kim, Josh Gross, Josh Kaplan, Joy Jiao, Joyce Lee, Juntang Zhuang, Kai Fricke, Kavin Karthik, Kenny Hsu, Kiel Howe, Kyle Luther, Larry Kai, Lauren Itow, Leo Chen, Lia Guy, Lien Mamitsuka, Lilian Weng, Long Ouyang, Louis Feuvrier, Lukas Kondraciuk, Lukasz Kaiser, Lyric Doshi, Mada Aflak, Maddie Simens, Madeleine Thompson, Marat Dukhan, Marvin Zhang, Mateusz Litwin, Matthew Zeng, Max Johnson, Mayank Gupta, Mia Glaese, Michael Janner, Michael Petrov, Michael Wu, Michelle Fradin, Michelle Pokrass, Miguel Oom Temudo de Castro, Mikhail Pavlov, Minal Khan, Mo Bavarian, Murat Yesildal, Natalia Gimelshein, Natalie Staudacher, Nick Stathas, Nik Tezak, Nithanth Kudige, Noel Bundick, Ofir Nachum, Oleg Boiko, Oleg Murk, Olivier Godement, Owen Campbell-Moore, Philip Pronin, Philippe Tillet, Rachel Lim, Rajan Troll, Randall
+
+<!-- chunk {"id": "body-0116", "role": "body", "section": "Authorship, credit attribution, and acknowledgments", "weight": 1.0} -->
+
+Lin, Rapha gontijo lopes, Raul Puri, Reah Miyara, Reimar Leike, Renaud Gaubert, Reza Zamani, Rob Honsby, Rohit Ramchandani, Rory Carmichael, Ruslan Nigmatullin, Ryan Cheu, Sara Culver, Scott Gray, Sean Grove, Sean Metzger, Shantanu Jain, Shengjia Zhao, Sherwin Wu, Shuaiqi (Tony) Xia, Sonia Phene, Spencer Papay, Steve Coffey, Steve Lee, Steve Lee, Stewart Hall, Suchir Balaji, Tal Broda, Tal Stramer, Tarun Gogineni, Ted Sanders, Thomas Cunninghman, Thomas Dimson, Thomas Raoux, Tianhao Zheng, Christina Kim, Todd Underwood, Tristan Heywood, Valerie Qi, Vinnie Monaco, Vlad Fomenko, Weiyi Zheng, Wenda Zhou, Wojciech Zaremba, Yash Patil, Yilei, Qian, Yongjik Kim, Youlong Cheng, Yuchen He, Yuchen Zhang, Yujia Jin, Yunxing Dai, Yury Malkov\Multimodal lead^1212^footnotemark: 12\Post-Training
+
+<!-- chunk {"id": "body-0117", "role": "body", "section": "Authorship, credit attribution, and acknowledgments", "weight": 1.0} -->
+
+Multimodal lead^1212^footnotemark: 12\Audio Pre-Training leads^1212^footnotemark: 12\Alexis Conneau, James Betker\Audio Post-Training leads^1212^footnotemark: 12\Alexander Kirillov, James Betker, Yu Zhang\Visual perception leads^1212^footnotemark: 12\Jamie Kiros, Rowan Zellers, Raul Puri, Jiahui Yu\Visual generation leads^1212^footnotemark: 12\James Betker, Alex Nichol, Heewoo Jun, Casey Chu, Gabriel Goh\Science leads^1212^footnotemark: 12\Gabriel Goh, Ishaan Gulrajani\Data acquisition leads^1212^footnotemark: 12\Ian Sohl, Qiming Yuan\Data infrastructure leads^1212^footnotemark: 12\Alex Paino, James Betker, Rowan Zellers, Alex Nichol\Human data lead^1212^footnotemark: 12\Arka Dhar, Mia Glaese\Encoders leads^1212^footnotemark: 12\Heewoo Jun, Alexis Conneau, Li Jing, Jamie
+
+<!-- chunk {"id": "body-0118", "role": "body", "section": "Authorship, credit attribution, and acknowledgments", "weight": 1.0} -->
+
+Kiros\Decoders leads^1212^footnotemark: 12\Allan Jabri, Jong Wook Kim, James Betker\Interruptions leads^1212^footnotemark: 12\Alexis Conneau, Tao Xu, Yu Zhang\Inference lead^1212^footnotemark: 12\Real-time AV platform leads^1212^footnotemark: 12\Bogo Giertler, Raul Puri, Rowan Zellers, Tomer Kaftan\Front-end leads^1212^footnotemark: 12\Nacho Soto, Rocky Smith, Wayne Chang\Post-training Multimodal Infrastructure leads^1212^footnotemark: 12\Alexander Kirillov, Luke Metz, Raul Puri, Vlad Fomenko\Applied Eng lead^1212^footnotemark: 12\Audio manager^1212^footnotemark: 12\Multimodal organization lead^1212^footnotemark: 12\Program lead^1212^footnotemark: 12\Core contributors^1212^footnotemark: 12\Aditya Ramesh, AJ Ostrow, Allan Jabri, Alexis Conneau, Alec Radford, Alex Nichol,
+
+<!-- chunk {"id": "body-0119", "role": "body", "section": "Authorship, credit attribution, and acknowledgments", "weight": 1.0} -->
+
+Avi Nayak, Avital Oliver, Benjamin Zweig, Bogo Giertler, Bowen Cheng, Brandon Walkin, Brendan Quinn, Chong Zhang, Christine McLeavey, Constantin Koumouzelis, Daniel Kappler, Doug Li, Edede Oiwoh, Farzad Khorasani, Felipe Petroski Such, Heather Schmidt, Heewoo Jun, Huiwen Chang, Ian Silber, Ishaan Gulrajani, David Carr, Haitang Hu, James Lennon, James Betker, Jamie Kiros, Jeff Harris, Jenia Varavva, Jiahui Yu, Ji Lin, Joanne Jang, Johannes Heidecke, Jong Wook Kim, Liang Zhou, Li Jing, Long Ouyang, Madelaine Boyd, Mark Hudnall, Mengchao Zhong, Mia Glaese, Nick Turley, Noah Deutsch, Noel Bundick, Ola Okelola, Olivier Godement, Owen Campbell-Moore, Peter Bak, Peter Bakkum, Raul Puri, Rowan Zellers, Saachi Jain, Shantanu Jain, Shirong Wu, Spencer Papay, Tao Xu, Valerie Qi, Wesam Manassra, Yu Zhang\Data Systems
+
+<!-- chunk {"id": "body-0120", "role": "body", "section": "Authorship, credit attribution, and acknowledgments", "weight": 1.0} -->
+
+lead^1212^footnotemark: 12\Model distribution leads^1212^footnotemark: 12\Amin Tootoochian, Miguel Castro\Nik Tezak, Christopher Hesse\Runtime lead^1212^footnotemark: 12\Systems lead^1212^footnotemark: 12\Kernels lead^1212^footnotemark: 12\Hardware health leads^1212^footnotemark: 12\Reza Zamani, Michael Petrov\Supercomputing leads^1212^footnotemark: 12\Rory Carmichael, Christian Gibson\Preparedness, Safety, Policy\Safety lead^1212^footnotemark: 12\Audio safety lead^1212^footnotemark: 12\Preparedness lead^1212^footnotemark: 12\Red-teaming lead^1212^footnotemark: 12\Core contributors^1212^footnotemark: 12\Alex Beutel, Andrea Vallone, Angela Jiang, Carroll Wainwright, Chong Zhang, Chris Beaumont, Claudia Fischer, Evan Mays, Filippo Raso, Haoyu Wang, Ian Kivlichan, Jason Phang, Jieqi Yu, Joel Parish, Joshua Achiam, Jonathan
+
+<!-- chunk {"id": "body-0121", "role": "body", "section": "Authorship, credit attribution, and acknowledgments", "weight": 1.0} -->
+
+Uesato, Joost Huizinga, Josh Snyder, Justyn Harriman, Katy Shi, Keren Gu-Lemberg, Kevin Liu, Lama Ahmad, Lilian Weng, Madelaine Boyd, Meghan Shah, Mehmet Yatbaz, Michael Lampe, Miles Wang, Molly Lin, Natalie Cone, Neil Chowdhury, Olivia Watkins, Owen Campbell-Moore, Peter Dolan, Rachel Dias, Rahul Arora, Reimar Leike, Saachi Jain, Sam Toizer, Sandhini Agarwal, Todor Markov\Model Launch and Deployment Additional Leadership^1212^footnotemark: 12\Aleksander Mądry, Barret Zoph, Bob McGrew, Brad Lightcap, David Farhi, Greg Brockman, Hannah Wong, Ilya Sutskever, Jakub Pachocki, Jan Leike, Jason Kwon, John Schulman, Jonathan Lachman, Krithika Muthukumar, Lilian Weng, Mark Chen, Miles Brundage, Mira Murati, Nick Ryder, Peter Deng, Peter Welinder, Sam Altman, Srinivas Narayanan, Tal Broda\Alan Hayes, Ashley
+
+<!-- chunk {"id": "body-0122", "role": "body", "section": "Authorship, credit attribution, and acknowledgments", "weight": 1.0} -->
+
+Pantuliano, Bright Kellogg, Fred von Lohmann, Filippo Raso, Heather Whitney, Tom Rubin\Blog post authorship^1212^footnotemark: 12\Aidan Clark, Alex Baker-Whitcomb, Alex Carney, Alex Nichol, Alexander Kirillov, Alex Paino, Alexis Conneau, Allan Jabri, Anuj Gosalia, Barret Zoph, Ben Sokolowsky, Bogo Giertler, Bowen Cheng, Cheng Lu, Christine McLeavey, Coley Czarnecki, Daniel Kappler, Elizabeth Yang, Eric Antonow, Eric Wallace, Filippo Raso, Gabriel Goh, Greg Brockman, Hannah Wong, Heewoo Jun, Hendrik Kirchner, Jacob Menick, James Betker, Jamie Kiros, Jason Kwon, Jeff Harris, Ji Lin, Jiahui Yu, Johannes Heidecke, John Schulman, Jonathan McKay, Jong Wook Kim, Jordan Sitkin, Kendra Rimbach, Kevin Liu, Krithika Muthukumar, Leher Pathak, Liam Fedus, Lilian Weng, Lindsay McCallum, Luke Metz, Mark Chen, Maya Shetty, Mianna Chen, Michael
+
+<!-- chunk {"id": "body-0123", "role": "body", "section": "Authorship, credit attribution, and acknowledgments", "weight": 1.0} -->
+
+Lampe, Michael Wu, Michelle Pokrass, Mira Murati, Nacho Soto, Natalie Summers, Niko Felix, Olivier Godement, Owen Campbell-Moore, Peter Deng, Prafulla Dhariwal, Rocky Smith, Rowan Zellers, Saachi Jain, Sandhini Agarwal, Sam Toizer, Sean Grove, Shantanu Jain, Tao Xu, Tejal Patwardhan, Tomer Kaftan, Tom Stasi, Troy Peterson, Veit Moeller, Vinnie Monaco, Wayne Chang, Yu Zhang, Yuchen He\Demo content + production^1212^footnotemark: 12\Alex Baker-Whitcomb, Avi Nayak, Barret Zoph, Bobby Spero, Bogo Giertler, Brendan Quinn, Chad Nelson, Charlotte Barette, Claudia Fischer, Coley Czarnecki, Colin Jarvis, Eric Antonow, Filippo Raso, Greg Brockman, James Betker, Jessica Shieh, Joe Beutler, Joe Landers, Krithika Muthukumar, Leher Pathak, Lindsay McCallum, Mark Chen, Mianna Chen, Michael Petrov, Mira Murati, Natalie Summers, Peter Deng, Ricky Wang, Rocky
+
+<!-- chunk {"id": "body-0124", "role": "body", "section": "Authorship, credit attribution, and acknowledgments", "weight": 1.0} -->
+
+Smith, Rohan Sahai, Romain Huet, Rowan Zellers, Scott Ethersmith, Toki Sherbakov, Tomer Kaftan, Veit Moeller, Wayne Chang\Communications + Marketing^1212^footnotemark: 12\Alex Baker-Whitcomb, Andrew Galu, Angela Baek, Coley Czarnecki, Dev Valladares, Eric Antonow, Hannah Wong, Leher Pathak, Lindsay McCallum, Lindsey Held, Krithika Muthukumar, Kendra Rimbach, Maya Shetty, Niko Felix, Roy Chen, Ruby Chen, Taya Christianson, Thomas Degry, Veit Moeller\Resource Allocation & Problem Solving^1212^footnotemark: 12\Bob McGrew, Lauren Itow, Mianna Chen, Nik Tezak, Peter Hoeschele, Tal Broda\Inference Compute^1212^footnotemark: 12\Andrew Codispoti, Brian Hsu, Channing Conger, Ikai Lan, Jos Kraaijeveld, Kai Hayashi, Kenny Nguyen, Lu Zhang, Natan LaFontaine, Pavel Belov, Peng Su, Vishal Kuo, Will
+
 <!-- chunk {"id": "body-0125", "role": "body", "section": "Authorship, credit attribution, and acknowledgments", "weight": 1.0} -->
 
-Pre-training leads^1212^footnotemark: 12\ Aidan Clark, Alex Paino, Jacob Menick\ Post-training leads^1212^footnotemark: 12\ Liam Fedus, Luke Metz\ Architecture leads^1212^footnotemark: 12\ Clemens Winter, Lia Guy\ Optimization leads^1212^footnotemark: 12\ Sam Schoenholz, Daniel Levy\ Long-context lead^1212^footnotemark: 12\ Pre-training Data leads^1212^footnotemark: 12\ Alex Carney, Alex Paino, Ian Sohl, Qiming Yuan\ Tokenizer lead^1212^footnotemark: 12\ Human data leads^1212^footnotemark: 12\ Arka Dhar, Brydon Eastman, Mia Glaese\ Eval lead^1212^footnotemark: 12\ Data flywheel lead^1212^footnotemark: 12\ Inference lead^1212^footnotemark: 12\ Felipe Petroski Such\ Inference Productionization lead^1212^footnotemark: 12\ Henrique Ponde de Oliveira Pinto\ Post-training infrastructure leads^1212^footnotemark: 12\
+Sheu\Security and privacy^1212^footnotemark: 12\Kevin Button, Paul McMillan, Shino Jomoto, Thomas Shadwell, Vinnie Monaco\GTM, Pricing, Finance^1212^footnotemark: 12\Andrew Braunstein, Anuj Gosalia, Denny Jin, Eric Kramer, Jeff Harris, Jessica Shieh, Joe Beutler, Joe Landers, Lauren Workman, Rob Donnelly, Romain Huet, Shamez Hermani, Toki Sherbakov\System Card Contributions Alex Kirillov, Angela Jiang, Ben Rossen, Cary Bassin, Cary Hudson, Chan Jun Shern, Claudia Fischer, Dane Sherburn, David Robinson, Evan Mays, Filippo Raso, Fred von Lohmann, Freddie Sulit, Giulio Starace, James Aung, James Lennon, Jason Phang, Jessica Gan Lee, Joaquin Quinonero Candela, Joel Parish, Jonathan Uesato, Karan Singhal, Katy Shi, Kayla Wood, Kevin Liu, Lama Ahmad, Lilian Weng, Lindsay McCallum, Luke Hewitt, Mark Gray, Marwan Aljubeh, Meng Jia Yang, Mia Glaese, Mianna Chen, Michael Lampe,
 
 <!-- chunk {"id": "body-0126", "role": "body", "section": "Authorship, credit attribution, and acknowledgments", "weight": 1.0} -->
 
-Jiayi Weng, Randall Lin, Youlong Cheng\ Pre-training organization lead^1212^footnotemark: 12\ Pre-training program lead^1212^footnotemark: 12\ Post-training organization leads^1212^footnotemark: 12\ Barret Zoph, John Schulman\ Post-training program lead^1212^footnotemark: 12\ Core contributors^1212^footnotemark: 12\ Aaron Hurst, Adam Lerer, Adam P. Goucher, Adam Perelman, Akila Welihinda, Alec Radford, Alex Borzunov, Alex Carney, Alex Chow, Alex Paino, Alex Renzin, Alex Tachard Passos, Alexi Christakis, Ali Kamali, Allison Moyer, Allison Tam, Amadou Crookes, Amin Tootoonchian, Ananya Kumar, Andrej Karpathy, Andrey Mishchenko, Andrew Cann, Andrew Kondrich, Andrew Tulloch, Angela Jiang, Antoine Pelisse, Antonia Woodford, Anuj Gosalia, Avi Nayak, Avital Oliver, Behrooz Ghorbani, Ben Leimberger, Ben Wang,
+Michele Wang, Miles Wang, Natalie Cone, Neil Chowdhury, Nora Puckett, Oliver Jaffe, Olivia Watkins, Patrick Chao, Rachel Dias, Rahul Arora, Saachi Jain, Sam Toizer, Samuel Miserendino, Sandhini Agarwal, Tejal Patwardhan, Thomas Degry, Tom Stasi, Troy Peterson, Tyce Walters, Tyna Eloundou\We also acknowledge and thank every OpenAI team member not explicitly mentioned above, including the amazing people on the executive assistant, finance, go to market, human resources, legal, operations and recruiting teams.
 
 <!-- chunk {"id": "body-0127", "role": "body", "section": "Authorship, credit attribution, and acknowledgments", "weight": 1.0} -->
 
-Beth Hoover, Blake Samic, Brian Guarraci, Brydon Eastman, Camillo Lugaresi, Chak Li, Charlotte Barette, Chelsea Voss, Chen Ding, Chong Zhang, Chris Beaumont, Chris Hallacy, Chris Koch, Christian Gibson, Christine Choi, Christopher Hesse, Colin Wei, Daniel Kappler, Daniel Levin, Daniel Levy, David Farhi, David Mely, David Sasaki, Dimitris Tsipras, Doug Li, Duc Phong Nguyen, Duncan Findlay, Edmund Wong, Ehsan Asdar, Elizabeth Proehl, Elizabeth Yang, Eric Peterson, Eric Sigler, Eugene Brevdo, Farzad Khorasani, Francis Zhang, Gene Oden, Geoff Salmon, Hadi Salman, Haiming Bao, Heather Schmidt, Hongyu Ren, Hyung Won Chung, Ian Kivlichan, Ian O'Connell, Ian Osband, Ibrahim Okuyucu, Ilya Kostrikov, Ingmar Kanitscheider, Jacob Coxon, James Crooks, James Lennon, Jane Park, Jason Teplitz, Jason Wei, Jason Wolfe, Jay Chen, Jeff Harris, Jiayi Weng, Jie Tang, Joanne Jang, Jonathan Ward, Jonathan McKay, Jong
+From hiring everyone in the company, to making sure we have an amazing office space, to building the administrative, HR, legal, and financial structures that allow us to do our best work, everyone at OpenAI has contributed to GPT-4o.
 
 <!-- chunk {"id": "body-0128", "role": "body", "section": "Authorship, credit attribution, and acknowledgments", "weight": 1.0} -->
 
-Wook Kim, Josh Gross, Josh Kaplan, Joy Jiao, Joyce Lee, Juntang Zhuang, Kai Fricke, Kavin Karthik, Kenny Hsu, Kiel Howe, Kyle Luther, Larry Kai, Lauren Itow, Leo Chen, Lia Guy, Lien Mamitsuka, Lilian Weng, Long Ouyang, Louis Feuvrier, Lukas Kondraciuk, Lukasz Kaiser, Lyric Doshi, Mada Aflak, Maddie Simens, Madeleine Thompson, Marat Dukhan, Marvin Zhang, Mateusz Litwin, Matthew Zeng, Max Johnson, Mayank Gupta, Mia Glaese, Michael Janner, Michael Petrov, Michael Wu, Michelle Fradin, Michelle Pokrass, Miguel Oom Temudo de Castro, Mikhail Pavlov, Minal Khan, Mo Bavarian, Murat Yesildal, Natalia Gimelshein, Natalie Staudacher, Nick Stathas, Nik Tezak, Nithanth Kudige, Noel Bundick, Ofir Nachum, Oleg Boiko, Oleg Murk, Olivier Godement, Owen Campbell-Moore, Philip Pronin, Philippe Tillet, Rachel Lim, Rajan Troll, Randall Lin, Rapha
+We thank Microsoft for their partnership, especially Microsoft Azure for supporting model training with infrastructure design and management, and the Microsoft Bing team and Microsoft's safety teams for their partnership on safe deployment.
 
 <!-- chunk {"id": "body-0129", "role": "body", "section": "Authorship, credit attribution, and acknowledgments", "weight": 1.0} -->
 
-gontijo lopes, Raul Puri, Reah Miyara, Reimar Leike, Renaud Gaubert, Reza Zamani, Rob Honsby, Rohit Ramchandani, Rory Carmichael, Ruslan Nigmatullin, Ryan Cheu, Sara Culver, Scott Gray, Sean Grove, Sean Metzger, Shantanu Jain, Shengjia Zhao, Sherwin Wu, Shuaiqi (Tony) Xia, Sonia Phene, Spencer Papay, Steve Coffey, Steve Lee, Steve Lee, Stewart Hall, Suchir Balaji, Tal Broda, Tal Stramer, Tarun Gogineni, Ted Sanders, Thomas Cunninghman, Thomas Dimson, Thomas Raoux, Tianhao Zheng, Christina Kim, Todd Underwood, Tristan Heywood, Valerie Qi, Vinnie Monaco, Vlad Fomenko, Weiyi Zheng, Wenda Zhou, Wojciech Zaremba, Yash Patil, Yilei, Qian, Yongjik Kim, Youlong Cheng, Yuchen He, Yuchen Zhang, Yujia Jin, Yunxing Dai, Yury Malkov\
+We are grateful to our expert testers and red teamers who helped test our models at early stages of development and informed our risk assessments as well as the System Card output. Participation in this red teaming process is not an endorsement of the deployment plans of OpenAI or OpenAI's policies.
 
 <!-- chunk {"id": "body-0130", "role": "body", "section": "Authorship, credit attribution, and acknowledgments", "weight": 1.0} -->
 
-Multimodal lead^1212^footnotemark: 12\ Post-Training Multimodal lead^1212^footnotemark: 12\ Audio Pre-Training leads^1212^footnotemark: 12\ Alexis Conneau, James Betker\ Audio Post-Training leads^1212^footnotemark: 12\ Alexander Kirillov, James Betker, Yu Zhang\ Visual perception leads^1212^footnotemark: 12\ Jamie Kiros, Rowan Zellers, Raul Puri, Jiahui Yu\ Visual generation leads^1212^footnotemark: 12\ James Betker, Alex Nichol, Heewoo Jun, Casey Chu, Gabriel Goh\ Science leads^1212^footnotemark: 12\ Gabriel Goh, Ishaan Gulrajani\ Data acquisition leads^1212^footnotemark: 12\ Ian Sohl, Qiming Yuan\ Data infrastructure leads^1212^footnotemark: 12\ Alex Paino, James Betker, Rowan Zellers, Alex Nichol\ Human data lead^1212^footnotemark: 12\ Arka Dhar, Mia Glaese\ Encoders
+Adam Kuzdraliński, Alexa W, Amer Sawan, Ana-Diamond Aaba Atach, Anna Becker, Arjun Singh Puri, Baybars Orsek, Ben Kobren, Bertie Vidgen, Blue Sheffer, Broderick McDonald, Bruce Bassett, Bruno Arsioli, Caroline Friedman Levy, Casey Williams, Christophe Ego, Ciel Qi, Cory Alpert, Dani Madrid-Morales, Daniel Kang, Darius Emrani, Dominik Haenni, Drin Ferizaj, Emily Lynell Edwards, Emmett Alton Sartor, Farhan Sahito, Francesco De Toni, Gabriel Chua, Gaines Hubbell, Gelei Deng, George Gor, Gerardo Adesso, Grant Brailsford, Hao Zhao, Henry Silverman, Hasan Sawan, Herman Wasserman, Hugo Gobato Souto, Ioana Tanase, Isabella Andric, Ivan Carbajal, Jacy Reese Anthis, Jake Okechukwu Effoduh, Javier García Arredondo, Jennifer Victoria Scurrell, Jianlong Zhu, Joanna Brzyska, Kate Turetsky, Kelly Bare, Kristen Menou, Latisha Harry, Lee Elkin,
 
 <!-- chunk {"id": "body-0131", "role": "body", "section": "Authorship, credit attribution, and acknowledgments", "weight": 1.0} -->
 
-leads^1212^footnotemark: 12\ Heewoo Jun, Alexis Conneau, Li Jing, Jamie Kiros\ Decoders leads^1212^footnotemark: 12\ Allan Jabri, Jong Wook Kim, James Betker\ Interruptions leads^1212^footnotemark: 12\ Alexis Conneau, Tao Xu, Yu Zhang\ Inference lead^1212^footnotemark: 12\ Real-time AV platform leads^1212^footnotemark: 12\ Bogo Giertler, Raul Puri, Rowan Zellers, Tomer Kaftan\ Front-end leads^1212^footnotemark: 12\ Nacho Soto, Rocky Smith, Wayne Chang\ Post-training Multimodal Infrastructure leads^1212^footnotemark: 12\ Alexander Kirillov, Luke Metz, Raul Puri, Vlad Fomenko\ Applied Eng lead^1212^footnotemark: 12\ Audio manager^1212^footnotemark: 12\ Multimodal organization lead^1212^footnotemark: 12\ Program lead^1212^footnotemark: 12\ Core contributors^1212^footnotemark: 12\ Aditya
+Liseli Akayombokwa, Louise Giam, M. Alexandra García Pérez, Manas Chawla, Marjana Skenduli, Martin Rydén, Mateusz Garncarek, Matt Groh, Maureen Robinson, Maximilian Müller, Micah Bornfree, Michael Richter, Michela Passoni, Mikael von Strauss, Mohamed Sakher Sawan, Mohammed Elzubeir, Muhammad Saad Naeem, Murat Ata, Nanditha Narayanamoorthy, Naomi Hart, Nathan Heath, Patrick Caughey, Per Wikman-Svahn, Piyalitt Ittichaiwong, Prerna Juneja, Rafael Gonzalez-Vazquez, Rand Forrester, Richard Fang, Rosa Ana del Rocío Valderrama, Saad Hermak, Sangeet Kumar, Sara Kingsley, Shelby Grossman, Shezaad Dastoor, Susan Nesbitt, Theresa Kennedy, Thomas Hagen, Thorsten Holz, Tony Younes, Torin van den Bulk, Viktoria Holz, Vincent Nestler, Xudong Han, Xuelong Fan, Zhicong Zhao Red Teaming Organizations:\METR, Apollo Research, Virtue AI Choice Mpanza, David Adelani, Edward
 
 <!-- chunk {"id": "body-0132", "role": "body", "section": "Authorship, credit attribution, and acknowledgments", "weight": 1.0} -->
 
-Ramesh, AJ Ostrow, Allan Jabri, Alexis Conneau, Alec Radford, Alex Nichol, Avi Nayak, Avital Oliver, Benjamin Zweig, Bogo Giertler, Bowen Cheng, Brandon Walkin, Brendan Quinn, Chong Zhang, Christine McLeavey, Constantin Koumouzelis, Daniel Kappler, Doug Li, Edede Oiwoh, Farzad Khorasani, Felipe Petroski Such, Heather Schmidt, Heewoo Jun, Huiwen Chang, Ian Silber, Ishaan Gulrajani, David Carr, Haitang Hu, James Lennon, James Betker, Jamie Kiros, Jeff Harris, Jenia Varavva, Jiahui Yu, Ji Lin, Joanne Jang, Johannes Heidecke, Jong Wook Kim, Liang Zhou, Li Jing, Long Ouyang, Madelaine Boyd, Mark Hudnall, Mengchao Zhong, Mia Glaese, Nick Turley, Noah Deutsch, Noel Bundick, Ola Okelola, Olivier Godement, Owen Campbell-Moore, Peter Bak, Peter Bakkum, Raul Puri, Rowan Zellers, Saachi Jain, Shantanu
-
-<!-- chunk {"id": "body-0133", "role": "body", "section": "Authorship, credit attribution, and acknowledgments", "weight": 1.0} -->
-
-Jain, Shirong Wu, Spencer Papay, Tao Xu, Valerie Qi, Wesam Manassra, Yu Zhang\ Data Systems lead^1212^footnotemark: 12\ Model distribution leads^1212^footnotemark: 12\ Amin Tootoochian, Miguel Castro\ Nik Tezak, Christopher Hesse\ Runtime lead^1212^footnotemark: 12\ Systems lead^1212^footnotemark: 12\ Kernels lead^1212^footnotemark: 12\ Hardware health leads^1212^footnotemark: 12\ Reza Zamani, Michael Petrov\ Supercomputing leads^1212^footnotemark: 12\ Rory Carmichael, Christian Gibson\ Preparedness, Safety, Policy\ Safety lead^1212^footnotemark: 12\ Audio safety lead^1212^footnotemark: 12\ Preparedness lead^1212^footnotemark: 12\ Red-teaming lead^1212^footnotemark: 12\ Core contributors^1212^footnotemark: 12\ Alex Beutel, Andrea Vallone, Angela Jiang, Carroll Wainwright, Chong Zhang, Chris Beaumont, Claudia Fischer, Evan Mays, Filippo Raso, Haoyu
-
-<!-- chunk {"id": "body-0134", "role": "body", "section": "Authorship, credit attribution, and acknowledgments", "weight": 1.0} -->
-
-Wang, Ian Kivlichan, Jason Phang, Jieqi Yu, Joel Parish, Joshua Achiam, Jonathan Uesato, Joost Huizinga, Josh Snyder, Justyn Harriman, Katy Shi, Keren Gu-Lemberg, Kevin Liu, Lama Ahmad, Lilian Weng, Madelaine Boyd, Meghan Shah, Mehmet Yatbaz, Michael Lampe, Miles Wang, Molly Lin, Natalie Cone, Neil Chowdhury, Olivia Watkins, Owen Campbell-Moore, Peter Dolan, Rachel Dias, Rahul Arora, Reimar Leike, Saachi Jain, Sam Toizer, Sandhini Agarwal, Todor Markov\
-
-<!-- chunk {"id": "body-0135", "role": "body", "section": "Authorship, credit attribution, and acknowledgments", "weight": 1.0} -->
-
-Additional Leadership^1212^footnotemark: 12\ Aleksander Mądry, Barret Zoph, Bob McGrew, Brad Lightcap, David Farhi, Greg Brockman, Hannah Wong, Ilya Sutskever, Jakub Pachocki, Jan Leike, Jason Kwon, John Schulman, Jonathan Lachman, Krithika Muthukumar, Lilian Weng, Mark Chen, Miles Brundage, Mira Murati, Nick Ryder, Peter Deng, Peter Welinder, Sam Altman, Srinivas Narayanan, Tal Broda\ Alan Hayes, Ashley Pantuliano, Bright Kellogg, Fred von Lohmann, Filippo Raso, Heather Whitney, Tom Rubin\ Blog post authorship^1212^footnotemark: 12\ Aidan Clark, Alex Baker-Whitcomb, Alex Carney, Alex Nichol, Alexander Kirillov, Alex Paino, Alexis Conneau, Allan Jabri, Anuj Gosalia, Barret Zoph, Ben Sokolowsky, Bogo Giertler, Bowen Cheng, Cheng Lu, Christine McLeavey, Coley Czarnecki, Daniel Kappler, Elizabeth Yang, Eric
-
-<!-- chunk {"id": "body-0136", "role": "body", "section": "Authorship, credit attribution, and acknowledgments", "weight": 1.0} -->
-
-Antonow, Eric Wallace, Filippo Raso, Gabriel Goh, Greg Brockman, Hannah Wong, Heewoo Jun, Hendrik Kirchner, Jacob Menick, James Betker, Jamie Kiros, Jason Kwon, Jeff Harris, Ji Lin, Jiahui Yu, Johannes Heidecke, John Schulman, Jonathan McKay, Jong Wook Kim, Jordan Sitkin, Kendra Rimbach, Kevin Liu, Krithika Muthukumar, Leher Pathak, Liam Fedus, Lilian Weng, Lindsay McCallum, Luke Metz, Mark Chen, Maya Shetty, Mianna Chen, Michael Lampe, Michael Wu, Michelle Pokrass, Mira Murati, Nacho Soto, Natalie Summers, Niko Felix, Olivier Godement, Owen Campbell-Moore, Peter Deng, Prafulla Dhariwal, Rocky Smith, Rowan Zellers, Saachi Jain, Sandhini Agarwal, Sam Toizer, Sean Grove, Shantanu Jain, Tao Xu, Tejal Patwardhan, Tomer Kaftan, Tom Stasi, Troy Peterson, Veit Moeller, Vinnie Monaco, Wayne Chang, Yu Zhang, Yuchen He\ Demo content +
-
-<!-- chunk {"id": "body-0137", "role": "body", "section": "Authorship, credit attribution, and acknowledgments", "weight": 1.0} -->
-
-production^1212^footnotemark: 12\ Alex Baker-Whitcomb, Avi Nayak, Barret Zoph, Bobby Spero, Bogo Giertler, Brendan Quinn, Chad Nelson, Charlotte Barette, Claudia Fischer, Coley Czarnecki, Colin Jarvis, Eric Antonow, Filippo Raso, Greg Brockman, James Betker, Jessica Shieh, Joe Beutler, Joe Landers, Krithika Muthukumar, Leher Pathak, Lindsay McCallum, Mark Chen, Mianna Chen, Michael Petrov, Mira Murati, Natalie Summers, Peter Deng, Ricky Wang, Rocky Smith, Rohan Sahai, Romain Huet, Rowan Zellers, Scott Ethersmith, Toki Sherbakov, Tomer Kaftan, Veit Moeller, Wayne Chang\ Communications + Marketing^1212^footnotemark: 12\ Alex Baker-Whitcomb, Andrew Galu, Angela Baek, Coley Czarnecki, Dev Valladares, Eric Antonow, Hannah Wong, Leher Pathak, Lindsay McCallum, Lindsey Held, Krithika Muthukumar, Kendra Rimbach, Maya Shetty, Niko
-
-<!-- chunk {"id": "body-0138", "role": "body", "section": "Authorship, credit attribution, and acknowledgments", "weight": 1.0} -->
-
-Felix, Roy Chen, Ruby Chen, Taya Christianson, Thomas Degry, Veit Moeller\ Resource Allocation & Problem Solving^1212^footnotemark: 12\ Bob McGrew, Lauren Itow, Mianna Chen, Nik Tezak, Peter Hoeschele, Tal Broda\ Inference Compute^1212^footnotemark: 12\ Andrew Codispoti, Brian Hsu, Channing Conger, Ikai Lan, Jos Kraaijeveld, Kai Hayashi, Kenny Nguyen, Lu Zhang, Natan LaFontaine, Pavel Belov, Peng Su, Vishal Kuo, Will Sheu\ Security and privacy^1212^footnotemark: 12\ Kevin Button, Paul McMillan, Shino Jomoto, Thomas Shadwell, Vinnie Monaco\ GTM, Pricing, Finance^1212^footnotemark: 12\ Andrew Braunstein, Anuj Gosalia, Denny Jin, Eric Kramer, Jeff Harris, Jessica Shieh, Joe Beutler, Joe Landers, Lauren Workman, Rob Donnelly, Romain Huet, Shamez Hermani, Toki Sherbakov\
-
-<!-- chunk {"id": "body-0139", "role": "body", "section": "Authorship, credit attribution, and acknowledgments", "weight": 1.0} -->
-
-Alex Kirillov, Angela Jiang, Ben Rossen, Cary Bassin, Cary Hudson, Chan Jun Shern, Claudia Fischer, Dane Sherburn, David Robinson, Evan Mays, Filippo Raso, Fred von Lohmann, Freddie Sulit, Giulio Starace, James Aung, James Lennon, Jason Phang, Jessica Gan Lee, Joaquin Quinonero Candela, Joel Parish, Jonathan Uesato, Karan Singhal, Katy Shi, Kayla Wood, Kevin Liu, Lama Ahmad, Lilian Weng, Lindsay McCallum, Luke Hewitt, Mark Gray, Marwan Aljubeh, Meng Jia Yang, Mia Glaese, Mianna Chen, Michael Lampe, Michele Wang, Miles Wang, Natalie Cone, Neil Chowdhury, Nora Puckett, Oliver Jaffe, Olivia Watkins, Patrick Chao, Rachel Dias, Rahul Arora, Saachi Jain, Sam Toizer, Samuel Miserendino, Sandhini Agarwal, Tejal Patwardhan, Thomas Degry, Tom Stasi, Troy Peterson, Tyce Walters, Tyna Eloundou\
-
-<!-- chunk {"id": "body-0140", "role": "body", "section": "Authorship, credit attribution, and acknowledgments", "weight": 1.0} -->
-
-We also acknowledge and thank every OpenAI team member not explicitly mentioned above, including the amazing people on the executive assistant, finance, go to market, human resources, legal, operations and recruiting teams. From hiring everyone in the company, to making sure we have an amazing office space, to building the administrative, HR, legal, and financial structures that allow us to do our best work, everyone at OpenAI has contributed to GPT-4o.
-
-<!-- chunk {"id": "body-0141", "role": "body", "section": "Authorship, credit attribution, and acknowledgments", "weight": 1.0} -->
-
-We thank Microsoft for their partnership, especially Microsoft Azure for supporting model training with infrastructure design and management, and the Microsoft Bing team and Microsoft's safety teams for their partnership on safe deployment.
-
-<!-- chunk {"id": "body-0142", "role": "body", "section": "Authorship, credit attribution, and acknowledgments", "weight": 1.0} -->
-
-We are grateful to our expert testers and red teamers who helped test our models at early stages of development and informed our risk assessments as well as the System Card output. Participation in this red teaming process is not an endorsement of the deployment plans of OpenAI or OpenAI's policies.
-
-<!-- chunk {"id": "body-0143", "role": "body", "section": "Authorship, credit attribution, and acknowledgments", "weight": 1.0} -->
-
-Adam Kuzdraliński, Alexa W, Amer Sawan, Ana-Diamond Aaba Atach, Anna Becker, Arjun Singh Puri, Baybars Orsek, Ben Kobren, Bertie Vidgen, Blue Sheffer, Broderick McDonald, Bruce Bassett, Bruno Arsioli, Caroline Friedman Levy, Casey Williams, Christophe Ego, Ciel Qi, Cory Alpert, Dani Madrid-Morales, Daniel Kang, Darius Emrani, Dominik Haenni, Drin Ferizaj, Emily Lynell Edwards, Emmett Alton Sartor, Farhan Sahito, Francesco De Toni, Gabriel Chua, Gaines Hubbell, Gelei Deng, George Gor, Gerardo Adesso, Grant Brailsford, Hao Zhao, Henry Silverman, Hasan Sawan, Herman Wasserman, Hugo Gobato Souto, Ioana Tanase, Isabella Andric, Ivan Carbajal, Jacy Reese Anthis, Jake Okechukwu Effoduh, Javier García Arredondo, Jennifer Victoria Scurrell, Jianlong Zhu, Joanna Brzyska, Kate Turetsky, Kelly Bare, Kristen Menou, Latisha Harry, Lee Elkin,
-
-<!-- chunk {"id": "body-0144", "role": "body", "section": "Authorship, credit attribution, and acknowledgments", "weight": 1.0} -->
-
-Liseli Akayombokwa, Louise Giam, M. Alexandra García Pérez, Manas Chawla, Marjana Skenduli, Martin Rydén, Mateusz Garncarek, Matt Groh, Maureen Robinson, Maximilian Müller, Micah Bornfree, Michael Richter, Michela Passoni, Mikael von Strauss, Mohamed Sakher Sawan, Mohammed Elzubeir, Muhammad Saad Naeem, Murat Ata, Nanditha Narayanamoorthy, Naomi Hart, Nathan Heath, Patrick Caughey, Per Wikman-Svahn, Piyalitt Ittichaiwong, Prerna Juneja, Rafael Gonzalez-Vazquez, Rand Forrester, Richard Fang, Rosa Ana del Rocío Valderrama, Saad Hermak, Sangeet Kumar, Sara Kingsley, Shelby Grossman, Shezaad Dastoor, Susan Nesbitt, Theresa Kennedy, Thomas Hagen, Thorsten Holz, Tony Younes, Torin van den Bulk, Viktoria Holz, Vincent Nestler, Xudong Han, Xuelong Fan, Zhicong Zhao
-
-<!-- chunk {"id": "body-0145", "role": "body", "section": "Authorship, credit attribution, and acknowledgments", "weight": 1.0} -->
-
-Red Teaming Organizations:\
-METR, Apollo Research, Virtue AI
-
-<!-- chunk {"id": "body-0146", "role": "body", "section": "Authorship, credit attribution, and acknowledgments", "weight": 1.0} -->
-
-Choice Mpanza, David Adelani, Edward Bayes, Igneciah Pocia Thete, Imaan Khadir, Israel A. Azime, Jesujoba Oluwadara Alabi, Jonas Kgomo, Naome A. Etori, Shamsuddeen Hassan Muhammad
+Bayes, Igneciah Pocia Thete, Imaan Khadir, Israel A. Azime, Jesujoba Oluwadara Alabi, Jonas Kgomo, Naome A. Etori, Shamsuddeen Hassan Muhammad \*Contributors listed in alphabetized order

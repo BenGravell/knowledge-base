@@ -34,41 +34,41 @@ Our primary contributions are derivations of bounds on the variance of the REINF
 
 In this section, we define the general finite-horizon reinforcement learning problem, the REINFORCE policy gradient estimator, and the LQR optimal control problem. We use the notation $\mathcal{P}{(\mathcal{X})}$ for the set of probability distributions over a measurable set $\mathcal{X}$. For arbitrary sets $\mathcal{X}$ and $\mathcal{Y}$, the set of all functions $\mathcal{X}\mapsto\mathcal{Y}$ is denoted as $\mathcal{Y}^{\mathcal{X}}$. Let $\parallel \cdot \parallel$ denote the $\ell_{2} - \ell_{2}$ operator norm of a matrix or the $\ell_{2}$ norm of a vector. The spectral radius (magnitude of largest eigenvalue) of a square matrix is denoted by $\rho{( \cdot )}$. The the set of positive semidefinite (resp.
 
-<!-- chunk {"id": "body-0009", "role": "body", "section": "RL problem statement", "weight": 1.0} -->
+<!-- chunk {"id": "body-0009", "role": "body", "section": "Policy gradient algorithms", "weight": 1.0} -->
 
-The MDP parameters $(\varrho,T,r)$ are unknown to the RL algorithm. The algorithm must learn exclusively by sampling from $p_{\pi}$.
+Suppose $\pi$ is parameterized by a real-valued vector $\theta$. Analytical gradient descent of ${\nabla_{\theta}J}{(\pi)}$ is not possible because $T$ and $r$ are only accessible via sampling, with unknown gradients. There exist generic derivative-free optimization algorithms that solve such problems via perturbations in parameter space, but in RL problems, it is also possible to explore via stochastic actions instead. The simplest policy gradient algorithm is REINFORCE, which relies on the following identity (assuming sufficient regularity conditions): An unbiased estimate of the latter expectation can be computed by executing $\pi$ in the MDP for one full trajectory. Unfortunately, this estimate is known to have high variance. Variance reduction is possible by exploiting the Markov property (past rewards are independent of future actions) and/or using control variates, but we analyze plain REINFORCE here for simplicity.
 
-<!-- chunk {"id": "body-0010", "role": "body", "section": "Policy gradient algorithms", "weight": 1.0} -->
+<!-- chunk {"id": "body-0010", "role": "body", "section": "LQR systems", "weight": 1.0} -->
 
-Suppose $\pi$ is parameterized by a real-valued vector $\theta$. Analytical gradient descent of ${\nabla_{\theta}J}{(\pi)}$ is not possible because $T$ and $r$ are only accessible via sampling, with unknown gradients. There exist generic derivative-free optimization algorithms that solve such problems via perturbations in parameter space, but in RL problems, it is also possible to explore via stochastic actions instead.
+A discrete-time stochastic *linear-quadratic regulator* (LQR) system with state space $\mathcal{S} = {\mathbb{R}}^{n}$ and action space $\mathcal{A} = {\mathbb{R}}^{m}$ is defined by linear dynamics with additive Gaussian noise: for dynamics matrices ${A \in {\mathbb{R}}^{n \times n}},{B \in {\mathbb{R}}^{n \times m}}$, and noise covariance $\Sigma_{s} \in {\mathbb{P}}_{+}^{n}$.
 
-<!-- chunk {"id": "body-0011", "role": "body", "section": "Policy gradient algorithms", "weight": 1.0} -->
+<!-- chunk {"id": "body-0011", "role": "body", "section": "LQR systems", "weight": 1.0} -->
 
-An unbiased estimate of the latter expectation can be computed by executing $\pi$ in the MDP for one full trajectory. Unfortunately, this estimate is known to have high variance. Variance reduction is possible by exploiting the Markov property (past rewards are independent of future actions) and/or using control variates, but we analyze plain REINFORCE here for simplicity.
+The reward function is given by $r_{t} = {- {({{s_{t}^{T}Qs_{t}} + {a_{t}^{T}Ra_{t}}})}}$ for cost matrices ${Q \in {\mathbb{P}}_{+}^{n}},{R \in {\mathbb{P}}_{+ +}^{m}}$. Intuitively, the goal is to drive the state towards zero without using too much control effort. The initial state $s_{1}$ follows an arbitrary zero-mean Gaussian distribution. A well-known result in control theory states that, if the system $(A,B)$ is controllable, the infinite-horizon objective is maximized by a stationary linear policy ${a_{t} = {K^{\star}s_{t}}},{K^{\star} \in {\mathbb{R}}^{m \times n}}$.
 
 <!-- chunk {"id": "body-0012", "role": "body", "section": "LQR systems", "weight": 1.0} -->
 
-A well-known result in control theory states that, if the system $(A,B)$ is controllable, the infinite-horizon objective
+The value of $K^{\star}$ depends on $(A,B,Q,R)$, but not on the distributions of $\Sigma_{s}$ or $s_{1}$. The same $K^{\star}$ is also the optimal controller for the deterministic version of the problem. $K^{\star}$ can be computed efficiently. To apply REINFORCE, the policy must be stochastic, so we consider linear stochastic policies for ${K \in {\mathbb{R}}^{m \times n}},{\Sigma_{a} \in {\mathbb{P}}_{+ +}^{m}}$. The state noise $\Sigma_{s}$ is an immutable property of the system, but the action noise $\Sigma_{a}$ is not. Instead, it is usually chosen by the user of the RL algorithm, or learned as a parameter using.
 
 <!-- chunk {"id": "body-0013", "role": "body", "section": "LQR systems", "weight": 1.0} -->
 
-is maximized by a stationary linear policy ${a_{t} = {K^{\star}s_{t}}},{K^{\star} \in {\mathbb{R}}^{m \times n}}$. The value of $K^{\star}$ depends on $(A,B,Q,R)$, but not on the distributions of $\Sigma_{s}$ or $s_{1}$. The same $K^{\star}$ is also the optimal controller for the deterministic version of the problem. $K^{\star}$ can be computed efficiently. To apply REINFORCE, the policy must be stochastic, so we consider linear stochastic policies
+Genuine noise in the system actuators can be subsumed into $\Sigma_{s}' = {\Sigma_{s} + {B\Sigma_{a}}}$.
 
 <!-- chunk {"id": "body-0014", "role": "body", "section": "LQR systems", "weight": 1.0} -->
 
-for ${K \in {\mathbb{R}}^{m \times n}},{\Sigma_{a} \in {\mathbb{P}}_{+ +}^{m}}$. The state noise $\Sigma_{s}$ is an immutable property of the system, but the action noise $\Sigma_{a}$ is not. Instead, it is usually chosen by the user of the RL algorithm, or learned as a parameter using. Genuine noise in the system actuators can be subsumed into $\Sigma_{s}^{\prime} = {\Sigma_{s} + {B\Sigma_{a}}}$.
-
-<!-- chunk {"id": "body-0015", "role": "body", "section": "LQR systems", "weight": 1.0} -->
-
 In the RL literature, action noise is usually seen as either 1) a tool for exploring of the state space, 2) a method of regularization to avoid converging on bad local optima, or 3) a consequence of a probabilistic interpretation of the RL problem. Its effect on the RL optimization algorithm is less frequently discussed, but in this work we find that it can be significant.
+
+<!-- chunk {"id": "body-0015", "role": "body", "section": "Main result: Variance bounds on the REINFORCE estimator", "weight": 1.0} -->
+
+In this section, we present bounds on the variance of the REINFORCE estimator for LQR systems. The instantiation of REINFORCE (eq. 2) for the system (eqs. 3, 4 and 5) using a single trajectory is: The estimate $\hat{g}$ is a function of the independent random variables ${\{\epsilon_{t}^{a},\epsilon_{t}^{s}\}}_{t = 1}^{H}$. Although $s_{t}$ is linear in ${\{\epsilon_{\tau}^{a},\epsilon_{\tau}^{s}\}}_{\tau = 1}^{t - 1}$, $r_{t}$ is quadratic in $s_{t}$, so the overall form of $\hat{g}$ is a product of a sum and a sum of products of sums.
 
 <!-- chunk {"id": "body-0016", "role": "body", "section": "Main result: Variance bounds on the REINFORCE estimator", "weight": 1.0} -->
 
-In this section, we present bounds on the variance of the REINFORCE estimator for LQR systems. The instantiation of REINFORCE (eq. 2) for the system (eqs.
+Therefore, while it is possible to apply matrix concentration inequalities to bound $\|{s_{t} - {{\mathbb{E}}{\lbrack s_{t}\rbrack}}}\|$ with high probability, it is more difficult to bound the dispersion of $\hat{g}$. Instead, we use a more specialized method to derive a bound on which we simplify by bounding ${\mathbb{E}}\left\lbrack {{\mathbf{t}\mathbf{r}}{({{\hat{g}}^{\top}\hat{g}})}} \right\rbrack$.
 
-<!-- chunk {"id": "body-0017", "role": "body", "section": "Main result: Variance bounds on the REINFORCE estimator", "weight": 1.0} -->
+<!-- chunk {"id": "body-0017", "role": "body", "section": "Experiments", "weight": 1.0} -->
 
-The estimate $\hat{g}$ is a function of the independent random variables ${\{\epsilon_{t}^{a},\epsilon_{t}^{s}\}}_{t = 1}^{H}$. Although $s_{t}$ is linear in ${\{\epsilon_{\tau}^{a},\epsilon_{\tau}^{s}\}}_{\tau = 1}^{t - 1}$, $r_{t}$ is quadratic in $s_{t}$, so the overall form of $\hat{g}$ is a product of a sum and a sum of products of sums. Therefore, while it is possible to apply matrix concentration inequalities to bound $\|{s_{t} - {{\mathbb{E}}{\lbrack s_{t}\rbrack}}}\|$ with high probability, it is more difficult to bound the dispersion of $\hat{g}$. Instead, we use a more specialized method to derive a bound on
+(a) Relationship between Σs and Σa Figure 1: Comparison between our upper bound from Theorem 1 (top) and the empirically measured variance (bottom) as they relate to various parameters of the LQR problem. Behavior is qualitatively similar for action noise covariance (a) and control authority (b), but less similar for the stability (c) where our bounds are loose. Further discussion is in Sections 4, 4 and 2.
 
 <!-- chunk {"id": "body-0018", "role": "body", "section": "Experiments", "weight": 1.0} -->
 
@@ -92,7 +92,7 @@ In this experiment, we generate a random problem where $m = n$ and replace $B$ w
 
 <!-- chunk {"id": "body-0023", "role": "body", "section": "Effect of $\\rho{({A + {BK}})}$", "weight": 1.0} -->
 
-Here we measure the change in variance with respect to the closed-loop spectral radius $\rho{({A + {BK}})}$. To synthesize controllers $K$ such that $\rho{({A + {BK}})}$ obtains a specified value, we use the pole placement algorithm of Tits and Yang. A pole placement algorithm $\mathcal{P}$ is a function
+Here we measure the change in variance with respect to the closed-loop spectral radius $\rho{({A + {BK}})}$. To synthesize controllers $K$ such that $\rho{({A + {BK}})}$ obtains a specified value, we use the pole placement algorithm of Tits and Yang. A pole placement algorithm $\mathcal{P}$ is a function such that the eigenvalues of $A + {BK}$ are $\lambda_{1},\ldots,\lambda_{n}$.
 
 <!-- chunk {"id": "body-0024", "role": "body", "section": "Effect of $\\rho{({A + {BK}})}$", "weight": 1.0} -->
 
@@ -100,7 +100,7 @@ Then, for each desired $\rho$, we compute ${K_{\rho} = {\mathcal{P}{(A,B,{\rho\l
 
 <!-- chunk {"id": "body-0025", "role": "body", "section": "Effect of $\\rho{({A + {BK}})}$", "weight": 1.0} -->
 
-Results are shown in Figure 1(c). Again, we repeat the experiment for different magnitudes of $\Sigma_{s}$ and $\Sigma_{a}$. Unlike the previous two experiments, here we see qualitatively different behavior between our upper bound and the empirical variance. The bound begins to increase rapidly near $\rho = 1$, corresponding to the growth of $1/{({1 - \rho})}$ in the term $H^{\prime}$, but at $\rho = 0.9$ the $H$ term becomes active in $H^{\prime}$, and the bound suddenly flattens. In contrast, the empirical variance grows more moderately and does not explode near the threshold of system instability. This provides further evidence that the upper bound of Theorem 1 can be tightened to match the $\sqrt{H^{\prime}}$ and $\sqrt{H}$ terms in the special-case lower bound of Theorem 2.
+Results are shown in Figure 1(c). Again, we repeat the experiment for different magnitudes of $\Sigma_{s}$ and $\Sigma_{a}$. Unlike the previous two experiments, here we see qualitatively different behavior between our upper bound and the empirical variance. The bound begins to increase rapidly near $\rho = 1$, corresponding to the growth of $1/{({1 - \rho})}$ in the term $H'$, but at $\rho = 0.9$ the $H$ term becomes active in $H'$, and the bound suddenly flattens. In contrast, the empirical variance grows more moderately and does not explode near the threshold of system instability. This provides further evidence that the upper bound of Theorem 1 can be tightened to match the $\sqrt{H'}$ and $\sqrt{H}$ terms in the special-case lower bound of Theorem 2.
 
 <!-- chunk {"id": "body-0026", "role": "body", "section": "Dimensionality parameters", "weight": 1.0} -->
 

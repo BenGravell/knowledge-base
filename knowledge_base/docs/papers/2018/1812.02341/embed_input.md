@@ -22,7 +22,7 @@ To begin, we train agents on CoinRun, a procedurally generated environment of ou
 
 <!-- chunk {"id": "body-0006", "role": "body", "section": "Introduction", "weight": 1.5} -->
 
-We show that the number of training environments required for good generalization is much larger than the number used by prior work on transfer in RL.
+The main contributions of this work are as follows: We show that the number of training environments required for good generalization is much larger than the number used by prior work on transfer in RL.
 
 <!-- chunk {"id": "body-0007", "role": "body", "section": "Introduction", "weight": 1.5} -->
 

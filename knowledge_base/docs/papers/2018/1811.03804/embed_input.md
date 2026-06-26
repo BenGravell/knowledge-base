@@ -106,7 +106,7 @@ We let $O{( \cdot )}$ and $\Omega( \cdot )$ denote standard Big-O and Big-Omega 
 
 <!-- chunk {"id": "body-0027", "role": "body", "section": "Condition 3.1 (Lipschitz and Smooth)", "weight": 1.0} -->
 
-These two conditions will be used to show the stability of the training process. Note for softplus both Lipschitz constant and smoothness constant are $1$. In this paper, we view all activation function related parameters as constants.
+There exists a constant $c > 0$ such that $\left| {\sigma} \right| \leq c$ and for any ${z,z'} \in {\mathbb{R}}$, These two conditions will be used to show the stability of the training process. Note for softplus both Lipschitz constant and smoothness constant are $1$. In this paper, we view all activation function related parameters as constants.
 
 <!-- chunk {"id": "body-0028", "role": "body", "section": "Condition 3.2", "weight": 1.0} -->
 
@@ -118,140 +118,104 @@ This assumption is used to guarantee the positive-definiteness of certain Gram m
 
 <!-- chunk {"id": "body-0030", "role": "body", "section": "Problem Setup", "weight": 1.0} -->
 
-In this paper, we focus on the empirical risk minimization problem with the quadratic loss function
+In this paper, we focus on the empirical risk minimization problem with the quadratic loss function where $\left\{ \mathbf{x}_{i} \right\}_{i = 1}^{n}$ are the training inputs, $\left\{ y_{i} \right\}_{i = 1}^{n}$ are the labels, $\theta$ is the parameter we optimize over and $f$ is the prediction function, which in our case is a neural network. We consider the following architectures.
 
 <!-- chunk {"id": "body-0031", "role": "body", "section": "Problem Setup", "weight": 1.0} -->
 
-where $\left\{ \mathbf{x}_{i} \right\}_{i = 1}^{n}$ are the training inputs, $\left\{ y_{i} \right\}_{i = 1}^{n}$ are the labels, $\theta$ is the parameter we optimize over and $f$ is the prediction function, which in our case is a neural network. We consider the following architectures.
+Multilayer fully-connected neural networks: Let $\mathbf{x} \in {\mathbb{R}}^{d}$ be the input, $\mathbf{W}^{} \in {\mathbb{R}}^{m \times d}$ is the first weight matrix, $\mathbf{W}^{(h)} \in {\mathbb{R}}^{m \times m}$ is the weight at the $h$-th layer for $2 \leq h \leq H$, $\mathbf{a} \in {\mathbb{R}}^{m}$ is the output layer and $\sigma(\cdot)$ is the activation function.^33^3We assume intermediate layers are square matrices for simplicity. It is not difficult to generalize our analysis to rectangular weight matrices. We define the prediction function recursively (for simplicity we let $\mathbf{x}^{} = \mathbf{x}$).
 
 <!-- chunk {"id": "body-0032", "role": "body", "section": "Problem Setup", "weight": 1.0} -->
 
-Multilayer fully-connected neural networks: Let $\mathbf{x} \in {\mathbb{R}}^{d}$ be the input, $\mathbf{W}^{} \in {\mathbb{R}}^{m \times d}$ is the first weight matrix, $\mathbf{W}^{(h)} \in {\mathbb{R}}^{m \times m}$ is the weight at the $h$-th layer for $2 \leq h \leq H$, $\mathbf{a} \in {\mathbb{R}}^{m}$ is the output layer and $\sigma( \cdot )$ is the activation function.^33^3We assume intermediate layers are square matrices for simplicity. It is not difficult to generalize our analysis to rectangular weight matrices. We define the prediction function recursively (for simplicity we let $\mathbf{x}^{} = \mathbf{x}$).
+ResNet^44^4We will refer to this architecture as ResNet, although this differs by the standard ResNet architecture since the skip-connections at every layer, instead of every two layers. This architecture was previously studied. We study this architecture for the ease of presentation and analysis. It is not hard to generalize our analysis to architectures with skip-connections are every two or more layers.: We use the same notations as the multilayer fully connected neural networks. We define the prediction recursively. where $0 < c_{res} < 1$ is a small constant. Note here we use a $\frac{c_{res}}{H\sqrt{m}}$ scaling. This scaling plays an important role in guaranteeing the width per layer only needs to scale polynomially with $H$. In practice, the small scaling is enforced by a small initialization of the residual connection, which obtains state-of-the-art performance for deep residual networks. We choose to use an explicit scaling, instead of altering the initialization scheme for notational convenience.
 
 <!-- chunk {"id": "body-0033", "role": "body", "section": "Problem Setup", "weight": 1.0} -->
 
-ResNet^44^4We will refer to this architecture as ResNet, although this differs by the standard ResNet architecture since the skip-connections at every layer, instead of every two layers. This architecture was previously studied. We study this architecture for the ease of presentation and analysis. It is not hard to generalize our analysis to architectures with skip-connections are every two or more layers.: We use the same notations as the multilayer fully connected neural networks. We define the prediction recursively.
+Convolutional ResNet: Lastly, we consider the convolutional ResNet architecture. Again we define the prediction function in a recursive way.
 
 <!-- chunk {"id": "body-0034", "role": "body", "section": "Problem Setup", "weight": 1.0} -->
 
-where $0 < c_{res} < 1$ is a small constant. Note here we use a $\frac{c_{res}}{H\sqrt{m}}$ scaling. This scaling plays an important role in guaranteeing the width per layer only needs to scale polynomially with $H$. In practice, the small scaling is enforced by a small initialization of the residual connection, which obtains state-of-the-art performance for deep residual networks. We choose to use an explicit scaling, instead of altering the initialization scheme for notational convenience.
+Each patch has size $qd_{h - 1}$ and this implies a map ${\phi_{h}{(\mathbf{x}^{({h - 1})})}} \in {\mathbb{R}}^{{qd_{h - 1}} \times p}$. For example, when the stride is $1$ and $q = 3$ where we let $\mathbf{x}_{:,0}^{({h - 1})} = \mathbf{x}_{:,{p + 1}}^{({h - 1})} = \mathbf{0}$, i.e., zero-padding. Note this operator has the property because each element from $\mathbf{x}^{({h - 1})}$ at least appears once and at most appears $q$ times. In practice, $q$ is often small like $3 \times 3$, so throughout the paper we view $q$ as a constant in our theoretical analysis.
 
 <!-- chunk {"id": "body-0035", "role": "body", "section": "Problem Setup", "weight": 1.0} -->
 
-Convolutional ResNet: Lastly, we consider the convolutional ResNet architecture. Again we define the prediction function in a recursive way.
+To learn the deep neural network, we consider the randomly initialized gradient descent algorithm to find the global minimizer of the empirical loss. Specifically, we use the following random initialization scheme. For every level $h \in {\lbrack H\rbrack}$, each entry is sampled from a standard Gaussian distribution, $\mathbf{W}_{ij}^{(h)} \sim {N{}}$ and each entry of the output layer $\mathbf{a}$ is also sampled from $N{}$. In this paper, we train all layers by gradient descent, for ${k = {1,2,\ldots}},$ and $h \in {\lbrack H\rbrack}$ where $\eta > 0$ is the step size.
 
-<!-- chunk {"id": "body-0036", "role": "body", "section": "Problem Setup", "weight": 1.0} -->
+<!-- chunk {"id": "body-0036", "role": "body", "section": "Technique Overview", "weight": 1.0} -->
 
-because each element from $\mathbf{x}^{({h - 1})}$ at least appears once and at most appears $q$ times. In practice, $q$ is often small like $3 \times 3$, so throughout the paper we view $q$ as a constant in our theoretical analysis. To proceed, let $\mathbf{W}^{(h)} \in {\mathbb{R}}^{{d_{h} \times q}d_{h - 1}}$, we have
+In this section, we describe our main idea of proving the global convergence of gradient descent. Our proof technique is inspired by Du et al. who proposed to study the dynamics of differences between labels and predictions. Here the individual prediction at the $k$-th iteration is and we denote ${\mathbf{u}{(k)}} = \left({u_{1}{(k)}},\ldots,{u_{n}{(k)}} \right)^{\top} \in {\mathbb{R}}^{n}$. Du et al. showed that for two-layer fully-connected neural network, the sequence $\left\{ {\mathbf{y} - {\mathbf{u}{(k)}}} \right\}_{k = 0}^{\infty}$ admits the following dynamics where ${\mathbf{H}{(k)}} \in {\mathbb{R}}^{n \times n}$ is a Gram matrix with^55^5This formula is for the setting that only the first layer is trained.
 
-<!-- chunk {"id": "body-0037", "role": "body", "section": "Problem Setup", "weight": 1.0} -->
+<!-- chunk {"id": "body-0037", "role": "body", "section": "Technique Overview", "weight": 1.0} -->
 
-where $0 < c_{res} < 1$ is a small constant. Finally, for $\mathbf{a} \in {\mathbb{R}}^{m \times p}$, the output is defined as
+We leverage this insight to our deep neural network setting.
 
-<!-- chunk {"id": "body-0038", "role": "body", "section": "Problem Setup", "weight": 1.0} -->
-
-Note here we use the similar scaling $O{(\frac{1}{H\sqrt{m}})}$ as ResNet.
-
-<!-- chunk {"id": "body-0039", "role": "body", "section": "Problem Setup", "weight": 1.0} -->
-
-To learn the deep neural network, we consider the randomly initialized gradient descent algorithm to find the global minimizer of the empirical loss. Specifically, we use the following random initialization scheme. For every level $h \in {\lbrack H\rbrack}$, each entry is sampled from a standard Gaussian distribution, $\mathbf{W}_{ij}^{(h)} \sim {N{}}$ and each entry of the output layer $\mathbf{a}$ is also sampled from $N{}$. In this paper, we train all layers by gradient descent, for ${k = {1,2,\ldots}},$ and $h \in {\lbrack H\rbrack}$
-
-<!-- chunk {"id": "body-0040", "role": "body", "section": "Problem Setup", "weight": 1.0} -->
-
-where $\eta > 0$ is the step size.
-
-<!-- chunk {"id": "body-0041", "role": "body", "section": "Technique Overview", "weight": 1.0} -->
-
-In this section, we describe our main idea of proving the global convergence of gradient descent. Our proof technique is inspired by Du et al. who proposed to study the dynamics of differences between labels and predictions. Here the individual prediction at the $k$-th iteration is
-
-<!-- chunk {"id": "body-0042", "role": "body", "section": "Technique Overview", "weight": 1.0} -->
-
-where ${\mathbf{H}{(k)}} \in {\mathbb{R}}^{n \times n}$ is a Gram matrix with^55^5This formula is for the setting that only the first layer is trained.
-
-<!-- chunk {"id": "body-0043", "role": "body", "section": "Technique Overview", "weight": 1.0} -->
-
-For this linear dynamics, using standard analysis technique for power method, one can show $\left\{ {\mathbf{y} - {\mathbf{u}{(k)}}} \right\}_{k = 0}^{\infty}$ converges to $\mathbf{0}$ where the rate is determined by the least eigenvalue of $\mathbf{H}^{\infty}$ and the step size $\eta$.
-
-<!-- chunk {"id": "body-0044", "role": "body", "section": "Technique Overview", "weight": 1.0} -->
-
-We leverage this insight to our deep neural network setting. Again we consider the sequence ${\{{\mathbf{y} - {\mathbf{u}{(k)}}}\}}_{k = 0}^{\infty}$, which admits the dynamics
-
-<!-- chunk {"id": "body-0045", "role": "body", "section": "Technique Overview", "weight": 1.0} -->
+<!-- chunk {"id": "body-0038", "role": "body", "section": "Technique Overview", "weight": 1.0} -->
 
 Note for all $h \in {\lbrack{H + 1}\rbrack}$, each entry of $\mathbf{G}^{(h)}{(k)}$ is an inner product. Therefore, $\mathbf{G}^{(h)}{(k)}$ is a positive semi-definite (PSD) matrix for $h \in {\lbrack{H + 1}\rbrack}$. Furthermore, if there exists one $h \in {\lbrack H\rbrack}$ that $\mathbf{G}^{(h)}{(k)}$ is strictly positive definite, then if one chooses the step size $\eta$ to be sufficiently small, the loss decreases at the $k$-th iteration according the analysis of power method.
 
-<!-- chunk {"id": "body-0046", "role": "body", "section": "Technique Overview", "weight": 1.0} -->
+<!-- chunk {"id": "body-0039", "role": "body", "section": "Technique Overview", "weight": 1.0} -->
 
 In this paper we focus on $\mathbf{G}^{(H)}{(k)}$, the gram matrix induced by the weights from $H$-th layer for simplicity at the cost of a minor degradation in convergence rate.^66^6Using the contribution of all the gram matrices to the minimum eigenvalue can potentially improve the convergence rate.
 
-<!-- chunk {"id": "body-0047", "role": "body", "section": "Technique Overview", "weight": 1.0} -->
+<!-- chunk {"id": "body-0040", "role": "body", "section": "Technique Overview", "weight": 1.0} -->
 
 We use the similar observation in that we show if the width is large enough for all layers, for all $k = {0,1,\ldots}$, $\mathbf{G}^{(H)}{(k)}$ is close to a fixed matrix $\mathbf{K}^{(H)} \in {\mathbb{R}}^{n \times n}$ which depends on the input data, neural network architecture and the activation but does not depend on neural network parameters $\theta$. According to the analysis of the power method, once we establish this, as long as $\mathbf{K}^{(H)}$ is strictly positive definite, then the gradient descent enjoys a linear convergence rate. We will show for $\mathbf{K}^{(H)}$ is strictly positive definite as long as the training data is not degenerate (c.f.
 
-<!-- chunk {"id": "body-0048", "role": "body", "section": "Technique Overview", "weight": 1.0} -->
+<!-- chunk {"id": "body-0041", "role": "body", "section": "Technique Overview", "weight": 1.0} -->
 
 Proposition F.1 for the Fully-connected Neural Network ‣ Appendix F Full Rankness of 𝐊^(ℎ) ‣ Gradient Descent Finds Global Minima of Deep Neural Networks") and F.2 for ResNet ‣ Appendix F Full Rankness of 𝐊^(ℎ) ‣ Gradient Descent Finds Global Minima of Deep Neural Networks")).
 
-<!-- chunk {"id": "body-0049", "role": "body", "section": "Technique Overview", "weight": 1.0} -->
+<!-- chunk {"id": "body-0042", "role": "body", "section": "Technique Overview", "weight": 1.0} -->
 
 While following the similar high-level analysis framework proposed by Du et al., analyzing the convergence of gradient descent for *deep* neural network is significantly more involved and requires new technical tools. To show $\mathbf{G}^{(H)}{(k)}$ is close to $\mathbf{K}^{(H)}$, we have two steps. First, we show in the initialization phase $\mathbf{G}^{(H)}{}$ is close to $\mathbf{K}^{(H)}$. Second, we show during training $\mathbf{G}^{(H)}{(k)}$ is close to $\mathbf{G}^{(H)}{}$ for $k = {1,2,\ldots}$. Below we give overviews of these two steps.
 
-<!-- chunk {"id": "body-0050", "role": "body", "section": "Analysis of Random Initialization", "weight": 1.0} -->
+<!-- chunk {"id": "body-0043", "role": "body", "section": "Analysis of Random Initialization", "weight": 1.0} -->
 
 Unlike in which they showed $\mathbf{H}{}$ is close to $\mathbf{H}^{\infty}$ via a simple concentration inequality, showing $\mathbf{G}^{(H)}{}$ is close to $\mathbf{K}^{(H)}$ requires more subtle calculations. First, as will be clear in the following sections, $\mathbf{K}^{(H)}$ is a recursively defined matrix. Therefore, we need to analyze how the perturbation (due to randomness of initialization and finite $m$) from lower layers propagates to the $H$-th layer. Second, this perturbation propagation involves non-linear operations due to the activation function. To quantitatively characterize this perturbation propagation dynamics, we use induction and leverage techniques from Malliavin calculus. We derive a general framework that allows us to analyze the initialization behavior for the fully-connected neural network, ResNet, convolutional ResNet and other potential neural network architectures in a unified way.
 
-<!-- chunk {"id": "body-0051", "role": "body", "section": "Analysis of Random Initialization", "weight": 1.0} -->
+<!-- chunk {"id": "body-0044", "role": "body", "section": "Analysis of Random Initialization", "weight": 1.0} -->
 
-One important finding in our analysis is that ResNet architecture makes the "perturbation propagation" more stable. The high level intuition is the following. For fully connected neural network, suppose we have some perturbation $\left\| {{\mathbf{G}^{}{}} - \mathbf{K}^{}} \right\|_{2} \leq \mathcal{E}_{1}$ in the first layer. This perturbation propagates to the $H$-th layer admits the form
+One important finding in our analysis is that ResNet architecture makes the "perturbation propagation" more stable. The high level intuition is the following. For fully connected neural network, suppose we have some perturbation $\left\| {{\mathbf{G}^{}{}} - \mathbf{K}^{}} \right\|_{2} \leq \mathcal{E}_{1}$ in the first layer. This perturbation propagates to the $H$-th layer admits the form Therefore, we need to have $\mathcal{E}_{1} \leq \frac{1}{2^{O{(H)}}}$ and this makes $m$ have exponential dependency on $H$.^77^7We not mean to imply that fully-connected networks necessarily depend exponentially on $H$, but simply to illustrate in our analysis why the exponential dependence arises. For specific activations such as ReLU and careful initialization schemes, this exponential dependence may be avoided.
 
-<!-- chunk {"id": "body-0052", "role": "body", "section": "Analysis of Random Initialization", "weight": 1.0} -->
+<!-- chunk {"id": "body-0045", "role": "body", "section": "Analysis of Random Initialization", "weight": 1.0} -->
 
-Therefore, we need to have $\mathcal{E}_{1} \leq \frac{1}{2^{O{(H)}}}$ and this makes $m$ have exponential dependency on $H$.^77^7We not mean to imply that fully-connected networks necessarily depend exponentially on $H$, but simply to illustrate in our analysis why the exponential dependence arises. For specific activations such as ReLU and careful initialization schemes, this exponential dependence may be avoided.
+On the other hand, for ResNet the perturbation propagation admits the form Therefore we do not have the exponential explosion problem for ResNet. We refer readers to Section E for details.
 
-<!-- chunk {"id": "body-0053", "role": "body", "section": "Analysis of Random Initialization", "weight": 1.0} -->
+<!-- chunk {"id": "body-0046", "role": "body", "section": "Analysis of Perturbation of During Training", "weight": 1.0} -->
 
-On the other hand, for ResNet the perturbation propagation admits the form
+In the two-layer neural network setting, they are able to show *every* weight vector of the first layer is close to its initialization, i.e., $\left\| {{\mathbf{W}^{}{(k)}} - {\mathbf{W}^{}{}}} \right\|_{2,\infty}$ is small for $k = {0,1,\ldots}$. While establishing this condition for two-layer neural network is not hard, this condition may not hold for multi-layer neural networks. In this paper, we show instead, the averaged Frobenius norm is small for all $k = {0,1,\ldots}$.
 
-<!-- chunk {"id": "body-0054", "role": "body", "section": "Analysis of Random Initialization", "weight": 1.0} -->
-
-Therefore we do not have the exponential explosion problem for ResNet. We refer readers to Section E for details.
-
-<!-- chunk {"id": "body-0055", "role": "body", "section": "Analysis of Perturbation of During Training", "weight": 1.0} -->
-
-In the two-layer neural network setting, they are able to show *every* weight vector of the first layer is close to its initialization, i.e., $\left\| {{\mathbf{W}^{}{(k)}} - {\mathbf{W}^{}{}}} \right\|_{2,\infty}$ is small for $k = {0,1,\ldots}$. While establishing this condition for two-layer neural network is not hard, this condition may not hold for multi-layer neural networks. In this paper, we show instead, the averaged Frobenius norm
-
-<!-- chunk {"id": "body-0056", "role": "body", "section": "Analysis of Perturbation of During Training", "weight": 1.0} -->
+<!-- chunk {"id": "body-0047", "role": "body", "section": "Analysis of Perturbation of During Training", "weight": 1.0} -->
 
 Similar to the analysis in the initialization, showing Equation is small is highly involved because again, we need to analyze how the perturbation propagates. We develop a unified proof strategy for the fully-connected neural network, ResNet and convolutional ResNet. Our analysis in this step again sheds light on the benefit of using ResNet architecture for training. The high-level intuition is similar to Equation. See Section B, C, and D for details.
 
-<!-- chunk {"id": "body-0057", "role": "body", "section": "Warm Up: Convergence Result of GD for Deep Fully-connected Neural Networks", "weight": 1.0} -->
+<!-- chunk {"id": "body-0048", "role": "body", "section": "Warm Up: Convergence Result of GD for Deep Fully-connected Neural Networks", "weight": 1.0} -->
 
 In this section, as a warm up, we show gradient descent with a constant positive step size converges to the global minimum at a linear rate. As we discussed in Section 4, the convergence rate depends on least eigenvalue of the Gram matrix $\mathbf{K}^{(H)}$.
 
-<!-- chunk {"id": "body-0058", "role": "body", "section": "Convergence Result of GD for ResNet", "weight": 1.0} -->
+<!-- chunk {"id": "body-0049", "role": "body", "section": "Convergence Result of GD for ResNet", "weight": 1.0} -->
 
 In this section we consider the convergence of gradient descent for training a ResNet. We will focus on how much over-parameterization is needed to ensure the global convergence of gradient descent and compare it with fully-connected neural networks. Again we first define the key Gram matrix whose least eigenvalue will determine the convergence rate.
 
-<!-- chunk {"id": "body-0059", "role": "body", "section": "Convergence Result of GD for Convolutional ResNet", "weight": 1.0} -->
+<!-- chunk {"id": "body-0050", "role": "body", "section": "Convergence Result of GD for Convolutional ResNet", "weight": 1.0} -->
 
 In this section we generalize the convergence result of gradient descent for ResNet to convolutional ResNet. Again, we focus on how much over-parameterization is needed to ensure the global convergence of gradient descent. Similar to previous sections, we first define the $\mathbf{K}^{(H)}$ for this architecture.
 
-<!-- chunk {"id": "body-0060", "role": "body", "section": "Conclusion", "weight": 1.5} -->
+<!-- chunk {"id": "body-0051", "role": "body", "section": "Conclusion", "weight": 1.5} -->
 
 In this paper, we show that gradient descent on deep overparametrized networks can obtain zero training loss. Our proof builds on a careful analysis of the random initialization scheme and a perturbation analysis which shows that the Gram matrix is increasingly stable under overparametrization. These techniques allow us to show that every step of gradient descent decreases the loss at a geometric rate.
 
-<!-- chunk {"id": "body-0061", "role": "body", "section": "Conclusion", "weight": 1.5} -->
+<!-- chunk {"id": "body-0052", "role": "body", "section": "Conclusion", "weight": 1.5} -->
 
-The current paper focuses on the training loss, but does not address the test loss. It would be an important problem to show that gradient descent can also find solutions of low test loss. In particular, existing work only demonstrate that gradient descent works under the same situations as kernel methods and random feature methods. To further investigate of generalization behavior, we believe some algorithm-dependent analyses may be useful.
+We list some directions for future research: The current paper focuses on the training loss, but does not address the test loss. It would be an important problem to show that gradient descent can also find solutions of low test loss. In particular, existing work only demonstrate that gradient descent works under the same situations as kernel methods and random feature methods. To further investigate of generalization behavior, we believe some algorithm-dependent analyses may be useful.
 
-<!-- chunk {"id": "body-0062", "role": "body", "section": "Conclusion", "weight": 1.5} -->
+<!-- chunk {"id": "body-0053", "role": "body", "section": "Conclusion", "weight": 1.5} -->
 
 The width of the layers $m$ is polynomial in all the parameters for the ResNet architecture, but still very large. Realistic networks have number of parameters, not width, a large constant multiple of $n$. We consider improving the analysis to cover commonly utilized networks an important open problem.
 
-<!-- chunk {"id": "body-0063", "role": "body", "section": "Conclusion", "weight": 1.5} -->
+<!-- chunk {"id": "body-0054", "role": "body", "section": "Conclusion", "weight": 1.5} -->
 
 The current analysis is for gradient descent, instead of stochastic gradient descent. We believe the analysis can be extended to stochastic gradient, while maintaining the linear convergence rate.
 
-<!-- chunk {"id": "body-0064", "role": "body", "section": "Conclusion", "weight": 1.5} -->
+<!-- chunk {"id": "body-0055", "role": "body", "section": "Conclusion", "weight": 1.5} -->
 
 The convergence rate can be potentially improved if the minimum eigenvalue takes into account the contribution of all Gram matrices, but this would considerably complicate the initialization and perturbation analysis.

@@ -64,7 +64,7 @@ Considerable milestones have been achieved in autonomous driving, as evidenced b
 
 <!-- chunk {"id": "body-0016", "role": "body", "section": "III-A Challenges", "weight": 1.0} -->
 
-Perception: autonomous driving frameworks heavily rely on perception data, however, most sensors are vulnerable to environmental effects and suffer from partial perception issues. As a result, potential hazards may be ignored, and these drawbacks present security challenges for autonomous driving.
+The challenges in IVs are summarised below: Perception: autonomous driving frameworks heavily rely on perception data, however, most sensors are vulnerable to environmental effects and suffer from partial perception issues. As a result, potential hazards may be ignored, and these drawbacks present security challenges for autonomous driving.
 
 <!-- chunk {"id": "body-0017", "role": "body", "section": "III-A Challenges", "weight": 1.0} -->
 

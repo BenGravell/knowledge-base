@@ -62,8 +62,7 @@ The tiny robot examples surveyed in Table I demonstrate the effectiveness of co-
 
 <!-- chunk {"id": "body-0016", "role": "body", "section": "Tiny Robots", "weight": 1.0} -->
 
-Search &amp; Rescue
-Bitcraze CrazyFlie Quadcopter
+Bitcraze CrazyFlie Quadcopter Wireless Capsule Endoscope TABLE I: Emerging Tiny Robot Applications
 
 <!-- chunk {"id": "body-0017", "role": "body", "section": "Challenges and Opportunities", "weight": 1.0} -->
 

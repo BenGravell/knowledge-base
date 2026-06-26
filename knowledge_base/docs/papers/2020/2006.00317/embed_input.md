@@ -38,31 +38,31 @@ In finance, elements of $\mathbf{X}$ represent the value of a financial position
 
 <!-- chunk {"id": "body-0010", "role": "body", "section": "Risk Measures and Axiomatic Risk Theory", "weight": 1.0} -->
 
-Risk Axioms. Effective quantitative risk management in emerging complex autonomous systems is a major challenge, which motivates an axiomatic approach to risk measures.
+Risk Axioms. Effective quantitative risk management in emerging complex autonomous systems is a major challenge, which motivates an axiomatic approach to risk measures. Four important axioms for a risk measure $\rho$ are: Monotonicity: If $X_{1} \leq X_{2}$ then ${\rho{(X_{1})}} \leq {\rho{(X_{2})}}$; Translation Invariance: ${\rho{({X + c})}} = {{\rho{(X)}} + c}$; Positive Homogeneity: ${\rho{({\betaX})}} = {\beta\rho{(X)}}$; ${{{\forall X},X_{1},X_{2}} \in \mathbf{X}},$ and ${{c,\beta} \in {\mathbb{R}}},{\beta \geq 0}$.
 
 <!-- chunk {"id": "body-0011", "role": "body", "section": "Risk Measures and Axiomatic Risk Theory", "weight": 1.0} -->
 
-${{{\forall X},X_{1},X_{2}} \in \mathbf{X}},$ and ${{c,\beta} \in {\mathbb{R}}},{\beta \geq 0}$. A risk measure is called *coherent* if it satisfies all four of these axioms. It has been argued that these axioms constitute natural desirable properties for risk measures in complex systems. *Spectral* or *distortion risk measures* also satisfy
+A risk measure is called *coherent* if it satisfies all four of these axioms. It has been argued that these axioms constitute natural desirable properties for risk measures in complex systems. *Spectral* or *distortion risk measures* also satisfy Law Invariance: If ${X_{1},X_{2}} \in \mathbf{X}$ are identically distributed, then ${\rho{(X_{1})}} = {\rho{(X_{2})}}$.
 
 <!-- chunk {"id": "body-0012", "role": "body", "section": "Risk Measures and Axiomatic Risk Theory", "weight": 1.0} -->
 
-and can be viewed as refinements of coherent risk measures.
+Unfortunately, many widely used risk measures in robotics and engineering are not coherent, and can lead to serious miscalculations of risk, e.g., mean-variance and mean-standard-deviation fail to be monotone, and VaR lacks subadditivity. The widely used chance constraint in optimization models is closely related to VaR and has been used for notions of STL robustness for stochastic systems. We advocate for axiomatic risk theory with coherent risk as a more systematic and sophisticated approach to risk management for STL specifications in emerging safety-critical autonomous systems.
 
 <!-- chunk {"id": "body-0013", "role": "body", "section": "Risk Measures and Axiomatic Risk Theory", "weight": 1.0} -->
 
-Unfortunately, many widely used risk measures in robotics and engineering are not coherent, and can lead to serious miscalculations of risk, e.g., mean-variance and mean-standard-deviation fail to be monotone, and VaR lacks subadditivity. The widely used chance constraint in optimization models is closely related to VaR and has been used for notions of STL robustness for stochastic systems. We advocate for axiomatic risk theory with coherent risk as a more systematic and sophisticated approach to risk management for STL specifications in emerging safety-critical autonomous systems.
+Distributional Robustness. Evaluating any of the above risk measures requires knowledge of the probability distribution of the associated random variable. In practice however, we are never given the probability distribution, only noisy data. Instead, we must estimate properties of the distribution from the noisy data, or make assumptions about the distribution. In the emerging area of distributionally robust optimization, this uncertainty in our knowledge of the probability distribution itself is explicitly accounted. Rather than assuming a single probability distribution, we instead work with *ambiguity sets* of distributions.
 
 <!-- chunk {"id": "body-0014", "role": "body", "section": "Risk Measures and Axiomatic Risk Theory", "weight": 1.0} -->
 
-Distributional Robustness. Evaluating any of the above risk measures requires knowledge of the probability distribution of the associated random variable. In practice however, we are never given the probability distribution, only noisy data. Instead, we must estimate properties of the distribution from the noisy data, or make assumptions about the distribution. In the emerging area of distributionally robust optimization, this uncertainty in our knowledge of the probability distribution itself is explicitly accounted. Rather than assuming a single probability distribution, we instead work with *ambiguity sets* of distributions.
-
-<!-- chunk {"id": "body-0015", "role": "body", "section": "Risk Measures and Axiomatic Risk Theory", "weight": 1.0} -->
-
 A risk measure and an ambiguity set can be combined to obtain distributionally robust (DR) risk measures: $\rho_{\text{DR}} = {\sup_{{\mathbb{P}} \in \mathcal{P}}{\rho{(X)}}}$. For example, DR-VaR, $\sup_{{\mathbb{P}} \in \mathcal{P}}{\text{VaR}_{\delta}{(X)}}$, with various moment-based ambiguity sets is a coherent risk measure.
+
+<!-- chunk {"id": "body-0015", "role": "body", "section": "Risk-Based Signal Temporal Logic", "weight": 1.0} -->
+
+Traditionally, STL constraints are specified for *deterministic* dynamical systems. STL formulas are based on predicates $\pi \in {\{\top,\bot\}}$ where $\top$ and $\bot$ denote true and false, respectively, and are obtained from evaluating a predicate function $\alpha:{{\mathbb{R}}^{n}\rightarrow{\mathbb{R}}}$ such that $\pi = {\{{{\alpha{(x)}} \geq 0}\}}$, i.e., $\pi = \top$ if and only if ${\alpha{(x)}} \geq 0$ where $x \in {\mathbb{R}}$. A typical STL formula $\varphi$ is composed from logical and bounded-time temporal operators and can always be rewritten in *negation normal form* (also referred to as positive normal form in), where the negation operator appears only at the atomic predicate level.
 
 <!-- chunk {"id": "body-0016", "role": "body", "section": "Risk-Based Signal Temporal Logic", "weight": 1.0} -->
 
-Traditionally, STL constraints are specified for *deterministic* dynamical systems. STL formulas are based on predicates $\pi \in {\{\top,\bot\}}$ where $\top$ and $\bot$ denote true and false, respectively, and are obtained from evaluating a predicate function $\alpha:{{\mathbb{R}}^{n}\rightarrow{\mathbb{R}}}$ such that $\pi = {\{{{\alpha{(x)}} \geq 0}\}}$, i.e., $\pi = \top$ if and only if ${\alpha{(x)}} \geq 0$ where $x \in {\mathbb{R}}$. A typical STL formula $\varphi$ is composed from logical and bounded-time temporal operators and can always be rewritten in *negation normal form* (also referred to as positive normal form in), where the negation operator appears only at the atomic predicate level.
+We assume that STL formulas are given in negation normal form, which are defined recursively through the grammar: where $\neg$ is the negation operator, $\land$ and $\vee$ are conjunction and disjunction, $\mathcal{U}_{\lbrack a,b\rbrack}$ and $\mathcal{R}_{\lbrack a,b\rbrack}$ are the until and release operators with $a \leq b$ and ${a,b} \in {\mathbb{R}}_{\geq 0} = {\lbrack 0,{+ \infty})}$.
 
 <!-- chunk {"id": "body-0017", "role": "body", "section": "Risk-Based Signal Temporal Logic", "weight": 1.0} -->
 
@@ -74,64 +74,56 @@ Traditionally, STL constraints are specified for *deterministic* dynamical syste
 
 <!-- chunk {"id": "body-0019", "role": "body", "section": "Control Design for Risk-Constrained STL", "weight": 1.0} -->
 
-where $\Phi{(.,.)}$ is the state transition matrix defined as
+We consider the discrete-time stochastic linear system: where $X_{t} \in {\mathbb{R}}^{n}$, $u_{t} \in {\mathbb{R}}^{m}$, and $W_{t} \in {\mathbb{R}}^{n}$ are respectively the state, control input, and stochastic disturbance of the system at time $t$, $A_{t} \in {\mathbb{R}}^{n \times n}$ and $B_{t} \in {\mathbb{R}}^{n \times m}$ are respectively the system dynamics and input matrices, and $x_{0}$ is the known initial system state. The disturbances $\{ W_{t}\}$ are assumed independent according to unknown distributions ${\mathbb{P}}_{W_{t}}$, which belong to ambiguity sets $\mathcal{P}_{t}^{W}$.
 
 <!-- chunk {"id": "body-0020", "role": "body", "section": "Control Design for Risk-Constrained STL", "weight": 1.0} -->
 
-We consider a finite-horizon control design problem where the goal is to determine a state feedback control policy for $$ that satisfies a risk constraint associated with an STL formula $\varphi$. Specifically, we consider
+W_{t}^{T},W_{t + 1}^{T},\ldots,W_{N - 1}^{T}\rbrack}^{T}$, $N$ is the time horizon, $J$ is a stage cost function with expectation taken with respect to the disturbance sequence $\{ W_{t}\}$, $\delta \in {\mathbb{R}}$ is a user-defined risk bound, and $U \subset {\mathbb{R}}^{Nm}$ is an input constraint set.
 
 <!-- chunk {"id": "body-0021", "role": "body", "section": "Control Design for Risk-Constrained STL", "weight": 1.0} -->
 
-1}^{T},\ldots,W_{N - 1}^{T}\rbrack}^{T}$, $N$ is the time horizon, $J$ is a stage cost function with expectation taken with respect to the disturbance sequence $\{ W_{t}\}$, $\delta \in {\mathbb{R}}$ is a user-defined risk bound, and $U \subset {\mathbb{R}}^{Nm}$ is an input constraint set.
+The challenge lies in the uncertainty in the system model and its appearance in the STL risk constraint. We approach this using Model Predictive Control (MPC) and a reformulation of the STL risk constraint into a tightened deterministic STL constraint so that existing control approaches for deterministic STL constraints can be used such as summarized in Section I.
 
 <!-- chunk {"id": "body-0022", "role": "body", "section": "Control Design for Risk-Constrained STL", "weight": 1.0} -->
 
-The challenge lies in the uncertainty in the system model and its appearance in the STL risk constraint. We approach this using Model Predictive Control (MPC) and a reformulation of the STL risk constraint into a tightened deterministic STL constraint so that existing control approaches for deterministic STL constraints can be used such as summarized in Section I.
+Using MPC to (approximately) solve reduces the problem to a sequence of open-loop optimization problems. For an STL problem with formula $\varphi$, a natural choice for the prediction horizon is $N \geq {\text{len}{(\varphi)}}$ with a system run of $N_{s} > N$. The MPC optimization problem at time $t \leq {N_{s} - N}$ given the observed state, $x_{t}$, is: where the decision variable is the open-loop control sequence $u_{t:{{t + N} - 1}}$, expectation is with respect to $W_{t:{{t + N} - 1}}$. Solving the optimization problem yields the future optimal control sequence $u_{t:{{t + N} - 1}}^{\ast} = {\lbrack u_{t}^{\ast},\ldots,u_{{t + N} - 1}^{\ast}\rbrack}$.
 
 <!-- chunk {"id": "body-0023", "role": "body", "section": "Control Design for Risk-Constrained STL", "weight": 1.0} -->
 
-Using MPC to (approximately) solve reduces the problem to a sequence of open-loop optimization problems. For an STL problem with formula $\varphi$, a natural choice for the prediction horizon is $N \geq {\text{len}{(\varphi)}}$ with a system run of $N_{s} > N$.
+Only the first component $u_{t}^{\ast}$ of this plan is implemented, and the problem is solved again after the next state realization is observed. Thus, the MPC policy is ${\mu_{\text{MPC}}{(x_{t})}} = u_{t}^{\ast}$. We assume that ${\mathbb{E}}{\lbrack{J{(X_{t:{t + N}},u_{t:{{t + N} - 1}})}}\rbrack}$ in can be evaluated analytically, which is the case for quadratic $J$, allowing us to focus solely on challenges in accounting for the STL risk constraint.
 
-<!-- chunk {"id": "body-0024", "role": "body", "section": "Control Design for Risk-Constrained STL", "weight": 1.0} -->
-
-where the decision variable is the open-loop control sequence $u_{t:{{t + N} - 1}}$, expectation is with respect to $W_{t:{{t + N} - 1}}$. Solving the optimization problem yields the future optimal control sequence $u_{t:{{t + N} - 1}}^{\ast} = {\lbrack u_{t}^{\ast},\ldots,u_{{t + N} - 1}^{\ast}\rbrack}$. Only the first component $u_{t}^{\ast}$ of this plan is implemented, and the problem is solved again after the next state realization is observed. Thus, the MPC policy is ${\mu_{\text{MPC}}{(x_{t})}} = u_{t}^{\ast}$.
-
-<!-- chunk {"id": "body-0025", "role": "body", "section": "Control Design for Risk-Constrained STL", "weight": 1.0} -->
-
-We assume that ${\mathbb{E}}{\lbrack{J{(X_{t:{t + N}},u_{t:{{t + N} - 1}})}}\rbrack}$ in can be evaluated analytically, which is the case for quadratic $J$, allowing us to focus solely on challenges in accounting for the STL risk constraint.
-
-<!-- chunk {"id": "body-0026", "role": "body", "section": "Reformulation of STL Risk Constraints", "weight": 1.0} -->
+<!-- chunk {"id": "body-0024", "role": "body", "section": "Reformulation of STL Risk Constraints", "weight": 1.0} -->
 
 In this section, we demonstrate how the optimization problem can be reformulated into an optimization problem with *deterministic*, tightened STL constraints on the nominal system dynamics. We also show how to explicitly write the tightened constraints on atomic predicates for one specific coherent risk measure, Distributionally Robust Value at Risk.
 
-<!-- chunk {"id": "body-0027", "role": "body", "section": "V-A From STL formula violation risk to atomic predicate violation risk", "weight": 1.0} -->
+<!-- chunk {"id": "body-0025", "role": "body", "section": "V-A From STL formula violation risk to atomic predicate violation risk", "weight": 1.0} -->
 
 The semantics in Definition 1 are useful for two main reasons: 1) the risk metrics described in Section II appear only at the atomic predicate level and the risk of failing to satisfy an STL formula is defined recursively from there, 2) through the recursive STL risk semantics, all operators (except negation) are defined in terms of $\min$ and $\max$ operators over time intervals. These reasons allow transforming a risk-based STL constraint into similar risk constraints on atomic predicates. This is formalized in Theorem 1.
 
-<!-- chunk {"id": "body-0028", "role": "body", "section": "V-B Risk-tightened predicates", "weight": 1.0} -->
+<!-- chunk {"id": "body-0026", "role": "body", "section": "V-B Risk-tightened predicates", "weight": 1.0} -->
 
-Having found atomic predicate risk constraints and, we now turn to reformulating the stochastic STL problem into a deterministic one assuming affine predicates^11^1Note that the use of affine predicates only is not particularly restrictive since most Mixed-Integer Linear Programming (MILP) tools, widely used with STL, only allow affine predicates..
+Having found atomic predicate risk constraints and, we now turn to reformulating the stochastic STL problem into a deterministic one assuming affine predicates^11^1Note that the use of affine predicates only is not particularly restrictive since most Mixed-Integer Linear Programming (MILP) tools, widely used with STL, only allow affine predicates.. Consider the following rearrangement of: Any random variable can be written as a sum of its expectation and a zero-mean random variable. Let ${\overline{W}}_{0:{t - 1}}:={{\mathbb{E}}{\lbrack W_{0:{t - 1}}\rbrack}}$ (${\overline{W}}_{t}:={{\mathbb{E}}{\lbrack W_{t}\rbrack}}$).
 
-<!-- chunk {"id": "body-0029", "role": "body", "section": "V-C Explicit reformulation for affine predicates and Distributionally Robust Value at Risk", "weight": 1.0} -->
+<!-- chunk {"id": "body-0027", "role": "body", "section": "V-B Risk-tightened predicates", "weight": 1.0} -->
 
-In Section V-A we obtained constraints on atomic predicates of the form: ${\rho{({- {\alpha{(X_{t})}}})}} \leq \delta$ or ${\rho{({\alpha{(X_{t})}})}} \leq \delta$. In Section V-B we reformulated the system, derived risk-tightened atomic predicate constraints with affine predicates (${\alpha{(x)}} = {{a^{T}x} + b}$), and presented the deterministic system. In this section we turn to evaluating the tightened constraints for a particular choice of the risk metric $\rho$: the Distributionally Robust Value at Risk (DR-VaR).
+We thus have: It is easy to see that results in the deterministic system: Using in and, assuming affine predicates ${\alpha{(X_{t})}} = {{a^{T}X_{t}} + b}$, and using *translation invariance* of $\rho$ we get: Notice that ${\overline{\delta}}_{\rho \ast}:{{{\mathbb{R}} \times \mathbf{X}}\rightarrow{{\mathbb{R}} \cup {\{{\pm \infty}\}}}}$ is deterministic ($\ast \in {\{ +, - \}}$). Thus, is affine in ${\overline{x}}_{t}$ and can be used as an *affine deterministic predicate function*.
 
-<!-- chunk {"id": "body-0030", "role": "body", "section": "V-C Explicit reformulation for affine predicates and Distributionally Robust Value at Risk", "weight": 1.0} -->
+<!-- chunk {"id": "body-0028", "role": "body", "section": "V-C Explicit reformulation for affine predicates and Distributionally Robust Value at Risk", "weight": 1.0} -->
 
-We now present Lemma 1 which explicitly presents the deterministic constraints equivalent to and.
+In Section V-A we obtained constraints on atomic predicates of the form: ${\rho{({- {\alpha{(X_{t})}}})}} \leq \delta$ or ${\rho{({\alpha{(X_{t})}})}} \leq \delta$. In Section V-B we reformulated the system, derived risk-tightened atomic predicate constraints with affine predicates (${\alpha{(x)}} = {{a^{T}x} + b}$), and presented the deterministic system. In this section we turn to evaluating the tightened constraints for a particular choice of the risk metric $\rho$: the Distributionally Robust Value at Risk (DR-VaR). Under DR-VaR with ambiguity set $\mathcal{P} = \mathcal{P}_{t}^{W}$ from Section IV, the atomic predicate risk constraint, with $\delta$ constrained to $$, can be rewritten as: We now present Lemma 1 which explicitly presents the deterministic constraints equivalent to and.
 
-<!-- chunk {"id": "body-0031", "role": "body", "section": "Numerical Experiments", "weight": 1.0} -->
+<!-- chunk {"id": "body-0029", "role": "body", "section": "Numerical Experiments", "weight": 1.0} -->
 
 We use the BluSTL package in its closed-loop deterministic setting for our results. The package uses YALMIP and reformulates an STL specification into a Mixed-Integer Linear Program (MILP), and then solves an MPC problem. Each agent is a double integrator with four states (position and velocity along two directions), two control inputs (along velocity directions), and four additive disturbances on the states. The disturbances are sampled from a 0-mean 3 degree of freedom t-distribution scaled to 0.005-variance and applied to velocity states only. BluSTL converts the continuous time system to discrete-time with 0.1sec system steps and 0.2sec controller steps. We perform two types of simulations. Type 1: The controller ignores the disturbance in the dynamics and uses deterministic MPC with the nominal model, but is evaluated with the disturbance in closed-loop. Type 2: We explicitly incorporate the uncertainty using our proposed STL risk analysis, transform the specification into a deterministic risk-tightened STL formula, compute the control, and then evaluate in closed-loop with the disturbance.
 
-<!-- chunk {"id": "body-0032", "role": "body", "section": "Numerical Experiments", "weight": 1.0} -->
+<!-- chunk {"id": "body-0030", "role": "body", "section": "Numerical Experiments", "weight": 1.0} -->
 
 We use $\delta_{1} = 0.1$ risk bound for predicates involving the obstacle avoidance and $\delta_{2} = 0.5$ risk bound for predicates involving the goal region. This puts more emphasis on obstacle avoidance. We also saturate the tightening parameter $\Delta{\|{\Sigma_{W_{0:{t - 1}}}^{1/2}L_{t - 1}^{T}a}\|}_{2}$ after 1 second to limit the effect of increasing prediction uncertainty. In both cases the objective $J$ minimizes the sum of the 1-norm of the control inputs and the distance to the goal. We run 100 simulations for each type and present them in Fig. 1.
 
-<!-- chunk {"id": "body-0033", "role": "body", "section": "Numerical Experiments", "weight": 1.0} -->
+<!-- chunk {"id": "body-0031", "role": "body", "section": "Numerical Experiments", "weight": 1.0} -->
 
 Type 1 trajectories (left) get very close and occasionally collide with the obstacle. The disturbance causes 84 of the 100 simulations to fail to reach the goal. Type 2 (right) trajectories, however, satisfy the risk bounds and remain sufficiently far from the obstacle, and 98 of the 100 reach the goal.
 
-<!-- chunk {"id": "body-0034", "role": "body", "section": "Conclusion and Future Work", "weight": 1.5} -->
+<!-- chunk {"id": "body-0032", "role": "body", "section": "Conclusion and Future Work", "weight": 1.5} -->
 
 We presented a general framework for risk-based STL specifications for stochastic systems using axiomatic risk theory. We are exploring several extensions and variations in ongoing and future work, including explicit reformulations for various risk measures and ambiguity sets, non-affine predicates, non-linear dynamics, infinite-horizon persistent tasks, and alternative risk semantics.

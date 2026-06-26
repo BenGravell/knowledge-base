@@ -30,8 +30,7 @@ Both approaches assume perfect knowledge of the obstacle positions and shapes wi
 
 <!-- chunk {"id": "body-0008", "role": "body", "section": "Introduction", "weight": 1.5} -->
 
-In dense environments, EDG-Team switches to a centralized and synchronous planner that executes joint optimization.
-The long horizon module runs on a centralized system that communicates with the planning robots periodically.
+In dense environments, EDG-Team switches to a centralized and synchronous planner that executes joint optimization. The long horizon module runs on a centralized system that communicates with the planning robots periodically.
 
 <!-- chunk {"id": "body-0009", "role": "body", "section": "Introduction", "weight": 1.5} -->
 
@@ -111,9 +110,7 @@ Furthermore, if an agent does not receive the trajectory of another nearby agent
 
 <!-- chunk {"id": "body-0028", "role": "body", "section": "Simulation Results", "weight": 1.0} -->
 
-Mean flight time (s)
-Mean flight velocity (m/s)
-Mean flight distance (m)
+Mean flight time (s) Mean flight velocity (m/s) Mean flight distance (m) TABLE II: Comparison between EGO-Swarm2 (ES2), MADER, RMADER and our method HDSM. The comparison is over 10 simulations (100 simulations for MADER and RMADER) of 10 agents in a circle of radius 10 m exchanging positions (Fig. 6(a)). The metrics displayed in the table are whether the method is synchronous or asynchronous (Async?), the percentage of generated trajectories that resulted in a collision, the average number of agent stops per simulation, the jerk cost (∫∥j (t)∥2 dt), mean flight time, velocity and distance, and the deadlock rate (agents blocking each other indefinitely).
 
 <!-- chunk {"id": "body-0029", "role": "body", "section": "Simulation Results", "weight": 1.0} -->
 

@@ -54,136 +54,128 @@ RoboCLIP utilizes pretrained video-and-language models to generate rewards for o
 
 <!-- chunk {"id": "body-0014", "role": "body", "section": "Reward Generation", "weight": 1.0} -->
 
-During the pretraining phase, we supply the RoboCLIP reward to the agent in a sparse manner at the end of each episode. This is done by storing the video of an episode of the interaction of the agent with the environment into a buffer as seen in Figure 1. A sequence of observations of length $128$ are saved in a buffer corresponding to the length of the episode. S3D is trained on videos length $32$ frames and therefore the episode video is subsequently downsampled to result in a video of length $T = 32$. The video is subsequently center-cropped to result in frames of size $$. This is done to ensure that the episode video is preprocessed to match the specifications of the HowTo100M preprocessing used to train the S3D model. Thus the tensor of a sequence of $T$ observations $\mathbf{o}_{0:T}$ is encoded as the latent video vector $\mathbf{z}^{v}$ using
+During the pretraining phase, we supply the RoboCLIP reward to the agent in a sparse manner at the end of each episode. This is done by storing the video of an episode of the interaction of the agent with the environment into a buffer as seen in Figure 1. A sequence of observations of length $128$ are saved in a buffer corresponding to the length of the episode. S3D is trained on videos length $32$ frames and therefore the episode video is subsequently downsampled to result in a video of length $T = 32$. The video is subsequently center-cropped to result in frames of size $$. This is done to ensure that the episode video is preprocessed to match the specifications of the HowTo100M preprocessing used to train the S3D model. Thus the tensor of a sequence of $T$ observations $\mathbf{o}_{0:T}$ is encoded as the latent video vector $\mathbf{z}^{v}$ using The task specification is also encoded into the same space.
 
 <!-- chunk {"id": "body-0015", "role": "body", "section": "Reward Generation", "weight": 1.0} -->
 
-The task specification is also encoded into the same space.
+If it is defined using natural language, the language encoder in S3D encodes a sequence of $K$ textual tokens $\mathbf{d}_{0:K}$ into the latent space using: If the task description is in the form of a video of length $K$, then we preprocess and encode it using the video-encoder in S3D just as in Equation 1. For intermediate timesteps, i.e., timesteps other than the final one in an episode, the reward supplied to the agent is zero. Subsequently, at the end of the episode, the similarity score between the encoded task descriptor $\mathbf{z}^{d}$ and the encoded video of the episode $\mathbf{z}^{v}$ is used as reward $r^{\text{RoboCLIP}}{(T)}$.
 
-<!-- chunk {"id": "body-0016", "role": "body", "section": "Reward Generation", "weight": 1.0} -->
-
-If the task description is in the form of a video of length $K$, then we preprocess and encode it using the video-encoder in S3D just as in Equation 1. For intermediate timesteps, i.e., timesteps other than the final one in an episode, the reward supplied to the agent is zero. Subsequently, at the end of the episode, the similarity score between the encoded task descriptor $\mathbf{z}^{d}$ and the encoded video of the episode $\mathbf{z}^{v}$ is used as reward $r^{\text{RoboCLIP}}{(T)}$.
-
-<!-- chunk {"id": "body-0017", "role": "body", "section": "Agent Training", "weight": 1.0} -->
+<!-- chunk {"id": "body-0016", "role": "body", "section": "Agent Training", "weight": 1.0} -->
 
 Using $r^{\text{RoboCLIP}}$ defined above, we then train an agent online in the deployment environment with any standard reinforcement learning (RL) algorithm by labeling each agent experience trajectory with $r^{\text{RoboCLIP}}$ after the agent collects it. In our paper, we train with PPO, an on-policy RL algorithm, however, RoboCLIP can also be applied to off-policy algorithms. After training with this reward, the agent can be zero-shot evaluated or fine-tuned on true environment reward on the target task in the deployment environment.
 
+<!-- chunk {"id": "body-0017", "role": "body", "section": "Experiments", "weight": 1.0} -->
+
+We test out each of the hypotheses defined in Section 1 on simulated robotic environments. Specifically, we ask the following questions: Do existing pretrained VLMs semantically align with robotic manipulation environments?
+
 <!-- chunk {"id": "body-0018", "role": "body", "section": "Experiments", "weight": 1.0} -->
-
-We test out each of the hypotheses defined in Section 1 on simulated robotic environments.
-
-<!-- chunk {"id": "body-0019", "role": "body", "section": "Experiments", "weight": 1.0} -->
-
-Do existing pretrained VLMs semantically align with robotic manipulation environments?
-
-<!-- chunk {"id": "body-0020", "role": "body", "section": "Experiments", "weight": 1.0} -->
 
 Can we utilize natural language to generate reward functions?
 
-<!-- chunk {"id": "body-0021", "role": "body", "section": "Experiments", "weight": 1.0} -->
+<!-- chunk {"id": "body-0019", "role": "body", "section": "Experiments", "weight": 1.0} -->
 
 Can we use videos of expert demonstrations to generate reward functions?
 
-<!-- chunk {"id": "body-0022", "role": "body", "section": "Experiments", "weight": 1.0} -->
+<!-- chunk {"id": "body-0020", "role": "body", "section": "Experiments", "weight": 1.0} -->
 
 Can we use out-of-domain videos to generate reward functions?
 
-<!-- chunk {"id": "body-0023", "role": "body", "section": "Experiments", "weight": 1.0} -->
+<!-- chunk {"id": "body-0021", "role": "body", "section": "Experiments", "weight": 1.0} -->
 
 Can we generate rewards using a combination of demonstration and natural language?
 
-<!-- chunk {"id": "body-0024", "role": "body", "section": "Experiments", "weight": 1.0} -->
+<!-- chunk {"id": "body-0022", "role": "body", "section": "Experiments", "weight": 1.0} -->
 
 What aspects of our method are crucial for success?
 
-<!-- chunk {"id": "body-0025", "role": "body", "section": "Experiments", "weight": 1.0} -->
+<!-- chunk {"id": "body-0023", "role": "body", "section": "Experiments", "weight": 1.0} -->
 
 We arrange this section to answer each of these questions. Both RoboCLIP and baselines utilize PPO for policy learning.
 
-<!-- chunk {"id": "body-0026", "role": "body", "section": "Baselines", "weight": 1.0} -->
+<!-- chunk {"id": "body-0024", "role": "body", "section": "Baselines", "weight": 1.0} -->
 
 We use 2 state-of-the-art methods in inverse reinforcement learning: GAIL, or Generative Adversarial Imitation Learning and AIRL or Adversarial Inverse Reinforcement Learning. Both of these methods attempt to learn reward functions from demonstrations provided to the agent. Subsequently, they train an agent using this learned reward function to imitate the expert behavior. Both methods receive a single demonstration, consistent with our approach of using a single video imitation. However, since they both operate on the ground-truth environment state, we provide them with a trajectory of states, instead of images, thereby providing them privileged state information that our method does not receive.
 
-<!-- chunk {"id": "body-0027", "role": "body", "section": "Domain Alignment", "weight": 1.0} -->
+<!-- chunk {"id": "body-0025", "role": "body", "section": "Domain Alignment", "weight": 1.0} -->
 
 Pretrained vision models are often trained on a variety of human-centric activity data, such as Ego4D. Since we are interested in solving robotic tasks with view from third person perspectives, we utilize the S3D VLM pretrained on HowTo100M, a dataset of short third-person clips of humans performing everyday activities. This dataset, however, contains no robotic manipulation data.
 
-<!-- chunk {"id": "body-0028", "role": "body", "section": "Domain Alignment", "weight": 1.0} -->
+<!-- chunk {"id": "body-0026", "role": "body", "section": "Domain Alignment", "weight": 1.0} -->
 
 To analyze the alignment of the VLM to different domains, we perform a confusion matrix analysis using videos from Metaworld. We collect 10 videos per task with varying values of true reward. For each video, we also collect the true reward. We then compute the RoboCLIP reward for each video using VLM alignment between the textual description of the task and the video. We visualize the correlations between the RoboCLIP and true rewards in the form of an $n \times n$ matrix where entry $(i,j)$ corresponds to the correlation between the true reward and the RoboCLIP reward generated for the $i^{\text{th}}$ task using the $j^{\text{th}}$ text description. As one can see, for a given task, the highest correlation in the matrix is for the correct textual description. We visualize one such similarity matrix in Figure 2 for Metaworld. We find that Metaworld seems to align well in the latent space of the model with a more diagonal-heavy confusion matrix. The objects are all correctly identified.
 
-<!-- chunk {"id": "body-0029", "role": "body", "section": "Language for Reward Generation", "weight": 1.0} -->
+<!-- chunk {"id": "body-0027", "role": "body", "section": "Language for Reward Generation", "weight": 1.0} -->
 
 The most naturalistic way to define a task is through natural language. We do this by generating a sparse reward signal for the agent as described in Section 3: the reward for an episode is the similarity score between its encoded video and the encoded textual description of the expected behavior in the VLM's latent space. The reward is provided to the agent at the end of the episode. For RoboCLIP, GAIL, and AIRL, we first pretrain the agents online with their respective reward functions and then perform finetuning with the true task reward in the deployment environment.
 
-<!-- chunk {"id": "body-0030", "role": "body", "section": "Language for Reward Generation", "weight": 1.0} -->
+<!-- chunk {"id": "body-0028", "role": "body", "section": "Language for Reward Generation", "weight": 1.0} -->
 
 We perform this analysis on 3 Metaworld Environments: Drawer-Close, Door-Close and Button-Press. We use the textual descriptions, "robot closing green drawer", "robot closing black box", and "robot pushing red button" for each environment, respectively. Figure 3 plots returns on the target tasks while finetuning on the depoloyment environment after pretraining (with the exception of the Dense Task Reward baseline). Our method outperforms the imitation learning baselines with online exploration in terms of true task rewards in all environments. Additionally our baselines utilize the full state information in the environment for reward generation where RoboCLIP uses only the pixels to infer state. RoboCLIP also achieves more than double zero-shot rewards in all environments --- importantly, the RoboCLIP-trained agent is able to complete the tasks even before finetuning on true task rewards.
 
-<!-- chunk {"id": "body-0031", "role": "body", "section": "In-Domain Videos for Reward Generation", "weight": 1.0} -->
+<!-- chunk {"id": "body-0029", "role": "body", "section": "In-Domain Videos for Reward Generation", "weight": 1.0} -->
 
 Being able to use textual task descriptors for reward generation can only work in environments where there is domain alignment between the pretrained model and the visual appearance of the environment. Additionally, VLMs are large models often with billions of parameters making it computationally expensive to fine tune for domain alignment. The most naturalistic way to define a task in such a setting is in the form a single demonstration in the robotic environment which can be collected using teleoperation. We study how well this works in the Franka Kitchen environment. We consider access to a single demonstration per task whose video is used to generate rewards for online RL.
 
-<!-- chunk {"id": "body-0032", "role": "body", "section": "Quantitative Results", "weight": 1.0} -->
+<!-- chunk {"id": "body-0030", "role": "body", "section": "Quantitative Results", "weight": 1.0} -->
 
 We measure the zero-shot task reward, which increases as the task object (i.e., Kettle, Slide and Hinge Cabinets) gets closer to its goal position. This reward does not depend on the position of the end-effector, making the tasks difficult. Figure 4 shows the baselines perform poorly as they generally do not interact with the target objects, while RoboCLIP is able to solve the task using the reward generated using the video of a single demonstration.
 
-<!-- chunk {"id": "body-0033", "role": "body", "section": "Qualitative Results", "weight": 1.0} -->
+<!-- chunk {"id": "body-0031", "role": "body", "section": "Qualitative Results", "weight": 1.0} -->
 
 We find that RoboCLIP allows for mimicking the "style" of the source demonstration, with idiosyncrasies of motion from the source demonstration generally transferring to the policy generated. We find this to occur in the kitchen environment's Slide and Hinge task as seen in Figure 5. The first row of the subfigures in Figure 5 are visualizations of the demonstration video used to condition the VLM for reward generation. The bottom rows correspond to the policies that are trained with the generated rewards of RoboCLIP. As can be seen, the Slide demonstration consists of a wide circular arc of motion. This is mimicked in the learned policy, although the agent misses the cabinet in the first swipe and readjusts to make contact with the handle.
 
-<!-- chunk {"id": "body-0034", "role": "body", "section": "Qualitative Results", "weight": 1.0} -->
+<!-- chunk {"id": "body-0032", "role": "body", "section": "Qualitative Results", "weight": 1.0} -->
 
 This effect is even more pronounced in the Hinge example where the source demonstration consists of twirling wrist-rotational behavior, which is subsequently imitated by the learned policy. The downstream policy misses the point of contact with the handle but instead uses the twirling motion to open the hinged cabinet in an unorthodox manner by pushing near the hinge. We posit that the VLMs used in RoboCLIP contain a rich latent space encoding these various motions, and so even if they cannot contain semantically meaningful latent vectors in the Franka Kitchen environments due to domain mismatch, they are still able to encode motion information allowing them to be used for RoboCLIP with a single demonstration video.
 
-<!-- chunk {"id": "body-0035", "role": "body", "section": "Out-of-Domain Videos for Reward Generation", "weight": 1.0} -->
+<!-- chunk {"id": "body-0033", "role": "body", "section": "Out-of-Domain Videos for Reward Generation", "weight": 1.0} -->
 
 Another natural way to define a task is to demonstrate it yourself. To this end, we try to use demonstrations of humans or animated characters acting in separate environments as task specification.
 
-<!-- chunk {"id": "body-0036", "role": "body", "section": "Out-of-Domain Videos for Reward Generation", "weight": 1.0} -->
+<!-- chunk {"id": "body-0034", "role": "body", "section": "Out-of-Domain Videos for Reward Generation", "weight": 1.0} -->
 
 For this, we utilize animated videos of a hand pushing a red button and opening a green drawer and a real human video of opening a fridge door (see Figure 7). The animated videos are collected from stock image repositories and the human video is collected using a phone camera in our lab kitchen. Using the encodings of these video, we test out RoboCLIP in the 3 corresponding Metaworld tasks - Button-Press, Drawer-Open and Door-Open. We follow the same setup as in Section 4.2 by first pretraining methods with their respective reward functions and then finetuning in the deployment environment with target task reward.
 
-<!-- chunk {"id": "body-0037", "role": "body", "section": "Out-of-Domain Videos for Reward Generation", "weight": 1.0} -->
+<!-- chunk {"id": "body-0035", "role": "body", "section": "Out-of-Domain Videos for Reward Generation", "weight": 1.0} -->
 
 We compare the performance of the policy trained with these rewards to GAIL and AIRL trained using the same single expert demonstration as RoboCLIP on these rewards with state information. These methods are known to be data-hungry, requiring multiple demonstrations to train their reward functions. Consequently, they perform much worse than RoboCLIP, even with 2-3x worse zero-shot task performance, as can be seen from Figure 7.
 
-<!-- chunk {"id": "body-0038", "role": "body", "section": "Multimodal Task Specification", "weight": 1.0} -->
+<!-- chunk {"id": "body-0036", "role": "body", "section": "Multimodal Task Specification", "weight": 1.0} -->
 
 Using videos to specify a task description is possible when either there is access to a robot for teleoperation as in Section 4.3 or a human can demonstrate a behavior in their own environment as in Section 4.4. When these are not the case, a viable alternative is to utilize multimodal demonstrations. For example, consider a scenario where the required task is to push a drawer to close it, but only a demonstration for pushing a button is available. In this situation, being able to edit the video of the off-task demonstration is useful. This way, one can direct the agent to move its end-effectors to push the drawer instead of the button.
 
-<!-- chunk {"id": "body-0039", "role": "body", "section": "Multimodal Task Specification", "weight": 1.0} -->
+<!-- chunk {"id": "body-0037", "role": "body", "section": "Multimodal Task Specification", "weight": 1.0} -->
 
-where $\mathbf{z}^{\text{edited}}{(\text{push drawer})}$ is the vector used to generate rewards in the Drawer-Close environment, $\mathbf{z}^{video}{(\text{push button})}$ is the vector of the encoding of the video of the robot pushing a button, $\mathbf{z}^{text}{(\text{button})}$ is the encoding of the string button and $\mathbf{z}^{text}{(\text{drawer})}$ is the encoding of the string drawer. As can be seen in Figure 8, defining rewards in such a multimodal manner results in a higher zero-shot score than the dense task reward and also pretraining on the string-only task reward.
+We do this by algebraically modifying the encoding of the video demonstration: where $\mathbf{z}^{\text{edited}}{(\text{push drawer})}$ is the vector used to generate rewards in the Drawer-Close environment, $\mathbf{z}^{video}{(\text{push button})}$ is the vector of the encoding of the video of the robot pushing a button, $\mathbf{z}^{text}{(\text{button})}$ is the encoding of the string button and $\mathbf{z}^{text}{(\text{drawer})}$ is the encoding of the string drawer. As can be seen in Figure 8, defining rewards in such a multimodal manner results in a higher zero-shot score than the dense task reward and also pretraining on the string-only task reward.
 
-<!-- chunk {"id": "body-0040", "role": "body", "section": "Finetuning", "weight": 1.0} -->
+<!-- chunk {"id": "body-0038", "role": "body", "section": "Finetuning", "weight": 1.0} -->
 
 In harder environments, and with rewards from OOD videos and language, the robot policy sometimes approaches the target object, but fails to complete the task. Thus, we tested whether providing a single demonstration (using observations and actions) was enough to finetune this pretrained policy.
 
-<!-- chunk {"id": "body-0041", "role": "body", "section": "Finetuning", "weight": 1.0} -->
+<!-- chunk {"id": "body-0039", "role": "body", "section": "Finetuning", "weight": 1.0} -->
 
 Thus, for this experiment we first pretrain on the RoboCLIP reward from human videos or language descriptions and then finetune using a single demonstration. As seen in Figure 6, we find that this converts each of the partially successful policies into complete success and improves the rewards attained by the policies by $200\%$. This fine-tuning setup is especially useful in harder tasks like like Coffee-Push and Faucet-Open and is competitive with state-of-the-art approaches like FISH.
 
-<!-- chunk {"id": "body-0042", "role": "body", "section": "Ablations", "weight": 1.0} -->
+<!-- chunk {"id": "body-0040", "role": "body", "section": "Ablations", "weight": 1.0} -->
 
 Finally, we investigate the effects of various design decisions in RoboCLIP. First, we study the effect of additional video demonstrations on agent performance. We also examine the necessity of using a pre-trained VLM. Recent works like RE3 have shown that randomly initialized networks often contain useful image priors and can be used to supply rewards to agents to encourage exploration. Therefore, we test whether a *randomly initialized* S3D VLM can supply useful pretraining rewards in the in-domain video demonstration setup as in Section 4.3. Finally, we study our choice of pre-trained VLM. We examine whether a pretrained CLIP, which encodes single images instead of videos and was trained on a different dataset from S3D, can be used to generate rewards for task completion. In this setup, we record the last image in an episode of interaction of the agent in its environment and feed it to CLIP trained on ImageNet (i.e., not trained on videos). We then specify the task in natural language and use the similarity between the embeddings of the textual description of the task and the final image in the episode to generate a reward that is fed to the agent for online RL.
 
-<!-- chunk {"id": "body-0043", "role": "body", "section": "Ablations", "weight": 1.0} -->
+<!-- chunk {"id": "body-0041", "role": "body", "section": "Ablations", "weight": 1.0} -->
 
 As seen in Figure 9, using a single video demonstration provides the best signal for pretraining. We posit that our method performs worse when conditioned on multiple demonstrations as the linear blending of multiple video embeddings, which is used due to the scalar product, does not necessarily correspond to the embedding of a successful trajectory.
 
-<!-- chunk {"id": "body-0044", "role": "body", "section": "Ablations", "weight": 1.0} -->
+<!-- chunk {"id": "body-0042", "role": "body", "section": "Ablations", "weight": 1.0} -->
 
 Crucially, we also find that using the static image version of CLIP does not provide any useful signal for pretraining. The zero-shot performance is very poor, which we posit is because it does not contain any information about the dynamics of motion and task completion although it contains semantic meaning about objects in the frame. On the other hand, video contrastive learning approaches do contain this information. This is further evidenced by the fact that inspite of poor domain alignment between Franka Kitchen and the VLM, we find that encodings of in-domain video demonstrations are still good for providing a pretraining reward signal to the agent.
 
-<!-- chunk {"id": "body-0045", "role": "body", "section": "Conclusion", "weight": 1.5} -->
+<!-- chunk {"id": "body-0043", "role": "body", "section": "Conclusion", "weight": 1.5} -->
 
 Summary. We studied how to distill knowledge contained in large pretrained Video-and-Language-Models into online RL agents by using them to generate rewards. We showed that our method, RoboCLIP, can train robot policies using a single video demonstration or textual description of the task, depending on how well the domain aligns with the VLM. We further investigated alternative ways to use RoboCLIP, such as using out-of-domain videos or multimodal demonstrations. Our results showed RoboCLIP outperforms the baselines in various robotic environments.
 
-<!-- chunk {"id": "body-0046", "role": "body", "section": "Conclusion", "weight": 1.5} -->
+<!-- chunk {"id": "body-0044", "role": "body", "section": "Conclusion", "weight": 1.5} -->
 
 Limitations and Broader Impact. Since we are using VLMs, the implicit biases within these large models could percolate into RL agents. Addressing such challenges is necessary, especially since it is unclear what the form of biases in RL agents might look like. Currently, our method also faces the challenge of stable finetuning. We find that in some situations, finetuning on downstream task reward results in instabilities as seen in the language conditioned reward curve in Figure 8. This instability is potentially due to the scale of rewards provided to the agent. Rewards from the VLM are fairly low in absolute value and subsequently, the normalized Q-values in PPO policies are out-of-shape when finetuned on task rewards. In our experiments, this is not a big problem since the RoboCLIP reward is already sufficient to produce policies that complete tasks without any deployment environment finetuning, but this will be essential to solve when deploying this for longer horizon tasks.
 
-<!-- chunk {"id": "body-0047", "role": "body", "section": "Conclusion", "weight": 1.5} -->
+<!-- chunk {"id": "body-0045", "role": "body", "section": "Conclusion", "weight": 1.5} -->
 
 Another limitation of our work is that there is no fixed length of pretraining. Our current method involves pretraining for a fixed number of steps and then picking the best model according to the true task reward. This is of course difficult when deploying RoboCLIP in a real-world setup as a true reward function is unavailable and a human must monitor the progress of the agent. We leave this for future work.

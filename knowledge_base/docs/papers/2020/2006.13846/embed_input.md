@@ -16,63 +16,63 @@ The original SSIM paper has over $20,000$ citations on Google Scholar. Thousands
 
 <!-- chunk {"id": "body-0004", "role": "body", "section": "Introduction", "weight": 1.5} -->
 
-The input color space of SSIM is never defined. As the reference Matlab script performs no color space transformations on inputs, our assumption throughout this paper is that all images are encoded in sRGB color space, i.e., approximately gamma encoded with an exponent $\approx 2.4$. Note that this means that an image that is loaded by the SSIM script is assumed to be viewed directly on screen as is. For two images A and B, the original formula for per-pixel SSIM is given by
+The input color space of SSIM is never defined. As the reference Matlab script performs no color space transformations on inputs, our assumption throughout this paper is that all images are encoded in sRGB color space, i.e., approximately gamma encoded with an exponent $\approx 2.4$. Note that this means that an image that is loaded by the SSIM script is assumed to be viewed directly on screen as is. For two images A and B, the original formula for per-pixel SSIM is given by where A and B are inputs to all functions, but omitted for clarity. To compute mean, variance, and covariance in a patch around a pixel, they use Gaussian-weighted versions of these formulae with a filter kernel of $11 \times 11$ pixels and $\sigma = 1.5$.
 
 <!-- chunk {"id": "body-0005", "role": "body", "section": "Introduction", "weight": 1.5} -->
 
-where A and B are inputs to all functions, but omitted for clarity. To compute mean, variance, and covariance in a patch around a pixel, they use Gaussian-weighted versions of these formulae with a filter kernel of $11 \times 11$ pixels and $\sigma = 1.5$. The luminance component, $l$, is then
+The contrast component, $c$, is Finally, the structure component, $s$, is Wang et al. propose that $C_{1} = {({K_{1}L})}^{2}$, $C_{2} = {({K_{2}L})}^{2}$, and $C_{3} = {C_{2}/2}$, where $L = 255$ for 8-bit component images. Furthermore, they chose $K_{1} = 0.01$ and $K_{2} = 0.03$. If the range for an image is $\lbrack 0,1\rbrack$, we set $L = 1$ in order to get the same result, i.e., $C_{1} = K_{1}^{2}$ and $C_{2} = K_{2}^{2}$. Finally, the mean SSIM (MSSIM) value, which is pooled over the entire image, is where $w$ and $h$ are the width and height of the image.
 
 <!-- chunk {"id": "body-0006", "role": "body", "section": "Introduction", "weight": 1.5} -->
 
-where $w$ and $h$ are the width and height of the image. As can be seen, the term $\sigma_{\text{A}}\sigma_{\text{B}}$ is in the numerator in Equation 3 and in the denominator in Equation 4. To create a simplified expression, Wang et al. therefore proposed to use $\alpha = \beta = \gamma = 1$ and $C_{3} = {C_{2}/2}$, which results in
+As can be seen, the term $\sigma_{\text{A}}\sigma_{\text{B}}$ is in the numerator in Equation 3 and in the denominator in Equation 4. To create a simplified expression, Wang et al. therefore proposed to use $\alpha = \beta = \gamma = 1$ and $C_{3} = {C_{2}/2}$, which results in Next, we review some related work.
 
-<!-- chunk {"id": "body-0007", "role": "body", "section": "Introduction", "weight": 1.5} -->
-
-Next, we review some related work.
-
-<!-- chunk {"id": "body-0008", "role": "body", "section": "The History of SSIM", "weight": 1.0} -->
+<!-- chunk {"id": "body-0007", "role": "body", "section": "The History of SSIM", "weight": 1.0} -->
 
 The universal quality index (UQI), which was introduced by Wang and Bovik, is essentially SSIM as presented above, but without any of the constants $C_{i}$. These constants were added later to avoid division by zero. Multi-scale SSIM (MS-SSIM)^22^2Note the difference between MSSIM, which is the average SSIM value over an image pair, and MS-SSIM, which is the multi-scale variant of SSIM. was introduced as a means for including image details at different scales. MS-SSIM adds more components in the expression, where both the contrast and structure expressions are evaluated at five low-pass filtered and downsampled versions of the original images. However, the components have the same form as in SSIM.
 
-<!-- chunk {"id": "body-0009", "role": "body", "section": "The History of SSIM", "weight": 1.0} -->
+<!-- chunk {"id": "body-0008", "role": "body", "section": "The History of SSIM", "weight": 1.0} -->
 
 Sampat et al. introduce complex wavelet structural similarity (CW-SSIM), where the expression in Equation 6 is used, but where the components are replaced by complex wavelet coefficients. CW-SSIM is more tolerant to small translations and rotations, which may be a desired effect in some contexts. However, for rendered images, which often contain geometrical edges, it is most likely not a desired feature, since, for instance, a game designer usually wants the geometry to be precisely where he/she intends. 3D-SSIM is an extension of SSIM for video, where the formulae are evaluated for three-dimensional blocks of pixel values and multiplied with information content weights and local distortion weights. SSIM is still being adapted for new uses, e.g., spherical SSIM, where SSIM was adapted to handle a spherical projection, and for medical images.
 
-<!-- chunk {"id": "body-0010", "role": "body", "section": "The History of SSIM", "weight": 1.0} -->
+<!-- chunk {"id": "body-0009", "role": "body", "section": "The History of SSIM", "weight": 1.0} -->
 
 While mean square error (MSE) has been criticized for not delivering a truthful value compared to image error, Dosselman and Yang and Horé and Ziou have, at the same time, shown that there is a close relationship between MSE and SSIM. Whittle et al. evaluate image metrics for Monte Carlo rendered images with different levels of noise. Their conclusion is that MS-SSIM performs well for this task. Čadík et al. perform an extensive evaluation of image indices and metrics together with a user study, and find contradictory results for several of the algorithms, including SSIM, for various image distortions. Recently, SSIM has found uses as a loss function for deep learning, and is also included in tool kits such as Tensorflow.
 
+<!-- chunk {"id": "body-0010", "role": "body", "section": "The History of SSIM", "weight": 1.0} -->
+
+Neither the UQI nor SSIM make any claim to be a *metric* in the mathematical sense, for which the triangle inequality, i.e., ${d{(x,z)}} \leq {{d{(x,y)}} + {d{(y,z)}}}$, must hold. It has, however, been shown that $\sqrt{1 - {l{(x,y)}}}$ and $\sqrt{1 - {c{(x,y)}s{(x,y)}}}$ do fulfill the triangle inequality, and thus are metrics. Interestingly, the derivation to transform a modified version of SSIM into a metric, also revealed subtle---while important---properties of the index. For instance, for $l{(x,y)}$, we have: which can be seen as a normalized version of the root mean square error (RMSE).
+
 <!-- chunk {"id": "body-0011", "role": "body", "section": "The History of SSIM", "weight": 1.0} -->
-
-Neither the UQI nor SSIM make any claim to be a *metric* in the mathematical sense, for which the triangle inequality, i.e., ${d{(x,z)}} \leq {{d{(x,y)}} + {d{(y,z)}}}$, must hold. It has, however, been shown that $\sqrt{1 - {l{(x,y)}}}$ and $\sqrt{1 - {c{(x,y)}s{(x,y)}}}$ do fulfill the triangle inequality, and thus are metrics. Interestingly, the derivation to transform a modified version of SSIM into a metric, also revealed subtle---while important---properties of the index.
-
-<!-- chunk {"id": "body-0012", "role": "body", "section": "The History of SSIM", "weight": 1.0} -->
-
-which can be seen as a normalized version of the root mean square error (RMSE).
-
-<!-- chunk {"id": "body-0013", "role": "body", "section": "The History of SSIM", "weight": 1.0} -->
 
 This is notable, since MSE is not a perception-based metric and the finding above has the implication that there could exist a direct relationship between SSIM and MSE, which has indeed been independently discovered by Dosselman and Yang and Horé and Ziou. Specifically, Dosselman and Yang show that there is a direct mathematical transform between $\text{SSIM}^{\ast}$ and $\text{MSE}^{\ast}$. $\text{SSIM}^{\ast}$ is SSIM with constants $C_{i} = 0$, which does not alter the validity of the analysis, while $\text{MSE}^{\ast}$ is a local MSE, using the same footprint as SSIM. They further show this empirically by correlating MSE versus SSIM for a range of images, using the coefficient of multiple determination, $R^{2}$, which is $0.0$ for no association between the variables and values closer to $1.0$ indicate strong degree of correspondence.
 
-<!-- chunk {"id": "body-0014", "role": "body", "section": "The History of SSIM", "weight": 1.0} -->
+<!-- chunk {"id": "body-0012", "role": "body", "section": "The History of SSIM", "weight": 1.0} -->
 
 It was found that $R^{2}$ was between $0.9322$ and $1.0$, which implies that $\text{SSIM}^{\ast}$ and $\text{MSE}^{\ast}$ perform similarly.
 
-<!-- chunk {"id": "body-0015", "role": "body", "section": "The History of SSIM", "weight": 1.0} -->
+<!-- chunk {"id": "body-0013", "role": "body", "section": "The History of SSIM", "weight": 1.0} -->
 
 For images of similar luminance, i.e., $\mu_{\text{A}} \approx \mu_{\text{B}}$, and SSIM values in the $\lbrack 0.2,0.8\rbrack$ range, this function is approximately linear, which indicates that for any other distortion than a luminance shift, $\text{SSIM}^{\ast}$ is qualitatively equivalent to PSNR.
 
-<!-- chunk {"id": "body-0016", "role": "body", "section": "The History of SSIM", "weight": 1.0} -->
+<!-- chunk {"id": "body-0014", "role": "body", "section": "The History of SSIM", "weight": 1.0} -->
 
 These findings question the validity of claims that SSIM is a perception-based index, since MSE is not a perception-based metric. The small discrepancies in correlation between MSE and SSIM were shown to stem partly from the fact that SSIM is derived for a spatial subregion of the whole images, and an effect of the $C_{i}$ constants.
 
-<!-- chunk {"id": "body-0017", "role": "body", "section": "Mathematical Properties", "weight": 1.0} -->
+<!-- chunk {"id": "body-0015", "role": "body", "section": "Mathematical Properties", "weight": 1.0} -->
 
 This section will analyze the components of SSIM from a mathematical standpoint. The behavior of the quality index itself will be scrutinized in the next section.
 
-<!-- chunk {"id": "body-0018", "role": "body", "section": "Minimum Values of the SSIM Factors", "weight": 1.0} -->
+<!-- chunk {"id": "body-0016", "role": "body", "section": "Minimum Values of the SSIM Factors", "weight": 1.0} -->
 
 To understand the workings of the components of SSIM, as we will see later in this section, and since it, to our knowledge, has not been done before, we explain how to minimize $l$, $c$, and $s$, one at a time. For $l{(x,y)}$, shown in Equation 2, we can differentiate and solve for zero, with the assumptions that ${\mu_{\text{A}},\mu_{\text{B}}} \in {\lbrack 0,L\rbrack}$. This gives us a minimum when $\mu_{\text{A}} = 0$ and $\mu_{\text{B}} = L$ (or vice versa).
+
+<!-- chunk {"id": "body-0017", "role": "body", "section": "Minimum Values of the SSIM Factors", "weight": 1.0} -->
+
+The $c$ and $s$ components are slightly more involved and first we note that maximum variance and covariance for variables in $\lbrack 0,L\rbrack$ is ${({L/2})}^{2}$. For the $c$ component (Equation 3), we can differentiate in the same manner as for $l$, and find that the minimum occurs when $\sigma_{\text{A}} = 0$ and $\sigma_{\text{B}} = {({L/2})}^{2}$ (or vice versa), which gives $c_{\min} = {C_{2}/{({{L^{2}/4} + C_{2}})}} = {K_{2}^{2}/{({K_{2}^{2} + 0.25})}} = 0.0036$, for $K_{2} = 0.03$.
+
+<!-- chunk {"id": "body-0018", "role": "body", "section": "Minimum Values of the SSIM Factors", "weight": 1.0} -->
+
+\begin{matrix} \end{matrix} \right)$ $\left(\begin{matrix} \end{matrix} \right.$ $\left. \begin{matrix} \end{matrix} \right)$ $\left(\begin{matrix} \end{matrix} \right.$ $\left. \begin{matrix} \end{matrix} \right)$ Figure 2: Minimum values of the SSIM components: lmin = 0.0001 (top), cmin = 0.0036 (middle), and smin = −0.9964 (bottom). The images at the bottom in the middle and bottom examples have been zoomed by a factor 16×.
 
 <!-- chunk {"id": "body-0019", "role": "body", "section": "Minimum Values of the SSIM Factors", "weight": 1.0} -->
 
@@ -124,7 +124,7 @@ The fourth row is, perhaps, even more surprising, since MSSIM values indicate th
 
 <!-- chunk {"id": "body-0031", "role": "body", "section": "Color", "weight": 1.0} -->
 
-The SSIM authors present results using only JPEG and JPEG2000 color images, but add that using other color components does not significantly change the performance of the model. The index has still, nevertheless, been used on color images by first converting to grayscale values, using, for example, the color encoding standard Rec.
+The SSIM authors present results using only JPEG and JPEG2000 color images, but add that using other color components does not significantly change the performance of the model. The index has still, nevertheless, been used on color images by first converting to grayscale values, using, for example, the color encoding standard Rec. 601 (which is used in Matlab's rgb2gray, and is the procedure recommended on the SSIM website): Another approach is to convert from $RGB$ to $YC_{r}C_{b}$, and apply SSIM to $Y$, $C_{r}$, and $C_{b}$ individually, and then use ${0.8{SSIM}_{Y}} + {0.1{SSIM}_{C_{r}}} + {0.1{SSIM}_{C_{b}}}$ as the quality index.
 
 <!-- chunk {"id": "body-0032", "role": "body", "section": "Color", "weight": 1.0} -->
 

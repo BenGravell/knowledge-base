@@ -20,7 +20,7 @@ Willems et al.'s fundamental lemma states that all finite-length input-output tr
 
 <!-- chunk {"id": "body-0005", "role": "body", "section": "Introduction", "weight": 1.5} -->
 
-The fundamental lemma has been initially proven within the context of behavioral theory. Other proofs of this lemma using state-space formulation have been presented. Various extensions of this lemma have been studied in recent years. The extension of the fundamental lemma to multiple datasets has been studied and to uncontrollable systems. A robust version of this lemma for the case where the data are subject to noise is studied. A counterpart of the fundamental lemma for linear parameter varying systems has been provided, and a version of this lemma in the frequency domain has been presented. Extensions of this lemma to stochastic systems, 2D systems, and several classes of nonlinear systems are also among the recent works. In addition, counterparts of the fundamental lemma for continuous-time systems have been studied.
+The fundamental lemma has been initially proven in within the context of behavioral theory. Other proofs of this lemma using state-space formulation have been presented. Various extensions of this lemma have been studied in recent years. The extension of the fundamental lemma to multiple datasets has been studied in and to uncontrollable systems. A robust version of this lemma for the case where the data are subject to noise is studied. A counterpart of the fundamental lemma for linear parameter varying systems has been provided, and a version of this lemma in the frequency domain has been presented. Extensions of this lemma to stochastic systems, 2D systems, and several classes of nonlinear systems are also among the recent works. In addition, counterparts of the fundamental lemma for continuous-time systems have been studied.
 
 <!-- chunk {"id": "body-0006", "role": "body", "section": "Introduction", "weight": 1.5} -->
 
@@ -28,100 +28,72 @@ The persistency of excitation condition imposes a lower bound on the required nu
 
 <!-- chunk {"id": "body-0007", "role": "body", "section": "Introduction", "weight": 1.5} -->
 
-In this work, we investigate whether there exist other universal inputs than persistently exciting ones.
+In this work, we investigate whether there exist other universal inputs than persistently exciting ones. In particular, we answer the following question: *What are necessary and sufficient conditions\for an input to be universal?* It turns out that persistency of excitation of a certain order is necessary and sufficient for the universality of the input. The sufficiency obviously follows from the fundamental lemma. The main contribution of this letter is to prove the necessity. To this end, given an input that is *not* persistently exciting, we show how one can construct a controllable system and an initial condition such that the resulting input-output data *do not* parametrize all finite-length trajectories of the system. The presented results provide insight into Willems et al.'s fundamental lemma by showing that persistency of excitation is not a conservative condition to guarantee universality. In the particular case of single-input systems, we further prove that if the input is not persistently exciting of a sufficiently high order, then *almost any* controllable system can generate data that are not suitable for parametrization of the system trajectories.
 
 <!-- chunk {"id": "body-0008", "role": "body", "section": "Introduction", "weight": 1.5} -->
 
-*What are necessary and sufficient conditions\
-for an input to be universal?*
+This also makes a connection to the recent work, where a similar observation was made.
 
 <!-- chunk {"id": "body-0009", "role": "body", "section": "Introduction", "weight": 1.5} -->
 
-It turns out that persistency of excitation of a certain order is necessary and sufficient for the universality of the input. The sufficiency obviously follows from the fundamental lemma. The main contribution of this letter is to prove the necessity. To this end, given an input that is *not* persistently exciting, we show how one can construct a controllable system and an initial condition such that the resulting input-output data *do not* parametrize all finite-length trajectories of the system. The presented results provide insight into Willems et al.'s fundamental lemma by showing that persistency of excitation is not a conservative condition to guarantee universality. In the particular case of single-input systems, we further prove that if the input is not persistently exciting of a sufficiently high order, then *almost any* controllable system can generate data that are not suitable for parametrization of the system trajectories. This also makes a connection to the recent work, where a similar observation was made.
+The remainder of this letter is organized as follows. Section 2 includes the problem statement. Section 3 presents the main result of the letter. Section 4 is devoted to discussions on the main results. In Section 5 we study numerical examples. Finally, Section 6 concludes the paper.
 
-<!-- chunk {"id": "body-0010", "role": "body", "section": "Introduction", "weight": 1.5} -->
+<!-- chunk {"id": "body-0010", "role": "body", "section": "Problem Statement", "weight": 1.0} -->
 
-The remainder of this letter is organized as follows. Section includes the problem statement. Section presents the main result of the letter. Section is devoted to discussions on the main results. In Section we study numerical examples. Finally, Section concludes the paper.
+We identify system with the quadruple of matrices ${(A,B,C,D)} \in \mathcal{M}$, where For an ${(A,B,C,D)} \in \mathcal{M}$, we denote its *input-output behavior* by and its *$k$--restricted input-output behavior* by In addition, we define the *$k$--restricted input-state behavior* of (3a) as For any trajectory $\begin{bmatrix} \end{bmatrix} \in {{\mathfrak{B}}_{T}{(A,B,C,D)}}$, it is evident that for all $k \in {\lbrack 1,T\rbrack}$. The celebrated fundamental lemma states that, under suitable conditions, holds with equality (see \[1, Thm. 1\] and \[9, Thm. 1\]).
 
-<!-- chunk {"id": "body-0011", "role": "body", "section": "Problem Statement", "weight": 1.0} -->
+<!-- chunk {"id": "body-0011", "role": "body", "section": "Example 2", "weight": 1.0} -->
 
-Let ${n,m,p} \in {\mathbb{N}}$. Consider the input-state-output system
+Consider the system given by Let ${x{}} = \begin{bmatrix} which has full row rank for all ${x{}} \in {\mathbb{R}}^{2}$. Therefore, By, this implies (11 ‣ Proposition 1 (Willems et al.’s fundamental lemma) ‣ 2 Problem Statement ‣ A New Perspective on Willems’ Fundamental Lemma: Universality of Persistently Exciting Inputs")). However, the given input sequence is not persistently exciting of order $3$.
 
-<!-- chunk {"id": "body-0012", "role": "body", "section": "Problem Statement", "weight": 1.0} -->
+<!-- chunk {"id": "body-0012", "role": "body", "section": "Example 2", "weight": 1.0} -->
 
-For an ${(A,B,C,D)} \in \mathcal{M}$, we denote its *input-output behavior* by
+Although persistency of excitation is not necessary to guarantee (11 ‣ Proposition 1 (Willems et al.’s fundamental lemma) ‣ 2 Problem Statement ‣ A New Perspective on Willems’ Fundamental Lemma: Universality of Persistently Exciting Inputs")) for a *single* system, in disguise, Proposition 1 ‣ 2 Problem Statement ‣ A New Perspective on Willems’ Fundamental Lemma: Universality of Persistently Exciting Inputs") makes a statement about *all* controllable systems. Indeed, it implies that persistently exciting inputs of order $n + L$ are *universal* in the sense that they guarantee statement 1(b) ‣ Proposition 1 (Willems et al.’s fundamental lemma) ‣ 2 Problem Statement ‣ A New Perspective on Willems’ Fundamental Lemma: Universality of Persistently Exciting Inputs") *for all* ${(A,B,C,D)} \in \mathcal{M}_{\text{cont}}$. A natural question to ask is whether there are other universal inputs than persistently exciting ones of order $n + L$. To formalize this question, we introduce the notion of a *universal input*.
 
-<!-- chunk {"id": "body-0013", "role": "body", "section": "Problem Statement", "weight": 1.0} -->
-
-and its *$k$--restricted input-output behavior* by
-
-<!-- chunk {"id": "body-0014", "role": "body", "section": "Problem Statement", "weight": 1.0} -->
-
-In addition, we define the *$k$--restricted input-state behavior* of (3a) as
-
-<!-- chunk {"id": "body-0015", "role": "body", "section": "Problem Statement", "weight": 1.0} -->
-
-For any trajectory $\begin{bmatrix}
-\end{bmatrix} \in {{\mathfrak{B}}_{T}{(A,B,C,D)}}$, it is evident that
-
-<!-- chunk {"id": "body-0016", "role": "body", "section": "Problem Statement", "weight": 1.0} -->
-
-for all $k \in {\lbrack 1,T\rbrack}$. The celebrated fundamental lemma states that, under suitable conditions, holds with equality (see \[, Thm. 1\] and \[, Thm. 1\]).
-
-<!-- chunk {"id": "body-0017", "role": "body", "section": "Example 2", "weight": 1.0} -->
-
-By, this implies ( ‣ Proposition 1 (Willems et al.’s fundamental lemma) ‣ 2 Problem Statement ‣ A New Perspective on Willems’ Fundamental Lemma: Universality of Persistently Exciting Inputs")). However, the given input sequence is not persistently exciting of order $3$.
-
-<!-- chunk {"id": "body-0018", "role": "body", "section": "Example 2", "weight": 1.0} -->
-
-Although persistency of excitation is not necessary to guarantee ( ‣ Proposition 1 (Willems et al.’s fundamental lemma) ‣ 2 Problem Statement ‣ A New Perspective on Willems’ Fundamental Lemma: Universality of Persistently Exciting Inputs")) for a *single* system, in disguise, Proposition ‣ 2 Problem Statement ‣ A New Perspective on Willems’ Fundamental Lemma: Universality of Persistently Exciting Inputs") makes a statement about *all* controllable systems. Indeed, it implies that persistently exciting inputs of order $n + L$ are *universal* in the sense that they guarantee statement 1(b) ‣ Proposition 1 (Willems et al.’s fundamental lemma) ‣ 2 Problem Statement ‣ A New Perspective on Willems’ Fundamental Lemma: Universality of Persistently Exciting Inputs") *for all* ${(A,B,C,D)} \in \mathcal{M}_{\text{cont}}$. A natural question to ask is whether there are other universal inputs than persistently exciting ones of order $n + L$. To formalize this question, we introduce the notion of a *universal input*.
-
-<!-- chunk {"id": "body-0019", "role": "body", "section": "Main Results", "weight": 1.0} -->
+<!-- chunk {"id": "body-0013", "role": "body", "section": "Main Results", "weight": 1.0} -->
 
 The following theorem presents the main result of this letter, showing that universality and persistency of excitation are equivalent.
 
-<!-- chunk {"id": "body-0020", "role": "body", "section": "Discussion and Further Results", "weight": 1.5} -->
+<!-- chunk {"id": "body-0014", "role": "body", "section": "Discussion and Further Results", "weight": 1.5} -->
 
 In this section, we discuss connections between our results and those in the literature.
 
-<!-- chunk {"id": "body-0021", "role": "body", "section": "Persistency of excitation of order $n$", "weight": 1.0} -->
+<!-- chunk {"id": "body-0015", "role": "body", "section": "Persistency of excitation of order $n$", "weight": 1.0} -->
 
-A corollary of the fundamental lemma \[, Cor. 2(i)\] asserts that if the input $u_{\lbrack 0,{T - 1}\rbrack}$ is persistently exciting of order $n$, then $T$--length state trajectories generated by any controllable system satisfy ${{{rank}\mathcal{H}_{1}}{(x_{\lbrack 0,{T - 1}\rbrack})}} = n$. This result is not fully correct due to a small error in the time horizon. We state the correct version of \[, Cor. 2(i)\] as the following proposition. The proof of this result is omitted here since it follows similar lines as the proof of \[, Thm. 1\].
+A corollary of the fundamental lemma \[1, Cor. 2(i)\] (also see \[29, Cor. 3\]) asserts that if the input $u_{\lbrack 0,{T - 1}\rbrack}$ is persistently exciting of order $n$, then $T$--length state trajectories generated by any controllable system satisfy ${{{rank}\mathcal{H}_{1}}{(x_{\lbrack 0,{T - 1}\rbrack})}} = n$. This result is not fully correct due to a small error in the time horizon. We state the correct version of \[1, Cor. 2(i)\] as the following proposition. The proof of this result is omitted here since it follows similar lines as the proof of \[9, Thm. 1\].
 
-<!-- chunk {"id": "body-0022", "role": "body", "section": "Single-input case", "weight": 1.0} -->
+<!-- chunk {"id": "body-0016", "role": "body", "section": "Single-input case", "weight": 1.0} -->
 
-For the single-input case, $m = 1$, we can sharpen Lemma by showing that for *almost any* controllable pair $(A,B)$, there exists ${x{}} \in {\mathbb{R}}^{n}$ for which the Hankel matrix of the input-state data is rank deficient. A similar observation has been made in \[, Thm. 3\]. This result is presented in the following proposition. We recall that the set $\Lambda{(\eta)}$ has been defined.
+For the single-input case, $m = 1$, we can sharpen Lemma 5 by showing that for *almost any* controllable pair $(A,B)$, there exists ${x{}} \in {\mathbb{R}}^{n}$ for which the Hankel matrix of the input-state data is rank deficient. A similar observation has been made in \[25, Thm. 3\]. This result is presented in the following proposition. We recall that the set $\Lambda{(\eta)}$ has been defined.
 
-<!-- chunk {"id": "body-0023", "role": "body", "section": "Identification of the state-space system's parameters", "weight": 1.0} -->
+<!-- chunk {"id": "body-0017", "role": "body", "section": "Identification of the state-space system's parameters", "weight": 1.0} -->
 
-Based on Willems et al.'s fundamental lemma, the controllability of $(A,B)$, along with persistency of excitation of the input of order $n + L$, guarantees that the generated input-output data determines the $L$--restricted behavior of the system. For this, one does not need the pair $(C,A)$ to be observable. However, if $(C,A)$ is observable and $L$ is strictly larger than the so-called *lag* of the system, then the state-space system's parameters $(A,B,C,D)$ can be recovered from the behavior ${\mathfrak{B}}_{L}{(A,B,C,D)}$ up to a similarity transformation. Therefore, for controllable and observable systems with lag $\ell$, inputs that are universal for determining the $({\ell + 1})$--restricted behavior enable system identification up to a similarity transformation. This can be accomplished, e.g., using the subspace identification methods in \[, Ch.
+Based on Willems et al.'s fundamental lemma, the controllability of $(A,B)$, along with persistency of excitation of the input of order $n + L$, guarantees that the generated input-output data determines the $L$--restricted behavior of the system. For this, one does not need the pair $(C,A)$ to be observable. However, if $(C,A)$ is observable and $L$ is strictly larger than the so-called *lag* of the system, then the state-space system's parameters $(A,B,C,D)$ can be recovered from the behavior ${\mathfrak{B}}_{L}{(A,B,C,D)}$ up to a similarity transformation (see \[30, Thm. 8.16\]). Therefore, for controllable and observable systems with lag $\ell$, inputs that are universal for determining the $({\ell + 1})$--restricted behavior enable system identification up to a similarity transformation.
 
-<!-- chunk {"id": "body-0024", "role": "body", "section": "Numerical Examples", "weight": 1.0} -->
+<!-- chunk {"id": "body-0018", "role": "body", "section": "Identification of the state-space system's parameters", "weight": 1.0} -->
 
-In this section, we present two numerical examples. For both examples, given an input signal that is not persistently exciting of order $n + L$, we use a similar procedure as in the proof of Lemma to construct controllable systems capable of generating rank-deficient data, i.e., data not satisfying the rank condition ( ‣ Proposition 1 (Willems et al.’s fundamental lemma) ‣ 2 Problem Statement ‣ A New Perspective on Willems’ Fundamental Lemma: Universality of Persistently Exciting Inputs"))^44^4For these examples, we use the MATLAB code available at
+This can be accomplished, e.g., using the subspace identification methods in \[2, Ch. 9\].
 
-<!-- chunk {"id": "body-0025", "role": "body", "section": "Example 5.12", "weight": 1.0} -->
+<!-- chunk {"id": "body-0019", "role": "body", "section": "Numerical Examples", "weight": 1.0} -->
 
-Let $n = 3$, $m = 2$, $L = 1$, and $T = 8$. Consider the input signal given in Table. This input is not persistently exciting of order $4$.
+In this section, we present two numerical examples. For both examples, given an input signal that is not persistently exciting of order $n + L$, we use a similar procedure as in the proof of Lemma 5 to construct controllable systems capable of generating rank-deficient data, i.e., data not satisfying the rank condition (9 ‣ Proposition 1 (Willems et al.’s fundamental lemma) ‣ 2 Problem Statement ‣ A New Perspective on Willems’ Fundamental Lemma: Universality of Persistently Exciting Inputs"))^44^4For these examples, we use the MATLAB code available at
 
-<!-- chunk {"id": "body-0026", "role": "body", "section": "Example 5.12", "weight": 1.0} -->
+<!-- chunk {"id": "body-0020", "role": "body", "section": "Example 5.12", "weight": 1.0} -->
 
-We let $B = E_{- 1}$ and compute $x{}$ from to have
+Let $n = 3$, $m = 2$, $L = 1$, and $T = 8$. Consider the input signal given in Table 1. This input is not persistently exciting of order $4$. The corresponding values of $\eta_{i}$, $i \in {\lbrack 0,3\rbrack}$, satisfying, are computed as follows: We choose a matrix $A$ and a vector $\zeta$, with the entries drawn uniformly at random from intervals $\lbrack{- 3},3\rbrack$ and $\lbrack{- 1},1\rbrack$, respectively, as follows: The pair $(A,\zeta)$ is controllable.
 
-<!-- chunk {"id": "body-0027", "role": "body", "section": "Example 5.13", "weight": 1.0} -->
+<!-- chunk {"id": "body-0021", "role": "body", "section": "Example 5.13", "weight": 1.0} -->
 
-For the sake of illustration, we consider a single-state multi-input system with $n = 1$ and $m = 2$, as
+For the sake of illustration, we consider a single-state multi-input system with $n = 1$ and $m = 2$, as Let $T = 7$, $L = 2$, and the input signal be given in Table 3. This input is not persistently exciting of order $3$. Fig. 1 shows a set of $10000$ systems that are capable of generating rank-deficient data for such an input.
 
-<!-- chunk {"id": "body-0028", "role": "body", "section": "Example 5.13", "weight": 1.0} -->
+<!-- chunk {"id": "body-0022", "role": "body", "section": "Example 5.13", "weight": 1.0} -->
 
-Let $T = 7$, $L = 2$, and the input signal be given in Table. This input is not persistently exciting of order $3$. Fig. shows a set of $10000$ systems that are capable of generating rank-deficient data for such an input. For instance, the trajectory generated by system $a = {- 0.9262}$, $b_{1} = {- 0.3273}$, and $b_{2} = {- 0.3356}$, indicated by the red dot in Fig., starting from ${x{}} = 0.5561$, is such that ${{rank}\begin{bmatrix}
-{\mathcal{H}_{2}{(u_{\lbrack 0,6\rbrack})}} \\
-{\mathcal{H}_{1}{(x_{\lbrack 0,5\rbrack})}}
+For instance, the trajectory generated by system $a = {- 0.9262}$, $b_{1} = {- 0.3273}$, and $b_{2} = {- 0.3356}$, indicated by the red dot in Fig. 1, starting from ${x{}} = 0.5561$, is such that ${{rank}\begin{bmatrix} {\mathcal{H}_{2}{(u_{\lbrack 0,6\rbrack})}} \\{\mathcal{H}_{1}{(x_{\lbrack 0,5\rbrack})}} Table 3: Input signal for Example 5.13.
 
-<!-- chunk {"id": "body-0029", "role": "body", "section": "Conclusions", "weight": 1.0} -->
+<!-- chunk {"id": "body-0023", "role": "body", "section": "Conclusions", "weight": 1.0} -->
 
 In this work, we have defined the notion of a universal input as a signal that, when applied to any controllable system, results in input-output data that are sufficiently rich to parametrize all input-output trajectories of the system. We have proven that an input is universal if and only if it is persistently exciting of sufficiently high order. This result provides further insight into the fundamental lemma, from which only sufficient conditions for universality could be deduced.
 
-<!-- chunk {"id": "body-0030", "role": "body", "section": "Conclusions", "weight": 1.0} -->
+<!-- chunk {"id": "body-0024", "role": "body", "section": "Conclusions", "weight": 1.0} -->
 
 The study of universal inputs with respect to a subset of controllable systems is left for future work. In that case, universality is not necessarily equivalent to persistency of excitation. The study of universal inputs in the presence of measurement and process noise is also among the topics for future work.

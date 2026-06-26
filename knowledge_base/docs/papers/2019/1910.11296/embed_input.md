@@ -66,104 +66,92 @@ Our detection head consists of four $3 \times 3$ convolution layers, followed by
 
 <!-- chunk {"id": "body-0017", "role": "body", "section": "Embedding head", "weight": 1.0} -->
 
-The embedding head forms the core of our open-set instance segmentation model: it learns a category-agnostic embedding space in which points can be clustered into instances irrespective of their semantics.
+The embedding head forms the core of our open-set instance segmentation model: it learns a category-agnostic embedding space in which points can be clustered into instances irrespective of their semantics. Specifically, the embedding head is a four-layer CNN with $3 \times 3$ filters followed by three distinct branches: The point branch computes features $\Phi_{point} \in {\mathbb{R}}^{{({F \times Z})} \times H \times W}$ via a $1 \times 1$ convolution, where $F$ is the dimension of the embedding space, and $Z$ is the number of bins along the gravitational $z$-axis. For each point $i$ in $\mathcal{X}$, we extract an embedding $\mathbf{\phi}_{i}$ from $\Phi_{point}$ via trilinear interpolation.
 
-<!-- chunk {"id": "body-0018", "role": "body", "section": "Embedding head", "weight": 1.0} -->
+<!-- chunk {"id": "body-0018", "role": "body", "section": "Closed-set perception", "weight": 1.0} -->
 
-The point branch computes features $\Phi_{point} \in {\mathbb{R}}^{{({F \times Z})} \times H \times W}$ via a $1 \times 1$ convolution, where $F$ is the dimension of the embedding space, and $Z$ is the number of bins along the gravitational $z$-axis. For each point $i$ in $\mathcal{X}$, we extract an embedding $\mathbf{\phi}_{i}$ from $\Phi_{point}$ via trilinear interpolation.
+Our closed-set perception algorithm draws inspiration from prototypical networks for few-shot learning. First, we apply non-maximum suppression to $\mathcal{P}_{thing}$ to obtain a unique set of thing prototypes $\mathcal{P}_{thing}'$. Let us denote $\mathcal{P}_{all} = {\mathcal{P}_{thing}' \cup \mathcal{P}_{stuff}}$ as the final set of all thing and stuff prototypes. Then, given a point $i$ in $\mathcal{X}$, we compute its point-to-prototype association score with respect to every prototype $k$ in $\mathcal{P}_{all}$ as follows: Additionally, we have a learnable global constant $U$ corresponding to its score ${\hat{\mathbf{y}}}_{i,{{|\mathcal{P}_{all}|} + 1}}$ of not associating with any prototype in $\mathcal{P}_{all}$.
 
 <!-- chunk {"id": "body-0019", "role": "body", "section": "Closed-set perception", "weight": 1.0} -->
 
-Our closed-set perception algorithm draws inspiration from prototypical networks for few-shot learning. First, we apply non-maximum suppression to $\mathcal{P}_{thing}$ to obtain a unique set of thing prototypes $\mathcal{P}_{thing}^{\prime}$. Let us denote $\mathcal{P}_{all} = {\mathcal{P}_{thing}^{\prime} \cup \mathcal{P}_{stuff}}$ as the final set of all thing and stuff prototypes.
+Thus, its instance label can be computed by taking the argmax over its association scores ${\hat{\mathbf{y}}}_{i}$. Furthermore, its semantic label is simply the class of its instance, or unknown if it is not associated with any prototypes in $\mathcal{P}_{all}$. Note that, in practice, we compute each point's scores only with the prototypes of its $k$-nearest thing anchors and all $|{\mathbb{C}}_{stuff}|$ stuff classes; this helps to accelerate inference speed.
 
-<!-- chunk {"id": "body-0020", "role": "body", "section": "Closed-set perception", "weight": 1.0} -->
+<!-- chunk {"id": "body-0020", "role": "body", "section": "Identifying unknown instances", "weight": 1.0} -->
 
-Additionally, we have a learnable global constant $U$ corresponding to its score ${\hat{\mathbf{y}}}_{i,{{|\mathcal{P}_{all}|} + 1}}$ of not associating with any prototype in $\mathcal{P}_{all}$. Thus, its instance label can be computed by taking the argmax over its association scores ${\hat{\mathbf{y}}}_{i}$. Furthermore, its semantic label is simply the class of its instance, or unknown if it is not associated with any prototypes in $\mathcal{P}_{all}$. Note that, in practice, we compute each point's scores only with the prototypes of its $k$-nearest thing anchors and all $|{\mathbb{C}}_{stuff}|$ stuff classes; this helps to accelerate inference speed.
+We assign instance labels to unknown points via DBSCAN clustering. Specifically, for two points ${{\mathbf{x}}_{\mathbf{i}},{\mathbf{x}}_{\mathbf{j}}} \in \mathcal{X}$, their pairwise distance used in DBSCAN is a convex combination of their point embedding squared distance and their 3D location squared distance; *i.e*., Combining the instance labels obtained from this stage with the results from closed-set perception, we obtain our final open-set instance segmentation predictions.
 
-<!-- chunk {"id": "body-0021", "role": "body", "section": "Identifying unknown instances", "weight": 1.0} -->
+<!-- chunk {"id": "body-0021", "role": "body", "section": "Learning", "weight": 1.0} -->
 
-We assign instance labels to unknown points via DBSCAN clustering. Specifically, for two points ${{\mathbf{x}}_{\mathbf{i}},{\mathbf{x}}_{\mathbf{j}}} \in \mathcal{X}$, their pairwise distance used in DBSCAN is a convex combination of their point embedding squared distance and their 3D location squared distance; *i.e*.,
+Our model is optimized with respect to a combination of detection and embedding losses: where $\ell_{\det}$ is the detection loss, $\ell_{emb}$ is the embedding loss, and $\lambda$'s are their associated loss weights. In our experiments, we set $\lambda$'s to 1. Since $\mathcal{L}$ is fully differentiable with respect to the network parameters, we train our model using the standard back-propagation algorithm.
 
-<!-- chunk {"id": "body-0022", "role": "body", "section": "Identifying unknown instances", "weight": 1.0} -->
-
-Combining the instance labels obtained from this stage with the results from closed-set perception, we obtain our final open-set instance segmentation predictions.
-
-<!-- chunk {"id": "body-0023", "role": "body", "section": "Learning", "weight": 1.0} -->
-
-where $\ell_{\det}$ is the detection loss, $\ell_{emb}$ is the embedding loss, and $\lambda$'s are their associated loss weights. In our experiments, we set $\lambda$'s to 1. Since $\mathcal{L}$ is fully differentiable with respect to the network parameters, we train our model using the standard back-propagation algorithm.
-
-<!-- chunk {"id": "body-0024", "role": "body", "section": "Detection loss", "weight": 1.0} -->
+<!-- chunk {"id": "body-0022", "role": "body", "section": "Detection loss", "weight": 1.0} -->
 
 We use a standard multi-task loss function to train the detection head. In particular, for object classification, we use binary cross-entropy with online negative hard mining, where positive and negative BEV pixels are determined by their distances to an object center. For bounding box regression, we use a combination of IoU loss for box locations and sizes and SmoothL1 loss for box orientations on predictions at positive pixels. It is worth noting that box sizes and orientations are not used during inference, and we predict them only for a stronger supervision signal.
 
-<!-- chunk {"id": "body-0025", "role": "body", "section": "Embedding loss", "weight": 1.0} -->
+<!-- chunk {"id": "body-0023", "role": "body", "section": "Embedding loss", "weight": 1.0} -->
 
-We use a standard cross-entropy loss function to encourage points to be assigned to the correct prototype. In particular, during training we first gather a set of prototypes $\mathcal{P}_{gt}$, which is the union of $\mathcal{P}_{stuff}$ and the set of thing prototypes obtained by bilinearly interpolating $\Phi_{thing}$ around ground truth object centers. Next, we compute point-to-prototype association scores ${\{{\hat{\mathbf{y}}}_{i}\}}_{i = 1}^{N}$ with respect to $\mathcal{P}_{gt}$, and normalize each ${\hat{\mathbf{y}}}_{i}$ using the softmax function.
+We use a standard cross-entropy loss function to encourage points to be assigned to the correct prototype. In particular, during training we first gather a set of prototypes $\mathcal{P}_{gt}$, which is the union of $\mathcal{P}_{stuff}$ and the set of thing prototypes obtained by bilinearly interpolating $\Phi_{thing}$ around ground truth object centers. Next, we compute point-to-prototype association scores ${\{{\hat{\mathbf{y}}}_{i}\}}_{i = 1}^{N}$ with respect to $\mathcal{P}_{gt}$, and normalize each ${\hat{\mathbf{y}}}_{i}$ using the softmax function. Finally, we calculate the cross-entropy loss as follows: where each ${\mathbf{y}}_{i}$ is a one-hot vector indicating ground truth associations.
 
-<!-- chunk {"id": "body-0026", "role": "body", "section": "Embedding loss", "weight": 1.0} -->
+<!-- chunk {"id": "body-0024", "role": "body", "section": "Embedding loss", "weight": 1.0} -->
 
-where each ${\mathbf{y}}_{i}$ is a one-hot vector indicating ground truth associations. We also apply a discriminative loss function on the point embeddings ${\{\mathbf{\phi}_{i}\}}_{i = 1}^{N}$, which we found improves performance. \\newfloatcommandcapbtabboxtable\[\\FBwidth\]
+We also apply a discriminative loss function on the point embeddings ${\{\mathbf{\phi}_{i}\}}_{i = 1}^{N}$, which we found improves performance. \\newfloatcommandcapbtabboxtable\[\\FBwidth\] Table 1: Quantitative results of open-set instance segmentation on the TOR4D and Rare4D test sets.
 
-<!-- chunk {"id": "body-0027", "role": "body", "section": "Experiments", "weight": 1.0} -->
+<!-- chunk {"id": "body-0025", "role": "body", "section": "Experiments", "weight": 1.0} -->
 
 In this section, we showcase the effectiveness of our proposed model OSIS on two large-scale self-driving datasets. We first describe our experimental setup and then discuss the results we obtained.
 
-<!-- chunk {"id": "body-0028", "role": "body", "section": "Datasets", "weight": 1.0} -->
+<!-- chunk {"id": "body-0026", "role": "body", "section": "Datasets", "weight": 1.0} -->
 
 TOR4D is a large-scale self-driving dataset collected from cities across North America. This dataset consists of 6500 distinct driving scenarios, each containing 250 sweeps of LiDAR point clouds. We partition TOR4D into a training set of 5000 scenarios, a validation set of 500, and a test set of 1000. Furthermore, we subsample every five frames across all three splits.
 
-<!-- chunk {"id": "body-0029", "role": "body", "section": "Datasets", "weight": 1.0} -->
+<!-- chunk {"id": "body-0027", "role": "body", "section": "Datasets", "weight": 1.0} -->
 
 Each frame in TOR4D is annotated with per-point semantic and instance labels according to four classes: vehicle, pedestrian, motorbike, and road. Points not belonging to one of those classes are unlabled and regarded as unknown. To evaluate OSIS in the open-set setting, we annotate 5,702 and 10,127 unique unknown objects with instance labels in the validation and test sets respectively.
 
-<!-- chunk {"id": "body-0030", "role": "body", "section": "Datasets", "weight": 1.0} -->
+<!-- chunk {"id": "body-0028", "role": "body", "section": "Datasets", "weight": 1.0} -->
 
 Rare4D is a dataset of curated self-driving scenarios containing 289 unique rare objects such as forklifts, tractors, and even horses (see Fig. 1). In our experiments, Rare4D is not used for training but for evaluation of unknown object identification only.
 
-<!-- chunk {"id": "body-0031", "role": "body", "section": "Evaluation metrics", "weight": 1.0} -->
+<!-- chunk {"id": "body-0029", "role": "body", "section": "Evaluation metrics", "weight": 1.0} -->
 
-For known classes, we report the panoptic quality (PQ), recognition quality (RQ), and segmentation quality (SQ) metrics proposed. Since the labels in our dataset consider only things that are removeable to be separate objects (*e.g*.,
+For known classes, we report the panoptic quality (PQ), recognition quality (RQ), and segmentation quality (SQ) metrics proposed. Since the labels in our dataset consider only things that are removeable to be separate objects (*e.g*., flags attached to a building will not be labeled), we decide not to measure precision; instead, we modify PQ into the *unknown quality* (UQ), a recall-based metric that measures performance on annotated instances only: where $TP$ is the set of true positives and $FN$ is the set of false negatives. As, a predicted unknown instance $p$ matches with the ground truth unknown instance $g$ if and only if their intersection over union exceeds 0.5.
 
-<!-- chunk {"id": "body-0032", "role": "body", "section": "Evaluation metrics", "weight": 1.0} -->
-
-where $TP$ is the set of true positives and $FN$ is the set of false negatives. As, a predicted unknown instance $p$ matches with the ground truth unknown instance $g$ if and only if their intersection over union exceeds 0.5.
-
-<!-- chunk {"id": "body-0033", "role": "body", "section": "Baselines", "weight": 1.0} -->
+<!-- chunk {"id": "body-0030", "role": "body", "section": "Baselines", "weight": 1.0} -->
 
 Due to a lack of prior work in open-set instance segmentation for point clouds, we adapt several deep learning based instance segmentation algorithms to the open-set setting to serve as baselines. Note that all baselines except for MT-PNet use the same backbone network and input representations.
 
-<!-- chunk {"id": "body-0034", "role": "body", "section": "Baselines", "weight": 1.0} -->
+<!-- chunk {"id": "body-0031", "role": "body", "section": "Baselines", "weight": 1.0} -->
 
 MT-PNet is a state-of-the-art joint 3D semantic and instance segmentation algorithm^11^1The CRF post-processing stage is not included.. We adapt MT-PNet to the open-set setting as follows: 1) we augment its semantic header to predict an additional unknown class; and 2) we use DBSCAN to cluster unknown points into instances based on their embedding distances.
 
-<!-- chunk {"id": "body-0035", "role": "body", "section": "Baselines", "weight": 1.0} -->
+<!-- chunk {"id": "body-0032", "role": "body", "section": "Baselines", "weight": 1.0} -->
 
 BottomUp first runs a state-of-the-art point cloud semantic segmentation algorithm with an additional unknown class, and then uses DBSCAN to cluster points of the same class into instances. We evaluate two versions of this baseline: 1) BottomUp clusters points using their 3D locations; and 2) BottomUp+E clusters points using embeddings learned via a discriminative loss function.
 
-<!-- chunk {"id": "body-0036", "role": "body", "section": "Baselines", "weight": 1.0} -->
+<!-- chunk {"id": "body-0033", "role": "body", "section": "Baselines", "weight": 1.0} -->
 
 Panoptic3D is similar to the pioneering panoptic segmentation algorithm proposed for 2D images. We first perform 3D detection and segmentation, and then apply heuristics to merge the outputs into a panoptic segmentation of the scene. Unlike, we train a single network with both a 3D detection and a semantic segmentation header. Similar to BottomUp, Panoptic3D also predicts an additional unknown class. We compare two versions of this baseline: 1) Panoptic3D performs class-agnostic detections; and 2) Panoptic3D+C performs class-aware detections and uses DBSCAN to cluster unknown points into instances based on their 3D locations.
 
-<!-- chunk {"id": "body-0037", "role": "body", "section": "Implementation details", "weight": 1.0} -->
+<!-- chunk {"id": "body-0034", "role": "body", "section": "Implementation details", "weight": 1.0} -->
 
 In our BottomUp, Panoptic3D, and OSIS experiments, we use a $160 \times 160 \times 5$ meters region of interest centered on the ego-vehicle. Points within this area are rasterized into a BEV image using reversed trilinear interpolation at a discretization resolution of $0.15625$. We use five frames of LiDAR as input and align them using ego-motion. This yields an input tensor of size ${C \times H \times W} = {160 \times 1024 \times 1024}$. We use the Adam optimizer with a batch size of 32 and an initial learning rate of ${4e} - 3$, which we decay by 0.1 after every five epochs for a total of ten epochs. Note that experiments for MT-PNet follow a similar setup, with the exception that we feed raw LiDAR point clouds as input to the model.
 
-<!-- chunk {"id": "body-0038", "role": "body", "section": "Results", "weight": 1.0} -->
+<!-- chunk {"id": "body-0035", "role": "body", "section": "Results", "weight": 1.0} -->
 
 As shown in Tab. 1, OSIS outperforms the baselines on known and unknown things on all metrics across both datasets. Our method is also comparable to state-of-the-art semantic segmentation models for known stuff classes. Interestingly, BottomUp+E is the best baseline for unknown things while Panoptic3D+C is the best baseline for known things. As our results suggest, OSIS achieves the best of both worlds by marrying a bottom-up approach with top-down guidance.
 
-<!-- chunk {"id": "body-0039", "role": "body", "section": "Results", "weight": 1.0} -->
+<!-- chunk {"id": "body-0036", "role": "body", "section": "Results", "weight": 1.0} -->
 
 Qualitative results in Fig. 3 further higlight our method's ability to correctly segment instances from both known and unknown classes. In particular, OSIS is the sole method that correctly segmented the horse and identified it as an unknown object; by contrast, the baseline methods suffer from misclassification errors and noise in instance segmentation. We also illustrate a failure case in the second row of Fig. 3. In this figure, OSIS misclassified a construction vehicle as unknown. Despite this mistake, our method still successfully segmented the vehicle as an instance.
 
-<!-- chunk {"id": "body-0040", "role": "body", "section": "Model design choices", "weight": 1.0} -->
+<!-- chunk {"id": "body-0037", "role": "body", "section": "Model design choices", "weight": 1.0} -->
 
 We first conduct an ablation study on three components of our model: 1) whether we optimize the discriminative loss (DL); 2) whether we perform bounding box regression (BR); and 3) whether we predict per-prototype scalar variances (${\mathbf{σ}}^{\mathbf{2}}$). Tab. 2 shows our results on the TOR4D validation set. From this table, we can see that all three components contribute towards the overall performance of our model.
 
-<!-- chunk {"id": "body-0041", "role": "body", "section": "Effectiveness of instance-aware embeddings", "weight": 1.0} -->
+<!-- chunk {"id": "body-0038", "role": "body", "section": "Effectiveness of instance-aware embeddings", "weight": 1.0} -->
 
 We also study the effectiveness of using instance-aware embeddings to group unknown points into instances. In particular, we compare our embeddings against other per-point features, namely 3D location (Points), predicted instance center (Center), and semantic features (Semantics). From Tab. 5, we see that our instance-aware embeddings acheive the best results among the alternatives. Fig. 5 also indicates that using a combination of instance-aware embeddings and geometry features yields further improvements.
 
-<!-- chunk {"id": "body-0042", "role": "body", "section": "Conclusion", "weight": 1.5} -->
+<!-- chunk {"id": "body-0039", "role": "body", "section": "Conclusion", "weight": 1.5} -->
 
 We have presented a novel and effective open-set instance segmentation method for point clouds. In particular, we proposed a deep convolutional neural network to encode points into a category-agnostic embedding space in which they can be clustered into instances. As a result, our method is able to perceptually group points into instances, irrespective of whether they belong to a known or unknown class. We validate our method on two large-scale self-driving datasets and achieve state-of-the-art performance in the open-set setting. In the future we plan to explicitly reason about motion as a cue for better instance segmentation of moving objects.

@@ -80,83 +80,83 @@ Our framework treats natural language as an executable interface for task specif
 
 <!-- chunk {"id": "body-0020", "role": "body", "section": "III-A Task Representation and Design Principles", "weight": 1.0} -->
 
-Formally, we define a manipulation task as a tuple
+Formally, we define a manipulation task as a tuple where $\mathcal{A}$ denotes the set of task assets, $\rho_{0}$ is a distribution over initial states, $G:\mathcal{S}\rightarrow\{0,1\}$ is a success predicate over simulator states, $\ell$ is the canonical natural language instruction, and $\mathcal{V}$ is a set of paraphrases used for robustness testing.
 
 <!-- chunk {"id": "body-0021", "role": "body", "section": "III-A Task Representation and Design Principles", "weight": 1.0} -->
 
-where $\mathcal{A}$ denotes the set of task assets, $\rho_{0}$ is a distribution over initial states, $G:{\mathcal{S}\rightarrow{\{ 0,1\}}}$ is a success predicate over simulator states, $\ell$ is the canonical natural language instruction, and $\mathcal{V}$ is a set of paraphrases used for robustness testing.
-
-<!-- chunk {"id": "body-0022", "role": "body", "section": "III-A Task Representation and Design Principles", "weight": 1.0} -->
-
 This decomposition reflects a deliberate design choice. Logical equivalence at the level of language does not imply equivalence of task realization: differences in tolerances, reset distribution, or success-check timing can lead to divergent evaluation outcomes even when tasks are described identically. Language alone is therefore insufficient as a unit of evaluation.
 
-<!-- chunk {"id": "body-0023", "role": "body", "section": "III-B Task Orchestration Through Language", "weight": 1.0} -->
+<!-- chunk {"id": "body-0022", "role": "body", "section": "III-B Task Orchestration Through Language", "weight": 1.0} -->
 
 Given a natural language description $u$, task construction begins by translating language into a structured representation of task intent. Specifically, the system infers and populates a fixed TaskSchema that explicitly specifies the task name, relevant assets, goal conditions, and initialization logic. The use of a fixed schema ensures that all task-relevant fields are present and disambiguated before execution, enabling complete interpretation of the instruction and preventing underspecified task definitions.
 
-<!-- chunk {"id": "body-0024", "role": "body", "section": "III-B Task Orchestration Through Language", "weight": 1.0} -->
+<!-- chunk {"id": "body-0023", "role": "body", "section": "III-B Task Orchestration Through Language", "weight": 1.0} -->
 
 Conditioned on the validated task schema, the system then synthesizes an executable task implementation. This process leverages an LLM with access to relevant environment APIs, prior task implementations, and diagnostic error information retrieved based on structural similarity to the proposed task. The LLM produces an intermediate natural-language task specification that articulates the intended objects, goal configuration, and success criteria, which is subsequently compiled into executable code.
 
-<!-- chunk {"id": "body-0025", "role": "body", "section": "III-B Task Orchestration Through Language", "weight": 1.0} -->
+<!-- chunk {"id": "body-0024", "role": "body", "section": "III-B Task Orchestration Through Language", "weight": 1.0} -->
 
 Executable tasks are implemented as classes that extend a fixed environment interface. Each task defines methods for environment initialization, reset-time sampling from $\rho_{0}$, and success evaluation corresponding to $G$. This constrained interface enforces uniform structure across task implementations and limits variation arising from authoring style, ensuring that differences in evaluation outcomes reflect task content rather than implementation artifacts.
 
-<!-- chunk {"id": "body-0026", "role": "body", "section": "III-C Validation and Physical Realizability", "weight": 1.0} -->
+<!-- chunk {"id": "body-0025", "role": "body", "section": "III-C Validation and Physical Realizability", "weight": 1.0} -->
 
 Language-defined tasks are only meaningful if they are both executable and physically realizable. Each synthesized task implementation is therefore subjected to a multi-stage validation pipeline before being admitted as a task artifact.
 
-<!-- chunk {"id": "body-0027", "role": "body", "section": "III-C Validation and Physical Realizability", "weight": 1.0} -->
+<!-- chunk {"id": "body-0026", "role": "body", "section": "III-C Validation and Physical Realizability", "weight": 1.0} -->
 
 Basic validation. Basic validation enforces software correctness independent of physics simulation. Generated code is subjected to static analysis to detect syntactic errors and forbidden patterns, compiled in an isolated execution environment to detect import and definition errors, and instantiated to detect runtime failures during object creation or reset-time sampling.
 
-<!-- chunk {"id": "body-0028", "role": "body", "section": "III-C Validation and Physical Realizability", "weight": 1.0} -->
+<!-- chunk {"id": "body-0027", "role": "body", "section": "III-C Validation and Physical Realizability", "weight": 1.0} -->
 
 Goal-state verification. To enforce physical realizability of the success predicate, tasks are instantiated directly in the goal configuration and simulated forward under zero action to allow contacts to settle. The success predicate $G$ must evaluate to true after settling and remain true over an extended horizon, ensuring that the goal configuration is both achievable and stable under the simulator's physics model.
 
-<!-- chunk {"id": "body-0029", "role": "body", "section": "III-C Validation and Physical Realizability", "weight": 1.0} -->
+<!-- chunk {"id": "body-0028", "role": "body", "section": "III-C Validation and Physical Realizability", "weight": 1.0} -->
 
 Iterative repair. When validation fails, the failure is classified according to its source (e.g., syntax, API usage, runtime instantiation, goal satisfaction, or physical instability), and a corresponding repair operator proposes a localized modification to the task implementation. Repairs may adjust object placements, relax geometric constraints, or rewrite components of the success predicate, depending on the failure type. Validation is then re-run on the repaired implementation. This process repeats until all checks pass or a fixed retry budget is exhausted, ensuring that admitted tasks satisfy executability and physical consistency while remaining faithful to the original language intent.
 
-<!-- chunk {"id": "body-0030", "role": "body", "section": "III-D Controlled Task Modifications", "weight": 1.0} -->
+<!-- chunk {"id": "body-0029", "role": "body", "section": "III-D Controlled Task Modifications", "weight": 1.0} -->
 
 A validated task artifact defines a reference task instance from which a family of related tasks can be derived. To enable systematic task variation without sacrificing comparability, the framework provides a context-aware steering mechanism that interprets user modification requests and constrains how tasks may evolve.
 
-<!-- chunk {"id": "body-0031", "role": "body", "section": "III-D Controlled Task Modifications", "weight": 1.0} -->
+<!-- chunk {"id": "body-0030", "role": "body", "section": "III-D Controlled Task Modifications", "weight": 1.0} -->
 
 Given a modification request, the system first interprets the intent and extracts structured parameters such as dimensional changes, ordering constraints, or asset-type substitutions. It then classifies the request into one of five steering categories: *Tweak*, *Extend*, *Modify*, *Pivot*, or *Fresh*. Each category specifies explicit preservation guarantees over the task components $(\mathcal{A},\rho_{0},G)$. For example, *Tweak* and *Extend* preserve the original task structure and success predicate, enabling direct comparability with the reference task, while *Modify* and *Pivot* permit progressively broader semantic or structural changes when required by the user intent.
 
-<!-- chunk {"id": "body-0032", "role": "body", "section": "III-D Controlled Task Modifications", "weight": 1.0} -->
+<!-- chunk {"id": "body-0031", "role": "body", "section": "III-D Controlled Task Modifications", "weight": 1.0} -->
 
 Task evolution is tracked through versioned snapshots that record structured summaries of assets, goals, and code hashes. When a modification requires asset types incompatible with the current version, the system selects a compatible prior snapshot as the reference. This allows coherent multi-step refinement without manual bookkeeping. Each validated variant produces a new snapshot, yielding version-controlled task families with explicit lineage suitable for systematic evaluation and controlled analysis of task variation.
 
-<!-- chunk {"id": "body-0033", "role": "body", "section": "Results", "weight": 1.0} -->
+<!-- chunk {"id": "body-0032", "role": "body", "section": "Results", "weight": 1.0} -->
 
 We evaluate RoboPlayground along three axes that are central to its role as a democratized evaluation framework for robotic manipulation: (i) the usability of its task authoring interface, (ii) the diagnostic value of the resulting task set for assessing policy generalization, and (iii) the scalability of task creation under open-world, crowd-driven use. Across all experiments, we focus on whether RoboPlayground enables task specifications that are both easier to author and more informative for evaluation than existing alternatives.
 
+<!-- chunk {"id": "body-0033", "role": "body", "section": "IV-A Usability of the Task Authoring Interface", "weight": 1.0} -->
+
+Experimental setting. We evaluate the usability of RoboPlayground in comparison to two baseline task authoring interfaces, GenSim and Cursor, using a within-subjects user study ($N=26$). Participants were asked to construct an identical manipulation task (build a 3D structure using blocks under various constraints) using each system. All participants interacted with all three systems, enabling paired comparisons of perceived usability, cognitive workload, and user preference. We measure usability using the System Usability Scale (SUS), cognitive workload using NASA-TLX subscales \[8: results of empirical and theoretical research")\], and overall preference through usability and forced-choice rankings. Results are summarized in Table I.
+
 <!-- chunk {"id": "body-0034", "role": "body", "section": "IV-A Usability of the Task Authoring Interface", "weight": 1.0} -->
 
-Experimental setting. We evaluate the usability of RoboPlayground in comparison to two baseline task authoring interfaces, GenSim and Cursor, using a within-subjects user study ($N = 26$). Participants were asked to construct an identical manipulation task (build a 3D structure using blocks under various constraints) using each system. All participants interacted with all three systems, enabling paired comparisons of perceived usability, cognitive workload, and user preference. We measure usability using the System Usability Scale (SUS), cognitive workload using NASA-TLX subscales \[8: results of empirical and theoretical research")\], and overall preference through usability and forced-choice rankings. Results are summarized in Table I.
+RoboPlayground achieves higher perceived usability than baselines. Across participants ($N{=}26$), RoboPlayground attains the highest System Usability Scale (SUS) score ($83.4\pm 6.9$; mean $\pm$ 95% confidence interval margin), well above the conventional acceptability threshold of 68. GenSim and Cursor achieve substantially lower mean SUS ($52.5\pm 9.3$ and $68.8\pm 7.8$, respectively). Paired Wilcoxon signed-rank tests confirm that RoboPlayground significantly outperforms both GenSim ($p{<}0.001$) and Cursor ($p{=}0.0017$), so the advantage is not limited to the weakest baseline: RoboPlayground is rated more usable than a strong general-purpose assistant interface as well. The interval for GenSim is the widest of the three, consistent with more heterogeneous experiences in that condition, whereas RoboPlayground shows the tightest margin among systems, indicating comparatively consistent high ratings.
 
 <!-- chunk {"id": "body-0035", "role": "body", "section": "IV-A Usability of the Task Authoring Interface", "weight": 1.0} -->
 
-RoboPlayground achieves higher perceived usability than baselines. Across participants ($N = 26$), RoboPlayground attains the highest System Usability Scale (SUS) score ($83.4 \pm 6.9$; mean $\pm$ 95% confidence interval margin), well above the conventional acceptability threshold of 68. GenSim and Cursor achieve substantially lower mean SUS ($52.5 \pm 9.3$ and $68.8 \pm 7.8$, respectively). Paired Wilcoxon signed-rank tests confirm that RoboPlayground significantly outperforms both GenSim ($p < 0.001$) and Cursor ($p = 0.0017$), so the advantage is not limited to the weakest baseline: RoboPlayground is rated more usable than a strong general-purpose assistant interface as well. The interval for GenSim is the widest of the three, consistent with more heterogeneous experiences in that condition, whereas RoboPlayground shows the tightest margin among systems, indicating comparatively consistent high ratings.
+RoboPlayground reduces perceived cognitive workload relative to baselines. Cognitive workload is summarized as the unweighted mean of five NASA-TLX subscales (Mental Demand, Temporal Demand, Effort, Frustration, and reversed Performance), each normalized to 0--100 and oriented so that lower is better. RoboPlayground yields the lowest mean composite score ($18.6\pm 7.7$; mean $\pm$ 95% confidence interval margin), compared to $41.8\pm 9.0$ for GenSim and $36.7\pm 10.4$ for Cursor. Paired Wilcoxon signed-rank tests show that RoboPlayground significantly reduces perceived workload relative to both GenSim ($p{=}0.0007$) and Cursor ($p{=}0.0019$).
 
 <!-- chunk {"id": "body-0036", "role": "body", "section": "IV-A Usability of the Task Authoring Interface", "weight": 1.0} -->
 
-RoboPlayground reduces perceived cognitive workload relative to baselines. Cognitive workload is summarized as the unweighted mean of five NASA-TLX subscales (Mental Demand, Temporal Demand, Effort, Frustration, and reversed Performance), each normalized to 0--100 and oriented so that lower is better. RoboPlayground yields the lowest mean composite score ($18.6 \pm 7.7$; mean $\pm$ 95% confidence interval margin), compared to $41.8 \pm 9.0$ for GenSim and $36.7 \pm 10.4$ for Cursor. Paired Wilcoxon signed-rank tests show that RoboPlayground significantly reduces perceived workload relative to both GenSim ($p = 0.0007$) and Cursor ($p = 0.0019$).
+GenSim and Cursor do not differ significantly from each other on this composite ($p{=}0.22$), whereas RoboPlayground separates clearly from each baseline; Cursor also exhibits the widest TLX margin among the three, indicating somewhat more spread in workload ratings even though the paired comparison to RoboPlayground remains significant.
 
 <!-- chunk {"id": "body-0037", "role": "body", "section": "IV-A Usability of the Task Authoring Interface", "weight": 1.0} -->
 
-GenSim and Cursor do not differ significantly from each other on this composite ($p = 0.22$), whereas RoboPlayground separates clearly from each baseline; Cursor also exhibits the widest TLX margin among the three, indicating somewhat more spread in workload ratings even though the paired comparison to RoboPlayground remains significant.
+Participants consistently prefer RoboPlayground over baseline interfaces. Subjective measures reinforce the quantitative usability and workload results. RoboPlayground achieves the best mean usability rank ($1.3\pm 0.3$; lower is better), with GenSim and Cursor at $2.7\pm 0.2$ and $2.0\pm 0.2$, respectively. A Friedman test shows strong differences in rankings across systems ($p{<}0.001$), and post-hoc paired Wilcoxon tests confirm that RoboPlayground is ranked significantly better than both GenSim ($p{=}0.0001$) and Cursor ($p{=}0.0078$). In forced-choice overall preference, $69\%$ of participants select RoboPlayground, compared to $23\%$ for Cursor and $8\%$ for GenSim. A chi-square goodness-of-fit test rejects a uniform split across the three options ($p{=}0.0003$), consistent with concentration of preference on RoboPlayground.
 
 <!-- chunk {"id": "body-0038", "role": "body", "section": "IV-A Usability of the Task Authoring Interface", "weight": 1.0} -->
 
-Participants consistently prefer RoboPlayground over baseline interfaces. Subjective measures reinforce the quantitative usability and workload results. RoboPlayground achieves the best mean usability rank ($1.3 \pm 0.3$; lower is better), with GenSim and Cursor at $2.7 \pm 0.2$ and $2.0 \pm 0.2$, respectively. A Friedman test shows strong differences in rankings across systems ($p < 0.001$), and post-hoc paired Wilcoxon tests confirm that RoboPlayground is ranked significantly better than both GenSim ($p = 0.0001$) and Cursor ($p = 0.0078$). In forced-choice overall preference, $69\%$ of participants select RoboPlayground, compared to $23\%$ for Cursor and $8\%$ for GenSim. A chi-square goodness-of-fit test rejects a uniform split across the three options ($p = 0.0003$), consistent with concentration of preference on RoboPlayground.
-
-<!-- chunk {"id": "body-0039", "role": "body", "section": "IV-A Usability of the Task Authoring Interface", "weight": 1.0} -->
-
 Together, the ranking and preference distributions indicate a stable, statistically supported tilt toward RoboPlayground over both baselines.
+
+<!-- chunk {"id": "body-0039", "role": "body", "section": "IV-B Evaluating Policies on Training and Generated Generalization Tasks", "weight": 1.0} -->
+
+Red Block Left Place Two Blue Place Two Blocks Place Two Blocks TABLE II: Results on in-distribution and generalization tasks. Success rates (%) with standard errors across six policies evaluated on training (in-distribution) tasks (top) and held-out generalization tasks (bottom). The best result per task is shown in bold. Generalization tasks are constructed by perturbing training tasks along one or more axes: semantic (S), denoting language perturbations, visual (V), denoting visual appearance differences in the initial state, and behavioural (B), denoting changes in the required behaviour, adhering to the definitions. The perturbation type for each generalization task is shown in the row labeled Perturbation, with semantic perturbations indicated in blue, visual perturbations in green, and behavioural perturbations in red.
 
 <!-- chunk {"id": "body-0040", "role": "body", "section": "IV-B Evaluating Policies on Training and Generated Generalization Tasks", "weight": 1.0} -->
 
@@ -220,48 +220,64 @@ Overall, these results show that RoboPlayground scales not merely by increasing 
 
 <!-- chunk {"id": "body-0055", "role": "body", "section": "Ablative Studies", "weight": 1.0} -->
 
-We conduct a cumulative ablation study to quantify the functional contribution of each component in the task generation pipeline. For each module, we begin with all components disabled and progressively enable individual gates. This design disentangles changes in semantic task specification from improvements in robustness and correctness under session-level evaluation (Table III).
++ feasibility checking (all gates on) None (all disabled)
 
 <!-- chunk {"id": "body-0056", "role": "body", "section": "Ablative Studies", "weight": 1.0} -->
 
-Metrics. We report complementary metrics capturing distinct failure modes. Compile and Smoke Test measure code correctness and execution stability; Task Success measures end-to-end satisfaction of the success predicate; Human Verification evaluates perceived task validity; and LLM Alignment measures consistency between the natural language instruction and the implemented success condition.
++ in-context examples (all gates on) None (all disabled)
 
 <!-- chunk {"id": "body-0057", "role": "body", "section": "Ablative Studies", "weight": 1.0} -->
 
-Evaluation setting. Ablations are evaluated on ten benchmark testcases, each consisting of multiple related tasks evaluated as a single session. Some testcases involve multi-stage task refinement via context-aware steering; additional details are provided in the Appendix.
++ specialist agents (all gates on) None (all disabled)
 
 <!-- chunk {"id": "body-0058", "role": "body", "section": "Ablative Studies", "weight": 1.0} -->
 
-Task Proposal. Task proposal components primarily affect semantic grounding rather than executability. Enabling asset inference improves Human Verification (88.5 to 92.3) but slightly reduces LLM Alignment (74.0 to 71.5), while leaving execution metrics unchanged. Adding feasibility checking improves both Human Verification (92.3 to 96.2) and LLM Alignment (71.5 to 73.6) without affecting executability.
++ reference selection (all gates on) TABLE III: Ablation Study. We evaluate the contribution of each pipeline component through cumulative addition. Starting with all gates disabled for that module, we progressively enable components to measure their incremental impact. All success metrics are percentages (n = 26); LLM Alignment is scored out of 100. Green values with ↑ indicate improvement from the previous row.
 
 <!-- chunk {"id": "body-0059", "role": "body", "section": "Ablative Studies", "weight": 1.0} -->
 
-Code Generation. Code generation components primarily improve robustness to systematic implementation errors. Across ablations, compilation and smoke test success remain near-perfect. API review, error checks, and in-context examples incrementally improve LLM Alignment (70.8 to 73.6) while preserving end-to-end executability.
+We conduct a cumulative ablation study to quantify the functional contribution of each component in the task generation pipeline. For each module, we begin with all components disabled and progressively enable individual gates. This design disentangles changes in semantic task specification from improvements in robustness and correctness under session-level evaluation (Table III).
 
 <!-- chunk {"id": "body-0060", "role": "body", "section": "Ablative Studies", "weight": 1.0} -->
 
-Validation. Validation is the dominant determinant of task correctness. With validation disabled, Task Success drops to 12.0 despite high compilation rates. Text-level validation alone recovers Task Success to 96.2, while the full validation stack achieves perfect Task Success, Compile, Smoke Test, and Human Verification.
+Metrics. We report complementary metrics capturing distinct failure modes. Compile and Smoke Test measure code correctness and execution stability; Task Success measures end-to-end satisfaction of the success predicate; Human Verification evaluates perceived task validity; and LLM Alignment measures consistency between the natural language instruction and the implemented success condition.
 
 <!-- chunk {"id": "body-0061", "role": "body", "section": "Ablative Studies", "weight": 1.0} -->
 
-Context Steering. Context steering influences semantic coherence across multi-step task sessions. Intent interpretation and version history tracking improve Task Success, Human Verification, and LLM Alignment, while routing without history degrades semantic consistency. With full context steering enabled, execution metrics remain perfect.
+Evaluation setting. Ablations are evaluated on ten benchmark testcases, each consisting of multiple related tasks evaluated as a single session. Some testcases involve multi-stage task refinement via context-aware steering; additional details are provided in the Appendix.
 
 <!-- chunk {"id": "body-0062", "role": "body", "section": "Ablative Studies", "weight": 1.0} -->
 
+Task Proposal. Task proposal components primarily affect semantic grounding rather than executability. Enabling asset inference improves Human Verification (88.5 to 92.3) but slightly reduces LLM Alignment (74.0 to 71.5), while leaving execution metrics unchanged. Adding feasibility checking improves both Human Verification (92.3 to 96.2) and LLM Alignment (71.5 to 73.6) without affecting executability.
+
+<!-- chunk {"id": "body-0063", "role": "body", "section": "Ablative Studies", "weight": 1.0} -->
+
+Code Generation. Code generation components primarily improve robustness to systematic implementation errors. Across ablations, compilation and smoke test success remain near-perfect. API review, error checks, and in-context examples incrementally improve LLM Alignment (70.8 to 73.6) while preserving end-to-end executability.
+
+<!-- chunk {"id": "body-0064", "role": "body", "section": "Ablative Studies", "weight": 1.0} -->
+
+Validation. Validation is the dominant determinant of task correctness. With validation disabled, Task Success drops to 12.0 despite high compilation rates. Text-level validation alone recovers Task Success to 96.2, while the full validation stack achieves perfect Task Success, Compile, Smoke Test, and Human Verification.
+
+<!-- chunk {"id": "body-0065", "role": "body", "section": "Ablative Studies", "weight": 1.0} -->
+
+Context Steering. Context steering influences semantic coherence across multi-step task sessions. Intent interpretation and version history tracking improve Task Success, Human Verification, and LLM Alignment, while routing without history degrades semantic consistency. With full context steering enabled, execution metrics remain perfect.
+
+<!-- chunk {"id": "body-0066", "role": "body", "section": "Ablative Studies", "weight": 1.0} -->
+
 Summary. Overall, task proposal and context steering shape semantic intent and coherence, code generation improves robustness, and validation enforces correctness. Improvements in Task Success do not monotonically track alignment metrics, motivating a modular, gated design that balances expressiveness and executability.
 
-<!-- chunk {"id": "body-0063", "role": "body", "section": "Discussions", "weight": 1.0} -->
+<!-- chunk {"id": "body-0067", "role": "body", "section": "Discussions", "weight": 1.0} -->
 
 This work explores how robotic manipulation evaluation changes when task specification is opened to a broader set of contributors. By treating language as an executable interface, RoboPlayground allows users to express task intent, constraints, and success criteria directly, rather than relying on fixed, expert-authored benchmarks. In doing so, it reframes evaluation as a process shaped not only by models and metrics, but by the people defining what is being tested.
 
-<!-- chunk {"id": "body-0064", "role": "body", "section": "Discussions", "weight": 1.0} -->
+<!-- chunk {"id": "body-0068", "role": "body", "section": "Discussions", "weight": 1.0} -->
 
 Language-driven evaluation becomes meaningful when grounded in a shared physical structure. Compiling language into explicit assets, initialization logic, and success predicates enables users to author and vary tasks in ways that remain reproducible and comparable. Within this structure, semantic differences in task descriptions translate into controlled differences in evaluation, allowing policies to be assessed across families of related tasks rather than isolated instances.
 
-<!-- chunk {"id": "body-0065", "role": "body", "section": "Discussions", "weight": 1.0} -->
+<!-- chunk {"id": "body-0069", "role": "body", "section": "Discussions", "weight": 1.0} -->
 
 Lowering the barrier to task authoring also changes how evaluation spaces grow. Our results show that task diversity scales more strongly with contributor diversity than with task count alone, indicating that opening task specification to many users leads to broader and more complementary coverage of the task space. In this sense, RoboPlayground democratizes not only access to evaluation, but influence over what behaviors are examined.
 
-<!-- chunk {"id": "body-0066", "role": "body", "section": "Discussions", "weight": 1.0} -->
+<!-- chunk {"id": "body-0070", "role": "body", "section": "Discussions", "weight": 1.0} -->
 
 We instantiate the framework in a deliberately constrained block manipulation domain to emphasize interpretability and control. Extending structured, language-driven evaluation to richer domains will require careful design, but the underlying principle remains: scalable evaluation benefits from being both structured and open to user-driven contribution.

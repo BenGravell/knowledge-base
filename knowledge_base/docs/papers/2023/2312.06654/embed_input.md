@@ -74,128 +74,120 @@ Unlike prior works that estimate scene lighting from a single limited-FoV LDR im
 
 <!-- chunk {"id": "body-0019", "role": "body", "section": "Panorama reconstruction", "weight": 1.0} -->
 
-We set the depth values for the sky region to infinity.
+We set the depth values for the sky region to infinity. For each camera pixel $(u',v')$, we use the rendered depth and projection matrix to estimate 3D world coordinates, then apply an equirectangular projection $E$ to determine its intensity contribution to panorama pixel $(u,v)$, resulting in $\mathbf{I}_{pano}$: where $\Theta$ is the pixel-wise transformation that maps the RGB of limited field-of-view (FoV) images $\mathbf{I}$ at coordinate $(u',v')$ to the $(u,v)$ pixel of the panorama. For areas with overlap, we average all source pixels that are projected to the same panorama $(u,v)$. In the self-driving domain, the stitched panorama $\mathbf{I}_{pano}$ usually covers a 360^∘^ horizontal FoV, but the vertical FoV is limited and cannot fully cover the sky region.
 
 <!-- chunk {"id": "body-0020", "role": "body", "section": "Panorama reconstruction", "weight": 1.0} -->
 
-where $\Theta$ is the pixel-wise transformation that maps the RGB of limited field-of-view (FoV) images $\mathbf{I}$ at coordinate $(u^{\prime},v^{\prime})$ to the $(u,v)$ pixel of the panorama. For areas with overlap, we average all source pixels that are projected to the same panorama $(u,v)$. In the self-driving domain, the stitched panorama $\mathbf{I}_{pano}$ usually covers a 360^∘^ horizontal FoV, but the vertical FoV is limited and cannot fully cover the sky region. Therefore, we leverage an inpainting network to complete $\mathbf{I}_{pano}$, creating a full-coverage ($360^{\circ} \times 180^{\circ}$) panorama image.
+Therefore, we leverage an inpainting network to complete $\mathbf{I}_{pano}$, creating a full-coverage ($360^{\circ} \times 180^{\circ}$) panorama image.
 
 <!-- chunk {"id": "body-0021", "role": "body", "section": "Generating HDR sky domes", "weight": 1.0} -->
 
-For realistic rendering, an HDR sky dome should have accurate sun placement and intensity, as well as sky appearance. Following, we learn an encoder-decoder sky dome estimator network that lifts the incomplete LDR panorama to HDR, while also leveraging GPS and time of day for more accurate sun direction. The encoder first maps the LDR panorama image to a low-dimensional representation to capture the key attributes of the sky dome, including a sky appearance latent $\mathbf{z}_{sky} \in {\mathbb{R}}^{d}$, peak sun intensity $\mathbf{f}_{int}$, and sun direction $\mathbf{f}_{dir}$. By explicitly encoding sun intensity and direction, we enable more human-interpretable control of the lighting conditions and more accurate lighting estimation.
+For realistic rendering, an HDR sky dome should have accurate sun placement and intensity, as well as sky appearance. Following, we learn an encoder-decoder sky dome estimator network that lifts the incomplete LDR panorama to HDR, while also leveraging GPS and time of day for more accurate sun direction. The encoder first maps the LDR panorama image to a low-dimensional representation to capture the key attributes of the sky dome, including a sky appearance latent $\mathbf{z}_{sky} \in {\mathbb{R}}^{d}$, peak sun intensity $\mathbf{f}_{int}$, and sun direction $\mathbf{f}_{dir}$. By explicitly encoding sun intensity and direction, we enable more human-interpretable control of the lighting conditions and more accurate lighting estimation. The decoder network processes this representation and outputs the HDR sky dome $\mathbf{E}$ as follows: When GPS and time of day are available, we replace the encoder-estimated direction with the GPS-derived sun direction for more precise sun placement. Please see Appendix A.1 for details.
 
-<!-- chunk {"id": "body-0022", "role": "body", "section": "Generating HDR sky domes", "weight": 1.0} -->
-
-When GPS and time of day are available, we replace the encoder-estimated direction with the GPS-derived sun direction for more precise sun placement. Please see Appendix A.1 for details.
-
-<!-- chunk {"id": "body-0023", "role": "body", "section": "Learning", "weight": 1.0} -->
+<!-- chunk {"id": "body-0022", "role": "body", "section": "Learning", "weight": 1.0} -->
 
 We now describe the learning process to extract static scenes and dynamic actor textured meshes, as well as training the inpainting network and sky dome estimator.
 
+<!-- chunk {"id": "body-0023", "role": "body", "section": "Optimizing neural urban scenes", "weight": 1.0} -->
+
+We jointly optimize feature grids and MLP headers $\{ f_{s},f_{\mathbf{k}_{d}}\}$ to reconstruct the observed sensor data via volume rendering. This includes a photometric loss on the rendered image, a depth loss on the rendered LiDAR point cloud, and a regularizer, as follows: $\mathcal{L}_{scene} = {\mathcal{L}_{rgb} + {\lambda_{lidar}\mathcal{L}_{lidar}} + {\lambda_{reg}\mathcal{L}_{reg}}}$. Specifically, we have Here, $\mathcal{R}$ represents the set of camera or LiDAR rays. $C{(\mathbf{r})}$ is the observed color for ray $\mathbf{r}$, and $\hat{C}{(\mathbf{r})}$ is the predicted color.
+
 <!-- chunk {"id": "body-0024", "role": "body", "section": "Optimizing neural urban scenes", "weight": 1.0} -->
 
-We jointly optimize feature grids and MLP headers $\{ f_{s},f_{\mathbf{k}_{d}}\}$ to reconstruct the observed sensor data via volume rendering. This includes a photometric loss on the rendered image, a depth loss on the rendered LiDAR point cloud, and a regularizer, as follows: $\mathcal{L}_{scene} = {\mathcal{L}_{rgb} + {\lambda_{lidar}\mathcal{L}_{lidar}} + {\lambda_{reg}\mathcal{L}_{reg}}}$. Specifically, we have
+$D{(\mathbf{r})}$ is the observed depth for ray $\mathbf{r}$, and $\hat{D}{(\mathbf{r})}$ is the predicted depth in the range view. To encourage smooth geometry, we also regularize the SDF to satisfy the Eikonal equation and have free space away from the LiDAR observations.
 
-<!-- chunk {"id": "body-0025", "role": "body", "section": "Optimizing neural urban scenes", "weight": 1.0} -->
-
-Here, $\mathcal{R}$ represents the set of camera or LiDAR rays. $C{(\mathbf{r})}$ is the observed color for ray $\mathbf{r}$, and $\hat{C}{(\mathbf{r})}$ is the predicted color. $D{(\mathbf{r})}$ is the observed depth for ray $\mathbf{r}$, and $\hat{D}{(\mathbf{r})}$ is the predicted depth in the range view. To encourage smooth geometry, we also regularize the SDF to satisfy the Eikonal equation and have free space away from the LiDAR observations.
-
-<!-- chunk {"id": "body-0026", "role": "body", "section": "Training panorama inpainting", "weight": 1.0} -->
+<!-- chunk {"id": "body-0025", "role": "body", "section": "Training panorama inpainting", "weight": 1.0} -->
 
 We train a panorama inpainting network to fill the unobserved regions for stitched panorama $\mathbf{I}_{pano}$. We adopt the DeepFill-v2 network and train on the Holicity dataset, which contains 6k panorama images. During training, we first generate a camera visibility mask using limited-FoV camera intrinsics to generate an incomplete panorama image. The masked panorama is then fed into the network and supervised with the full panorama. Following, we use the hinge GAN loss as the objective function for the generator and discriminator.
 
-<!-- chunk {"id": "body-0027", "role": "body", "section": "Training sky dome estimator", "weight": 1.0} -->
+<!-- chunk {"id": "body-0026", "role": "body", "section": "Training sky dome estimator", "weight": 1.0} -->
 
 We train a sky dome estimator network on collected HDR sky images from HDRMaps. The HDRs are randomly distorted (including random exposure scaling, horizontal rotation, and flipping) and then tone-mapped to form LDR-HDR pairs $(\mathbf{L},\mathbf{E})$ pairs. Following, we apply teacher forcing randomly and employ the $L_{1}$ angular loss, $L_{1}$ peak intensity, and $L_{2}$ HDR reconstruction loss in the log space during training.
 
+<!-- chunk {"id": "body-0027", "role": "body", "section": "Neural Lighting Simulation of Dynamic Urban Scenes", "weight": 1.0} -->
+
+As is, our lighting-aware digital twin reconstructs the original scenario. Our goal now is to enable controllable camera simulation. To be controllable, the scene representation should not only replicate the original scene but also handle changes in dynamic actor behavior and allow for insertion of synthetic rare objects, such as construction cones, that are challenging to find in real data alone. This enables diverse creation of unseen scenes. As our representation is compositional, we can add and remove actors, modify the locations and trajectories of existing actors, change the SDV position, and perform neural rendering on the modified scene to generate new camera video in a spatially- and temporally-consistent manner. Using our estimated lighting, we can also use a physically-based renderer to seamlessly composite synthetic assets, such as CAD models, into the scene in a 3D- and lighting-aware manner. These scene edits result in an "augmented reality" representation $\mathcal{M}',\mathbf{E}^{src}$ and source image $\mathbf{I}_{\text{src}}'$.
+
 <!-- chunk {"id": "body-0028", "role": "body", "section": "Neural Lighting Simulation of Dynamic Urban Scenes", "weight": 1.0} -->
-
-As is, our lighting-aware digital twin reconstructs the original scenario. Our goal now is to enable controllable camera simulation. To be controllable, the scene representation should not only replicate the original scene but also handle changes in dynamic actor behavior and allow for insertion of synthetic rare objects, such as construction cones, that are challenging to find in real data alone. This enables diverse creation of unseen scenes. As our representation is compositional, we can add and remove actors, modify the locations and trajectories of existing actors, change the SDV position, and perform neural rendering on the modified scene to generate new camera video in a spatially- and temporally-consistent manner. Using our estimated lighting, we can also use a physically-based renderer to seamlessly composite synthetic assets, such as CAD models, into the scene in a 3D- and lighting-aware manner. These scene edits result in an "augmented reality" representation $\mathcal{M}^{\prime},\mathbf{E}^{src}$ and source image $\mathbf{I}_{\text{src}}^{\prime}$.
-
-<!-- chunk {"id": "body-0029", "role": "body", "section": "Neural Lighting Simulation of Dynamic Urban Scenes", "weight": 1.0} -->
 
 We now describe how we perform realistic scene relighting (Fig. 3 right) to generate new relit videos for improving camera-based perception systems.
 
+<!-- chunk {"id": "body-0029", "role": "body", "section": "Neural Lighting Simulation of Dynamic Urban Scenes", "weight": 1.0} -->
+
+Given the augmented reality representation $\{\mathcal{M}',\mathbf{E}^{src},\mathbf{I}_{\text{src}}'\}$, we can perform physically-based rendering under a novel lighting condition $\mathbf{E}^{tgt}$ to generate a relit rendered video. The rendered images faithfully capture scene relighting effects, such as changes in shadows or overall scene illumination. However, due to imperfect geometry and noise in material/lighting decomposition, the rendering results lack realism (e.g., they may contain blurriness, unrealistic surface reflections and boundary artifacts). To mitigate this, we propose a photo-realism enhanced neural deferred rendering paradigm. Deferred rendering splits the rendering process into multiple stages (i.e., rendering geometry before lighting, then composing the two). Inspired by recent work, we use an image synthesis network that takes the source image and pre-computed buffers of lighting-relevant data generated by the rendering engine to produce the final relit image.
+
 <!-- chunk {"id": "body-0030", "role": "body", "section": "Neural Lighting Simulation of Dynamic Urban Scenes", "weight": 1.0} -->
-
-Given the augmented reality representation $\{\mathcal{M}^{\prime},\mathbf{E}^{src},\mathbf{I}_{\text{src}}^{\prime}\}$, we can perform physically-based rendering under a novel lighting condition $\mathbf{E}^{tgt}$ to generate a relit rendered video. The rendered images faithfully capture scene relighting effects, such as changes in shadows or overall scene illumination. However, due to imperfect geometry and noise in material/lighting decomposition, the rendering results lack realism (e.g., they may contain blurriness, unrealistic surface reflections and boundary artifacts). To mitigate this, we propose a photo-realism enhanced neural deferred rendering paradigm. Deferred rendering splits the rendering process into multiple stages (i.e., rendering geometry before lighting, then composing the two). Inspired by recent work, we use an image synthesis network that takes the source image and pre-computed buffers of lighting-relevant data generated by the rendering engine to produce the final relit image.
-
-<!-- chunk {"id": "body-0031", "role": "body", "section": "Neural Lighting Simulation of Dynamic Urban Scenes", "weight": 1.0} -->
 
 We also provide the network the environment maps for enhanced lighting context and formulate a novel paired-data training scheme by leveraging the digital twins to generate synthetic paired images.
 
-<!-- chunk {"id": "body-0032", "role": "body", "section": "Generate lighting-relevant data with physically-based rendering", "weight": 1.0} -->
+<!-- chunk {"id": "body-0031", "role": "body", "section": "Generate lighting-relevant data with physically-based rendering", "weight": 1.0} -->
 
 To perform neural deferred rendering, we place the static background and dynamic actor textured meshes $\mathcal{M}$ in a physically-based renderer and pre-compute the rendering buffers ${\mathbf{I}_{buffer} \in {\mathbb{R}}^{h \times w \times 8}},$ including position, depth, normal and ambient occlusion for each frame. Additionally, given an environment map $\mathbf{E}$ and material maps, the physically-based renderer performs ray-tracing to generate the rendered image $\mathbf{I}_{{render}|\mathbf{E}}$. We omit $\mathbf{E}$ in the following for simplicity.
 
-<!-- chunk {"id": "body-0033", "role": "body", "section": "Generate lighting-relevant data with physically-based rendering", "weight": 1.0} -->
+<!-- chunk {"id": "body-0032", "role": "body", "section": "Generate lighting-relevant data with physically-based rendering", "weight": 1.0} -->
 
 To model shadow removal and insertion, we also generate a shadow ratio map $\mathbf{S} = {\mathbf{I}_{render}/{\overset{\sim}{\mathbf{I}}}_{render}}$, where ${\overset{\sim}{\mathbf{I}}}_{render}$ is the rendered image without rendering shadow visibility rays, for both the source and target environment light maps $\mathbf{E}^{src},\mathbf{E}^{tgt}$.
 
-<!-- chunk {"id": "body-0034", "role": "body", "section": "Generate lighting-relevant data with physically-based rendering", "weight": 1.0} -->
+<!-- chunk {"id": "body-0033", "role": "body", "section": "Generate lighting-relevant data with physically-based rendering", "weight": 1.0} -->
 
-We then use a 2D U-Net that takes the source image $\mathbf{I}^{src}$, render buffers $\mathbf{I}_{buffer}$, and shadow ratio maps $\left\{ \mathbf{S}^{src},\mathbf{S}^{tgt} \right\}$, conditioned on the source and target HDR sky domes $\{\mathbf{E}^{src},\mathbf{E}^{tgt}\}$.
+We then use a 2D U-Net that takes the source image $\mathbf{I}^{src}$, render buffers $\mathbf{I}_{buffer}$, and shadow ratio maps $\left\{ \mathbf{S}^{src},\mathbf{S}^{tgt} \right\}$, conditioned on the source and target HDR sky domes $\{\mathbf{E}^{src},\mathbf{E}^{tgt}\}$. This network outputs the rendered image $\mathbf{I}^{tgt}$ under the target lighting conditions as follows: This enables us to edit the scene, perform scene relighting, and generate a sequence of images under target lighting as the scene evolves to produce simulated camera videos. The simulation is spatially and temporally consistent since our method is physically-based and grounded by 3D digital twins.
 
-<!-- chunk {"id": "body-0035", "role": "body", "section": "Generate lighting-relevant data with physically-based rendering", "weight": 1.0} -->
-
-This enables us to edit the scene, perform scene relighting, and generate a sequence of images under target lighting as the scene evolves to produce simulated camera videos. The simulation is spatially and temporally consistent since our method is physically-based and grounded by 3D digital twins.
-
-<!-- chunk {"id": "body-0036", "role": "body", "section": "Learning", "weight": 1.0} -->
+<!-- chunk {"id": "body-0034", "role": "body", "section": "Learning", "weight": 1.0} -->
 
 To ensure that our rendering network maintains controllable lighting and is realistic, we train it with a combination of synthetic and real-world data. We take advantage of the fact that our digital twin reconstructions are derived from real-world data, and that our physically-based renderer can generate paired data of different source and target lightings of the same scene. This enables two main data pairs for training the network to learn the relighting task with enhanced realism. For the first data pair, we train our network to map $\mathbf{I}_{{render}|\mathbf{E}^{src}}\rightarrow\mathbf{I}_{{render}|\mathbf{E}^{tgt}}$, the physically-based rendered images under the source and target lighting. With the second data pair, we improve realism by training the network to map $\mathbf{I}_{{render}|\mathbf{E}^{src}}\rightarrow\mathbf{I}_{real}$, mapping any relit synthetic scene to its original real world image given its estimated environment map as the target lighting.
 
-<!-- chunk {"id": "body-0037", "role": "body", "section": "Learning", "weight": 1.0} -->
+<!-- chunk {"id": "body-0035", "role": "body", "section": "Learning", "weight": 1.0} -->
 
-During training, we also encourage self-consistency by ensuring that, given an input image with identical source and target lighting, the model recovers the original image.
+During training, we also encourage self-consistency by ensuring that, given an input image with identical source and target lighting, the model recovers the original image. The training objective consists of a photometric loss ($\mathcal{L}_{color}$), a perceptual loss ($\mathcal{L}_{lpips}$), and an edge-based content-preserving loss ($\mathcal{L}_{edge}$): where $N$ is the number of training images and $\mathbf{I}^{tgt}$/${\hat{\mathbf{I}}}^{tgt}$ are the observed/synthesized label image and predicted image under the target lighting, respectively. $V^{j}$ denotes the $j$-th layer of a pre-trained VGG network, and $\nabla\mathbf{I}$ is the image gradient approximated by Sobel-Feldman operator.
 
-<!-- chunk {"id": "body-0038", "role": "body", "section": "Learning", "weight": 1.0} -->
-
-where $N$ is the number of training images and $\mathbf{I}^{tgt}$/${\hat{\mathbf{I}}}^{tgt}$ are the observed/synthesized label image and predicted image under the target lighting, respectively. $V^{j}$ denotes the $j$-th layer of a pre-trained VGG network, and $\nabla\mathbf{I}$ is the image gradient approximated by Sobel-Feldman operator.
-
-<!-- chunk {"id": "body-0039", "role": "body", "section": "Experiments", "weight": 1.0} -->
+<!-- chunk {"id": "body-0036", "role": "body", "section": "Experiments", "weight": 1.0} -->
 
 We showcase LightSim's capabilities on public self-driving data, which contains a rich collection of sensor data of dynamic urban scenes. We first introduce our experiment setting, then compare LightSim against state-of-the-art (SoTA) scene-relighting methods and ablate our design choices. We then show that our method can generate realistic driving videos with added actors and modified trajectories under diverse lighting conditions. Finally, we show that using LightSim to augment training data can significantly improve 3D object detection.
 
-<!-- chunk {"id": "body-0040", "role": "body", "section": "Datasets", "weight": 1.0} -->
+<!-- chunk {"id": "body-0037", "role": "body", "section": "Datasets", "weight": 1.0} -->
 
 We evaluate our method primarily on the public real-world driving dataset PandaSet, which contains 103 urban scenes captured in San Francisco, each with a duration of 8 seconds (80 frames, sampled at 10hz) acquired by six cameras and a 360^∘^ 64-beam LiDAR. To showcase generalizability, we also demonstrate our approach on 10 dynamic scenes from the nuScenes dataset. These driving datasets are challenging as the urban street scenes are unbounded; large-scale ($> {{{300\text{m}} \times 80}\text{m}}$); have complex geometry, materials, lighting, and occlusion; and are captured in a single drive-by pass (forward camera motion).
 
-<!-- chunk {"id": "body-0041", "role": "body", "section": "Baselines", "weight": 1.0} -->
+<!-- chunk {"id": "body-0038", "role": "body", "section": "Baselines", "weight": 1.0} -->
 
 We compare our model with several SoTA scene-relighting methods. We consider several inverse-rendering approaches, an image-based color-transfer approach, and a physics-informed image-synthesis approach. Self-OSR is an image-based inverse-rendering approach that uses generative adversarial networks (GANs) to decompose the image into albedo, normal, shadow, and lighting. NeRF-OSR performs physically-based inverse rendering using neural radiance fields. Color Transfer utilizes histogram-based color matching to harmonize color appearance between images. Enhancing Photorealism Enhancement (EPE) enhances the realism of synthetic images using intermediate rendering buffers and GANs. EPE uses the rendered image $\mathbf{I}_{{render}|\mathbf{E}^{tgt}}$ and G-buffer data generated by our digital twins to predict the relit image.
 
-<!-- chunk {"id": "body-0042", "role": "body", "section": "Comparison to SoTA", "weight": 1.0} -->
+<!-- chunk {"id": "body-0039", "role": "body", "section": "Neural Lighting Simulation", "weight": 1.0} -->
+
+Real + Sim (Self-OSR) Real + Sim (EPE) Real + Sim (Color Transfer) Real + Sim (Ours) Table 2: Data augmentation with simulated lighting variations.
+
+<!-- chunk {"id": "body-0040", "role": "body", "section": "Comparison to SoTA", "weight": 1.0} -->
 
 We report scene relighting results on PandaSet in Table 1. Since the ground truth is unavailable, we use FID and KID to measure the realism and diversity of relit images. For each approach, we evaluate on 1,380 images with 23 lighting variations and report FID/KID scores. 11 of the target lighting variations are estimated from real PandaSet data, while the remaining twelve are outdoor HDRs sourced from HDRMaps. See Appendix C.1 for more details.
 
-<!-- chunk {"id": "body-0043", "role": "body", "section": "Comparison to SoTA", "weight": 1.0} -->
+<!-- chunk {"id": "body-0041", "role": "body", "section": "Comparison to SoTA", "weight": 1.0} -->
 
 Compared to Self-OSR, NeRF-OSR and EPE, LightSim achieves better performance on FID, which indicates that our relit images are more realistic and contain fewer visual artifacts when employed as inputs by ML models. We also show qualitative results in Fig. 4 together with source and target lighting HDRs (Row 1 and 3: relighting with estimated lighting conditions of other PandaSet snippets, Row 2 and 4: third-party HDRs). While Color Transfer achieves the best FID, visually we can see that it only adjusts the global color histogram and does not perform physically-accurate directional lighting (*e.g.*, no newly cast shadows). Self-OSR estimates the source and target lighting as spherical harmonics, but since it must reason about 3D geometry and shadows using only a single image, it produces noticeable artifacts. NeRF-OSR has difficulty with conducting reasonable intrinsic decomposition (*e.g.*, geometry, shadows) and thus cannot perform realistic and accurate scene relighting.
 
-<!-- chunk {"id": "body-0044", "role": "body", "section": "Comparison to SoTA", "weight": 1.0} -->
+<!-- chunk {"id": "body-0042", "role": "body", "section": "Comparison to SoTA", "weight": 1.0} -->
 
 EPE incorporates the simulated lighting effects from our digital twins and further enhances realism, but there are obvious artifacts due to blurry texture, broken geometry, and unrealistic hallucinations. In contrast, LightSim produces more reliable and higher-fidelity relighting results under diverse lighting conditions. See Appendix E.1 for more results. In Appendix E.4, we also evaluate LightSim's lighting estimation compared to SoTA and demonstrate improved performance.
 
-<!-- chunk {"id": "body-0045", "role": "body", "section": "Downstream perception training", "weight": 1.0} -->
+<!-- chunk {"id": "body-0043", "role": "body", "section": "Downstream perception training", "weight": 1.0} -->
 
 We now investigate if realistic lighting simulation can help improve the performance of downstream perception tasks under unseen lighting conditions. We consider a SoTA camera-based birds-eye-view (BEV) detection model BEVFormer. Specifically, we train on 68 snippets collected in the city and evaluate on 35 snippets in a suburban area, since these two collections are exposed to different lighting conditions. We generate three lighting variations for data augmentation. One lighting condition comes from the estimated sky dome for log-084 (captured along the El Camino Real in California), and the other two are real-world cloudy and sunny HDRs. We omit comparison to NeRF-OSR as its computational cost makes it challenging to render at scale. Table 2 demonstrates that LightSim augmentation yields a significant performance improvement (+4.5 AP) compared to baseline augmentations, which either provide smaller benefits or harm the detection performance.
 
-<!-- chunk {"id": "body-0046", "role": "body", "section": "Ablation Study", "weight": 1.0} -->
+<!-- chunk {"id": "body-0044", "role": "body", "section": "Ablation Study", "weight": 1.0} -->
 
 Fig. 5 showcases the importance of several key components in training our neural deferred rendering module. Pre-computed rendering buffers help the network predict more accurate lighting effects. The edge-based content-preserving loss results in a higher-fidelity rendering that retains fine-grained details from the source image. Training the network to relight synthetic rendered images to the original real image with its estimated lighting enhances the photorealism of the simulated results. Please see more ablations in Appendix E.2.
 
-<!-- chunk {"id": "body-0047", "role": "body", "section": "Realistic and controllable camera simulation", "weight": 1.0} -->
+<!-- chunk {"id": "body-0045", "role": "body", "section": "Realistic and controllable camera simulation", "weight": 1.0} -->
 
 LightSim recovers more accurate HDR sky domes compared to prior SoTA works, resulting in more realistic actor insertion (Fig. 6). LightSim inserts the new actors seamlessly and can model lighting effects such as cast shadows for the actors and static scene, all in a 3D-aware manner for consistency across cameras. Our simulation system also performs realistic, temporally-consistent and lighting-aware scene editing to generate immersive experiences for evaluation. In Fig. 7, we start from the original scenario and perform scene editing by removing all dynamic actors and inserting traffic cones, barriers, and three vehicle actors in the crossroads. Then, we apply scene relighting to change the scene illumination to sunny, cloudy, etc. In Fig. 1, we show another example where we modify the existing real-world data to generate a challenging scenario with two cut-in vehicles.
 
-<!-- chunk {"id": "body-0048", "role": "body", "section": "Generalization study on nuScenes", "weight": 1.0} -->
+<!-- chunk {"id": "body-0046", "role": "body", "section": "Generalization study on nuScenes", "weight": 1.0} -->
 
 We now showcase LightSim's ability to generalize to driving scenes in nuScenes. We build lighting-aware digital twins for each scene, then apply a neural deferred rendering model pre-trained on PandaSet. LightSim transfers well and performs scene relighting robustly (see Fig. 8). See Appendix E.6 for more examples.
 
-<!-- chunk {"id": "body-0049", "role": "body", "section": "Limitations", "weight": 1.5} -->
+<!-- chunk {"id": "body-0047", "role": "body", "section": "Limitations", "weight": 1.5} -->
 
 LightSim assumes several simplifications when building lighting-aware digital twins, including approximate diffuse-only reconstruction, separate lighting prediction, and fixed base materials. This results in imperfect intrinsic decomposition and sim-to-real discrepancies (see Fig. 9). One major failure case we notice is that LightSim cannot seamlessly remove shadows, particularly in bright, sunny conditions where the original images exhibit distinct cast shadows (see Fig. A26). This is because the shadows are mostly baked during neural scene reconstruction, thus producing flawed synthetic data that confuses the neural deferred rendering module. We believe those problems can be addressed through better intrinsic decomposition with priors and joint material/lighting learning. Moreover, LightSim cannot handle nighttime local lighting sources such as street lights, traffic lights and vehicle lights. Finally, faster rendering techniques can be incorporated to enhance LightSim's efficiency.
 
-<!-- chunk {"id": "body-0050", "role": "body", "section": "Conclusion", "weight": 1.5} -->
+<!-- chunk {"id": "body-0048", "role": "body", "section": "Conclusion", "weight": 1.5} -->
 
 In this paper, we aimed to build a lighting-aware camera simulation system to improve robot perception. Towards this goal, we presented LightSim, which builds lighting-aware digital twins from real-world data; modifies them to create new scenes with different actor layouts, SDV viewpoints, and lighting conditions; and performs scene relighting to enable diverse, realistic, and controllable camera simulation that produces spatially- and temporally-consistent videos. We demonstrated LightSim's capabilities to generate new scenarios with camera video and leveraged LightSim to significantly improve object detection performance. We plan to further enhance our simulator by incorporating material model decomposition, local light source estimation, and weather simulation.

@@ -48,35 +48,35 @@ To prevent collapse, a straightforward solution is to use a fixed randomly initi
 
 <!-- chunk {"id": "body-0012", "role": "body", "section": "Description of BYOL", "weight": 1.0} -->
 
-BYOL's goal is to learn a representation $y_{\theta}$ which can then be used for downstream tasks. As described previously, BYOL uses two neural networks to learn: the *online* and *target* networks. The online network is defined by a set of weights $\theta$ and is comprised of three stages: an *encoder* $f_{\theta}$, a *projector* $g_{\theta}$ and a *predictor* $q_{\theta}$, as shown in Figure 2 and Figure 8. The target network has the same architecture as the online network, but uses a different set of weights $\xi$. The target network provides the regression targets to train the online network, and its parameters $\xi$ are an exponential moving average of the online parameters $\theta$. More precisely, given a target decay rate $\tau \in {\lbrack 0,1\rbrack}$, after each training step we perform the following update,
+BYOL's goal is to learn a representation $y_{\theta}$ which can then be used for downstream tasks. As described previously, BYOL uses two neural networks to learn: the *online* and *target* networks. The online network is defined by a set of weights $\theta$ and is comprised of three stages: an *encoder* $f_{\theta}$, a *projector* $g_{\theta}$ and a *predictor* $q_{\theta}$, as shown in Figure 2 and Figure 8. The target network has the same architecture as the online network, but uses a different set of weights $\xi$. The target network provides the regression targets to train the online network, and its parameters $\xi$ are an exponential moving average of the online parameters $\theta$.
 
 <!-- chunk {"id": "body-0013", "role": "body", "section": "Description of BYOL", "weight": 1.0} -->
 
-We symmetrize the loss $\mathcal{L}_{\theta,\xi}$ in Equation 2 by separately feeding $v^{\prime}$ to the online network and $v$ to the target network to compute ${\overset{\sim}{\mathcal{L}}}_{\theta,\xi}$. At each training step, we perform a stochastic optimization step to minimize $\mathcal{L}_{\theta,\xi}^{\text{BYOL}} = {\mathcal{L}_{\theta,\xi} + {\overset{\sim}{\mathcal{L}}}_{\theta,\xi}}$ with respect to $\theta$ only, but not $\xi$, as depicted by the stop-gradient in Figure 2. BYOL's dynamics are summarized as
+More precisely, given a target decay rate $\tau \in {\lbrack 0,1\rbrack}$, after each training step we perform the following update, Given a set of images $\mathcal{D}$, an image $x \sim \mathcal{D}$ sampled uniformly from $\mathcal{D}$, and two distributions of image augmentations $\mathcal{T}$ and $\mathcal{T}'$, BYOL produces two augmented views $v{{{\lbrack{1pt}\rbrack}} = \Delta}{t{(x)}}$ and $v'{{{\lbrack{1pt}\rbrack}} = \Delta}{t'{(x)}}$ from $x$ by applying respectively image augmentations $t \sim \mathcal{T}$ and $t' \sim \mathcal{T}'$.
 
 <!-- chunk {"id": "body-0014", "role": "body", "section": "Description of BYOL", "weight": 1.0} -->
 
-where $optimizer$ is an optimizer and $\eta$ is a learning rate.
+Note that this predictor is only applied to the online branch, making the architecture asymmetric between the online and target pipeline. Finally we define the following mean squared error between the normalized predictions and target projections,^55^5While we could directly predict the representation $y$ and not a projection $z$, previous work have empirically shown that using this projection improves performance.
 
 <!-- chunk {"id": "body-0015", "role": "body", "section": "Description of BYOL", "weight": 1.0} -->
 
+We symmetrize the loss $\mathcal{L}_{\theta,\xi}$ in Equation 2 by separately feeding $v'$ to the online network and $v$ to the target network to compute ${\overset{\sim}{\mathcal{L}}}_{\theta,\xi}$. At each training step, we perform a stochastic optimization step to minimize $\mathcal{L}_{\theta,\xi}^{\text{BYOL}} = {\mathcal{L}_{\theta,\xi} + {\overset{\sim}{\mathcal{L}}}_{\theta,\xi}}$ with respect to $\theta$ only, but not $\xi$, as depicted by the stop-gradient in Figure 2. BYOL's dynamics are summarized as where $optimizer$ is an optimizer and $\eta$ is a learning rate.
+
+<!-- chunk {"id": "body-0016", "role": "body", "section": "Description of BYOL", "weight": 1.0} -->
+
 At the end of training, we only keep the encoder $f_{\theta}$; as. When comparing to other methods, we consider the number of inference-time weights only in the final representation $f_{\theta}$. The full training procedure is summarized in Appendix A, and python pseudo-code based on the libraries JAX and Haiku is provided in in Appendix J.
-
-<!-- chunk {"id": "body-0016", "role": "body", "section": "Intuitions on BYOL's behavior", "weight": 1.0} -->
-
-As BYOL does not use an explicit term to prevent collapse (such as negative examples ) while minimizing $\mathcal{L}_{\theta,\xi}^{\text{BYOL}}$ with respect to $\theta$, it may seem that BYOL should converge to a minimum of this loss with respect to $(\theta,\xi)$ (*e.g.*, a collapsed constant representation). However BYOL's target parameters $\xi$ updates are not in the direction of $\nabla_{\xi}\mathcal{L}_{\theta,\xi}^{\text{BYOL}}$. More generally, we hypothesize that there is no loss $L_{\theta,\xi}$ such that BYOL's dynamics is a gradient descent on $L$ jointly over $\theta,\xi$. This is similar to GANs, where there is no loss that is jointly minimized w.r.t. both the discriminator and generator parameters.
 
 <!-- chunk {"id": "body-0017", "role": "body", "section": "Intuitions on BYOL's behavior", "weight": 1.0} -->
 
-There is therefore no a priori reason why BYOL's parameters would converge to a minimum of $\mathcal{L}_{\theta,\xi}^{\text{BYOL}}$.
+As BYOL does not use an explicit term to prevent collapse (such as negative examples ) while minimizing $\mathcal{L}_{\theta,\xi}^{\text{BYOL}}$ with respect to $\theta$, it may seem that BYOL should converge to a minimum of this loss with respect to $(\theta,\xi)$ (*e.g.*, a collapsed constant representation). However BYOL's target parameters $\xi$ updates are not in the direction of $\nabla_{\xi}\mathcal{L}_{\theta,\xi}^{\text{BYOL}}$. More generally, we hypothesize that there is no loss $L_{\theta,\xi}$ such that BYOL's dynamics is a gradient descent on $L$ jointly over $\theta,\xi$. This is similar to GANs, where there is no loss that is jointly minimized w.r.t. both the discriminator and generator parameters.
 
 <!-- chunk {"id": "body-0018", "role": "body", "section": "Intuitions on BYOL's behavior", "weight": 1.0} -->
 
-While BYOL's dynamics still admit undesirable equilibria, we did not observe convergence to such equilibria in our experiments. In addition, when assuming BYOL's predictor to be optimal^66^6For simplicity we also consider BYOL without normalization (which performs reasonably close to BYOL, see Section F.6) nor symmetrization i.e., $q_{\theta} = q^{\star}$ with
+There is therefore no a priori reason why BYOL's parameters would converge to a minimum of $\mathcal{L}_{\theta,\xi}^{\text{BYOL}}$.
 
 <!-- chunk {"id": "body-0019", "role": "body", "section": "Intuitions on BYOL's behavior", "weight": 1.0} -->
 
-we hypothesize that the undesirable equilibria are unstable. Indeed, in this optimal predictor case, BYOL's updates on $\theta$ follow in expectation the gradient of the expected conditional variance (see Appendix H for details),
+While BYOL's dynamics still admit undesirable equilibria, we did not observe convergence to such equilibria in our experiments. In addition, when assuming BYOL's predictor to be optimal^66^6For simplicity we also consider BYOL without normalization (which performs reasonably close to BYOL, see Section F.6) nor symmetrization i.e., $q_{\theta} = q^{\star}$ with we hypothesize that the undesirable equilibria are unstable. Indeed, in this optimal predictor case, BYOL's updates on $\theta$ follow in expectation the gradient of the expected conditional variance (see Appendix H for details), where $z_{\xi,i}'$ is the $i$-th feature of $z_{\xi}'$.
 
 <!-- chunk {"id": "body-0020", "role": "body", "section": "Intuitions on BYOL's behavior", "weight": 1.0} -->
 
@@ -84,11 +84,11 @@ Note that for any random variables $X,$ $Y,$ and $Z$, ${\operatorname{Var}{(\lef
 
 <!-- chunk {"id": "body-0021", "role": "body", "section": "Intuitions on BYOL's behavior", "weight": 1.0} -->
 
-In particular, BYOL avoids constant features in $z_{\theta}$ as, for any constant $c$ and random variables $z_{\theta}$ and $z_{\xi}^{\prime}$, ${\operatorname{Var}{(\left. z_{\xi}^{\prime} \middle| z_{\theta} \right.)}} \leq {\operatorname{Var}{(\left. z_{\xi}^{\prime} \middle| c \right.)}}$; hence our hypothesis on these collapsed constant equilibria being unstable. Interestingly, if we were to minimize ${\mathbb{E}}{\lbrack{\sum_{i}{\operatorname{Var}{(\left.
+In particular, BYOL avoids constant features in $z_{\theta}$ as, for any constant $c$ and random variables $z_{\theta}$ and $z_{\xi}'$, ${\operatorname{Var}{(\left. z_{\xi}' \middle| z_{\theta} \right.)}} \leq {\operatorname{Var}{(\left. z_{\xi}' \middle| c \right.)}}$; hence our hypothesis on these collapsed constant equilibria being unstable. Interestingly, if we were to minimize ${\mathbb{E}}{\lbrack{\sum_{i}{\operatorname{Var}{(\left. z_{\xi,i}' \middle| z_{\theta} \right.)}}}\rbrack}$ with respect to $\xi$, we would get a collapsed $z_{\xi}'$ as the variance is minimized for a constant $z_{\xi}'$.
 
 <!-- chunk {"id": "body-0022", "role": "body", "section": "Intuitions on BYOL's behavior", "weight": 1.0} -->
 
-z_{\xi,i}^{\prime} \middle| z_{\theta} \right.)}}}\rbrack}$ with respect to $\xi$, we would get a collapsed $z_{\xi}^{\prime}$ as the variance is minimized for a constant $z_{\xi}^{\prime}$. Instead, BYOL makes $\xi$ closer to $\theta$, incorporating sources of variability captured by the online projection into the target projection.
+Instead, BYOL makes $\xi$ closer to $\theta$, incorporating sources of variability captured by the online projection into the target projection.
 
 <!-- chunk {"id": "body-0023", "role": "body", "section": "Intuitions on BYOL's behavior", "weight": 1.0} -->
 
@@ -156,8 +156,7 @@ $< 1.25$ measure is respectively improved by $+ 3.5$ points and $+ 1.3$ points c
 
 <!-- chunk {"id": "body-0039", "role": "body", "section": "Transfer to other vision tasks", "weight": 1.0} -->
 
-(a) Transfer results in semantic
-segmentation and object detection.
+(a) Transfer results in semantic segmentation and object detection.
 
 <!-- chunk {"id": "body-0040", "role": "body", "section": "Transfer to other vision tasks", "weight": 1.0} -->
 
@@ -175,70 +174,66 @@ Among contrastive methods, the ones that draw negative examples from the minibat
 
 As shown in Figure 3(a), the performance of SimCLR rapidly deteriorates with batch size, likely due to the decrease in the number of negative examples. In contrast, the performance of BYOL remains stable over a wide range of batch sizes from $256$ to $4096$, and only drops for smaller values due to batch normalization layers in the encoder.^77^7The only dependency on batch size in our training pipeline sits within the batch normalization layers.
 
-<!-- chunk {"id": "body-0044", "role": "body", "section": "Image augmentations", "weight": 1.0} -->
+<!-- chunk {"id": "body-0044", "role": "body", "section": "Batch size", "weight": 1.0} -->
 
-Contrastive methods are sensitive to the choice of image augmentations. For instance, SimCLR does not work well when removing color distortion from its image augmentations. As an explanation, SimCLR shows that crops of the same image mostly share their color histograms. At the same time, color histograms vary across images. Therefore, when a contrastive task only relies on random crops as image augmentations, it can be mostly solved by focusing on color histograms alone. As a result the representation is not incentivized to retain information beyond color histograms. To prevent that, SimCLR adds color distortion to its set of image augmentations. Instead, BYOL is incentivized to keep any information captured by the target representation into its online network, to improve its predictions. Therefore, even if augmented views of a same image share the same color histogram, BYOL is still incentivized to retain additional features in its representation. For that reason, we believe that BYOL is more robust to the choice of image augmentations than contrastive methods.
+(a) Impact of batch size (b) Impact of progressively removing transformations Figure 3: Decrease in top-1 accuracy (in % points) of BYOL and our own reproduction of SimCLR at 300 epochs, under linear evaluation on ImageNet.
 
 <!-- chunk {"id": "body-0045", "role": "body", "section": "Image augmentations", "weight": 1.0} -->
 
+Contrastive methods are sensitive to the choice of image augmentations. For instance, SimCLR does not work well when removing color distortion from its image augmentations. As an explanation, SimCLR shows that crops of the same image mostly share their color histograms. At the same time, color histograms vary across images. Therefore, when a contrastive task only relies on random crops as image augmentations, it can be mostly solved by focusing on color histograms alone. As a result the representation is not incentivized to retain information beyond color histograms. To prevent that, SimCLR adds color distortion to its set of image augmentations. Instead, BYOL is incentivized to keep any information captured by the target representation into its online network, to improve its predictions. Therefore, even if augmented views of a same image share the same color histogram, BYOL is still incentivized to retain additional features in its representation. For that reason, we believe that BYOL is more robust to the choice of image augmentations than contrastive methods.
+
+<!-- chunk {"id": "body-0046", "role": "body", "section": "Image augmentations", "weight": 1.0} -->
+
 Results presented in Figure 3(b) support this hypothesis: the performance of BYOL is much less affected than the performance of SimCLR when removing color distortions from the set of image augmentations ($- 9.1$ accuracy points for BYOL, $- 22.2$ accuracy points for SimCLR). When image augmentations are reduced to mere random crops, BYOL still displays good performance ($59.4\%$, *i.e.* $- 13.1$ points from $72.5\%$ ), while SimCLR loses more than a third of its performance ($40.3\%$, *i.e.* $- 27.6$ points from $67.9\%$). We report additional ablations in Section F.3.
-
-<!-- chunk {"id": "body-0046", "role": "body", "section": "Bootstrapping", "weight": 1.0} -->
-
-BYOL uses the projected representation of a target network, whose weights are an exponential moving average of the weights of the online network, as target for its predictions. This way, the weights of the target network represent a delayed and more stable version of the weights of the online network. When the target decay rate is $1$, the target network is never updated, and remains at a constant value corresponding to its initialization. When the target decay rate is $0$, the target network is instantaneously updated to the online network at each step. There is a trade-off between updating the targets too often and updating them too slowly, as illustrated in Table 5(a). Instantaneously updating the target network ($\tau = 0$) destabilizes training, yielding very poor performance while never updating the target ($\tau = 1$) makes the training stable but prevents iterative improvement, ending with low-quality final representation. All values of the decay rate between $0.9$ and $0.999$ yield performance above $68.4\%$ top-$1$ accuracy at $300$ epochs.
 
 <!-- chunk {"id": "body-0047", "role": "body", "section": "Bootstrapping", "weight": 1.0} -->
 
-(a) Results for different target modes. †In the stop gradient of online, τ = τbase = 0 is kept constant throughout training.
+BYOL uses the projected representation of a target network, whose weights are an exponential moving average of the weights of the online network, as target for its predictions. This way, the weights of the target network represent a delayed and more stable version of the weights of the online network. When the target decay rate is $1$, the target network is never updated, and remains at a constant value corresponding to its initialization. When the target decay rate is $0$, the target network is instantaneously updated to the online network at each step. There is a trade-off between updating the targets too often and updating them too slowly, as illustrated in Table 5(a). Instantaneously updating the target network ($\tau = 0$) destabilizes training, yielding very poor performance while never updating the target ($\tau = 1$) makes the training stable but prevents iterative improvement, ending with low-quality final representation. All values of the decay rate between $0.9$ and $0.999$ yield performance above $68.4\%$ top-$1$ accuracy at $300$ epochs.
 
 <!-- chunk {"id": "body-0048", "role": "body", "section": "Bootstrapping", "weight": 1.0} -->
 
+Constant random network Moving average of online Moving average of online Moving average of online Stop gradient of online† (a) Results for different target modes. †In the stop gradient of online, τ = τbase = 0 is kept constant throughout training.
+
+<!-- chunk {"id": "body-0049", "role": "body", "section": "Bootstrapping", "weight": 1.0} -->
+
 (b) Intermediate variants between BYOL and SimCLR.
-
-<!-- chunk {"id": "body-0049", "role": "body", "section": "Ablation to contrastive methods", "weight": 1.0} -->
-
-In this subsection, we recast SimCLR and BYOL using the same formalism to better understand where the improvement of BYOL over SimCLR comes. Let us consider the following objective that extends the InfoNCE objective (see Section F.4),
 
 <!-- chunk {"id": "body-0050", "role": "body", "section": "Ablation to contrastive methods", "weight": 1.0} -->
 
-where $\alpha > 0$ is a fixed temperature, $\beta \in {\lbrack 0,1\rbrack}$ a weighting coefficient, $B$ the batch size, $v$ and $v^{\prime}$ are batches of augmented views where for any batch index $i$, $v_{i}$ and $v_{i}^{\prime}$ are augmented views from the same image; the real-valued function $S_{\theta}$ quantifies pairwise similarity between augmented views. For any augmented view $u$ we denote ${z_{\theta}{(u)}} \triangleq {f_{\theta}{({g_{\theta}{(u)}})}}$ and ${z_{\xi}{(u)}} \triangleq {f_{\xi}{({g_{\xi}{(u)}})}}$. For given $\phi$ and $\psi$, we consider the normalized dot product
+In this subsection, we recast SimCLR and BYOL using the same formalism to better understand where the improvement of BYOL over SimCLR comes. Let us consider the following objective that extends the InfoNCE objective (see Section F.4), where $\alpha > 0$ is a fixed temperature, $\beta \in {\lbrack 0,1\rbrack}$ a weighting coefficient, $B$ the batch size, $v$ and $v'$ are batches of augmented views where for any batch index $i$, $v_{i}$ and $v_{i}'$ are augmented views from the same image; the real-valued function $S_{\theta}$ quantifies pairwise similarity between augmented views.
 
 <!-- chunk {"id": "body-0051", "role": "body", "section": "Ablation to contrastive methods", "weight": 1.0} -->
 
-Up to minor details (cf. Section F.5), we recover the SimCLR loss with ${\phi{(u_{1})}} = {z_{\theta}{(u_{1})}}$ (no predictor), ${\psi{(u_{2})}} = {z_{\theta}{(u_{2})}}$ (no target network) and $\beta = 1$. We recover the BYOL loss when using a predictor and a target network, *i.e.,* ${\phi{(u_{1})}} = {p_{\theta}\left( {z_{\theta}{(u_{1})}} \right)}$ and ${\psi{(u_{2})}} = {z_{\xi}{(u_{2})}}$ with $\beta = 0$. To evaluate the influence of the target network, the predictor and the coefficient $\beta$, we perform an ablation over them.
+We recover the BYOL loss when using a predictor and a target network, *i.e.,* ${\phi{(u_{1})}} = {p_{\theta}\left({z_{\theta}{(u_{1})}} \right)}$ and ${\psi{(u_{2})}} = {z_{\xi}{(u_{2})}}$ with $\beta = 0$. To evaluate the influence of the target network, the predictor and the coefficient $\beta$, we perform an ablation over them. Results are presented in Table 5(b) and more details are given in Section F.4.
 
 <!-- chunk {"id": "body-0052", "role": "body", "section": "Ablation to contrastive methods", "weight": 1.0} -->
 
-Results are presented in Table 5(b) and more details are given in Section F.4.
+The only variant that performs well without negative examples (i.e., with $\beta = 0$) is BYOL, using both a bootstrap target network and a predictor. Adding the negative pairs to BYOL's loss without re-tuning the temperature parameter hurts its performance. In Section F.4, we show that we can add back negative pairs and still match the performance of BYOL with proper tuning of the temperature.
 
 <!-- chunk {"id": "body-0053", "role": "body", "section": "Ablation to contrastive methods", "weight": 1.0} -->
 
-The only variant that performs well without negative examples (i.e., with $\beta = 0$) is BYOL, using both a bootstrap target network and a predictor. Adding the negative pairs to BYOL's loss without re-tuning the temperature parameter hurts its performance. In Section F.4, we show that we can add back negative pairs and still match the performance of BYOL with proper tuning of the temperature.
-
-<!-- chunk {"id": "body-0054", "role": "body", "section": "Ablation to contrastive methods", "weight": 1.0} -->
-
 Simply adding a target network to SimCLR already improves performance ($+ 1.6$ points). This sheds new light on the use of the target network in MoCo, where the target network is used to provide more negative examples. Here, we show that by mere stabilization effect, even when using the same number of negative examples, using a target network is beneficial. Finally, we observe that modifying the architecture of $S_{\theta}$ to include a predictor only mildly affects the performance of SimCLR.
 
-<!-- chunk {"id": "body-0055", "role": "body", "section": "Network hyperparameters", "weight": 1.0} -->
+<!-- chunk {"id": "body-0054", "role": "body", "section": "Network hyperparameters", "weight": 1.0} -->
 
 In Appendix F, we explore how other network parameters may impact BYOL's performance. We iterate over multiple weight decays, learning rates, and projector/encoder architectures to observe that small hyperparameter changes do not drastically alter the final score. We note that removing the weight decay in either BYOL or SimCLR leads to network divergence, emphasizing the need for weight regularization in the self-supervised setting. Furthermore, we observe that changing the scaling factor in the network initialization did not impact the performance (higher than $72\%$ top-$1$ accuracy).
 
-<!-- chunk {"id": "body-0056", "role": "body", "section": "Relationship with Mean Teacher", "weight": 1.0} -->
+<!-- chunk {"id": "body-0055", "role": "body", "section": "Relationship with Mean Teacher", "weight": 1.0} -->
 
 Another semi-supervised approach, Mean Teacher (MT), complements a supervised loss on few labels with an additional consistency loss. In, this consistency loss is the $\ell_{2}$ distance between the logits from a student network, and those of a temporally averaged version of the student network, called teacher. Removing the predictor in BYOL results in an unsupervised version of MT with no classification loss that uses image augmentations instead of the original architectural noise (e.g., dropout). This variant of BYOL collapses (Row 7 of Table 5) which suggests that the additional predictor is critical to prevent collapse in an unsupervised scenario.
 
-<!-- chunk {"id": "body-0057", "role": "body", "section": "Importance of a near-optimal predictor", "weight": 1.0} -->
+<!-- chunk {"id": "body-0056", "role": "body", "section": "Importance of a near-optimal predictor", "weight": 1.0} -->
 
 Table 5(b) already shows the importance of combining a predictor and a target network: the representation does collapse when either is removed. We further found that we can remove the target network without collapse by making the predictor near-optimal, either by (i) using an optimal *linear* predictor (obtained by linear regression on the current batch) before back-propagating the error through the network ($52.5\%$ top-1 accuracy), or (ii) increasing the learning rate of the predictor ($66.5\%$ top-1). By contrast, increasing the learning rates of both projector *and* predictor (without target network) yields poor results ($\approx {25\%}$ top-1). See Appendix I for more details. This seems to indicate that keeping the predictor near-optimal at all times is important to preventing collapse, which may be one of the roles of BYOL's target network.
 
-<!-- chunk {"id": "body-0058", "role": "body", "section": "Conclusion", "weight": 1.5} -->
+<!-- chunk {"id": "body-0057", "role": "body", "section": "Conclusion", "weight": 1.5} -->
 
 We introduced BYOL, a new algorithm for self-supervised learning of image representations. BYOL learns its representation by predicting previous versions of its outputs, without using negative pairs. We show that BYOL achieves state-of-the-art results on various benchmarks. In particular, under the linear evaluation protocol on ImageNet with a ResNet-$50$ ($1 \times$), BYOL achieves a new state of the art and bridges most of the remaining gap between self-supervised methods and the supervised learning baseline of. Using a ResNet-$200$ $(2 \times )$, BYOL reaches a top-$1$ accuracy of $79.6\%$ which improves over the previous state of the art ($76.8\%$) while using $30\%$ fewer parameters.
 
-<!-- chunk {"id": "body-0059", "role": "body", "section": "Conclusion", "weight": 1.5} -->
+<!-- chunk {"id": "body-0058", "role": "body", "section": "Conclusion", "weight": 1.5} -->
 
 Nevertheless, BYOL remains dependent on existing sets of augmentations that are specific to vision applications. To generalize BYOL to other modalities (e.g., audio, video, text,...) it is necessary to obtain similarly suitable augmentations for each of them. Designing such augmentations may require significant effort and expertise. Therefore, automating the search for these augmentations would be an important next step to generalize BYOL to other modalities.
 
-<!-- chunk {"id": "body-0060", "role": "body", "section": "Broader impact", "weight": 1.0} -->
+<!-- chunk {"id": "body-0059", "role": "body", "section": "Broader impact", "weight": 1.0} -->
 
 The presented research should be categorized as research in the field of unsupervised learning. This work may inspire new algorithms, theoretical, and experimental investigation. The algorithm presented here can be used for many different vision applications and a particular use may have both positive or negative impacts, which is known as the dual use problem. Besides, as vision datasets could be biased, the representation learned by BYOL could be susceptible to replicate these biases.

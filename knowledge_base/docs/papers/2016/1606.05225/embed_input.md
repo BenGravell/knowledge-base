@@ -16,7 +16,7 @@ While our O(depsilon^(-2)) is a fairly straightforward application of stochastic
 
 <!-- chunk {"id": "body-0004", "role": "body", "section": "Introduction", "weight": 1.5} -->
 
-This problem, also known as the *geometric median problem,* is well studied and has numerous applications. It is often considered over low dimensional spaces in the context of the facility location problem and over higher dimensional spaces it has applications to clustering in machine learning and data analysis. For example, computing the geometric median is a subroutine in popular expectation maximization heuristics for $k$-medians clustering.
+One of the oldest easily-stated nontrivial problems in computational geometry is the Fermat-Weber problem: given a set of $n$ points in $d$ dimensions ${a^{},\ldots,a^{(n)}} \in {\mathbb{R}}^{d}$, find a point $x_{\ast} \in {\mathbb{R}}^{d}$ that minimizes the sum of Euclidean distances to them: This problem, also known as the *geometric median problem,* is well studied and has numerous applications. It is often considered over low dimensional spaces in the context of the facility location problem and over higher dimensional spaces it has applications to clustering in machine learning and data analysis. For example, computing the geometric median is a subroutine in popular expectation maximization heuristics for $k$-medians clustering.
 
 <!-- chunk {"id": "body-0005", "role": "body", "section": "Introduction", "weight": 1.5} -->
 
@@ -66,156 +66,126 @@ Furthermore, Bose et al. gave a linear time algorithm for fixed $d$ and $\epsilo
 
 An approach very related to ours was studied by Xue and Ye. They give an interior point method with barrier analysis that runs in time $\overset{\sim}{O}{({{({d^{3} + {d^{2}n}})}\sqrt{n}{\log\epsilon^{- 1}}})}$.
 
-<!-- chunk {"id": "body-0017", "role": "body", "section": "Previous Work", "weight": 1.0} -->
+<!-- chunk {"id": "body-0017", "role": "body", "section": "Interior Point Primer", "weight": 1.0} -->
 
-$\overset{\sim}{O}\left( {{dn} \cdot \epsilon^{- 2}} \right)$
-Optimizes only over x in the input
+Our algorithm is broadly inspired by interior point methods, a broad class of methods for efficiently solving convex optimization problems. Given an instance of the geometric median problem we first put the problem in a more natural form for applying interior point methods. Rather than writing the problem as minimizing a convex function over ${\mathbb{R}}^{d}$ we instead write the problem as minimizing a linear function over a convex set: Clearly, these problems are the same as at optimality $\alpha_{i} = {\|{x^{(i)} - a^{(i)}}\|}_{2}$.
 
-<!-- chunk {"id": "body-0018", "role": "body", "section": "Previous Work", "weight": 1.0} -->
-
-Interior point with custom analysis
-
-<!-- chunk {"id": "body-0019", "role": "body", "section": "Interior Point Primer", "weight": 1.0} -->
-
-Our algorithm is broadly inspired by interior point methods, a broad class of methods for efficiently solving convex optimization problems. Given an instance of the geometric median problem we first put the problem in a more natural form for applying interior point methods. Rather than writing the problem as minimizing a convex function over ${\mathbb{R}}^{d}$
-
-<!-- chunk {"id": "body-0020", "role": "body", "section": "Interior Point Primer", "weight": 1.0} -->
+<!-- chunk {"id": "body-0018", "role": "body", "section": "Interior Point Primer", "weight": 1.0} -->
 
 To solve problems of the form (1.2 Time Algorithm ‣ 1 Introduction ‣ Geometric Median in Nearly Linear Time")) interior point methods replace the constraint ${\{\alpha,x\}} \in S$ through the introduction of a *barrier function*. In particular they assume that there is a real valued function $p$ such that as $\{\alpha,x\}$ moves towards the boundary of $S$ the value of $p$ goes to infinity. A popular class of interior point methods known as *path following methods*, they consider relaxations of (1.2 Time Algorithm ‣ 1 Introduction ‣ Geometric Median in Nearly Linear Time")) of the form ${\min_{{\{\alpha,x\}} \in {{\mathbb{R}}^{n} \times {\mathbb{R}}^{d}}}{{t \cdot 1^{\top}}\alpha}} + {p{(\alpha,x)}}$. The minimizers of this function form a path, known as the central path, parameterized by $t$.
 
-<!-- chunk {"id": "body-0021", "role": "body", "section": "Interior Point Primer", "weight": 1.0} -->
+<!-- chunk {"id": "body-0019", "role": "body", "section": "Interior Point Primer", "weight": 1.0} -->
 
 The methods then use variants of Newton's method to follow the path until $t$ is large enough that a high quality approximate solution is obtained. The number of iterations of these methods are then typically governed by a property of $p$ known as its self concordance $\nu$. Given a $\nu$-self concordant barrier, typically interior point methods require $O{({\sqrt{\nu}{\log\frac{1}{\epsilon}}})}$ iterations to compute a $({1 + \epsilon})$-approximate solution.
 
-<!-- chunk {"id": "body-0022", "role": "body", "section": "Difficulties", "weight": 1.0} -->
+<!-- chunk {"id": "body-0020", "role": "body", "section": "Difficulties", "weight": 1.0} -->
 
 Unfortunately obtaining a nearly linear time algorithm for geometric median using interior point methods as presented poses numerous difficulties. Particularly troubling is the number of iterations required by standard interior point algorithms. The approach outlined in the previous section produced an $O{(n)}$-self concordant barrier and even if we use more advanced self concordance machinery, i.e. the universal barrier, the best known self concordance of barrier for the convex set ${\sum_{i \in {\lbrack n\rbrack}}{\|{x - a^{(i)}}\|}_{2}} \leq c$ is $O{(d)}$. An interesting open question still left open by our work is to determine what is the minimal self concordance of a barrier for this set.
 
-<!-- chunk {"id": "body-0023", "role": "body", "section": "Difficulties", "weight": 1.0} -->
+<!-- chunk {"id": "body-0021", "role": "body", "section": "Difficulties", "weight": 1.0} -->
 
 Consequently, even if we could implement every iteration of an interior point scheme in nearly linear time it is unclear whether one should hope for a nearly linear time interior point algorithm for the geometric median. While there are a instances of outperforming standard self-concordance analysis, these instances are few, complex, and to varying degrees specialized to the problems they solve. Moreover, we are unaware of any interior point scheme providing a provable nearly linear time for a general nontrivial convex optimization problem.
 
-<!-- chunk {"id": "body-0024", "role": "body", "section": "Beyond Standard Interior Point", "weight": 1.0} -->
+<!-- chunk {"id": "body-0022", "role": "body", "section": "Beyond Standard Interior Point", "weight": 1.0} -->
 
 Despite these difficulties we do obtain a nearly linear time interior point based algorithm that only requires $O{({\log\frac{n}{\epsilon}})}$ iterations, i.e. increases to the path parameter. After choosing the natural penalty functions $p^{(i)}$ described above, we optimize in closed form over the $\alpha_{i}$ to obtain the following penalized objective function:^33^3It is unclear how to extend our proof for the simpler function: $\sum_{i \in {\lbrack n\rbrack}}\sqrt{1 + {t^{2}{\|{x - a^{(i)}}\|}_{2}^{2}}}$.
 
-<!-- chunk {"id": "body-0025", "role": "body", "section": "Beyond Standard Interior Point", "weight": 1.0} -->
+<!-- chunk {"id": "body-0023", "role": "body", "section": "Beyond Standard Interior Point", "weight": 1.0} -->
 
-So far our analysis is standard and interior point theory yields an $\Omega{(\sqrt{n})}$ iteration interior point scheme. To overcome this we take a more detailed look at $x_{t}$. We note that for any $t$ if there is any rapid change in $x_{t}$ it must occur in the direction of the smallest eigenvector of ${\nabla^{2}f_{t}}{(x)}$, denoted $v_{t}$, what we henceforth may refer to as the *bad direction* at $x_{t}.$ More precisely, for all directions $d \perp v_{t}$ it is the case that $d^{\top}{({x_{t} - x_{t^{\prime}}})}$ is small for $t^{\prime} \leq {ct}$ for a small constant $c$.
+So far our analysis is standard and interior point theory yields an $\Omega{(\sqrt{n})}$ iteration interior point scheme. To overcome this we take a more detailed look at $x_{t}$. We note that for any $t$ if there is any rapid change in $x_{t}$ it must occur in the direction of the smallest eigenvector of ${\nabla^{2}f_{t}}{(x)}$, denoted $v_{t}$, what we henceforth may refer to as the *bad direction* at $x_{t}.$ More precisely, for all directions $d \perp v_{t}$ it is the case that $d^{\top}{({x_{t} - x_{t'}})}$ is small for $t' \leq {ct}$ for a small constant $c$.
 
-<!-- chunk {"id": "body-0026", "role": "body", "section": "Beyond Standard Interior Point", "weight": 1.0} -->
+<!-- chunk {"id": "body-0024", "role": "body", "section": "Beyond Standard Interior Point", "weight": 1.0} -->
 
-In fact, we show that this movement over such a *long step,* i.e. a constant increase in $t$, in the directions orthogonal to the bad direction is small enough that for any movement around a ball of this size the Hessian of $f_{t}$ only changes by a small multiplicative constant. In short, starting at $x_{t}$ there exists a point $y$ obtained just by moving from $x_{t}$ in the bad direction, such that $y$ is close enough to $x_{t^{\prime}}$ that standard first order method will converge quickly to $x_{t^{\prime}}$! Thus, we might hope to find such a $y$, quickly converge to $x_{t^{\prime}}$ and repeat. If we increase $t$ by a multiplicative constant in every such iterations, standard interior point theory suggests that $O{({\log\frac{n}{\epsilon}})}$ iterations suffices.
+In fact, we show that this movement over such a *long step,* i.e. a constant increase in $t$, in the directions orthogonal to the bad direction is small enough that for any movement around a ball of this size the Hessian of $f_{t}$ only changes by a small multiplicative constant. In short, starting at $x_{t}$ there exists a point $y$ obtained just by moving from $x_{t}$ in the bad direction, such that $y$ is close enough to $x_{t'}$ that standard first order method will converge quickly to $x_{t'}$! Thus, we might hope to find such a $y$, quickly converge to $x_{t'}$ and repeat. If we increase $t$ by a multiplicative constant in every such iterations, standard interior point theory suggests that $O{({\log\frac{n}{\epsilon}})}$ iterations suffices.
+
+<!-- chunk {"id": "body-0025", "role": "body", "section": "Building an Algorithm", "weight": 1.0} -->
+
+To turn the structural result in the previous section into a fast algorithm there are several further issues we need to address. We need to \(1\) Show how to find the point along the bad direction that is close to $x_{t'}$ \(2\) Show how to solve linear systems in the Hessian to actually converge quickly to $x_{t'}$ \(3\) Show how to find the bad direction \(4\) Bound the accuracy required by these computations Deferring for the moment, our solution to the rest are relatively straightforward. Careful inspection of the Hessian of $f_{t}$ reveals that it is well approximated by a multiple of the identity matrix minus a rank 1 matrix. Consequently using explicit formulas for the inverse of of matrix under rank 1 updates, i.e. the Sherman-Morrison formula, we can solve such systems in nearly linear time thereby addressing. For, we show that the well known power method carefully applied to the Hessian yields the bad direction if it exists.
+
+<!-- chunk {"id": "body-0026", "role": "body", "section": "Building an Algorithm", "weight": 1.0} -->
+
+Finally, for we show that a constant approximate geometric median is near enough to the central path for $t = {\Theta{(\frac{1}{f{(x_{\ast})}})}}$ and that it suffices to compute a central path point at $t = {O{(\frac{n}{f{(x_{\ast})}\epsilon})}}$ to compute a $1 + \epsilon$-geometric median. Moreover, for these values of $t$, the precision needed in other operations is clear.
 
 <!-- chunk {"id": "body-0027", "role": "body", "section": "Building an Algorithm", "weight": 1.0} -->
 
-To turn the structural result in the previous section into a fast algorithm there are several further issues we need to address. We need to
+The more difficult operation is. Given $x_{t}$ and the bad direction exactly, it is still not clear how to find the point along the bad direction line from $x_{t}$ that is close to $x_{t'}$. Just performing binary search on the objective function a priori might not yield such a point due to discrepancies between a ball in Euclidean norm and a ball in hessian norm and the size of the distance from the optimal point in euclidean norm.
 
 <!-- chunk {"id": "body-0028", "role": "body", "section": "Building an Algorithm", "weight": 1.0} -->
 
-\(1\) Show how to find the point along the bad direction that is close to $x_{t^{\prime}}$
+To overcome this issue we still line search on the bad direction, however rather than simply using $f{({x_{t} + {\alpha \cdot v_{t}}})}$ as the objective function to line search, we use the function ${g{(\alpha)}} = {{\min_{{\|{x - x_{t} - {\alpha \cdot v_{t}}}\|}_{2} \leq c}f}{(x)}}$ for some constant $c$, that is given an $\alpha$ we move $\alpha$ in the bad direction and take the best objective function value in a ball around that point. For appropriate choice of $c$ the minimizers of $\alpha$ will include the optimal point we are looking. Moreover, we can show that $g$ is convex and that it suffices to perform the minimization approximately.
 
 <!-- chunk {"id": "body-0029", "role": "body", "section": "Building an Algorithm", "weight": 1.0} -->
 
-\(2\) Show how to solve linear systems in the Hessian to actually converge quickly to $x_{t^{\prime}}$
-
-<!-- chunk {"id": "body-0030", "role": "body", "section": "Building an Algorithm", "weight": 1.0} -->
-
-\(3\) Show how to find the bad direction
-
-<!-- chunk {"id": "body-0031", "role": "body", "section": "Building an Algorithm", "weight": 1.0} -->
-
-\(4\) Bound the accuracy required by these computations
-
-<!-- chunk {"id": "body-0032", "role": "body", "section": "Building an Algorithm", "weight": 1.0} -->
-
-Deferring for the moment, our solution to the rest are relatively straightforward. Careful inspection of the Hessian of $f_{t}$ reveals that it is well approximated by a multiple of the identity matrix minus a rank 1 matrix. Consequently using explicit formulas for the inverse of of matrix under rank 1 updates, i.e. the Sherman-Morrison formula, we can solve such systems in nearly linear time thereby addressing. For, we show that the well known power method carefully applied to the Hessian yields the bad direction if it exists. Finally, for we show that a constant approximate geometric median is near enough to the central path for $t = {\Theta{(\frac{1}{f{(x_{\ast})}})}}$ and that it suffices to compute a central path point at $t = {O{(\frac{n}{f{(x_{\ast})}\epsilon})}}$ to compute a $1 + \epsilon$-geometric median. Moreover, for these values of $t$, the precision needed in other operations is clear.
-
-<!-- chunk {"id": "body-0033", "role": "body", "section": "Building an Algorithm", "weight": 1.0} -->
-
-The more difficult operation is. Given $x_{t}$ and the bad direction exactly, it is still not clear how to find the point along the bad direction line from $x_{t}$ that is close to $x_{t^{\prime}}$. Just performing binary search on the objective function a priori might not yield such a point due to discrepancies between a ball in Euclidean norm and a ball in hessian norm and the size of the distance from the optimal point in euclidean norm.
-
-<!-- chunk {"id": "body-0034", "role": "body", "section": "Building an Algorithm", "weight": 1.0} -->
-
-To overcome this issue we still line search on the bad direction, however rather than simply using $f{({x_{t} + {\alpha \cdot v_{t}}})}$ as the objective function to line search, we use the function ${g{(\alpha)}} = {{\min_{{\|{x - x_{t} - {\alpha \cdot v_{t}}}\|}_{2} \leq c}f}{(x)}}$ for some constant $c$, that is given an $\alpha$ we move $\alpha$ in the bad direction and take the best objective function value in a ball around that point. For appropriate choice of $c$ the minimizers of $\alpha$ will include the optimal point we are looking. Moreover, we can show that $g$ is convex and that it suffices to perform the minimization approximately.
-
-<!-- chunk {"id": "body-0035", "role": "body", "section": "Building an Algorithm", "weight": 1.0} -->
-
 Putting these pieces together yields our result. We perform $O{({\log\frac{n}{\epsilon}})}$ iterations of interior point (i.e. increasing $t$), where in each iteration we spend $O{({nd{\log\frac{n}{\epsilon}}})}$ time to compute a high quality approximation to the bad direction, and then we perform $O{({\log\frac{n}{\epsilon}})}$ approximate evaluations on $g{(\alpha)}$ to binary search on the bad direction line, and then to approximately evaluate $g$ we perform gradient descent in approximate Hessian norm to high precision which again takes $O{({nd{\log\frac{n}{\epsilon}}})}$ time. Altogether this yields a $O{({nd{\log^{3}\frac{n}{\epsilon}}})}$ time algorithm to compute a $1 + \epsilon$ geometric median. Here we made minimal effort to improve the log factors and plan to investigate this further in future work.
 
-<!-- chunk {"id": "body-0036", "role": "body", "section": "Overview of $O{({d\\epsilon^{- 2}})}$ Time Algorithm", "weight": 1.0} -->
+<!-- chunk {"id": "body-0030", "role": "body", "section": "Overview of $O{({d\\epsilon^{- 2}})}$ Time Algorithm", "weight": 1.0} -->
 
 In addition to providing a nearly linear time algorithm we provide a stand alone result on quickly computing a crude $({1 + \epsilon})$-approximate geometric median in Section C. In particular, given an oracle for sampling a random $a^{(i)}$ we provide an $O{({d\epsilon^{- 2}})}$, i.e. sublinear, time algorithm that computes such an approximate median. Our algorithm for this result is fairly straightforward. First, we show that random sampling can be used to obtain some constant approximate information about the optimal point in constant time. In particular we show how this can be used to deduce an Euclidean ball which contains the optimal point. Second, we perform stochastic subgradient descent within this ball to achieve our desired result.
 
-<!-- chunk {"id": "body-0037", "role": "body", "section": "Paper Organization", "weight": 1.0} -->
+<!-- chunk {"id": "body-0031", "role": "body", "section": "Paper Organization", "weight": 1.0} -->
 
 The rest of the paper is structured as follows. After covering preliminaries in Section 2, in Section 3 we provide various results about the central path that we use to derive our nearly linear time algorithm. In Section 4 we then provide our nearly linear time algorithm. All the proofs and supporting lemmas for these sections are deferred to Appendix A ‣ Geometric Median in Nearly Linear Time") and Appendix B ‣ Geometric Median in Nearly Linear Time"). In Appendix C we provide our $O{({d/\epsilon^{2}})}$ algorithm, in Appendix D we provide the derivation of our penalized objective function, in Appendix E we provide general technical machinery we use throughout and in Appendix F we show how to extend our results to Weber's problem, i.e. weighted geometric median.
 
-<!-- chunk {"id": "body-0038", "role": "body", "section": "Penalized Objective Notation", "weight": 1.0} -->
+<!-- chunk {"id": "body-0032", "role": "body", "section": "Penalized Objective Notation", "weight": 1.0} -->
 
-To solve this problem, we smooth the objective function $f$ and instead consider the following family of *penalized objective functions* parameterized by $t > 0$
+To solve this problem, we smooth the objective function $f$ and instead consider the following family of *penalized objective functions* parameterized by $t > 0$ This penalized objective function is derived from a natural interior point formulation of the geometric median problem (See Section D). For all *path parameters* $t > 0$, we let $x_{t}\overset{def}{=}{{{\arg\min}_{x}f_{t}}{(x)}}$. Our primary goal is to obtain good approximations to the *central path* $\{ x_{t}:{t > 0}\}$ for increasing values of $t$.
 
-<!-- chunk {"id": "body-0039", "role": "body", "section": "Penalized Objective Notation", "weight": 1.0} -->
-
-This penalized objective function is derived from a natural interior point formulation of the geometric median problem (See Section D). For all *path parameters* $t > 0$, we let $x_{t}\overset{def}{=}{{{\arg\min}_{x}f_{t}}{(x)}}$. Our primary goal is to obtain good approximations to the *central path* $\{ x_{t}:{t > 0}\}$ for increasing values of $t$.
-
-<!-- chunk {"id": "body-0040", "role": "body", "section": "Properties of the Central Path", "weight": 1.0} -->
+<!-- chunk {"id": "body-0033", "role": "body", "section": "Properties of the Central Path", "weight": 1.0} -->
 
 Here provide various facts regarding the penalized objective function and the central path. While we use the lemmas in this section throughout the paper, the main contribution of this section is Lemma 5. ‣ 3.3 Where is the Next Optimal Point? ‣ 3 Properties of the Central Path ‣ Geometric Median in Nearly Linear Time") in Section 3.3. There we prove that with the exception of a single direction, the change in the central path is small over a constant multiplicative change in the path parameter. In addition, we show that our penalized objective function is stable under changes in a $O{(\frac{1}{t})}$ Euclidean ball (Section 3.1), we bound the change in the Hessian over the central path (Section 3.2), and we relate $f{(x_{t})}$ to $f{(x_{\ast})}$ (Section 3.4).
 
-<!-- chunk {"id": "body-0041", "role": "body", "section": "How Much Does the Hessian Change in General?", "weight": 1.0} -->
+<!-- chunk {"id": "body-0034", "role": "body", "section": "How Much Does the Hessian Change in General?", "weight": 1.0} -->
 
 Here, we show that the Hessian of the penalized objective function is stable under changes in a $O{(\frac{1}{t})}$ sized Euclidean ball. This shows that if we have a point which is close to a central path point in Euclidean norm, then we can use Newton method to find it.
 
-<!-- chunk {"id": "body-0042", "role": "body", "section": "How Much Does the Hessian Change Along the Path?", "weight": 1.0} -->
+<!-- chunk {"id": "body-0035", "role": "body", "section": "How Much Does the Hessian Change Along the Path?", "weight": 1.0} -->
 
 Here we bound how much the Hessian of the penalized objective function can change along the central path. First we provide the following lemma bound several aspects of the penalized objective function and proving that the weight, $w_{t}$, only changes by a small amount multiplicatively given small multiplicative changes in the path parameter, $t$.
 
-<!-- chunk {"id": "body-0043", "role": "body", "section": "Where is the Next Optimal Point?", "weight": 1.0} -->
+<!-- chunk {"id": "body-0036", "role": "body", "section": "Where is the Next Optimal Point?", "weight": 1.0} -->
 
 Here we prove our main result of this section. We prove that over a long step the central path moves very little in directions orthogonal to the smallest eigenvector of the Hessian. We begin by noting the Hessian is approximately a scaled identity minus a rank 1 matrix.
 
-<!-- chunk {"id": "body-0044", "role": "body", "section": "Where is the End?", "weight": 1.0} -->
+<!-- chunk {"id": "body-0037", "role": "body", "section": "Where is the End?", "weight": 1.0} -->
 
 In this section, we bound the quality of the central path with respect to the geometric median objective. In particular, we show that if we can solve the problem for some $t = \frac{2n}{\epsilonf{(x_{\ast})}}$ then we obtain an $({1 + \epsilon})$-approximate solution. As our algorithm ultimately starts from an initial $t = {{1/O}{({f{(x_{\ast})}})}}$ and increases $t$ by a multiplicative constant in every iteration, this yields an $O{({\log\frac{n}{\epsilon}})}$ iteration algorithm.
 
-<!-- chunk {"id": "body-0045", "role": "body", "section": "Nearly Linear Time Geometric Median", "weight": 1.0} -->
+<!-- chunk {"id": "body-0038", "role": "body", "section": "Nearly Linear Time Geometric Median", "weight": 1.0} -->
 
 Here we show how to use the structural results from the previous section to obtain a nearly linear time algorithm for computing the geometric median. Our algorithm follows a simple structure (See Algorithm 1). First we use simply average the $a^{(i)}$ to compute a 2-approximate median, denoted $x^{}$. Then for a number of iterations we repeatedly move closer to $x_{t}$ for some path parameter $t$, compute the minimum eigenvector of the Hessian, and line search in that direction to find an approximation to a point further along the central path. Ultimately, this yields a point $x^{(k)}$ that is precise enough approximation to a point along the central path with large enough $t$ that we can simply out $x^{(k)}$ as our $({1 + \epsilon})$-approximate geometric median.
 
-<!-- chunk {"id": "body-0046", "role": "body", "section": "Nearly Linear Time Geometric Median", "weight": 1.0} -->
+<!-- chunk {"id": "body-0039", "role": "body", "section": "Nearly Linear Time Geometric Median", "weight": 1.0} -->
 
-// Compute ϵv-approximate minimum eigenvalue and eigenvector of ∇2fti (x(i))
+// Iteratively improve quality of approximation Let $k = {\max_{i \in {\mathbb{Z}}}t_{i}} \leq {\overset{\sim}{t}}_{\ast}$ // Compute ϵv-approximate minimum eigenvalue and eigenvector of ∇2fti (x(i)) // Line search to find x(i + 1) such that ${\|{x^{({i + 1})} - x_{t_{i + 1}}}\|}_{2} \leq \frac{\epsilon_{c}}{t_{i + 1}}$ Output: ϵ-approximate geometric median x(k + 1).
 
-<!-- chunk {"id": "body-0047", "role": "body", "section": "Nearly Linear Time Geometric Median", "weight": 1.0} -->
+<!-- chunk {"id": "body-0040", "role": "body", "section": "Nearly Linear Time Geometric Median", "weight": 1.0} -->
 
 We split the remainder of the algorithm specification and its analysis into several parts. First in Section 4.1 we show how to compute an approximate minimum eigenvector and eigenvalue of the Hessian of the penalized objective function. Then in Section 4.2 we show how to use this eigenvector to line search for the next central path point. Finally, in Section 4.3 we put these results together to obtain our nearly linear time algorithm. Throughout this section we will want an upper bound to $f{(x_{\ast})}$ and a slight lower bound on $\epsilon$, the geometric median accuracy we are aiming. We use an easily computed ${\overset{\sim}{f}}_{\ast} \leq {2f{(x_{\ast})}}$ for the former and ${\overset{\sim}{\epsilon}}_{\ast} = {\frac{1}{3}\epsilon}$ throughout the section.
 
-<!-- chunk {"id": "body-0048", "role": "body", "section": "Eigenvector Computation and Hessian Approximation", "weight": 1.0} -->
+<!-- chunk {"id": "body-0041", "role": "body", "section": "Eigenvector Computation and Hessian Approximation", "weight": 1.0} -->
 
 Here we show how to compute the minimum eigenvector of ${\nabla^{2}f_{t}}{(x)}$ and thereby obtain a concise approximation to ${\nabla^{2}f_{t}}{(x)}$. Our main algorithmic tool is the well known power method and the fact that it converges quickly on a matrix with a large eigenvalue gap. To improve our logarithmic terms we need a slightly non-standard analysis of the method and therefore we provide and analyze this method for completeness in Section B.1 ‣ Geometric Median in Nearly Linear Time"). Using this tool we estimate the top eigenvector as follows.
 
-<!-- chunk {"id": "body-0049", "role": "body", "section": "Line Searching", "weight": 1.0} -->
+<!-- chunk {"id": "body-0042", "role": "body", "section": "Line Searching", "weight": 1.0} -->
 
 Here we show how to line search along the bad direction to find the next point on the central path. Unfortunately, simply performing binary search on objective function directly may not suffice. If we search over $\alpha$ to minimize $f_{t_{i + 1}}{({y^{(i)} + {\alphav^{(i)}}})}$ it is unclear if we actually obtain a point close to $x_{t + 1}$. It might be the case that even after minimizing $\alpha$ we would be unable to move towards $x_{t + 1}$ efficiently.
 
-<!-- chunk {"id": "body-0050", "role": "body", "section": "Line Searching", "weight": 1.0} -->
+<!-- chunk {"id": "body-0043", "role": "body", "section": "Line Searching", "weight": 1.0} -->
 
-To overcome this difficulty, we use the fact that over the region ${\|{x - y}\|}_{2} = {O{(\frac{1}{t})}}$ the Hessian changes by at most a constant and therefore we can minimize $f_{t}{(x)}$ over this region extremely quickly. Therefore, we instead line search on the following function
+To overcome this difficulty, we use the fact that over the region ${\|{x - y}\|}_{2} = {O{(\frac{1}{t})}}$ the Hessian changes by at most a constant and therefore we can minimize $f_{t}{(x)}$ over this region extremely quickly. Therefore, we instead line search on the following function and use that we can evaluate $g_{t,y,v}{(\alpha)}$ approximately by using an appropriate centering procedure. We can show (See Lemma 30) that $g_{t,y,v}{(\alpha)}$ is convex and therefore we can minimize it efficiently just by doing an appropriate binary search. By finding the approximately minimizing $\alpha$ and outputting the corresponding approximately minimizing $x$, we can obtain $x^{({i + 1})}$ that is close enough to $x_{t_{i + 1}}$.
 
-<!-- chunk {"id": "body-0051", "role": "body", "section": "Line Searching", "weight": 1.0} -->
+<!-- chunk {"id": "body-0044", "role": "body", "section": "Line Searching", "weight": 1.0} -->
 
-and use that we can evaluate $g_{t,y,v}{(\alpha)}$ approximately by using an appropriate centering procedure. We can show (See Lemma 30) that $g_{t,y,v}{(\alpha)}$ is convex and therefore we can minimize it efficiently just by doing an appropriate binary search. By finding the approximately minimizing $\alpha$ and outputting the corresponding approximately minimizing $x$, we can obtain $x^{({i + 1})}$ that is close enough to $x_{t_{i + 1}}$. For notational convenience, we simply write $g{(\alpha)}$ if $t,y,v$ is clear from the context.
+For notational convenience, we simply write $g{(\alpha)}$ if $t,y,v$ is clear from the context.
 
-<!-- chunk {"id": "body-0052", "role": "body", "section": "Line Searching", "weight": 1.0} -->
+<!-- chunk {"id": "body-0045", "role": "body", "section": "Line Searching", "weight": 1.0} -->
 
 First, we show how we can locally center and provide error analysis for that algorithm.
 
-<!-- chunk {"id": "body-0053", "role": "body", "section": "Line Searching", "weight": 1.0} -->
+<!-- chunk {"id": "body-0046", "role": "body", "section": "Line Searching", "weight": 1.0} -->
 
-Input: Point y ∈ ℝd, path parameter t &gt; 0, target accuracy ϵ &gt; 0.
-for ${i = {1,\ldots}},{k = {64{\log\frac{1}{\epsilon}}}}$ do
+Input: Point y ∈ ℝd, path parameter t > 0, target accuracy ϵ > 0. for ${i = {1,\ldots}},{k = {64{\log\frac{1}{\epsilon}}}}$ do
 
-<!-- chunk {"id": "body-0054", "role": "body", "section": "Putting It All Together", "weight": 1.0} -->
+<!-- chunk {"id": "body-0047", "role": "body", "section": "Putting It All Together", "weight": 1.0} -->
 
 Combining the results of the previous sections, we prove our main theorem.

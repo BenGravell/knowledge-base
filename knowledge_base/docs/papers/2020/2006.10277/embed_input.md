@@ -14,302 +14,220 @@ The estimation of nonlinear dynamical systems with continuous states and inputs 
 
 <!-- chunk {"id": "body-0004", "role": "body", "section": "Introduction", "weight": 1.5} -->
 
-Inspired by experimental design and active learning, we present a data collection scheme that is guaranteed to enable system identification in finite time. Our method applies to dynamical systems whose transitions depend linearly on a known feature embedding of state-input pairs. This class of models can capture many types of systems and is used widely in system identification. For example, Ng et al. used such a model to estimate the dynamics of a helicopter and Brunton et al. showed that sparse linear regression of polynomial and trigonometric feature embeddings can be used to fit models of the chaotic Lorentz system and of a fluid shedding behind an obstacle.
+Inspired by experimental design and active learning, we present a data collection scheme that is guaranteed to enable system identification in finite time. Our method applies to dynamical systems whose transitions depend linearly on a known feature embedding of state-input pairs. This class of models can capture many types of systems and is used widely in system identification. For example, Ng et al. used such a model to estimate the dynamics of a helicopter and Brunton et al. showed that sparse linear regression of polynomial and trigonometric feature embeddings can be used to fit models of the chaotic Lorentz system and of a fluid shedding behind an obstacle. These models can be parametrized as follows: where $\mathbf{x}_{t}$ and $\mathbf{u}_{t}$ are the state and input of the system at time $t$, and $\mathbf{w}_{t}$ is stochastic noise. The feature map $\phi$ is assumed known and the goal is to estimate $A_{\star}$ from one trajectory by choosing a good sequence of inputs.
 
 <!-- chunk {"id": "body-0005", "role": "body", "section": "Introduction", "weight": 1.5} -->
 
-where $\mathbf{x}_{t}$ and $\mathbf{u}_{t}$ are the state and input of the system at time $t$, and $\mathbf{w}_{t}$ is stochastic noise. The feature map $\phi$ is assumed known and the goal is to estimate $A_{\star}$ from one trajectory by choosing a good sequence of inputs. The input $\mathbf{u}_{t}$ is allowed to depend on the history of states ${\{\mathbf{x}_{j}\}}_{j = 0}^{t}$ and is independent of $\mathbf{w}_{t}$.
+The class of systems contains any linear system, with fully observed states, when the features include the states and inputs of the system. Moreover, any piecewise affine (PWA) system can be expressed using if the support of its pieces is known. First introduced by Sontag as an approximation of nonlinear systems, PWA systems are a popular model of hybrid systems and have been successfully used in a wide range of applications.
 
 <!-- chunk {"id": "body-0006", "role": "body", "section": "Introduction", "weight": 1.5} -->
 
-The class of systems contains any linear system, with fully observed states, when the features include the states and inputs of the system. Moreover, any piecewise affine (PWA) system can be expressed using if the support of its pieces is known. First introduced by Sontag as an approximation of nonlinear systems, PWA systems are a popular model of hybrid systems and have been successfully used in a wide range of applications.
+While linear dynamical systems can be estimated from one trajectory produced by i.i.d. random inputs, the following example shows that this is not possible for PWA systems.
 
 <!-- chunk {"id": "body-0007", "role": "body", "section": "Introduction", "weight": 1.5} -->
 
-While linear dynamical systems can be estimated from one trajectory produced by i.i.d. random inputs, the following example shows that this is not possible for PWA systems.
+Example 1. Let us consider the feature map $\phi:{{{\mathbb{R}}^{d} \times {\mathbb{R}}^{d}}\rightarrow{\mathbb{R}}^{3d}}$ defined: where $\mathbb{1}{\{ \cdot \}}$ is the indicator function and the multiplication with $\mathbf{x}$ is coordinatewise. We assume there is no process noise and let $A_{\star} = \begin{bmatrix} \end{bmatrix}$ for some $d \times d$ matrix $A_{2}$ and the $d \times d$ identity matrix $I_{d}$. Also, we assume $\mathbf{x}_{0} = 0$.
 
 <!-- chunk {"id": "body-0008", "role": "body", "section": "Introduction", "weight": 1.5} -->
 
-where $\mathbb{1}{\{ \cdot \}}$ is the indicator function and the multiplication with $\mathbf{x}$ is coordinatewise. We assume there is no process noise and let $A_{\star} = \begin{bmatrix}
-\end{bmatrix}$ for some $d \times d$ matrix $A_{2}$ and the $d \times d$ identity matrix $I_{d}$. Also, we assume $\mathbf{x}_{0} = 0$.
+Then, since the inputs to the system can have magnitude at most $1$, the state of the system can have magnitude larger than $3/2$ only if consecutive inputs point in the same direction. However, the probability that two or more random vectors, uniformly distributed on the unit sphere, point in the same direction is exponentially small in the dimension $d$. Therefore, if we used random inputs, we would have to wait for a long time in order to reach a state with magnitude larger than $3/2$.
 
 <!-- chunk {"id": "body-0009", "role": "body", "section": "Introduction", "weight": 1.5} -->
 
-Then, since the inputs to the system can have magnitude at most $1$, the state of the system can have magnitude larger than $3/2$ only if consecutive inputs point in the same direction. However, the probability that two or more random vectors, uniformly distributed on the unit sphere, point in the same direction is exponentially small in the dimension $d$. Therefore, if we used random inputs, we would have to wait for a long time in order to reach a state with magnitude larger than $3/2$.
+On the other hand, if we chose a sequence of inputs $\mathbf{u}_{t} = \mathbf{u}$ for a fixed unit vector $\mathbf{u}$, we would be guaranteed to reach a state with norm larger than $3/2$ in a couple of steps. Hence, despite the input constraint, we would be able to reach the region ${\parallel\mathbf{x}\parallel} > {3/2}$ with a good choice of inputs. $\square$ Therefore, the estimation of requires a judicious choice of inputs. To address this challenge we propose a method based on trajectory planning. At a high level, our method repeats the following three steps: Given past observations and an estimate $\hat{A}$, our method plans a reference trajectory from the current state of the system to a high uncertainty region of the feature space.
 
 <!-- chunk {"id": "body-0010", "role": "body", "section": "Introduction", "weight": 1.5} -->
 
-On the other hand, if we chose a sequence of inputs $\mathbf{u}_{t} = \mathbf{u}$ for a fixed unit vector $\mathbf{u}$, we would be guaranteed to reach a state with norm larger than $3/2$ in a couple of steps. Hence, despite the input constraint, we would be able to reach the region ${\parallel\mathbf{x}\parallel} > {3/2}$ with a good choice of inputs. $\square$
+Then, our method attempts to track the reference trajectory using $\hat{A}$.
 
 <!-- chunk {"id": "body-0011", "role": "body", "section": "Introduction", "weight": 1.5} -->
 
-Therefore, the estimation of requires a judicious choice of inputs. To address this challenge we propose a method based on trajectory planning.
+Finally, using all data collected so far, our method re-estimates $\hat{A}$.
 
 <!-- chunk {"id": "body-0012", "role": "body", "section": "Introduction", "weight": 1.5} -->
 
-Given past observations and an estimate $\hat{A}$, our method plans a reference trajectory from the current state of the system to a high uncertainty region of the feature space.
+The ability to find reference trajectories from a given state to a desired goal set is related to the notion of controllability, a standard notion in control theory. A system is called *controllable* if it is possible to take the system from any state to any other state in a finite number of steps by using an appropriate sequence of inputs. In our case, a system is considered more controllable the bigger we can make the inner product between the system's features and goal directions in feature space. The number of time steps required to obtain a large inner product is called *planning horizon*.
 
 <!-- chunk {"id": "body-0013", "role": "body", "section": "Introduction", "weight": 1.5} -->
 
-Then, our method attempts to track the reference trajectory using $\hat{A}$.
-
-<!-- chunk {"id": "body-0014", "role": "body", "section": "Introduction", "weight": 1.5} -->
-
-Finally, using all data collected so far, our method re-estimates $\hat{A}$.
-
-<!-- chunk {"id": "body-0015", "role": "body", "section": "Introduction", "weight": 1.5} -->
-
-The ability to find reference trajectories from a given state to a desired goal set is related to the notion of controllability, a standard notion in control theory. A system is called *controllable* if it is possible to take the system from any state to any other state in a finite number of steps by using an appropriate sequence of inputs. In our case, a system is considered more controllable the bigger we can make the inner product between the system's features and goal directions in feature space. The number of time steps required to obtain a large inner product is called *planning horizon*.
-
-<!-- chunk {"id": "body-0016", "role": "body", "section": "Introduction", "weight": 1.5} -->
-
 The controllability of the system and the planning horizon are system dependent properties that influence our ability to estimate the system. Intuitively, the more controllable a system is, the easier it is to collect the data we need to estimate it. The following informal version of our main result clarifies this relationship.
 
-<!-- chunk {"id": "body-0017", "role": "body", "section": "Assumptions", "weight": 1.0} -->
+<!-- chunk {"id": "body-0014", "role": "body", "section": "Assumptions", "weight": 1.0} -->
 
 To guarantee the estimation of we must make several assumptions about the true system we are trying to identify. We denote the dimensions of the states and inputs by $d$ and $p$ respectively. The feature map $\phi$ maps state-action pairs to feature vectors in ${\mathbb{R}}^{k}$.
 
-<!-- chunk {"id": "body-0018", "role": "body", "section": "Assumptions", "weight": 1.0} -->
+<!-- chunk {"id": "body-0015", "role": "body", "section": "Assumptions", "weight": 1.0} -->
 
 The main challenge in the estimation of is choosing inputs $\mathbf{u}_{t}$ so that the minimal singular value of the design matrix is $\Omega{(\sqrt{T})}$, where $T$ is the length of the trajectory collected from the system. To reliably achieve this we must assume the feature map $\phi$ has some degree of smoothness. Without a smoothness assumption the noise term $\mathbf{w}_{t}$ at time $t$ might affect the feature vector $\phi{(\mathbf{x}_{t + 1},\mathbf{u}_{t + 1})}$ at time $t + 1$ in arbitrary ways, regardless of the choice of input at time $t$.
 
-<!-- chunk {"id": "body-0019", "role": "body", "section": "Assumptions", "weight": 1.0} -->
+<!-- chunk {"id": "body-0016", "role": "body", "section": "Assumptions", "weight": 1.0} -->
 
 Assumption 1. The map $\phi:{{{\mathbb{R}}^{d} \times {\mathbb{B}}_{r_{u}}^{p}}\rightarrow{\mathbb{R}}^{k}}$ is $L$-Lipschitz^11^1Since $\phi$ is continuous and since $\mathbf{u}$ lies in a compact set, we know that any continuous function of $\phi{(\mathbf{x},\mathbf{u})}$ achieves its maximum and minimum with respect to $\mathbf{u}$. This is the only reason we assume the inputs to the system are bounded. Alternatively, we could let the inputs be unbounded and work with approximate maximizers and minimizers..
 
-<!-- chunk {"id": "body-0020", "role": "body", "section": "Assumptions", "weight": 1.0} -->
+<!-- chunk {"id": "body-0017", "role": "body", "section": "Assumptions", "weight": 1.0} -->
 
 In order to use known techniques for the analysis of online linear least squares we also assume that the feature map $\phi$ is bounded. For some classes of systems (e.g. certain linear systems) this condition can be removed.
 
-<!-- chunk {"id": "body-0021", "role": "body", "section": "Assumptions", "weight": 1.0} -->
+<!-- chunk {"id": "body-0018", "role": "body", "section": "Assumptions", "weight": 1.0} -->
 
-This assumption implies that the states of the system are bounded, a consequence which can be limiting in some applications. To address this issue we could work with the system
+This assumption implies that the states of the system are bounded, a consequence which can be limiting in some applications. To address this issue we could work with the system instead. In this case, $\phi$ being bounded implies that the increments $\mathbf{x}_{t + 1} - \mathbf{x}_{t}$ are bounded, allowing the states to grow in magnitude. However, formulation complicates the exposition so we choose to focus.
 
-<!-- chunk {"id": "body-0022", "role": "body", "section": "Assumptions", "weight": 1.0} -->
-
-instead. In this case, $\phi$ being bounded implies that the increments $\mathbf{x}_{t + 1} - \mathbf{x}_{t}$ are bounded, allowing the states to grow in magnitude. However, formulation complicates the exposition so we choose to focus.
-
-<!-- chunk {"id": "body-0023", "role": "body", "section": "Assumptions", "weight": 1.0} -->
+<!-- chunk {"id": "body-0019", "role": "body", "section": "Assumptions", "weight": 1.0} -->
 
 To ensure that tracking is possible we assume that there always exists an input to the true system that can keep the tracking error small. There are multiple ways to formalize such an assumption. We make the following choice.
 
-<!-- chunk {"id": "body-0024", "role": "body", "section": "Assumptions", "weight": 1.0} -->
+<!-- chunk {"id": "body-0020", "role": "body", "section": "Assumptions", "weight": 1.0} -->
 
-In other words, Assumption 2 allows us to find an input $\mathbf{u}_{t}$ such that the tracking error $\parallel{\mathbf{x}_{t + 1} - \mathbf{x}_{t + 1}^{R}}\parallel$ is upper bounded in terms of noise $\mathbf{w}_{t}$ and the tracking error at time $t$. By induction, Assumption 2 guarantees the existence of inputs to the system such that
+By induction, Assumption 2 guarantees the existence of inputs to the system such that Hence, when $\gamma < 1$ we can choose a sequence of inputs such that the state $\mathbf{x}_{H}$ at time $H$ is close to $\mathbf{x}_{H}^{R}$, as long as the process noise is well behaved.
 
-<!-- chunk {"id": "body-0025", "role": "body", "section": "Assumptions", "weight": 1.0} -->
+<!-- chunk {"id": "body-0021", "role": "body", "section": "Assumptions", "weight": 1.0} -->
 
-Hence, when $\gamma < 1$ we can choose a sequence of inputs such that the state $\mathbf{x}_{H}$ at time $H$ is close to $\mathbf{x}_{H}^{R}$, as long as the process noise is well behaved.
+Note that in Assumption 2 we allow $\gamma \geq 1$. However, we pay a price when $\gamma$ is large. The larger $\gamma$ is the more stringent the next assumptions become. Finally, we note that the parameter $b_{u}$ appearing in Assumption 2 makes it easier for systems to satisfy the assumption than requiring that holds for all $\mathbf{u}'$.
 
-<!-- chunk {"id": "body-0026", "role": "body", "section": "Assumptions", "weight": 1.0} -->
+<!-- chunk {"id": "body-0022", "role": "body", "section": "Assumptions", "weight": 1.0} -->
 
-Note that in Assumption 2 we allow $\gamma \geq 1$. However, we pay a price when $\gamma$ is large. The larger $\gamma$ is the more stringent the next assumptions become. Finally, we note that the parameter $b_{u}$ appearing in Assumption 2 makes it easier for systems to satisfy the assumption than requiring that holds for all $\mathbf{u}^{\prime}$.
+To estimate we must collect measurements of state transitions from feature vectors that point in different directions. To ensure that such data can be collected from the system we must assume that there exist sequences of actions which take the dynamical system from a given state to some desired direction in feature space. This type of assumption is akin to the notion of controllability, which is standard in control theory. For example, a linear system $\mathbf{x}_{t + 1} = {{A\mathbf{x}_{t}} + {B\mathbf{u}_{t}}}$ is said to be controllable when the matrix $\begin{bmatrix} \end{bmatrix}$ has full row rank. The interested reader can easily check that for a controllable linear system it is possible to get from any state to any other state in $d$ steps by appropriately choosing a sequence of inputs.
 
-<!-- chunk {"id": "body-0027", "role": "body", "section": "Assumptions", "weight": 1.0} -->
-
-To estimate we must collect measurements of state transitions from feature vectors that point in different directions. To ensure that such data can be collected from the system we must assume that there exist sequences of actions which take the dynamical system from a given state to some desired direction in feature space. This type of assumption is akin to the notion of controllability, which is standard in control theory. For example, a linear system $\mathbf{x}_{t + 1} = {{A\mathbf{x}_{t}} + {B\mathbf{u}_{t}}}$ is said to be controllable when the matrix $\begin{bmatrix}
-\end{bmatrix}$ has full row rank. The interested reader can easily check that for a controllable linear system it is possible to get from any state to any other state in $d$ steps by appropriately choosing a sequence of inputs.
-
-<!-- chunk {"id": "body-0028", "role": "body", "section": "Assumptions", "weight": 1.0} -->
+<!-- chunk {"id": "body-0023", "role": "body", "section": "Assumptions", "weight": 1.0} -->
 
 This notion of controllability can be extended to a class of nonlinear systems, called control affine systems, through the use of Lie brackets. We require a different notion of controllability. Namely, we assume that in the absence of process noise we can take the system from any state to a feature vector that aligns sufficiently with a desired direction in feature space.
 
-<!-- chunk {"id": "body-0029", "role": "body", "section": "Assumptions", "weight": 1.0} -->
+<!-- chunk {"id": "body-0024", "role": "body", "section": "Assumptions", "weight": 1.0} -->
 
 If the assumption is satisfied for some horizon $H$, it is clear that it is also satisfied for larger horizons. Moreover, one expects that a larger horizon $H$ allows a larger controllability parameter $\alpha$. As discussed in the introduction, the larger $H$ is, the weaker our guarantee on estimation will be. However, the larger $\alpha$ is, the better our guarantee on estimation will be. Therefore, there is a tension between $\alpha$ and $H$ in our final result.
 
-<!-- chunk {"id": "body-0030", "role": "body", "section": "Assumptions", "weight": 1.0} -->
+<!-- chunk {"id": "body-0025", "role": "body", "section": "Assumptions", "weight": 1.0} -->
 
 Assumptions 2 to 2 impose many constraints. Therefore, it is important to give examples of nonlinear dynamical systems that satisfy these assumptions. We give two simple examples. First we present a synthetic example for which it is easy to check that it satisfies all the assumptions, and then we discuss the simple pendulum.
 
+<!-- chunk {"id": "body-0026", "role": "body", "section": "Assumptions", "weight": 1.0} -->
+
+Example 2. Smoothed Piecewise Linear System When the support sets of the different pieces are known, piecewise affine systems can be easily expressed as. However, the feature map $\phi$ would not be continuous. In this example, we present a smoothed version of a PWA system, which admits a $1$-Lipschitz feature map.
+
+<!-- chunk {"id": "body-0027", "role": "body", "section": "Assumptions", "weight": 1.0} -->
+
+Then, we define the feature map $\phi:{{\mathbb{R}}^{2d}\rightarrow{\mathbb{R}}^{3d}}$ as follows where $x_{1}$ denotes the first coordinate of $\mathbf{x}$. Now, let us consider the following dynamical system: where $A_{1}$ and $A_{2}$ are two unknown $d \times d$ matrices. For the purpose of this example we can assume the noise $\mathbf{w}_{t}$ is zero almost surely.
+
+<!-- chunk {"id": "body-0028", "role": "body", "section": "Assumptions", "weight": 1.0} -->
+
+To better understand the system note that when ${\parallel\mathbf{x}_{t}\parallel} \leq b_{x}$ and ${\parallel\mathbf{u}_{t}\parallel} \leq r_{u}$ we have By construction, the feature map of the system is $1$-Lipschitz and bounded. Therefore, satisfies Assumptions 2, and 2. We are left to show that we can choose $A_{1}$, $A_{2}$, $b_{x}$, and $r_{u}$ so that satisfies Assumptions 2 and 2 as well.
+
+<!-- chunk {"id": "body-0029", "role": "body", "section": "Assumptions", "weight": 1.0} -->
+
+It is easy to convince oneself that if $b_{x} > {2\sqrt{2}}$, Assumptions 2 and 2 hold for any $A_{1}$ and $A_{2}$ as long as $r_{u}$ is sufficiently large relative to $A_{1}$, $A_{2}$, and $b_{x}$. In fact, if $r_{u}$ is sufficiently large, Assumption 2 is satisfied with $\gamma = 0$. $\square$ Example 3. Simple Pendulum We know that the dynamics of a simple pendulum in continuous time are described by the equation where $\theta{(t)}$ is the angle of the pendulum at time $t$, $m$ is the mass of the pendulum, $\ell$ is its length, $b$ is a friction coefficient, and $g$ is the gravitational acceleration.
+
+<!-- chunk {"id": "body-0030", "role": "body", "section": "Assumptions", "weight": 1.0} -->
+
+Then, if we discretize according to Euler's method ^22^2Using a more refined discretization method, such as a Runge-Kutta method, would be more appropriate. Sadly, such discretization methods yield a discrete time system which cannot be easily put in the form. with step size $h$ and assume stochastic process noise, we obtain the two dimensional system: where $x_{t1}$ and $x_{t2}$ are the coordinates of $\mathbf{x}_{t}$ and $a_{1}$, $a_{2}$, and $a_{3}$ are unknown real values. The first coordinate of $\mathbf{x}_{t}$ represents the angular velocity of the pendulum at time $t$, while the second coordinate represents the angle of the pendulum. Therefore, to put the inverted pendulum in the form of we can consider the feature map It can be easily checked that this feature map is $1$-Lipschitz.
+
 <!-- chunk {"id": "body-0031", "role": "body", "section": "Assumptions", "weight": 1.0} -->
-
-Example 2. Smoothed Piecewise Linear System When the support sets of the different pieces are known, piecewise affine systems can be easily expressed as. However, the feature map $\phi$ would not be continuous. In this example, we present a smoothed version of a PWA system, which admits a $1$-Lipschitz feature map. Let $f:{{\mathbb{R}}\rightarrow{\mathbb{R}}}$ be defined by
-
-<!-- chunk {"id": "body-0032", "role": "body", "section": "Assumptions", "weight": 1.0} -->
-
-where $x_{1}$ denotes the first coordinate of $\mathbf{x}$.
-
-<!-- chunk {"id": "body-0033", "role": "body", "section": "Assumptions", "weight": 1.0} -->
-
-where $A_{1}$ and $A_{2}$ are two unknown $d \times d$ matrices. For the purpose of this example we can assume the noise $\mathbf{w}_{t}$ is zero almost surely.
-
-<!-- chunk {"id": "body-0034", "role": "body", "section": "Assumptions", "weight": 1.0} -->
-
-By construction, the feature map of the system is $1$-Lipschitz and bounded. Therefore, satisfies Assumptions 2, and 2. We are left to show that we can choose $A_{1}$, $A_{2}$, $b_{x}$, and $r_{u}$ so that satisfies Assumptions 2 and 2 as well.
-
-<!-- chunk {"id": "body-0035", "role": "body", "section": "Assumptions", "weight": 1.0} -->
-
-It is easy to convince oneself that if $b_{x} > {2\sqrt{2}}$, Assumptions 2 and 2 hold for any $A_{1}$ and $A_{2}$ as long as $r_{u}$ is sufficiently large relative to $A_{1}$, $A_{2}$, and $b_{x}$. In fact, if $r_{u}$ is sufficiently large, Assumption 2 is satisfied with $\gamma = 0$. $\square$
-
-<!-- chunk {"id": "body-0036", "role": "body", "section": "Assumptions", "weight": 1.0} -->
-
-Example 3. Simple Pendulum We know that the dynamics of a simple pendulum in continuous time are described by the equation
-
-<!-- chunk {"id": "body-0037", "role": "body", "section": "Assumptions", "weight": 1.0} -->
-
-where $\theta{(t)}$ is the angle of the pendulum at time $t$, $m$ is the mass of the pendulum, $\ell$ is its length, $b$ is a friction coefficient, and $g$ is the gravitational acceleration.
-
-<!-- chunk {"id": "body-0038", "role": "body", "section": "Assumptions", "weight": 1.0} -->
-
-Then, if we discretize according to Euler's method ^22^2Using a more refined discretization method, such as a Runge-Kutta method, would be more appropriate. Sadly, such discretization methods yield a discrete time system which cannot be easily put in the form.
-
-<!-- chunk {"id": "body-0039", "role": "body", "section": "Assumptions", "weight": 1.0} -->
-
-where $x_{t1}$ and $x_{t2}$ are the coordinates of $\mathbf{x}_{t}$ and $a_{1}$, $a_{2}$, and $a_{3}$ are unknown real values. The first coordinate of $\mathbf{x}_{t}$ represents the angular velocity of the pendulum at time $t$, while the second coordinate represents the angle of the pendulum. Therefore, to put the inverted pendulum in the form of we can consider the feature map
-
-<!-- chunk {"id": "body-0040", "role": "body", "section": "Assumptions", "weight": 1.0} -->
-
-It can be easily checked that this feature map is $1$-Lipschitz. While it is not bounded, if pendulum experiences friction, we can ensure the feature values stay bounded by clipping the inputs $\mathbf{u}_{t}$, i.e. replace $\mathbf{u}_{t}$ with ${\operatorname{sgn}{(\mathbf{u}_{t})}}{\min{\{{|\mathbf{u}_{t}|},r_{u}\}}}$ for some value $r_{u}$.
-
-<!-- chunk {"id": "body-0041", "role": "body", "section": "Assumptions", "weight": 1.0} -->
 
 The simple pendulum satisfies Assumption 2 because we can drive the system in a finite number of steps from any state $\mathbf{x}_{t}$ to states $\mathbf{x}_{t + H}$ for which the signs of $x_{{({t + h})}1}$ and $\sin\left( x_{t1} \right)$ can take any value in ${\{{- 1},1\}}^{2}$, with their absolute values lower bounded away from zero.
 
-<!-- chunk {"id": "body-0042", "role": "body", "section": "Assumptions", "weight": 1.0} -->
+<!-- chunk {"id": "body-0032", "role": "body", "section": "Assumptions", "weight": 1.0} -->
 
-Finally, Assumption 2 holds with $\gamma \geq {1 + h}$. This assumption is pessimistic because the simple pendulum is stabilizable and can track reference trajectories. However, Assumption 2 does not hold with $\gamma < 1$ since the input at time $t$ does not affect the position at time $t + 1$. $\square$
+Finally, Assumption 2 holds with $\gamma \geq {1 + h}$. This assumption is pessimistic because the simple pendulum is stabilizable and can track reference trajectories. However, Assumption 2 does not hold with $\gamma < 1$ since the input at time $t$ does not affect the position at time $t + 1$. $\square$ Now we turn to our last two assumptions. We need to make an assumption about the process noise and we also must assume access to an initial $\hat{A}$ to warm start our method.
 
-<!-- chunk {"id": "body-0043", "role": "body", "section": "Assumptions", "weight": 1.0} -->
+<!-- chunk {"id": "body-0033", "role": "body", "section": "Assumptions", "weight": 1.0} -->
 
-Now we turn to our last two assumptions. We need to make an assumption about the process noise and we also must assume access to an initial $\hat{A}$ to warm start our method.
+Assumption 5. The random vectors $\mathbf{w}_{t}$ are independent, zero mean, and ${\parallel\mathbf{w}_{t}\parallel} \leq b_{w}$ a.s.^33^3We can relax this assumption to only require $\mathbf{w}_{t}$ to be sub-Gaussian. In this case, we would make a truncation argument to obtain an upper bound on all $\mathbf{w}_{t}$ with high probability.. Also, $\mathbf{w}_{t}$ is independent of $(\mathbf{x}_{t},\mathbf{u}_{t})$. Furthermore, we assume for some universal constant $c_{1} > 2$.
 
-<!-- chunk {"id": "body-0044", "role": "body", "section": "Assumptions", "weight": 1.0} -->
-
-Assumption 5. The random vectors $\mathbf{w}_{t}$ are independent, zero mean, and ${\parallel\mathbf{w}_{t}\parallel} \leq b_{w}$ a.s.^33^3We can relax this assumption to only require $\mathbf{w}_{t}$ to be sub-Gaussian. In this case, we would make a truncation argument to obtain an upper bound on all $\mathbf{w}_{t}$ with high probability.. Also, $\mathbf{w}_{t}$ is independent of $(\mathbf{x}_{t},\mathbf{u}_{t})$. Furthermore, we assume
-
-<!-- chunk {"id": "body-0045", "role": "body", "section": "Assumptions", "weight": 1.0} -->
+<!-- chunk {"id": "body-0034", "role": "body", "section": "Assumptions", "weight": 1.0} -->
 
 Equation 13 imposes on upper bound on the size of the process noise in terms of system dependent quantities: the controllability parameter $\alpha$ introduced in Assumption 2, the Lipschitz constant $L$ of the feature map, and the control parameter $\gamma$ introduced in Assumption 2. An upper bound on $b_{w}$ is required because when the process noise is too large, it can be difficult to counteract its effects through feedback.
 
-<!-- chunk {"id": "body-0046", "role": "body", "section": "Assumptions", "weight": 1.0} -->
+<!-- chunk {"id": "body-0035", "role": "body", "section": "Assumptions", "weight": 1.0} -->
 
-where $c_{2}$ is a sufficiently large universal constant and $T$ is the number of samples to be collected by our method. We make explicit the requirement on $c_{2}$ in Section 5. In Appendix C we show how to replace $T$ by a fixed quantity $T_{\star}$.
+Assumption 6. We have access to an initial trajectory $\mathcal{D} = {\{{(\mathbf{x}_{t},\mathbf{u}_{t},\mathbf{x}_{t + 1})}\}}_{0 \leq t < t_{0}}$ of transitions from the true system such that where $c_{2}$ is a sufficiently large universal constant and $T$ is the number of samples to be collected by our method. We make explicit the requirement on $c_{2}$ in Section 5. In Appendix C we show how to replace $T$ by a fixed quantity $T_{\star}$.
 
-<!-- chunk {"id": "body-0047", "role": "body", "section": "Main Result", "weight": 1.0} -->
+<!-- chunk {"id": "body-0036", "role": "body", "section": "Main Result", "weight": 1.0} -->
 
 Our method for estimating the parameters of a dynamical system is shown in Algorithm 1. The trajectory planning and tracking routines are discussed in detail in Sections 3.1 and 3.2 respectively. Our method is also presented in one block of pseudo-code in Appendix D. Now, we can state our main result.
 
-<!-- chunk {"id": "body-0048", "role": "body", "section": "Main Result", "weight": 1.0} -->
+<!-- chunk {"id": "body-0037", "role": "body", "section": "Main Result", "weight": 1.0} -->
 
-1:Parameters: the feature map ϕ, initial trajectory 𝒟, and parameters T, α, and β.
-2:Initialize Φ to have rows ϕ (xj,uj)⊤ and Y to have rows (xj + 1)⊤, for (xj,uj,xj + 1) ∈ 𝒟.
-3:Set Â ← Y⊤ Φ (Φ⊤ Φ)−1, i.e. the OLS estimate according to 𝒟.
-7: Set v to be a minimal eigenvector of Φ⊤ Φ, with ∥ v∥ = 1.
-8: Trajectory planning: find inputs u0R, u1R, …, urR, with ∥ ujR∥ ≤ bu and r ≤ H, such that
+1:Parameters: the feature map ϕ, initial trajectory 𝒟, and parameters T, α, and β. 2:Initialize Φ to have rows ϕ (xj, uj)⊤ and Y to have rows (xj + 1)⊤, for (xj, uj, xj + 1) ∈ 𝒟. 3:Set Â ← Y⊤ Φ (Φ⊤ Φ)−1, i.e. the OLS estimate according to 𝒟. 7: Set v to be a minimal eigenvector of Φ⊤ Φ, with ∥ v∥ = 1.
 
-<!-- chunk {"id": "body-0049", "role": "body", "section": "Main Result", "weight": 1.0} -->
+<!-- chunk {"id": "body-0038", "role": "body", "section": "Main Result", "weight": 1.0} -->
 
-where xj + 1R = Â ϕ (xjR,ujR) for all j ∈ {0, 1, …, r − 1}.
-9: Trajectory tracking: track the reference trajectory {(xjR,ujR)}j = 0r and increment t as described in Section 3.2.
-10: Set Φ⊤ ← [ϕ0, ϕ1, …, ϕt − 1] and Y⊤ ← [x1, x2, …, xt], where (ϕj,xj + 1) are all feature-state transitions observed so far.
-13:Output the last estimates Â.
-Algorithm 1 Active learning for nonlinear system identification
+9: Trajectory tracking: track the reference trajectory {(xjR, ujR)}j = 0r and increment t as described in Section 3.2. 10: Set Φ⊤ ← [ϕ0, ϕ1, …, ϕt − 1] and Y⊤ ← [x1, x2, …, xt], where (ϕj, xj + 1) are all feature-state transitions observed so far. 13:Output the last estimates Â. Algorithm 1 Active learning for nonlinear system identification
 
-<!-- chunk {"id": "body-0050", "role": "body", "section": "Trajectory planning", "weight": 1.0} -->
+<!-- chunk {"id": "body-0039", "role": "body", "section": "Trajectory planning", "weight": 1.0} -->
 
 The trajectory planning routine shown in Algorithm 1 uses the current estimate $\hat{A}$ to plan, assuming no process noise, a trajectory from the current state of the system $\mathbf{x}_{0}^{R} = \mathbf{x}_{t}$ to a high uncertainty region of the feature space, assuming no process noise.
 
-<!-- chunk {"id": "body-0051", "role": "body", "section": "Trajectory planning", "weight": 1.0} -->
+<!-- chunk {"id": "body-0040", "role": "body", "section": "Trajectory planning", "weight": 1.0} -->
 
-The last reference state-action pair $(\mathbf{x}_{r}^{R},\mathbf{u}_{r}^{R})$ is either well aligned with $v$, the minimum eigenvector of $\Phi^{\top}\Phi$, or its feature vector is in a high uncertainty region of the state space.
+More precisely, $(\mathbf{x}_{r}^{R},\mathbf{u}_{r}^{R})$ must satisfy one of the following two inequalities: It is not immediately obvious that we can always find such a sequence of inputs. In Section 5 we prove that when Assumptions 2 and 2 hold the trajectory planning problem is feasible.
 
-<!-- chunk {"id": "body-0052", "role": "body", "section": "Trajectory planning", "weight": 1.0} -->
-
-It is not immediately obvious that we can always find such a sequence of inputs. In Section 5 we prove that when Assumptions 2 and 2 hold the trajectory planning problem is feasible.
-
-<!-- chunk {"id": "body-0053", "role": "body", "section": "Trajectory planning", "weight": 1.0} -->
+<!-- chunk {"id": "body-0041", "role": "body", "section": "Trajectory planning", "weight": 1.0} -->
 
 From the study of OLS, discussed in Section 4, we know that the matrix $\Phi^{\top}\Phi$ determines the uncertainty set of OLS. The larger $\lambda_{\min}\left( {\Phi^{\top}\Phi} \right)$ is, the smaller the uncertainty set will be. Therefore, to reduce the size of the uncertainty set we want to collect measurements at feature vectors $\phi$ such that the smallest eigenvalues of ${\Phi^{\top}\Phi} + {\phi\phi^{\top}}$ are larger than the smallest eigenvalues of $\Phi^{\top}\Phi$. Ideally, $\phi$ is a minimal eigenvector of $\Phi^{\top}\Phi$. However, we cannot always drive the system to such a feature vector, especially in the presence of process noise.
 
-<!-- chunk {"id": "body-0054", "role": "body", "section": "Trajectory planning", "weight": 1.0} -->
+<!-- chunk {"id": "body-0042", "role": "body", "section": "Trajectory planning", "weight": 1.0} -->
 
 Instead, we settle for feature vectors of the following two types. Firstly, trajectory planner tries to drive the system to feature vectors $\phi$ that are well aligned with the minimal eigenvector $v$ of $\Phi^{\top}\Phi$, i.e. ${|{\langle\phi,v\rangle}|} \geq \alpha$. Such a data collection scheme is an instance of E-optimal design, which has been shown by Wagenmaker and Jamieson to produce inputs that allow the estimation of linear dynamics at an optimal rate.
 
-<!-- chunk {"id": "body-0055", "role": "body", "section": "Trajectory planning", "weight": 1.0} -->
+<!-- chunk {"id": "body-0043", "role": "body", "section": "Trajectory planning", "weight": 1.0} -->
 
 However, if reaching a feature vector that aligns with the minimal eigenvector is not possible, the trajectory planner finds a reference trajectory to a feature vector $\phi$ such that ${\phi^{\top}{({\Phi^{\top}\Phi})}^{- 1}\phi} \geq \beta$. When this inequality holds our uncertainty about the estimate $\hat{A}$ in the direction $\phi$ is large. As shown in Section 5, such feature vectors can be encountered only for a small number of iterations.
 
-<!-- chunk {"id": "body-0056", "role": "body", "section": "Trajectory planning", "weight": 1.0} -->
+<!-- chunk {"id": "body-0044", "role": "body", "section": "Trajectory planning", "weight": 1.0} -->
 
 Finally, trajectory planning is computationally intractable in general. However, in this work we quantify the data requirements of identifying $A_{\star}$, leaving computational considerations for future work. We assume access to a computational oracle. This assumption is reasonable since trajectory planning is often solved successfully in practice.
 
-<!-- chunk {"id": "body-0057", "role": "body", "section": "Trajectory tracking", "weight": 1.0} -->
+<!-- chunk {"id": "body-0045", "role": "body", "section": "Trajectory tracking", "weight": 1.0} -->
 
 Now we detail the trajectory tracking component of our method. We saw that the trajectory planner produces a reference trajectory ${\{{(\mathbf{x}_{j}^{R},\mathbf{u}_{j}^{R})}\}}_{j = 0}^{r}$, with $r \leq H$. However, the planner assumes no process noise to generate this reference trajectory. Therefore, if we were to simply plug-in the sequence of actions ${\{\mathbf{u}_{j}^{R}\}}_{j = 0}^{r}$ into, the states of the system would diverge from $\mathbf{x}_{j}^{R}$.
 
-<!-- chunk {"id": "body-0058", "role": "body", "section": "Trajectory tracking", "weight": 1.0} -->
+<!-- chunk {"id": "body-0046", "role": "body", "section": "Trajectory tracking", "weight": 1.0} -->
 
-Given the current state $\mathbf{x}_{t}$, our method chooses an input $\mathbf{u}_{t}$ such that
+Instead, after observing each state $\mathbf{x}_{t}$ of the system, our method chooses an input $\mathbf{u}_{t}$ as follows: Given the current state $\mathbf{x}_{t}$, our method chooses an input $\mathbf{u}_{t}$ such that if there exists such an input. In other words, if there is an opportunity to greedily collect an informative measurement, our method takes it. If this situation is encountered, the trajectory tracker increments $t$ by $1$ and then stops tracking and returns.
 
-<!-- chunk {"id": "body-0059", "role": "body", "section": "Trajectory tracking", "weight": 1.0} -->
-
-if there exists such an input. In other words, if there is an opportunity to greedily collect an informative measurement, our method takes it. If this situation is encountered, the trajectory tracker increments $t$ by $1$ and then stops tracking and returns.
-
-<!-- chunk {"id": "body-0060", "role": "body", "section": "Trajectory tracking", "weight": 1.0} -->
+<!-- chunk {"id": "body-0047", "role": "body", "section": "Trajectory tracking", "weight": 1.0} -->
 
 Our method repeats these steps until $j = r$, i.e. until it reaches the end of the reference trajectory. When $j = r$ the trajectory tracker sets $\mathbf{u}_{t} = \mathbf{u}_{j}^{R}$, increments $t$ by one, and returns.
 
-<!-- chunk {"id": "body-0061", "role": "body", "section": "General Guarantee on Estimation", "weight": 1.0} -->
+<!-- chunk {"id": "body-0048", "role": "body", "section": "General Guarantee on Estimation", "weight": 1.0} -->
 
 In this section we provide a general upper bound on the error between an OLS estimate $\hat{A}$ and the true parameters $A_{\star}$. The guarantee is based on the work of Simchowitz et al.. However, these types of results have been previously used in the study of online least squares and linear bandits. We assume that we are given a sequence of observations ${\{{(\mathbf{x}_{t},\mathbf{u}_{t},\mathbf{x}_{t + 1})}\}}_{t \geq 0}$ generated by the system, with $u_{t}$ allowed to depend on $\mathbf{x}_{0}$, $\mathbf{x}_{1}$,..., $\mathbf{x}_{t - 1}$ and independent of $\mathbf{w}_{j}$ for all $j \geq t$.
 
-<!-- chunk {"id": "body-0062", "role": "body", "section": "General Guarantee on Estimation", "weight": 1.0} -->
+<!-- chunk {"id": "body-0049", "role": "body", "section": "General Guarantee on Estimation", "weight": 1.0} -->
 
 Our method re-estimates the parameters $A_{\star}$ as more data is being collected. For the purpose of this section let us denote by ${\hat{A}}_{j}$ the OLS estimate obtained using the first $j$ measurements $(\mathbf{x}_{t},\mathbf{u}_{t},\mathbf{x}_{t + 1})$, i.e.
 
-<!-- chunk {"id": "body-0063", "role": "body", "section": "Part 1 of the proof of Theorem 1", "weight": 1.0} -->
+<!-- chunk {"id": "body-0050", "role": "body", "section": "Part 1 of the proof of Theorem 1", "weight": 1.0} -->
 
-We show that the trajectory planning step of Algorithm 1 is always feasible. Let
+We show that the trajectory planning step of Algorithm 1 is always feasible. Let where $c_{3}$ is the universal constant appearing in Proposition 1. Since Assumption 2 guarantees that the minimum eigenvalue of the design matrix is at least $1$, we know that for all $\phi \in {\mathbb{S}}^{k - 1}$ and all iterations of Algorithm 1 with probability $1 - \delta$.
 
-<!-- chunk {"id": "body-0064", "role": "body", "section": "Part 1 of the proof of Theorem 1", "weight": 1.0} -->
+<!-- chunk {"id": "body-0051", "role": "body", "section": "Part 2 of the proof of Theorem 1", "weight": 1.0} -->
 
-where $c_{3}$ is the universal constant appearing in Proposition 1. Since Assumption 2 guarantees that the minimum eigenvalue of the design matrix is at least $1$, we know that
+Now, we show that the number of iterations Algorithm 1 encounters We rely on the following proposition whose proof is deferred to Appendix A.
 
-<!-- chunk {"id": "body-0065", "role": "body", "section": "Part 1 of the proof of Theorem 1", "weight": 1.0} -->
-
-for all $\phi \in {\mathbb{S}}^{k - 1}$ and all iterations of Algorithm 1 with probability $1 - \delta$.
-
-<!-- chunk {"id": "body-0066", "role": "body", "section": "Part 2 of the proof of Theorem 1", "weight": 1.0} -->
-
-Now, we show that the number of iterations Algorithm 1 encounters
-
-<!-- chunk {"id": "body-0067", "role": "body", "section": "Part 2 of the proof of Theorem 1", "weight": 1.0} -->
-
-We rely on the following proposition whose proof is deferred to Appendix A.
-
-<!-- chunk {"id": "body-0068", "role": "body", "section": "Part 3 of the proof of Theorem 1", "weight": 1.0} -->
+<!-- chunk {"id": "body-0052", "role": "body", "section": "Part 3 of the proof of Theorem 1", "weight": 1.0} -->
 
 In this final part of the proof we analyze what happens when the trajectory planning problem returns a reference trajectory $(\mathbf{x}_{j}^{R},\mathbf{u}_{j}^{R})$ for which ${|{\langle\phi_{r}^{R},v\rangle}|} \geq {\alpha/2}$, where $v$ is a minimal eigenvector with unit norm of $\Phi^{\top}\Phi$.
 
-<!-- chunk {"id": "body-0069", "role": "body", "section": "Part 3 of the proof of Theorem 1", "weight": 1.0} -->
+<!-- chunk {"id": "body-0053", "role": "body", "section": "Discussion and Open Problems", "weight": 1.5} -->
 
-Following the same argument as in Part 2 of the proof we know that tracking the reference trajectory in this case takes the system to a state $\mathbf{x}_{t}$ such that
+System identification led to the development of controllers for many applications and promises to help us tackle many others in the future. In this work we proposed and analyzed a method that estimates a class of nonlinear dynamical systems in finite time by adaptively collecting data that is informative enough. While this results takes us closer to understanding the fundamental limits of data driven control, there are many limitations to our model and approach. We would like to end with a list of open questions: To solve trajectory planning problems we assumed access to a computational oracle. Is it possible to develop a method that has good statistical guarantees and is also computationally tractable? In practice, successful nonlinear control is often based on linearizations of the dynamics. Is it possible to quantify the sample complexity of system identification when trajectory planning is implemented using linearizations?
 
-<!-- chunk {"id": "body-0070", "role": "body", "section": "Discussion and Open Problems", "weight": 1.5} -->
-
-System identification led to the development of controllers for many applications and promises to help us tackle many others in the future. In this work we proposed and analyzed a method that estimates a class of nonlinear dynamical systems in finite time by adaptively collecting data that is informative enough. While this results takes us closer to understanding the fundamental limits of data driven control, there are many limitations to our model and approach.
-
-<!-- chunk {"id": "body-0071", "role": "body", "section": "Discussion and Open Problems", "weight": 1.5} -->
-
-To solve trajectory planning problems we assumed access to a computational oracle. Is it possible to develop a method that has good statistical guarantees and is also computationally tractable? In practice, successful nonlinear control is often based on linearizations of the dynamics. Is it possible to quantify the sample complexity of system identification when trajectory planning is implemented using linearizations?
-
-<!-- chunk {"id": "body-0072", "role": "body", "section": "Discussion and Open Problems", "weight": 1.5} -->
+<!-- chunk {"id": "body-0054", "role": "body", "section": "Discussion and Open Problems", "weight": 1.5} -->
 
 Our method relies on full state observations. However, in many applications full state observations are impossible. Is it possible to gain statistical understanding of nonlinear system identification from partial observations?
 
-<!-- chunk {"id": "body-0073", "role": "body", "section": "Discussion and Open Problems", "weight": 1.5} -->
+<!-- chunk {"id": "body-0055", "role": "body", "section": "Discussion and Open Problems", "weight": 1.5} -->
 
 Our guarantee holds only when the true system being identified lies in the model class. When the true system is no part of the model class, how much data is needed to find the best model in class? Ross and Bagnell studied this problem under a generative model.
 
-<!-- chunk {"id": "body-0074", "role": "body", "section": "Discussion and Open Problems", "weight": 1.5} -->
+<!-- chunk {"id": "body-0056", "role": "body", "section": "Discussion and Open Problems", "weight": 1.5} -->
 
 Only fully actuated systems can satisfy Assumption 2 with $\gamma < 1$. Is it possible to extend our result to systems that require multiple time steps to recover from disturbances?
 
-<!-- chunk {"id": "body-0075", "role": "body", "section": "Discussion and Open Problems", "weight": 1.5} -->
+<!-- chunk {"id": "body-0057", "role": "body", "section": "Discussion and Open Problems", "weight": 1.5} -->
 
 Assumption 2 allows only systems whose feature vectors can align with any direction. What if the feature vectors can align only with vectors in a subspace? In this case, it is not possible to recover $A_{\star}$ fully. However, in this case, it would not be necessary to know $A_{\star}$ fully in order to predict or control. Is it possible to estimate $A_{\star}$ only in the relevant directions?
 
-<!-- chunk {"id": "body-0076", "role": "body", "section": "Discussion and Open Problems", "weight": 1.5} -->
+<!-- chunk {"id": "body-0058", "role": "body", "section": "Discussion and Open Problems", "weight": 1.5} -->
 
 What if we consider infinite dimensional feature maps $\phi$? Can we develop a statistical theory of learning RKHS models of dynamical systems?

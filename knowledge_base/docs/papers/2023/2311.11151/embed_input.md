@@ -12,7 +12,7 @@ Constructs linear-system classes where learning a stabilizing controller is stat
 
 <!-- chunk {"id": "abstract-0003", "role": "abstract", "section": "Abstract", "weight": 2.0} -->
 
-Inspired by the work of Tsiamis et al. \cite{tsiamis2022learning}, in this paper we study the statistical hardness of learning to stabilize linear time-invariant systems. Hardness is measured by the number of samples required to achieve a learning task with a given probability. The work in \cite{tsiamis2022learning} shows that there exist system classes that are hard to learn to stabilize with the core reason being the hardness of identification. Here we present a class of systems that can be easy to identify, thanks to a non-degenerate noise process that excites all modes, but the sample complexity of stabilization still increases exponentially with the system dimension. We tie this result to the hardness of co-stabilizability for this class of systems using ideas from robust control.
+Inspired by the work of Tsiamis et al., in this paper we study the statistical hardness of learning to stabilize linear time-invariant systems. Hardness is measured by the number of samples required to achieve a learning task with a given probability. The work in shows that there exist system classes that are hard to learn to stabilize with the core reason being the hardness of identification. Here we present a class of systems that can be easy to identify, thanks to a non-degenerate noise process that excites all modes, but the sample complexity of stabilization still increases exponentially with the system dimension. We tie this result to the hardness of co-stabilizability for this class of systems using ideas from robust control.
 
 <!-- chunk {"id": "body-0004", "role": "body", "section": "INTRODUCTION", "weight": 1.5} -->
 
@@ -40,80 +40,76 @@ For a vector $\mathbf{v} \in {\mathbb{R}}^{n}$, its $i^{th}$ element is denoted 
 
 <!-- chunk {"id": "body-0010", "role": "body", "section": "Problem Setup and Preliminary Notions", "weight": 1.0} -->
 
+We consider the following fully-observed discrete-time linear time-invariant (LTI) system: where $\mathbf{x}_{t} \in {\mathbb{R}}^{n}$, $\mathbf{u}_{t} \in {\mathbb{R}}^{p}$, $\mathbf{w}_{t} \in {\mathbb{R}}^{n}$ are the state, input, and process noise at time $t$. For simplicity, we assume $\mathbf{x}_{0} = \mathbf{0}$. The random process $\mathbf{w}_{t}$ over $t$ is zero-mean i.i.d. Gaussian, with covariance matrix $\sigma_{w}^{2}\mathbf{I}_{n}$. In the remainder of the paper, we denote a system in the form by the tuple $(\mathbf{A},\mathbf{B})$.
+
+<!-- chunk {"id": "body-0011", "role": "body", "section": "Problem Setup and Preliminary Notions", "weight": 1.0} -->
+
 Let $\mathcal{C}_{n}$ be a class of systems $(\mathbf{A},\mathbf{B})$ in dimension $n$, parameterized by some unknown parameters.
 
-<!-- chunk {"id": "body-0011", "role": "body", "section": "Assumption 2", "weight": 1.0} -->
+<!-- chunk {"id": "body-0012", "role": "body", "section": "Assumption 2", "weight": 1.0} -->
 
 Next, we recall the definition of ${poly}{(n)}$-stabilizable system classes. If a class $\mathcal{C}_{n}$ of discrete-time LTI systems is ${poly}{(n)}$-stabilizable, it is statistically easy to learn linear state-feedback controllers to stabilize systems in this class.
 
-<!-- chunk {"id": "body-0012", "role": "body", "section": "Problem 1", "weight": 1.0} -->
+<!-- chunk {"id": "body-0013", "role": "body", "section": "Problem 1", "weight": 1.0} -->
 
 Is there a class of linear systems that are not ${poly}{(n)}$-stabilizable when the process noise $\mathbf{w}_{t}$ is non-degenerate?
 
-<!-- chunk {"id": "body-0013", "role": "body", "section": "Problem 1", "weight": 1.0} -->
+<!-- chunk {"id": "body-0014", "role": "body", "section": "Problem 1", "weight": 1.0} -->
 
 The following lemma follows directly from Definition 2-stabilizable system classes ). ‣ II Problem Setup and Preliminary Notions ‣ On the Hardness of Learning to Stabilize Linear Systems").
 
-<!-- chunk {"id": "body-0014", "role": "body", "section": "Remark 1", "weight": 1.0} -->
+<!-- chunk {"id": "body-0015", "role": "body", "section": "Remark 1", "weight": 1.0} -->
 
 Co-stabilization problem for two dynamical systems has been studied in robust control, e.g., by using the gap metric.
 
-<!-- chunk {"id": "body-0015", "role": "body", "section": "Remark 1", "weight": 1.0} -->
+<!-- chunk {"id": "body-0016", "role": "body", "section": "Remark 1", "weight": 1.0} -->
 
 We will use $KL$ divergence to measure the distance between the distributions of state-input trajectories generated when the same exploration policy is applied to two different systems. A small $KL$ divergence means that it is hard to distinguish two systems.
 
-<!-- chunk {"id": "body-0016", "role": "body", "section": "Hard to Learn to Stabilize Systems", "weight": 1.0} -->
+<!-- chunk {"id": "body-0017", "role": "body", "section": "Hard to Learn to Stabilize Systems", "weight": 1.0} -->
 
-Consider the following system of the form with $(\mathbf{A},\mathbf{B})$ defined parametrically as
-
-<!-- chunk {"id": "body-0017", "role": "body", "section": "Remark 2", "weight": 1.0} -->
-
-When $b^{} = {- {v^{n}/r^{n - 1}}}$, the system in is uncontrollable. To avoid this trivially hard-to-stabilize case, we let $b^{} \geq 0$.
+Consider the following system of the form with $(\mathbf{A},\mathbf{B})$ defined parametrically as where $n \geq 2$, $r > 1$, $0 < v < \frac{r - 1}{2}$, and $b^{} \geq 0$.
 
 <!-- chunk {"id": "body-0018", "role": "body", "section": "Remark 2", "weight": 1.0} -->
 
+When $b^{} = {- {v^{n}/r^{n - 1}}}$, the system in is uncontrollable. To avoid this trivially hard-to-stabilize case, we let $b^{} \geq 0$.
+
+<!-- chunk {"id": "body-0019", "role": "body", "section": "Remark 2", "weight": 1.0} -->
+
 The following proposition proves that there exist two systems in the parametric family differing only in $b^{}$, such that for a feedback gain to be able to stabilize both systems at the same time, the difference in $b^{}$ should be exponentially small in the system dimension.
 
-<!-- chunk {"id": "body-0019", "role": "body", "section": "Remark 3", "weight": 1.0} -->
+<!-- chunk {"id": "body-0020", "role": "body", "section": "Remark 3", "weight": 1.0} -->
 
 Our proof technique can also be extended to show the hardness of learning to stabilize for classes of systems containing single-input systems with diagonal state matrices and $n$ unstable eigenvalues in a compact range, presented. In that case, when the input vector is the all-one vector, the controllability matrix of the system is a Vandermonde matrix, which allows us to again use Ackermann's formula to obtain the explicit form of all stabilizing linear state-feedback gains. Results similar to Proposition 4 and Theorem 1 can be established in this case too.
 
-<!-- chunk {"id": "body-0020", "role": "body", "section": "Numerical Experiments", "weight": 1.0} -->
+<!-- chunk {"id": "body-0021", "role": "body", "section": "Numerical Experiments", "weight": 1.0} -->
 
 In this section, we implement two numerical experiments, i.e., certainty equivalent linear quadratic regulator (LQR) and robust control, to show the hardness of stabilization.
 
-<!-- chunk {"id": "body-0021", "role": "body", "section": "IV-A Certainty Equivalent LQR", "weight": 1.0} -->
+<!-- chunk {"id": "body-0022", "role": "body", "section": "IV-A Certainty Equivalent LQR", "weight": 1.0} -->
 
 Since solving LQR problems always gives stabilizing controllers (under mild regularity conditions), the first experiment considers the certainty equivalent LQR control. Specifically, a controller is computed by solving an LQR problem using some estimated system dynamics and then applied to the ground truth system. The infinite-horizon LQR problem, simplified as $dLQR{(\mathbf{A},\mathbf{B},\mathbf{Q},\mathbf{R})}$, is as follows.
 
-<!-- chunk {"id": "body-0022", "role": "body", "section": "IV-A Certainty Equivalent LQR", "weight": 1.0} -->
-
-where $\mathbf{Q},\mathbf{R}$ are positive semi-definite cost matrices. Its solution is given by $\mathbf{u}_{t} = {\mathbf{K}\mathbf{x}}_{t}$ where the controller $\mathbf{K}$ can be computed by solving the Riccati equation. Consider the system $(\mathbf{A},\mathbf{B}_{1})$ defined in Proposition 4, and let $\mathbf{Q} = \mathbf{I}_{n}$, and $\mathbf{R} = 1$. Since the analysis of Theorem 1 is established on perturbing $b^{}$ in $\mathbf{B}_{1}$, we consider a simplified setting where only $b^{}$ is unknown and to be estimated using the least squares estimator, which is denoted by ${\hat{b}}^{}$.
-
 <!-- chunk {"id": "body-0023", "role": "body", "section": "IV-A Certainty Equivalent LQR", "weight": 1.0} -->
 
-For each dimension $n$, we run $M = 200$ independent experiments. Let ${\hat{\mathbf{K}}}_{i,N^{\prime}}$ denote the controller obtained using the first $N^{\prime}$ data points, i.e., $\{\mathbf{u}_{0:{N^{\prime} - 1}},\mathbf{x}_{1:N^{\prime}}\}$, in the $i^{th}$ experiment. We record the smallest trajectory length $N$ under which at least 90% of the experiments produce stabilizing controllers, i.e.
+For each dimension $n$, we run $M = 200$ independent experiments. Let ${\hat{\mathbf{K}}}_{i,N'}$ denote the controller obtained using the first $N'$ data points, i.e., $\{\mathbf{u}_{0:{N' - 1}},\mathbf{x}_{1:N'}\}$, in the $i^{th}$ experiment. We record the smallest trajectory length $N$ under which at least 90% of the experiments produce stabilizing controllers, i.e. where $\mathbb{I}$ denotes the indicator function.
 
 <!-- chunk {"id": "body-0024", "role": "body", "section": "IV-A Certainty Equivalent LQR", "weight": 1.0} -->
 
-where $\mathbb{I}$ denotes the indicator function.
-
-<!-- chunk {"id": "body-0025", "role": "body", "section": "IV-A Certainty Equivalent LQR", "weight": 1.0} -->
-
 The results are given in Fig. 1. According to Fig. 1, we have that as the system dimension increases, the required number of samples for a given frequency of stability increases exponentially with the system dimension.
 
-<!-- chunk {"id": "body-0026", "role": "body", "section": "IV-B LMI-based Sufficient Condition for Co-stabilizability", "weight": 1.0} -->
+<!-- chunk {"id": "body-0025", "role": "body", "section": "IV-B LMI-based Sufficient Condition for Co-stabilizability", "weight": 1.0} -->
 
 In this section, we numerically demonstrate the hardness of co-stabilizability of $\mathcal{S}_{1} = {(\mathbf{A},\mathbf{B}_{1})}$ and $\mathcal{S}_{2} = {(\mathbf{A},{\mathbf{B}_{2}{(m)}})}$ using ideas from robust control, where we leave $m$ as a parameter. We use the following feasibility problem, which can be converted to an LMI, to check sufficient conditions of co-stabilizability.
 
-<!-- chunk {"id": "body-0027", "role": "body", "section": "IV-B LMI-based Sufficient Condition for Co-stabilizability", "weight": 1.0} -->
+<!-- chunk {"id": "body-0026", "role": "body", "section": "IV-B LMI-based Sufficient Condition for Co-stabilizability", "weight": 1.0} -->
 
 We use the bisection method to find the largest $m$ such that the problem is feasible. The results are shown in Fig. 2. According to this figure, we see that as the system dimension increases, the largest $m$ such that the LMI optimization problem in is feasible decreases exponentially with increasing system dimension, which is consistent with Eq. in Proposition 4.
 
-<!-- chunk {"id": "body-0028", "role": "body", "section": "Conclusion and Future Work", "weight": 1.5} -->
+<!-- chunk {"id": "body-0027", "role": "body", "section": "Conclusion and Future Work", "weight": 1.5} -->
 
 In this work, we identified an extended class of LTI systems that are hard to learn to stabilize with static state feedback. The main idea in constructing such examples is to find pairs of systems whose parameters become exponentially close to each other as the dimension increases, yet they are not co-stabilizable. One interesting observation is that the entries of stabilizing gains for these pairs are also growing exponentially (see, Eq. ). In the future, we want to investigate the ramifications of this observation in gradient-based learning algorithms used for control as.
 
-<!-- chunk {"id": "body-0029", "role": "body", "section": "Conclusion and Future Work", "weight": 1.5} -->
+<!-- chunk {"id": "body-0028", "role": "body", "section": "Conclusion and Future Work", "weight": 1.5} -->
 
 *Acknowledgments:* The authors would like to thank Prof. Peter Seiler of University of Michigan for some early discussions that motivated this work.

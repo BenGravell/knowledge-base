@@ -9,3 +9,151 @@ Topics include Natural gradients, Policy gradients, Reinforcement learning, Opti
 <!-- chunk {"id": "abstract-0002", "role": "abstract", "section": "Abstract", "weight": 2.0} -->
 
 In this work, we propose to apply trust region optimization to deep reinforcement learning using a recently proposed Kronecker-factored approximation to the curvature. We extend the framework of natural policy gradient and propose to optimize both the actor and the critic using Kronecker-factored approximate curvature (K-FAC) with trust region; hence we call our method Actor Critic using Kronecker-Factored Trust Region (ACKTR). To the best of our knowledge, this is the first scalable trust region natural gradient method for actor-critic methods. It is also a method that learns non-trivial tasks in continuous control as well as discrete control policies directly from raw pixel inputs. We tested our approach across discrete domains in Atari games as well as continuous domains in the MuJoCo environment. With the proposed methods, we are able to achieve higher rewards and a 2- to 3-fold improvement in sample efficiency on average, compared to previous state-of-the-art on-policy actor-critic methods. Code is available at
+
+<!-- chunk {"id": "body-0003", "role": "body", "section": "Introduction", "weight": 1.5} -->
+
+Agents using deep reinforcement learning (deep RL) methods have shown tremendous success in learning complex behaviour skills and solving challenging control tasks in high-dimensional raw sensory state-space. Deep RL methods make use of deep neural networks to represent control policies. Despite the impressive results, these neural networks are still trained using simple variants of stochastic gradient descent (SGD). SGD and related first-order methods explore weight space inefficiently. It often takes days for the current deep RL methods to master various continuous and discrete control tasks. Previously, a distributed approach was proposed to reduce training time by executing multiple agents to interact with the environment simultaneously, but this leads to rapidly diminishing returns of sample efficiency as the degree of parallelism increases.
+
+<!-- chunk {"id": "body-0004", "role": "body", "section": "Introduction", "weight": 1.5} -->
+
+Sample efficiency is a dominant concern in RL; robotic interaction with the real world is typically scarcer than computation time, and even in simulated environments the cost of simulation often dominates that of the algorithm itself. One way to effectively reduce the sample size is to use more advanced optimization techniques for gradient updates. Natural policy gradient uses the technique of natural gradient descent to perform gradient updates. Natural gradient methods follow the steepest descent direction that uses the Fisher metric as the underlying metric, a metric that is based not on the choice of coordinates but rather on the manifold (i.e., the surface).
+
+<!-- chunk {"id": "body-0005", "role": "body", "section": "Introduction", "weight": 1.5} -->
+
+However, the exact computation of the natural gradient is intractable because it requires inverting the Fisher information matrix. Trust-region policy optimization (TRPO) avoids explicitly storing and inverting the Fisher matrix by using Fisher-vector products. However, it typically requires many steps of conjugate gradient to obtain a single parameter update, and accurately estimating the curvature requires a large number of samples in each batch; hence TRPO is impractical for large models and suffers from sample inefficiency.
+
+<!-- chunk {"id": "body-0006", "role": "body", "section": "Introduction", "weight": 1.5} -->
+
+Kronecker-factored approximated curvature (K-FAC) is a scalable approximation to natural gradient. It has been shown to speed up training of various state-of-the-art large-scale neural networks in supervised learning by using larger mini-batches. Unlike TRPO, each update is comparable in cost to an SGD update, and it keeps a running average of curvature information, allowing it to use small batches. This suggests that applying K-FAC to policy optimization could improve the sample efficiency of the current deep RL methods.
+
+<!-- chunk {"id": "body-0007", "role": "body", "section": "Introduction", "weight": 1.5} -->
+
+In this paper, we introduce the actor-critic using Kronecker-factored trust region (ACKTR; pronounced 'actor') method, a scalable trust-region optimization algorithm for actor-critic methods. The proposed algorithm uses a Kronecker-factored approximation to natural policy gradient that allows the covariance matrix of the gradient to be inverted efficiently. To best of our knowledge, we are also the first to extend the natural policy gradient algorithm to optimize value functions via Gauss-Newton approximation. In practice, the per-update computation cost of ACKTR is only 10% to 25% higher than SGD-based methods. Empirically, we show that ACKTR substantially improves both sample efficiency and the final performance of the agent in the Atari environments and the MuJoCo tasks compared to the state-of-the-art on-policy actor-critic method A2C and the famous trust region optimizer TRPO.
+
+<!-- chunk {"id": "body-0008", "role": "body", "section": "Introduction", "weight": 1.5} -->
+
+We make our source code available online.
+
+<!-- chunk {"id": "body-0009", "role": "body", "section": "Reinforcement learning and actor-critic methods", "weight": 1.0} -->
+
+We consider an agent interacting with an infinite-horizon, discounted Markov Decision Process (X, A, γ, P, r). At time t, the agent chooses an action a t ∈ A according to its policy π θ (a | s t) given its current state s t ∈ X. The environment in turn produces a reward r (s t, a t) and transitions to the next state s t +1 according to the transition probability P (s t +1 | s t, a t). The goal of the agent is to maximize the expected γ -discounted cumulative return J (θ) = E π [R t] = E π [∑ ∞ i ≥ 0 γ i r (s t + i, a t + i)] with respect to the policy parameters θ. Policy gradient methods directly parameterize a policy π θ (a | s t) and update parameter θ so as to maximize the objective J (θ). In its general form, the policy gradient is defined as, where Ψ t is often chosen to be the advantage function A π (s t, a t), which provides a relative measure of value of each action a t at a given state s t.
+
+<!-- chunk {"id": "body-0010", "role": "body", "section": "Reinforcement learning and actor-critic methods", "weight": 1.0} -->
+
+There is an active line of research on designing an advantage function that provides both low-variance and low-bias gradient estimates. As this is not the focus of our work, we simply follow the asynchronous advantage actor critic (A3C) method and define the advantage function as the k -step returns with function approximation, where V π φ (s t) is the value network, which provides an estimate of the expected sum of rewards from the given state following policy π, V π φ (s t) = E π [R t]. To train the parameters of the value network, we again follow by performing temporal difference updates, so as to minimize the squared difference between the bootstrapped k -step returns ˆ R t and the prediction value 1 2 || ˆ R t -V π φ (s t) || 2.
+
+<!-- chunk {"id": "body-0011", "role": "body", "section": "Natural gradient using Kronecker-factored approximation", "weight": 1.0} -->
+
+To minimize a nonconvex function J ( θ ), the method of steepest descent calculates the update ∆ θ that minimizes J ( θ + ∆ θ ), subject to the constraint that || ∆ θ || B < 1, where || · || B is the norm defined by || x || B = ( x T Bx ) 1 2, and B is a positive semidefinite matrix. The solution to the constraint optimization problem has the form ∆ θ ∝ -B -1 ∇ θ J, where ∇ θ J is the standard gradient. When the norm is Euclidean, i.e., B = I, this becomes the commonly used method of gradient descent. However, the Euclidean norm of the change depends on the parameterization θ. This is not favorable because the parameterization of the model is an arbitrary choice, and it should not affect the optimization trajectory. The method of natural gradient constructs the norm using the Fisher information matrix F, a local quadratic approximation to the KL divergence. This norm is independent of the model parameterization θ on the class of probability distributions, providing a more stable and effective update.
+
+<!-- chunk {"id": "body-0012", "role": "body", "section": "Natural gradient using Kronecker-factored approximation", "weight": 1.0} -->
+
+However, since modern neural networks may contain millions of parameters, computing and storing the exact Fisher matrix and its inverse is impractical, so we have to resort to approximations.
+
+<!-- chunk {"id": "body-0013", "role": "body", "section": "Natural gradient using Kronecker-factored approximation", "weight": 1.0} -->
+
+A recently proposed technique called Kronecker-factored approximate curvature (K-FAC) uses a Kronecker-factored approximation to the Fisher matrix to perform efficient approximate natural gradient updates. We let p (y | x) denote the output distribution of a neural network, and L = log p (y | x) denote the log-likelihood. Let W ∈ R C out × C in be the weight matrix in the ℓ th layer, where C out and C in are the number of output/input neurons of the layer. Denote the input activation vector to the layer as a ∈ R C, and the pre-activation vector for the next layer as s = Wa. Note that the weight gradient is given by ∇ W L = (∇ s L) a ᵀ. K-FAC utilizes this fact and further approximates the block F ℓ corresponding to layer ℓ as ˆ F ℓ, where A denotes E [aa ᵀ] and S denotes E [∇ s L (∇ s L) ᵀ]. This approximation can be interpreted as making the assumption that the second-order statistics of the activations and the backpropagated derivatives are uncorrelated.
+
+<!-- chunk {"id": "body-0014", "role": "body", "section": "Natural gradient using Kronecker-factored approximation", "weight": 1.0} -->
+
+With this approximation, the natural gradient update can be efficiently computed by exploiting the basic identities (P ⊗ Q) -1 = P -1 ⊗ Q -1 and (P ⊗ Q) vec (T) = PTQ ᵀ: From the above equation we see that the K-FAC approximate natural gradient update only requires computations on matrices comparable in size to W. Grosse and Martens have recently extended the K-FAC algorithm to handle convolutional networks. Ba et al. later developed a distributed version of the method where most of the overhead is mitigated through asynchronous computation. Distributed K-FAC achieved 2 - to 3 -times speed-ups in training large modern classification convolutional networks.
+
+<!-- chunk {"id": "body-0015", "role": "body", "section": "Natural gradient in actor-critic", "weight": 1.0} -->
+
+Natural gradient was proposed to apply to the policy gradient method more than a decade ago by Kakade. But there still doesn't exist a scalable, sample-efficient, and general-purpose instantiation of the natural policy gradient. In this section, we introduce the first scalable and sampleefficient natural gradient algorithm for actor-critic methods: the actor-critic using Kronecker-factored trust region (ACKTR) method. We use Kronecker-factored approximation to compute the natural gradient update, and apply the natural gradient update to both the actor and the critic.
+
+<!-- chunk {"id": "body-0016", "role": "body", "section": "Natural gradient in actor-critic", "weight": 1.0} -->
+
+To define the Fisher metric for reinforcement learning objectives, one natural choice is to use the policy function which defines a distribution over the action given the current state, and take the expectation over the trajectory distribution: where p (τ) is the distribution of trajectories, given by p (s 0) ∏ T t =0 π (a t | s t) p (s t +1 | s t, a t). In practice, one approximates the intractable expectation over trajectories collected during training.
+
+<!-- chunk {"id": "body-0017", "role": "body", "section": "Natural gradient in actor-critic", "weight": 1.0} -->
+
+We now describe one way to apply natural gradient to optimize the critic. Learning the critic can be thought of as a least-squares function approximation problem, albeit one with a moving target. In the setting of least-squares function approximation, the second-order algorithm of choice is commonly Gauss-Newton, which approximates the curvature as the Gauss-Newton matrix G:= E [ J T J ], where J is the Jacobian of the mapping from parameters to outputs. The Gauss-Newton matrix is equivalent to the Fisher matrix for a Gaussian observation model; this equivalence allows us to apply K-FAC to the critic as well. Specifically, we assume the output of the critic v is defined to be a Gaussian distribution p ( v | s t ) ∼ N ( v; V ( s t ), σ 2 ). The Fisher matrix for the critic is defined with respect to this Gaussian output distribution. In practice, we can simply set σ to 1, which is equivalent to the vanilla Gauss-Newton method.
+
+<!-- chunk {"id": "body-0018", "role": "body", "section": "Natural gradient in actor-critic", "weight": 1.0} -->
+
+If the actor and critic are disjoint, one can separately apply K-FAC updates to each using the metrics defined above. But to avoid instability in training, it is often beneficial to use an architecture where the two networks share lower-layer representations but have distinct output layers. In this case, we can define the joint distribution of the policy and the value distribution by assuming independence of the two output distributions, i.e., p ( a, v | s ) = π ( a | s ) p ( v | s ), and construct the Fisher metric with respect to p ( a, v | s ), which is no different than the standard K-FAC except that we need to sample the networks' outputs independently. We can then apply K-FAC to approximate the Fisher matrix E p ( τ ) [ ∇ log p ( a, v | s ) ∇ log p ( a, v | s ) T ] to perform updates simultaneously.
+
+<!-- chunk {"id": "body-0019", "role": "body", "section": "Natural gradient in actor-critic", "weight": 1.0} -->
+
+In addition, we use the factorized Tikhonov damping approach described. We also follow and perform the asynchronous computation of second-order statistics and inverses required by the Kronecker approximation to reduce computation time.
+
+<!-- chunk {"id": "body-0020", "role": "body", "section": "Step-size Selection and trust-region optimization", "weight": 1.0} -->
+
+Traditionally, natural gradient is performed with SGD-like updates, θ ← θ -ηF -1 ∇ θ L. But in the context of deep RL, Schulman et al. observed that such an update rule can result in large updates to the policy, causing the algorithm to prematurely converge to a near-deterministic policy. They advocate instead using a trust region approach, whereby the update is scaled down to modify the policy distribution (in terms of KL divergence) by at most a specified amount. Therefore, we adopt the trust region formulation of K-FAC introduced, choosing the effective step size η to be min(η max, √ 2 δ ∆ θ ᵀ ˆ F ∆ θ), where the learning rate η max and trust region radius δ are hyperparameters. If the actor and the critic are disjoint, then we need to tune a different set of η max and δ separately for both. The variance parameter for the critic output distribution can be absorbed into the learning rate parameter for vanilla Gauss-Newton.
+
+<!-- chunk {"id": "body-0021", "role": "body", "section": "Step-size Selection and trust-region optimization", "weight": 1.0} -->
+
+On the other hand, if they share representations, we need to tune one set of η max, δ, and also the weighting parameter of the training loss of the critic, with respect to that of the actor.
+
+<!-- chunk {"id": "body-0022", "role": "body", "section": "Experiments", "weight": 1.0} -->
+
+We conducted a series of experiments to investigate the following questions: How does ACKTR compare with the state-of-the-art on-policy method and common second-order optimizer baseline in terms of sample efficiency and computational efficiency? What makes a better norm for optimization of the critic? How does the performance of ACKTR scale with batch size compared to the first-order method?
+
+<!-- chunk {"id": "body-0023", "role": "body", "section": "Experiments", "weight": 1.0} -->
+
+We evaluated our proposed method, ACKTR, on two standard benchmark platforms. We first evaluated it on the discrete control tasks defined in OpenAI Gym, simulated by Arcade Learning Environment, a simulator for Atari 2600 games which is commonly used as a deep reinforcement learning benchmark for discrete control. We then evaluated it on a variety of continuous control Table 1: ACKTR and A2C results showing the last 100 average episode rewards attained after 50 million timesteps, and TRPO results after 10 million timesteps. The table also shows the episode N, where N denotes the first episode for which the mean episode reward over the N th game to the ( N +100) th game crosses the human performance level, averaged over 2 random seeds.
+
+<!-- chunk {"id": "body-0024", "role": "body", "section": "Experiments", "weight": 1.0} -->
+
+| | | ACKTR | ACKTR | A2C | A2C | TRPO (10 M) | TRPO (10 M) | benchmark tasks defined in OpenAI Gym, simulated by the MuJoCo physics engine. Our baselines are (a) a synchronous and batched version of the asynchronous advantage actor critic model (A3C), henceforth called A2C (advantage actor critic), and (b) TRPO. ACKTR and the baselines use the same model architecture except for the TRPO baseline on Atari games, with which we are limited to using a smaller architecture because of the computing burden of running a conjugate gradient inner-loop. See the appendix for other experiment details.
+
+<!-- chunk {"id": "body-0025", "role": "body", "section": "Discrete control", "weight": 1.0} -->
+
+Wefirst present results on the standard six Atari 2600 games to measure the performance improvement obtained by ACKTR. The results on the six Atari games trained for 10 million timesteps are shown in Figure 1, with comparison to A2C and TRPO 2. ACKTR significantly outperformed A2C in terms of sample efficiency (i.e., speed of convergence per number of timesteps) by a significant margin in all games. We found that TRPO could only learn two games, Seaquest and Pong, in 10 million timesteps, and performed worse than A2C in terms of sample efficiency.
+
+<!-- chunk {"id": "body-0026", "role": "body", "section": "Discrete control", "weight": 1.0} -->
+
+In Table 1 we present the mean of rewards of the last 100 episodes in training for 50 million timesteps, as well as the number of episodes required to achieve human performance. Notably, on the games Beamrider, Breakout, Pong, and Q-bert, A2C required respectively 2. 7, 3. 5, 5. 3, and 3. 0 times more episodes than ACKTR to achieve human performance. In addition, one of the runs by A2C in Space Invaders failed to match human performance, whereas ACKTR achieved 19723 on average, 12 times better than human performance. On the games Breakout, Q-bert and Beamrider, ACKTR achieved 26%, 35%, and 67% larger episode rewards than A2C.
+
+<!-- chunk {"id": "body-0027", "role": "body", "section": "Discrete control", "weight": 1.0} -->
+
+We also evaluated ACKTR on the rest of the Atari games; see Appendix B for full results. We compared ACKTR with Q-learning methods, and we found that in 36 out of 44 benchmarks, ACKTR is on par with Q-learning methods in terms of sample efficiency, and consumed a lot less computation time. Remarkably, in the game of Atlantis, ACKTR quickly learned to obtain rewards of 2 million in 1. 3 hours ( 600 episodes), as shown in Figure 2. It took A2C 10 hours ( 6000 episodes) to reach the same performance level.
+
+<!-- chunk {"id": "body-0028", "role": "body", "section": "Continuous control", "weight": 1.0} -->
+
+We ran experiments on the standard benchmark of continuous control tasks defined in OpenAI Gym simulated in MuJoCo, both from low-dimensional state-space representation and directly from pixels. In contrast to Atari, the continuous control tasks are sometimes more challenging due to high-dimensional action spaces and exploration. The results of eight MuJoCo environments trained for 1 million timesteps are shown in Figure 3. Our model significantly outperformed baselines on six out of eight MuJoCo tasks and performed competitively with A2C on the other two tasks (Walker2d and Swimmer).
+
+<!-- chunk {"id": "body-0029", "role": "body", "section": "Continuous control", "weight": 1.0} -->
+
+We further evaluated ACKTR for 30 million timesteps on eight MuJoCo tasks and in Table 2 we present mean rewards of the top 10 consecutive episodes in training, as well as the number of episodes to reach a certain threshold defined. As shown in Table 2, ACKTR reaches the specified threshold faster on all tasks, except for Swimmer where TRPO achieves 4. 1 times better sample efficiency. A particularly notable case is Ant, where ACKTR is 16. 4 times more sample efficient than TRPO. As for the mean reward score, all three models achieve results comparable with each other with the exception of TRPO, which in the Walker2d environment achieves a 10% better reward score.
+
+<!-- chunk {"id": "body-0030", "role": "body", "section": "Continuous control", "weight": 1.0} -->
+
+2 The A2C and TRPO Atari baseline results are provided to us by the OpenAI team, openai/baselines-results.
+
+<!-- chunk {"id": "body-0031", "role": "body", "section": "Continuous control", "weight": 1.0} -->
+
+We also attempted to learn continuous control policies directly from pixels, without providing lowdimensional state space as an input. Learning continuous control policies from pixels is much more challenging than learning from the state space, partially due to the slower rendering time compared to Atari ( 0. 5 seconds in MuJoCo vs 0. 002 seconds in Atari). The state-of-the-art actorcritic method A3C only reported results from pixels on relatively simple tasks, such as Pendulum, Pointmass2D, and Gripper. As shown in Figure 4 we can see that our model significantly outperforms A2C in terms of final episode reward after training for 40 million timesteps. More specifically, on Reacher, HalfCheetah, and Walker2d our model achieved a 1. 6, 2. 8, and 1. 7 times greater final reward compared to A2C. The videos of trained policies from pixels can be found at https: //www.youtube.com/watch?v=gtM87w1xGoM. Pretrained model weights are available at https: //github.com/emansim/acktr.
+
+<!-- chunk {"id": "body-0032", "role": "body", "section": "A better norm for critic optimization?", "weight": 1.0} -->
+
+The previous natural policy gradient method applied a natural gradient update only to the actor. In our work, we propose also applying a natural gradient update to the critic. The difference lies in the norm with which we choose to perform steepest descent on the critic; that is, the norm || · || B defined in section 2.2. In this section, we applied ACKTR to the actor, and compared using a first-order method (i.e., Euclidean norm) with using ACKTR (i.e., the norm defined by Gauss-Newton) for critic optimization. Figures 5 (a) and (b) show the results on the continuous control task HalfCheetah and the Atari game Breakout. We observe that regardless of which norm we use to optimize the critic, there are improvements brought by applying ACKTR to the actor compared to the baseline A2C.
+
+<!-- chunk {"id": "body-0033", "role": "body", "section": "A better norm for critic optimization?", "weight": 1.0} -->
+
+| | | ACKTR | ACKTR | A2C | A2C | TRPO (10 M) | TRPO (10 M) | Table 2: ACKTR, A2C, and TRPO results, showing the top 10 average episode rewards attained within 30 million timesteps, averaged over the 3 best performing random seeds out of 8 random seeds. 'Episode' denotes the smallest N for which the mean episode reward over the N th to the (N + 10) th game crosses a certain threshold. The thresholds for all environments except for InvertedPendulum and InvertedDoublePendulum were chosen according to Gu et al., and in brackets we show the reward threshold needed to solve the environment according to the OpenAI Gym website.
+
+<!-- chunk {"id": "body-0034", "role": "body", "section": "A better norm for critic optimization?", "weight": 1.0} -->
+
+However, the improvements brought by using the Gauss-Newton norm for optimizing the critic are more substantial in terms of sample efficiency and episode rewards at the end of training. In addition, the Gauss-Newton norm also helps stabilize the training, as we observe larger variance in the results over random seeds with the Euclidean norm.
+
+<!-- chunk {"id": "body-0035", "role": "body", "section": "A better norm for critic optimization?", "weight": 1.0} -->
+
+Recall that the Fisher matrix for the critic is constructed using the output distribution of the critic, a Gaussian distribution with variance σ. In vanilla Gauss-Newton, σ is set to 1. We experimented with estimating σ using the variance of the Bellman error, which resembles estimating the variance of the noise in regression analysis. We call this method adaptive Gauss-Newton. However, we find adaptive Gauss-Newton doesn't provide any significant improvement over vanilla Gauss-Newton. (See detailed comparisons on the choices of σ in Appendix D).
+
+<!-- chunk {"id": "body-0036", "role": "body", "section": "How does ACKTR compare with A2C in wall-clock time?", "weight": 1.0} -->
+
+We compared ACKTR to the baselines A2C and TRPO in terms of wall-clock time. Table 3 shows the average timesteps per second over six Atari games and eight MuJoCo (from state space) environments. The result is obtained with the same experiment setup as previous experiments. Note that in MuJoCo tasks episodes are processed sequentially, whereas in the Atari environment episodes are processed in parallel; hence more frames are processed in Atari environments. From the table we see that ACKTR only increases computing time by at most 25% per timestep, demonstrating its practicality with large optimization benefits.
+
+<!-- chunk {"id": "body-0037", "role": "body", "section": "How does ACKTR compare with A2C in wall-clock time?", "weight": 1.0} -->
+
+| (Timesteps/Second) | Atari | Atari | Atari | MuJoCo | MuJoCo | MuJoCo |
+
+<!-- chunk {"id": "body-0038", "role": "body", "section": "How do ACKTR and A2C perform with different batch sizes?", "weight": 1.0} -->
+
+In a large-scale distributed learning setting, large batch size is used in optimization. Therefore, in such a setting, it is preferable to use a method that can scale well with batch size. In this section, we compare how ACKTR and the baseline A2C perform with respect to different batch sizes. We experimented with batch sizes of 160 and 640. Figure 5 (c) shows the rewards in number of timesteps. We found that ACKTR with a larger batch size performed as well as that with a smaller batch size. However, with a larger batch size, A2C experienced significant degradation in terms of sample efficiency. This corresponds to the observation in Figure 5 (d), where we plotted the training curve in terms of number of updates. We see that the benefit increases substantially when using a larger batch size with ACKTR compared to with A2C. This suggests there is potential for large speed-ups with ACKTR in a distributed setting, where one needs to use large mini-batches; this matches the observation.
+
+<!-- chunk {"id": "body-0039", "role": "body", "section": "Conclusion", "weight": 1.5} -->
+
+In this work we proposed a sample-efficient and computationally inexpensive trust-regionoptimization method for deep reinforcement learning. We used a recently proposed technique called K-FAC to approximate the natural gradient update for actor-critic methods, with trust region optimization for stability. To the best of our knowledge, we are the first to propose optimizing both the actor and the critic using natural gradient updates. We tested our method on Atari games as well as the MuJoCo environments, and we observed 2 - to 3 -fold improvements in sample efficiency on average compared with a first-order gradient method (A2C) and an iterative second-order method (TRPO). Because of the scalability of our algorithm, we are also the first to train several non-trivial tasks in continuous control directly from raw pixel observation space. This suggests that extending Kronecker-factored natural gradient approximations to other algorithms in reinforcement learning is a promising research direction.

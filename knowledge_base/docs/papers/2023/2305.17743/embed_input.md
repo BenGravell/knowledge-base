@@ -52,76 +52,68 @@ Our main results concern Spectres, the set of shapes whose tilings correspond ex
 
 <!-- chunk {"id": "body-0013", "role": "body", "section": "The Spectre and its tilings", "weight": 1.0} -->
 
-We regard ${Tile}$ as an equilateral polygon with $14$ unit-length edges and $14$ vertices, where one of those vertices lies between two collinear edges. A tile $X$ is a *Spectre* if and only if
+We regard ${Tile}$ as an equilateral polygon with $14$ unit-length edges and $14$ vertices, where one of those vertices lies between two collinear edges.
 
 <!-- chunk {"id": "body-0014", "role": "body", "section": "The Spectre and its tilings", "weight": 1.0} -->
 
-Every chiral tiling admitted by ${Tile}$ corresponds to one by $X$: if $\left\{ {g_{i}{Tile}} \right\}$ is a chiral tiling, then $\left\{ {g_{i}X} \right\}$ is also a tiling; and
+A tile $X$ is a *Spectre* if and only if $X$ admits only chiral tilings; Every tiling admitted by $X$ corresponds to one by ${Tile}$: if $\left\{ {g_{i}X} \right\}$ is a tiling for a set of isometries $\left\{ g_{i} \right\}$, then $\left\{ {g_{i}{Tile}} \right\}$ is also a tiling; Every chiral tiling admitted by ${Tile}$ corresponds to one by $X$: if $\left\{ {g_{i}{Tile}} \right\}$ is a chiral tiling, then $\left\{ {g_{i}X} \right\}$ is also a tiling; and If $\left\{ {g_{i}X} \right\}$ is a tiling, then that tiling and $\left\{ {g_{i}{Tile}} \right\}$ have the same tiling vertices (points shared by three or more
 
 <!-- chunk {"id": "body-0015", "role": "body", "section": "The Spectre and its tilings", "weight": 1.0} -->
 
-If $\left\{ {g_{i}X} \right\}$ is a tiling, then that tiling and $\left\{ {g_{i}{Tile}} \right\}$ have the same tiling vertices (points shared by three or more tiles).
-
-<!-- chunk {"id": "body-0016", "role": "body", "section": "The Spectre and its tilings", "weight": 1.0} -->
-
 We do not attempt to characterize the space of all Spectres, but we can assert that the space is non-empty.
 
-<!-- chunk {"id": "body-0017", "role": "body", "section": "Main result", "weight": 1.0} -->
+<!-- chunk {"id": "body-0016", "role": "body", "section": "Main result", "weight": 1.0} -->
 
 When a substitution tiling is aperiodic, the proof of aperiodicity usually relies in some way on showing that the tiles are nested within an infinite hierarchical superstructure in every tiling they admit. We say that a set of tiles is *hierarchical* if, in every tiling admitted by those tiles, every tile is nested within an infinite hierarchy of ever-larger supertiles. If these hierarchies are uniquely determined, then the tilings that contain them must be non-periodic. This approach to aperiodicity informs our main result.
 
-<!-- chunk {"id": "body-0018", "role": "body", "section": "Combinatorial equivalence of tilings", "weight": 1.0} -->
+<!-- chunk {"id": "body-0017", "role": "body", "section": "Combinatorial equivalence of tilings", "weight": 1.0} -->
 
 At many points in this paper, we deduce information about a tiling by noting its combinatorial equivalence to some other tiling. Before proceeding we consider the notion of combinatorial equivalence in detail. Two patches, or two tilings, are *combinatorially equivalent* if and only if they are homeomorphic as topological complexes. Two sets of tiles are *combinatorially equivalent* if each tiling admitted by one is combinatorially equivalent to a tiling admitted by the other.
 
-<!-- chunk {"id": "body-0019", "role": "body", "section": "Combinatorial equivalence of tilings", "weight": 1.0} -->
+<!-- chunk {"id": "body-0018", "role": "body", "section": "Combinatorial equivalence of tilings", "weight": 1.0} -->
 
 The following lemma gives a test for establishing combinatorial equivalence. An *edge patch* is a collection of tiles with disjoint interiors, such that there exists a closed arc $e$ that is a connected component of the intersection of two of the tiles, all the other tiles contain an endpoint of $e$, and $e$ lies in the interior of the union of the tiles. A *vertex* of an edge patch is a point in the interior of the union of the tiles that is shared by at least three tiles of the patch.
 
-<!-- chunk {"id": "body-0020", "role": "body", "section": "From Spectres to hats and turtles", "weight": 1.0} -->
+<!-- chunk {"id": "body-0019", "role": "body", "section": "From Spectres to hats and turtles", "weight": 1.0} -->
 
-In the work of Smith et al., computational analysis of the hat was simplified by the fact that it a polyform, specifically a union of eight kites from the Laves tiling $\lbrack 3.4.6.4\rbrack$. Furthermore, the tiles in every tiling by hats must be aligned with the kites of the Laves tiling \[, Lemma A.6\]. Consequently, patches of hats can be manipulated discretely by associating information with the cells of the underlying kite grid. The aperiodic $10$-kite known as the turtle is also compatible with grid-based computations.
+In the work of Smith et al., computational analysis of the hat was simplified by the fact that it a polyform, specifically a union of eight kites from the Laves tiling $\lbrack 3.4.6.4\rbrack$. Furthermore, the tiles in every tiling by hats must be aligned with the kites of the Laves tiling \[, Lemma A.6\]. Consequently, patches of hats can be manipulated discretely by associating information with the cells of the underlying kite grid. The aperiodic $10$-kite known as the turtle is also compatible with grid-based computations. ${Tile}$ is not a polyform, which at the outset appears to rule out such an approach. However, we can regain the ability to perform discrete computations by exploiting a connection between tilings by ${Tile}$ and tilings by combinations of hats and turtles. We prove the following result.
 
-<!-- chunk {"id": "body-0021", "role": "body", "section": "From Spectres to hats and turtles", "weight": 1.0} -->
-
-${Tile}$ is not a polyform, which at the outset appears to rule out such an approach. However, we can regain the ability to perform discrete computations by exploiting a connection between tilings by ${Tile}$ and tilings by combinations of hats and turtles. We prove the following result.
-
-<!-- chunk {"id": "body-0022", "role": "body", "section": "From hats and turtles to marked hexagons", "weight": 1.0} -->
+<!-- chunk {"id": "body-0020", "role": "body", "section": "From hats and turtles to marked hexagons", "weight": 1.0} -->
 
 We have not yet shown that the Spectre admits any tilings of the plane. However, we can still prove that any such tilings, if they exist, must be non-periodic. This section and the one that follows furnish such a proof. As a by-product we also obtain a substitution system that can produce patches of Spectres of any size.
 
-<!-- chunk {"id": "body-0023", "role": "body", "section": "From hats and turtles to marked hexagons", "weight": 1.0} -->
+<!-- chunk {"id": "body-0021", "role": "body", "section": "From hats and turtles to marked hexagons", "weight": 1.0} -->
 
 Any tiling by Spectres is combinatorially equivalent to a chiral tiling by ${Tile}$. In turn, that tiling is equivalent to a chiral tiling by hats and turtles (i.e., all tiles are unreflected, or all tiles are reflected). These equivalences extend to any translational symmetries of the tilings, meaning that the Spectre tiling is periodic if and only if the hat-turtle tiling is. As with the analysis of hat tilings \[, Section 4\], we show here that in any chiral tiling by hats and turtles, we can group tiles into non-overlapping clusters. The resulting tiling by the clusters satisfies certain matching conditions and has the same symmetries as the original tiling by hats and turtles. We arrive at the following result.
 
-<!-- chunk {"id": "body-0024", "role": "body", "section": "A substitution system for marked hexagons", "weight": 1.0} -->
+<!-- chunk {"id": "body-0022", "role": "body", "section": "A substitution system for marked hexagons", "weight": 1.0} -->
 
 In this section, we prove that any tiling admitted by the marked hexagons of Figure 4.2 can be uniquely composed into the supertiles of Figure 5.1. This composition yields a unique hierarchy of level-$n$ supertiles for all $n$, which forces any tiling by these hexagons to be non-periodic. We also observe that the supertiles imply a substitution system that produces patches of hexagons of any size, thus confirming that the hexagons tile the plane.
 
-<!-- chunk {"id": "body-0025", "role": "body", "section": "Conclusion", "weight": 1.5} -->
+<!-- chunk {"id": "body-0023", "role": "body", "section": "Conclusion", "weight": 1.5} -->
 
 Many problems in tiling theory depend implicitly or explicitly on an initial decision of when to consider two tiles in a tiling "the same". In the Euclidean plane, if this decision is not otherwise articulated then we assume two tiles are the same if they can be brought into coincidence through any planar isometry. In this paper we first answer the einstein problem in a world where sameness is restricted to orientation-preserving isometries. The polygon ${Tile}$ is a *weakly chiral aperiodic monotile*: a shape that tiles aperiodically if only translations and rotations are permitted. Then, by modifying the edges of that polygon, we obtain a class of shapes called Spectres, which are *strictly chiral aperiodic monotiles*: they tile aperiodically using tiles of a single handedness, even when reflections are allowed.
 
-<!-- chunk {"id": "body-0026", "role": "body", "section": "Conclusion", "weight": 1.5} -->
+<!-- chunk {"id": "body-0024", "role": "body", "section": "Conclusion", "weight": 1.5} -->
 
 Other variations of the einstein problem can be posed in which tiles are restricted to images under any given group of isometries. Each such problem comes in weak and strict forms, as above. In the weak case, we ask whether a shape's tilings are non-periodic if tilings are restricted by fiat to the given isometries, even if it would tile periodically when all isometries are allowed. In the strict case we require that by design, a shape does not admit any tilings that use isometries outside the group.
 
-<!-- chunk {"id": "body-0027", "role": "body", "section": "Conclusion", "weight": 1.5} -->
+<!-- chunk {"id": "body-0025", "role": "body", "section": "Conclusion", "weight": 1.5} -->
 
 If we restrict our attention to translations alone, then the work of Girault-Beauquier and Nivat and Kenyon shows that a topological disk with a tiling by translation cannot be an aperiodic monotile. However, Greenfeld and Tao and Greenfeld and Kolountzakis showed that translational aperiodic monotiles do exist in sufficiently high dimensions. The next simplest case is where $180^{\circ}$ rotations are allowed along with translations. Schattschneider \[, Problem 18.E1\] posed the question of whether any tile admitting such a tiling of the plane also satisfies the Conway criterion, implying that it must be isohedral.
 
-<!-- chunk {"id": "body-0028", "role": "body", "section": "Conclusion", "weight": 1.5} -->
+<!-- chunk {"id": "body-0026", "role": "body", "section": "Conclusion", "weight": 1.5} -->
 
 Our work presents a single family of strictly chiral aperiodic monotiles, which are all essentially the same up to trivial modifications of tiling edges. It would be interesting to search for other weakly chiral or strictly chiral einsteins. It would be particularly worthwhile to find (or disprove the existence of) an aperiodic monotile with bilateral reflection symmetry, a shape for which chirality becomes moot.
 
-<!-- chunk {"id": "body-0029", "role": "body", "section": "Conclusion", "weight": 1.5} -->
+<!-- chunk {"id": "body-0027", "role": "body", "section": "Conclusion", "weight": 1.5} -->
 
 We showed in Lemma 2.1 that we can replace the $14$ edges of ${Tile}$ by suitably oriented copies of any smooth curve to construct a Spectre, provided the replacement results in a tile with a non-self-intersecting boundary. In fact, the construction works generally for $C^{1}$ curves, which suffice to force the vertices of the original polygon to meet each other in tilings. However, we leave open the question of whether some other curves (e.g., piecewise-linear paths) might permit different tilings, or whether all choices of curve produce valid Spectres.
 
-<!-- chunk {"id": "body-0030", "role": "body", "section": "Conclusion", "weight": 1.5} -->
+<!-- chunk {"id": "body-0028", "role": "body", "section": "Conclusion", "weight": 1.5} -->
 
 As part of our proof of aperiodicity, we derived the chiral marked hexagons of Figure 4.2. These hexagons are meant to encode the combinatorics of clusters of Spectres, but they display interesting properties of their own that may be worthy of further study. Figure 5.2 hints at emergent patterns in tilings by marked hexagons.
 
-<!-- chunk {"id": "body-0031", "role": "body", "section": "Conclusion", "weight": 1.5} -->
+<!-- chunk {"id": "body-0029", "role": "body", "section": "Conclusion", "weight": 1.5} -->
 
 Some of the hexagons of Figure 4.2 have very similar arrangements of markings; removing the distinctions between some of the edge labels can produce a smaller set of marked hexagons without reducing the set to a single trivially marked tile. In particular, combining $\Theta$, $\Xi$, $\Phi$ and $\Psi$ into a single marked hexagon, and combining $\Lambda$ and $\Pi$ into another marked hexagon, yields a smaller set of five marked hexagons, which preliminary computations suggest might also be aperiodic. It would be of interest to understand what small aperiodic sets of chiral marked hexagons are possible with this style of edge markings, similar to the work of Jeandel and Rao on small aperiodic sets of Wang tiles.

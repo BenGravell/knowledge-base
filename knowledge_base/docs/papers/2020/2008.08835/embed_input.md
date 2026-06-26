@@ -32,37 +32,35 @@ With the enlarged time allocation, a new B-spline that fits the previous dynamic
 
 <!-- chunk {"id": "body-0008", "role": "body", "section": "Introduction", "weight": 1.5} -->
 
-To the best knowledge of us, this method is the first to achieve gradient-based local planning without an ESDF. Compared to existing state-of-the-art works, the proposed method generates safe trajectories with comparable smoothness and aggressiveness, but lower computation time of over an order of magnitude by omitting the ESDF maintenance. We perform comprehensive tests in simulation and real-world to validate our method.
+To the best knowledge of us, this method is the first to achieve gradient-based local planning without an ESDF. Compared to existing state-of-the-art works, the proposed method generates safe trajectories with comparable smoothness and aggressiveness, but lower computation time of over an order of magnitude by omitting the ESDF maintenance. We perform comprehensive tests in simulation and real-world to validate our method. Contributions of this letter are: We propose a novel and robust gradient-based quadrotor local planning method, which evaluates and projects gradient information directly from obstacles instead of a pre-built ESDF.
 
 <!-- chunk {"id": "body-0009", "role": "body", "section": "Introduction", "weight": 1.5} -->
 
-We propose a novel and robust gradient-based quadrotor local planning method, which evaluates and projects gradient information directly from obstacles instead of a pre-built ESDF.
+We propose a lightweight yet effective trajectory refinement algorithm, which generates smoother trajectories by formulating the trajectory fitting problem with anisotropic error penalization.
 
 <!-- chunk {"id": "body-0010", "role": "body", "section": "Introduction", "weight": 1.5} -->
 
-We propose a lightweight yet effective trajectory refinement algorithm, which generates smoother trajectories by formulating the trajectory fitting problem with anisotropic error penalization.
+We integrate the proposed method into a fully autonomous quadrotor system, and release our software for the reference of the community^11^1 Figure 2: The trajectory gets stuck into a local minimum, which is very common since the camera has no vision of the back of the obstacle.
 
-<!-- chunk {"id": "body-0011", "role": "body", "section": "Introduction", "weight": 1.5} -->
-
-We integrate the proposed method into a fully autonomous quadrotor system, and release our software for the reference of the community^11^1
-
-<!-- chunk {"id": "body-0012", "role": "body", "section": "II-A Gradient-based Motion Planning", "weight": 1.0} -->
+<!-- chunk {"id": "body-0011", "role": "body", "section": "II-A Gradient-based Motion Planning", "weight": 1.0} -->
 
 Gradient-based motion planning is the mainstream for UAV local trajectory generation, which formulates the problem as unconstrained nonlinear optimization. ESDF is first introduced in robotic motion planning by Ratliff et al.. Utilizing its abundant gradient information, many planning frameworks directly optimize trajectories in the configuration space. Nevertheless, optimizing the trajectory in discrete-time is not suitable for drones, because it is much more sensitive to dynamical constraints. Thereby, proposes a continuous-time polynomial trajectory optimization method for UAV planning. However, the involved integral of the potential function causes a heavy computation burden. Besides, the success rate of this method is around $70\%$, even with random restarts. For these drawbacks, introduces a B-spline parameterization of the trajectory which takes good advantage of the convex hull property. In, the success rate is significantly increased by finding a collision-free initial path as the front-end. Moreover, the performance is further improved when the generation of the initial collision-free path takes into account kinodynamic constraints. Zhou et al. incorporate perception awareness to make the system more robust.
 
-<!-- chunk {"id": "body-0013", "role": "body", "section": "II-A Gradient-based Motion Planning", "weight": 1.0} -->
+<!-- chunk {"id": "body-0012", "role": "body", "section": "II-A Gradient-based Motion Planning", "weight": 1.0} -->
 
 Among the above approaches, ESDF plays a vital role in evaluating distance with gradient magnitude and direction to nearby obstacles.
 
-<!-- chunk {"id": "body-0014", "role": "body", "section": "II-B Euclidean Signed Distance Field (ESDF)", "weight": 1.0} -->
+<!-- chunk {"id": "body-0013", "role": "body", "section": "II-B Euclidean Signed Distance Field (ESDF)", "weight": 1.0} -->
 
 ESDF has long been used to construct objects from noisy sensor data for over two decades, and revive interests in robotics motion planning since. Felzenszwalb et al. propose an envelope algorithm that reduces the time complexity of ESDF construction to $O{(n)}$ with $n$ denoted as voxel numbers. This algorithm is not suitable for incremental building of ESDF, while dynamic updating of the field is often needed during quadrotor flight. To solve this problem, Oleynikova and Han propose incremental ESDF generation methods, namely Voxblox and FIESTA. Although these methods are highly efficient in dynamic updating cases, the generated ESDF almost always contains redundant information that may not be used in the planning procedure at all. As is shown in Fig.1, this trajectory only sweeps over a very limited subspace of the whole ESDF updating range. Therefore, it is valuable to design a more intelligent and lightweight method, instead of maintaining the whole field.
 
+<!-- chunk {"id": "body-0014", "role": "body", "section": "II-B Euclidean Signed Distance Field (ESDF)", "weight": 1.0} -->
+
+(c) Distance Field of A {p, v} Pair Figure 3: a) A trajectory Φ passing through an obstacle generates several {p, v} pairs for control points. p are the points at the obstacle surface and v are unit vectors pointing from control points to p. b) A plane Ψ which is perpendicular to a tangent vector Ri intersects Γ forming a line l, from which a {p, v} pair is determined. c) Slice visualization of distance field definition di j = (Qi − pi j) ⋅ vi j. The color indicates the distance and the arrows are identical gradients equal to v. p is at the zero distance plane.
+
 <!-- chunk {"id": "body-0015", "role": "body", "section": "II-B Euclidean Signed Distance Field (ESDF)", "weight": 1.0} -->
 
-1:Notation: Environment ℰ, Control Points Struct Q, Anchor Points p, Repulsive Direction Vector v, Colliding Segments S
-5: S.push_back(GetCollisionSegment)
-10: for Si.begin ≤ j ≤ Si.end do
+1:Notation: Environment ℰ, Control Points Struct Q, Anchor Points p, Repulsive Direction Vector v, Colliding Segments S 5: S.push_back(GetCollisionSegment) 10: for Si.begin ≤ j ≤ Si.end do
 
 <!-- chunk {"id": "body-0016", "role": "body", "section": "Collision Avoidance Force Estimation", "weight": 1.0} -->
 
@@ -70,11 +68,11 @@ In this paper, the decision variables are control points $\mathbf{Q}$ of a B-spl
 
 <!-- chunk {"id": "body-0017", "role": "body", "section": "Collision Avoidance Force Estimation", "weight": 1.0} -->
 
-Denote by $i \in {\mathbb{N}}_{+}$ the index of control points, and $j \in {\mathbb{N}}$ the index of $\{\mathbf{p},\mathbf{v}\}$ pair. Note that each $\{\mathbf{p},\mathbf{v}\}$ pair only belongs to one specific control point. For brevity, we omit the subscript $ij$ without causing ambiguity. The detailed $\{\mathbf{p},\mathbf{v}\}$ pair generation procedure in this paper is summarized in Alg.1 ‣ II Related Work ‣ EGO-Planner: An ESDF-free Gradient-based Local Planner for Quadrotors") and is illustrated in Fig.3(b) ‣ II Related Work ‣ EGO-Planner: An ESDF-free Gradient-based Local Planner for Quadrotors"). Then the obstacle distance from $\mathbf{Q}_{i}$ to the $j^{th}$ obstacle is defined as
+Denote by $i \in {\mathbb{N}}_{+}$ the index of control points, and $j \in {\mathbb{N}}$ the index of $\{\mathbf{p},\mathbf{v}\}$ pair. Note that each $\{\mathbf{p},\mathbf{v}\}$ pair only belongs to one specific control point. For brevity, we omit the subscript $ij$ without causing ambiguity. The detailed $\{\mathbf{p},\mathbf{v}\}$ pair generation procedure in this paper is summarized in Alg.1 ‣ II Related Work ‣ EGO-Planner: An ESDF-free Gradient-based Local Planner for Quadrotors") and is illustrated in Fig.3(b) ‣ II Related Work ‣ EGO-Planner: An ESDF-free Gradient-based Local Planner for Quadrotors").
 
 <!-- chunk {"id": "body-0018", "role": "body", "section": "Collision Avoidance Force Estimation", "weight": 1.0} -->
 
-In order to avoid duplicative $\{\mathbf{p},\mathbf{v}\}$ pair generation before the trajectory escapes from the current obstacle during the first several iterations, we adopt a criterion that considers an obstacle which the control point $\mathbf{Q}_{i}$ lies in as newly discovered, only if the current $\mathbf{Q}_{i}$ satisfies $d_{ij} > 0$ for all valid $j$. Besides, this criterion allows only necessary obstacles that contribute to the final trajectory to be taken into optimization. Thus, the operation time is significantly reduced.
+Then the obstacle distance from $\mathbf{Q}_{i}$ to the $j^{th}$ obstacle is defined as In order to avoid duplicative $\{\mathbf{p},\mathbf{v}\}$ pair generation before the trajectory escapes from the current obstacle during the first several iterations, we adopt a criterion that considers an obstacle which the control point $\mathbf{Q}_{i}$ lies in as newly discovered, only if the current $\mathbf{Q}_{i}$ satisfies $d_{ij} > 0$ for all valid $j$. Besides, this criterion allows only necessary obstacles that contribute to the final trajectory to be taken into optimization. Thus, the operation time is significantly reduced.
 
 <!-- chunk {"id": "body-0019", "role": "body", "section": "Collision Avoidance Force Estimation", "weight": 1.0} -->
 
@@ -90,165 +88,124 @@ B-spline enjoys convex hull property. This property indicates that a single span
 
 <!-- chunk {"id": "body-0022", "role": "body", "section": "IV-A Problem Formulation", "weight": 1.0} -->
 
-Since $\bigtriangleupt$ is identical alone $\mathbf{\Phi}$, the control points of the velocity $\mathbf{V}_{i}$, acceleration $\mathbf{A}_{i}$, and jerk $\mathbf{J}_{i}$ curves are obtained by
+Since $\bigtriangleupt$ is identical alone $\mathbf{\Phi}$, the control points of the velocity $\mathbf{V}_{i}$, acceleration $\mathbf{A}_{i}$, and jerk $\mathbf{J}_{i}$ curves are obtained by We follow the work of to plan the control points $\mathbf{Q} \in {\mathbb{R}}^{3}$ in a reduced space of differentially flat outputs. The optimization problem is then formulated as follows: where $J_{s}$ is the smoothness penalty, $J_{c}$ is for collision, and $J_{d}$ indicates feasibility. $\lambda_{s},\lambda_{c},\lambda_{d}$ are weights for each penalty terms.
 
-<!-- chunk {"id": "body-0023", "role": "body", "section": "IV-A Problem Formulation", "weight": 1.0} -->
-
-We follow the work of to plan the control points $\mathbf{Q} \in {\mathbb{R}}^{3}$ in a reduced space of differentially flat outputs.
-
-<!-- chunk {"id": "body-0024", "role": "body", "section": "IV-A Problem Formulation", "weight": 1.0} -->
-
-where $J_{s}$ is the smoothness penalty, $J_{c}$ is for collision, and $J_{d}$ indicates feasibility. $\lambda_{s},\lambda_{c},\lambda_{d}$ are weights for each penalty terms.
-
-<!-- chunk {"id": "body-0025", "role": "body", "section": "IV-A1 Smoothness penalty", "weight": 1.0} -->
+<!-- chunk {"id": "body-0023", "role": "body", "section": "IV-A1 Smoothness penalty", "weight": 1.0} -->
 
 In, the smoothness penalty is formulized as the time integral over square derivatives of the trajectory (acceleration, jerk, etc.). In, only geometric information of the trajectory is taken regardless of time allocation. In this paper, we combine both methods to penalize squared acceleration and jerk without time integration.
 
-<!-- chunk {"id": "body-0026", "role": "body", "section": "IV-A1 Smoothness penalty", "weight": 1.0} -->
+<!-- chunk {"id": "body-0024", "role": "body", "section": "IV-A1 Smoothness penalty", "weight": 1.0} -->
 
-Benefiting from the convex hull property, minimizing the control points of second and third order derivatives of the B-spline trajectory is sufficient to reduce these derivatives along the whole curve. Therefore, the smoothness penalty function is formulated as
+Benefiting from the convex hull property, minimizing the control points of second and third order derivatives of the B-spline trajectory is sufficient to reduce these derivatives along the whole curve. Therefore, the smoothness penalty function is formulated as which minimizes high order derivatives, making the whole trajectory smooth.
 
-<!-- chunk {"id": "body-0027", "role": "body", "section": "IV-A1 Smoothness penalty", "weight": 1.0} -->
+<!-- chunk {"id": "body-0025", "role": "body", "section": "IV-A2 Collision penalty", "weight": 1.0} -->
 
-which minimizes high order derivatives, making the whole trajectory smooth.
+Collision penalty pushes control points away from obstacles. This is achieved by adopting a safety clearance $s_{f}$ and punishing control points with $d_{ij} < s_{f}$. In order to further facilitate optimization, we construct a twice continuously differentiable penalty function $j_{c}$ and suppress its slope as $d_{ij}$ decreases, which yields the piecewise function where $j_{c}{(i,j)}$ is the cost value produced by ${\{\mathbf{p},\mathbf{v}\}}_{j}$ pairs on $\mathbf{Q}_{i}$. The cost on each $\mathbf{Q}_{i}$ is evaluated independently and accumulated from all corresponding ${\{\mathbf{p},\mathbf{v}\}}_{j}$ pairs. Thus, a control point obtains a higher trajectory deformation weight if it discovers more obstacles.
 
-<!-- chunk {"id": "body-0028", "role": "body", "section": "IV-A2 Collision penalty", "weight": 1.0} -->
+<!-- chunk {"id": "body-0026", "role": "body", "section": "IV-A2 Collision penalty", "weight": 1.0} -->
 
-Collision penalty pushes control points away from obstacles. This is achieved by adopting a safety clearance $s_{f}$ and punishing control points with $d_{ij} < s_{f}$. In order to further facilitate optimization, we construct a twice continuously differentiable penalty function $j_{c}$ and suppress its slope as $d_{ij}$ decreases, which yields the piecewise function
+Specifically, the cost value added to the $i^{th}$ control point is ${j_{c}{(\mathbf{Q}_{i})}} = {\sum_{j = 1}^{N_{p}}{j_{c}{(i,j)}}}$, $N_{p}$ is the number of ${\{\mathbf{p},\mathbf{v}\}}_{j}$ pairs belonging to $\mathbf{Q}_{i}$. Combining costs on all $\mathbf{Q}_{i}$ yields the total cost $J_{c}$, i.e., Unlike traditional ESDF-based methods, which compute gradient by trilinear interpolation on the field, we obtain gradient by directly computing the derivative of $J_{c}$ with respect to $\mathbf{Q}_{i}$, which gives
 
-<!-- chunk {"id": "body-0029", "role": "body", "section": "IV-A2 Collision penalty", "weight": 1.0} -->
+<!-- chunk {"id": "body-0027", "role": "body", "section": "IV-A3 Feasibility penalty", "weight": 1.0} -->
 
-Unlike traditional ESDF-based methods, which compute gradient by trilinear interpolation on the field, we obtain gradient by directly computing the derivative of $J_{c}$ with respect to $\mathbf{Q}_{i}$, which gives
+Feasibility is ensured by restricting the higher order derivatives of the trajectory on every single dimension, i.e., applying ${|{\mathbf{\Phi}_{r}^{(k)}{(t)}}|} < \mathbf{\Phi}_{r,{max}}^{(k)}$ for all $t$, where $r \in {\{ x,y,z\}}$ indicates each dimension. Thanks to the convex hull property, constraining derivatives of the control points is sufficient for constraining the whole B-spline. Therefore, the penalty function is formulated as where $w_{v},w_{a},w_{j}$ are weights for each terms and $F{(\cdot)}$ is a twice continuously differentiable metric function of higher order derivatives of control points.
 
-<!-- chunk {"id": "body-0030", "role": "body", "section": "IV-A3 Feasibility penalty", "weight": 1.0} -->
-
-Feasibility is ensured by restricting the higher order derivatives of the trajectory on every single dimension, i.e., applying ${|{\mathbf{\Phi}_{r}^{(k)}{(t)}}|} < \mathbf{\Phi}_{r,{max}}^{(k)}$ for all $t$, where $r \in {\{ x,y,z\}}$ indicates each dimension. Thanks to the convex hull property, constraining derivatives of the control points is sufficient for constraining the whole B-spline. Therefore, the penalty function is formulated as
-
-<!-- chunk {"id": "body-0031", "role": "body", "section": "IV-A3 Feasibility penalty", "weight": 1.0} -->
-
-where $w_{v},w_{a},w_{j}$ are weights for each terms and $F{( \cdot )}$ is a twice continuously differentiable metric function of higher order derivatives of control points.
-
-<!-- chunk {"id": "body-0032", "role": "body", "section": "IV-A3 Feasibility penalty", "weight": 1.0} -->
+<!-- chunk {"id": "body-0028", "role": "body", "section": "IV-A3 Feasibility penalty", "weight": 1.0} -->
 
 where $c_{r} \in \mathbf{C} \in {\{\mathbf{V}_{i},\mathbf{A}_{i},\mathbf{J}_{i}\}}$, $a_{1},b_{1},c_{1},a_{2},b_{2},c_{2}$ are chosen to meet the second-order continuity, $c_{m}$ is the derivative limit, $c_{j}$ is the splitting points of the quadratic interval and the cubic interval. $\lambda < {1 - \epsilon}$ is an elastic coefficient with $\epsilon \ll 1$ to make the final results meet the constraints, since the cost function is a tradeoff of all weighted terms.
 
-<!-- chunk {"id": "body-0033", "role": "body", "section": "IV-B Numerical Optimization", "weight": 1.0} -->
+<!-- chunk {"id": "body-0029", "role": "body", "section": "IV-B Numerical Optimization", "weight": 1.0} -->
 
 The formulated problem in this paper features in two aspects. Firstly, the objective function $J$ alters adaptively according to the newly found obstacles. It requires the solver to be able to restart fast. Secondly, quadratic terms dominate the formulation of the objective function, making $J$ approximate quadratic. It means that the utilization of Hessian information can significantly accelerate the convergence. However, obtaining the exact inverse Hessian is prohibitive in real-time applications since it consumes nonnegligible massive computation. To circumvent this, quasi-Newton methods that approximate the inverse Hessian from gradient information are adopted.
 
-<!-- chunk {"id": "body-0034", "role": "body", "section": "IV-B Numerical Optimization", "weight": 1.0} -->
+<!-- chunk {"id": "body-0030", "role": "body", "section": "IV-B Numerical Optimization", "weight": 1.0} -->
 
-Since the performance of a solver is problem dependent, we compare three algorithms belonging to quasi-Newton methods. They are Barzilai-Borwein method which is capable of fast restart with most crude Hessian estimation, truncated Newton method which estimates Hessian by adding multiple tiny perturbations to a given state, L-BFGS method which approximates Hessian from previous objective function evaluations but requires a serial of iterations to reach a relatively accurate estimation. Comparison in Sec.VI-B states that L-BFGS outperforms the other two algorithms with appropriately selected memory size, balancing the loss of restart and the accuracy of inverse Hessian estimation. This algorithm is briefly explained as follows. For an unconstrained optimization problem ${min}_{\mathbf{x} \in {\mathbb{R}}^{n}}{f{(\mathbf{x})}}$, the updating for $\mathbf{x}$ follows the approximated Newton step
+Since the performance of a solver is problem dependent, we compare three algorithms belonging to quasi-Newton methods. They are Barzilai-Borwein method which is capable of fast restart with most crude Hessian estimation, truncated Newton method which estimates Hessian by adding multiple tiny perturbations to a given state, L-BFGS method which approximates Hessian from previous objective function evaluations but requires a serial of iterations to reach a relatively accurate estimation. Comparison in Sec.VI-B states that L-BFGS outperforms the other two algorithms with appropriately selected memory size, balancing the loss of restart and the accuracy of inverse Hessian estimation. This algorithm is briefly explained as follows.
 
-<!-- chunk {"id": "body-0035", "role": "body", "section": "IV-B Numerical Optimization", "weight": 1.0} -->
+<!-- chunk {"id": "body-0031", "role": "body", "section": "IV-B Numerical Optimization", "weight": 1.0} -->
 
-where $\alpha_{k}$ is the step length and $\mathbf{H}_{k}$ is updated at every iteration by means of the formula
+Here $\mathbf{H}_{k}$ is not calculated explicitly. The algorithm right multiplies $\nabla\mathbf{f}_{k}$ to Equ.12 and recursively expands for $m$ steps and then yields the efficient two-loop recursion updating method, resulting in linear time/space complexity. The weight of Barzilai-Borwein step is used as the initial inverse Hessian $\mathbf{H}_{k}^{0}$ for L-BFGS updating, which is A monotone line search under strong Wolfe condition is used to enforce convergence.
 
-<!-- chunk {"id": "body-0036", "role": "body", "section": "IV-B Numerical Optimization", "weight": 1.0} -->
-
-Here $\mathbf{H}_{k}$ is not calculated explicitly. The algorithm right multiplies $\nabla\mathbf{f}_{k}$ to Equ.12 and recursively expands for $m$ steps and then yields the efficient two-loop recursion updating method, resulting in linear time/space complexity. The weight of Barzilai-Borwein step is used as the initial inverse Hessian $\mathbf{H}_{k}^{0}$ for L-BFGS updating, which is
-
-<!-- chunk {"id": "body-0037", "role": "body", "section": "IV-B Numerical Optimization", "weight": 1.0} -->
-
-A monotone line search under strong Wolfe condition is used to enforce convergence.
-
-<!-- chunk {"id": "body-0038", "role": "body", "section": "Time Re-allocation and Trajectory Refinement", "weight": 1.0} -->
+<!-- chunk {"id": "body-0032", "role": "body", "section": "Time Re-allocation and Trajectory Refinement", "weight": 1.0} -->
 
 Allocating an accurate time profile before the optimization is unreasonable, since the planner knows no information about the final trajectory then. Therefore, an additional time re-allocation procedure is vital to ensure dynamical feasibility. Previous works parameterize the trajectory as a non-uniform B-spline and iteratively lengthen a subset of knot spans when some segments exceed derivative limits.
 
-<!-- chunk {"id": "body-0039", "role": "body", "section": "Time Re-allocation and Trajectory Refinement", "weight": 1.0} -->
+<!-- chunk {"id": "body-0033", "role": "body", "section": "Time Re-allocation and Trajectory Refinement", "weight": 1.0} -->
 
 However, one knot span $\bigtriangleupt_{n}$ influences multiple control points and vice versa, leading to high-order discontinuity to the previous trajectory when adjusting knot spans near the start state. In this section, a uniform B-spline trajectory $\mathbf{\Phi}_{f}$ is re-generated with reasonable time re-allocation according to the safe trajectory $\mathbf{\Phi}_{s}$ from IV. Then, an anisotropic curve fitting method is proposed to make $\mathbf{\Phi}_{f}$ freely optimize its control points to meet higher order derivative constraints while maintaining a nearly identical shape to $\mathbf{\Phi}_{s}$.
 
-<!-- chunk {"id": "body-0040", "role": "body", "section": "Time Re-allocation and Trajectory Refinement", "weight": 1.0} -->
+<!-- chunk {"id": "body-0034", "role": "body", "section": "Time Re-allocation and Trajectory Refinement", "weight": 1.0} -->
 
-Firstly, as Fast-Planner does, we compute the limits exceeding ratio,
+Firstly, as Fast-Planner does, we compute the limits exceeding ratio, where $i \in {\{ 1,\cdots,{N_{c} - 1}\}}$, $j \in {\{ 1,\cdots,{N_{c} - 2}\}}$, $k \in {\{ 1,\cdots,{N_{c} - 3}\}}$ and $r \in {\{ x,y,z\}}$ axis. A notion with subscript $m$ represents the limitation of a derivative. $r_{e}$ indicates how much we should lengthen the time allocation for $\mathbf{\Phi}_{f}$ relative to $\mathbf{\Phi}_{s}$.
 
-<!-- chunk {"id": "body-0041", "role": "body", "section": "Time Re-allocation and Trajectory Refinement", "weight": 1.0} -->
+<!-- chunk {"id": "body-0035", "role": "body", "section": "Time Re-allocation and Trajectory Refinement", "weight": 1.0} -->
 
-Note that $\mathbf{V}_{i}$, $\mathbf{A}_{j}$ and $\mathbf{J}_{k}$ are inversely proportional to $\bigtriangleupt$, the square of $\bigtriangleupt$ and the cubic of $\bigtriangleupt$, respectively, from Equ.2. Then we obtain the new time span of $\mathbf{\Phi}_{f}$
+Note that $\mathbf{V}_{i}$, $\mathbf{A}_{j}$ and $\mathbf{J}_{k}$ are inversely proportional to $\bigtriangleupt$, the square of $\bigtriangleupt$ and the cubic of $\bigtriangleupt$, respectively, from Equ.2. Then we obtain the new time span of $\mathbf{\Phi}_{f}$ $\mathbf{\Phi}_{f}$ of time span $\bigtriangleupt'$ is initially generated under boundary constraints while maintaining the identical shape and control points number to $\mathbf{\Phi}_{s}$, by solving a closed-form min-least square problem. The smoothness and feasibility are then refined by optimization. The penalty function $J'$ formulated by linear combinations of smoothness (Sec.IV-A1), feasibility (Sec.IV-A3) and curve fitting (introduced later) is where $\lambda_{f}$ is the weight of fitness term.
 
-<!-- chunk {"id": "body-0042", "role": "body", "section": "Time Re-allocation and Trajectory Refinement", "weight": 1.0} -->
+<!-- chunk {"id": "body-0036", "role": "body", "section": "Time Re-allocation and Trajectory Refinement", "weight": 1.0} -->
 
-$\mathbf{\Phi}_{f}$ of time span $\bigtriangleupt^{\prime}$ is initially generated under boundary constraints while maintaining the identical shape and control points number to $\mathbf{\Phi}_{s}$, by solving a closed-form min-least square problem. The smoothness and feasibility are then refined by optimization. The penalty function $J^{\prime}$ formulated by linear combinations of smoothness (Sec.IV-A1), feasibility (Sec.IV-A3) and curve fitting (introduced later) is
+The fitting penalty function $J_{f}$ is formulated as the integral of anisotropic displacements from points $\mathbf{\Phi}_{f}{({\alphaT'})}$ to the corresponding $\mathbf{\Phi}_{s}{({\alphaT})}$, where $T$ and $T'$ are the trajectory duration of $\mathbf{\Phi}_{s}$ and $\mathbf{\Phi}_{f}$, $\alpha \in {\lbrack 0,1\rbrack}$. Since the fitted curve $\mathbf{\Phi}_{s}$ is already collision-free, we assign the axial displacement of two curves with low penalty weight to relax smoothness adjustment restriction, and radial displacement with high penalty weight to avoid collision. To achieve this, we use the spheroidal metric, shown in Fig.5, such that displacements at the same spheroid surface produce identical penalties.
 
-<!-- chunk {"id": "body-0043", "role": "body", "section": "Time Re-allocation and Trajectory Refinement", "weight": 1.0} -->
+<!-- chunk {"id": "body-0037", "role": "body", "section": "Time Re-allocation and Trajectory Refinement", "weight": 1.0} -->
 
-where $\lambda_{f}$ is the weight of fitness term.
+function is where $a$ and $b$ are semi-major and semi-minor axis of the ellipse, respectively. The problem is solved by L-BFGS.
 
-<!-- chunk {"id": "body-0044", "role": "body", "section": "Time Re-allocation and Trajectory Refinement", "weight": 1.0} -->
-
-The fitting penalty function $J_{f}$ is formulated as the integral of anisotropic displacements from points $\mathbf{\Phi}_{f}{({\alphaT^{\prime}})}$ to the corresponding $\mathbf{\Phi}_{s}{({\alphaT})}$, where $T$ and $T^{\prime}$ are the trajectory duration of $\mathbf{\Phi}_{s}$ and $\mathbf{\Phi}_{f}$, $\alpha \in {\lbrack 0,1\rbrack}$. Since the fitted curve $\mathbf{\Phi}_{s}$ is already collision-free, we assign the axial displacement of two curves with low penalty weight to relax smoothness adjustment restriction, and radial displacement with high penalty weight to avoid collision. To achieve this, we use the spheroidal metric, shown in Fig.5, such that displacements at the same spheroid surface produce identical penalties.
-
-<!-- chunk {"id": "body-0045", "role": "body", "section": "Time Re-allocation and Trajectory Refinement", "weight": 1.0} -->
-
-The spheroid we use for $\mathbf{\Phi}_{f}{({\alphaT^{\prime}})}$ is obtained by rotating an ellipse centering at $\mathbf{\Phi}_{s}{({\alphaT})}$ about one of its principal axes, the tangent line ${\overset{˙}{\mathbf{\Phi}}}_{s}{({\alphaT})}$. So the axial displacement $d_{a}$ and radial displacement $d_{r}$ can be calculated by
-
-<!-- chunk {"id": "body-0046", "role": "body", "section": "Time Re-allocation and Trajectory Refinement", "weight": 1.0} -->
-
-where $a$ and $b$ are semi-major and semi-minor axis of the ellipse, respectively. The problem is solved by L-BFGS.
-
-<!-- chunk {"id": "body-0047", "role": "body", "section": "VI-A Implementation Details", "weight": 1.0} -->
+<!-- chunk {"id": "body-0038", "role": "body", "section": "VI-A Implementation Details", "weight": 1.0} -->
 
 The planning framework is summarized in Alg.2. We set the B-spline order as $p_{b} = 3$. The number of control points $N_{c}$ alters around 25, which is determined by the planning horizon (about 7m) and the initial distance interval (about 0.3m) of adjacent points. These are empirical parameters that balance the complexity of the problem with degrees of freedom. The time complexity is $O{(N_{c})}$, since one control point only affects nearby segments according to the local support property of B-spline. The complexity of L-BFGS is also linear on the same relative tolerance. For collision-free path searching, we adopt A\*, which has a good advantage that the path $\mathbf{\Gamma}$ always tends to be close to the obstacle surface naturally. Therefore, we can directly select $\mathbf{p}$ at $\mathbf{\Gamma}$ without obstacle surface searching.
 
-<!-- chunk {"id": "body-0048", "role": "body", "section": "VI-A Implementation Details", "weight": 1.0} -->
+<!-- chunk {"id": "body-0039", "role": "body", "section": "VI-A Implementation Details", "weight": 1.0} -->
 
-For vector $\mathbf{R}_{i}$ defined in Fig.3(b) ‣ II Related Work ‣ EGO-Planner: An ESDF-free Gradient-based Local Planner for Quadrotors"), it can be deduced by the property of uniform B-spline parameterization, that the $\mathbf{R}_{i}$ satisfies
+For vector $\mathbf{R}_{i}$ defined in Fig.3(b) ‣ II Related Work ‣ EGO-Planner: An ESDF-free Gradient-based Local Planner for Quadrotors"), it can be deduced by the property of uniform B-spline parameterization, that the $\mathbf{R}_{i}$ satisfies which can be efficiently computed. Equ.18 is discretized to a finite number of points $\mathbf{\Phi}_{f}{({k\bigtriangleupt'})}$ and $\mathbf{\Phi}_{s}{({k\bigtriangleupt})}$, where ${k \in {\mathbb{N}}},{0 \leq k \leq {\lfloor{{T/\bigtriangleup}t}\rfloor}}$. To further enforce safety, a collision check of a circular pipe with a fixed radius around the final trajectory is performed to provide enough obstacle clearance. The optimizer stops when no collision is detected.
 
-<!-- chunk {"id": "body-0049", "role": "body", "section": "VI-A Implementation Details", "weight": 1.0} -->
+<!-- chunk {"id": "body-0040", "role": "body", "section": "VI-A Implementation Details", "weight": 1.0} -->
 
-which can be efficiently computed. Equ.18 is discretized to a finite number of points $\mathbf{\Phi}_{f}{({k\bigtriangleupt^{\prime}})}$ and $\mathbf{\Phi}_{s}{({k\bigtriangleupt})}$, where ${k \in {\mathbb{N}}},{0 \leq k \leq {\lfloor{{T/\bigtriangleup}t}\rfloor}}$. To further enforce safety, a collision check of a circular pipe with a fixed radius around the final trajectory is performed to provide enough obstacle clearance. The optimizer stops when no collision is detected. Real-world experiments are presented on the same flight platform of with depth acquired by Intel RealSense D435^22^2 Furthermore, we modify the ROS driver of Intel RealSense to enable the laser emitter strobe every other frame. This allows the device to output high quality depth images with the help of the emitter, and along with binocular images free from laser interference.
+Real-world experiments are presented on the same flight platform of with depth acquired by Intel RealSense D435^22^2 Furthermore, we modify the ROS driver of Intel RealSense to enable the laser emitter strobe every other frame. This allows the device to output high quality depth images with the help of the emitter, and along with binocular images free from laser interference. The modified driver is open-sourced as well.
 
-<!-- chunk {"id": "body-0050", "role": "body", "section": "VI-A Implementation Details", "weight": 1.0} -->
+<!-- chunk {"id": "body-0041", "role": "body", "section": "VI-A Implementation Details", "weight": 1.0} -->
 
-The modified driver is open-sourced as well.
+1:Notation: Goal 𝒢, Environment ℰ, Control Point Struct Q, Penalty J, Gradient G Algorithm 2 Rebound Planning
 
-<!-- chunk {"id": "body-0051", "role": "body", "section": "VI-A Implementation Details", "weight": 1.0} -->
-
-1:Notation: Goal 𝒢, Environment ℰ, Control Point Struct Q, Penalty J, Gradient G
-Algorithm 2 Rebound Planning
-
-<!-- chunk {"id": "body-0052", "role": "body", "section": "VI-B Optimization Algorithms Comparison", "weight": 1.0} -->
+<!-- chunk {"id": "body-0042", "role": "body", "section": "VI-B Optimization Algorithms Comparison", "weight": 1.0} -->
 
 In this section, three different optimization algorithms, including Barzilai-Borwein (BB) method, limited-memory BFGS (L-BFGS) and truncated Newton (T-NEWTON) method, are discussed. Specifically, each algorithm runs for 100 times independently in random maps. All relevant parameters including boundary constraints, time allocation, decision variables initialization, and random seeds, are set identical for different algorithms. The data about success rate, computation time and numbers of objective function evaluations are recorded. Only the successful cases are counted due to the data in failed cases is meaningless. The associated results are shown in Tab.I, which states that L-BFGS significantly outperforms the other two algorithms. L-BFGS characterizes a type of approximation by means of second order Taylor expansions, which is suitable for optimizing the objective function described in Sec.IV-B. Truncated Newton method approximates the second order optimization direction $\mathbf{H}^{- 1}{\nabla\mathbf{f}_{k}}$ as well. However, too many objective function evaluations increase the optimization time.
 
-<!-- chunk {"id": "body-0053", "role": "body", "section": "VI-B Optimization Algorithms Comparison", "weight": 1.0} -->
+<!-- chunk {"id": "body-0043", "role": "body", "section": "VI-B Optimization Algorithms Comparison", "weight": 1.0} -->
 
 BB-method estimates the Hessian as a scalar $\lambda$ times $\mathbf{I}$. Nevertheless, the insufficient estimation of Hessian still leads to a low convergence rate.
 
-<!-- chunk {"id": "body-0054", "role": "body", "section": "VI-C Trajectory Generation With & Without ESDF", "weight": 1.0} -->
+<!-- chunk {"id": "body-0044", "role": "body", "section": "VI-C Trajectory Generation With & Without ESDF", "weight": 1.0} -->
 
 We use the same setting as Sec.VI-B to perform this comparison. On account of the low success rate explained in when using straight line initialization for an ESDF-based trajectory generator, we adopt a collision-free initialization. Comparison results are in Tab.II.
 
-<!-- chunk {"id": "body-0055", "role": "body", "section": "VI-C Trajectory Generation With & Without ESDF", "weight": 1.0} -->
+<!-- chunk {"id": "body-0045", "role": "body", "section": "VI-C Trajectory Generation With & Without ESDF", "weight": 1.0} -->
 
 For clarity, ESDF-based methods with and without collision-free initialization are abbreviated as EI and ENI. This comparison gives that the proposed EGO algorithm achieves a comparable success rate to ESDF-based methods with collision-free initialization. However, trajectory energy (jerk integral) produced by EGO is slightly higher. This happens because the control points of EGO which contain more than one $\{\mathbf{p},\mathbf{v}\}$ pair produce stronger trajectory deformation force than EI does, as described in Sec.IV-A2. On the other hand, stronger force accelerates the convergence procedure, resulting in shorter optimization time. Some statistics of ENI (shown in gray) can be less convincing because ENI tests can only succeed in fewer challenge cases where the resulting trajectories are naturally smoother with less energy cost and lower velocity, compared to EI and EGO. Something noteworthy is that although the ESDF updating size is reduced to ${10 \times 4 \times 2}m^{3}$ with $0.1m$ resolution for a $9m$ trajectory, the ESDF updating still takes up a majority of the computation time.
 
-<!-- chunk {"id": "body-0056", "role": "body", "section": "VI-D Multiple Planners Comparison", "weight": 1.0} -->
+<!-- chunk {"id": "body-0046", "role": "body", "section": "VI-D Multiple Planners Comparison", "weight": 1.0} -->
 
 We compare the proposed planner with two state-of-the-art methods, Fast-Planner and EWOK, which utilize ESDF to evaluate obstacle distance and gradient. Each planner runs for ten times of different obstacle densities from the same starts to ends. The average performance statistics and the ESDF computation time are shown in Tab.III and Fig.7. Trajectories generated by three methods on a map of 0.5 obstacles/$m^{2}$ are illustrated in Fig.8.
 
-<!-- chunk {"id": "body-0057", "role": "body", "section": "VI-D Multiple Planners Comparison", "weight": 1.0} -->
+<!-- chunk {"id": "body-0047", "role": "body", "section": "VI-D Multiple Planners Comparison", "weight": 1.0} -->
 
 From Tab.III we conclude that the proposed method achieves shorter flight time and trajectory length but ends up in higher energy cost compared to Fast-Planner. This is mainly caused by the front-end kinodynamic path searching. EWOK suffers twisty trajectories in dense environments, since the objective function contains exponential terms, which leads to unstable convergence in optimization. Furthermore, we conclude that a lot of computation time without ESDF updating is saved by the proposed method.
 
-<!-- chunk {"id": "body-0058", "role": "body", "section": "VI-E Real-world Experiments", "weight": 1.0} -->
+<!-- chunk {"id": "body-0048", "role": "body", "section": "VI-E Real-world Experiments", "weight": 1.0} -->
 
 We present several experiments in cluttered unknown environments with limited camera FOV. One experiment is to fly by waypoints given in advance. In this experiment, the drone starts from a small office room, passes through the door, flies around in a big cluttered room, and then returns to the office, as illustrated in Fig.10a and Fig.11. The narrowest passage of indoor experiments is less than one meter as shown in Fig.6. By contrast, the drone reaches ${3.56m}/s$ in such a cluttered environment.
 
-<!-- chunk {"id": "body-0059", "role": "body", "section": "VI-E Real-world Experiments", "weight": 1.0} -->
+<!-- chunk {"id": "body-0049", "role": "body", "section": "VI-E Real-world Experiments", "weight": 1.0} -->
 
 Another indoor experiment is to chase goals arbitrarily and abruptly given during the flight, as shown in Fig.10c. In this test, limited FOV puts greater challenges that a feasible trajectory must be generated immediately once a new goal is received or collision threat is detected. Thus, this experiment validates that the proposed planner is capable of performing aggressive flight on the premise of feasibility.
 
-<!-- chunk {"id": "body-0060", "role": "body", "section": "VI-E Real-world Experiments", "weight": 1.0} -->
+<!-- chunk {"id": "body-0050", "role": "body", "section": "VI-E Real-world Experiments", "weight": 1.0} -->
 
 In the outdoor experiments, the drone flies through a forest of massive trees and low bushes, as shown in Fig.10b and Fig.9. Although the wild airflow around the drone causes swinging of the branches and leaves, making the map less reliable, the drone still reaches a speed above ${3m}/s$. Therefore, the proposed planner can tackle both experimental and field environments. We refer readers to the video^33^3 for more information.
 
-<!-- chunk {"id": "body-0061", "role": "body", "section": "Conclusion and Future Work", "weight": 1.5} -->
+<!-- chunk {"id": "body-0051", "role": "body", "section": "Conclusion and Future Work", "weight": 1.5} -->
 
 In this paper, we investigate the necessity of ESDF for gradient-based trajectory planning and propose an ESDF-free local planner. It achieves comparable performance to some state-of-the-art ESDF-based planners but reduces computation time for over an order of magnitude. Benchmark comparisons and real-world experiments validate that it is robust and highly efficient.
 
-<!-- chunk {"id": "body-0062", "role": "body", "section": "Conclusion and Future Work", "weight": 1.5} -->
+<!-- chunk {"id": "body-0052", "role": "body", "section": "Conclusion and Future Work", "weight": 1.5} -->
 
 The proposed method still has some flaws, which are the local minimum introduced by A\* search and the conservative trajectories introduced by unified time re-allocation. Therefore, we will work on performing topological planning to escape the local minimum and re-formulating the problem to generate near-optimal trajectories. The planner is designed for static environments and can tackle slowly moving obstacles (below 0.5m/s) without any modification. We will work on dynamic environment navigation by moving object detection and topological planning in the future.

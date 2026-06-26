@@ -56,71 +56,71 @@ To enable vision-language models to control a robot, they must be trained to out
 
 <!-- chunk {"id": "body-0014", "role": "body", "section": "Robot-Action Fine-tuning", "weight": 1.0} -->
 
-Which tokens to choose depends on the particular tokenization used by each VLM, which we discuss later in this section.
+Which tokens to choose depends on the particular tokenization used by each VLM, which we discuss later in this section. In order to define a target for VLM fine-tuning we convert the action vector into a single string by simply concatenating action tokens for each dimension with a space character: A possible instantiation of such a target could be: "1 128 91 241 5 101 127". The two VLMs that we finetune in our experiments, PaLI-X and PaLM-E, use different tokenizations. For PaLI-X, integers up to 1000 each have a unique token, so we simply associate the action bins to the token representing the corresponding integer. For the PaLM-E model, which does not provide this convenient representation of numbers, we simply overwrite the 256 least frequently used tokens to represent the action vocabulary. It is worth noting that training VLMs to override existing tokens with action tokens is a form of symbol tuning, which has been shown to work well for VLMs in prior work.
 
 <!-- chunk {"id": "body-0015", "role": "body", "section": "Robot-Action Fine-tuning", "weight": 1.0} -->
 
-A possible instantiation of such a target could be: "1 128 91 241 5 101 127". The two VLMs that we finetune in our experiments, PaLI-X and PaLM-E, use different tokenizations. For PaLI-X, integers up to 1000 each have a unique token, so we simply associate the action bins to the token representing the corresponding integer. For the PaLM-E model, which does not provide this convenient representation of numbers, we simply overwrite the 256 least frequently used tokens to represent the action vocabulary. It is worth noting that training VLMs to override existing tokens with action tokens is a form of symbol tuning, which has been shown to work well for VLMs in prior work.
+Taking the action representation described above, we convert our robot data to be suitable for VLM model fine-tuning, where our inputs include robot camera image and textual task description (using standard VQA format "Q: what action should the robot take to \[task instruction\]? A:"), and our output is formatted as a string of numbers/least frequently used tokens representing a robot action.
 
 <!-- chunk {"id": "body-0016", "role": "body", "section": "Robot-Action Fine-tuning", "weight": 1.0} -->
 
-Taking the action representation described above, we convert our robot data to be suitable for VLM model fine-tuning, where our inputs include robot camera image and textual task description (using standard VQA format "Q: what action should the robot take to \[task instruction\]? A:"), and our output is formatted as a string of numbers/least frequently used tokens representing a robot action.
+Co-Fine-Tuning. As we will show in our experiments, a key technical detail of the training recipe that improves robot performance is co-fine-tuning robotics data with the original web data instead of naïve finetuning on robot data only. We notice that co-fine-tuning leads to more generalizable policies since the policies are exposed to both abstract visual concepts from web scale data and low level robot actions during fine-tuning, instead of just robot actions. During co-fine-tuning we balance the ratios of robot and web data in each training batch by increasing the sampling weight on the robot dataset.
 
 <!-- chunk {"id": "body-0017", "role": "body", "section": "Robot-Action Fine-tuning", "weight": 1.0} -->
 
-Co-Fine-Tuning. As we will show in our experiments, a key technical detail of the training recipe that improves robot performance is co-fine-tuning robotics data with the original web data instead of naïve finetuning on robot data only. We notice that co-fine-tuning leads to more generalizable policies since the policies are exposed to both abstract visual concepts from web scale data and low level robot actions during fine-tuning, instead of just robot actions. During co-fine-tuning we balance the ratios of robot and web data in each training batch by increasing the sampling weight on the robot dataset.
-
-<!-- chunk {"id": "body-0018", "role": "body", "section": "Robot-Action Fine-tuning", "weight": 1.0} -->
-
 Output Constraint. One important distinction between RT-2 and standard VLMs is that RT-2 is required to output valid action tokens for execution on the real robot. Thus, to ensure that RT-2 outputs valid action tokens during decoding, we constrain its output vocabulary via only sampling valid action tokens when the model is prompted with a robot-action task, whereas the model is still allowed to output the full range of natural language tokens on standard vision-language tasks.
 
-<!-- chunk {"id": "body-0019", "role": "body", "section": "Real-Time Inference", "weight": 1.0} -->
+<!-- chunk {"id": "body-0018", "role": "body", "section": "Real-Time Inference", "weight": 1.0} -->
 
 The size of modern VLMs can reach tens or hundreds of billions of parameters. The largest model trained in this work uses 55B parameters. It is infeasible to directly run such models on the standard desktop-style machines or on-robot GPUs commonly used for real-time robot control. To the best of our knowledge, our model is the largest ever, by over an order of magnitude, used for direct closed-loop robotic control, and therefore requires a new set of solutions to enable efficient real-time inference. We develop a protocol that allows us to run RT-2 models on robots by deploying them in a multi-TPU cloud service and querying this service over the network. With this solution, we can achieve a suitable frequency of control and also serve multiple robots using the same cloud service. The largest model we evaluated, the 55B parameter RT-2-PaLI-X-55B model, can run at a frequency of 1-3 Hz. The smaller version of that model, consisting of 5B parameters, can run at a frequency of around 5 Hz.
 
+<!-- chunk {"id": "body-0019", "role": "body", "section": "Experiments", "weight": 1.0} -->
+
+Our experiments focus on real-world generalization and emergent capabilities of RT-2 and aim to answer the following questions: How does RT-2 perform on seen tasks and more importantly, generalize over new objects, backgrounds, and environments?
+
 <!-- chunk {"id": "body-0020", "role": "body", "section": "Experiments", "weight": 1.0} -->
-
-How does RT-2 perform on seen tasks and more importantly, generalize over new objects, backgrounds, and environments?
-
-<!-- chunk {"id": "body-0021", "role": "body", "section": "Experiments", "weight": 1.0} -->
 
 Can we observe and measure any emergent capabilities of RT-2?
 
-<!-- chunk {"id": "body-0022", "role": "body", "section": "Experiments", "weight": 1.0} -->
+<!-- chunk {"id": "body-0021", "role": "body", "section": "Experiments", "weight": 1.0} -->
 
 How does the generalization vary with parameter count and other design decisions?
 
-<!-- chunk {"id": "body-0023", "role": "body", "section": "Experiments", "weight": 1.0} -->
+<!-- chunk {"id": "body-0022", "role": "body", "section": "Experiments", "weight": 1.0} -->
 
 Can RT-2 exhibit signs of chain-of-thought reasoning similarly to vision-language models?
 
-<!-- chunk {"id": "body-0024", "role": "body", "section": "Experiments", "weight": 1.0} -->
+<!-- chunk {"id": "body-0023", "role": "body", "section": "Experiments", "weight": 1.0} -->
 
 We evaluate our approach and several baselines with about 6,000 evaluation trajectories in a variety of conditions, which we describe in the following sections. Unless specified otherwise, we use a 7DoF mobile manipulator with the action space described in Sec. 3.2. We also demonstrate examples of RT-2 execution on the project website: robotics-transformer2.github.io. We train two specific instantiations of RT-2 that leverage pre-trained VLMs: RT-2-PaLI-X is built from 5B and 55B PaLI-X, and RT-2-PaLM-E is built from 12B PaLM-E.
 
-<!-- chunk {"id": "body-0025", "role": "body", "section": "Experiments", "weight": 1.0} -->
+<!-- chunk {"id": "body-0024", "role": "body", "section": "Experiments", "weight": 1.0} -->
 
 For training, we leverage the original web scale data from Chen et al. and Driess et al., which consists of visual question answering, captioning, and unstructured interwoven image and text examples. We combine it with the robot demonstration data from Brohan et al., which was collected with 13 robots over 17 months in an office kitchen environment. Each robot demonstration trajectory is annotated with a natural language instruction that describes the task performed, consisting of a verb describing the skill (e.g., "pick", "open", "place into") and one or more nouns describing the objects manipulated (e.g., "7up can", "drawer", "napkin") (see Appendix B for more details on the used datasets). For all RT-2 training runs we adopt the hyperparameters from the original PaLI-X and PaLM-E papers, including learning rate schedules and regularizations. More training details can be found in Appendix E.
 
-<!-- chunk {"id": "body-0026", "role": "body", "section": "Experiments", "weight": 1.0} -->
+<!-- chunk {"id": "body-0025", "role": "body", "section": "Experiments", "weight": 1.0} -->
 
 Baselines. We compare our method to multiple state-of-the-art baselines that challenge different aspects of our method. All of the baselines use the exact same robotic data. To compare against a state-of-the-art policy, we use RT-1, a 35M parameter transformer-based model. To compare against state-of-the-art pretrained representations, we use VC-1 and R3M, with policies implemented by training an RT-1 backbone to take their representations as input. To compare against other architectures for using VLMs, we use MOO, which uses a VLM to create an additional image channel for a semantic map, which is then fed into an RT-1 backbone. More information is provided in Appendix C.
 
-<!-- chunk {"id": "body-0027", "role": "body", "section": "How does RT-2 perform on seen tasks and more importantly, generalize over new objects, backgrounds, and environments?", "weight": 1.0} -->
+<!-- chunk {"id": "body-0026", "role": "body", "section": "How does RT-2 perform on seen tasks and more importantly, generalize over new objects, backgrounds, and environments?", "weight": 1.0} -->
 
 To evaluate in-distribution performance as well as generalization capabilities, we compare the RT-2-PaLI-X and RT-2-PaLM-E models to the four baselines listed in the previous sections. For the seen tasks category, we use the same suite of seen instructions as in RT-1, which include over 200 tasks in this evaluation: 36 for picking objects, 35 for knocking objects, 35 for placing things upright, 48 for moving objects, 18 for opening and closing various drawers, and 36 for picking out of and placing objects into drawers. Note, however, that these "in-distribution" evaluations still vary the placement of objects and factors such as time of day and robot position, requiring the skills to generalize to realistic variability in the environment.
 
-<!-- chunk {"id": "body-0028", "role": "body", "section": "How does RT-2 perform on seen tasks and more importantly, generalize over new objects, backgrounds, and environments?", "weight": 1.0} -->
+<!-- chunk {"id": "body-0027", "role": "body", "section": "How does RT-2 perform on seen tasks and more importantly, generalize over new objects, backgrounds, and environments?", "weight": 1.0} -->
 
 The evaluation results are shown in Figure 4 and Appendix Table 3. The performance on seen tasks is similar between the RT-2 models and RT-1, with other baselines attaining a lower success rate. The difference between the RT-2 models and the baseline is most pronounced in the various generalization experiments, suggesting that the strength of vision-language-action models lies in transferring more generalizable visual and semantic concepts from their Internet-scale pretraining data. Here, on average, both instantiations of RT-2 perform similarly, resulting in $\sim$`<!-- -->`{=html}2x improvement over the next two baselines, RT-1 and MOO, and $\sim$`<!-- -->`{=html}6x better than the other baselines. The PaLM-E version of RT-2 seems to perform better than the RT-2-PaLI-X in harder versions of generalization scenarios while under-performing on easier ones, resulting in a similar average performance.
 
-<!-- chunk {"id": "body-0029", "role": "body", "section": "How does RT-2 perform on seen tasks and more importantly, generalize over new objects, backgrounds, and environments?", "weight": 1.0} -->
+<!-- chunk {"id": "body-0028", "role": "body", "section": "How does RT-2 perform on seen tasks and more importantly, generalize over new objects, backgrounds, and environments?", "weight": 1.0} -->
 
 Open Source Language Table Benchmark. To provide an additional point of comparison using open-source baselines and environments, we leverage the open-source Language-Table simulation environment from Lynch et al.. We co-fine-tune a smaller PaLI 3B model on several prediction tasks, including in-domain VQA tasks, for the Language-Table dataset, and evaluate the resulting policy in simulation. For the action prediction task, we discretize and encode actions as text in the format "X Y", where X and Y range between {-10, -9,..., +9, +10}, and represent delta 2D cartesian setpoints of the end effector. Due to its reduced size, the resulting model can run inference at a similar rate (5 Hz) as the other baselines. The results of this experiment are presented in Table 6. We observe a significant performance boost when using our model compared to the baselines, indicating that the VLM-based pre-training together with the expressiveness of the large PaLI model can be beneficial in other scenarios, in this case, simulation with a different robot.
 
-<!-- chunk {"id": "body-0030", "role": "body", "section": "How does RT-2 perform on seen tasks and more importantly, generalize over new objects, backgrounds, and environments?", "weight": 1.0} -->
+<!-- chunk {"id": "body-0029", "role": "body", "section": "How does RT-2 perform on seen tasks and more importantly, generalize over new objects, backgrounds, and environments?", "weight": 1.0} -->
 
 We also show qualitative real-world out-of-distribution behaviors behaviors in Figure 6, demonstrating novel pushing tasks and targeting objects not before seen in this environment. More details about the Language Table experiments can be found in Appendix B and D.
+
+<!-- chunk {"id": "body-0030", "role": "body", "section": "How does RT-2 perform on seen tasks and more importantly, generalize over new objects, backgrounds, and environments?", "weight": 1.0} -->
+
+RT-2-PaLI-3B (ours) Figure 5: Real-world out-of-distribution behaviors in the Language Table environment. Identical RT-2-PaLI-3B model checkpoint is used as in Tab. 6. Figure 6: Performance on the simulated Language-Table tasks.
 
 <!-- chunk {"id": "body-0031", "role": "body", "section": "Can we observe and measure any emergent capabilities of RT-2?", "weight": 1.0} -->
 

@@ -38,7 +38,7 @@ Finally, we investigate if there are latent factors that govern the relationship
 
 <!-- chunk {"id": "body-0010", "role": "body", "section": "Introduction", "weight": 1.5} -->
 
-We systematically evaluate the PS of modern "out-of-the-box" networks, ResNets, EfficientNets and Vision Transformers.
+A summary of our experiments are: We systematically evaluate the PS of modern "out-of-the-box" networks, ResNets, EfficientNets and Vision Transformers.
 
 <!-- chunk {"id": "body-0011", "role": "body", "section": "Introduction", "weight": 1.5} -->
 
@@ -50,7 +50,7 @@ We explore the relationship between ImageNet accuracy and PS further using spati
 
 <!-- chunk {"id": "body-0013", "role": "body", "section": "Introduction", "weight": 1.5} -->
 
-While modern classifiers outperform prior pixel-based metrics in PS, they under-perform moderate classifiers like AlexNet.
+Our empirical study leads to the following surprising results: While modern classifiers outperform prior pixel-based metrics in PS, they under-perform moderate classifiers like AlexNet.
 
 <!-- chunk {"id": "body-0014", "role": "body", "section": "Introduction", "weight": 1.5} -->
 
@@ -78,31 +78,31 @@ Finally, we find particularly shallow, early-stopped ResNets trained only on Ima
 
 <!-- chunk {"id": "body-0020", "role": "body", "section": "The BAPPS Dataset", "weight": 1.0} -->
 
-The BAPPS Dataset is a dataset of 161k patches derived by applying exclusively low-level distortions to the MIT-Adobe 5k dataset for training and the RAISE1k dataset for validation.
+The BAPPS Dataset is a dataset of 161k patches derived by applying exclusively low-level distortions to the MIT-Adobe 5k dataset for training and the RAISE1k dataset for validation. consider 6 distortion families namely: Traditional Distortions: Random noise, blurring, spatial shifts, corruptions and compression artifacts. (1 family.)
 
 <!-- chunk {"id": "body-0021", "role": "body", "section": "The BAPPS Dataset", "weight": 1.0} -->
 
-Traditional Distortions: Random noise, blurring, spatial shifts, corruptions and compression artifacts. (1 family.)
+CNN-based Distortions: Distortions created by CNN-based autoencoders trained on autoencoding, denoising, colorization and superresolution. (1 family.)
 
 <!-- chunk {"id": "body-0022", "role": "body", "section": "The BAPPS Dataset", "weight": 1.0} -->
 
-CNN-based Distortions: Distortions created by CNN-based autoencoders trained on autoencoding, denoising, colorization and superresolution. (1 family.)
+Outputs of Real algorithms: Outputs from state-of-the-art frame interpolation, video deblurring, colorization and superresolution models. The distortions created by each class of models is treated as a separate family. (4 families.)
 
 <!-- chunk {"id": "body-0023", "role": "body", "section": "The BAPPS Dataset", "weight": 1.0} -->
 
-Outputs of Real algorithms: Outputs from state-of-the-art frame interpolation, video deblurring, colorization and superresolution models. The distortions created by each class of models is treated as a separate family. (4 families.)
-
-<!-- chunk {"id": "body-0024", "role": "body", "section": "The BAPPS Dataset", "weight": 1.0} -->
-
 Table 2 in Zhang et al. contains a comprehensive list of distortions. The train set consists of the traditional and CNN-based distortions and the validation set contains all 6 families. Given a family of distortions and a set of reference images, Zhang et al. generate the BAPPS dataset as follows. They select a reference patch $x$ and then apply two distortions at random to generate the target patches $x_{0}$ and $x_{1}$. They record the binary response of a human, indicating which of the target patches is closer to the reference patch. For a given image triplet, $(x_{0},x_{1},x)$, $p$ is the average of 2 and 5 human responses on the train and validation set respectively. Fig. 2 displays 3 sample image triplets from the BAPPS Dataset.
+
+<!-- chunk {"id": "body-0024", "role": "body", "section": "Perceptual Score", "weight": 1.0} -->
+
+We first define the PS of a network, for which we adopt the "2AFC" scoring protocol. First, let $x_{0}$ and $x_{1}$ denote two images. Let ${\overset{\sim}{y_{0}}}^{l}$ and ${\overset{\sim}{y_{1}}}^{l}$ be the feature maps for $x_{0}$ and $x_{1}$ at the $l$th layer of a network, normalized across the channel dimension. The perceptual similarity function $d{(x_{0},x_{1})}$ is defined as: where $H_{l}$ and $W_{l}$ denote the height and width of the feature maps at layer $l$, respectively. $\mathcal{L}$ denotes the subset of layers which are used in the perceptual similarity; this subset is architecture specific.
 
 <!-- chunk {"id": "body-0025", "role": "body", "section": "Perceptual Score", "weight": 1.0} -->
 
-We first define the PS of a network, for which we adopt the "2AFC" scoring protocol. First, let $x_{0}$ and $x_{1}$ denote two images. Let ${\overset{\sim}{y_{0}}}^{l}$ and ${\overset{\sim}{y_{1}}}^{l}$ be the feature maps for $x_{0}$ and $x_{1}$ at the $l$th layer of a network, normalized across the channel dimension.
+Given a reference image $x$ and two target images $x_{0}$ and $x_{1}$, BAPPS provides a ground truth soft-label $p$. $p$ can be interpreted as the probability a human rater would rate $x_{1}$ as more similar to $x$ than $x_{0}$.
 
 <!-- chunk {"id": "body-0026", "role": "body", "section": "Perceptual Score", "weight": 1.0} -->
 
-where $H_{l}$ and $W_{l}$ denote the height and width of the feature maps at layer $l$, respectively. $\mathcal{L}$ denotes the subset of layers which are used in the perceptual similarity; this subset is architecture specific. Given a reference image $x$ and two target images $x_{0}$ and $x_{1}$, BAPPS provides a ground truth soft-label $p$. $p$ can be interpreted as the probability a human rater would rate $x_{1}$ as more similar to $x$ than $x_{0}$.
+For a neural network with distances $d_{0} = {d{(x,x_{0})}}$ and $d_{1} = {d{(x,x_{1})}}$, from we define the PS $s{(d_{0},d_{1})}$ to be the following value times 100: Figure 3: The blue line depicts PS on simulated distances and real labels from BAPPS. σ models the noise in predicting the simulated distances from the real labels. The green and red horizontal lines denote the best (AlexNet) and worst PS (untrained) obtained with ImageNet networks. The orange line denotes the best PS obtained with low-level metrics (FSIMc). Early-stopped ResNets obtain the best PS score in this study.
 
 <!-- chunk {"id": "body-0027", "role": "body", "section": "Dynamic Range of PS", "weight": 1.0} -->
 
@@ -174,140 +174,128 @@ In Fig. 6a, we see that ResNet-6 achieves $p_{max} = 69.6$ at ${a{(p_{max})}} = 
 
 <!-- chunk {"id": "body-0044", "role": "body", "section": "Width and Depth", "weight": 1.0} -->
 
-$a{(p_{max})}$ on varying the width and depth of ViTs are at 20% to 30% and 45-50%, respectively. (Figs. 6e, 6c). A shallow ViT model of depth 2 gets close to 40% accuracy. Hence, there might just not be enough points between 20% to 40% in Fig. 6e. This could explain the shift of $a{(p_{max})}$ to the right in Fig. 6e when compared to Fig. 6c.
-
-<!-- chunk {"id": "body-0045", "role": "body", "section": "Width and Depth", "weight": 1.0} -->
-
 Shallower and narrower architectures perform better as shown in Figs. 6d, 6f, and 6b. The optimal width of ViT-B/8 and ViT-L/4 are 6 and 12% of their default widths while their optimal depths are just 2 transformer blocks. ResNet-6 and ResNet-50 exhibit similar properties with the optimal width being 25% of their original widths. ResNet-200 is the outlier with a small peak at its original width.
 
-<!-- chunk {"id": "body-0046", "role": "body", "section": "Central Crop", "weight": 1.0} -->
+<!-- chunk {"id": "body-0045", "role": "body", "section": "Central Crop", "weight": 1.0} -->
 
 Modern networks employ random crops of high-resolution rectangular images during training. This artificially increases the effective quantity of training data available to the network. Replacing random crops with central crops has been shown to increase shape bias and reduce the discrepancy of object scales between training and testing.
 
-<!-- chunk {"id": "body-0047", "role": "body", "section": "Central Crop", "weight": 1.0} -->
+<!-- chunk {"id": "body-0046", "role": "body", "section": "Central Crop", "weight": 1.0} -->
 
 Fig. 7b shows the accuracies and PS of the 5 architectures trained with center crops. Each architecture moves towards the top-left with lower accuracies and higher PS. ViT-L/4 is the exception as it moves towards the bottom-right. It encounters a significant reduction in accuracy, lowering it below $a{(p_{max})}$, which could explain the decrease in its PS. All center-cropped architectures lie along an inverse-U, with ResNet-6 at the optimum.
 
-<!-- chunk {"id": "body-0048", "role": "body", "section": "Weight Decay", "weight": 1.0} -->
+<!-- chunk {"id": "body-0047", "role": "body", "section": "Weight Decay", "weight": 1.0} -->
 
 Figs. 8c and 8d display the impact of weight decay on PS. ViT-L/4 has minimal variation in accuracy as the weight decay factor is varied; so we omit ViT-L/4 from this study. ResNets and ViTs achieve their worst PS at the default weight decay around $10^{- 4}$ and 0.3, respectively. The PS increases on either side of this optimum. This correlates with their changes in accuracy as a function of weight decay. ResNets and ViTs achieve their best accuracies at these weight decay values and decrease in either direction.
 
-<!-- chunk {"id": "body-0049", "role": "body", "section": "Label Smoothing and Dropout", "weight": 1.0} -->
+<!-- chunk {"id": "body-0048", "role": "body", "section": "Label Smoothing and Dropout", "weight": 1.0} -->
 
 Across all our controlled settings, label smoothing and dropout are the only hyperparameters that decrease both PS and accuracy.
 
-<!-- chunk {"id": "body-0050", "role": "body", "section": "Label Smoothing and Dropout", "weight": 1.0} -->
+<!-- chunk {"id": "body-0049", "role": "body", "section": "Label Smoothing and Dropout", "weight": 1.0} -->
 
 Varying label smoothing produces less drastic changes in accuracy as compared to other hyperparameters. In Fig. 9a, a very weak positive correlation exists between accuracy and PS for ResNet-50 and ResNet-200. In Fig. 9b, PS of ResNet-50 and ResNet 200 decrease with more label smoothing, while the Vision Transformers and ResNet-6 are almost invariant. Our results indicate that clean labels are necessary to obtain high PS. However, varying label smoothing does not change accuracy a great deal within each architecture class, so the dynamic range is insufficient to observe the inverse-U relationship.
 
-<!-- chunk {"id": "body-0051", "role": "body", "section": "Label Smoothing and Dropout", "weight": 1.0} -->
+<!-- chunk {"id": "body-0050", "role": "body", "section": "Label Smoothing and Dropout", "weight": 1.0} -->
 
 In Figs. 9f and 9h the PS consistently decreases as a function of dropout. In Fig. 9e and Fig. 9g, it also correlates with accuracies. Curiously, dropout is the only factor to negatively influence both accuracy and PS simultaneously.
 
-<!-- chunk {"id": "body-0052", "role": "body", "section": "Conclusion", "weight": 1.5} -->
+<!-- chunk {"id": "body-0051", "role": "body", "section": "Conclusion", "weight": 1.5} -->
 
 In Fig. 1, we plot the accuracy and PS from all our above experiments. While their exact relationship is architecture and hyperparameter dependent, we uncover a global Pareto frontier between PS and accuracies, see Fig. 1. Up to a certain peak, better classifiers achieve PS and beyond this peak, better accuracy hurts PS.
 
-<!-- chunk {"id": "body-0053", "role": "body", "section": "Scaling down improves Perceptual Scores", "weight": 1.0} -->
+<!-- chunk {"id": "body-0052", "role": "body", "section": "Scaling down improves Perceptual Scores", "weight": 1.0} -->
 
 Our results in Section 6 prescribe a simple strategy to make an architecture's PS better: Scale down the model to reduce its accuracy till $a{(p_{max})}$.
 
-<!-- chunk {"id": "body-0054", "role": "body", "section": "Scaling down improves Perceptual Scores", "weight": 1.0} -->
+<!-- chunk {"id": "body-0053", "role": "body", "section": "Scaling down improves Perceptual Scores", "weight": 1.0} -->
 
 Table 1 summarizes the improvements in PS obtained by scaling down each model across every hyperparameter. With the exception of ViT-L/4, across all architectures, early stopping yields the highest improvement in PS. In addition, early stopping is the most efficient strategy as there is no need for an expensive grid search.
 
-<!-- chunk {"id": "body-0055", "role": "body", "section": "How much does PS improvement cost in terms of accuracy?", "weight": 1.0} -->
+<!-- chunk {"id": "body-0054", "role": "body", "section": "How much does PS improvement cost in terms of accuracy?", "weight": 1.0} -->
 
 Fig. 10 shows the accuracy-PS Pareto frontier for ResNet-200 and ViT-B/8. Each point on the Pareto frontier denotes the maximum possible achievable accuracy for a given PS. The gray line is the reference Pareto-frontier obtained from training networks with their default settings. Except for Width + ViT-B/8 that lies below the reference Pareto frontier, all curves lie very close to the reference Pareto frontier. Early-stopping any of the architectures to improve their PS, as seen in Table 1, greatly reduces their accuracy.
 
-<!-- chunk {"id": "body-0056", "role": "body", "section": "The inverse-U phenomenon persists with improved perceptual similarity functions", "weight": 1.0} -->
+<!-- chunk {"id": "body-0055", "role": "body", "section": "The inverse-U phenomenon persists with improved perceptual similarity functions", "weight": 1.0} -->
 
 We first posit that the perceptual similarity function is suboptimal, and an alternative would not yield an inverse-U relationship.
 
-<!-- chunk {"id": "body-0057", "role": "body", "section": "The inverse-U phenomenon persists with improved perceptual similarity functions", "weight": 1.0} -->
+<!-- chunk {"id": "body-0056", "role": "body", "section": "The inverse-U phenomenon persists with improved perceptual similarity functions", "weight": 1.0} -->
 
 The perceptual similarity function in averages per-pixel differences across the spatial dimensions of the image. This assumes a direct correspondence between pixels, which may not hold for warped, translated or rotated images. For a similarity function that compares global representations of images, the inverse-U relationship may no longer exist. We investigate two such functions in two different settings: 1) Out-of-the-box ResNets and EfficientNets. 2) ResNet-200 as a function of train steps.
 
-<!-- chunk {"id": "body-0058", "role": "body", "section": "Mean Pool", "weight": 1.0} -->
+<!-- chunk {"id": "body-0057", "role": "body", "section": "Mean Pool", "weight": 1.0} -->
 
 In Figs. 11a and 11b, we present scatter plots between accuracy and PS with the style and mean pool similarity functions. Fig. 11a displays the accuracy and PS of ResNets and EfficientNets trained with their default hyperparameters. Each point in Fig. 11b represents a ResNet-200 model at a different epoch during the course of training.
 
-<!-- chunk {"id": "body-0059", "role": "body", "section": "Mean Pool", "weight": 1.0} -->
+<!-- chunk {"id": "body-0058", "role": "body", "section": "Mean Pool", "weight": 1.0} -->
 
 Both functions yield better PS than the baseline ("Local"). In Fig. 11a ResNet-6 with its Mean Pool and Style variants outperform the baseline (local) 69.1 with scores of 69.7 and 69.5 respectively. In Fig. 11b for an early-stopped ResNet-200 model, the mean pool and style functions improve upon the baseline score of 69.5 with 69.8 and 69.7 respectively.
 
-<!-- chunk {"id": "body-0060", "role": "body", "section": "Mean Pool", "weight": 1.0} -->
+<!-- chunk {"id": "body-0059", "role": "body", "section": "Mean Pool", "weight": 1.0} -->
 
 We additionally observe that the optimal early-stopped ResNet-6 from Table 1 further improves its performance with its mean pool variant achieving a PS of 70.2. This matches the best reported PS, where the AlexNet model is trained from scratch on the BAPPS train set. Note that none of our networks have seen the BAPPS train set during ImageNet training.
 
-<!-- chunk {"id": "body-0061", "role": "body", "section": "Mean Pool", "weight": 1.0} -->
+<!-- chunk {"id": "body-0060", "role": "body", "section": "Mean Pool", "weight": 1.0} -->
 
 However, although the improved perceptual functions attain better PS as compared to the baseline, the inverse-U correlation is still prominent. Therefore, we can conclude that while the per-pixel comparison function is suboptimal, it is not the main cause of the inverse correlation between accuracy and PS.
 
-<!-- chunk {"id": "body-0062", "role": "body", "section": "Learned linear layer on pretrained features", "weight": 1.0} -->
+<!-- chunk {"id": "body-0061", "role": "body", "section": "Learned linear layer on pretrained features", "weight": 1.0} -->
 
 Lastly we investigate what happens if the similarity function is learned on supervised data. Although the main goal of our paper is to assess the inherent perceptual properties of ImageNet models, we may also train a linear layer on top of pretrained ImageNet features to match supervised human judgements on BAPPS. The PS gap between ResNet-6 and ResNet-200 narrows down from 1.5 to 0.8, but even after training, the ResNet-6 still outperforms the ResNet-200. See Appendix C for more details.
 
-<!-- chunk {"id": "body-0063", "role": "body", "section": "Low PS models are not necessarily less sensitive to distortions", "weight": 1.0} -->
+<!-- chunk {"id": "body-0062", "role": "body", "section": "Low PS models are not necessarily less sensitive to distortions", "weight": 1.0} -->
 
 Here, we explore whether sensitivity to distortions is the common latent factor influencing both PS and accuracy. Intuitively, better networks will be less sensitive to the distortions in the BAPPS dataset, since the class will not change under these distortions. This intuition is supported by results that show that accuracy under distribution shifts (including artificial corruptions) correlates strongly with "clean" ImageNet accuracy. Therefore, if decreased sensitivity is related to poorer PS, due to inability to distinguish different class-preserving perturbations, then this could explain our observations.
 
-<!-- chunk {"id": "body-0064", "role": "body", "section": "Low PS models are not necessarily less sensitive to distortions", "weight": 1.0} -->
+<!-- chunk {"id": "body-0063", "role": "body", "section": "Low PS models are not necessarily less sensitive to distortions", "weight": 1.0} -->
 
 From the BAPPS dataset, we retain only the examples, where the human raters unanimously agree that one of the target patches is closer to the reference patch than the other, i.e $p = 1.0$ or $p = 0.0$. For each such triplet ($x_{0},x,x_{1}$) where $p = 1.0$ or $p = 0.0$, we denote $x_{f}$ to be the farther patch and $x_{n}$ to be the nearer patch. Concretely, in Eq 2, when ${p = 1.0},{{x_{f} = x_{0}},{x_{n} = x_{1}}}$ or ${p = 0.0},{{x_{f} = x_{1}},{x_{n} = x_{0}}}$.
 
-<!-- chunk {"id": "body-0065", "role": "body", "section": "Low PS models are not necessarily less sensitive to distortions", "weight": 1.0} -->
+<!-- chunk {"id": "body-0064", "role": "body", "section": "Low PS models are not necessarily less sensitive to distortions", "weight": 1.0} -->
 
 We measure distortion sensitivity using the distance margin ${{\mathbb{E}}_{x,x_{f}}d{(x,x_{f})}} - {{\mathbb{E}}_{x,x_{n}}d{(x,x_{n})}}$. We expect this margin to be larger for a distortion sensitive network. In Fig. 12a, among out-of-the-box classification networks, there exists no positive correlation between distortion sensitivity and PS. As another experiment, in Fig. 12b, we plot ${\mathbb{E}}_{x,x_{f}}d{(x,x_{f})}$ (Farther Patch) and ${\mathbb{E}}_{x,x_{n}}d{(x,x_{n})}$ (Nearer Patch) as a function of training epochs (ResNet-200). From Fig. 5b, we know that PS decreases as a function of epochs after it reaches a peak.
 
-<!-- chunk {"id": "body-0066", "role": "body", "section": "Low PS models are not necessarily less sensitive to distortions", "weight": 1.0} -->
+<!-- chunk {"id": "body-0065", "role": "body", "section": "Low PS models are not necessarily less sensitive to distortions", "weight": 1.0} -->
 
 However in Fig. 12b, the distance margin between the farther and nearer patch remains fairly constant as a function of epochs. Hence, low PS models are not necessarily less sensitive to distortions.
 
-<!-- chunk {"id": "body-0067", "role": "body", "section": "Sub-optimal features are not a cause of the inverse-U relationship", "weight": 1.0} -->
+<!-- chunk {"id": "body-0066", "role": "body", "section": "Sub-optimal features are not a cause of the inverse-U relationship", "weight": 1.0} -->
 
 Remember, PS is averaged over many layers, see Eq 2. However, it might be the case that optimal features for PS are buried in specific layers for better classifiers (e.g. lower layers), while other layers (e.g. high layers) exhibit different behaviour more optimal for classification. Therefore, we look at the best PS across layers.
 
-<!-- chunk {"id": "body-0068", "role": "body", "section": "Sub-optimal features are not a cause of the inverse-U relationship", "weight": 1.0} -->
+<!-- chunk {"id": "body-0067", "role": "body", "section": "Sub-optimal features are not a cause of the inverse-U relationship", "weight": 1.0} -->
 
 The optimal $l$ for all depths is 3, and larger depths attain worse PS even at this optimal $l$. We additionally see that in Fig. 13b, ResNet-200 under-performs the optimal layer-wise PS of its early-stopped variant at $l = 3$. Therefore, we can conclude that sub-optimal features are not a cause of the inverse-U relationship.
 
-<!-- chunk {"id": "body-0069", "role": "body", "section": "ImageNet class granularity cannot explain why ResNet-6 outperforms ResNet-200 on PS", "weight": 1.0} -->
+<!-- chunk {"id": "body-0068", "role": "body", "section": "ImageNet class granularity cannot explain why ResNet-6 outperforms ResNet-200 on PS", "weight": 1.0} -->
 
 ImageNet is a 1000 class classification problem that includes fine-grained classes. A classifier that models such classes successfully could have a reduced PS, since it could compromise on learning general features. The low accuracy of ResNet-6 implies that its capacity is sufficient to model only a subset of these classes, and its inability to model tougher classes might explain its high PS. We create random subsets having number of classes ranging from 50 to 900 and train ResNet-6 and ResNet-200 networks on each of these subsets. In Fig. 14, the PS gap between ResNet-200 and ResNet-6 reduces as the number of classes are decreased. But, ResNet-200 still underperforms ResNet-6. Therefore, class granularity cannot fully explain why a less-accurate ResNet-6 significantly outperforms ResNet-200 on PS. In Appendix E, we show similar results with a class subset selection strategy guided by a pretrained ResNet-6.
 
-<!-- chunk {"id": "body-0070", "role": "body", "section": "High PS features do not necessarily have high entropy", "weight": 1.0} -->
+<!-- chunk {"id": "body-0069", "role": "body", "section": "High PS features do not necessarily have high entropy", "weight": 1.0} -->
 
 Wang et al. show that ResNets are not suitable for style transfer due to the presence of skip connections. Skip connections result in features with low entropy which prevent capturing all style modes from a ground-truth style image. We explore if the mean entropy of activations can explain the inverse-U phenomenon between PS and accuracy. As done in Wang et al., we convert intermediate activations $x \in \mathcal{R}^{H \times W \times C}$ into a probability distribution across $H \times W \times C$ values by applying a softmax transformation. We then report the average normalized entropy of this distribution across four 2-D representations on the BAPPS validation set.
 
-<!-- chunk {"id": "body-0071", "role": "body", "section": "High PS features do not necessarily have high entropy", "weight": 1.0} -->
+<!-- chunk {"id": "body-0070", "role": "body", "section": "High PS features do not necessarily have high entropy", "weight": 1.0} -->
 
 Fig. 15a plots the normalized entropy of each of the four ResNet-200 reduction stages (marked 1 - 4) across training. As seen in Wang et al., representations closer to the output at later reduction stages have a much lower entropy than representations closer to the input at earlier reduction stages. The entropy also decreases as a function of train steps. For the first few training epochs, where the entropy is between 0.9 and 1.0, there is a negative correlation between PS and mean activation entropy. Note that the maximum entropy is at initialization and not after a few training epochs where ResNet-200 obtains its highest PS. After the first few epochs, there is a positive correlation where entropy and PS both decrease during training. Fig 15a suggests that there is a optimal entropy as a function of train steps, where the PS peaks.
 
-<!-- chunk {"id": "body-0072", "role": "body", "section": "High PS features do not necessarily have high entropy", "weight": 1.0} -->
+<!-- chunk {"id": "body-0071", "role": "body", "section": "High PS features do not necessarily have high entropy", "weight": 1.0} -->
 
 However, Fig. 15d shows that there is almost no correlation between entropy and PS across ResNets with various depths. ResNet-6 achieves the highest PS at a mean entropy of $\approx 0.5$ while ResNet-50 features have the highest entropy around 0.7 and have a much lower PS of 68.0. Therefore, entropy does not fully explain the observed effect.
 
-<!-- chunk {"id": "body-0073", "role": "body", "section": "High PS features do not necessarily have high entropy", "weight": 1.0} -->
+<!-- chunk {"id": "body-0072", "role": "body", "section": "High PS features do not necessarily have high entropy", "weight": 1.0} -->
 
 We remove all skip connections in the ResNets to increase the entropy of the intermediate features as done in Wang et al.. Note that the maximum depth that we are able to successfully train without skip connections is 50. In Fig. 16a, removing skip connections increase the entropy across all depths. Specifically, ResNet-50 has a huge increase in entropy, making the activations close to a uniform distribution. Even after removing the skip connections in Fig. 16b and Fig. 16c, ResNet-6 and early-stopped ResNets attain the highest PS respectively similar to the baseline ResNets. While increasing the entropy of intermediate features can improve results of ResNets on style transfer, they don't improve PS.
 
-<!-- chunk {"id": "body-0074", "role": "body", "section": "Low PS models are not necessarily more reliant on high frequency information for classification", "weight": 1.0} -->
-
-Networks that rely more on high-frequency information for classification could be less robust to high-frequency distortions or removal of high frequencies from an image, and as an effect have low PS. We analyze the relationship between spatial frequency sensitivity of different networks and their PS. A low-pass square filter of side $r$ filters out the high frequencies in an image outside a square with edge length $r$ in its Fourier spectrum. We measure the "normalized accuracy", which is the accuracy on low-pass filtered images divided by its accuracy on clean images as a function of $r$. A model more reliant on high frequency information will have a higher "normalized accuracy" slope at high values of $r$. ResNet-6 has a higher "normalized accuracy" slope at a high $r = 40$ to $50$ as compared to ResNet-6 (Fig. 17b). Despite being more reliant on higher spatial frequencies, ResNet-6 achieves a higher PS compared to ResNet-200. Similarly, ResNet 200 becomes more reliant on higher spatial frequencies if it is early stopped (Fig. 17a), while also increasing its PS (Fig. 5b).
-
-<!-- chunk {"id": "body-0075", "role": "body", "section": "Low PS models are not necessarily more reliant on high frequency information for classification", "weight": 1.0} -->
-
-These results indicate that models that have low PS are not necessarily more reliant on high frequency information for classification.
-
-<!-- chunk {"id": "body-0076", "role": "body", "section": "Code Release", "weight": 1.0} -->
+<!-- chunk {"id": "body-0073", "role": "body", "section": "Code Release", "weight": 1.0} -->
 
 We release ResNet-6, ResNet-50 and ResNet-200 checkpoints at every 1000 steps over here. The models were trained using the opensource TPU codebase with the following changes on 64x64 ImageNet.
 
-<!-- chunk {"id": "body-0077", "role": "body", "section": "Conclusion", "weight": 1.5} -->
+<!-- chunk {"id": "body-0074", "role": "body", "section": "Conclusion", "weight": 1.5} -->
 
 In this paper, we explore the question if better classifiers can serve as better feature extractors for perceptual metrics. To answer this question, we conduct experiments across ResNets and ViTs across many different hyperparameters. Except for label smoothing and dropout, we see that PS exhibits an inverse-U relationship with accuracy across the hyperparameters we considered. We then probe a number of explanations for the inverse-U relationship involving skip connections, Global Similarity Functions, Distortion Sensitivity, Layer-wise Perceptual Scores, Spatial Frequency, Sensitivity, and ImageNet Class Granularity. While none of these explanations can offer an explanation for the observed tradeoff between ImageNet accuracy and perceptual similarity, we hope our paper opens the door for further research in this area.
 
-<!-- chunk {"id": "body-0078", "role": "body", "section": "Broader Impact Statement", "weight": 1.0} -->
+<!-- chunk {"id": "body-0075", "role": "body", "section": "Broader Impact Statement", "weight": 1.0} -->
 
 Our results are based on BAPPS, which consists of exclusively low-level distortions as opposed to high-level semantic differences. We believe low-level distortions such as gaussian blur and color distortions are less likely to be susceptible to bias across different human categories as compared to high-level semantic features such as facial features. It is an open and interesting question whether different categories of humans like race and gender perceive low-level distortions differently. Increasing the diversity of both distortions and human labels in future perceptual similarity datasets is another interesting direction that might help to mitigate human biases.

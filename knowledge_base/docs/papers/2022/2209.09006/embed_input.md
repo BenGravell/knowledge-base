@@ -40,147 +40,112 @@ In this paper, we first present a general formulation, including physical and ge
 
 <!-- chunk {"id": "body-0010", "role": "body", "section": "Interplay between policy learning and trajectory optimization", "weight": 1.0} -->
 
-We consider deterministic and known system dynamics
+We consider deterministic and known system dynamics while other parameters of the optimal control problem (OCP) are randomly distributed. These parameters, denoted by $\beta$, include the initial condition of the problem $x^{0} \in \mathcal{X}$, as well as other parameters (desired terminal state or end-effector position); they follow a random distribution $\mathcal{P}$. The set $\mathcal{U} = {\lbrack u_{\min},u_{\max}\rbrack}$ contains the admissible control inputs, of dimension $n_{u}$, while $\mathcal{X}$ refers to the set of feasible states also accounting for obstacles. The deterministic assumption on the dynamics is reasonable, as a wide range of systems (robotic arms, manipulators, quadrupeds, drones) can accurately be described without stochasticity.
 
 <!-- chunk {"id": "body-0011", "role": "body", "section": "Interplay between policy learning and trajectory optimization", "weight": 1.0} -->
 
-while other parameters of the optimal control problem (OCP) are randomly distributed. These parameters, denoted by $\beta$, include the initial condition of the problem $x^{0} \in \mathcal{X}$, as well as other parameters (desired terminal state or end-effector position); they follow a random distribution $\mathcal{P}$. The set $\mathcal{U} = {\lbrack u_{\min},u_{\max}\rbrack}$ contains the admissible control inputs, of dimension $n_{u}$, while $\mathcal{X}$ refers to the set of feasible states also accounting for obstacles. The deterministic assumption on the dynamics is reasonable, as a wide range of systems (robotic arms, manipulators, quadrupeds, drones) can accurately be described without stochasticity.
+We denote ${\mathbf{u}} = {(u_{0},\ldots,u_{T - 1})}$ the sequence of controls, and ${\mathbf{x}} = {(x_{0},\ldots,x_{T})}$ the state sequence. The total cost associated with a given control sequence $\mathbf{u}$ is: Unlike previous works in the literature, we also account in this work for state and control constraints in Eq. (1b) directly in the TO problems. Experiments from Sec. V notably demonstrate how this consideration of the constraints substantially improves the precision and the stability of the resulting policy.
 
 <!-- chunk {"id": "body-0012", "role": "body", "section": "Interplay between policy learning and trajectory optimization", "weight": 1.0} -->
 
-Unlike previous works in the literature, we also account in this work for state and control constraints in Eq. (1b) directly in the TO problems. Experiments from Sec. V notably demonstrate how this consideration of the constraints substantially improves the precision and the stability of the resulting policy.
+The goal of this paper is to learn closed-loop control policies $\pi:{\mathcal{X}\rightarrow\mathcal{U}}$ which approximately minimizes the trajectory cost. The policy $\pi$ is constrained to lie in a set of parameterized policies $\Pi$; typically, we will consider neural network policies with two hidden layers of 256 units each. The policy parameters are denoted by $\theta$ and lie in a set $\Theta$. The policy space is thus The activation functions are ReLU except for the final layer which is activated by a hyperbolic tangent so that the output is restricted to $\lbrack u_{\min},u_{\max}\rbrack$.
 
 <!-- chunk {"id": "body-0013", "role": "body", "section": "Interplay between policy learning and trajectory optimization", "weight": 1.0} -->
 
-The goal of this paper is to learn closed-loop control policies $\pi:{\mathcal{X}\rightarrow\mathcal{U}}$ which approximately minimizes the trajectory cost. The policy $\pi$ is constrained to lie in a set of parameterized policies $\Pi$; typically, we will consider neural network policies with two hidden layers of 256 units each. The policy parameters are denoted by $\theta$ and lie in a set $\Theta$. The policy space is thus
+To do so, we will follow the path initiated in and adopt a constrained formulation linking together trajectory optimization and policy optimization: where we now optimize over a distribution of control sequences $\mathbf{u}$, and ${\mathbf{x}} = {(x_{t})}_{t}$ is defined by (1a). The constraint enforces that the controls and the policy are consistent on almost all states $x_{t}$ reached by randomization of $\beta$.
 
-<!-- chunk {"id": "body-0014", "role": "body", "section": "Interplay between policy learning and trajectory optimization", "weight": 1.0} -->
+<!-- chunk {"id": "body-0014", "role": "body", "section": "Alternating between OC and Supervised learning: a projected DDP approach", "weight": 1.0} -->
 
-The activation functions are ReLU except for the final layer which is activated by a hyperbolic tangent so that the output is restricted to $\lbrack u_{\min},u_{\max}\rbrack$.
+Projected DDP algorithm. A classical way of solving a constrained optimization problem consists in alternating between making a step on the unconstrained problem and projecting the new iterate on the constraints (e.g., projected gradient algorithms). In this spirit, can be solved by optimizing the control $\mathbf{u}$ via trajectory optimization before projecting the new trajectory on the set of trajectories obtainable through $\Pi$. Discarding the constraints, the problem can be solved by approximating the expectation with a finite sum $\hat{R}{({\mathbf{u}})}$ obtained by sampling $N$ instances of the problem $\beta^{(i)} \sim \mathcal{P}$: where ${\mathbf{U}} = {({\mathbf{u}}^{},\ldots,{\mathbf{u}}^{(N)})}$ is the entire set of control sequences. The objective above is separable, hence each ${\mathbf{u}}^{(i)}$ can be optimized separately in parallel.
 
-<!-- chunk {"id": "body-0015", "role": "body", "section": "Interplay between policy learning and trajectory optimization", "weight": 1.0} -->
+<!-- chunk {"id": "body-0015", "role": "body", "section": "Alternating between OC and Supervised learning: a projected DDP approach", "weight": 1.0} -->
 
-where we now optimize over a distribution of control sequences $\mathbf{u}$, and ${\mathbf{x}} = {(x_{t})}_{t}$ is defined by (1a). The constraint enforces that the controls and the policy are consistent on almost all states $x_{t}$ reached by randomization of $\beta$.
+The sampled problems are then optimized via discrete-time trajectory optimization methods such as Differential Dynamic Programming (DDP) or its variant iLQR, using a rollout originating from the learned policy $\pi_{\theta}$ as a warm-start. Then, the local control trajectories ${({\mathbf{u}}^{(i)})}_{i}$ are projected onto an element of $\Pi$ in the least-squares sense. The projection problem is equivalent to the following supervised learning problem: which is solved using classical stochastic mini-batch gradient algorithms such as Adam. Alternating between these two operations results in Alg. 1 which we call Projected DDP (PDDP).
 
 <!-- chunk {"id": "body-0016", "role": "body", "section": "Alternating between OC and Supervised learning: a projected DDP approach", "weight": 1.0} -->
 
-Projected DDP algorithm. A classical way of solving a constrained optimization problem consists in alternating between making a step on the unconstrained problem and projecting the new iterate on the constraints (e.g., projected gradient algorithms). In this spirit, can be solved by optimizing the control $\mathbf{u}$ via trajectory optimization before projecting the new trajectory on the set of trajectories obtainable through $\Pi$.
+Input: Distribution on the parameters β ∼ 𝒫, model for the policy: πθ ∈ Π Output: Optimal policy πθ⋆ // Supervised learning (can also use d̂2) Algorithm 1 Projected DDP descent (PDDP) Such an approach encompasses the one proposed in where Gauss-Newton (GN) steps are successively projected. By establishing an interplay with OC, here we rather perform a DDP step which is just a more efficient way to compute a GN step that also handles the constraints. Previous works often ignore these constraints during the trajectory optimization phase. Typically, the box constraint on the control is rather lifted to the policy space via a tanh activation function on the last layer. This discrepancy can be fatal as trajectories obtained from OC might not be reproducible by the neural network and, thus, could cause divergence of the combined approach. Experiments in Sec. V demonstrate how crucial this specificity of our methods is to ensure convergence. Another obvious advantage is the possibility to consider more complex tasks involving geometric constraints or dynamic constraints on the systems to control (e.g., obstacles or joint limits).
 
 <!-- chunk {"id": "body-0017", "role": "body", "section": "Alternating between OC and Supervised learning: a projected DDP approach", "weight": 1.0} -->
 
-where ${\mathbf{U}} = {({\mathbf{u}}^{},\ldots,{\mathbf{u}}^{(N)})}$ is the entire set of control sequences. The objective above is separable, hence each ${\mathbf{u}}^{(i)}$ can be optimized separately in parallel.
+Stochastic Sobolev learning. If the constraint from enforces the output of the learned policy to match the local controllers, this should also be true for higher order derivatives. This idea, exploited, refers to the concept of Sobolev training. Second-order methods such as DDP additionally yield local feedback gains $K_{t}$ around the optimized trajectory. These gains can be used for stabilization of the controlled system around the local optimum, as has shown on real-world systems. For policy learning, we can make use of these gains to regularize the policy $\pi_{\theta}$ during the supervised learning phase (Alg. 1, line 1), leading to the following supervised learning problem: However, getting the second order derivative $\partial_{x\theta}\pi_{\theta}$, as, is computationally expensive as it requires to perform multiple backpropagation operations.
 
 <!-- chunk {"id": "body-0018", "role": "body", "section": "Alternating between OC and Supervised learning: a projected DDP approach", "weight": 1.0} -->
 
-The sampled problems are then optimized via discrete-time trajectory optimization methods such as Differential Dynamic Programming (DDP) or its variant iLQR, using a rollout originating from the learned policy $\pi_{\theta}$ as a warm-start. Then, the local control trajectories ${({\mathbf{u}}^{(i)})}_{i}$ are projected onto an element of $\Pi$ in the least-squares sense.
+For this reason, we propose to use a stochastic version of Sobolev learning which is done by matching projections of $K$ and $\partial_{x}\pi_{\theta}$ on control directions $v^{(i)}$ randomly sampled on the unit sphere. The regularization term from becomes $\frac{1}{2}{\sum_{i,t}{\|{{{(v^{(i)})}^{\top}K_{t}^{(i)}} - {\partial_{x}\left({v_{}^{{(i)}\top}\pi_{\theta}{(x_{t}^{(i)})}} \right)}}\|}_{2}^{2}}$ and this greatly improves computational efficiency by avoiding backpropagating several times across the neural network.
 
-<!-- chunk {"id": "body-0019", "role": "body", "section": "Alternating between OC and Supervised learning: a projected DDP approach", "weight": 1.0} -->
+<!-- chunk {"id": "body-0019", "role": "body", "section": "Gradually enforcing a consensus: an Augmented Lagrangian approach", "weight": 1.0} -->
 
-which is solved using classical stochastic mini-batch gradient algorithms such as Adam. Alternating between these two operations results in Alg. 1 which we call Projected DDP (PDDP).
+The Lagrangian function associated to the constrained formulation is given: where ${\mathbf{λ}} = {(\lambda_{t})}_{0 \leq t \leq T}$ now designate random variables which are the Lagrange multipliers. We can define the corresponding augmented Lagrangian: ADMM algorithm. We first consider that a set of sample parameters $(\beta^{(i)})$ is fixed during training. Indeed, the Lagrange multipliers are intrinsically linked to the sampled values of $\beta$ and thus, re-sampling them would require to update $\mathbf{λ}$ without losing progress on the optimization, which is a difficult task left as future work. This differs from Alg. 1 which can be naturally run online. Thus, we consider the following sampled version of the constrained problem: where ${(\beta^{(i)})}_{1 \leq i \leq N}$.
 
-<!-- chunk {"id": "body-0020", "role": "body", "section": "Alternating between OC and Supervised learning: a projected DDP approach", "weight": 1.0} -->
-
-Input: Distribution on the parameters β ∼ 𝒫, model for the policy: πθ ∈ Π
-Output: Optimal policy πθ⋆
-// Supervised learning (can also use d̂2)
-Algorithm 1 Projected DDP descent (PDDP)
-
-<!-- chunk {"id": "body-0021", "role": "body", "section": "Alternating between OC and Supervised learning: a projected DDP approach", "weight": 1.0} -->
-
-Such an approach encompasses the one proposed in where Gauss-Newton (GN) steps are successively projected. By establishing an interplay with OC, here we rather perform a DDP step which is just a more efficient way to compute a GN step that also handles the constraints. Previous works often ignore these constraints during the trajectory optimization phase. Typically, the box constraint on the control is rather lifted to the policy space via a tanh activation function on the last layer. This discrepancy can be fatal as trajectories obtained from OC might not be reproducible by the neural network and, thus, could cause divergence of the combined approach. Experiments in Sec. V demonstrate how crucial this specificity of our methods is to ensure convergence. Another obvious advantage is the possibility to consider more complex tasks involving geometric constraints or dynamic constraints on the systems to control (e.g., obstacles or joint limits).
-
-<!-- chunk {"id": "body-0022", "role": "body", "section": "Alternating between OC and Supervised learning: a projected DDP approach", "weight": 1.0} -->
-
-Stochastic Sobolev learning. If the constraint from enforces the output of the learned policy to match the local controllers, this should also be true for higher order derivatives. This idea, exploited, refers to the concept of Sobolev training. Second-order methods such as DDP additionally yield local feedback gains $K_{t}$ around the optimized trajectory. These gains can be used for stabilization of the controlled system around the local optimum, as has shown on real-world systems. For policy learning, we can make use of these gains to regularize the policy $\pi_{\theta}$ during the supervised learning phase (Alg.
-
-<!-- chunk {"id": "body-0023", "role": "body", "section": "Alternating between OC and Supervised learning: a projected DDP approach", "weight": 1.0} -->
-
-However, getting the second order derivative $\partial_{x\theta}\pi_{\theta}$, as, is computationally expensive as it requires to perform multiple backpropagation operations. For this reason, we propose to use a stochastic version of Sobolev learning which is done by matching projections of $K$ and $\partial_{x}\pi_{\theta}$ on control directions $v^{(i)}$ randomly sampled on the unit sphere. The regularization term from becomes $\frac{1}{2}{\sum_{i,t}{\|{{{(v^{(i)})}^{\top}K_{t}^{(i)}} - {\partial_{x}\left( {{}_{}^{(i)}\pi_{\theta}{(x_{t}^{(i)})}} \right)}}\|}_{2}^{2}}$ and this greatly improves computational efficiency by avoiding backpropagating several times across the neural network.
-
-<!-- chunk {"id": "body-0024", "role": "body", "section": "Gradually enforcing a consensus: an Augmented Lagrangian approach", "weight": 1.0} -->
-
-where ${\mathbf{λ}} = {(\lambda_{t})}_{0 \leq t \leq T}$ now designate random variables which are the Lagrange multipliers.
-
-<!-- chunk {"id": "body-0025", "role": "body", "section": "Gradually enforcing a consensus: an Augmented Lagrangian approach", "weight": 1.0} -->
-
-ADMM algorithm. We first consider that a set of sample parameters $(\beta^{(i)})$ is fixed during training. Indeed, the Lagrange multipliers are intrinsically linked to the sampled values of $\beta$ and thus, re-sampling them would require to update $\mathbf{λ}$ without losing progress on the optimization, which is a difficult task left as future work. This differs from Alg. 1 which can be naturally run online.
-
-<!-- chunk {"id": "body-0026", "role": "body", "section": "Gradually enforcing a consensus: an Augmented Lagrangian approach", "weight": 1.0} -->
+<!-- chunk {"id": "body-0020", "role": "body", "section": "Gradually enforcing a consensus: an Augmented Lagrangian approach", "weight": 1.0} -->
 
 The problem is solved using the alternating direction method of multipliers (ADMM), as described in Alg. 2 which we call PLAL. The algorithm alternatively minimizes $\mathcal{L}_{\mathcal{A}}^{\mu}$ w.r.t. the primal variables $\mathbf{U}$ and $\theta$, before updating the dual variable $\mathbf{\Lambda}$ through a simple dual ascent step. As done in Sec. III, minimization w.r.t. each ${\mathbf{u}}^{(i)}$ is done using a DDP-type algorithm such as FDDP, while the minimization w.r.t. $\theta$ is performed using a classical stochastic optimization algorithm. If also uses ADMM, the consensus is approximated via a quadratic penalty term, while in this work we enforce it with a hard constraint (11b). This results in more stable and precise solutions as shown in Sec. V.
 
-<!-- chunk {"id": "body-0027", "role": "body", "section": "Gradually enforcing a consensus: an Augmented Lagrangian approach", "weight": 1.0} -->
+<!-- chunk {"id": "body-0021", "role": "body", "section": "Gradually enforcing a consensus: an Augmented Lagrangian approach", "weight": 1.0} -->
 
-Contrary to Alg. 1, the OC (Alg. 2, line 2) and supervised learning (Alg. 2, line 2) phases are now linked via the Lagrange multipliers $\mathbf{\Lambda}$. Indeed, the additional terms appearing in enforces the demonstrations from OC to be adapted to the current capabilities of the policy, while the dual update (Alg. 2, line 2) gradually leads to an agreement between the local controllers from OC and the policy. The previously introduced stochastic Sobolev term can naturally be integrated in the approach as a regularization of the learning phase (Alg. 2, line 2), and the algorithm is then interpretable as an occurrence of Global Variable Consensus with Regularization.
+2, line 2) phases are now linked via the Lagrange multipliers $\mathbf{\Lambda}$. Indeed, the additional terms appearing in enforces the demonstrations from OC to be adapted to the current capabilities of the policy, while the dual update (Alg. 2, line 2) gradually leads to an agreement between the local controllers from OC and the policy. The previously introduced stochastic Sobolev term can naturally be integrated in the approach as a regularization of the learning phase (Alg. 2, line 2), and the algorithm is then interpretable as an occurrence of Global Variable Consensus with Regularization.
 
-<!-- chunk {"id": "body-0028", "role": "body", "section": "Gradually enforcing a consensus: an Augmented Lagrangian approach", "weight": 1.0} -->
+<!-- chunk {"id": "body-0022", "role": "body", "section": "Gradually enforcing a consensus: an Augmented Lagrangian approach", "weight": 1.0} -->
 
 Multiple shooting formulation. Due to the augmented Lagrangian terms, the trajectory optimization phase (Alg. 2, line 2) requires to optimize the state $\mathbf{x}$ through the neural network policy and thus involves the costly computation of the Jacobian $\partial_{x}\pi_{\theta}$. Inspired, we propose to decouple the state variables of the supervised learning and OC problems, in a way similar to what is done in multiple shooting.
 
-<!-- chunk {"id": "body-0029", "role": "body", "section": "Gradually enforcing a consensus: an Augmented Lagrangian approach", "weight": 1.0} -->
-
-By decoupling the state variables between the control and learning problems, we avoid the need of computing the Jacobian of $\pi_{\theta}$ when doing optimal control, lifting the burden to a simple dual update.
-
-<!-- chunk {"id": "body-0030", "role": "body", "section": "Experiments", "weight": 1.0} -->
+<!-- chunk {"id": "body-0023", "role": "body", "section": "Experiments", "weight": 1.0} -->
 
 Our implementation uses Pinocchio and Crocoddyl for defining and solving OCPs, and relies on PyTorch for learning the neural network. We also propose our own implementations of PODS and DPL as they were not provided along with the original papers. For RL algorithms, i.e. PPO and SAC, we use implementations provided. Our code is open-source and will be publicly released upon publication acceptance. Every experiment was run on a single laptop without GPUs and took about 5 minutes to train policies, even on complex systems such as UR5.
 
-<!-- chunk {"id": "body-0031", "role": "body", "section": "Experiments", "weight": 1.0} -->
+<!-- chunk {"id": "body-0024", "role": "body", "section": "Experiments", "weight": 1.0} -->
 
-The first problem we consider is a constrained LQR where the control inputs are forced to stay into a box. This is a typical convex optimization problem already very well-studied in the control community. This control problem already highlights different characteristics and limitations of approaches under consideration. The second set of experiments are related to robotics systems of increasing complexity: an inverted simple pendulum, a double pendulum and an UR5 robotic arm. These problems are challenging as their dynamics are highly non-linear and the considered targets are unstable.
+The first problem we consider is a constrained LQR where the control inputs are forced to stay into a box. This is a typical convex optimization problem already very well-studied in the control community. This control problem already highlights different characteristics and limitations of approaches under consideration. The second set of experiments are related to robotics systems of increasing complexity: an inverted simple pendulum, a double pendulum and an UR5 robotic arm. These problems are challenging as their dynamics are highly non-linear and the considered targets are unstable. In addition, we consider non-linear cost functions of the form: where $p$ corresponds to the position of the end-effector which should reach a desired position $\overline{p}$ and $W_{x},W_{u},W_{p}$ are given weight matrices. On robot systems, we only penalize the joint velocities in the state penalty term ${\| x_{t}\|}_{W_{x}}^{2}$.
 
-<!-- chunk {"id": "body-0032", "role": "body", "section": "Experiments", "weight": 1.0} -->
-
-where $p$ corresponds to the position of the end-effector which should reach a desired position $\overline{p}$ and $W_{x},W_{u},W_{p}$ are given weight matrices. On robot systems, we only penalize the joint velocities in the state penalty term ${\| x_{t}\|}_{W_{x}}^{2}$.
-
-<!-- chunk {"id": "body-0033", "role": "body", "section": "V-A Ablation study: constrained LQR and inverted pendulum", "weight": 1.0} -->
+<!-- chunk {"id": "body-0025", "role": "body", "section": "V-A Ablation study: constrained LQR and inverted pendulum", "weight": 1.0} -->
 
 Model-based vs model-free. Fig. 3 compares model-based algorithms, i.e. Algs. 1,2, DPL and PODS, to the well-established deep RL algorithms PPO and SAC, on a constrained LQR problem. It appears that model-based approaches are an order of magnitude more efficient than model-free algorithms. Fig. 2 also demonstrates how our approach is able to reach precise solutions while RL algorithms are limited by the inherent noise from $0$^th^-order gradients estimates. Among already existing model-based algorithms, PODS seems to dominate DPL both in terms of precision and efficiency. Mainly, DPL suffers from the approximated formulation which shifts the initial problem and hinders progress towards the solution even on the constrained LQR.
 
-<!-- chunk {"id": "body-0034", "role": "body", "section": "V-A Ablation study: constrained LQR and inverted pendulum", "weight": 1.0} -->
+<!-- chunk {"id": "body-0026", "role": "body", "section": "V-A Ablation study: constrained LQR and inverted pendulum", "weight": 1.0} -->
 
 Constrained vs unconstrained OC. If including the trajectory constraints (1b) in the trajectory optimization phase allows to slightly improve results on instances of the constrained LQR (Fig. 3), the results appear even more pronounced on the inverted pendulum problem (Fig. 4). In particular, we observe a significant performance drop when removing this component (see PDDP v. PODS or PLAL+S v. PLAL+S-C on Fig. 4). Intuitively, as the policy tries to mimic an unreachable control from the OC phase, it deteriorates the final solution, resulting in a significant gap in performance.
 
-<!-- chunk {"id": "body-0035", "role": "body", "section": "V-A Ablation study: constrained LQR and inverted pendulum", "weight": 1.0} -->
+<!-- chunk {"id": "body-0027", "role": "body", "section": "V-A Ablation study: constrained LQR and inverted pendulum", "weight": 1.0} -->
 
 Multiple shooting. As mentioned in Sec. IV, multiple shooting allows to reduce the computational burden of the TO phase without modifying the final solution (Fig. 3). In practice, we observe that the OC phase of PLAL+M is 5 times faster than the one of PLAL. However, the results from Fig. 3,4 also exhibit how multiple shooting can require more simulator calls to learn a good policy (see PLAL+M v. PLAL on Fig. 3, and PLAL+M+S v. PLAL+S on Fig. 4).
 
-<!-- chunk {"id": "body-0036", "role": "body", "section": "V-A Ablation study: constrained LQR and inverted pendulum", "weight": 1.0} -->
+<!-- chunk {"id": "body-0028", "role": "body", "section": "V-A Ablation study: constrained LQR and inverted pendulum", "weight": 1.0} -->
 
 Sobolev training allows to obtain gains in terms of sample efficiency by exploiting higher-order information made available by the trajectory optimization solver (see PLAL+M v. PLAL+M+S on Fig. 3). In addition, it also yields better generalization properties which significantly improve the stability of the policy rollouts and facilitate the training (see PLAL+M+S v. PLAL+M on Fig. 4). The latter characteristic becomes even more important for tasks on more complex systems with chaotic dynamics (Sec. V-B).
 
-<!-- chunk {"id": "body-0037", "role": "body", "section": "V-B Robotics systems", "weight": 1.0} -->
+<!-- chunk {"id": "body-0029", "role": "body", "section": "V-B Robotics systems", "weight": 1.0} -->
 
 Here, we consider tasks on the double pendulum and UR5 robotic arm. These tasks are made very challenging by the highly non-linear and chaotic dynamics and the instability of the desired target configuration.
 
-<!-- chunk {"id": "body-0038", "role": "body", "section": "V-B Robotics systems", "weight": 1.0} -->
+<!-- chunk {"id": "body-0030", "role": "body", "section": "V-B Robotics systems", "weight": 1.0} -->
 
 As already noticed during experiments on the inverted pendulum, taking into account the physical constraints and exploiting the higher-order information contained in the feedback gains is crucial. In the case of the double pendulum and UR5, the combination of these components even appears to be necessary to get converging algorithms (Fig. 5). Due to the chaotic dynamics, for the PODS algorithm, even slight drifts from the policy w.r.t the TO controller induce very large deviations which, in turn, drive the policy towards saturation and cause the rollouts to diverge. Including the physical constraints in the OC phase and regularizing the learning phase with the feedback gains allow to reduce the gap, and thus stabilize the training process.
 
-<!-- chunk {"id": "body-0039", "role": "body", "section": "V-B Robotics systems", "weight": 1.0} -->
+<!-- chunk {"id": "body-0031", "role": "body", "section": "V-B Robotics systems", "weight": 1.0} -->
 
 Fig. 5 (right) highlights the influence of the augmented Lagrangian parameter $\mu$ on the convergence of ADMM algorithms. As described in V-A, multiple shooting already hinders the stability of the learning process, and when using it, we suspect the setting of $\mu$ to be even more crucial for the quality of the final solution (Fig. 5, right).
 
-<!-- chunk {"id": "body-0040", "role": "body", "section": "V-B Robotics systems", "weight": 1.0} -->
+<!-- chunk {"id": "body-0032", "role": "body", "section": "V-B Robotics systems", "weight": 1.0} -->
 
 If we already demonstrated how policy learning can take advantage of TO, reciprocally, we observe that TO can also benefit from being warm-started by the learned policy (Fig. 7). In our case, doing so allows to systematically avoid worst case scenarii where the solver needs more than 100 steps.
 
-<!-- chunk {"id": "body-0041", "role": "body", "section": "V-B Robotics systems", "weight": 1.0} -->
+<!-- chunk {"id": "body-0033", "role": "body", "section": "V-B Robotics systems", "weight": 1.0} -->
 
 Eventually, Fig. 6 demonstrates that warm-starting the solver with the policy also impacts the final control as it changes the local minima found by TO algorithms.
 
-<!-- chunk {"id": "body-0042", "role": "body", "section": "Discussion, conclusion and future work", "weight": 1.5} -->
+<!-- chunk {"id": "body-0034", "role": "body", "section": "Discussion, conclusion and future work", "weight": 1.5} -->
 
 In this paper, we have introduced a general framework to leverage the interplay between policy learning and trajectory optimization. Our formulation results in two algorithmic variants which both exploit two constrained optimization techniques: a projected DDP method, and the alternating direction method of multipliers for establishing a strong consensus between the learned control policy and TO. Both algorithms proceed in two alternating steps: solving an OCP and solving a supervised learning problem. We have introduced enhancements for either part: constraints handling, stochastic Sobolev regularization and multiple shooting. Although these algorithms achieve faster convergence towards more precise solutions when compared to classical RL algorithms, the experiments also highlight the need for advanced numerical trajectory optimization solvers. Indeed, for challenging robotic tasks, constraint handling and higher order information appear to be necessary to stabilize the training of the policy. The experiments and the ablation study also reveal the interest in our proposed enhancements: stochastic Sobolev learning enhanced sample efficiency and the stability of learned policy rollouts, and multiple shooting eliminates drift in the optimized trajectories.
 
-<!-- chunk {"id": "body-0043", "role": "body", "section": "Discussion, conclusion and future work", "weight": 1.5} -->
+<!-- chunk {"id": "body-0035", "role": "body", "section": "Discussion, conclusion and future work", "weight": 1.5} -->
 
 A possible enhancement is the convergence speed of the method towards a consensus between the OCP and the supervised learning loop. It is known that Augmented Lagrangian methods (which includes ADMM) can reach much higher performance by having a strategy for updating the penalty parameter $(\mu_{t})$. One such strategy in the literature is that of the bound-constrained Lagrangian (BCL) method of, which could be a direction for further enhancements.
 
-<!-- chunk {"id": "body-0044", "role": "body", "section": "Discussion, conclusion and future work", "weight": 1.5} -->
+<!-- chunk {"id": "body-0036", "role": "body", "section": "Discussion, conclusion and future work", "weight": 1.5} -->
 
 In this work, we assumed the samples ${(\beta^{(i)})}_{i}$ used for policy optimization are fixed; they are never re-sampled (which is how stochastic algorithms such as SGD work) nor are new samples ever added. This is the domain of constrained stochastic optimization; one of the difficulties here is updating the Lagrange multipliers in a way where optimization progress is not lost at every sampling. Such an extension could allow active sampling of the initial condition $x^{0}$ or other parameters so to explore the state space and learn policies more effectively.
 
-<!-- chunk {"id": "body-0045", "role": "body", "section": "Discussion, conclusion and future work", "weight": 1.5} -->
+<!-- chunk {"id": "body-0037", "role": "body", "section": "Discussion, conclusion and future work", "weight": 1.5} -->
 
 We could then explore extensions towards setups closer to GPS by considering partially unknown system dynamics, with limited knowledge of some physical parameters (e.g. friction coefficients) -- in order to take advantage of physical models once again. This would require embedding a system identification step in the loop which would also benefit from differentiable simulation techniques.

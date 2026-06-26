@@ -22,308 +22,280 @@ The present work focuses on the latter approach - using large models, specifical
 
 <!-- chunk {"id": "body-0006", "role": "body", "section": "Introduction", "weight": 1.5} -->
 
-Concretely, we highlight two different aspects of TDMs in our experiments (see overview in Fig. 1): First, we demonstrate that TDMs generalize strongly across environments; specifically, we show that a generalist TDM can be used for few-shot or even zero-shot generalization to unseen environments. Second, we demonstrate that, compared to a number of baselines, TDMs make accurate predictions suitable for planning when learning from transition data of the target environment (specialist model learning).
+Concretely, we highlight two different aspects of TDMs in our experiments (see overview in Fig. 1): First, we demonstrate that TDMs generalize strongly across environments; specifically, we show that a generalist TDM can be used for few-shot or even zero-shot generalization to unseen environments. Second, we demonstrate that, compared to a number of baselines, TDMs make accurate predictions suitable for planning when learning from transition data of the target environment (specialist model learning). Our contributions are as follows: We use transformer sequence models as TDMs for control, and we describe a simple setup to evaluate learned models in an MPC loop together with a random shooting planner.
 
 <!-- chunk {"id": "body-0007", "role": "body", "section": "Introduction", "weight": 1.5} -->
 
-We use transformer sequence models as TDMs for control, and we describe a simple setup to evaluate learned models in an MPC loop together with a random shooting planner.
+Our main results are in the generalist setting, i.e., when training the TDM on transition data from environments different from the target environment. Here we find strong generalization capabilities, both few-shot and zero-shot: In a few-shot setting (fine-tuning a generalist), we observe strong generalization effects, which can be exploited to obtain a good dynamics model given limited data. In our experiments, this approach surpasses even lightweight specialist models (see section 5.2.1).
 
 <!-- chunk {"id": "body-0008", "role": "body", "section": "Introduction", "weight": 1.5} -->
 
-Our main results are in the generalist setting, i.e., when training the TDM on transition data from environments different from the target environment.
+In a zero-shot setting, we observe that the generalist TDM generalizes substantially better than its generalist policy counterpart (see section 5.2.2).
 
 <!-- chunk {"id": "body-0009", "role": "body", "section": "Introduction", "weight": 1.5} -->
 
-In a few-shot setting (fine-tuning a generalist), we observe strong generalization effects, which can be exploited to obtain a good dynamics model given limited data. In our experiments, this approach surpasses even lightweight specialist models (see section 5.2.1).
-
-<!-- chunk {"id": "body-0010", "role": "body", "section": "Introduction", "weight": 1.5} -->
-
-In a zero-shot setting, we observe that the generalist TDM generalizes substantially better than its generalist policy counterpart (see section 5.2.2).
-
-<!-- chunk {"id": "body-0011", "role": "body", "section": "Introduction", "weight": 1.5} -->
-
 While not our main focus, we also investigate TDMs in the specialist setting, i.e., when trained on transition data from the target environment. Here we observe that TDMs make accurate predictions suitable for planning in a range of difficult control tasks, and outperform a number of baseline models (section 5.1).
 
-<!-- chunk {"id": "body-0012", "role": "body", "section": "Learned models for decision making and model-based reinforcement learning", "weight": 1.0} -->
+<!-- chunk {"id": "body-0010", "role": "body", "section": "Learned models for decision making and model-based reinforcement learning", "weight": 1.0} -->
 
 Model-based decision making algorithms use in their decision making an explicit (often learned) dynamics model of the environment they operate. We can distinguish between planning approaches that then use this model to obtain local solutions of optimal behavior and model-based reinforcement learning (RL) approaches that obtain global solutions (or policies). Examples of the former category include Watter et al.; Schrittwieser et al.; Chua et al.; Lutter et al.; Zhang et al.; Park and Levine, and we compare with PETS in our experiments. Examples of the latter are Ha and Schmidhuber; Heess et al.; Kaiser et al.; Gelada et al.; Hafner et al.; Byravan et al.; Yin et al., and we compare with the dynamics model of Dreamer V2 in our experiments. In both cases, we observe better results for TDMs.
 
-<!-- chunk {"id": "body-0013", "role": "body", "section": "Transformers for decision making", "weight": 1.0} -->
+<!-- chunk {"id": "body-0011", "role": "body", "section": "Transformers for decision making", "weight": 1.0} -->
 
 The idea to use transformer sequence models for decision making in sequential decision problems has gained a lot of traction lately. Parisotto et al. introduce architecture features that allow for stable training of transformers with RL objectives. The Decision Transformer is trained to model the joint distribution of observations, actions, and returns, and generates high-return behavior by conditioning on high returns. The Trajectory Transformer is trained in a similar way, and is then conditioned in different ways for imitation learning, goal-conditioned reinforcement learning (RL) and offline RL. Jiang et al. address unfavorable scaling of Janner et al. to high dimensions by introducing a learned latent space. In Micheli et al.; Robine et al., a transformer is used to learn a world model, which is then used to train a policy using RL inside it. This is similar in spirit to our approach, in that we also explicitly use TDMs to predict the system's dynamics. However, to our knowledge, the present work is the first to investigate generalization of TDMs across environments.
 
-<!-- chunk {"id": "body-0014", "role": "body", "section": "Transformers for decision making", "weight": 1.0} -->
+<!-- chunk {"id": "body-0012", "role": "body", "section": "Transformers for decision making", "weight": 1.0} -->
 
 Other distinctions are that we use TDMs not to train a global RL agent, but for local decision making with MPC, and that we focus on control problems typical for robotics, rather than Atari.
 
-<!-- chunk {"id": "body-0015", "role": "body", "section": "General control agents", "weight": 1.0} -->
+<!-- chunk {"id": "body-0013", "role": "body", "section": "General control agents", "weight": 1.0} -->
 
 General control agents are agents that are able to successfully operate in different environments. System identification for control can be seen as early approaches to such generalist agents. A more recent line of works represents generalist agents as graph neural networks. Examples of this are Wang et al.; Huang et al.; Blake et al.; Sanchez-Gonzalez et al.. Most recently, there has been increased interest in using transformers. Gato is a generalist sequence model that, in addition to being used as a generalist control policy for a wide variety of control problems, can also perform many other tasks like image captioning and acting as a chat bot. Our work is based on the Gato architecture, and in this sense it is most closely related to this work. However, in all control tasks in Reed et al., the model is used as a behavior cloning (BC) policy. In the present work, we use the model as a dynamics model for planning in an MPC loop.
 
-<!-- chunk {"id": "body-0016", "role": "body", "section": "General control agents", "weight": 1.0} -->
+<!-- chunk {"id": "body-0014", "role": "body", "section": "General control agents", "weight": 1.0} -->
 
 While learning models and policies from trajectory data is not mutually exclusive, and combining both can make sense (section 5.1.1), we also demonstrate that, at least for some problems, TDMs can generalize significantly better than policies (section 5.2.2).
 
-<!-- chunk {"id": "body-0017", "role": "body", "section": "Modelling trajectory data with transformers", "weight": 1.0} -->
+<!-- chunk {"id": "body-0015", "role": "body", "section": "Modelling trajectory data with transformers", "weight": 1.0} -->
 
-This work is based on the Gato transformer architecture first published in Reed et al.. The transformer model with parameters $\theta$ models the joint distribution of a sequence of integer tokens $(T_{1},\ldots,T_{q})$ autoregressively as
+This work is based on the Gato transformer architecture first published in Reed et al.. The transformer model with parameters $\theta$ models the joint distribution of a sequence of integer tokens $(T_{1},\ldots,T_{q})$ autoregressively as The model is fitted to the conditional distribution $p{(\left. T_{i} \middle| {T_{1},\ldots,T_{i - 1}} \right.)}$ by minimizing the negative log-likelihood loss where ${(t_{1},\ldots,t_{q})} \sim {(T_{1},\ldots,T_{q})}$ is a sequence of tokens from the data.
 
-<!-- chunk {"id": "body-0018", "role": "body", "section": "Modelling trajectory data with transformers", "weight": 1.0} -->
-
-The model is fitted to the conditional distribution $p{(\left. T_{i} \middle| {T_{1},\ldots,T_{i - 1}} \right.)}$ by minimizing the negative log-likelihood loss
-
-<!-- chunk {"id": "body-0019", "role": "body", "section": "Modelling trajectory data with transformers", "weight": 1.0} -->
+<!-- chunk {"id": "body-0016", "role": "body", "section": "Modelling trajectory data with transformers", "weight": 1.0} -->
 
 The distribution over a sequence of observations, actions, and rewards can be modeled by tokenizing the sequence first. This is done by assigning a single integer (token) per scalar element (see Reed et al. for details), as illustrated in Fig. 2. Thus, an $n$-dimensional observation is represented by a sequence of $n$ integers $(t_{1},\ldots,t_{n})$, an $m$-dimensional action is represented by a sequence of $m$ integers $(t_{1},\ldots,t_{m})$, and a reward is represented by a single integer. While Janner et al. follow a similar per-dimension tokenization scheme, Chen et al. instead only use one token per state or action, obtained with a learned projection.
 
-<!-- chunk {"id": "body-0020", "role": "body", "section": "Modelling trajectory data with transformers", "weight": 1.0} -->
+<!-- chunk {"id": "body-0017", "role": "body", "section": "Modelling trajectory data with transformers", "weight": 1.0} -->
 
 In the generalist experiments in sections 5.2.1 and 5.2.2, the TDM is used for predictions in multiple environments that have observation and action spaces of different dimensionalities. All of these are translated into sequences of tokens (although of different per-timestep length depending on the dimensionality), which provide a unified interface to the TDM.
 
-<!-- chunk {"id": "body-0021", "role": "body", "section": "Model Predictive Control (MPC)", "weight": 1.0} -->
+<!-- chunk {"id": "body-0018", "role": "body", "section": "Model Predictive Control (MPC)", "weight": 1.0} -->
 
-MPC refers to a group of control algorithms that make use of a model of the environment to choose the action in the current step. Assume we have a model of the environment which at time $t$ allows us to predict the next $N$ observations $o_{t + 1}^{(i)},\ldots,o_{t + N}^{(i)}$ resulting from applying a sequence of $N$ actions $A^{(i)} = {a_{t}^{(i)},\ldots,a_{{t + N} - 1}^{(i)}}$. This model allows us to predict a distribution $P\left( o_{t + 1}^{(i)},\ldots,\left. o_{t + N}^{(i)} \middle| {a_{t}^{(i)},\ldots,a_{{t + N} - 1}^{(i)},o_{t},h_{t}} \right.
+MPC refers to a group of control algorithms that make use of a model of the environment to choose the action in the current step. Assume we have a model of the environment which at time $t$ allows us to predict the next $N$ observations $o_{t + 1}^{(i)},\ldots,o_{t + N}^{(i)}$ resulting from applying a sequence of $N$ actions $A^{(i)} = {a_{t}^{(i)},\ldots,a_{{t + N} - 1}^{(i)}}$. This model allows us to predict a distribution $P\left(o_{t + 1}^{(i)},\ldots,\left. o_{t + N}^{(i)} \middle| {a_{t}^{(i)},\ldots,a_{{t + N} - 1}^{(i)},o_{t},h_{t}} \right.
 
-<!-- chunk {"id": "body-0022", "role": "body", "section": "Model Predictive Control (MPC)", "weight": 1.0} -->
+<!-- chunk {"id": "body-0019", "role": "body", "section": "Model Predictive Control (MPC)", "weight": 1.0} -->
 
-\right)$ of future observations, given the actions, a start observation $o_{t}$, and, depending on the model, a history $h_{t}$ of earlier observations, rewards, and actions, of arbitrary length. We also call $N$ the planner horizon.
+\right)$ of future observations, given the actions, a start observation $o_{t}$, and, depending on the model, a history $h_{t}$ of earlier observations, rewards, and actions, of arbitrary length. We also call $N$ the planner horizon. In its simplest form, given a set of candidate action sequences $\{ A^{},\ldots,A^{(K)}\}$, an MPC controller compares these in terms of an objective function $f$, and chooses the first action of the action sequence that maximizes $f$: For the experiments in section 5.2.2, the objective function $f$ explicitly depends on the rewards, but the rewards are not a deterministic function of the observations and actions. In these cases, we use the TDM to predict a distribution $P\left(r_{t}^{(i)},\ldots,r_{{t + N} - 1}^{(i)},o_{t + 1}^{(i)},\ldots,\left.
 
-<!-- chunk {"id": "body-0023", "role": "body", "section": "Model Predictive Control (MPC)", "weight": 1.0} -->
-
-For the experiments in section 5.2.2, the objective function $f$ explicitly depends on the rewards, but the rewards are not a deterministic function of the observations and actions. In these cases, we use the TDM to predict a distribution $P\left( r_{t}^{(i)},\ldots,r_{{t + N} - 1}^{(i)},o_{t + 1}^{(i)},\ldots,\left. o_{t + N}^{(i)} \middle| {a_{t}^{(i)},\ldots,a_{{t + N} - 1}^{(i)},o_{t},h_{t}} \right. \right)$ of both future observations and rewards, and then choose
-
-<!-- chunk {"id": "body-0024", "role": "body", "section": "Method", "weight": 1.0} -->
+<!-- chunk {"id": "body-0020", "role": "body", "section": "Method", "weight": 1.0} -->
 
 At test time, the output of the transformer sequence model discussed in section 3.1 is conditional on the sequence of tokens it has been prompted. This allows us to use it in different ways.
 
-<!-- chunk {"id": "body-0025", "role": "body", "section": "Method", "weight": 1.0} -->
+<!-- chunk {"id": "body-0021", "role": "body", "section": "Method", "weight": 1.0} -->
 
-The policy, reward model, or dynamics model are just different views on the same sequence model. In the present work, we use the sequence model as a TDM, i.e., we focus on the last case. We can test multiple candidate $a_{t}$, and query the TDM for its prediction of the effect.
+Condition on $(h_{t},o_{t})$, obtain $r_{t}$: Reward model Condition on $(h_{t},o_{t},r_{t})$, obtain $a_{t}$: BC policy Condition on $(h_{t},o_{t},r_{t},a_{t})$, obtain $o_{t + 1}$: Dynamics model (TDM) The policy, reward model, or dynamics model are just different views on the same sequence model. In the present work, we use the sequence model as a TDM, i.e., we focus on the last case. We can test multiple candidate $a_{t}$, and query the TDM for its prediction of the effect.
 
-<!-- chunk {"id": "body-0026", "role": "body", "section": "Method", "weight": 1.0} -->
+<!-- chunk {"id": "body-0022", "role": "body", "section": "Method", "weight": 1.0} -->
 
 In fully observable first-order Markov environments, $o_{t + 1}$ only depends on $(o_{t},a_{t})$, making the history $h_{t}$ redundant for single-environment model learning (in practice, we found that including $h_{t}$ has a positive effect, but it is small, see section C). However, a single time step $(o_{t},a_{t})$ usually does not contain enough information to infer the dynamics of the environment the data is. In the zero-shot generalist model learning case (section 4.2), the model also has to "identify" the dynamics of the target environment. Therefore, a history $h_{t}$ of interactions with the environment is needed as a sample of the system dynamics in this case.
 
-<!-- chunk {"id": "body-0027", "role": "body", "section": "MPC", "weight": 1.0} -->
+<!-- chunk {"id": "body-0023", "role": "body", "section": "MPC", "weight": 1.0} -->
 
 Apart from a brief study of prediction errors in section G, in this work we test the quality of the TDM's predictions by using it to create behavior in a simple MPC loop. The TDM is used within the MPC loop to predict the outcome of action sequences $A^{(i)}$, given the current observation as start, and the history of the MPC agent's interaction with the environment since the beginning of the episode.
 
-<!-- chunk {"id": "body-0028", "role": "body", "section": "MPC with random shooting planner", "weight": 1.0} -->
+<!-- chunk {"id": "body-0024", "role": "body", "section": "MPC with random shooting planner", "weight": 1.0} -->
 
 For most of the experiments, the candidate action sequences $A^{(i)}$ are independent of the observation, and randomly sampled from temporally correlated Brownian noise (see appendix B for a discussion of this) with drift $0$ and variance $2$. For the environments in this work, actions are clipped to the unit box ${\lbrack{- 1},1\rbrack}^{m}$, which is therefore symmetrically covered, with a slight bias for bang-bang control.
 
-<!-- chunk {"id": "body-0029", "role": "body", "section": "MPC with proposal", "weight": 1.0} -->
+<!-- chunk {"id": "body-0025", "role": "body", "section": "MPC with proposal", "weight": 1.0} -->
 
 For one experiment reported in section 5.1.1, we use a proposal policy $\pi{(\left. a \middle| o \right.)}$ to obtain mean actions as a function of the observation predicted by the TDM, and then add temporally correlated Brownian noise with drift $0$ and varying levels of variance as shown in Fig. 5.
 
-<!-- chunk {"id": "body-0030", "role": "body", "section": "Objective functions", "weight": 1.0} -->
+<!-- chunk {"id": "body-0026", "role": "body", "section": "Objective functions", "weight": 1.0} -->
 
-For most environments used in this work, the reward can be obtained as a function $R{(o^{\prime})}$ of predicted observations. In these cases, we use the TDM to predict future observations, and then select actions to maximize the undiscounted future reward
+For most environments used in this work, the reward can be obtained as a function $R{(o')}$ of predicted observations. In these cases, we use the TDM to predict future observations, and then select actions to maximize the undiscounted future reward For the procedural walker environments (see section 4.3.2), the reward can not be obtained from observations. In these cases, we use the transformer sequence model to not only to predict future observations $o_{t}$, but also future rewards $r_{t}$. We then use the objective function We briefly discuss the performance difference between these two approaches in appendix D.
 
-<!-- chunk {"id": "body-0031", "role": "body", "section": "Objective functions", "weight": 1.0} -->
-
-For the procedural walker environments (see section 4.3.2), the reward can not be obtained from observations. In these cases, we use the transformer sequence model to not only to predict future observations $o_{t}$, but also future rewards $r_{t}$. We then use the objective function
-
-<!-- chunk {"id": "body-0032", "role": "body", "section": "Objective functions", "weight": 1.0} -->
-
-We briefly discuss the performance difference between these two approaches in appendix D.
-
-<!-- chunk {"id": "body-0033", "role": "body", "section": "Training setups", "weight": 1.0} -->
+<!-- chunk {"id": "body-0027", "role": "body", "section": "Training setups", "weight": 1.0} -->
 
 We consider multiple training setups that probe the model's ability to learn the dynamics for a single environment from experience in this environment, and also test its ability to generalize experience from previous environments to unseen environments. This is described in the following.
 
-<!-- chunk {"id": "body-0034", "role": "body", "section": "Specialist model", "weight": 1.0} -->
+<!-- chunk {"id": "body-0028", "role": "body", "section": "Specialist model", "weight": 1.0} -->
 
 For the experiments in section 5.1, we train the model with trajectories recorded in the same environment that we then use the model for MPC. We refer to this as the specialist model learning case.
 
-<!-- chunk {"id": "body-0035", "role": "body", "section": "Generalist model", "weight": 1.0} -->
+<!-- chunk {"id": "body-0029", "role": "body", "section": "Generalist model", "weight": 1.0} -->
 
-Few-shot: For the experiments in section 5.2.1, we pre-train the model on a number of environments, and then fine-tune it on the unseen environment that we then use the model for MPC.\
+Few-shot: For the experiments in section 5.2.1, we pre-train the model on a number of environments, and then fine-tune it on the unseen environment that we then use the model for MPC.\Zero-shot: For the experiments in section 5.2.2, we train the model on a number of environments, and then use the model for MPC in an unseen environment without any fine-tuning.
 
-<!-- chunk {"id": "body-0036", "role": "body", "section": "Generalist model", "weight": 1.0} -->
-
-Zero-shot: For the experiments in section 5.2.2, we train the model on a number of environments, and then use the model for MPC in an unseen environment without any fine-tuning.
-
-<!-- chunk {"id": "body-0037", "role": "body", "section": "DeepMind control suite", "weight": 1.0} -->
+<!-- chunk {"id": "body-0030", "role": "body", "section": "DeepMind control suite", "weight": 1.0} -->
 
 For the specialist experiments in section 5.1 and the generalist fine-tuning experiments in section 5.2.1, we use control environments from the DeepMind control suite. We use $3$ environments of increasing difficulty (cartpole, walker, humanoid) for the specialist experiments. For the generalist fine-tuning experiments, we pre-train on $28$ control suite environments, another $28$ versions of these environments with randomized parameters, and $24$ environments from the procedural walker universe (see below).
 
-<!-- chunk {"id": "body-0038", "role": "body", "section": "DeepMind control suite", "weight": 1.0} -->
+<!-- chunk {"id": "body-0031", "role": "body", "section": "DeepMind control suite", "weight": 1.0} -->
 
 We can view these $80$ diverse control environments as samples of a high-dimensional space of environments. $80$ samples are not nearly enough to densely cover this space. Nevertheless, we are able to demonstrate a generalization effect for few-shot generalization to an unseen environment.
 
-<!-- chunk {"id": "body-0039", "role": "body", "section": "The procedural walker universe of environments", "weight": 1.0} -->
+<!-- chunk {"id": "body-0032", "role": "body", "section": "The procedural walker universe of environments", "weight": 1.0} -->
 
 For the zero-shot generalization experiments in section 5.2 however, we need "denser coverage" of environments during training. For this, we make use of the procedural walker universe of environments. This setting was not purpose-created for the present work, but is unpublished so far.
 
-<!-- chunk {"id": "body-0040", "role": "body", "section": "The procedural walker universe of environments", "weight": 1.0} -->
+<!-- chunk {"id": "body-0033", "role": "body", "section": "The procedural walker universe of environments", "weight": 1.0} -->
 
 The procedural walker universe contains procedurally generated locomotion environments with a diverse number of degrees of freedom (between $4$ and $20$ in our experiments) and diverse kinematic trees. The kinematic trees are constructed one link at a time. The environments are divided into $4$ families. Fig. 3 shows one example of each family.
 
-<!-- chunk {"id": "body-0041", "role": "body", "section": "The procedural walker universe of environments", "weight": 1.0} -->
+<!-- chunk {"id": "body-0034", "role": "body", "section": "The procedural walker universe of environments", "weight": 1.0} -->
 
 For line, the next link is always added to the end of the previous limb, with the rotation axis being uniformly sampled from all possible rotation axes. For chain, there are still either $1$ or $2$ links per limb, but one of $5$ attachment directions (6 axis-aligned directions minus the one pointing back into the limb) is randomly selected. For bush, each limb has multiple limbs attached to it, with the only restriction that all links of a limb must be filled before moving on to one of its children. Finally, for tree, this restriction is removed, and new limbs are randomly attached to any other limb in any direction, both selected uniformly at random.
 
-<!-- chunk {"id": "body-0042", "role": "body", "section": "The procedural walker universe of environments", "weight": 1.0} -->
+<!-- chunk {"id": "body-0035", "role": "body", "section": "The procedural walker universe of environments", "weight": 1.0} -->
 
 The goal in all of these environments is to move in the positive $x$-direction with $1\ {m/s}$. The exact reward is the one of the run through corridor example from Tunyasuvunakool et al..
 
-<!-- chunk {"id": "body-0043", "role": "body", "section": "Training data", "weight": 1.0} -->
+<!-- chunk {"id": "body-0036", "role": "body", "section": "Training data", "weight": 1.0} -->
 
 For all environments, the training data we use for model learning is collected by an expert or near-expert policy. For the DeepMind control suite, we give a more detailed description of the resulting data distribution in section A. For our setting, this expert training data has, perhaps counterintuitively, a relatively challenging distribution. As described in section 4.1, the model is later queried with random action sequences following a distribution very different from the expert data it was trained.
 
-<!-- chunk {"id": "body-0044", "role": "body", "section": "Experiments", "weight": 1.0} -->
+<!-- chunk {"id": "body-0037", "role": "body", "section": "Experiments", "weight": 1.0} -->
 
 Fig. 1 shows an overview of the experiments in this section. The experiments demonstrate two aspects of TDMs.
 
-<!-- chunk {"id": "body-0045", "role": "body", "section": "Experiments", "weight": 1.0} -->
+<!-- chunk {"id": "body-0038", "role": "body", "section": "Experiments", "weight": 1.0} -->
 
 Purple markers: TDMs are capable specialist control models, i.e., they are precise (compared to baselines) when trained with data from the target environment.
 
-<!-- chunk {"id": "body-0046", "role": "body", "section": "Experiments", "weight": 1.0} -->
+<!-- chunk {"id": "body-0039", "role": "body", "section": "Experiments", "weight": 1.0} -->
 
 Yellow markers: TDMs are capable generalist control models, i.e., they show powerful few-shot or even zero-shot generalization capabilities.
 
-<!-- chunk {"id": "body-0047", "role": "body", "section": "Experiments", "weight": 1.0} -->
+<!-- chunk {"id": "body-0040", "role": "body", "section": "Experiments", "weight": 1.0} -->
 
 To this end, we show results in three different data regimes (specialist learning, generalist fine-tuning, generalist zero-shot). These regimes are characterized by how much data from the target environment is available, and how much data from other environments is available. Results are reported in sections 5.1, 5.2.1, and 5.2.2, respectively.
 
-<!-- chunk {"id": "body-0048", "role": "body", "section": "Experiments", "weight": 1.0} -->
+<!-- chunk {"id": "body-0041", "role": "body", "section": "Experiments", "weight": 1.0} -->
 
 We do report prediction errors of the TDM and baselines in section G, but throughout this work mostly measure a model's quality by using it in a simple MPC loop with a random shooting planner, and measuring the reward of the resulting MPC agent. This metric is tightly correlated with the model's usefulness for control (more so than, e.g., prediction accuracy). We emphasize that, since the MPC algorithm is so simple, the resulting policy is often not state-of-the-art. We use MPC as a measuring tool for comparing model quality, not for building the best possible model-based agent.
 
-<!-- chunk {"id": "body-0049", "role": "body", "section": "TDMs are capable single-environment models", "weight": 1.0} -->
+<!-- chunk {"id": "body-0042", "role": "body", "section": "TDMs are capable single-environment models", "weight": 1.0} -->
 
 In the following, we evaluate the quality of TDMs when trained on sufficient data from the environment they are tested. We show that TDMs make accurate predictions that are suitable for planning for a range of difficult control tasks. They consistently perform better than a number of baseline models in our experiments. This finding remains robust if we switch to training data that was collected by an agent optimized for a different task (but in the same environment). We also confirm these results by comparing prediction errors of the TDM to baselines in section G.
 
-<!-- chunk {"id": "body-0050", "role": "body", "section": "TDMs are capable single-environment models", "weight": 1.0} -->
+<!-- chunk {"id": "body-0043", "role": "body", "section": "TDMs are capable single-environment models", "weight": 1.0} -->
 
 Fig. 4 shows results for control tasks of increasing complexity from the DeepMind control suite: cartpole swingup (Fig. 3(a) ‣ Figure 4 ‣ 5.1 TDMs are capable single-environment models ‣ 5 Experiments ‣ A Generalist Dynamics Model for Control")), walker stand (Fig. 3(b) ‣ Figure 4 ‣ 5.1 TDMs are capable single-environment models ‣ 5 Experiments ‣ A Generalist Dynamics Model for Control")), and humanoid stand (Fig. 3(c) ‣ Figure 4 ‣ 5.1 TDMs are capable single-environment models ‣ 5 Experiments ‣ A Generalist Dynamics Model for Control")). The data sets used contain $26762$, $18503$, and $12953$ episodes respectively, with $1000$ transitions each. Since in this experiment, we want to test the model's ability to accurately fit the dynamics given sufficient data, we use large amounts of data to remove any data bottlenecks. For more statistics on the data used, see section A. We also discuss prediction errors of the dynamics models in section G.
 
-<!-- chunk {"id": "body-0051", "role": "body", "section": "TDMs are capable single-environment models", "weight": 1.0} -->
+<!-- chunk {"id": "body-0044", "role": "body", "section": "TDMs are capable single-environment models", "weight": 1.0} -->
 
 We compare the TDM to the ground truth dynamics model, as well as different baseline dynamics models. These baselines include a vanilla multilayer perceptron (MLP), MLPs that output the delta to the previous observation, MLPs with tokenized and embedded inputs, and MLPs with tokenized (categorical) outputs, as well as combinations thereof. We also show results for a very large MLP with 70M parameters, a stochastic ensemble of MLPs (PETS, ), and the dynamics model of Dreamer V2. Among the baselines, a combination of tokenized inputs and delta outputs ("MLP Tokenized Inputs + Delta Outputs") seems to work best^22^2We briefly zoom in on the relative performance of the MLP baselines using tokenized in- or outputs in section F., and is on par with the TDM for shorter MPC planning horizons. For longer planning horizons however, the TDM has an advantage.
 
-<!-- chunk {"id": "body-0052", "role": "body", "section": "TDMs are capable single-environment models", "weight": 1.0} -->
+<!-- chunk {"id": "body-0045", "role": "body", "section": "TDMs are capable single-environment models", "weight": 1.0} -->
 
 For the more complex 6-DOF walker environment, the advantage of the TDM is even more pronounced: While the MPC agent based on the TDM reaches optimal performance, none of the baseline models is good enough to enable the MPC agent to reach better-than-random performance. Finally, we find qualitatively similar results for the 21-DOF humanoid environment. The TDM is the only model for which we observe non-random performance.
 
-<!-- chunk {"id": "body-0053", "role": "body", "section": "TDMs are capable single-environment models", "weight": 1.0} -->
+<!-- chunk {"id": "body-0046", "role": "body", "section": "TDMs are capable single-environment models", "weight": 1.0} -->
 
 To rule out the possibility that the TDM (with ca. 70M parameters) outperforms these baselines (with ca. 400k parameters) simply because of its larger parameter size, for all environments we also include a version of the best-performing baseline that is much larger (70M parameters, "MLP Tokenized Inputs + Delta Outputs (70M)"). In all environments, the performance of this larger model is very similar to the performance of its smaller version, and again, the TDM has an advantage for longer planning horizons.
 
-<!-- chunk {"id": "body-0054", "role": "body", "section": "TDMs are capable single-environment models", "weight": 1.0} -->
+<!-- chunk {"id": "body-0047", "role": "body", "section": "TDMs are capable single-environment models", "weight": 1.0} -->
 
 For cartpole and walker, the TDM performs on par with the expert ground-truth dynamics model. For the $67$-dimensional humanoid, the TDM does not reach expert performance. We use a random shooting planner for the experiments in Fig. 4, hence the TDM is queried with a state-action distribution that is very different from its training data (which comes from an expert policy, see appendix A). This distribution shift is challenging; while the TDM is still able to extrapolate perfectly in the cartpole and walker domains, we hypothesize that the extremely high dimensionality of humanoid makes it likely that the TDM is queried in areas of the state-action space that are simply not covered by its training data, making extrapolation almost impossible. Having said that, the TDM is the only model with better-than-random performance in the humanoid domain, and we see a clear trend of increasing reward as we increase the number of samples $K$. This indicates that the TDM's performance might increase further if the distribution shift is decreased. We therefore discuss a planning approach using samples that are closer to the TDM's training distribution in the following.
 
-<!-- chunk {"id": "body-0055", "role": "body", "section": "Including a proposal policy", "weight": 1.0} -->
+<!-- chunk {"id": "body-0048", "role": "body", "section": "Including a proposal policy", "weight": 1.0} -->
 
 We can make the planner use its budget of imaginary samples $K$ more efficiently by biasing the candidate action trajectories using a proposal policy, as described in section 4.1. Results for this are reported, for humanoid stand, in Fig. 5.
 
-<!-- chunk {"id": "body-0056", "role": "body", "section": "Including a proposal policy", "weight": 1.0} -->
+<!-- chunk {"id": "body-0049", "role": "body", "section": "Including a proposal policy", "weight": 1.0} -->
 
 As the proposal policy, we use the same transformer sequence model with the same weights that we also use as a TDM, but condition it as a BC policy at test time, as described in section 3.1. The pure proposal policy is far from perfect, but useful as a bias.
 
-<!-- chunk {"id": "body-0057", "role": "body", "section": "Including a proposal policy", "weight": 1.0} -->
+<!-- chunk {"id": "body-0050", "role": "body", "section": "Including a proposal policy", "weight": 1.0} -->
 
 Adding not-too-high amounts of additive noise to obtain candidate action sequences, and using a planning horizon $N$ that is not too myopic, the TDM can significantly improve on the proposal. The model is able to consistently distinguish worse from better actions in the proposal-biased distribution; in fact the biased planner's performance approaches the asymptotic ($K\rightarrow\infty$) expert model's performance (Fig. 3(c) ‣ Figure 4 ‣ 5.1 TDMs are capable single-environment models ‣ 5 Experiments ‣ A Generalist Dynamics Model for Control")). In this example, the hybrid approach of using the transformer sequence model both as a TDM and a BC policy outperforms each of these alone.
 
-<!-- chunk {"id": "body-0058", "role": "body", "section": "Robustness against changes in training distribution", "weight": 1.0} -->
+<!-- chunk {"id": "body-0051", "role": "body", "section": "Robustness against changes in training distribution", "weight": 1.0} -->
 
 As mentioned in section 4.4, the distribution of the training data we use is strongly biased to expert performance, which, perhaps counterintuitively, is a challenging setup for learning a model that is then used for random shooting MPC. For walker stand and humanoid stand, we also tested the TDM's performance after being trained on different distributions - namely expert data for walker walk and run, and humanoid walk and run, respectively. As can be seen from Fig. 3(b) ‣ Figure 4 ‣ 5.1 TDMs are capable single-environment models ‣ 5 Experiments ‣ A Generalist Dynamics Model for Control") and Fig. 3(c) ‣ Figure 4 ‣ 5.1 TDMs are capable single-environment models ‣ 5 Experiments ‣ A Generalist Dynamics Model for Control"), the TDM's performance is largely unchanged by this. This is additional evidence that TDMs are relatively robust against suboptimal training distributions. Although not the focus of this work, to a certain extent this can also be seen as an example of the TDM generalizing across tasks (from walk and run to stand), but in the same environment.
 
-<!-- chunk {"id": "body-0059", "role": "body", "section": "Robustness against changes in training distribution", "weight": 1.0} -->
+<!-- chunk {"id": "body-0052", "role": "body", "section": "Robustness against changes in training distribution", "weight": 1.0} -->
 
 The fact that our model outperforms the baselines considered in this chapter does not rule out the possibility that similar or even better performance is achievable with other architectures, including MLPs of different sizes and depths. Our experiments show however that TDMs make accurate predictions that are suitable for planning for a range of difficult control tasks, in nontrivial learning settings that were very challenging for the baselines considered here.
 
-<!-- chunk {"id": "body-0060", "role": "body", "section": "TDMs generalize to unseen environments", "weight": 1.0} -->
+<!-- chunk {"id": "body-0053", "role": "body", "section": "TDMs generalize to unseen environments", "weight": 1.0} -->
 
 Next, we evaluate the quality of TDMs when trained on data from environments different from the one they are tested. We do this in two different settings: We first show results of a generalist model that is pre-trained on a small number of unrelated control environments, and then fine-tuned on the unseen target environment (cartpole), in section 5.2.1. We then report results for using a generalist model in zero-shot fashion in unseen environments in the procedural walker universe in section 5.2.2. For a discussion of our choice of environments, please refer to section 4.3.
 
-<!-- chunk {"id": "body-0061", "role": "body", "section": "Few-shot generalization", "weight": 1.0} -->
+<!-- chunk {"id": "body-0054", "role": "body", "section": "Few-shot generalization", "weight": 1.0} -->
 
 We use a TDM as a generalist dynamics model. The experimental setup is shown schematically in Fig. 5(a) ‣ Figure 6 ‣ 5.2.1 Few-shot generalization ‣ 5.2 TDMs generalize to unseen environments ‣ 5 Experiments ‣ A Generalist Dynamics Model for Control").
 
-<!-- chunk {"id": "body-0062", "role": "body", "section": "Few-shot generalization", "weight": 1.0} -->
+<!-- chunk {"id": "body-0055", "role": "body", "section": "Few-shot generalization", "weight": 1.0} -->
 
 We pre-train the model on $28$ environments from the DeepMind control suite, another $28$ randomized versions of the same environments, and ${4 \cdot 6} = 24$ randomly created environments from the $4$ families of the procedural walker universe described in section 4.3.2. None of these environments have any notable similarities with cartpole, our target environment. We then fine-tune this model on different amounts of transition data from cartpole, and test the resulting model by using it for MPC with a simple random shooting planner, as in section 5.1. This experiment is prototypical of a situation where the space of environments in which the model is supposed to generalize is only very sparsely covered by a relatively small number of pre-training environments. Therefore, we unsurprisingly observe no zero-shot generalization, but we do observe significant few-shot generalization.
 
-<!-- chunk {"id": "body-0063", "role": "body", "section": "Few-shot generalization", "weight": 1.0} -->
+<!-- chunk {"id": "body-0056", "role": "body", "section": "Few-shot generalization", "weight": 1.0} -->
 
 We vary the size $M$ of the fine-tuning data sets. For each $M$, we fine-tune $3$ models on small data sets independently sampled from the full data set used in section 5.1. For each $M$, we then optimize the number of fine-tuning steps independently. These fine-tuning curves are shown in Fig. 5(c) ‣ Figure 6 ‣ 5.2.1 Few-shot generalization ‣ 5.2 TDMs generalize to unseen environments ‣ 5 Experiments ‣ A Generalist Dynamics Model for Control"). For each $M$, the average MPC performance is recorded after independently optimizing the number of training steps.
 
-<!-- chunk {"id": "body-0064", "role": "body", "section": "Few-shot generalization", "weight": 1.0} -->
+<!-- chunk {"id": "body-0057", "role": "body", "section": "Few-shot generalization", "weight": 1.0} -->
 
 These optimized returns are indicated as stars in Fig. 5(c) ‣ Figure 6 ‣ 5.2.1 Few-shot generalization ‣ 5.2 TDMs generalize to unseen environments ‣ 5 Experiments ‣ A Generalist Dynamics Model for Control"), and are shown as a function of $M$ in Fig. 5(b) ‣ Figure 6 ‣ 5.2.1 Few-shot generalization ‣ 5.2 TDMs generalize to unseen environments ‣ 5 Experiments ‣ A Generalist Dynamics Model for Control"). The optimized returns reflect the TDM's performance as a function of the number of fine-tuning samples, rather than of the number of fine-tuning steps. Comparing the performance of the fine-tuned generalist TDM to a TDM trained on the same small sets of data from scratch, we observe a significant few-shot generalization effect: We can obtain a similarly capable model with roughly $2$ to $3$ orders of magnitude less data. As we increase the number of fine-tuning data, we approach the specialist model's (and ground truth's) performance reported in section 5.1.
 
-<!-- chunk {"id": "body-0065", "role": "body", "section": "Comparing to a different pre-training set", "weight": 1.0} -->
+<!-- chunk {"id": "body-0058", "role": "body", "section": "Comparing to a different pre-training set", "weight": 1.0} -->
 
 As mentioned earlier, the pre-training data set only contains data from environments that are entirely different from cartpole. We also tested including data from double cartpole and triple cartpole in the pre-training data. These environments are still quite different from cartpole (more degrees of freedom, different kinematics), but are arguably more related to cartpole than the environments originally in our pre-training set. They can be considered to be closer to our target environment in the space of environments, potentially allowing the generalist model to few-shot-interpolate easier to the target environment. Indeed, after including double cartpole and triple cartpole in the pre-training set, the results improve significantly over the original setting (see Fig. 5(b) ‣ Figure 6 ‣ 5.2.1 Few-shot generalization ‣ 5.2 TDMs generalize to unseen environments ‣ 5 Experiments ‣ A Generalist Dynamics Model for Control")).
 
-<!-- chunk {"id": "body-0066", "role": "body", "section": "Comparing to baselines - the data efficiency perspective", "weight": 1.0} -->
+<!-- chunk {"id": "body-0059", "role": "body", "section": "Comparing to baselines - the data efficiency perspective", "weight": 1.0} -->
 
 We also compare the generalization results with the best-performing MLP specialist from section 5.1. This baseline is trained from scratch on the same data that was used for fine-tuning the TDM; again we use $3$ independent data sets and training runs each. The MLP baseline (ca. 400k parameters, the TDM has ca. 77M) works better for very small amounts of data ($10$ episodes), but after that, the pre-trained generalist TDMs have a growing advantage. In other words, given moderate amounts of data (ca. $100$ to $1000$ episodes), the fine-tuned generalist is the best model we were able to train in all of our experiments, including low-expressivity baselines. In this regime, the generalist TDM needs almost $2$ orders of magnitude less data to achieve the same performance. This is not because the generalist TDM has an inherently better sample efficiency (compare the from-scratch TDM to the MLP baseline), but rather it more than compensates its initially lower sample efficiency by exploiting its capability to generalize from other environments.
 
-<!-- chunk {"id": "body-0067", "role": "body", "section": "Comparing to baselines - the data efficiency perspective", "weight": 1.0} -->
+<!-- chunk {"id": "body-0060", "role": "body", "section": "Comparing to baselines - the data efficiency perspective", "weight": 1.0} -->
 
 The generalist TDM does not reach expert performance in the regime of $100$ to $1000$ episodes, but its much higher sample efficiency here has important practical utility, for example to warm-start exploration of a specialist agent.
 
-<!-- chunk {"id": "body-0068", "role": "body", "section": "Zero-shot generalization", "weight": 1.0} -->
+<!-- chunk {"id": "body-0061", "role": "body", "section": "Zero-shot generalization", "weight": 1.0} -->
 
 We use a TDM as a generalist model again, but now investigate its zero-shot generalization capabilities to an unseen environment. As motivated in section 4.3.2, we use the procedural walker universe for this, allowing for reasonable coverage of the space of environments the model is supposed to generalize. We train the model on either $1000$ or $10000$ randomly created morphologies from the chain family. These morphologies are very diverse in their degrees of freedom (between $4$ and $20$) and kinematic trees (see section 4.3.2). We then test the generalist TDM's performance on $10$ morphologies never seen during training. The results are summarized in Fig. 7.
 
-<!-- chunk {"id": "body-0069", "role": "body", "section": "Zero-shot generalization", "weight": 1.0} -->
+<!-- chunk {"id": "body-0062", "role": "body", "section": "Zero-shot generalization", "weight": 1.0} -->
 
 The TDM zero-shot generalizes very well to unseen morphologies, especially for the larger model size tested.
 
-<!-- chunk {"id": "body-0070", "role": "body", "section": "Zero-shot generalization", "weight": 1.0} -->
+<!-- chunk {"id": "body-0063", "role": "body", "section": "Zero-shot generalization", "weight": 1.0} -->
 
 In contrast to this, we measure no significant generalization effect when the same sequence model with the same weights is not used as TDM within an MPC loop with a random shooting planner, but as a BC policy. While the TDM achieves roughly half of the optimal return, using the same model as BC policy does not generalize significantly. If we train the same transformer model as a specialist BC policy on data from a single procedural walker environment, we achieve ca. $80\%$ of the optimal score on average. This rules out insufficient model capacity or poor data quality as reason for the low performance of the BC policy in Fig. 7; this can indeed be ascribed to weak generalization. The transformer model is trained with expert data, providing high-quality data to the BC policy. Additionally, at the start of each episode, we prompt the BC policy with a history of optimal behavior, providing it with privileged information. In contrast, we don't warm-start the TDM with any history.
 
-<!-- chunk {"id": "body-0071", "role": "body", "section": "Zero-shot generalization", "weight": 1.0} -->
+<!-- chunk {"id": "body-0064", "role": "body", "section": "Zero-shot generalization", "weight": 1.0} -->
 
 In this example, the TDM together with a planner that optimizes behavior generalizes better than the BC policy that directly models optimal behavior. We speculate that there are at least two effects at play: First, we observed that optimal behavior in the procedural walker universe can look very different depending on the morphology; while for some, a centipede-like walking motion is optimal, for others it is better to roll. This means that identifying the dynamics from interaction (which is what the dynamics model (TDM) has to learn) might be an easier task than identifying optimal behavior, or at least continuing a prompt of optimal behavior, from interaction (which is what the behavior model (BC policy) has to learn). Second, given an imperfect generalist sequence model, querying it repeatedly with random actions in an MPC loop might be more forgiving than directly querying it for actions. The random actions create additional randomness in the behavior creating process that makes it less likely for the model to "get stuck" making wrong predictions.
 
-<!-- chunk {"id": "body-0072", "role": "body", "section": "Zero-shot generalization", "weight": 1.0} -->
+<!-- chunk {"id": "body-0065", "role": "body", "section": "Zero-shot generalization", "weight": 1.0} -->
 
 Strong generalization is achieved in this experiment by using the generalist sequence model not (or not only) as policy, but as a TDM. This across-environment generalization is in addition to the "classic" across-task generalization of dynamics models (see also section 5.1.2).
 
-<!-- chunk {"id": "body-0073", "role": "body", "section": "Discussion", "weight": 1.5} -->
+<!-- chunk {"id": "body-0066", "role": "body", "section": "Discussion", "weight": 1.5} -->
 
 Pixel observations: In this paper, we restrict our experiments to environments with state-based observations and did not consider pixel-based observations. Apart from reducing need for computational resources, this was done in order to isolate generalization effects due to a transfer of a basic understanding of physics from generalization effects due to a transfer of perceptual capabilities. That being said, pixel-based domains are an interesting and natural extension of our work for at least two reasons: First, pixel-based observations open up our approach to more data sources, especially for real-world environments. Second, images can contain richer context about the environment than states, allowing for faster system identification for generalization. Fortunately, there are established techniques to tokenize image inputs for transformers, such as ViT or VQGAN. Some of these approaches were already used with the Gato architecture we base this work. Furthermore, pixel-based domains require planning with predicted rewards, and initial experiments in appendix D (and also the results in section 5.2.2) indicate that our approach performs well in these cases. We therefore believe that including pixel observations is a straightforward and natural extension of our work.
 
-<!-- chunk {"id": "body-0074", "role": "body", "section": "Discussion", "weight": 1.5} -->
+<!-- chunk {"id": "body-0067", "role": "body", "section": "Discussion", "weight": 1.5} -->
 
 Simple planner: As discussed earlier, the random shooting planner we used for MPC is a tool for comparing model quality. As such, it is intentionally simple. A planner optimized for performance likely could significantly improve the MPC reward. We discussed one such example in Fig. 5, where we used a proposal for planning.
 
-<!-- chunk {"id": "body-0075", "role": "body", "section": "Discussion", "weight": 1.5} -->
+<!-- chunk {"id": "body-0068", "role": "body", "section": "Discussion", "weight": 1.5} -->
 
 Training data: We use expert data (see also section A) for training the dynamics models in this work. As argued in section 4.4, this is challenging for the models: We train on expert data, but for random shooting MPC then query the models with state-action sequences distributed very differently. In high-dimensional state-action spaces, this distribution shift makes it likely that the TDM will be queried in parts of the space for which it never "saw" any data. Consistent with this, the TDM reaches expert level for cartpole and walker with random shooting, but not for the $67$-dimensional humanoid (Fig. 4). After biasing the distribution with a proposal however, the TDM approaches expert performance on humanoid too (Fig. 5). This distribution shift could also explain why the Dreamer dynamics model performed well for policy improvement in Hafner et al., but not in Fig. 4.
 
-<!-- chunk {"id": "body-0076", "role": "body", "section": "Discussion", "weight": 1.5} -->
+<!-- chunk {"id": "body-0069", "role": "body", "section": "Discussion", "weight": 1.5} -->
 
 Utility of imperfect generalists: As is typical for generalization settings, the generalist TDM's predictions in the target environment are not perfect (see section 5.2). While imperfect, it is still significantly more informative than a non-generalizing model. As such, it can be used as a bias to inform downstream learning algorithms, for example, to inform the exploration strategy of an RL agent in the target environment.
 
-<!-- chunk {"id": "body-0077", "role": "body", "section": "Discussion", "weight": 1.5} -->
+<!-- chunk {"id": "body-0070", "role": "body", "section": "Discussion", "weight": 1.5} -->
 
 Limits of generalization: Since the model has to interpolate in the space of environments in order to generalize, the pre-training data has to sample this space to some extent (section 5.2.2). For sparse sampling, fine-tuning might still be successful (section 5.2.1), but with sparse sampling and relatively complex targets, the generalization effect expectedly vanishes, as shown in section E.
 
-<!-- chunk {"id": "body-0078", "role": "body", "section": "Discussion", "weight": 1.5} -->
+<!-- chunk {"id": "body-0071", "role": "body", "section": "Discussion", "weight": 1.5} -->
 
 Model-free vs. model-based: This paper does not weigh in on whether model-based or model-free methods (or combinations, see section 5.1.1) are superior in every situation. Indeed, model-free MPO reaches expert performance on cartpole after roughly $200$ episodes, which is faster than our most efficient cartpole dynamics model, the fine-tuned TDM generalist, reaches expert model performance (see Fig. 5(b) ‣ Figure 6 ‣ 5.2.1 Few-shot generalization ‣ 5.2 TDMs generalize to unseen environments ‣ 5 Experiments ‣ A Generalist Dynamics Model for Control")). Instead, we demonstrate that generalization is a powerful mechanism to speed up dynamics model learning (section 5.2.1), and we show that in some cases, model-based generalization does in fact outperform model-free generalization (section 5.2.2).
 
-<!-- chunk {"id": "body-0079", "role": "body", "section": "Discussion", "weight": 1.5} -->
+<!-- chunk {"id": "body-0072", "role": "body", "section": "Discussion", "weight": 1.5} -->
 
 Inference speed: Our current approach is limited by test-time inference speed. The 77M model can predict roughly 500 tokens per second on a single Jellyfish TPU core, which, depending on the degree of parallelization, the dimensionality of the environment, the planner horizon $H$, and the number of planner samples $K$, can translate into environment step durations of tens of seconds in extreme cases. Apart from increasing parallelization (down to one planner sample per core), this can likely be optimized significantly by using more sample-efficient planning algorithms than random shooting, an example of which was discussed in section 5.1.1. The TDM itself can also be optimized for speed; a straightforward starting point is the context window size (inference time scales quadratically with window size), which can be reduced significantly without losing much of the performance, as shown in section C. Finally, while the present work uses transformers as an example showing that generalist dynamics models exist at all, future research potentially will uncover completely different model architectures with similar generalization capabilities but faster inference speed. On that note, we briefly discuss the possibility that tokenization could benefit non-transformer models in section F.
 
-<!-- chunk {"id": "body-0080", "role": "body", "section": "Discussion", "weight": 1.5} -->
+<!-- chunk {"id": "body-0073", "role": "body", "section": "Discussion", "weight": 1.5} -->
 
 Having said all that, fundamentally we propose to use transformer sequence models as large, expressive, generalist dynamics models that are not primarily optimized for speed. A more principled way to resolve this trade-off between expressiveness and speed could be distillation: Large general foundation models could be expressive and slow, but would then be distilled into light-weight specialists for specific tasks. This could be done at several points along the execution pipeline: The TDM could be distilled into a dynamics model, or the MPC agent could be distilled into a policy.
 
-<!-- chunk {"id": "body-0081", "role": "body", "section": "Conclusion", "weight": 1.5} -->
+<!-- chunk {"id": "body-0074", "role": "body", "section": "Conclusion", "weight": 1.5} -->
 
 We investigate using transformers as dynamics models (TDMs). We demonstrate two aspects of TDMs in the experiments: First, TDMs are generalist dynamics models, i.e., they generalize well to unseen environments, which we demonstrated both in the few-shot and in the zero-shot case. Second, TDMs are capable specialist models, i.e., they are precise when learning from environment-specific data.
 
-<!-- chunk {"id": "body-0082", "role": "body", "section": "Conclusion", "weight": 1.5} -->
+<!-- chunk {"id": "body-0075", "role": "body", "section": "Conclusion", "weight": 1.5} -->
 
 We believe that these properties make TDMs a promising ingredient for a foundation model of robotics and control. As argued earlier, while we mostly focus on TDMs in this paper, using transformers as dynamics models or policies is not mutually exclusive. A combination, like planning with proposals, might be the most efficient way to make use of the detailed and generalizable knowledge aggregated by a transformer that models the joint distribution of observations, actions, and rewards.

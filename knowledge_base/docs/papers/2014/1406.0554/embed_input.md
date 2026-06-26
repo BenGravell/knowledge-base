@@ -18,19 +18,19 @@ The control problems we study fall under the classical framework of risk-sensiti
 
 <!-- chunk {"id": "body-0005", "role": "body", "section": "GENERAL OPTIMIZATION PROBLEMS", "weight": 1.0} -->
 
-where $g$ is an arbitrary function and $\mathcal{C} \subset \mathbf{R}^{k}$ is a convex set. We do not assume that $g$ is convex so the above problem could be a nonconvex optimization problem. In this work, we convexify this problem by decomposing $g(\theta)$ as follows: ${g{(\theta)}} = {{f{(\theta)}} + {\frac{1}{2}\theta^{T}R\theta}}$ and perturbing $f$ with Gaussian noise. Optimization problems of this form are very common in machine learning (where $R$ corresponds to a regularizer) and control (where $R$ corresponds to a control cost).
+We study optimization problems of the form: where $g$ is an arbitrary function and $\mathcal{C} \subset \mathbf{R}^{k}$ is a convex set. We do not assume that $g$ is convex so the above problem could be a nonconvex optimization problem. In this work, we convexify this problem by decomposing $g(\theta)$ as follows: ${g{(\theta)}} = {{f{(\theta)}} + {\frac{1}{2}\theta^{T}R\theta}}$ and perturbing $f$ with Gaussian noise. Optimization problems of this form are very common in machine learning (where $R$ corresponds to a regularizer) and control (where $R$ corresponds to a control cost). The convexified optimization problem is: where $R \succeq 0$ and This kind of objective is common in risk-averse optimization.
 
 <!-- chunk {"id": "body-0006", "role": "body", "section": "GENERAL OPTIMIZATION PROBLEMS", "weight": 1.0} -->
 
-This kind of objective is common in risk-averse optimization. To a first order Taylor expansion in $\alpha$, the above objective is equal to ${E\left\lbrack {f\left( {\theta + \omega} \right)} \right\rbrack} + {\alpha{\operatorname{Var}\left( {f\left( {\theta + \omega} \right)} \right)}}$, indicating that increasing $\alpha$ will make the solution more robust to Gaussian perturbations. $\alpha$ is called the risk-factor and is a measure of the risk-aversion of the decision maker. Larger values of $\alpha$ will reject solutions that are not robust to Gaussian perturbations.
+To a first order Taylor expansion in $\alpha$, the above objective is equal to ${E\left\lbrack {f\left({\theta + \omega} \right)} \right\rbrack} + {\alpha{\operatorname{Var}\left({f\left({\theta + \omega} \right)} \right)}}$, indicating that increasing $\alpha$ will make the solution more robust to Gaussian perturbations. $\alpha$ is called the risk-factor and is a measure of the risk-aversion of the decision maker. Larger values of $\alpha$ will reject solutions that are not robust to Gaussian perturbations.
 
 <!-- chunk {"id": "body-0007", "role": "body", "section": "GENERAL OPTIMIZATION PROBLEMS", "weight": 1.0} -->
 
-We implicitly make this assumption throughout this paper in all the stated results. Note that this is not a very restrictive assumption, since, given any function $g$ with a finite minimum, one can define a new objective $g^{\prime} = {\min\left( g,\overline{m} \right)}$, where $\overline{m}$ is an upper bound on the minimum (say the value of the function at some point), without changing the minimum. Since the convex quadratic is non-negative, $f$ is also bounded above by $\overline{m}$ and hence $0 < {\exp\left( {\alphaf\left( {\theta + \omega} \right)} \right)} \leq {\exp\left( {\alpha\overline{m}} \right)}$. This ensures that $f_{\alpha}(\theta)$ is finite.
+In order that the expectation exists, we require that $f$ is bounded above: We implicitly make this assumption throughout this paper in all the stated results. Note that this is not a very restrictive assumption, since, given any function $g$ with a finite minimum, one can define a new objective $g' = {\min\left(g,\overline{m} \right)}$, where $\overline{m}$ is an upper bound on the minimum (say the value of the function at some point), without changing the minimum. Since the convex quadratic is non-negative, $f$ is also bounded above by $\overline{m}$ and hence $0 < {\exp\left({\alphaf\left({\theta + \omega} \right)} \right)} \leq {\exp\left({\alpha\overline{m}} \right)}$. This ensures that $f_{\alpha}(\theta)$ is finite.
 
 <!-- chunk {"id": "body-0008", "role": "body", "section": "GENERAL OPTIMIZATION PROBLEMS", "weight": 1.0} -->
 
-Some results will require differentiability, and we can preserve this by defining $g^{\prime}$ using a soft-min: For example, ${g^{\prime}(x)} = {\overline{m}{\tanh\left( \frac{g(x)}{\overline{m}} \right)}}$.
+Some results will require differentiability, and we can preserve this by defining $g'$ using a soft-min: For example, ${g'(x)} = {\overline{m}{\tanh\left(\frac{g(x)}{\overline{m}} \right)}}$.
 
 <!-- chunk {"id": "body-0009", "role": "body", "section": "INTERPRETATION", "weight": 1.0} -->
 
@@ -54,136 +54,84 @@ We have derived a convex surrogate for a very general class of optimization prob
 
 <!-- chunk {"id": "body-0014", "role": "body", "section": "Remark 1", "weight": 1.0} -->
 
-Although we only prove suboptimality relative to the optimal solution of a smoothed version of $g$, we can extend the analysis to the optimal solution of $g$ itself. Define $\theta^{\ast} = {{\operatorname{\mathsf{a}\mathsf{r}\mathsf{g}\mathsf{m}\mathsf{i}\mathsf{n}}_{\theta \in \mathcal{C}}g}(\theta)}$. We can prove that
+Although we only prove suboptimality relative to the optimal solution of a smoothed version of $g$, we can extend the analysis to the optimal solution of $g$ itself. Define $\theta^{\ast} = {{\operatorname{\mathsf{a}\mathsf{r}\mathsf{g}\mathsf{m}\mathsf{i}\mathsf{n}}_{\theta \in \mathcal{C}}g}(\theta)}$. We can prove that Assuming that $g$ changes slowly around $\theta^{\ast}$ and $\theta_{\alpha}^{\ast}$ (indicative of the fact that $\theta^{\ast}$ is a "robust" minimum and $\theta_{\alpha}^{\ast}$ is the minimum of a robustified problem), we can bound the first term. We leave a precise analysis for future work.
 
-<!-- chunk {"id": "body-0015", "role": "body", "section": "Remark 1", "weight": 1.0} -->
-
-Assuming that $g$ changes slowly around $\theta^{\ast}$ and $\theta_{\alpha}^{\ast}$ (indicative of the fact that $\theta^{\ast}$ is a "robust" minimum and $\theta_{\alpha}^{\ast}$ is the minimum of a robustified problem), we can bound the first term. We leave a precise analysis for future work.
-
-<!-- chunk {"id": "body-0016", "role": "body", "section": "BOUNDING THE SENSITIVITY FUNCTION", "weight": 1.0} -->
+<!-- chunk {"id": "body-0015", "role": "body", "section": "BOUNDING THE SENSITIVITY FUNCTION", "weight": 1.0} -->
 
 The sensitivity function is exactly the moment generating function of the $0$-mean random variable ${\overset{\sim}{f}}_{\omega}(\theta)$. Several techniques have been developed for bounding moment generation functions in the field of concentration inequalities. Using these techniques, we can bound the moment generating function (i.e. the sensitivity function) under the assumption that $f$ is Lipschitz-continuous.
 
-<!-- chunk {"id": "body-0017", "role": "body", "section": "ALGORITHMS AND CONVERGENCE GUARANTEES", "weight": 1.0} -->
+<!-- chunk {"id": "body-0016", "role": "body", "section": "ALGORITHMS AND CONVERGENCE GUARANTEES", "weight": 1.0} -->
 
 In general, the expectations involved in cannot be computed analytically. Thus, we need to resort to sampling based approaches in order to solve these problems. This has been studied extensively in recent years in the context of machine learning, where stochastic gradient methods and variants have been shown to be efficient, particularly in the context training machine learning algorithms with huge amounts of data. We now describe stochastic gradient methods for solving and adapt the convergence guarantees of stochastic gradient methods to our setting.
 
+<!-- chunk {"id": "body-0017", "role": "body", "section": "Stochastic Gradient Methods with Convergence Guarantees", "weight": 1.0} -->
+
+In this section, we will derive gradients of the convex objective function. We will assume that the function $f$ is differentiable at all $\theta \in \mathbf{R}^{k}$. In order to get unbiased gradient estimates, we exponentiate the objective to get: Since $f(\theta)$ is differentiable for all $\theta$, so is $\exp\left({{\alphaf\left({\theta + \omega} \right)} + {\frac{1}{2}\theta^{T}\left({\alphaR} \right)\theta}} \right)$. Further, suppose that exists and is finite for each $\theta$.
+
 <!-- chunk {"id": "body-0018", "role": "body", "section": "Stochastic Gradient Methods with Convergence Guarantees", "weight": 1.0} -->
 
-In this section, we will derive gradients of the convex objective function. We will assume that the function $f$ is differentiable at all $\theta \in \mathbf{R}^{k}$.
+Then, if we differentiate $\mathbf{G}(\theta)$ with respect to $\theta$, we can interchange the expectation and differentiation to get Thus, we can sample $\omega \sim {\mathcal{N}(0,\Sigma)}$ and get an unbiased estimate of the gradient which we denote by $\hat{\nabla}\mathbf{G}(\theta,\omega)$. As in standard stochastic gradient methods, one saves on the complexity of a single iteration by using a single (or a small number of) samples to get a gradient estimate while still converging to the global optimum with high probability and in expectation, because over multiple iterations one moves along the negative gradient "on average".
 
-<!-- chunk {"id": "body-0019", "role": "body", "section": "Stochastic Gradient Methods with Convergence Guarantees", "weight": 1.0} -->
+<!-- chunk {"id": "body-0019", "role": "body", "section": "Remark 2", "weight": 1.0} -->
 
-Since $f(\theta)$ is differentiable for all $\theta$, so is $\exp\left( {{\alphaf\left( {\theta + \omega} \right)} + {\frac{1}{2}\theta^{T}\left( {\alphaR} \right)\theta}} \right)$. Further, suppose that
+The convergence guarantees are in terms of the exponentiated objective $\mathbf{G}(\theta)$. We can convert these into bounds on $\log\left({\mathbf{G}(\theta)} \right)$ as follows: where the first inequality follows from concavity of the $\log$ function. Subtracting $\log\left(\mathbf{G}^{\ast} \right)$, we get
 
-<!-- chunk {"id": "body-0020", "role": "body", "section": "Stochastic Gradient Methods with Convergence Guarantees", "weight": 1.0} -->
-
-exists and is finite for each $\theta$. Then, if we differentiate $\mathbf{G}(\theta)$ with respect to $\theta$, we can interchange the expectation and differentiation to get
-
-<!-- chunk {"id": "body-0021", "role": "body", "section": "Stochastic Gradient Methods with Convergence Guarantees", "weight": 1.0} -->
-
-Thus, we can sample $\omega \sim {\mathcal{N}(0,\Sigma)}$ and get an unbiased estimate of the gradient
-
-<!-- chunk {"id": "body-0022", "role": "body", "section": "Stochastic Gradient Methods with Convergence Guarantees", "weight": 1.0} -->
-
-which we denote by $\hat{\nabla}\mathbf{G}(\theta,\omega)$. As in standard stochastic gradient methods, one saves on the complexity of a single iteration by using a single (or a small number of) samples to get a gradient estimate while still converging to the global optimum with high probability and in expectation, because over multiple iterations one moves along the negative gradient "on average".
-
-<!-- chunk {"id": "body-0023", "role": "body", "section": "Remark 2", "weight": 1.0} -->
-
-The convergence guarantees are in terms of the exponentiated objective $\mathbf{G}(\theta)$.
-
-<!-- chunk {"id": "body-0024", "role": "body", "section": "Remark 2", "weight": 1.0} -->
-
-where the first inequality follows from concavity of the $\log$ function. Subtracting $\log\left( \mathbf{G}^{\ast} \right)$, we get
-
-<!-- chunk {"id": "body-0025", "role": "body", "section": "CONTROL PROBLEMS", "weight": 1.0} -->
+<!-- chunk {"id": "body-0020", "role": "body", "section": "CONTROL PROBLEMS", "weight": 1.0} -->
 
 In this section, we extend the above approach to the control of discrete-time dynamical systems. Stochastic optimal control of nonlinear systems in general is a hard problem and the only known general approach is based on dynamic programming, which scales exponentially with the dimension of the state space. Algorithms that approximate the solution of the dynamic program directly (approximate dynamic programming) have been successful in various domains, but scaling these approaches to high dimensional continuous state control problems has been challenging. In this section, we pursue the alternate approach of policy search or policy gradient methods. These algorithms have the advantage that they are directly optimizing the performance of a control policy as opposed to a surrogate measure like the error in the solution to the Bellman equation. They have been used successfully for various applications and are closely related to path integral control. However, in all of these approaches, there were no guarantees made regarding the optimality of the policy that the algorithm converges to (even in the limit of infinite sampling) or the rate of convergence.
 
-<!-- chunk {"id": "body-0026", "role": "body", "section": "CONTROL PROBLEMS", "weight": 1.0} -->
+<!-- chunk {"id": "body-0021", "role": "body", "section": "CONTROL PROBLEMS", "weight": 1.0} -->
 
 In this work, we develop the *first* policy gradient algorithms that achieve the *globally* optimal solutions to a class of *risk-averse* policy optimization problems.
 
-<!-- chunk {"id": "body-0027", "role": "body", "section": "Problem Setup", "weight": 1.0} -->
-
-We deal with arbitrary discrete-time dynamical systems of the form
-
-<!-- chunk {"id": "body-0028", "role": "body", "section": "Problem Setup", "weight": 1.0} -->
+<!-- chunk {"id": "body-0022", "role": "body", "section": "Problem Setup", "weight": 1.0} -->
 
 In this section, we will use boldface to denote quantities stacked over time (like $\mathbf{\epsilon}$). Equation can model any noisy discrete-time dynamical system, since $\mathcal{F}$ can be any function of the current state, control input and external disturbance (noise). However, we require that all the control dimensions are affected by Gaussian noise as. This can be thought of either as real actuator noise or artificial exploration noise. The choice of zero initial state $x_{1} = 0$ is arbitrary - our results even extend to an arbitrary distribution over the initial state.
 
-<!-- chunk {"id": "body-0029", "role": "body", "section": "Problem Setup", "weight": 1.0} -->
+<!-- chunk {"id": "body-0023", "role": "body", "section": "Problem Setup", "weight": 1.0} -->
 
-where $\ell_{t}\left( x_{t} \right)$ is the stage-wise state cost at time $t$. $\ell_{t}$ can be any bounded function of the state-vector $x_{t}$. Further, we will assume that the control-noise is non-degenerate, that is $\Sigma_{t}$ is full rank for all $0 \leq t \leq {N - 1}$. We denote $S_{t} = {}_{}^{}$. We seek to design feedback policies
+We will work with costs that are a combination of arbitrary state costs and quadratic control costs: where $\ell_{t}\left(x_{t} \right)$ is the stage-wise state cost at time $t$. $\ell_{t}$ can be any bounded function of the state-vector $x_{t}$. Further, we will assume that the control-noise is non-degenerate, that is $\Sigma_{t}$ is full rank for all $0 \leq t \leq {N - 1}$. We denote $S_{t} = \Sigma_{t}^{- 1}$. We seek to design feedback policies to minimize the accumulated cost. We will assume that the features $\phi$ are fixed and we seek to optimize the policy parameters $\mathbf{K} = {\{ K_{t}:{t = {1,2,\ldots,{N - 1}}}\}}$.
 
-<!-- chunk {"id": "body-0030", "role": "body", "section": "Problem Setup", "weight": 1.0} -->
+<!-- chunk {"id": "body-0024", "role": "body", "section": "Problem Setup", "weight": 1.0} -->
 
-to minimize the accumulated cost. We will assume that the features $\phi$ are fixed and we seek to optimize the policy parameters $\mathbf{K} = {\{ K_{t}:{t = {1,2,\ldots,{N - 1}}}\}}$.
+The stochastic optimal control problem we consider is defined as follows: This is exactly the same as the formulation in Risk Sensitive Markov Decision Processes, the only change being that we have explicitly separated the noise appearing in the controls from the noise in the dynamical system overall. In this formulation, the objective depends not only on the average behavior of the control policy but also on variance and higher moments (the tails of the distribution of costs). This has been studied for linear systems under the name of LEQG control. $\alpha$ is called the risk factor: Large positive values of $\alpha$ result in strongly risk-averse policies while large negative values result in risk-seeking policies. In our formulation, we will need a certain minimum degree of risk-aversion for the resulting policy optimization problem to be convex.
 
-<!-- chunk {"id": "body-0031", "role": "body", "section": "Problem Setup", "weight": 1.0} -->
-
-This is exactly the same as the formulation in Risk Sensitive Markov Decision Processes, the only change being that we have explicitly separated the noise appearing in the controls from the noise in the dynamical system overall. In this formulation, the objective depends not only on the average behavior of the control policy but also on variance and higher moments (the tails of the distribution of costs). This has been studied for linear systems under the name of LEQG control. $\alpha$ is called the risk factor: Large positive values of $\alpha$ result in strongly risk-averse policies while large negative values result in risk-seeking policies. In our formulation, we will need a certain minimum degree of risk-aversion for the resulting policy optimization problem to be convex.
-
-<!-- chunk {"id": "body-0032", "role": "body", "section": "NUMERICAL RESULTS", "weight": 1.0} -->
+<!-- chunk {"id": "body-0025", "role": "body", "section": "NUMERICAL RESULTS", "weight": 1.0} -->
 
 In this section, we present preliminary numerical results illustrating applications of the framework to various problems with comparisons to a simple baseline approach. These are not meant to be thorough numerical comparisons but simple illustrations of the power and applications of our framework.
 
-<!-- chunk {"id": "body-0033", "role": "body", "section": "BINARY CLASSIFICATION", "weight": 1.0} -->
+<!-- chunk {"id": "body-0026", "role": "body", "section": "BINARY CLASSIFICATION", "weight": 1.0} -->
 
-We look at a problem of binary classification. Let $y$ denote the actual label and $\hat{y}$ denote the predicted label. We use the loss function
+We look at a problem of binary classification. Let $y$ denote the actual label and $\hat{y}$ denote the predicted label. We use the loss function This is a non-convex loss function (the logarithm of the standard $0$-$1$ loss). We convexify this in the prediction $\hat{y}$ using our approach: Plugging in $\hat{y} = {\theta^{T}x}$ where $x$ is the feature vector, we get Plugging in the expression for $\ell$ gives where $erfc$ is the Gaussian error function. Given a dataset $\{\left(x_{i},y_{u} \right)\}$, we can form the empirical risk-minimization problem with this convexified objective: We can drop the $\alpha$ since it only scales the objective (this is a consequence of the fact that $\exp(\ell)$ is 0-1 valued and does not change on raising it to a positive power).
 
-<!-- chunk {"id": "body-0034", "role": "body", "section": "BINARY CLASSIFICATION", "weight": 1.0} -->
+<!-- chunk {"id": "body-0027", "role": "body", "section": "BINARY CLASSIFICATION", "weight": 1.0} -->
 
-This is a non-convex loss function (the logarithm of the standard $0$-$1$ loss).
+Thus, we finally end up with The first term is a data-fit term (a smoothed version of the 0-1 loss) and the second term is a regularizer. although we penalize the prediction $\theta^{T}x$ rather than $\theta$ itself. If $x$ are normalized and span all directions, by summing over the entire dataset we get something close to the standard Tikhonov regularization.
 
-<!-- chunk {"id": "body-0035", "role": "body", "section": "BINARY CLASSIFICATION", "weight": 1.0} -->
-
-Plugging in $\hat{y} = {\theta^{T}x}$ where $x$ is the feature vector, we get
-
-<!-- chunk {"id": "body-0036", "role": "body", "section": "BINARY CLASSIFICATION", "weight": 1.0} -->
-
-Plugging in the expression for $\ell$ gives
-
-<!-- chunk {"id": "body-0037", "role": "body", "section": "BINARY CLASSIFICATION", "weight": 1.0} -->
-
-where $erfc$ is the Gaussian error function.
-
-<!-- chunk {"id": "body-0038", "role": "body", "section": "BINARY CLASSIFICATION", "weight": 1.0} -->
-
-We can drop the $\alpha$ since it only scales the objective (this is a consequence of the fact that $\exp(\ell)$ is 0-1 valued and does not change on raising it to a positive power). Thus, we finally end up with
-
-<!-- chunk {"id": "body-0039", "role": "body", "section": "BINARY CLASSIFICATION", "weight": 1.0} -->
-
-The first term is a data-fit term (a smoothed version of the 0-1 loss) and the second term is a regularizer. although we penalize the prediction $\theta^{T}x$ rather than $\theta$ itself. If $x$ are normalized and span all directions, by summing over the entire dataset we get something close to the standard Tikhonov regularization.
-
-<!-- chunk {"id": "body-0040", "role": "body", "section": "BINARY CLASSIFICATION", "weight": 1.0} -->
+<!-- chunk {"id": "body-0028", "role": "body", "section": "BINARY CLASSIFICATION", "weight": 1.0} -->
 
 We compare the performance of our convexification-based approach with a standard implementation of a Support Vector Machine (SVM). We use the breast cancer dataset. We compare the two algorithms on various train-test splits of the dataset (without using cross-validation or parameter tuning). For each split, we create a noisy version of the dataset by adding Gaussian noise to the labels and truncating to $+ 1/ - 1$:${{\hat{y}}^{i} = {{sign}\left( {y^{i} + \omega} \right)}},{\omega \sim {\mathcal{N}\left( 0,\sigma^{2} \right)}}$.
 
-<!-- chunk {"id": "body-0041", "role": "body", "section": "BINARY CLASSIFICATION", "weight": 1.0} -->
+<!-- chunk {"id": "body-0029", "role": "body", "section": "BINARY CLASSIFICATION", "weight": 1.0} -->
 
 The accuracy of the learned classifiers on withheld test-data, averaged over $50$ random train-test splits with label corruption as described above, are plotted as function of the noise level $\sigma$ in figure 1. This is not a completely fair comparison since our approach explicitly optimizes for the worst case under Gaussian perturbations to the prediction (which can also be seen as a Gaussian perturbation to the label). However, as mentioned earlier, the purpose of these numerical experiments is to illustrate the applicability of our convexification approach to various problems so we do not do a careful comparison to robust variants of SVMs, which would be better suited to the setting described here.
 
-<!-- chunk {"id": "body-0042", "role": "body", "section": "CLASSIFICATION WITH NEURAL NETWORKS", "weight": 1.0} -->
+<!-- chunk {"id": "body-0030", "role": "body", "section": "CLASSIFICATION WITH NEURAL NETWORKS", "weight": 1.0} -->
 
-We present an algorithm that does neural network training using the results of section 5. Each layer of the neural network is a time-step in a dynamical system, and the neural network weights correspond to the time-varying policy parameters. Let $h$ denote a component-wise nonlinearity applied to its vector-input (a transfer function). The deterministic dynamics is
+We present an algorithm that does neural network training using the results of section 5. Each layer of the neural network is a time-step in a dynamical system, and the neural network weights correspond to the time-varying policy parameters. Let $h$ denote a component-wise nonlinearity applied to its vector-input (a transfer function). The deterministic dynamics is where $x_{t}$ is the vector of activations at the $t$-th layer, $K_{t}$ is the weight matrix and $x$ is the input to the neural network. The output is $x_{N}$, where $N$ is the number of layers in the network. The cost function is simply the loss function between the output of the neural network $x_{N}$ and a desired output $y$: $\ell\left(y,x_{N} \right)$. To put this into our framework, we add noise to the input of the transfer function at each layer: Additionally, we define the objective to be where the expectation is with respect to the Gaussian noise added at each layer in the network.
 
-<!-- chunk {"id": "body-0043", "role": "body", "section": "CLASSIFICATION WITH NEURAL NETWORKS", "weight": 1.0} -->
+<!-- chunk {"id": "body-0031", "role": "body", "section": "CLASSIFICATION WITH NEURAL NETWORKS", "weight": 1.0} -->
 
-where $x_{t}$ is the vector of activations at the $t$-th layer, $K_{t}$ is the weight matrix and $x$ is the input to the neural network. The output is $x_{N}$, where $N$ is the number of layers in the network. The cost function is simply the loss function between the output of the neural network $x_{N}$ and a desired output $y$: $\ell\left( y,x_{N} \right)$.
+Note that the above objective is a function of $\mathbf{K},x,y$. The quadratic penalty on $K_{t}x_{t}$ can again be thought of as a particular type of regularization which encourages learning networks with small internal activations. We add this objective over the entire dataset $\{ x^{i},y^{i}\}$ to get our overall training objective.
 
-<!-- chunk {"id": "body-0044", "role": "body", "section": "CLASSIFICATION WITH NEURAL NETWORKS", "weight": 1.0} -->
-
-where the expectation is with respect to the Gaussian noise added at each layer in the network. Note that the above objective is a function of $\mathbf{K},x,y$. The quadratic penalty on $K_{t}x_{t}$ can again be thought of as a particular type of regularization which encourages learning networks with small internal activations. We add this objective over the entire dataset $\{ x^{i},y^{i}\}$ to get our overall training objective.
-
-<!-- chunk {"id": "body-0045", "role": "body", "section": "CLASSIFICATION WITH NEURAL NETWORKS", "weight": 1.0} -->
+<!-- chunk {"id": "body-0032", "role": "body", "section": "CLASSIFICATION WITH NEURAL NETWORKS", "weight": 1.0} -->
 
 We evaluate this approach on a small randomly selected subset of the MNIST dataset. We use the version available at along with the MATLAB code provided for training neural networks. We use a 2-layer neural network with 20 units in the hidden layer and tanh-transfer functions in both layers. We use a randomly chosen collection of 900 data points for training and another 100 data points for validation. We compare training using our approach with simple backprop based training. Both of the approaches use a stochastic gradient - in our approach the stochasticity is both in selection of the data point $i$ and the realization of the Gaussian noise $\omega$ while in standard backprop the stochasticity is only in the selection of $i$. We plot learning curves (in terms of generalization or test error) for both approaches, as a function of the number of neural network evaluations (forward+back prop) performed by the algorithm in figure 3(a). The nonconvex approach based on standard backprop-gradient descent gets stuck in a local minimum and does not improve test accuracy much. On the other hand, the convexified approach is able to learn a classifier that generalizes better.
 
-<!-- chunk {"id": "body-0046", "role": "body", "section": "CLASSIFICATION WITH NEURAL NETWORKS", "weight": 1.0} -->
+<!-- chunk {"id": "body-0033", "role": "body", "section": "CLASSIFICATION WITH NEURAL NETWORKS", "weight": 1.0} -->
 
 We also compared backprop with training a neural network on a 1-dimensional regression problem where the red curve represents the original function with data-points indicated by squares, the blue curve the reconstruction learned by our convexified training approach and the black curve the reconstruction obtained by using backprop (figure 3(b)). Again, backprop gets stuck in a bad local minimum while our approach is able to find a fairly accurate reconstruction.
 
-<!-- chunk {"id": "body-0047", "role": "body", "section": "CONCLUSION AND FUTURE WORK", "weight": 1.5} -->
+<!-- chunk {"id": "body-0034", "role": "body", "section": "CONCLUSION AND FUTURE WORK", "weight": 1.5} -->
 
 We have developed a general framework for convexifying a broad class of optimization problems, analysis that relates the solution of the convexified problem to the original one and given algorithms with convergence rate guarantees to solve the convexified problems. Extending the framework to dynamical systems, we derive the first approach to policy optimization with optimality and convergence rate guarantees. We validated our approach numerically on problems of binary classification and training neural networks. In future work, we will refine the suboptimality analysis for our convexification approach. Algorithmically, stochastic gradient methods could be slow if the variance in the gradient estimates is high, which is the case when using the exponentiated objective (as in section 4). We will study the applicability of recent work on using better sampling algorithms with stochastic gradient to our convexified problems.

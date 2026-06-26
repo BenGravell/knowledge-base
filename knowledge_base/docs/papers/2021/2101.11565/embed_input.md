@@ -80,71 +80,71 @@ The length of an edge $e = {(u,v)} \in \mathcal{E}$ is determined by the locatio
 
 <!-- chunk {"id": "body-0020", "role": "body", "section": "Problem statement", "weight": 1.0} -->
 
-The decision variables are the discrete path $p$ and the continuous values ${\mathbf{x}}_{v}$. The cost minimizes the total path length. Constraint is enforced only for the vertices visited by the path, since the positions of the other vertices are irrelevant.
+The SPP in GCS is then stated as The decision variables are the discrete path $p$ and the continuous values ${\mathbf{x}}_{v}$. The cost minimizes the total path length. Constraint is enforced only for the vertices visited by the path, since the positions of the other vertices are irrelevant.
 
 <!-- chunk {"id": "body-0021", "role": "body", "section": "Problem statement", "weight": 1.0} -->
 
-With this choice the polygonal line connecting the points ${\mathbf{x}}_{v}$ along a shortest path is as straight as possible, perfectly straight if ${(s,t)} \in \mathcal{E}$. Conversely, if the edge length is the Euclidean distance squared,
+The edge length used in Figure 1 is the Euclidean distance: With this choice the polygonal line connecting the points ${\mathbf{x}}_{v}$ along a shortest path is as straight as possible, perfectly straight if ${(s,t)} \in \mathcal{E}$. Conversely, if the edge length is the Euclidean distance squared, straight trajectories may be suboptimal if they require long steps ${\mathbf{x}}_{v} - {\mathbf{x}}_{u}$. Note also that by letting $\ell_{e}$ take infinite value outside a convex set $\mathcal{X}_{e}$ we are effectively enforcing the edge constraint ${({\mathbf{x}}_{u},{\mathbf{x}}_{v})} \in \mathcal{X}_{e}$. This will be used in Section 8 to formulate optimal-control problems as SPPs in GCS: there the edge constraints will couple the vertex positions according to the system dynamics.
 
-<!-- chunk {"id": "body-0022", "role": "body", "section": "Problem statement", "weight": 1.0} -->
-
-straight trajectories may be suboptimal if they require long steps ${\mathbf{x}}_{v} - {\mathbf{x}}_{u}$. Note also that by letting $\ell_{e}$ take infinite value outside a convex set $\mathcal{X}_{e}$ we are effectively enforcing the edge constraint ${({\mathbf{x}}_{u},{\mathbf{x}}_{v})} \in \mathcal{X}_{e}$. This will be used in Section 8 to formulate optimal-control problems as SPPs in GCS: there the edge constraints will couple the vertex positions according to the system dynamics.
-
-<!-- chunk {"id": "body-0023", "role": "body", "section": "Complexity analysis", "weight": 1.0} -->
+<!-- chunk {"id": "body-0022", "role": "body", "section": "Complexity analysis", "weight": 1.0} -->
 
 If we fix the vertex positions ${\mathbf{x}}_{v}$, problem simplifies to the classical SPP with scalar nonnegative edge lengths, which is easily solvable using, e.g., Linear Programming (LP). Similarly, if we fix the path $p$, problem simplifies to a convex program that can be efficiently solved for most convex sets $\mathcal{X}_{v}$ and edge lengths $\ell_{e}$. In this section we show that the simultaneous optimization of the vertex positions and the path makes the SPP in GCS an NP-hard problem.
 
-<!-- chunk {"id": "body-0024", "role": "body", "section": "Complexity analysis", "weight": 1.0} -->
+<!-- chunk {"id": "body-0023", "role": "body", "section": "Complexity analysis", "weight": 1.0} -->
 
 Recall that an $s$-$t$ path $p:={(v_{0},\ldots,v_{K})}$ is said to be Hamiltonian if it visits every vertex in the graph (i.e., if $K = {{|\mathcal{V}|} - 1}$), and a graph is Hamiltonian if it contains such a path. The Hamiltonian-Path Problem (HPP) asks if a given graph is Hamiltonian. As an example, the graph in Figure 1 is not Hamiltonian.
 
-<!-- chunk {"id": "body-0025", "role": "body", "section": "Convex-analysis background", "weight": 1.0} -->
+<!-- chunk {"id": "body-0024", "role": "body", "section": "Convex-analysis background", "weight": 1.0} -->
 
 This section introduces two basic concepts in convex analysis: perspective operators (homogenization) and valid inequalities (duality). These are the main tools that we will use in the design and the analysis of our MICP. Our goal here is to set the notation and collect some important definitions and properties; for a comprehensive introduction to these topics see \[42, Parts II and III\] or \[25, Chapters III and IV\].
 
-<!-- chunk {"id": "body-0026", "role": "body", "section": "Perspective operators", "weight": 1.0} -->
+<!-- chunk {"id": "body-0025", "role": "body", "section": "Perspective operators", "weight": 1.0} -->
 
 There is a natural construction that maps a set in $n$ dimensions to a cone in $n + 1$ dimensions. This is sometimes called *homogenization*, or the *cone over* the set. Here we call it *perspective*, for coherence with the name commonly used for the same operation applied to functions \[25, Section IV.2.2\].
 
-<!-- chunk {"id": "body-0027", "role": "body", "section": "Remark 4.2", "weight": 1.0} -->
+<!-- chunk {"id": "body-0026", "role": "body", "section": "Remark 4.2", "weight": 1.0} -->
 
 The closure operation in Definition 4.1 is unnecessary for bounded sets $\mathcal{X}$. While, when the set $\mathcal{X}$ is unbounded, it ensures that the perspective $\overset{\sim}{\mathcal{X}}$ contains all its limit points with $\lambda = 0$ \[42, Theorem 8.2\].
 
-<!-- chunk {"id": "body-0028", "role": "body", "section": "Remark 4.2", "weight": 1.0} -->
+<!-- chunk {"id": "body-0027", "role": "body", "section": "Remark 4.2", "weight": 1.0} -->
 
 Importantly, the perspective operation preserves convexity, and the set $\overset{\sim}{\mathcal{X}}$ is a closed convex cone. The next example shows that the perspective of a set represented in conic form can be computed very easily.
 
-<!-- chunk {"id": "body-0029", "role": "body", "section": "Example 4.3", "weight": 1.0} -->
+<!-- chunk {"id": "body-0028", "role": "body", "section": "Example 4.3", "weight": 1.0} -->
 
 This example has great practical relevance since, informally, it tells us that if a conic-optimization solver can handle the set $\mathcal{X}$ then it can also handle its perspective $\overset{\sim}{\mathcal{X}}$. For instance, we see that the perspective of a polyhedral, ellipsoidal, and spectrahedral set can be represented through a set of linear, second-order-cone, and semidefinite constraints, respectively. More in general, if the set $\mathcal{X}$ is bounded, the formal equivalence of optimizing over $\mathcal{X}$ and its perspective $\overset{\sim}{\mathcal{X}}$ can be established using the ellipsoid method \[21, Chapter 4\], since the separation problems for these two sets are easily seen to be equivalent.
 
-<!-- chunk {"id": "body-0030", "role": "body", "section": "Example 4.3", "weight": 1.0} -->
+<!-- chunk {"id": "body-0029", "role": "body", "section": "Example 4.3", "weight": 1.0} -->
 
 The next definition uses the construction from \[42, Page 39\] to describe what the perspective operation does to a convex function.
 
-<!-- chunk {"id": "body-0031", "role": "body", "section": "Remark 4.5", "weight": 1.0} -->
+<!-- chunk {"id": "body-0030", "role": "body", "section": "Remark 4.5", "weight": 1.0} -->
 
 Although Definition 4.4 might seem unsuitable for numerical optimization, the perspectives of most common functions $f$ can be minimized using standard solvers. In fact, given a conic representation of the epigraph of $f$, we can compute the epigraph of $\overset{\sim}{f}$ as in Example 4.3, and minimize $\overset{\sim}{f}$ using a slack variable.
 
-<!-- chunk {"id": "body-0032", "role": "body", "section": "Remark 4.5", "weight": 1.0} -->
+<!-- chunk {"id": "body-0031", "role": "body", "section": "Remark 4.5", "weight": 1.0} -->
 
 The next two examples draw further useful parallels between the perspective operation applied to sets and to functions.
 
-<!-- chunk {"id": "body-0033", "role": "body", "section": "Valid inequalities", "weight": 1.0} -->
+<!-- chunk {"id": "body-0032", "role": "body", "section": "Valid inequalities", "weight": 1.0} -->
 
 A second cone that is naturally associated with a convex set is the cone of its valid inequalities. This will play an important role in the analysis of our MICP in Section 7. We report here a formal definition and a useful property.
 
-<!-- chunk {"id": "body-0034", "role": "body", "section": "Mixed-integer convex formulation", "weight": 1.0} -->
+<!-- chunk {"id": "body-0033", "role": "body", "section": "Mixed-integer convex formulation", "weight": 1.0} -->
 
 We now present the main contribution of this paper: the formulation of the SPP in GCS as a strong and lightweight MICP. This program is designed in two steps. First, in Section 5.2, we extend the network-flow formulation of the classical SPP (recalled in Section 5.1) to our setting. This yields an optimization problem with bilinear equality constraints. Second, in Section 5.3, we construct a convex relaxation tailored to these bilinear constraints and we formulate our MICP. The relaxation technique used in this section will be described at a higher level of generality and thoroughly analyzed in Section 7.
 
+<!-- chunk {"id": "body-0034", "role": "body", "section": "Network-flow formulation of the SPP", "weight": 1.0} -->
+
+\leq 1}},$ In this LP the decision variables $y_{e}$ parameterize a path $p$, with $y_{e} = 1$ if the edge $e$ is traversed by $p$ and $y_{e} = 0$ otherwise.
+
 <!-- chunk {"id": "body-0035", "role": "body", "section": "Network-flow formulation of the SPP", "weight": 1.0} -->
 
-The starting point for the design of our MICP is the network-flow formulation of the SPP with scalar nonnegative edge lengths (see, e.g., \[2, Section 4.1\]):
+The scalar $l_{e} \geq 0$ represents the length of the edge $e$. The sets $\mathcal{E}_{v}^{in}:={\{{{(u,v)} \in \mathcal{E}}\}}$ and $\mathcal{E}_{v}^{out}:={\{{{(v,u)} \in \mathcal{E}}\}}$ collect the edges incoming and outgoing vertex $v$. Without loss of generality, we assume ${|\mathcal{E}_{s}^{in}|} = {|\mathcal{E}_{t}^{out}|} = 0$, i.e., the source and the target have no incoming and outgoing edges, respectively. Interpreting the value of $y_{e}$ as the *flow* carried by the edge $e$, constraint (4b) asks that one unit of flow is injected in the source and ejected from the target.
 
 <!-- chunk {"id": "body-0036", "role": "body", "section": "Network-flow formulation of the SPP", "weight": 1.0} -->
 
-Interpreting the value of $y_{e}$ as the *flow* carried by the edge $e$, constraint (4b) asks that one unit of flow is injected in the source and ejected from the target. For all the other vertices, constraint (4c) enforces the *flow conservation* and a *degree constraint*. The latter enforces a limit of one to the total flow traversing the vertex.
+For all the other vertices, constraint (4c) enforces the *flow conservation* and a *degree constraint*. The latter enforces a limit of one to the total flow traversing the vertex.
 
 <!-- chunk {"id": "body-0037", "role": "body", "section": "Remark 5.1", "weight": 1.0} -->
 
@@ -168,7 +168,7 @@ Perspective functions give us a convenient and rigorous way to "turn on and off"
 
 <!-- chunk {"id": "body-0042", "role": "body", "section": "Biconvex formulation", "weight": 1.0} -->
 
-The decision variables are the flows $y_{e}$, the vertex positions ${\mathbf{x}}_{v}$, and the auxiliary variables ${\mathbf{z}}_{e}$ and ${\mathbf{z}}_{e}^{\prime}$. The role of the latter is to match the vertices ${\mathbf{x}}_{u}$ and ${\mathbf{x}}_{v}$ when $y_{e} = 1$, and collapse to zero when $y_{e} = 0$. This behavior is driven by the bilinear equality constraints (5.2), which are the only nonconvexity in our formulation and whose convexification is the focus of the next subsection. Before that, let us formally verify that, as mentioned in Remark 5.1 for the LP (5.1), forcing the flows $y_{e}$ to be binary does not affect the optimal value of the biconvex program (5.2).
+Overall, we then have the following biconvex formulation of the SPP in GCS: The decision variables are the flows $y_{e}$, the vertex positions ${\mathbf{x}}_{v}$, and the auxiliary variables ${\mathbf{z}}_{e}$ and ${\mathbf{z}}_{e}'$. The role of the latter is to match the vertices ${\mathbf{x}}_{u}$ and ${\mathbf{x}}_{v}$ when $y_{e} = 1$, and collapse to zero when $y_{e} = 0$. This behavior is driven by the bilinear equality constraints (5.2), which are the only nonconvexity in our formulation and whose convexification is the focus of the next subsection. Before that, let us formally verify that, as mentioned in Remark 5.1 for the LP (5.1), forcing the flows $y_{e}$ to be binary does not affect the optimal value of the biconvex program (5.2).
 
 <!-- chunk {"id": "body-0043", "role": "body", "section": "Convex relaxation of the bilinear constraints", "weight": 1.0} -->
 
@@ -184,15 +184,15 @@ Generating new valid constraints by multiplying existing ones is a standard proc
 
 <!-- chunk {"id": "body-0046", "role": "body", "section": "Remark 5.8", "weight": 1.0} -->
 
-Lemma 5.5 lifts any valid linear constraint on the flows incident with vertex $v$ into a convex constraint that envelops the feasible set of problem (5.2). Our MICP is obtained by applying this lemma to each flow constraint in the LP (5.1), and by replacing the constraints of the biconvex program (5.2) with the envelope resulting from this process. Let us first state our MICP and then prove its equivalence to the SPP in GCS (Theorem 5.9
+Lemma 5.5 lifts any valid linear constraint on the flows incident with vertex $v$ into a convex constraint that envelops the feasible set of problem (5.2). Our MICP is obtained by applying this lemma to each flow constraint in the LP (5.1), and by replacing the constraints of the biconvex program (5.2) with the envelope resulting from this process. Let us first state our MICP and then prove its equivalence to the SPP in GCS (Theorem 5.9 below): Constraint (5.3) is obtained as in Remark 5.7 from the flow conservation in (4c), and (5.3) is the result of applying Lemma 5.5 to the nonnegativity constraint (4d).
 
 <!-- chunk {"id": "body-0047", "role": "body", "section": "Remark 5.8", "weight": 1.0} -->
 
-Constraint (5.3) is obtained as in Remark 5.7 from the flow conservation in (4c), and (5.3) is the result of applying Lemma 5.5 to the nonnegativity constraint (4d). Note that the application of the same technique to the equalities (5.3) and to the degree constraint in (4c) would give us
+\right)\mathcal{X}_{v}}},$ However these constraints would be redundant since the vertex positions ${\mathbf{x}}_{v}$ for $v \in \mathcal{V}$ do not appear in the rest of problem (5.3).
 
 <!-- chunk {"id": "body-0048", "role": "body", "section": "Remark 5.8", "weight": 1.0} -->
 
-However these constraints would be redundant since the vertex positions ${\mathbf{x}}_{v}$ for $v \in \mathcal{V}$ do not appear in the rest of problem (5.3). Note also that the combination of (5.3) and (5.3) implies the constraints ${\mathbf{x}}_{v} \in \mathcal{X}_{v}$ for all $v \in \mathcal{V}$, which would also be redundant for our MICP. The convex relaxation of (5.3) is obtained simply by dropping the integrality constraint (5.3) (the nonnegativity of the flows $y_{e}$ is imposed by the cost and also by (5.3)). Observe that, unlike the biconvex program (5.2), the optimal value of the MICP can decrease if the flows are allowed to be fractional.
+Note also that the combination of (5.3) and (5.3) implies the constraints ${\mathbf{x}}_{v} \in \mathcal{X}_{v}$ for all $v \in \mathcal{V}$, which would also be redundant for our MICP. The convex relaxation of (5.3) is obtained simply by dropping the integrality constraint (5.3) (the nonnegativity of the flows $y_{e}$ is imposed by the cost and also by (5.3)). Observe that, unlike the biconvex program (5.2), the optimal value of the MICP can decrease if the flows are allowed to be fractional.
 
 <!-- chunk {"id": "body-0049", "role": "body", "section": "Remark 5.11", "weight": 1.0} -->
 
@@ -220,252 +220,236 @@ Multiple alternative MICP formulations of the SPP in GCS can be designed and fin
 
 <!-- chunk {"id": "body-0055", "role": "body", "section": "Alternative formulations", "weight": 1.0} -->
 
-A simple alternative way to reformulate the biconvex problem (5.2) as an MICP is to enforce the integrality constraints $y_{e} \in {\{ 0,1\}}$ for all $e \in \mathcal{E}$, and relax each bilinear constraint (5.2) independently using a McCormick envelope. With our notation, this amounts to replacing (5.2) with
+A simple alternative way to reformulate the biconvex problem (5.2) as an MICP is to enforce the integrality constraints $y_{e} \in {\{ 0,1\}}$ for all $e \in \mathcal{E}$, and relax each bilinear constraint (5.2) independently using a McCormick envelope. With our notation, this amounts to replacing (5.2) with where, for each $v \in \mathcal{V}$, we let $\mathcal{B}_{v}$ be an axis-aligned box that contains $\mathcal{X}_{v}$. Especially if the convex sets $\mathcal{X}_{v}$ are defined by many constraints, this MICP is more compact than ours. However, as we will see in Section 9, this formulation has loose convex relaxation and its solution times are generally much larger than with our approach.
 
 <!-- chunk {"id": "body-0056", "role": "body", "section": "Alternative formulations", "weight": 1.0} -->
 
-where, for each $v \in \mathcal{V}$, we let $\mathcal{B}_{v}$ be an axis-aligned box that contains $\mathcal{X}_{v}$. Especially if the convex sets $\mathcal{X}_{v}$ are defined by many constraints, this MICP is more compact than ours. However, as we will see in Section 9, this formulation has loose convex relaxation and its solution times are generally much larger than with our approach.
-
-<!-- chunk {"id": "body-0057", "role": "body", "section": "Alternative formulations", "weight": 1.0} -->
-
 At the other end of the spectrum, a variety of stronger but potentially more expensive formulations could be devised. For example, we have found that subtour-elimination constraints like \[48, Section 2.2\] can tighten the relaxation of our MICP for some classes of problems. Alternatively, we could formulate our MICP by grouping the constraints in (5.2) vertex by vertex, and by computing the convex hull of each group (see Section 7.2 below). We could also use more expensive semidefinite relaxations of the bilinear constraints (5.2). In our computational experience, the MICP (5.3) represents the best compromise between a lightweight and a strong formulation, and its solution times are lower than any other formulation we have tested.
 
-<!-- chunk {"id": "body-0058", "role": "body", "section": "Analysis of the mixed-integer formulation", "weight": 1.0} -->
+<!-- chunk {"id": "body-0057", "role": "body", "section": "Analysis of the mixed-integer formulation", "weight": 1.0} -->
 
 In this section we describe and analyze at a more abstract level the method used in Section 5.3 to formulate the SPP in GSC as an MICP. We show that Lemma 5.5 can be used to design convex relaxations of a large class of bilinear constraints, and we connect this result to existing relaxation techniques for nonconvex optimization. Finally, we give a simpler geometric proof of the validity of our MICP (already shown in Theorem 5.9).
 
+<!-- chunk {"id": "body-0058", "role": "body", "section": "Set-based relaxation of bilinear constraints", "weight": 1.0} -->
+
+Our first step in this analysis is to show that Lemma 5.5 is, in fact, a general-purpose relaxation technique for nonconvex sets of the form where $\mathcal{X} \subseteq {\mathbb{R}}^{n}$ and $\mathcal{Y} \subseteq {\mathbb{R}}^{m}$ are closed convex sets. In particular, here $\mathcal{X}$ takes the place of a generic set $\mathcal{X}_{v}$ in our GCS, while $\mathcal{Y}$ plays the role of the linear constraints on the flow variables incident with vertex $v$ (see Remark 7.3 below for more details).
+
 <!-- chunk {"id": "body-0059", "role": "body", "section": "Set-based relaxation of bilinear constraints", "weight": 1.0} -->
-
-Our first step in this analysis is to show that Lemma 5.5 is, in fact, a general-purpose relaxation technique for nonconvex sets of the form
-
-<!-- chunk {"id": "body-0060", "role": "body", "section": "Set-based relaxation of bilinear constraints", "weight": 1.0} -->
-
-where $\mathcal{X} \subseteq {\mathbb{R}}^{n}$ and $\mathcal{Y} \subseteq {\mathbb{R}}^{m}$ are closed convex sets. In particular, here $\mathcal{X}$ takes the place of a generic set $\mathcal{X}_{v}$ in our GCS, while $\mathcal{Y}$ plays the role of the linear constraints on the flow variables incident with vertex $v$ (see Remark 7.3 below for more details).
-
-<!-- chunk {"id": "body-0061", "role": "body", "section": "Set-based relaxation of bilinear constraints", "weight": 1.0} -->
 
 A natural approach to construct a convex envelope around the set $\mathcal{S}$ is to multiply all the valid inequalities ${{{\mathbf{a}}^{\top}{\mathbf{x}}} + b} \geq 0$ for the set $\mathcal{X}$ by all the valid inequalities ${{{\mathbf{c}}^{\top}{\mathbf{y}}} + d} \geq 0$ for the set $\mathcal{Y}$, and then use the bilinear equality ${\mathbf{Z}} = {{\mathbf{x}}{\mathbf{y}}^{\top}}$ to linearize these products.
 
-<!-- chunk {"id": "body-0062", "role": "body", "section": "Set-based relaxation of bilinear constraints", "weight": 1.0} -->
+<!-- chunk {"id": "body-0060", "role": "body", "section": "Set-based relaxation of bilinear constraints", "weight": 1.0} -->
 
-The relaxation is not obviously implementable on a computer, since it involves an infinite number of constraints. However, if one of the two sets is a polytope (i.e., a bounded polyhedron) then the convex set $\mathcal{S}^{\prime}$ can be efficiently described by a finite number of perspective-cone constraints.
+This gives us an infinite family of valid linear inequalities for $\mathcal{S}$, which form our convex relaxation: Note that the conditions ${\mathbf{x}} \in \mathcal{X}$ and ${\mathbf{y}} \in \mathcal{Y}$ are implied by the inequalities in that correspond to ${(\mathbf{0},1)} \in \mathcal{Y}^{\circ}$ and ${(\mathbf{0},1)} \in \mathcal{X}^{\circ}$, respectively.
 
-<!-- chunk {"id": "body-0063", "role": "body", "section": "Remark 7.3", "weight": 1.0} -->
+<!-- chunk {"id": "body-0061", "role": "body", "section": "Set-based relaxation of bilinear constraints", "weight": 1.0} -->
+
+The relaxation is not obviously implementable on a computer, since it involves an infinite number of constraints. However, if one of the two sets is a polytope (i.e., a bounded polyhedron) then the convex set $\mathcal{S}'$ can be efficiently described by a finite number of perspective-cone constraints.
+
+<!-- chunk {"id": "body-0062", "role": "body", "section": "Remark 7.3", "weight": 1.0} -->
 
 The constraints of the biconvex program (5.2) can be restated in terms of the set $\mathcal{S}$ as follows. First, we collect in the vector $\mathbf{y}_{v}:={(y_{e})}_{e \in \mathcal{E}_{v}}$ the flows incident with vertex $v$. Second, we let $\mathcal{Y}_{v}$ be the polytope defined by the linear constraints acting on $\mathbf{y}_{v}$. Constraint (4b) and the flow nonnegativity (4d) make $\mathcal{Y}_{s}$ and $\mathcal{Y}_{t}$ unit simplices (recall that ${|\mathcal{E}_{s}^{in}|} = {|\mathcal{E}_{t}^{out}|} = 0$).
 
+<!-- chunk {"id": "body-0063", "role": "body", "section": "Remark 7.3", "weight": 1.0} -->
+
+For $v \neq {s,t}$, the polytope $\mathcal{Y}_{v}$ is defined by the flow nonnegativity (4d) together with the conservation and degree constraints in (4c). Third, we stack in the columns of the matrix $\mathbf{Z}_{v}$ the auxiliary variables $\mathbf{z}_{e}'$ for $e \in \mathcal{E}_{v}^{in}$ and $\mathbf{z}_{e}$ for $e \in \mathcal{E}_{v}^{out}$, so that the bilinear constraints (5.2) take the form $\mathbf{Z}_{v} = {\mathbf{x}_{v}\mathbf{y}_{v}^{\top}}$.
+
 <!-- chunk {"id": "body-0064", "role": "body", "section": "Remark 7.3", "weight": 1.0} -->
 
-For $v \neq {s,t}$, the polytope $\mathcal{Y}_{v}$ is defined by the flow nonnegativity (4d) together with the conservation and degree constraints in (4c). Third, we stack in the columns of the matrix $\mathbf{Z}_{v}$ the auxiliary variables $\mathbf{z}_{e}^{\prime}$ for $e \in \mathcal{E}_{v}^{in}$ and $\mathbf{z}_{e}$ for $e \in \mathcal{E}_{v}^{out}$, so that the bilinear constraints (5.2) take the form $\mathbf{Z}_{v} = {\mathbf{x}_{v}\mathbf{y}_{v}^{\top}}$.
+By defining the sets $\mathcal{S}_{v}$ as, the constraints of problem (5.2) become ${(\mathbf{x}_{v},\mathbf{y}_{v},\mathbf{Z}_{v})} \in \mathcal{S}_{v}$ for all $v \in \mathcal{V}$. Our relaxation of the SPP in GCS is then obtained by replacing the constraint sets $\mathcal{S}_{v}$ with $\mathcal{S}_{v}'$ defined as.
 
-<!-- chunk {"id": "body-0065", "role": "body", "section": "Remark 7.3", "weight": 1.0} -->
+<!-- chunk {"id": "body-0065", "role": "body", "section": "Tightness of the relaxation $\\mathcal{S}'$", "weight": 1.0} -->
 
-By defining the sets $\mathcal{S}_{v}$ as, the constraints of problem (5.2) become ${(\mathbf{x}_{v},\mathbf{y}_{v},\mathbf{Z}_{v})} \in \mathcal{S}_{v}$ for all $v \in \mathcal{V}$. Our relaxation of the SPP in GCS is then obtained by replacing the constraint sets $\mathcal{S}_{v}$ with $\mathcal{S}_{v}^{\prime}$ defined as.
+Ideally, we would like our relaxation to be as tight as possible, and the set $\mathcal{S}'$ to coincide with the convex hull of $\mathcal{S}$. This equality holds, for example, when $\mathcal{X}$ and $\mathcal{Y}$ are intervals on the real line, in which case $\mathcal{S}'$ simplifies to the McCormick envelope. However, the inclusion ${{conv}\mathcal{S}} \subset \mathcal{S}'$ can be strict in general. In fact, for polytopic sets $\mathcal{X}$ and $\mathcal{Y}$, our approach of multiplying valid inequalities simplifies to the first level of the Reformulation-Linearization Technique (RLT), which does not yield the convex hull of $\mathcal{S}$ if, e.g., $\mathcal{X}:=\mathcal{Y}:={\lbrack 0,1\rbrack}^{2}$.
 
-<!-- chunk {"id": "body-0066", "role": "body", "section": "Tightness of the relaxation $\\mathcal{S}^{\\prime}$", "weight": 1.0} -->
+<!-- chunk {"id": "body-0066", "role": "body", "section": "Tightness of the relaxation $\\mathcal{S}'$", "weight": 1.0} -->
 
-Ideally, we would like our relaxation to be as tight as possible, and the set $\mathcal{S}^{\prime}$ to coincide with the convex hull of $\mathcal{S}$. This equality holds, for example, when $\mathcal{X}$ and $\mathcal{Y}$ are intervals on the real line, in which case $\mathcal{S}^{\prime}$ simplifies to the McCormick envelope. However, the inclusion ${{conv}\mathcal{S}} \subset \mathcal{S}^{\prime}$ can be strict in general.
+The convex hull of $\mathcal{S}$ can be efficiently described when $\mathcal{Y}$ is a polytope with a small number of extreme points ${\{{\hat{\mathbf{y}}}_{j}\}}_{j \in \mathcal{J}}$. Specifically, by using disjunctive-programming techniques, it can be verified that Note that this (lifted) description is convex and also set based. While our relaxation $\mathcal{S}'$ has size proportional to the number $|\mathcal{I}|$ of facets of $\mathcal{Y}$, this description of the convex hull has size proportional to the number $|\mathcal{J}|$ of extreme points of $\mathcal{Y}$.
 
-<!-- chunk {"id": "body-0067", "role": "body", "section": "Tightness of the relaxation $\\mathcal{S}^{\\prime}$", "weight": 1.0} -->
+<!-- chunk {"id": "body-0067", "role": "body", "section": "Tightness of the relaxation $\\mathcal{S}'$", "weight": 1.0} -->
 
-In fact, for polytopic sets $\mathcal{X}$ and $\mathcal{Y}$, our approach of multiplying valid inequalities simplifies to the first level of the Reformulation-Linearization Technique (RLT), which does not yield the convex hull of $\mathcal{S}$ if, e.g., $\mathcal{X}:=\mathcal{Y}:={\lbrack 0,1\rbrack}^{2}$.
+For the SPP in GCS, the polytopes $\mathcal{Y}_{v}$ have $O{({{|\mathcal{E}_{v}^{in}|} + {|\mathcal{E}_{v}^{out}|}})}$ facets and only $O{({{|\mathcal{E}_{v}^{in}|}{|\mathcal{E}_{v}^{out}|}})}$ extreme points, and this difference can be relatively small if the graph is sparse. However, in our experience the MICPs obtained with our method provide a better tradeoff between strength and size, and are typically much faster to solve.
 
-<!-- chunk {"id": "body-0068", "role": "body", "section": "Tightness of the relaxation $\\mathcal{S}^{\\prime}$", "weight": 1.0} -->
+<!-- chunk {"id": "body-0068", "role": "body", "section": "Remark 7.4", "weight": 1.0} -->
 
-The convex hull of $\mathcal{S}$ can be efficiently described when $\mathcal{Y}$ is a polytope with a small number of extreme points ${\{{\hat{\mathbf{y}}}_{j}\}}_{j \in \mathcal{J}}$. Specifically, by using disjunctive-programming techniques, it can be verified that
+That our relaxation $\mathcal{S}'$ is not always the convex hull of $\mathcal{S}$ should be fully expected. In fact, for $\mathcal{X}:={\lbrack 0,1\rbrack}^{n}$ and $\mathcal{Y}:={\lbrack 0,1\rbrack}^{m}$, the bilinear program is NP-hard, and equivalent to minimizing a linear function over $\mathcal{S}$. The equality $\mathcal{S}' = {{conv}\mathcal{S}}$ would then allow us to solve an NP-hard problem in polynomial time.
 
-<!-- chunk {"id": "body-0069", "role": "body", "section": "Tightness of the relaxation $\\mathcal{S}^{\\prime}$", "weight": 1.0} -->
+<!-- chunk {"id": "body-0069", "role": "body", "section": "Geometric proof of Theorem 5.9", "weight": 1.0} -->
 
-Note that this (lifted) description is convex and also set based. While our relaxation $\mathcal{S}^{\prime}$ has size proportional to the number $|\mathcal{I}|$ of facets of $\mathcal{Y}$, this description of the convex hull has size proportional to the number $|\mathcal{J}|$ of extreme points of $\mathcal{Y}$. For the SPP in GCS, the polytopes $\mathcal{Y}_{v}$ have $O{({{|\mathcal{E}_{v}^{in}|} + {|\mathcal{E}_{v}^{out}|}})}$ facets and only $O{({{|\mathcal{E}_{v}^{in}|}{|\mathcal{E}_{v}^{out}|}})}$ extreme points, and this difference can be relatively small if the graph is sparse.
+In the proof of Theorem 5.9 we have shown the correctness of the MICP (5.3) by analyzing all the feasible values that the variables in this program can take. We now present a simple property of the relaxation $\mathcal{S}'$ that will lead to a geometric and more concise proof of Theorem 5.9. This result will also generalize a known property of RLT.
 
-<!-- chunk {"id": "body-0070", "role": "body", "section": "Tightness of the relaxation $\\mathcal{S}^{\\prime}$", "weight": 1.0} -->
+<!-- chunk {"id": "body-0070", "role": "body", "section": "Remark 7.8", "weight": 1.0} -->
 
-However, in our experience the MICPs obtained with our method provide a better tradeoff between strength and size, and are typically much faster to solve.
+Consider the bilinear program with polytopic sets $\mathcal{X}$ and $\mathcal{Y}$, and the additional constraint $\mathbf{y} \in {\{ 0,1\}}^{m}$. Assuming $\mathcal{Y} \subseteq {\lbrack 0,1\rbrack}^{m}$, the first-level RLT is known to yield a valid mixed-integer linear formulation of this program \[1, Theorem 1\]. Lemma 7.5 extends this result to generic closed convex sets $\mathcal{X}$. In fact, $\mathcal{Y} \subseteq {\lbrack 0,1\rbrack}^{m}$ ensures that any vector $\mathbf{y} \in {\mathcal{Y} \cap {\{ 0,1\}}^{m}}$ is an extreme point of $\mathcal{Y}$, and the relaxation $\mathcal{S}'$ is exact in correspondence of these points.
 
-<!-- chunk {"id": "body-0071", "role": "body", "section": "Remark 7.4", "weight": 1.0} -->
+<!-- chunk {"id": "body-0071", "role": "body", "section": "Related relaxation techniques", "weight": 1.0} -->
 
-That our relaxation $\mathcal{S}^{\prime}$ is not always the convex hull of $\mathcal{S}$ should be fully expected. In fact, for $\mathcal{X}:={\lbrack 0,1\rbrack}^{n}$ and $\mathcal{Y}:={\lbrack 0,1\rbrack}^{m}$, the bilinear program
+The basic idea of generating new valid constraints by multiplying existing ones is classical, and has many incarnations: from the simple McCormick envelope to semidefinite hierarchies for polynomial optimization, passing through RLT. Among this family of techniques, the Lovász-Schrijver hierarchy is the closest to ours, since it is set based and includes constraints of the form; see \[31, Theorem 1.6 and Conditions (iii) to (iii")\]. However, this hierarchy focuses on binary optimization and symmetric quadratic maps, and its naive application to the bilinear set $\mathcal{S}$ would produce multiple redundant variables and constraints. Our approach leverages the bilinear structure of the set $\mathcal{S}$, that emerges naturally in the SPP in GCS, to construct a relaxation $\mathcal{S}'$ that is smaller and as tight as the first level of the Lovász-Schrijver hierarchy, without semidefinite constraints. (As discussed in Section 6, our practical experience is that higher levels of the hierarchy and semidefinite constraints lead to MICPs that, although stronger, are significantly slower to solve.)
 
-<!-- chunk {"id": "body-0072", "role": "body", "section": "Remark 7.4", "weight": 1.0} -->
-
-is NP-hard, and equivalent to minimizing a linear function over $\mathcal{S}$. The equality $\mathcal{S}^{\prime} = {{conv}\mathcal{S}}$ would then allow us to solve an NP-hard problem in polynomial time.
-
-<!-- chunk {"id": "body-0073", "role": "body", "section": "Geometric proof of Theorem 5.9", "weight": 1.0} -->
-
-In the proof of Theorem 5.9 we have shown the correctness of the MICP (5.3) by analyzing all the feasible values that the variables in this program can take. We now present a simple property of the relaxation $\mathcal{S}^{\prime}$ that will lead to a geometric and more concise proof of Theorem 5.9. This result will also generalize a known property of RLT.
-
-<!-- chunk {"id": "body-0074", "role": "body", "section": "Remark 7.8", "weight": 1.0} -->
-
-Consider the bilinear program with polytopic sets $\mathcal{X}$ and $\mathcal{Y}$, and the additional constraint $\mathbf{y} \in {\{ 0,1\}}^{m}$. Assuming $\mathcal{Y} \subseteq {\lbrack 0,1\rbrack}^{m}$, the first-level RLT is known to yield a valid mixed-integer linear formulation of this program \[1, Theorem 1\]. Lemma 7.5 extends this result to generic closed convex sets $\mathcal{X}$. In fact, $\mathcal{Y} \subseteq {\lbrack 0,1\rbrack}^{m}$ ensures that any vector $\mathbf{y} \in {\mathcal{Y} \cap {\{ 0,1\}}^{m}}$ is an extreme point of $\mathcal{Y}$, and the relaxation $\mathcal{S}^{\prime}$ is exact in correspondence of these points.
-
-<!-- chunk {"id": "body-0075", "role": "body", "section": "Related relaxation techniques", "weight": 1.0} -->
-
-The basic idea of generating new valid constraints by multiplying existing ones is classical, and has many incarnations: from the simple McCormick envelope to semidefinite hierarchies for polynomial optimization, passing through RLT. Among this family of techniques, the Lovász-Schrijver hierarchy is the closest to ours, since it is set based and includes constraints of the form; see \[31, Theorem 1.6 and Conditions (iii) to (iii")\]. However, this hierarchy focuses on binary optimization and symmetric quadratic maps, and its naive application to the bilinear set $\mathcal{S}$ would produce multiple redundant variables and constraints. Our approach leverages the bilinear structure of the set $\mathcal{S}$, that emerges naturally in the SPP in GCS, to construct a relaxation $\mathcal{S}^{\prime}$ that is smaller and as tight as the first level of the Lovász-Schrijver hierarchy, without semidefinite constraints.
-
-<!-- chunk {"id": "body-0076", "role": "body", "section": "Related relaxation techniques", "weight": 1.0} -->
-
-(As discussed in Section 6, our practical experience is that higher levels of the hierarchy and semidefinite constraints lead to MICPs that, although stronger, are significantly slower to solve.)
-
-<!-- chunk {"id": "body-0077", "role": "body", "section": "Related relaxation techniques", "weight": 1.0} -->
+<!-- chunk {"id": "body-0072", "role": "body", "section": "Related relaxation techniques", "weight": 1.0} -->
 
 Nevertheless, if the sets $\mathcal{X}$ and $\mathcal{Y}$ have further special structure then specialized techniques can be applied to efficiently generate additional valid inequalities for ${conv}\mathcal{S}$; see, e.g., the techniques developed for network-interdiction problems, pooling problems, bipartite bilinear programs, and bipartite boolean quadratic programs.
 
-<!-- chunk {"id": "body-0078", "role": "body", "section": "Related relaxation techniques", "weight": 1.0} -->
+<!-- chunk {"id": "body-0073", "role": "body", "section": "Related relaxation techniques", "weight": 1.0} -->
 
 The recent work shows how perspective functions can be used to allow the multiplication of nonlinear convex constraints in the RLT algorithm. However, the relaxation in that work is not set based, and requires an explicit analysis of all the possible products of basic cone inequalities.
 
-<!-- chunk {"id": "body-0079", "role": "body", "section": "Control applications", "weight": 1.0} -->
+<!-- chunk {"id": "body-0074", "role": "body", "section": "Control applications", "weight": 1.0} -->
 
 A main application of the framework presented in this paper is optimal control of discrete-time dynamical systems. In this section we show how two simple control problems can be cast as SPPs in GCS. These examples illustrate some basic modeling techniques that can also be applied to control problems involving more complex discrete decision making.
 
-<!-- chunk {"id": "body-0080", "role": "body", "section": "Minimum-time control", "weight": 1.0} -->
+<!-- chunk {"id": "body-0075", "role": "body", "section": "Minimum-time control", "weight": 1.0} -->
 
 To formulate this problem as an SPP in GCS we proceed as in Figure 2a. The vertices $\mathcal{V}$ in our graph are ordered in a sequence. The source $s$ is the first vertex and the target $t$ is the last. The number of vertices is equal to $\overline{T} + 1$, where $\overline{T}$ is a given upper bound on the optimal time horizon $T$. Each vertex that is not the target has two outgoing edges: one that connects it to the next vertex in the sequence and one that goes to the target. For each $v \in \mathcal{V}$, the continuous variable ${\mathbf{x}}_{v}$ represents a state and control pair $({\mathbf{s}}_{v},{\mathbf{a}}_{v})$.
 
-<!-- chunk {"id": "body-0081", "role": "body", "section": "Minimum-time control", "weight": 1.0} -->
+<!-- chunk {"id": "body-0076", "role": "body", "section": "Minimum-time control", "weight": 1.0} -->
 
 To minimize the number of edges in the optimal path (i.e., the time steps to reach the origin), the length of each edge $(u,v)$ is $1$ if ${\mathbf{s}}_{v} = {{{\mathbf{A}}{\mathbf{s}}_{u}} + {{\mathbf{B}}{\mathbf{a}}_{u}}}$ and infinite otherwise. (See Example 4.6 for the perspective of such a function.)
 
-<!-- chunk {"id": "body-0082", "role": "body", "section": "Control of hybrid systems", "weight": 1.0} -->
+<!-- chunk {"id": "body-0077", "role": "body", "section": "Control of hybrid systems", "weight": 1.0} -->
 
 PieceWise-Affine (PWA) systems are a popular framework for modeling hybrid dynamics. Loosely speaking, almost any dynamical system whose nonlinearity is exclusively due to discrete logics can be written in PWA form. Among the many applications of PWA systems, we have automotive, power electronics, and robotics.
 
-<!-- chunk {"id": "body-0083", "role": "body", "section": "Control of hybrid systems", "weight": 1.0} -->
+<!-- chunk {"id": "body-0078", "role": "body", "section": "Control of hybrid systems", "weight": 1.0} -->
 
 We consider the problem of driving a PWA system from a given initial state ${\mathbf{s}}_{0}$ to the origin, in a fixed number $T$ of time steps. The objective is to minimize the sum of the stage costs $\gamma{({\mathbf{s}}_{\tau},{\mathbf{a}}_{\tau})}$ for $\tau = {0,\ldots,{T - 1}}$. The function $\gamma$ is convex and finite.
 
-<!-- chunk {"id": "body-0084", "role": "body", "section": "Control of hybrid systems", "weight": 1.0} -->
+<!-- chunk {"id": "body-0079", "role": "body", "section": "Control of hybrid systems", "weight": 1.0} -->
 
 We model this problem through the GCS in Figure 2b. The source $s$ is the leftmost vertex and the target $t$ is the rightmost. In between, we have $T$ layers with $|\mathcal{N}|$ vertices each. The source is connected via an edge to each vertex in the first layer, and all the vertices in the last layer are connected to the target. Each pair of consecutive layers is fully connected. Also in this case the continuous variables ${\mathbf{x}}_{v}$ represent state and control pairs $({\mathbf{s}}_{v},{\mathbf{a}}_{v})$.
 
-<!-- chunk {"id": "body-0085", "role": "body", "section": "Remark 8.1", "weight": 1.0} -->
+<!-- chunk {"id": "body-0080", "role": "body", "section": "Remark 8.1", "weight": 1.0} -->
 
 Frequently in optimal control we need to enforce convex terminal constraints of the form $\mathbf{s}_{T} \in \mathcal{D}_{T}$, as well as convex terminal penalties $\gamma_{T}{(\mathbf{s}_{T})}$. These are easily incorporated in our construction through a suitable modification of the set $\mathcal{X}_{t}$ and the lengths of the edges incoming to the target vertex.
 
-<!-- chunk {"id": "body-0086", "role": "body", "section": "Remark 8.2", "weight": 1.0} -->
+<!-- chunk {"id": "body-0081", "role": "body", "section": "Remark 8.2", "weight": 1.0} -->
 
 The size of the GCS we just constructed is linear in the time horizon $T$ and quadratic in the number $|\mathcal{N}|$ of discrete modes. Conversely, common formulations for these problems have size linear in both $T$ and $|\mathcal{N}|$. We will see in Section 9.3 that the greater strength of our MICPs can be well worth this price.
 
-<!-- chunk {"id": "body-0087", "role": "body", "section": "Numerical results", "weight": 1.0} -->
+<!-- chunk {"id": "body-0082", "role": "body", "section": "Numerical results", "weight": 1.0} -->
 
 This section collects multiple numerical experiments. We start in Section 9.1 with a simple two-dimensional problem. Section 9.2 presents a statistical analysis of the performance of our MICP on large-scale instances of the SPP in GCS. In Section 9.3 we compare our approach with state-of-the-art mixed-integer formulations for control. Finally, in Section 9.4 we use a carefully designed problem to show how symmetries in the GCS can loosen the relaxation of our MICP.
 
-<!-- chunk {"id": "body-0088", "role": "body", "section": "Numerical results", "weight": 1.0} -->
+<!-- chunk {"id": "body-0083", "role": "body", "section": "Numerical results", "weight": 1.0} -->
 
 The code necessary to reproduce these results is available at All the experiments are run using the commercial solver MOSEK 10.0 with default options on a laptop computer with processor 2.4 GHz 8-Core Intel Core i9 and memory 64 GB 2667 MHz DDR4. A mature implementation of the techniques presented in this paper is also provided by the open-source software Drake.
 
-<!-- chunk {"id": "body-0089", "role": "body", "section": "Two-dimensional example", "weight": 1.0} -->
+<!-- chunk {"id": "body-0084", "role": "body", "section": "Two-dimensional example", "weight": 1.0} -->
 
 We consider the two-dimensional problem in Figure 3a. We have a graph $G$ with ${|\mathcal{V}|} = 9$ vertices, ${|\mathcal{E}|} = 22$ edges, and multiple cycles. The source $\mathcal{X}_{s}:={\{{\mathbf{θ}}_{s}\}}$ and target $\mathcal{X}_{t}:={\{{\mathbf{θ}}_{t}\}}$ sets are single points, while the remaining regions are full dimensional. The geometry of the sets $\mathcal{X}_{v}$ and the edge set $\mathcal{E}$ can be deduced from Figure 3a. As edge lengths we consider the Euclidean distance and the Euclidean distance squared, whose corresponding shortest paths are shown in Figure 3a in orange and blue. As expected, the first path is almost straight, while the lengths of the segments in the second are better balanced.
 
-<!-- chunk {"id": "body-0090", "role": "body", "section": "Two-dimensional example", "weight": 1.0} -->
+<!-- chunk {"id": "body-0085", "role": "body", "section": "Two-dimensional example", "weight": 1.0} -->
 
 In Figure 3b we compare the optimal values of the SPP in GCS, the relaxation of our MICP (5.3), and the relaxation of the McCormick formulation. Both relaxations are Second-Order-Cone Program (SOCPs), and for the McCormick one the bounding boxes $\mathcal{B}_{v}$ are chosen as small as the corresponding sets $\mathcal{X}_{v}$ allow. We run this comparison for different values of a parameter $\sigma > 0$ that controls the volume of the sets $\mathcal{X}_{v}$. The value $\sigma = 1$ corresponds to the GCS in Figure 3a. While for $\sigma \neq 1$ each set $\mathcal{X}_{v}$ is shrunk or enlarged via a uniform scaling, with scale factor $\sigma$, relative to a fixed Chebyshev center of the set.
 
-<!-- chunk {"id": "body-0091", "role": "body", "section": "Two-dimensional example", "weight": 1.0} -->
+<!-- chunk {"id": "body-0086", "role": "body", "section": "Two-dimensional example", "weight": 1.0} -->
 
 (a) GCS with sets of nominal size, σ = 1. The optimal solutions for the edge lengths and are shown in orange and blue, respectively.
 
-<!-- chunk {"id": "body-0092", "role": "body", "section": "Two-dimensional example", "weight": 1.0} -->
+<!-- chunk {"id": "body-0087", "role": "body", "section": "Two-dimensional example", "weight": 1.0} -->
 
 (b) Optimal values of the SPP in GCS and its convex relaxations as functions of the edge length and the size of the sets.
 
-<!-- chunk {"id": "body-0093", "role": "body", "section": "Two-dimensional example", "weight": 1.0} -->
+<!-- chunk {"id": "body-0088", "role": "body", "section": "Two-dimensional example", "weight": 1.0} -->
 
 When the edge length is the Euclidean distance, the top panel in Figure 3b shows that our relaxation is exact for all values of $\sigma$. This was expected for $\sigma$ close to zero, since by Remark 5.11 our relaxation is exact when the sets are singletons. Similarly, the problem is trivial for very large $\sigma$, when the regions are so big that, no matter the discrete path we take, we can always reach the target via a straight line. However, that our relaxation is exact for all the intermediate values of $\sigma$ is not an obvious result. The McCormick relaxation is also exact for small $\sigma$, but gives a trivial lower bound of zero when the sets are large.
 
-<!-- chunk {"id": "body-0094", "role": "body", "section": "Two-dimensional example", "weight": 1.0} -->
+<!-- chunk {"id": "body-0089", "role": "body", "section": "Two-dimensional example", "weight": 1.0} -->
 
 With the Euclidean length squared, both relaxations are still guaranteed to be tight as $\sigma$ goes to zero. This is confirmed by the bottom panel of Figure 3b. When $\sigma$ is very large, we have seen in Section 3 that our problem is equivalent to the HPP, and the argument from Theorem 3.1 shows that its optimal value is ${{\|{{\mathbf{θ}}_{t} - {\mathbf{θ}}_{s}}\|}_{2}^{2}/K} = 11.6$, where $K = 7$ is the number of edges in the longest $s$-$t$ path in the graph in Figure 3a.
 
-<!-- chunk {"id": "body-0095", "role": "body", "section": "Two-dimensional example", "weight": 1.0} -->
+<!-- chunk {"id": "body-0090", "role": "body", "section": "Two-dimensional example", "weight": 1.0} -->
 
 A close inspection of the bottom of Figure 3b reveals that, for large $\sigma$, our relaxation yields the lower bound ${{\|{{\mathbf{θ}}_{t} - {\mathbf{θ}}_{s}}\|}_{2}^{2}/{({{|\mathcal{V}|} - 1})}} = 10.1$, which corresponds to the simple inequality $K \leq {{|\mathcal{V}|} - 1}$. (Using a duality argument, it can be verified that our relaxation always recovers this bound.) Conversely, the lower bound provided by the McCormick relaxation is again equal to zero.
 
-<!-- chunk {"id": "body-0096", "role": "body", "section": "Large-scale random instances", "weight": 1.0} -->
+<!-- chunk {"id": "body-0091", "role": "body", "section": "Large-scale random instances", "weight": 1.0} -->
 
 We present a statistical analysis of the performance of our formulation. We generate a variety of random large-scale SPPs in GCS, and we analyze the relaxation tightness and the solution times of the MICP (5.3) as functions of various problem parameters. We stress that generating random graphs representative of the "typical" SPP in GCS we might encounter in practice is a difficult operation. Inevitably, the instances we describe below are not completely representative, and our algorithm might perform worse or better on other classes of random graphs. Our goal here is to show that our MICP is not limited to small-scale problems.
 
-<!-- chunk {"id": "body-0097", "role": "body", "section": "Large-scale random instances", "weight": 1.0} -->
+<!-- chunk {"id": "body-0092", "role": "body", "section": "Large-scale random instances", "weight": 1.0} -->
 
 We construct an SPP in GCS as follows. We set $\mathcal{X}_{s}:={\{\mathbf{0}\}}$ and $\mathcal{X}_{t}:={\{\mathbf{1}\}}$. The rest of the sets $\mathcal{X}_{v}$ are axis-aligned cubes with volume $\Lambda$ and center drawn uniformly at random in ${\lbrack 0,1\rbrack}^{n}$. Given a number $|\mathcal{E}|$ of edges, we construct the edge set in two steps. First we generate multiple $s$-$t$ paths such that every vertex $v \neq {s,t}$ is traversed exactly by one path.
 
-<!-- chunk {"id": "body-0098", "role": "body", "section": "Large-scale random instances", "weight": 1.0} -->
+<!-- chunk {"id": "body-0093", "role": "body", "section": "Large-scale random instances", "weight": 1.0} -->
 
 These are determined via a random partition of the set $\mathcal{V} - {\{ s,t\}}$: the number of sets in the partition (number of paths) is drawn uniformly from the interval $\lbrack 1,{{|\mathcal{V}|} - 2}\rbrack$, and also the number of vertices in each set (length of each path) is a uniform random variable. Then we extend the edge set by drawing edges uniformly at random from the set $\{{{(u,v)} \in \mathcal{V}^{2}}:{{v \neq s},{{u \neq t},{u \neq v}}}\}$ until a desired cardinality $|\mathcal{E}|$ is reached. As edge lengths we consider the Euclidean distance and the Euclidean distance squared, which both make our formulation (5.3) a mixed-integer SOCP.
 
-<!-- chunk {"id": "body-0099", "role": "body", "section": "Large-scale random instances", "weight": 1.0} -->
+<!-- chunk {"id": "body-0094", "role": "body", "section": "Large-scale random instances", "weight": 1.0} -->
 
 For each edge length, we first solve $100$ random instances with the following nominal parameters: volume $\Lambda = 0.01$, $n = 4$ dimensions, ${|\mathcal{V}|} = 50$ vertices, and ${|\mathcal{E}|} = 100$ edges. Then we solve four other batches of $100$ problems where, in each batch, a different subset of these parameters is increased by a factor of $5$. Specifically, these additional batches test our formulation in case of large sets $\mathcal{X}_{v}$ ($\Lambda$ from $0.01$ to $0.05$), high dimensions ($n$ from $4$ to $20$), dense graphs ($|\mathcal{E}|$ from $100$ to $500$), and large graphs ($|\mathcal{V}|$ and $|\mathcal{E}|$ from $50$ and $100$ to $250$ and $500$).
 
-<!-- chunk {"id": "body-0100", "role": "body", "section": "Large-scale random instances", "weight": 1.0} -->
+<!-- chunk {"id": "body-0095", "role": "body", "section": "Large-scale random instances", "weight": 1.0} -->
 
 To give an idea of what these problems look like, the projection onto two dimensions of a GCS generated using the nominal parameters is shown in Figure 4.
 
-<!-- chunk {"id": "body-0101", "role": "body", "section": "Large-scale random instances", "weight": 1.0} -->
+<!-- chunk {"id": "body-0096", "role": "body", "section": "Large-scale random instances", "weight": 1.0} -->
 
 Also for the problems in this analysis our formulation outperforms the McCormick one. With the nominal parameters, the McCormick median (maximum) runtime is $12.9$ ($4.3$) times larger than ours for the Euclidean length, and $10.3$ ($2.7$) times larger for the Euclidean length squared. This performance difference grows larger for the other batches of problems, where the McCormick formulation reaches our time limit of one hour very often. The slowness of the McCormick approach is due to its loose relaxation: even with the nominal parameters, we have a median (maximum) relaxation gap of $29\%$ ($52\%$), and $34\%$ ($58\%$).
 
-<!-- chunk {"id": "body-0102", "role": "body", "section": "Optimal control", "weight": 1.0} -->
+<!-- chunk {"id": "body-0097", "role": "body", "section": "Optimal control", "weight": 1.0} -->
 
 We let the parameter $\eta$ vary between the seven regions. The five regions in the range ${- 5} \leq q_{2} \leq 5$ (light blue in Figure 6a) have $\eta = 1$. While in the other two regions (red in Figure 6a) we make the system more expensive to control by setting $\eta = 0.1$. Since the parameter $\eta$ varies with the state, the system dynamics is PWA and the control problem falls into the class considered in Section 8.2. The GCS beneath this problem (depicted in Figure 2b) has ${|\mathcal{V}|} = 212$ vertices and ${|\mathcal{E}|} = 1435$ edges, and the convex sets $\mathcal{X}_{v}$ live in ${\mathbb{R}}^{6}$. Also in this case problem (5.3) is a mixed-integer SOCP.
 
-<!-- chunk {"id": "body-0103", "role": "body", "section": "Optimal control", "weight": 1.0} -->
+<!-- chunk {"id": "body-0098", "role": "body", "section": "Optimal control", "weight": 1.0} -->
 
 (a) Optimal solution of the control problem.
 
-<!-- chunk {"id": "body-0104", "role": "body", "section": "Optimal control", "weight": 1.0} -->
+<!-- chunk {"id": "body-0099", "role": "body", "section": "Optimal control", "weight": 1.0} -->
 
 (b) Solution of the convex relaxation. The relaxation gap is 93%, and the MICP is solved in 17min.
 
-<!-- chunk {"id": "body-0105", "role": "body", "section": "Optimal control", "weight": 1.0} -->
+<!-- chunk {"id": "body-0100", "role": "body", "section": "Optimal control", "weight": 1.0} -->
 
 (c) Solution of our convex relaxation. The relaxation gap is 20%, and the MICP is solved in 7.1s.
 
-<!-- chunk {"id": "body-0106", "role": "body", "section": "Optimal control", "weight": 1.0} -->
+<!-- chunk {"id": "body-0101", "role": "body", "section": "Optimal control", "weight": 1.0} -->
 
 As a baseline, we first solve the problem using the state-of-the-art perspective formulation from \[37, Section 6\] (see also \[34, Section 5.2.2\]). At each time step $\tau$, this expresses the system state ${\mathbf{s}}_{\tau}$ as a convex combination of one auxiliary variable ${\mathbf{s}}_{\tau}^{\nu}$ per region $\nu = {1,\ldots,7}$. The control ${\mathbf{a}}_{\tau}$ is decomposed similarly. When the coefficients $b_{\tau}^{\nu}$ of this combination are required to be binary, the solver is forced to make a hard selection of the region in which the system must be at each time step. When the coefficients $b_{\tau}^{\nu}$ can be fractional, the system evolves according to a convex combination of the dynamics in each region.
 
-<!-- chunk {"id": "body-0107", "role": "body", "section": "Optimal control", "weight": 1.0} -->
+<!-- chunk {"id": "body-0102", "role": "body", "section": "Optimal control", "weight": 1.0} -->
 
 Figure 6b illustrates the solution of the convex relaxation of this formulation (which, thanks to a perspective reformulation of the stage cost, is also an SOCP). It reports the position ${\mathbf{q}}_{\tau}$, the barely visible controls ${\mathbf{a}}_{\tau}$, and the auxiliary copies ${\mathbf{q}}_{\tau}^{\nu}$ of the position vector. The latter have triangular markers and opacity equal to the value of the indicator $b_{\tau}^{\nu}$. As it can be seen, this relaxation is insensitive to the arrangement of the regions, and its optimal trajectory heads straight to the goal. Also the indicator variables $b_{\tau}^{\nu}$ are uninformative, and take nonzero value in the regions with low controllability (visible triangles in the red regions). The optimal value of this relaxation is $0.67$, which is only $7\%$ of the MICP value ($93\%$ relaxation gap).
 
-<!-- chunk {"id": "body-0108", "role": "body", "section": "Optimal control", "weight": 1.0} -->
+<!-- chunk {"id": "body-0103", "role": "body", "section": "Optimal control", "weight": 1.0} -->
 
 The MICP solution time is ${1011\text{s}} \approx 17$min.
 
-<!-- chunk {"id": "body-0109", "role": "body", "section": "Optimal control", "weight": 1.0} -->
+<!-- chunk {"id": "body-0104", "role": "body", "section": "Optimal control", "weight": 1.0} -->
 
 The convex relaxation of our formulation is much tighter: its optimal value is $7.46$, which is $80\%$ of the MICP value ($20\%$ relaxation gap). This has a dramatic effect on computation times that are now reduced to $7.1$s. To make a plot comparable to Figure 6b we leverage the structure of our GCS in Figure 2b. The equivalent of the indicator variable $b_{\tau}^{\nu}$ is the total flow traversing the $\nu$th vertex in the $\tau$th layer of the graph. Similarly, the position of the same vertex plays the role of the auxiliary variables $({\mathbf{s}}_{\tau}^{\nu},{\mathbf{a}}_{\tau}^{\nu})$, which can then be combined using the coefficients $b_{\tau}^{\nu}$ to get candidate values for the state ${\mathbf{s}}_{\tau}$ and the control ${\mathbf{a}}_{\tau}$.
 
-<!-- chunk {"id": "body-0110", "role": "body", "section": "Optimal control", "weight": 1.0} -->
+<!-- chunk {"id": "body-0105", "role": "body", "section": "Optimal control", "weight": 1.0} -->
 
 Figure 6c illustrates these values, and shows that the trajectory reconstructed from our relaxation resembles the MICP solution in Figure 6a much more closely. All the markers in the regions with low controllability are now invisible, indicating that our relaxation correctly identifies these as regions of high cost. The visible points ${\mathbf{q}}_{\tau}^{\nu}$ are clustered along the optimal trajectory of the MICP, suggesting that our relaxation contains detailed information about the optimal path to reach the goal.
 
-<!-- chunk {"id": "body-0111", "role": "body", "section": "Symmetries in the GCS", "weight": 1.0} -->
+<!-- chunk {"id": "body-0106", "role": "body", "section": "Symmetries in the GCS", "weight": 1.0} -->
 
 (a) Optimal solution of the MICP, with the optimal vertex positions connected by orange lines.
 
-<!-- chunk {"id": "body-0112", "role": "body", "section": "Symmetries in the GCS", "weight": 1.0} -->
+<!-- chunk {"id": "body-0107", "role": "body", "section": "Symmetries in the GCS", "weight": 1.0} -->
 
-(b) Optimal solution of the relaxation. For each edge e = (u,v), the orange line connects the surrogates ${\overline{\mathbf{z}}}_{e}$ and ${\overline{\mathbf{z}}}_{e}^{\prime}$ of the vertex positions xu and xv, and is labeled with the flow ye.
+(b) Optimal solution of the relaxation. For each edge e = (u, v), the orange line connects the surrogates ${\overline{\mathbf{z}}}_{e}$ and ${\overline{\mathbf{z}}}_{e}'$ of the vertex positions xu and xv, and is labeled with the flow ye.
 
-<!-- chunk {"id": "body-0113", "role": "body", "section": "Symmetries in the GCS", "weight": 1.0} -->
+<!-- chunk {"id": "body-0108", "role": "body", "section": "Symmetries in the GCS", "weight": 1.0} -->
 
 We conclude by showing how symmetries in the GCS can deteriorate the convex relaxation of our MICP and, in principle, make it arbitrarily loose. We illustrate this through the following carefully designed problem.
 
-<!-- chunk {"id": "body-0114", "role": "body", "section": "Symmetries in the GCS", "weight": 1.0} -->
+<!-- chunk {"id": "body-0109", "role": "body", "section": "Symmetries in the GCS", "weight": 1.0} -->
 
 We consider the SPP in GCS depicted in Figure 7a. We have an acyclic graph with ${|\mathcal{V}|} = 5$ vertices and ${|\mathcal{E}|} = 5$ edges. All the sets $\mathcal{X}_{v}$ are singletons $\{{\mathbf{θ}}_{v}\}$, except for $\mathcal{X}_{3}$ which is a full-dimensional rectangle. As an edge length, we use the Euclidean distance. Solving this problem, we obtain the optimal path $p = {(s,1,3,t)}$ with length $7.4$ (the symmetric solution $p = {(s,2,3,t)}$ would also be optimal). The corresponding vertex positions are connected by an orange line in Figure 7a.
 
-<!-- chunk {"id": "body-0115", "role": "body", "section": "Symmetries in the GCS", "weight": 1.0} -->
+<!-- chunk {"id": "body-0110", "role": "body", "section": "Symmetries in the GCS", "weight": 1.0} -->
 
-The looseness of the relaxation can be explained as follows. If we denote with $\rho$ the flow traversing edge $$, the flow conservation gives $y_{} = {1 - \rho}$, while the flow through the edge $(3,t)$ is always one. Since the variables ${\overline{\mathbf{z}}}_{}$, ${\overline{\mathbf{z}}}_{}$, and ${\overline{\mathbf{z}}}_{(3,t)}^{\prime}$ are forced to match ${\mathbf{θ}}_{1}$, ${\mathbf{θ}}_{2}$, and ${\mathbf{θ}}_{t}$, respectively, the cost terms in (5.3) corresponding to the edges $$, $$, and $(3,t)$ read
+The looseness of the relaxation can be explained as follows. If we denote with $\rho$ the flow traversing edge $$, the flow conservation gives $y_{} = {1 - \rho}$, while the flow through the edge $(3,t)$ is always one.
 
-<!-- chunk {"id": "body-0116", "role": "body", "section": "Symmetries in the GCS", "weight": 1.0} -->
+<!-- chunk {"id": "body-0111", "role": "body", "section": "Symmetries in the GCS", "weight": 1.0} -->
+
+When $\rho = {1/2}$, this constraint asks the mean of ${\overline{\mathbf{z}}}_{}'$ and ${\overline{\mathbf{z}}}_{}'$ to match ${\overline{\mathbf{z}}}_{(3,t)}$, as opposed to forcing either one of the first two points to match the third, as it would be for $\rho \in {\{ 0,1\}}$. Therefore, while keeping their mean equal to ${\overline{\mathbf{z}}}_{(3,t)}$, the points ${\overline{\mathbf{z}}}_{}'$ and ${\overline{\mathbf{z}}}_{}'$ can move vertically, and get closer to ${\mathbf{θ}}_{1}$ and ${\mathbf{θ}}_{2}$. This reduces the first two terms, and keeps the third term unchanged.
+
+<!-- chunk {"id": "body-0112", "role": "body", "section": "Symmetries in the GCS", "weight": 1.0} -->
 
 Although this example leads to a relaxation gap of only $5\%$, a simple variation of it shows that our relaxation can be arbitrarily loose. In particular, if we let $\ell_{(s,1)}:=\ell_{(s,2)}:=0$ and we shift the centers of the sets $\mathcal{X}_{3}$ and $\mathcal{X}_{t}$ to the origin, then the cost of the MICP and its relaxation are reduced to $2$ and $0$, and the relaxation gap becomes $100\%$. Nevertheless, we emphasize that this is a contrived problem, and the instances we encounter in practice lead to these phenomena very rarely.
 
-<!-- chunk {"id": "body-0117", "role": "body", "section": "Conclusions", "weight": 1.0} -->
+<!-- chunk {"id": "body-0113", "role": "body", "section": "Conclusions", "weight": 1.0} -->
 
 In this paper we have introduced the SPP in GCS, a versatile generalization of the classical SPP. Our main contribution is a compact MICP formulation for the solution of this NP-hard problem. Numerical experiments show that the convex relaxation of our formulation is typically very tight, and it enables us to quickly solve large problems to global optimality. We have demonstrated the applicability of the proposed framework to control systems: many optimal control problems are interpretable as SPPs in GCS and, in our tests, the proposed formulation outperforms state-of-the-art techniques for their solution.

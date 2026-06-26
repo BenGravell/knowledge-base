@@ -92,23 +92,23 @@ Our goal is to re-cast nonnegative matrix factorization (for constant $r$) as a 
 
 <!-- chunk {"id": "body-0023", "role": "body", "section": "General Structure Theorem: Minimality", "weight": 1.0} -->
 
-Furthermore, the number of possible choice functions $\sigma_{W}$ is at most $m^{cr^{2}f{(r)}}$ and the number of possible choice functions for $\sigma_{A}$ is at most $n^{cr^{2}g{(r)}}$. These choice functions are based on the notion of a simplicial partition, which we introduce later. We then give an algorithm for enumerating all simplicial partitions (this is the primary bottleneck in the algorithm).
+We will demonstrate there is always a "minimal" choice for $A$ and $W$ so that: there is a collection of linear transformations $T_{1},T_{2},{\ldotsT_{g{(r)}}}$ from the column-span of $M$ to $\Re^{r}$ and a choice function $\sigma_{W}:{{\lbrack m\rbrack}\rightarrow{\lbrack{g{(r)}}\rbrack}}$ and a collection of linear transformations $S_{1},S_{2},{\ldotsS_{g{(r)}}}$ from the row-span of $M$ to $\Re^{r}$ and a choice function $\sigma_{A}:{{\lbrack n\rbrack}\rightarrow{\lbrack{g{(r)}}\rbrack}}$ And these linear transformations and choice functions satisfy the conditions: for each $i \in {\lbrack
 
 <!-- chunk {"id": "body-0024", "role": "body", "section": "General Structure Theorem: Minimality", "weight": 1.0} -->
 
-Fixing the choice functions $\sigma_{W}$ and $\sigma_{A}$, the question of finding linear transformations $T_{1},T_{2},{\ldotsT_{g{(r)}}}$ and $S_{1},S_{2},{\ldotsS_{g{(r)}}}$ that satisfy the above constraints (and the constraint that $M = {AW}$, and $A$ and $W$ are nonnegative) is exactly a system of polynomial inequalities with a $O{({r^{2}g{(r)}})}$ variables (each matrix $T_{i}$ or $S_{j}$ is $r \times r$), degree at most four and furthermore there are at most $O{({mn})}$ polynomial constraints.
+Furthermore, the number of possible choice functions $\sigma_{W}$ is at most $m^{cr^{2}f{(r)}}$ and the number of possible choice functions for $\sigma_{A}$ is at most $n^{cr^{2}g{(r)}}$. These choice functions are based on the notion of a simplicial partition, which we introduce later. We then give an algorithm for enumerating all simplicial partitions (this is the primary bottleneck in the algorithm).
 
 <!-- chunk {"id": "body-0025", "role": "body", "section": "General Structure Theorem: Minimality", "weight": 1.0} -->
 
-In this subsection, we will give a procedure (which given $A$ and $W$) generates a "minimal" choice for $A$ and $W$ (call this minimal choice $A^{\prime}$ and $W^{\prime}$), and we will later establish that this "minimal" choice satisfies the structural property stated informally above.
+Fixing the choice functions $\sigma_{W}$ and $\sigma_{A}$, the question of finding linear transformations $T_{1},T_{2},{\ldotsT_{g{(r)}}}$ and $S_{1},S_{2},{\ldotsS_{g{(r)}}}$ that satisfy the above constraints (and the constraint that $M = {AW}$, and $A$ and $W$ are nonnegative) is exactly a system of polynomial inequalities with a $O{({r^{2}g{(r)}})}$ variables (each matrix $T_{i}$ or $S_{j}$ is $r \times r$), degree at most four and furthermore there are at most $O{({mn})}$ polynomial constraints.
 
-<!-- chunk {"id": "body-0026", "role": "body", "section": "General Structure Theorem: Simplicial Partitions", "weight": 1.0} -->
+<!-- chunk {"id": "body-0026", "role": "body", "section": "General Structure Theorem: Minimality", "weight": 1.0} -->
 
-Here, we establish that the choice functions $\sigma_{W^{\prime}}$ and $\sigma_{A^{\prime}}$ in a proper chain are combinatorially simple. The choice function $\sigma_{W^{\prime}}$ can be regarded as a partition of the columns of $M$ into $|{\mathcal{C}{(A)}}|$ sets, and similarly the choice function $\sigma_{A^{\prime}}$ is a partition of the rows of $M$ into $\mathcal{R}{(W^{\prime})}$ sets. Here we define a geometric type of partitioning scheme which we call a simplicial partition, which has the property that there are not too many simplicial partitions (by virtue of this class having small VC-dimension), and we show that the partition functions $\sigma_{W^{\prime}}$ and $\sigma_{A^{\prime}}$ arising in the definition of a proper chain are realizable as (small) simplicial partitions.
+In this subsection, we will give a procedure (which given $A$ and $W$) generates a "minimal" choice for $A$ and $W$ (call this minimal choice $A'$ and $W'$), and we will later establish that this "minimal" choice satisfies the structural property stated informally above.
 
-<!-- chunk {"id": "body-0027", "role": "body", "section": "Claim 3.12", "weight": 1.0} -->
+<!-- chunk {"id": "body-0027", "role": "body", "section": "General Structure Theorem: Simplicial Partitions", "weight": 1.0} -->
 
-We can repeat the above replacing $A$ with $W^{\prime T}$ and $W^{\prime}$ with $A^{\prime}$, and this implies the lemma. $\blacksquare$
+Here, we establish that the choice functions $\sigma_{W'}$ and $\sigma_{A'}$ in a proper chain are combinatorially simple. The choice function $\sigma_{W'}$ can be regarded as a partition of the columns of $M$ into $|{\mathcal{C}{(A)}}|$ sets, and similarly the choice function $\sigma_{A'}$ is a partition of the rows of $M$ into $\mathcal{R}{(W')}$ sets. Here we define a geometric type of partitioning scheme which we call a simplicial partition, which has the property that there are not too many simplicial partitions (by virtue of this class having small VC-dimension), and we show that the partition functions $\sigma_{W'}$ and $\sigma_{A'}$ arising in the definition of a proper chain are realizable as (small) simplicial partitions.
 
 <!-- chunk {"id": "body-0028", "role": "body", "section": "Enumerating Simplicial Partitions", "weight": 1.0} -->
 
@@ -140,184 +140,156 @@ Given the universe $U = {\{ s_{1},s_{2},\ldots,s_{N}\}}$ for the $d$-SUM problem
 
 <!-- chunk {"id": "body-0035", "role": "body", "section": "The Gadget", "weight": 1.0} -->
 
-Recall for a two dimensional Intermediate Simplex problem, the input consists of a polygon $\mathcal{P}$ (which is the hexagon $ABCDEF$ in Figure 1) and a set of points $S = {\{ I_{1},I_{2},\ldots,I_{3N}\}}$ inside $\mathcal{P}$ (which are the dots, except for $M$). A solution to this two dimensional Intermediate Simplex instance will be a triangle inside $\mathcal{P}$ such that all the points in $S$ are contained in the triangle (in Figure 1 $ACE$ is a valid solution).
+We first specify the polygon $\mathcal{P}$ for the Intermediate Simplex instance. The polygon $\mathcal{P}$ is just the hexagon $ABCDEF$ inscribed in a circle with center $M$. All angles in the hexagon are ${2\pi}/3$, the edges ${AB} = {CD} = {EF} = \epsilon$ where $\epsilon$ is a small constant depending on $N$, $d$ that we determine later. The other 3 edges also have equal lengths ${BC} = {DE} = {FA}$.
 
 <!-- chunk {"id": "body-0036", "role": "body", "section": "The Gadget", "weight": 1.0} -->
 
-We first specify the polygon $\mathcal{P}$ for the Intermediate Simplex instance. The polygon $\mathcal{P}$ is just the hexagon $ABCDEF$ inscribed in a circle with center $M$. All angles in the hexagon are ${2\pi}/3$, the edges ${AB} = {CD} = {EF} = \epsilon$ where $\epsilon$ is a small constant depending on $N$, $d$ that we determine later. The other 3 edges also have equal lengths ${BC} = {DE} = {FA}$.
+Now we specify the set $S$ of $3N$ points for the Intermediate Simplex instance. To get these points first take $N$ points in each of the 3 segements $AB$, $CD$, $EF$. On $AB$ these $N$ points are called $A_{1}$, $A_{2}$,..., $A_{N}$, and ${|{AA_{i}}|} = {\epsilons_{i}}$. Similarly we have points $C_{i}$'s on $CD$ and $E_{i}$'s on $EF$, ${|{CC_{i}}|} = {|{EE_{i}}|} = {\epsilons_{i}}$. Now we have $N$ triangles $A_{i}C_{i}E_{i}$ (the thin lines in Figure 1). We claim (see Lemma 4.5 below) that the intersection of these triangles is a polygon with $3N$ vertices.
 
 <!-- chunk {"id": "body-0037", "role": "body", "section": "The Gadget", "weight": 1.0} -->
 
-Now we specify the set $S$ of $3N$ points for the Intermediate Simplex instance. To get these points first take $N$ points in each of the 3 segements $AB$, $CD$, $EF$. On $AB$ these $N$ points are called $A_{1}$, $A_{2}$,..., $A_{N}$, and ${|{AA_{i}}|} = {\epsilons_{i}}$. Similarly we have points $C_{i}$'s on $CD$ and $E_{i}$'s on $EF$, ${|{CC_{i}}|} = {|{EE_{i}}|} = {\epsilons_{i}}$. Now we have $N$ triangles $A_{i}C_{i}E_{i}$ (the thin lines in Figure 1). We claim (see Lemma 4.5 below) that the intersection of these triangles is a polygon with $3N$ vertices.
-
-<!-- chunk {"id": "body-0038", "role": "body", "section": "The Gadget", "weight": 1.0} -->
-
 The points in $S$ are just the vertices of this intersection.
 
-<!-- chunk {"id": "body-0039", "role": "body", "section": "The Reduction", "weight": 1.0} -->
+<!-- chunk {"id": "body-0038", "role": "body", "section": "The Reduction", "weight": 1.0} -->
 
 Suppose we are given an instance of the $d$-SUM Problem with $N$ values $\{ s_{1},s_{2},{\ldotss_{N}}\}$. We will give a reduction to an instance of Intermediate Simplex in dimension ${r - 1} = {{3d} + 1}$.
 
-<!-- chunk {"id": "body-0040", "role": "body", "section": "The Reduction", "weight": 1.0} -->
+<!-- chunk {"id": "body-0039", "role": "body", "section": "The Reduction", "weight": 1.0} -->
 
 To encode the choice of $d$ numbers in the set $\{ s_{1},s_{2},\ldots,s_{N}\}$, we use $d$ gadgets defined in Section 4.1. The final solution of the Intermediate Simplex instance we constructed will include solutions to each gadget. As the solution of a gadget always corresponds to a number in $\{ s_{1},s_{2},\ldots,s_{N}\}$ (Lemma 4.6) we can decode the solution and get $d$ numbers, and we use an extra dimension $w$ that "computes" the sum of these numbers and ensures the sum is equal to $d/2$.
 
-<!-- chunk {"id": "body-0041", "role": "body", "section": "Constraints 2 (Gadget)", "weight": 1.0} -->
+<!-- chunk {"id": "body-0040", "role": "body", "section": "Constraints 2 (Gadget)", "weight": 1.0} -->
 
 We hope that in a gadget, if we choose three points corresponding to the triangle for some value $s_{i}$, that of these three points only the point on the $AB$ line will have a non-zero value for $w$ and that this value will be $s_{i}$. The points on the lines $CD$ or $EF$ will hopefully have a value close to zero.
 
+<!-- chunk {"id": "body-0041", "role": "body", "section": "Constraints 3 (CE)", "weight": 1.0} -->
+
+For all $i \in {\lbrack d\rbrack}$, $w \leq {{1 - y_{i}} + {({1 - x_{i}})}}$ These constraints make sure that points on $CD$ or $EF$ cannot have large $w$ value.
+
 <!-- chunk {"id": "body-0042", "role": "body", "section": "Constraints 3 (CE)", "weight": 1.0} -->
-
-These constraints make sure that points on $CD$ or $EF$ cannot have large $w$ value.
-
-<!-- chunk {"id": "body-0043", "role": "body", "section": "Constraints 3 (CE)", "weight": 1.0} -->
 
 Recall that we use $z{(A)}$ to denote the $z$ coordinate of $A$ in the gadget in Section 4.1.
 
-<!-- chunk {"id": "body-0044", "role": "body", "section": "Constraints 4 (AB)", "weight": 1.0} -->
-
-Theses constraints make sure that points on $AB$ have values in $\{ s_{1},s_{2},\ldots,s_{N}\}$.
-
-<!-- chunk {"id": "body-0045", "role": "body", "section": "Constraints 4 (AB)", "weight": 1.0} -->
+<!-- chunk {"id": "body-0043", "role": "body", "section": "Constraints 4 (AB)", "weight": 1.0} -->
 
 The $AB$ and $CE$ constraints all have the property that when $x_{i} < 1$ (i.e. the corresponding point is off of the gadget on the plane $x_{i} = 1$) then these constraints gradually become relaxed.
 
-<!-- chunk {"id": "body-0046", "role": "body", "section": "Constraints 4 (AB)", "weight": 1.0} -->
+<!-- chunk {"id": "body-0044", "role": "body", "section": "Constraints 4 (AB)", "weight": 1.0} -->
 
 To make sure the gadget still works, we don't want the extra constraints on $w$ to rule out some possible values for $x_{i}$, $y_{i}$, $z_{i}$'s. Indeed we show the following claim.
 
-<!-- chunk {"id": "body-0047", "role": "body", "section": "Claim 4.9", "weight": 1.0} -->
+<!-- chunk {"id": "body-0045", "role": "body", "section": "Claim 4.9", "weight": 1.0} -->
 
 The proof is by observing that Constraints $AB$ have almost no effect when $y > 0$ and Constraints $CE$ have no effect when $y = 0$.
 
-<!-- chunk {"id": "body-0048", "role": "body", "section": "Claim 4.9", "weight": 1.0} -->
+<!-- chunk {"id": "body-0046", "role": "body", "section": "Claim 4.9", "weight": 1.0} -->
 
 Constraints 1 to 4 define a polyhedron $P$ in ${3d} + 1$-dimensional space and furthermore the set of constraints that define $P$ have full rank (in fact even the inequalities in the Box Constraints have full rank). Thus this polyhedron is a valid polyhedron for the Intermediate Simplex problem.
 
-<!-- chunk {"id": "body-0049", "role": "body", "section": "Claim 4.9", "weight": 1.0} -->
+<!-- chunk {"id": "body-0047", "role": "body", "section": "Claim 4.9", "weight": 1.0} -->
 
 Next we specify the points in $S$ for the Intermediate Simplex problem(each of which will be contained in the polyhedron $P$). Let $I_{k}$ (for $k \in {\lbrack{3N}\rbrack}$) be the set $S$ in the gadget in Section 4.1. As before, let $z{(I_{k})}$ and $y{(I_{k})}$ be the $z$ and $y$ coordinates of $I_{k}$ respectively.
 
-<!-- chunk {"id": "body-0050", "role": "body", "section": "Completeness and Soundness", "weight": 1.0} -->
+<!-- chunk {"id": "body-0048", "role": "body", "section": "Completeness and Soundness", "weight": 1.0} -->
 
 The completeness part is straight forward: for $i^{th}$ gadget we just select the triangle that corresponds to $s_{k_{i}}$.
 
-<!-- chunk {"id": "body-0051", "role": "body", "section": "Claim 4.13", "weight": 1.0} -->
+<!-- chunk {"id": "body-0049", "role": "body", "section": "Claim 4.13", "weight": 1.0} -->
 
 The points $O$ and $W$ must be in the set $T$.
 
-<!-- chunk {"id": "body-0052", "role": "body", "section": "Claim 4.13", "weight": 1.0} -->
+<!-- chunk {"id": "body-0050", "role": "body", "section": "Claim 4.13", "weight": 1.0} -->
 
-Proof: The points $O$ and $W$ are vertices of the polyhedron $P$ and hence cannot be expressed as a convex combination of any other set of points in $P$. $\blacksquare$
+Proof: The points $O$ and $W$ are vertices of the polyhedron $P$ and hence cannot be expressed as a convex combination of any other set of points in $P$. $\blacksquare$ Now we want to prove the rest of the $3d$ points in set $T$ is partitioned into $d$ triples, each triple belongs to one gadget. Set $T' = {T - {\{ O\}} - {\{ W\}}}$.
 
-<!-- chunk {"id": "body-0053", "role": "body", "section": "Claim 4.13", "weight": 1.0} -->
+<!-- chunk {"id": "body-0051", "role": "body", "section": "Claim 4.15", "weight": 1.0} -->
 
-Now we want to prove the rest of the $3d$ points in set $T$ is partitioned into $d$ triples, each triple belongs to one gadget. Set $T^{\prime} = {T - {\{ O\}} - {\{ W\}}}$.
+The sets $T_{i}'$ partition $T'$ and each contain exactly $3$ nodes.
 
-<!-- chunk {"id": "body-0054", "role": "body", "section": "Claim 4.15", "weight": 1.0} -->
+<!-- chunk {"id": "body-0052", "role": "body", "section": "Claim 4.15", "weight": 1.0} -->
 
-Proof: The sets $T_{i}^{\prime}$ are disjoint, and additionally each set $T_{i}^{\prime}$ must contain at least $3$ nodes (otherwise the convex hull of $T_{i}^{\prime}$ even restricted to $x_{i},y_{i},z_{i}$ cannot contain the points $I_{k}^{i}$). This implies the Claim. $\blacksquare$
+Proof: The sets $T_{i}'$ are disjoint, and additionally each set $T_{i}'$ must contain at least $3$ nodes (otherwise the convex hull of $T_{i}'$ even restricted to $x_{i},y_{i},z_{i}$ cannot contain the points $I_{k}^{i}$). This implies the Claim. $\blacksquare$ Recall the gadget in Section 4.1 is a two dimensional object, but it is represented as a three dimensional cone in our construction. We would like to apply Lemma 4.6 to points on the plane $x_{i} = 1$ (in this plane the coordinates $y_{i}$,$z_{i}$ act the same as $y$, $z$ in the gadget).
 
-<!-- chunk {"id": "body-0055", "role": "body", "section": "Claim 4.15", "weight": 1.0} -->
-
-Recall the gadget in Section 4.1 is a two dimensional object, but it is represented as a three dimensional cone in our construction. We would like to apply Lemma 4.6 to points on the plane $x_{i} = 1$ (in this plane the coordinates $y_{i}$,$z_{i}$ act the same as $y$, $z$ in the gadget).
-
-<!-- chunk {"id": "body-0056", "role": "body", "section": "Fully-Efficient Factorization under Separability", "weight": 1.0} -->
+<!-- chunk {"id": "body-0053", "role": "body", "section": "Fully-Efficient Factorization under Separability", "weight": 1.0} -->
 
 Earlier, we gave algorithms for NMF, and presented evidence that no ${({nm})}^{o{(r)}}$ time algorithm exists for determining if a matrix $M$ has nonnegative rank at most $r$. Here we consider conditions on the input that allow the factorization to be found in time polynomial in $n$, $m$ and $r$. (In Section 5.1, we give a noise-tolerant version of this algorithm). To the best of our knowledge this is the first example of an algorithm (that runs in time poly$(n,m,r)$) and provably works under a non-trivial condition on the input. Donoho and Stodden in a widely-cited paper identified sufficient conditions for the factorization to be unique (motivated by applications of NMF to a database of images) but gave no algorithm for this task. We give an algorithm that runs in time poly$(n,m,r)$ and assumes only one of their conditions is met (separability).
 
-<!-- chunk {"id": "body-0057", "role": "body", "section": "Fully-Efficient Factorization under Separability", "weight": 1.0} -->
+<!-- chunk {"id": "body-0054", "role": "body", "section": "Fully-Efficient Factorization under Separability", "weight": 1.0} -->
 
 We note that this separability condition is quite natural in its own right, since it is usually satisfied by model parameters fitted to various generative models (e.g. LDA in information retrieval).
 
-<!-- chunk {"id": "body-0058", "role": "body", "section": "Claim 5.5", "weight": 1.0} -->
+<!-- chunk {"id": "body-0055", "role": "body", "section": "Claim 5.5", "weight": 1.0} -->
 
-Proof: Suppose (for contradiction) that a row in $M^{j}$ is not a loner and but it is equal to some row $W^{i}$. Then there is a set $S$ of rows of $M$ so that $M^{j}$ is in their convex hull and furthermore for all $j^{\prime} \in S$, $M^{j^{\prime}}$ is not equal to $M^{j}$. Thus there is a nonnegative vector $u \in \Re^{n}$ that is 0 at the $j^{th}$ coordinate and positive on indices in $S$ such that ${u^{T}M} = M^{j}$.
+A row $M^{j}$ is a loner iff $M^{j}$ is equal to some row $W^{i}$ Proof: Suppose (for contradiction) that a row in $M^{j}$ is not a loner and but it is equal to some row $W^{i}$. Then there is a set $S$ of rows of $M$ so that $M^{j}$ is in their convex hull and furthermore for all $j' \in S$, $M^{j'}$ is not equal to $M^{j}$. Thus there is a nonnegative vector $u \in \Re^{n}$ that is 0 at the $j^{th}$ coordinate and positive on indices in $S$ such that ${u^{T}M} = M^{j}$.
 
-<!-- chunk {"id": "body-0059", "role": "body", "section": "Claim 5.5", "weight": 1.0} -->
+<!-- chunk {"id": "body-0056", "role": "body", "section": "Claim 5.5", "weight": 1.0} -->
 
-Hence ${u^{T}AW} = M^{j} = W^{i}$, but $u^{T}A$ must have unit $\ell_{1}$-norm (because $\left. \parallel u\parallel \right._{1} = 1$, all rows of $A$ have unit $\ell_{1}$-norm and are all nonnegative), also $u^{T}A$ is non-zero at position $j^{\prime}$. Consequently $W^{i}$ is in the convex hull of the other rows of $W$, which yields a contradiction.
+Hence ${u^{T}AW} = M^{j} = W^{i}$, but $u^{T}A$ must have unit $\ell_{1}$-norm (because $\left. \parallel u\parallel \right._{1} = 1$, all rows of $A$ have unit $\ell_{1}$-norm and are all nonnegative), also $u^{T}A$ is non-zero at position $j'$. Consequently $W^{i}$ is in the convex hull of the other rows of $W$, which yields a contradiction.
 
-<!-- chunk {"id": "body-0060", "role": "body", "section": "Claim 5.5", "weight": 1.0} -->
+<!-- chunk {"id": "body-0057", "role": "body", "section": "Claim 5.5", "weight": 1.0} -->
 
-Conversely if a row $M^{j}$ is not equal to any row in $W$, we conclude that $M^{j}$ is in the convex hull of the rows of $W$. Each row of $W$ appears as a row of $A$ (due to the separability condition). Hence $M^{j}$ is not a loner because $M^{j}$ is in the convex hull of rows of $M$ that are equivalent to $M^{j}$ itself. $\blacksquare$
+Conversely if a row $M^{j}$ is not equal to any row in $W$, we conclude that $M^{j}$ is in the convex hull of the rows of $W$. Each row of $W$ appears as a row of $A$ (due to the separability condition). Hence $M^{j}$ is not a loner because $M^{j}$ is in the convex hull of rows of $M$ that are equivalent to $M^{j}$ itself. $\blacksquare$ Using linear programming, we can determine which rows $M^{j}$ are loners. Due to separability there will be exactly $r$ different loner rows, each corresponds to one of the $W^{i}$. Thus we are able to recover $W'$ that is equal to $W$ after permutation over rows.We can compute a nonnegative $A'$ such that ${A'W'} = M$, and such solution $A'$ is necessarily separable (since it is just equal to $A$ after permutation over columns). $\blacksquare$
 
-<!-- chunk {"id": "body-0061", "role": "body", "section": "Claim 5.5", "weight": 1.0} -->
+<!-- chunk {"id": "body-0058", "role": "body", "section": "Adding Noise", "weight": 1.0} -->
 
-Using linear programming, we can determine which rows $M^{j}$ are loners. Due to separability there will be exactly $r$ different loner rows, each corresponds to one of the $W^{i}$. Thus we are able to recover $W^{\prime}$ that is equal to $W$ after permutation over rows.We can compute a nonnegative $A^{\prime}$ such that ${A^{\prime}W^{\prime}} = M$, and such solution $A^{\prime}$ is necessarily separable (since it is just equal to $A$ after permutation over columns). $\blacksquare$
+In any practical setting the data matrix $M$ will not have an exact NMF of low inner dimension since its entries are invariably subject to noise. Here we consider how to extend our separability-based algorithm to work in presence of noise. We assume that the input matrix $M'$ is obtained by perturbing each row of $M$ by adding a vector of $\ell_{1}$-norm at most $\epsilon$, where $M$ has a separable factorization of inner-dimension $r$. Alternatively, $\left. \parallel{M^{'i} - M^{i}}\parallel \right._{1} \leq \epsilon$ for all $i$. Notice that the case in which the separability condition is only approximately satisfied is a subcase of this: If for each column there is some row in which that column's entry is at least $1 - \epsilon$ and the sum of the other row entries is less than $\epsilon$ then the matrix $M'$ will satisfy the condition stated above. (Note that $M,A,W$ have been scaled as discussed above.)
 
-<!-- chunk {"id": "body-0062", "role": "body", "section": "Adding Noise", "weight": 1.0} -->
-
-In any practical setting the data matrix $M$ will not have an exact NMF of low inner dimension since its entries are invariably subject to noise. Here we consider how to extend our separability-based algorithm to work in presence of noise. We assume that the input matrix $M^{\prime}$ is obtained by perturbing each row of $M$ by adding a vector of $\ell_{1}$-norm at most $\epsilon$, where $M$ has a separable factorization of inner-dimension $r$. Alternatively, $\left. \parallel{M^{\prime i} - M^{i}}\parallel \right._{1} \leq \epsilon$ for all $i$. Notice that the case in which the separability condition is only approximately satisfied is a subcase of this: If for each column there is some row in which that column's entry is at least $1 - \epsilon$ and the sum of the other row entries is less than $\epsilon$ then the matrix $M^{\prime}$ will satisfy the condition stated above.
-
-<!-- chunk {"id": "body-0063", "role": "body", "section": "Adding Noise", "weight": 1.0} -->
-
-(Note that $M,A,W$ have been scaled as discussed above.)
-
-<!-- chunk {"id": "body-0064", "role": "body", "section": "Adding Noise", "weight": 1.0} -->
+<!-- chunk {"id": "body-0059", "role": "body", "section": "Adding Noise", "weight": 1.0} -->
 
 Our algorithm will require one more condition -- namely, we require the unknown matrix $W$ to be "robustly" simplicial instead of just simplicial.
 
-<!-- chunk {"id": "body-0065", "role": "body", "section": "Claim 5.8", "weight": 1.0} -->
+<!-- chunk {"id": "body-0060", "role": "body", "section": "Claim 5.8", "weight": 1.0} -->
 
-Every row $M^{\prime j}$ has $\ell_{1}$-distance at most $2\epsilon$ to the convex hull of canonical rows.
+Every row $M^{'j}$ has $\ell_{1}$-distance at most $2\epsilon$ to the convex hull of canonical rows. and we can bound the right hand side by $2\epsilon$. $\blacksquare$ Next, we show how to find the canonical rows. For a row $M^{'j}$, we call it a robust-loner if upon ignoring rows whose $\ell_{1}$ distance to $M^{'j}$ is less than $d = {{{5\epsilon}/\alpha} + {2\epsilon}}$, the $\ell_{1}$-distance of $M^{'j}$ to the convex hull of the remaining rows is more than $2\epsilon$. Note that we can identify robust-loner rows using linear programming.
 
-<!-- chunk {"id": "body-0066", "role": "body", "section": "Claim 5.8", "weight": 1.0} -->
+<!-- chunk {"id": "body-0061", "role": "body", "section": "Claim 5.8", "weight": 1.0} -->
 
-and we can bound the right hand side by $2\epsilon$. $\blacksquare$
+The following two claims establish that a row of $M^{'j}$ is a robust-loner if and only if it is close to some row $W^{i}$.
 
-<!-- chunk {"id": "body-0067", "role": "body", "section": "Claim 5.8", "weight": 1.0} -->
+<!-- chunk {"id": "body-0062", "role": "body", "section": "Claim 5.9", "weight": 1.0} -->
 
-Next, we show how to find the canonical rows. For a row $M^{\prime j}$, we call it a robust-loner if upon ignoring rows whose $\ell_{1}$ distance to $M^{\prime j}$ is less than $d = {{{5\epsilon}/\alpha} + {2\epsilon}}$, the $\ell_{1}$-distance of $M^{\prime j}$ to the convex hull of the remaining rows is more than $2\epsilon$. Note that we can identify robust-loner rows using linear programming.
+If $M^{'j}$ has distance more than $d + \epsilon$ to all of the $W^{i}$'s, then it cannot be a robust loner.
 
-<!-- chunk {"id": "body-0068", "role": "body", "section": "Claim 5.8", "weight": 1.0} -->
+<!-- chunk {"id": "body-0063", "role": "body", "section": "Claim 5.9", "weight": 1.0} -->
 
-The following two claims establish that a row of $M^{\prime j}$ is a robust-loner if and only if it is close to some row $W^{i}$.
+Proof: Such an $M^{'j}$ has distance at least $d$ to each of the canonical rows. The previous claim shows $M^{'j}$ is close to the convex hull of the canonical rows and thus by definition it cannot be a robust-loner. $\blacksquare$
 
-<!-- chunk {"id": "body-0069", "role": "body", "section": "Claim 5.9", "weight": 1.0} -->
-
-If $M^{\prime j}$ has distance more than $d + \epsilon$ to all of the $W^{i}$'s, then it cannot be a robust loner.
-
-<!-- chunk {"id": "body-0070", "role": "body", "section": "Claim 5.9", "weight": 1.0} -->
-
-Proof: Such an $M^{\prime j}$ has distance at least $d$ to each of the canonical rows. The previous claim shows $M^{\prime j}$ is close to the convex hull of the canonical rows and thus by definition it cannot be a robust-loner. $\blacksquare$
-
-<!-- chunk {"id": "body-0071", "role": "body", "section": "Claim 5.10", "weight": 1.0} -->
+<!-- chunk {"id": "body-0064", "role": "body", "section": "Claim 5.10", "weight": 1.0} -->
 
 All canonical rows are robust-loners.
 
-<!-- chunk {"id": "body-0072", "role": "body", "section": "Claim 5.10", "weight": 1.0} -->
+<!-- chunk {"id": "body-0065", "role": "body", "section": "Claim 5.10", "weight": 1.0} -->
 
-The previous claim implies that each robust-loner row is within $\ell_{1}$-distance $d + \epsilon$ to some $W^{i}$ and conversely, for every $W^{i}$ there is at least one robust-loner row that is close to it. Since the $\ell_{1}$-distances between $W^{i}$'s are at least $4{({d + \epsilon})}$, we can apply distance based clustering on the robust-loner rows: place two robust-loner rows into the same cluster if and only if these rows are within $\ell_{1}$-distance at most $2{({d + \epsilon})}$. Clearly we will obtain $r$ clusters, one corresponding to each of the $W^{i}$'s.
+All remaining rows have $A_{j,i} \leq {1 - {{5\epsilon}/\alpha}}$, and hence the $\ell_{1}$ distance of $W^{i}$ to $conv{({W\backslash W^{i}})}$ is at least $\alpha$ (by the $\alpha$-robust simplicial property), we conclude that the distance between $W^{i}$ and the convex hull of remaining $M^{j}$'s must be at least ${{{5\epsilon}/\alpha} \ast \alpha} = {5\epsilon}$. Since $M'$ is close to $M$ the $\ell_{1}$-distance between $M^{'{f{(i)}}}$ and the convex hull of remaining rows $M^{'j}$'s must be at least ${{5\epsilon} - {2\epsilon}} = {3\epsilon}$.
 
-<!-- chunk {"id": "body-0073", "role": "body", "section": "Claim 5.10", "weight": 1.0} -->
+<!-- chunk {"id": "body-0066", "role": "body", "section": "Claim 5.10", "weight": 1.0} -->
 
-Choose one row from each of the cluster, and using similar argument as Claim 5.8 we deduce that every row of $M^{\prime}$ is within ${{2{({d + \epsilon})}} + \epsilon} = {{{10\epsilon}/\alpha} + {7\epsilon}}$ to the convex hull of the rows we selected. Therefore these rows form a nonnegative $W^{\prime}$ and we can find $A^{\prime}$ so that $\left. \parallel{M^{\prime j} - {({A^{\prime}W^{\prime}})}^{j}}\parallel \right._{1} \leq {{{10\epsilon}/\alpha} + {7\epsilon}}$ for all $j$. $\blacksquare$
+Therefore $M^{'{f{(i)}}}$ is a robust-loner. $\blacksquare$ The previous claim implies that each robust-loner row is within $\ell_{1}$-distance $d + \epsilon$ to some $W^{i}$ and conversely, for every $W^{i}$ there is at least one robust-loner row that is close to it. Since the $\ell_{1}$-distances between $W^{i}$'s are at least $4{({d + \epsilon})}$, we can apply distance based clustering on the robust-loner rows: place two robust-loner rows into the same cluster if and only if these rows are within $\ell_{1}$-distance at most $2{({d + \epsilon})}$. Clearly we will obtain $r$ clusters, one corresponding to each of the $W^{i}$'s.
 
-<!-- chunk {"id": "body-0074", "role": "body", "section": "Approximate Nonnegative Matrix Factorization", "weight": 1.0} -->
+<!-- chunk {"id": "body-0067", "role": "body", "section": "Claim 5.10", "weight": 1.0} -->
+
+Choose one row from each of the cluster, and using similar argument as Claim 5.8 we deduce that every row of $M'$ is within ${{2{({d + \epsilon})}} + \epsilon} = {{{10\epsilon}/\alpha} + {7\epsilon}}$ to the convex hull of the rows we selected. Therefore these rows form a nonnegative $W'$ and we can find $A'$ so that $\left. \parallel{M^{'j} - {({A'W'})}^{j}}\parallel \right._{1} \leq {{{10\epsilon}/\alpha} + {7\epsilon}}$ for all $j$. $\blacksquare$
+
+<!-- chunk {"id": "body-0068", "role": "body", "section": "Approximate Nonnegative Matrix Factorization", "weight": 1.0} -->
 
 Here we consider the case in which the given matrix does not have an exact low-rank NMF but rather can be approximated by a nonnegative factorization with small inner-dimension. We refer to this as Approximate NMF. Unlike the algorithm in Theorem 5.7, the algorithm here works with general nonnegative matrix factorization: we do not make any assumptions on matrices $A$ and $W$. Throughout this section we will use $\left. \parallel\parallel \right._{F}$ to denote the Froebenius norm, $\left. \parallel\parallel \right._{2}$ to denote the spectral norm and $\left. \parallel\parallel \right.$ applied to a vector will denote the standard Euclidean norm.
 
-<!-- chunk {"id": "body-0075", "role": "body", "section": "Claim 6.2", "weight": 1.0} -->
+<!-- chunk {"id": "body-0069", "role": "body", "section": "Claim 6.2", "weight": 1.0} -->
 
-Throughout this section, we will assume that the input matrix $M$ has rank at most $r$ - since otherwise we can compute $M^{\prime}$ and solve the problem for $M^{\prime}$. Then using the triangle inequality, any good approximation to $M^{\prime}$ will also be a good approximation to $M$.
+$\left. \parallel{M' - M}\parallel \right._{F} \leq \left. \parallel{M - {AW}}\parallel \right._{F}$ Throughout this section, we will assume that the input matrix $M$ has rank at most $r$ - since otherwise we can compute $M'$ and solve the problem for $M'$. Then using the triangle inequality, any good approximation to $M'$ will also be a good approximation to $M$.
 
-<!-- chunk {"id": "body-0076", "role": "body", "section": "Claim 6.2", "weight": 1.0} -->
+<!-- chunk {"id": "body-0070", "role": "body", "section": "Claim 6.2", "weight": 1.0} -->
 
 Throughout this section, we will use the notation $A_{t}$ to denote the $t^{th}$ column of $A$ and $W^{t}$ to denote the $t^{th}$ row of $W$. Note that $W^{t}$ is a row vector so we will frequently use $A_{t}W^{t}$ to denote an outer-product. Next, we apply a simple re-normalization that will allow us to state the main steps in our algorithm in a more friendly notation.
 
-<!-- chunk {"id": "body-0077", "role": "body", "section": "Claim 6.7", "weight": 1.0} -->
+<!-- chunk {"id": "body-0071", "role": "body", "section": "Claim 6.7", "weight": 1.0} -->
 
-Proof: We prove that $W_{1}^{\prime} = {W - W_{0}^{\operatorname{\prime\prime}}} = {{({W_{0} - W_{0}^{\operatorname{\prime\prime}}})} + W_{1}}$ is a feasible solution and that the objective value of this solution is the value claimed in the lemma.
+Proof: We prove that $W_{1}' = {W - W_{0}^{\operatorname{\prime\prime}}} = {{({W_{0} - W_{0}^{\operatorname{\prime\prime}}})} + W_{1}}$ is a feasible solution and that the objective value of this solution is the value claimed in the lemma.
 
-<!-- chunk {"id": "body-0078", "role": "body", "section": "Claim 6.7", "weight": 1.0} -->
-
-Lemma 6.4 bounds the first term and Lemma 6.5 bounds the second term. The square of the last term is bounded by the objective function of the convex program. $\blacksquare$
-
-<!-- chunk {"id": "body-0079", "role": "body", "section": "Concluding Remarks", "weight": 1.0} -->
+<!-- chunk {"id": "body-0072", "role": "body", "section": "Concluding Remarks", "weight": 1.0} -->
 
 Here, we initiated a rigorous study of nonnegative matrix factorization. Our hardness result rules out significant improvements over our worst-case results for fixed inner-dimension $r$. We believe that our $\text{poly}{(m,n,r)}$-time algorithm for finding separable factorizations may point the way for future work. What other plausible conditions can one impose on the factors in real-life applications? We also hope our work promotes further theoretical study of nonnegative rank.
 
-<!-- chunk {"id": "body-0080", "role": "body", "section": "Concluding Remarks", "weight": 1.0} -->
+<!-- chunk {"id": "body-0073", "role": "body", "section": "Concluding Remarks", "weight": 1.0} -->
 
 This work is part of a broader agenda of bringing greater rigor to the analysis of algorithms used in machine learning. Currently, heuristic approaches are popular because the solution concepts are believed to be intractable. Our results, for example our algorithm for NMF under the separability condition, raise hope that sometimes the solution concepts may not be intractable after all.

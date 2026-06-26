@@ -60,136 +60,128 @@ Nomenclature. *Ego* refers to the AV and *agent* is a non-AV vehicle or pedestri
 
 <!-- chunk {"id": "body-0015", "role": "body", "section": "DiffStack modules", "weight": 1.0} -->
 
-Prediction. We employ Trajectron++, a state-of-the art CVAE that takes $H$ seconds of state history for all agents as input, and outputs multimodal trajectory predictions for one agent $a \in A$,
+Prediction. We employ Trajectron++, a state-of-the art CVAE that takes $H$ seconds of state history for all agents as input, and outputs multimodal trajectory predictions for one agent $a \in A$, where $k \in K$ is the mode of the output distribution. We will use ${\hat{s}}_{a} = {{\hat{s}}_{a}^{({1:T})}{(\theta)}}$ for brevity. The encoder of the CVAE processes agent state histories with recurrent LSTM networks and models inter-agent interactions using graph-based attention. The decoder is a GRU that outputs a Gaussian Mixture Model (GMM) for each future timestep. The GMM modes correspond to the CVAE's $K = 25$ discrete latent states. To ensure predictions are dynamically-feasible, GMMs are defined over controls and then integrated through a known (differentiable) dynamics function to produce a trajectory. We use the default model configuration without map and ego conditioning.
 
 <!-- chunk {"id": "body-0016", "role": "body", "section": "DiffStack modules", "weight": 1.0} -->
 
-where $k \in K$ is the mode of the output distribution. We will use ${\hat{s}}_{a} = {{\hat{s}}_{a}^{({1:T})}{(\theta)}}$ for brevity. The encoder of the CVAE processes agent state histories with recurrent LSTM networks and models inter-agent interactions using graph-based attention. The decoder is a GRU that outputs a Gaussian Mixture Model (GMM) for each future timestep. The GMM modes correspond to the CVAE's $K = 25$ discrete latent states. To ensure predictions are dynamically-feasible, GMMs are defined over controls and then integrated through a known (differentiable) dynamics function to produce a trajectory. We use the default model configuration without map and ego conditioning. We augment the input states with an ego-indicator variable to allow for ego-agent relation reasoning.
+We augment the input states with an ego-indicator variable to allow for ego-agent relation reasoning. The raw prediction training objective is the InfoVAE loss, $\mathcal{L}_{pred} = {\mathcal{L}_{InfoVAE}\left({\hat{s}}_{a},s_{a}^{\text{gt}} \right)}$, the same as for the original Trajectron++.
 
 <!-- chunk {"id": "body-0017", "role": "body", "section": "DiffStack modules", "weight": 1.0} -->
 
-The raw prediction training objective is the InfoVAE loss, $\mathcal{L}_{pred} = {\mathcal{L}_{InfoVAE}\left( {\hat{s}}_{a},s_{a}^{\text{gt}} \right)}$, the same as for the original Trajectron++.
+Planning. The planner is a sampling-based algorithm that generates a set of $N$ dynamically-feasible ego trajectory candidates, $\mathcal{P} = {\{ s_{n},u_{n}\}}_{n \in N}$, and selects the candidate with the lowest cost. Namely, where $C$ is the cost function, ${\hat{s}}_{a \in A}$ are multimodal predictions for all agents from the prediction module, $g$ is a given goal, and $m$ is a lane graph. To generate trajectory candidates we sample a set of lane-centric terminal states, fit a cubic spline from the current state to the terminal state, and reject dynamically-infeasible trajectories. The cost function is a weighted sum of handcrafted terms, penalizing collisions, distance to the goal, lateral lane deviation, lane heading deviation, and control effort, respectively.
 
 <!-- chunk {"id": "body-0018", "role": "body", "section": "DiffStack modules", "weight": 1.0} -->
 
-Planning. The planner is a sampling-based algorithm that generates a set of $N$ dynamically-feasible ego trajectory candidates, $\mathcal{P} = {\{ s_{n},u_{n}\}}_{n \in N}$, and selects the candidate with the lowest cost. Namely,
+Most notably, the collision term incorporates predictions into planning, ${C_{coll}{(s,{\hat{s}}_{a \in A})}} = {\sum_{a \in A}{\sum_{{t \in 1}:T}{\varphi\left({\sum_{k \in K}{\pi_{k}{\|{s^{(t)} - {\hat{s}}_{a,k}^{(t)}}\|}^{2}}} \right)}}}$, where ${\hat{s}}_{a,k}$ is the $k$-th mode of the predicted trajectory distribution for agent $a$, $\pi_{k}$ is the probability of the $k$-th mode, $\varphi$ is a Gaussian radial basis function, and $|| \cdot ||$ is the Euclidean norm. Without loss of generality, in experiments we only do prediction for the vehicle closest to ego, and use GT futures for other agents.
 
 <!-- chunk {"id": "body-0019", "role": "body", "section": "DiffStack modules", "weight": 1.0} -->
 
-where $C$ is the cost function, ${\hat{s}}_{a \in A}$ are multimodal predictions for all agents from the prediction module, $g$ is a given goal, and $m$ is a lane graph. To generate trajectory candidates we sample a set of lane-centric terminal states, fit a cubic spline from the current state to the terminal state, and reject dynamically-infeasible trajectories. The cost function is a weighted sum of handcrafted terms,
+The remaining terms of are defined in Appendix C.
 
 <!-- chunk {"id": "body-0020", "role": "body", "section": "DiffStack modules", "weight": 1.0} -->
 
-penalizing collisions, distance to the goal, lateral lane deviation, lane heading deviation, and control effort, respectively. Most notably, the collision term incorporates predictions into planning, ${C_{coll}{(s,{\hat{s}}_{a \in A})}} = {\sum_{a \in A}{\sum_{{t \in 1}:T}{\varphi\left( {\sum_{k \in K}{\pi_{k}{\|{s^{(t)} - {\hat{s}}_{a,k}^{(t)}}\|}^{2}}} \right)}}}$, where ${\hat{s}}_{a,k}$ is the $k$-th mode of the predicted trajectory distribution for agent $a$, $\pi_{k}$ is the probability of the $k$-th mode, $\varphi$ is a Gaussian radial basis function, and $|| \cdot ||$ is the Euclidean norm.
+Control. The control module performs MPC over a finite horizon using an iterative box-constrained linear quadratic regulator (LQR) algorithm. Formally, we aim to solve where $C$ denotes the cost function, $f_{d}$ the dynamics, $s^{init}$ the current ego state, and $\underset{¯}{u},\overline{u}$ the control limits. We use the cost defined in for $C$ and the dynamically-extended unicycle for $f_{d}$. We initialize the trajectory with $u_{plan}$ from the planner. The algorithm then iteratively forms and solves a quadratic LQR approximation of around the current solution $s^{(i)},u^{(i)}$ for iteration $i$, using first- and second-order Taylor approximations of $f_{d}$ and $C$, respectively. The trajectory is updated to be close to the LQR optimal control while also decreasing the original non-quadratic cost. We stop iterations upon convergence or a fixed limit.
 
 <!-- chunk {"id": "body-0021", "role": "body", "section": "DiffStack modules", "weight": 1.0} -->
 
-Without loss of generality, in experiments we only do prediction for the vehicle closest to ego, and use GT futures for other agents. The remaining terms of are defined in Appendix C.
-
-<!-- chunk {"id": "body-0022", "role": "body", "section": "DiffStack modules", "weight": 1.0} -->
-
-Control. The control module performs MPC over a finite horizon using an iterative box-constrained linear quadratic regulator (LQR) algorithm. Formally, we aim to solve
-
-<!-- chunk {"id": "body-0023", "role": "body", "section": "DiffStack modules", "weight": 1.0} -->
-
-where $C$ denotes the cost function, $f_{d}$ the dynamics, $s^{init}$ the current ego state, and $\underset{¯}{u},\overline{u}$ the control limits. We use the cost defined in for $C$ and the dynamically-extended unicycle for $f_{d}$. We initialize the trajectory with $u_{plan}$ from the planner. The algorithm then iteratively forms and solves a quadratic LQR approximation of around the current solution $s^{(i)},u^{(i)}$ for iteration $i$, using first- and second-order Taylor approximations of $f_{d}$ and $C$, respectively. The trajectory is updated to be close to the LQR optimal control while also decreasing the original non-quadratic cost. We stop iterations upon convergence or a fixed limit.
-
-<!-- chunk {"id": "body-0024", "role": "body", "section": "DiffStack modules", "weight": 1.0} -->
-
 To make the control algorithm differentiable we leverage Amos et al.. The iLQR optimal trajectory, $s_{ctr}$, can be differentiated wrt. $C$ and $f_{d}$ by implicitly differentiating the underlying KKT conditions of the last LQR approximation. The gradients can be analytically computed by one additional backward pass of a modified iterative LQR solver. If iLQR fails to converge, we do not backpropagate gradients. In our setting $f_{d}$ is fixed. We compute gradients wrt. cost parameters, $\frac{\delta\mathcal{L}_{ctr}}{\deltaw} = {\frac{\delta\mathcal{L}_{ctr}}{\deltas_{ctr}}\frac{\deltas_{ctr}}{\deltaC}\frac{\deltaC}{\deltaw}}$, and further wrt.
 
-<!-- chunk {"id": "body-0025", "role": "body", "section": "End-to-end training", "weight": 1.0} -->
+<!-- chunk {"id": "body-0022", "role": "body", "section": "End-to-end training", "weight": 1.0} -->
 
 An important question for data-driven AV stacks is the training objective and data. Learning in the real world is prohibitively expensive, and building a simulator with realistic traffic agent behavior is an open challenge. Accordingly, standard practice is to perform open-loop training with human driving data. We consider two common types of open-loop training settings: reinforcement learning (RL) and imitation learning (IL).
 
-<!-- chunk {"id": "body-0026", "role": "body", "section": "End-to-end training", "weight": 1.0} -->
+<!-- chunk {"id": "body-0023", "role": "body", "section": "End-to-end training", "weight": 1.0} -->
 
 In the RL setting, we aim to minimize the (hindsight) cost of output ego trajectories, $s_{ctr},u_{ctr}$, over training examples in the dataset, $\mathcal{L}_{ctr} = \mathcal{L}_{HC} = {C_{H}\left( s_{ctr},u_{ctr};s_{a \in A}^{\text{gt}},g,m;w \right)}$. The hindsight cost $C_{H}$ captures the quality of a trajectory in *hindsight*, i.e., after knowing the future trajectory of non-ego agents $s_{a \in A}^{\text{gt}}$, similar to the concept of rewards in RL. We choose $C_{H}$ identical to the control cost $C$ defined, but with GT future trajectory inputs instead of predictions, and fixed $w$ parameters.
 
-<!-- chunk {"id": "body-0027", "role": "body", "section": "End-to-end training", "weight": 1.0} -->
+<!-- chunk {"id": "body-0024", "role": "body", "section": "End-to-end training", "weight": 1.0} -->
 
 Note that our open-loop training setup does not account for the effect of ego actions on other agents; nevertheless, we treat recorded trajectories as GT futures, as in the prediction literature. In this setting we only train the prediction model. Given GT futures $\frac{\delta\mathcal{L}_{HC}}{\delta\theta} = {\frac{\delta\mathcal{L}_{HC}}{\delta{\{ s_{ctr},u_{ctr}\}}}\frac{\delta{\{ s_{ctr},u_{ctr}\}}}{\delta\theta}}$ where both terms exists given our differentiable controller. For the planner's target we choose the trajectory candidate with the lowest hindsight cost, $s^{\ast} = {{{\arg\min}_{{s_{n},u_{n}} \in \mathcal{P}}C_{H}}{(s_{n},u_{n}; \cdot )}}$.
 
-<!-- chunk {"id": "body-0028", "role": "body", "section": "End-to-end training", "weight": 1.0} -->
+<!-- chunk {"id": "body-0025", "role": "body", "section": "End-to-end training", "weight": 1.0} -->
 
 The total loss for training DiffStack is a linear combination of module-wise objectives, $\mathcal{L} = {{\alpha_{1}\mathcal{L}_{pred}} + {\alpha_{2}\mathcal{L}_{plan}} + {\alpha_{3}\mathcal{L}_{ctr}}}$. We experiment with different $\alpha_{i}$ values, including setting each $\alpha_{i}$ to zero. In the following we omit $\alpha_{i}$ for brevity.
 
-<!-- chunk {"id": "body-0029", "role": "body", "section": "Experiments", "weight": 1.0} -->
+<!-- chunk {"id": "body-0026", "role": "body", "section": "Experiments", "weight": 1.0} -->
 
 Our experiments investigate the following questions: 1) can DiffStack learn predictions that lead to better plans? 2) how does DiffStack compare to alternative planning-aware training techniques? 3) can DiffStack correct systematic integration errors? 4) can DiffStack learn the control cost from imitation? 5) do our open-loop results translate to closed-loop evaluation?
 
-<!-- chunk {"id": "body-0030", "role": "body", "section": "Experiments", "weight": 1.0} -->
+<!-- chunk {"id": "body-0027", "role": "body", "section": "Experiments", "weight": 1.0} -->
 
 We begin with open-loop experiments (1--4), and then present closed-loop results in Section 4.3.
 
-<!-- chunk {"id": "body-0031", "role": "body", "section": "Experimental setup", "weight": 1.0} -->
+<!-- chunk {"id": "body-0028", "role": "body", "section": "Experimental setup", "weight": 1.0} -->
 
 Dataset. We use the nuScenes dataset, comprised of state annotations for vehicles and pedestrians in 1000 scenes across Boston and Singapore. For training and open-loop evaluation we sample suitable planning scenarios from the dataset with $H = 4$s history and $T = 3$s future data. For each scenario, we choose one vehicle to act as the ego. Details including dataset splits are in Appendix D.
 
-<!-- chunk {"id": "body-0032", "role": "body", "section": "Experimental setup", "weight": 1.0} -->
+<!-- chunk {"id": "body-0029", "role": "body", "section": "Experimental setup", "weight": 1.0} -->
 
 Metrics. We evaluate DiffStack's prediction module via standard prediction metrics: average displacement error (ADE) for the most-likely prediction and negative log-likelihood (NLL) for its full distributional output. To evaluate planning and control, we use the cross-entropy planning loss $\mathcal{L}_{plan} = \mathcal{L}_{CE}$, and control loss $\mathcal{L}_{ctr}$. We report the hindsight cost for reinforcement learning ($\mathcal{L}_{ctr} = \mathcal{L}_{HC}$) and MSE for imitation learning experiments ($\mathcal{L}_{ctr} = \mathcal{L}_{MSE}$). Since control is an AV stack's end-goal, $\mathcal{L}_{ctr}$ reflects the overall performance of the stack. To make these metric values more interpretable, we report them relative to a No prediction baseline and a GT prediction-based oracle. The baseline ego plans without predictions (ignoring the predicted agent), providing a performance lower bound.
 
-<!-- chunk {"id": "body-0033", "role": "body", "section": "Experimental setup", "weight": 1.0} -->
+<!-- chunk {"id": "body-0030", "role": "body", "section": "Experimental setup", "weight": 1.0} -->
 
 The GT oracle plans with GT futures in place of predictions, providing a notion of a performance upper bound. All results are averaged over our validation set, and we report standard errors of the mean over 5 training seeds.
 
-<!-- chunk {"id": "body-0034", "role": "body", "section": "Experimental setup", "weight": 1.0} -->
+<!-- chunk {"id": "body-0031", "role": "body", "section": "Experimental setup", "weight": 1.0} -->
 
 Baselines. We compare DiffStack with standard AV stacks. For a fair comparison, we use the same set of modules as in DiffStack, but without making the planner and controller differentiable. We only train the prediction model, using increasingly planning-aware training objectives. Standard trains the prediction model with only the prediction loss $\mathcal{L}_{pred}$, unaware of downstream planning. Next, we re-weight prediction losses (in each batch) based on a handcrafted measure of relevance for planning. Distance weighted weights losses with the inverse distance between the ego and agent GT futures. $\nabla$Cost weighted uses the magnitude of the control cost gradient with respect to the GT future trajectory of the agent, proposed as a planning-aware prediction metric. Finally, DiffStack backpropagates gradients of the final loss to the prediction module.
 
-<!-- chunk {"id": "body-0035", "role": "body", "section": "Experimental setup", "weight": 1.0} -->
+<!-- chunk {"id": "body-0032", "role": "body", "section": "Experimental setup", "weight": 1.0} -->
 
 Implementation details. We implement DiffStack in PyTorch and build on the open-source code of Trajectron++ and Differentiable MPC. We use $H = 4$s, $T = 3$s, and ${\Deltat} = 0.5$s. We train all models for 20 epochs using 4 NVIDIA Tesla V100 GPUs, taking 10--20 hours. Additional details are in Appendix C. The code is available at
 
-<!-- chunk {"id": "body-0036", "role": "body", "section": "Open-loop results", "weight": 1.0} -->
+<!-- chunk {"id": "body-0033", "role": "body", "section": "Open-loop results", "weight": 1.0} -->
 
 End-to-end training is useful. Our main results are summarized in Table 1. The key observation is that DiffStack improves the effectiveness of predictions on ego planning by up to 15.5% compared to standard training ($\mathcal{L}_{ctr} = {- 1.86}$ vs. $- 1.61$); and reduces the gap to the cost attainable with a GT-informed oracle by 39.1% (${- 1.86} + 2.25$ vs. ${- 1.68} + 2.25$). DiffStack also improves planning without significantly impacting raw prediction accuracy (ADE=$1.27$ vs. $1.32$, within standard error). Alternative methods that re-weight the prediction loss in a planning-aware manner (rows 2 and 3) also help, but less than DiffStack. Surprisingly, we can even recover comparable prediction performance in terms of ADE when training solely for planning and control objectives (row 4). The poor distribution fit (high NLL) is due to our control cost being agnostic to the variance of the predicted GMMs.
 
-<!-- chunk {"id": "body-0037", "role": "body", "section": "Open-loop results", "weight": 1.0} -->
+<!-- chunk {"id": "body-0034", "role": "body", "section": "Open-loop results", "weight": 1.0} -->
 
 DiffStack makes fewer prediction errors that affect planning. Qualitatively analysing predictions and plans shows that the main source of improvement from end-to-end training is the reduction of spurious and/or unrealistic predictions that lead to plans with large (unnecessary) deviations from the lane center or the goal position. Fig. 3 shows two particular examples. In both cases, DiffStack's predictions are more realistic and accurate, yielding much more reasonable downstream plans.
 
-<!-- chunk {"id": "body-0038", "role": "body", "section": "Open-loop results", "weight": 1.0} -->
+<!-- chunk {"id": "body-0035", "role": "body", "section": "Open-loop results", "weight": 1.0} -->
 
 DiffStack can compensate for system integration errors. Integrating independently developed modules into an AV stack can be challenging due to, e.g., misaligned module interfaces. Table 2 shows results for an experiment that explores this issue. We introduce an artificial interface mismatch between prediction and planning by adding a fixed 1m offset to all GT prediction targets. As a result, the standard model yields very poor plans (note the positive value in row 1, indicating worse performance than baseline planning). However, DiffStack can compensate for interface mismatch and substantially improves the overall plans, suggesting that it can learn to correct erroneous predictions that affect planning. More broadly, these results demonstrate the potential for differentiable AV stacks to reduce various development/engineering costs associated with developing AVs, e.g., by replacing tedious manual parameter tuning with end-to-end data-driven optimization. We further explore this topic in the cost tuning experiments below.
 
-<!-- chunk {"id": "body-0039", "role": "body", "section": "Open-loop results", "weight": 1.0} -->
+<!-- chunk {"id": "body-0036", "role": "body", "section": "Open-loop results", "weight": 1.0} -->
 
 DiffStack can imitate humans better. Imitation learning results are summarized in Table 4. The overall performance of the stack is now measured by $\mathcal{L}_{ctr} = \mathcal{L}_{MSE}$, the MSE between planned and human expert trajectories relative to the MSE for the baseline planner (without predictions). We observe a similar trend as before; however, the results also reveal some limitations. The standard stack performs worse in terms of MSE than the baseline stack which neglects predictions entirely (note the positive sign for relative $\mathcal{L}_{MSE}$ in row 1). While DiffStack improves MSE significantly, the absolute difference is small. We hypothesize this is caused by our cost function not being rich enough to fully capture human driving behavior; and because agent-agent interactions that affect planning are rare in nominal driving data (comprised mainly of lane- and speed-keeping). These limitations could be addressed by a richer cost function and alternative goal definitions, which we leave to future work.
 
-<!-- chunk {"id": "body-0040", "role": "body", "section": "Open-loop results", "weight": 1.0} -->
+<!-- chunk {"id": "body-0037", "role": "body", "section": "Open-loop results", "weight": 1.0} -->
 
 DiffStack can learn a better control cost. While our main use case in this paper is to learn planning-aware prediction, DiffStack opens up various other opportunities for data-driven optimization of various components of the AV stack. For example, an important challenge in practice is to design a cost function for planning and control. In this experiment, we explore DiffStack's potential to learn interpretable control costs that optimize the quality of output plans from data. Table 3 reports results in the imitation learning setting, where we first train a prediction module (as before), then we train for an additional 20 epochs allowing DiffStack to update the weights $w_{i}$ of the control cost by backpropagating gradients from the final control loss $\mathcal{L}_{ctr}$. Compared to the default hand-tuned weights (row 1), DiffStack significantly decreases plan MSEs (row 2). The resulting learned weights $w_{i}$ are lower for the control effort term, and higher for the goal and lane keeping terms (see Appendix A). To ensure safety, we fix the weights for collision avoidance.
 
-<!-- chunk {"id": "body-0041", "role": "body", "section": "Open-loop results", "weight": 1.0} -->
+<!-- chunk {"id": "body-0038", "role": "body", "section": "Open-loop results", "weight": 1.0} -->
 
 We leave comparison with alternative techniques for learning control costs to future work. We expect DiffStack to be more effective compared to, e.g., Bayesian optimization, where the number of learned parameters is large.
 
-<!-- chunk {"id": "body-0042", "role": "body", "section": "Open-loop results", "weight": 1.0} -->
+<!-- chunk {"id": "body-0039", "role": "body", "section": "Open-loop results", "weight": 1.0} -->
 
 Ablations. Results of an ablation study can be found in Appendix A. In short, improvements from DiffStack are consistent with our observations when training for $\mathcal{L} = {\mathcal{L}_{pred} + \mathcal{L}_{plan}}$; $\mathcal{L} = {\mathcal{L}_{pred} + \mathcal{L}_{ctr}}$; when changing the relative scale of loss components; with higher time resolution ${\Deltat} = 0.1$ for planning and control; and when only using one of the planning or control modules.
 
-<!-- chunk {"id": "body-0043", "role": "body", "section": "Closed-loop evaluation", "weight": 1.0} -->
+<!-- chunk {"id": "body-0040", "role": "body", "section": "Closed-loop evaluation", "weight": 1.0} -->
 
 Simulation. We perform closed-loop simulation using a simple log-replay setup, where ego states are unrolled based on the planned control outputs and known dynamics, while non-ego agents follow their fixed trajectories recorded in the dataset. The evaluation scenarios are $T_{sim} = {10s}$ long. The goal and lane inputs for planning are updated in each simulation step based on the logged ego trajectory. We compute the following metrics. Trajectory Cost captures closed-loop performance: it evaluates the cost function $C$ on unrolled simulation trajectories, ${1/T_{sim}}{\sum_{{t = 1}:T_{sim}}{C{(s_{sim}^{(t)},u_{sim}^{(t)};s_{a \in A}^{\text{gt},t},m^{(t)})}}}$, where $s_{sim}$ and $u_{sim}$ are the unrolled ego state and control. We exclude the goal cost term because the goal is updated in each simulation step.
 
-<!-- chunk {"id": "body-0044", "role": "body", "section": "Closed-loop evaluation", "weight": 1.0} -->
+<!-- chunk {"id": "body-0041", "role": "body", "section": "Closed-loop evaluation", "weight": 1.0} -->
 
 Open-loop Cost is the average of hindsight costs calculated open-loop at each simulation step, $\mathcal{L}_{HC} = {C{(s_{ctr},u_{ctr};s_{a \in A}^{\text{gt}},g,m)}}$. Collision Cost is the collision term in the trajectory cost, $w_{1}C_{coll}{(s_{sim}^{(t)},s_{a \in A}^{\text{gt},{(t)}})}$. Lane Cost is the sum of lane keeping terms, ${w_{3}C_{\ell \perp}} + {w_{4}C_{\ell\measuredangle}}$. Control Effort is the control effort term, $w_{5}C_{u}$.
 
-<!-- chunk {"id": "body-0045", "role": "body", "section": "Closed-loop evaluation", "weight": 1.0} -->
+<!-- chunk {"id": "body-0042", "role": "body", "section": "Closed-loop evaluation", "weight": 1.0} -->
 
 Deviation is the average distance between unrolled and logged ego trajectories from the data, $\|{s_{sim}^{(t)} - s^{\text{gt},{(t)}}}\|$.
 
-<!-- chunk {"id": "body-0046", "role": "body", "section": "Closed-loop evaluation", "weight": 1.0} -->
+<!-- chunk {"id": "body-0043", "role": "body", "section": "Closed-loop evaluation", "weight": 1.0} -->
+
+Lane Keep Cost Table 5: Closed-loop results. DiffStack outperforms the standard stack similarly to open-loop results.
+
+<!-- chunk {"id": "body-0044", "role": "body", "section": "Closed-loop evaluation", "weight": 1.0} -->
 
 Results. Simulation results are in Table 5. Most importantly, we observe similar relative improvement for DiffStack in terms of closed loop trajectory cost as in terms of open-loop cost. DiffStack performs substantially better that the *no prediction* baseline, but somewhat surprisingly the standard stack performs worse, both in terms of closed-loop trajectory cost and open-loop cost. Analysing the cost components sheds light on possible reasons. As expected, incorporating predictions into planning results in lower collision costs, but higher lane keeping costs. The contribution of these two terms to the average cost depends on the data distribution, e.g., the frequency of close interactions where predictions are useful. As we saw earlier in Fig. 3, poor predictions in the standard stack frequently lead to unnecessary lane deviations in the planner. This is reflected in the substantially higher lane cost and control effort cost for the standard stack compared to DiffStack in Table 5.
 
-<!-- chunk {"id": "body-0047", "role": "body", "section": "Limitations & Conclusions", "weight": 1.5} -->
+<!-- chunk {"id": "body-0045", "role": "body", "section": "Limitations & Conclusions", "weight": 1.5} -->
 
 Limitations. One limitation of our work is the open-loop training and log-replay based simulation setup. In lieu of a real-world AV or a simulator with strong behavioral realism, this is standard practice; however, recent efforts on accurate behavior simulation could be leveraged in the future. Our implementation of DiffStack also has limitations. First, it is not differentiable wrt. *all* possible parameters, e.g., no gradients flow from the control loss to the planner's trajectory candidate generator. Future work may develop more sophisticated differentiable algorithms and explore ideas for gradient approximation for non-differentiable components. Second, individual modules could be improved, e.g., by adding a more sophisticated prediction model, improving candidate sampling in the planner, and adding trust-region constraints to the controller. Finally, even though hand-engineered components, modularity, and intermediate training objectives in differentiable stacks remedy challenges of learning AV policies end-to-end, other challenges naturally remain. For instance, designing an overall performance metric, or reducing the scarcity of and cost to obtain (interesting) driving data remain open problems, each of which are impactful areas of future work.
 
-<!-- chunk {"id": "body-0048", "role": "body", "section": "Limitations & Conclusions", "weight": 1.5} -->
+<!-- chunk {"id": "body-0046", "role": "body", "section": "Limitations & Conclusions", "weight": 1.5} -->
 
 Conclusions. In this paper we take a step towards fully-differentiable and modular AV stacks by introducing key differentiable components for prediction, planning, and control. Our experimental results show the potential benefits of jointly training modules of AV stacks for downstream performance. For motion prediction in particular, our results indicate that there is value in moving from purely prediction-oriented evaluation metrics towards downstream task-oriented metrics, in line with arguments in recent work. While our experiments focused on learning planning-aware predictions, DiffStack opens up various exciting opportunities for task-oriented learning in modular stacks. For example, we may learn a rich neural network as part of the control cost to capture hard-to-engineer concepts, e.g., reasoning with occlusions or accounting for uncertainties. Eventually, we envision having differentiable modules for the entire AV stack, allowing any subset of modules to be learned and optimized for a downstream task. Overall, this would relax information bottlenecks and enable uncertainty to more easily propagate through the stack without needing to forgo interpretability, modularity, and verifiabilty of the various components.

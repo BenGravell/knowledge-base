@@ -24,224 +24,220 @@ However, as the storage and computational capabilities of the devices within dis
 
 <!-- chunk {"id": "body-0006", "role": "body", "section": "Introduction", "weight": 1.5} -->
 
-Federated learning methods have been deployed by major service providers, and play a critical role in supporting privacy-sensitive applications where the training data are distributed at the edge \e.g.,. Examples of potential applications include: learning sentiment, semantic location, or activities of mobile phone users; adapting to pedestrian behavior in autonomous vehicles; and predicting health events like heart attack risk from wearable devices.
+Federated learning methods have been deployed by major service providers, and play a critical role in supporting privacy-sensitive applications where the training data are distributed at the edge \e.g.,. Examples of potential applications include: learning sentiment, semantic location, or activities of mobile phone users; adapting to pedestrian behavior in autonomous vehicles; and predicting health events like heart attack risk from wearable devices. We discuss several canonical applications of federated learning below: *Smart phones.* By jointly learning user behavior across a large pool of mobile phones, statistical models can power applications such as next-word prediction, face detection, and voice recognition. However, users may not be willing to share their data in order to protect their personal privacy or to save the limited bandwidth/battery power of their phone. Federated learning has the potential to enable predictive features on smart phones without diminishing the user experience or leaking private information. Figure 1 depicts one such application in which we aim to learn a next-word predictor in a large-scale mobile phone network based on users' historical text data.
 
 <!-- chunk {"id": "body-0007", "role": "body", "section": "Introduction", "weight": 1.5} -->
 
-*Smart phones.* By jointly learning user behavior across a large pool of mobile phones, statistical models can power applications such as next-word prediction, face detection, and voice recognition. However, users may not be willing to share their data in order to protect their personal privacy or to save the limited bandwidth/battery power of their phone. Federated learning has the potential to enable predictive features on smart phones without diminishing the user experience or leaking private information. Figure 1 depicts one such application in which we aim to learn a next-word predictor in a large-scale mobile phone network based on users' historical text data.
+*Organizations.* Organizations or institutions can also be viewed as 'devices' in the context of federated learning. For example, hospitals are organizations that contain a multitude of patient data for predictive healthcare. However, hospitals operate under strict privacy practices, and may face legal, administrative, or ethical constraints that require data to remain local. Federated learning is a promising solution for these applications, as it can reduce strain on the network and enable private learning between various devices/organizations.
 
 <!-- chunk {"id": "body-0008", "role": "body", "section": "Introduction", "weight": 1.5} -->
 
-*Organizations.* Organizations or institutions can also be viewed as 'devices' in the context of federated learning. For example, hospitals are organizations that contain a multitude of patient data for predictive healthcare. However, hospitals operate under strict privacy practices, and may face legal, administrative, or ethical constraints that require data to remain local. Federated learning is a promising solution for these applications, as it can reduce strain on the network and enable private learning between various devices/organizations.
-
-<!-- chunk {"id": "body-0009", "role": "body", "section": "Introduction", "weight": 1.5} -->
-
 *Internet of things.* Modern IoT networks, such as wearable devices, autonomous vehicles, or smart homes, may contain numerous sensors that allow them to collect, react, and adapt to incoming data in real-time. For example, a fleet of autonomous vehicles may require an up-to-date model of traffic, construction, or pedestrian behavior to safely operate. However, building aggregate models in these scenarios may be difficult due to the private nature of the data and the limited connectivity of each device. Federated learning methods can help to train models that efficiently adapt to changes in these systems while maintaining user privacy.
+
+<!-- chunk {"id": "body-0009", "role": "body", "section": "Problem Formulation", "weight": 1.0} -->
+
+The canonical federated learning problem involves learning a *single, global* statistical model from data stored on tens to potentially millions of remote devices. We aim to learn this model under the constraint that device-generated data is stored and processed locally, with only intermediate updates being communicated periodically with a central server. In particular, the goal is typically to minimize the following objective function: Here, $m$ is the total number of devices, $p_{k} \geq 0$ and ${\sum_{k}p_{k}} = 1$, and $F_{k}$ is the local objective function for the $k$th device.
 
 <!-- chunk {"id": "body-0010", "role": "body", "section": "Problem Formulation", "weight": 1.0} -->
 
-The canonical federated learning problem involves learning a *single, global* statistical model from data stored on tens to potentially millions of remote devices. We aim to learn this model under the constraint that device-generated data is stored and processed locally, with only intermediate updates being communicated periodically with a central server.
+The local objective function is often defined as the empirical risk over local data, i.e., ${F_{k}{(w)}} = {\frac{1}{n_{k}}{\sum_{j_{k} = 1}^{n_{k}}{f_{j_{k}}{(w;x_{j_{k}},y_{j_{k}})}}}}$, where $n_{k}$ is the number of samples available locally. The user-defined term $p_{k}$ specifies the relative impact of each device, with two natural settings being $p_{k} = \frac{1}{n}$ or $p_{k} = \frac{n_{k}}{n}$, where $n = {\sum_{k}n_{k}}$ is the total number of samples. We will reference problem throughout the article, but, as discussed below, we note that other objectives or modeling approaches may be appropriate depending on the application of interest.
 
-<!-- chunk {"id": "body-0011", "role": "body", "section": "Problem Formulation", "weight": 1.0} -->
-
-The user-defined term $p_{k}$ specifies the relative impact of each device, with two natural settings being $p_{k} = \frac{1}{n}$ or $p_{k} = \frac{n_{k}}{n}$, where $n = {\sum_{k}n_{k}}$ is the total number of samples. We will reference problem throughout the article, but, as discussed below, we note that other objectives or modeling approaches may be appropriate depending on the application of interest.
-
-<!-- chunk {"id": "body-0012", "role": "body", "section": "Core Challenges", "weight": 1.0} -->
+<!-- chunk {"id": "body-0011", "role": "body", "section": "Core Challenges", "weight": 1.0} -->
 
 We next describe four of the core challenges associated with solving the distributed optimization problem posed. These challenges make the federated setting distinct from other classical problems, such as distributed learning in data center settings or traditional private data analyses.
 
-<!-- chunk {"id": "body-0013", "role": "body", "section": "Core Challenges", "weight": 1.0} -->
+<!-- chunk {"id": "body-0012", "role": "body", "section": "Core Challenges", "weight": 1.0} -->
 
 Challenge 1: Expensive Communication. Communication is a critical bottleneck in federated networks, which, coupled with privacy concerns over sending raw data, necessitates that data generated on each device remain local. Indeed, federated networks are potentially comprised of a massive number of devices, e.g., millions of smart phones, and communication in the network can be slower than local computation by many orders of magnitude. In order to fit a model to data generated by the devices in the federated network, it is therefore necessary to develop communication-efficient methods that iteratively send small messages or model updates as part of the training process, as opposed to sending the entire dataset over the network. To further reduce communication in such a setting, two key aspects to consider are: (i) reducing the total number of communication rounds, or (ii) reducing the size of transmitted messages at each round.
 
-<!-- chunk {"id": "body-0014", "role": "body", "section": "Core Challenges", "weight": 1.0} -->
+<!-- chunk {"id": "body-0013", "role": "body", "section": "Core Challenges", "weight": 1.0} -->
 
 Challenge 2: Systems Heterogeneity. The storage, computational, and communication capabilities of each device in federated networks may differ due to variability in hardware (CPU, memory), network connectivity (3G, 4G, 5G, wifi), and power (battery level). Additionally, the network size and systems-related constraints on each device typically result in only a small fraction of the devices being active at once, e.g., hundreds of active devices in a million-device network. Each device may also be unreliable, and it is not uncommon for an active device to drop out at a given iteration due to connectivity or energy constraints. These system-level characteristics dramatically exacerbate challenges such as straggler mitigation and fault tolerance. Federated learning methods that are developed and analyzed must therefore: (i) anticipate a low amount of participation, (ii) tolerate heterogeneous hardware, and (iii) be robust to dropped devices in the network.
 
-<!-- chunk {"id": "body-0015", "role": "body", "section": "Core Challenges", "weight": 1.0} -->
+<!-- chunk {"id": "body-0014", "role": "body", "section": "Core Challenges", "weight": 1.0} -->
 
 Challenge 3: Statistical Heterogeneity. Devices frequently generate and collect data in a non-identically distributed manner across the network, e.g., mobile phone users have varied use of language in the context of a next word prediction task. Moreover, the number of data points across devices may vary significantly, and there may be an underlying structure present that captures the relationship amongst devices and their associated distributions. This data generation paradigm violates frequently-used independent and identically distributed (I.I.D.) assumptions in distributed optimization, increases the likelihood of stragglers, and may add complexity in terms of modeling, analysis, and evaluation. Indeed, although the canonical federated learning problem of aims to learn a single global model, there exist other alternatives such as simultaneously learning distinct local models via multi-task learning frameworks \cf.. There is also a close connection in this regard between leading approaches for federated learning and meta-learning. Both the multi-task and meta-learning perspectives enable *personalized* or *device-specific* modeling, which is often a more natural approach to handle the statistical heterogeneity of the data.
 
-<!-- chunk {"id": "body-0016", "role": "body", "section": "Core Challenges", "weight": 1.0} -->
+<!-- chunk {"id": "body-0015", "role": "body", "section": "Core Challenges", "weight": 1.0} -->
 
 Challenge 4: Privacy Concerns. Finally, privacy is often a major concern in federated learning applications. Federated learning makes a step towards protecting data generated on each device by sharing model updates, e.g., gradient information, instead of the raw data. However, communicating model updates throughout the training process can nonetheless reveal sensitive information, either to a third-party, or to the central server. While recent methods aim to enhance the privacy of federated learning using tools such as secure multiparty computation or differential privacy, these approaches often provide privacy at the cost of reduced model performance or system efficiency. Understanding and balancing these trade-offs, both theoretically and empirically, is a considerable challenge in realizing private federated learning systems.
 
-<!-- chunk {"id": "body-0017", "role": "body", "section": "Core Challenges", "weight": 1.0} -->
+<!-- chunk {"id": "body-0016", "role": "body", "section": "Core Challenges", "weight": 1.0} -->
 
 The remainder of this article is organized as follows. In Section 2, we introduce previous and current works that aim to address the four discussed challenges of federated learning. In Section 3, we outline several promising directions of future research.
 
-<!-- chunk {"id": "body-0018", "role": "body", "section": "Survey of Related and Current Work", "weight": 1.0} -->
+<!-- chunk {"id": "body-0017", "role": "body", "section": "Survey of Related and Current Work", "weight": 1.0} -->
 
 The challenges in federated learning at first glance resemble classical problems in areas such as privacy, large-scale machine learning, and distributed optimization. For instance, numerous methods have been proposed to tackle expensive communication in the machine learning, optimization, and signal processing communities. However, these methods are typically unable to fully handle the scale of federated networks, much less the challenges of systems and statistical heterogeneity. Similarly, while privacy is an important aspect for many machine learning applications, privacy-preserving methods for federated learning can be challenging to rigorously assert due to the statistical variation in the data, and may be even more difficult to implement due to systems constraints on each device and across the potentially massive network. In this section, we explore in more detail the challenges presented in Section 1, including a discussion of classical results as well as more recent work focused specifically on federated learning.
 
-<!-- chunk {"id": "body-0019", "role": "body", "section": "Communication-efficiency", "weight": 1.0} -->
+<!-- chunk {"id": "body-0018", "role": "body", "section": "Communication-efficiency", "weight": 1.0} -->
 
 Communication is a key bottleneck to consider when developing methods for federated networks. While it is beyond the scope of this article to provide a self-contained review of communication-efficient distributed learning methods, we point out several general directions, which we group into local updating methods, compression schemes, and decentralized training.
 
-<!-- chunk {"id": "body-0020", "role": "body", "section": "Local Updating", "weight": 1.0} -->
+<!-- chunk {"id": "body-0019", "role": "body", "section": "Local Updating", "weight": 1.0} -->
 
 Mini-batch optimization methods, which involve extending classical stochastic methods to process multiple data points at a time, have emerged as a popular paradigm for distributed machine learning in data center environments. In practice, however, they have been shown to have limited flexibility to adapt to communication-computation trade-offs that would maximally leverage distributed data processing. In response, several recent methods have been proposed to improve communication-efficiency in distributed settings by allowing for a variable number of local updates to be applied on each machine in parallel at each communication round, making the amount of computation versus communication substantially more flexible. For convex objectives, distributed local-updating *primal-dual* methods have emerged as a popular way to tackle such a problem. These approaches leverage duality structure to effectively decompose the global objective into subproblems that can be solved in parallel at each communication round. Several distributed local-updating *primal* methods have also been proposed, which have the added benefit of being applicable to non-convex objectives. These methods drastically improve performance in practice, and have been shown to achieve orders-of-magnitude speedups over traditional mini-batch methods or distributed approaches like ADMM in real-world data center environments.
 
-<!-- chunk {"id": "body-0021", "role": "body", "section": "Local Updating", "weight": 1.0} -->
+<!-- chunk {"id": "body-0020", "role": "body", "section": "Local Updating", "weight": 1.0} -->
 
 We provide an intuitive illustration of local updating methods in Figure 2.
 
-<!-- chunk {"id": "body-0022", "role": "body", "section": "Local Updating", "weight": 1.0} -->
+<!-- chunk {"id": "body-0021", "role": "body", "section": "Local Updating", "weight": 1.0} -->
 
 In federated settings, optimization methods that allow for flexible local updating and low client participation have become the de facto solvers. The most commonly used method for federated learning is Federated Averaging (FedAvg), a method based on averaging local stochastic gradient descent (SGD) updates for the primal problem. FedAvg has been shown to work well empirically, particularly for non-convex problems, but comes without convergence guarantees and can diverge in practical settings when data are heterogeneous. We discuss methods to handle such statistical heterogeneity in more detail in Section 2.3.2.
 
-<!-- chunk {"id": "body-0023", "role": "body", "section": "Compression Schemes", "weight": 1.0} -->
+<!-- chunk {"id": "body-0022", "role": "body", "section": "Compression Schemes", "weight": 1.0} -->
 
 While local updating methods can reduce the total number of communication rounds, model compression schemes such as sparsification, subsampling, and quantization can significantly reduce the size of messages communicated at each round. These methods have been extensively studied, both empirically and theoretically, in previous literature for distributed training in data center environments; we defer the readers to for a more complete review. In federated environments, the low participation of devices, non-identically distributed local data, and local updating schemes pose novel challenges to these model compression approaches. For instance, the commonly-used error compensation techniques in classical distributed learning cannot be directly extended to federated settings as the errors accumulated locally may be stale if the devices are not frequently sampled. Nevertheless, several works have provided practical strategies in federated settings, such as forcing the updating models to be sparse and low-rank; performing quantization with structured random rotations; using lossy compression and dropout to reduce server-to-device communication; and applying Golomb lossless encoding.
 
-<!-- chunk {"id": "body-0024", "role": "body", "section": "Compression Schemes", "weight": 1.0} -->
+<!-- chunk {"id": "body-0023", "role": "body", "section": "Compression Schemes", "weight": 1.0} -->
 
 From a theoretical perspective, while prior work has explored convergence guarantees with low-precision training in the presence of non-identically distributed data \e.g. the assumptions made do not take into consideration common characteristics of the federated setting, such as low device participation or locally-updating optimization methods.
 
-<!-- chunk {"id": "body-0025", "role": "body", "section": "Decentralized Training", "weight": 1.0} -->
+<!-- chunk {"id": "body-0024", "role": "body", "section": "Decentralized Training", "weight": 1.0} -->
 
 In federated learning, a star network (where a central server is connected to a network of devices, as in the left panel of Figure 3) is the predominant communication topology; we therefore focus on the star-network setting in this article. However, we briefly discuss decentralized topologies (where devices only communicate with their neighbors, e.g., the right panel of Figure 3) as a potential alternative. In data center environments, decentralized training has been demonstrated to be faster than centralized training when operating on networks with low bandwidth or high latency; we defer readers to for a more comprehensive review. Similarly, in federated learning, decentralized algorithms can in theory reduce the high communication cost on the central server. Some recent works have investigated decentralized training over heterogeneous data with local updating schemes. However, they are either restricted to linear models or assume full device participation. Finally, hierarchical communication patterns have also been proposed to further ease the burden on the central server, by first leveraging *edge servers* to aggregate the updates from edge devices and then relying on a *cloud server* to aggregate updates from edge servers.
 
-<!-- chunk {"id": "body-0026", "role": "body", "section": "Decentralized Training", "weight": 1.0} -->
+<!-- chunk {"id": "body-0025", "role": "body", "section": "Decentralized Training", "weight": 1.0} -->
 
 While this is a promising approach to reduce communication, it is not applicable to all networks, as this type of physical hierarchy may not exist or be known a priori.
 
-<!-- chunk {"id": "body-0027", "role": "body", "section": "Systems Heterogeneity", "weight": 1.0} -->
+<!-- chunk {"id": "body-0026", "role": "body", "section": "Systems Heterogeneity", "weight": 1.0} -->
 
 In federated settings, there is significant variability in the *systems* characteristics across the network, as devices may differ in terms of hardware, network connectivity, and battery power. As depicted in Figure 4, these systems characteristics make issues such as stragglers significantly more prevalent than in typical data center environments. We roughly group several key directions to handle systems heterogeneity into: (i) asynchronous communication, (ii) active device sampling, and (ii) fault tolerance. As mentioned in Section 2.1.3, we assume a star topology in our following discussions.
 
-<!-- chunk {"id": "body-0028", "role": "body", "section": "Asynchronous Communication", "weight": 1.0} -->
+<!-- chunk {"id": "body-0027", "role": "body", "section": "Asynchronous Communication", "weight": 1.0} -->
 
 In traditional data center settings, synchronous and asynchronous schemes are both commonly used to parallelize iterative optimization algorithms, with each approach having pros and cons. Synchronous schemes are simple and guarantee a serial-equivalent computational model, but they are also more susceptible to stragglers in the face of device variability. Asynchronous schemes are an attractive approach to mitigate stragglers in heterogeneous environments, particularly in shared-memory systems. However, they typically rely on bounded-delay assumptions to control the degree of staleness, which for device $k$ depends on the number of other devices that have updated since device $k$ pulled from the central server. While asynchronous parameter servers have been successful in distributed data centers \e.g. classical bounded-delay assumptions can be unrealistic in federated settings, where the delay may be on the order of hours to days, or completely unbounded.
 
-<!-- chunk {"id": "body-0029", "role": "body", "section": "Active Sampling", "weight": 1.0} -->
+<!-- chunk {"id": "body-0028", "role": "body", "section": "Active Sampling", "weight": 1.0} -->
 
 In federated networks, typically only a small subset of devices participate at each round of training. However, the vast majority of federated methods, e.g. those described, are *passive* in that they do not aim to influence which devices participate. An alternative approach involves *actively* selecting participating devices at each round. For example, Nishio and Yonetani explore novel device sampling policies based on systems resources, with the aim being for the server to aggregate as many device updates as possible within a pre-defined time window. Similarly, Kang et al. take into account systems overheads incurred on each device when designing incentive mechanisms to encourage devices with higher-quality data to participate in the learning process. However, these methods assume a static model of the systems characteristics of the network; it remains open how to extend these approaches to handle real-time, device-specific fluctuations in computation and communication delays. Moreover, while these methods primarily focus on systems variability to perform active sampling, we note that it is also worth considering actively sampling a set of small but sufficiently representative devices based on the underlying *statistical* structure.
 
-<!-- chunk {"id": "body-0030", "role": "body", "section": "Fault Tolerance", "weight": 1.0} -->
+<!-- chunk {"id": "body-0029", "role": "body", "section": "Fault Tolerance", "weight": 1.0} -->
 
 Fault tolerance has been extensively studied in the systems community and is a fundamental consideration of classical distributed systems. Recent works have also investigated fault tolerance specifically for machine learning workloads in data center environments \e.g.,. When learning over remote devices, however, fault tolerance becomes more critical as it is common for some participating devices to drop out at some point before the completion of the given training iteration. One practical strategy is to simply ignore such device failure, which may introduce bias into the device sampling scheme if the failed devices have specific data characteristics. For instance, devices from remote areas may be more likely to drop due to poor network connections and thus the trained federated model will be biased towards devices with favorable network conditions. Theoretically, while several recent works have investigated convergence guarantees of variants of federated learning methods, few analyses allow for low participation \e.g. or study directly the effect of dropped devices.
 
-<!-- chunk {"id": "body-0031", "role": "body", "section": "Fault Tolerance", "weight": 1.0} -->
+<!-- chunk {"id": "body-0030", "role": "body", "section": "Fault Tolerance", "weight": 1.0} -->
 
 *Coded computation* is another option to tolerate device failures by introducing algorithmic redundancy. Recent works have explored using codes to speed up distributed machine learning training \e.g.,. For instance, in the presence of stragglers, gradient coding and its variants carefully replicate data blocks (as well as the gradient computation on those data blocks) across computing nodes to obtain either exact or inexact recovery of the true gradients. While this is a seemingly promising approach for the federated setting, these methods face fundamental challenges in federated networks as sharing data/replication across devices is often infeasible due to privacy constraints and the scale of the network.
 
-<!-- chunk {"id": "body-0032", "role": "body", "section": "Statistical Heterogeneity", "weight": 1.0} -->
+<!-- chunk {"id": "body-0031", "role": "body", "section": "Statistical Heterogeneity", "weight": 1.0} -->
 
 Challenges arise when training federated models from data that is not identically distributed across devices, both in terms of modeling the data (as depicted in Figure 5), and in terms of analyzing the convergence behavior of associated training procedures. We discuss related work in these directions below.
 
-<!-- chunk {"id": "body-0033", "role": "body", "section": "Statistical Heterogeneity", "weight": 1.0} -->
+<!-- chunk {"id": "body-0032", "role": "body", "section": "Statistical Heterogeneity", "weight": 1.0} -->
 
 (a) Learn personalized models for each device; do not learn from peers.
 
-<!-- chunk {"id": "body-0034", "role": "body", "section": "Statistical Heterogeneity", "weight": 1.0} -->
+<!-- chunk {"id": "body-0033", "role": "body", "section": "Statistical Heterogeneity", "weight": 1.0} -->
 
 (b) Learn a global model; learn from peers.
 
-<!-- chunk {"id": "body-0035", "role": "body", "section": "Statistical Heterogeneity", "weight": 1.0} -->
+<!-- chunk {"id": "body-0034", "role": "body", "section": "Statistical Heterogeneity", "weight": 1.0} -->
 
 (c) Learn personalized models for each device; learn from peers.
 
-<!-- chunk {"id": "body-0036", "role": "body", "section": "Modeling Heterogeneous Data", "weight": 1.0} -->
+<!-- chunk {"id": "body-0035", "role": "body", "section": "Modeling Heterogeneous Data", "weight": 1.0} -->
 
 There exists a large body of literature in machine learning that has modeled statistical heterogeneity via methods such as meta-learning and multi-task learning; these ideas have been recently extended to the federated setting. For instance, MOCHA, an optimization framework designed for the federated setting, can allow for personalization by learning *separate* but related models for each device while leveraging a shared representation via multi-task learning. This method has provable theoretical convergence guarantees for the considered objectives, but is limited in its ability to scale to massive networks and is restricted to convex objectives. Another approach models the star topology as a Bayesian network and performs variational inference during learning. Although this method can handle non-convex models, it is expensive to generalize to large federated networks. Khodak et al. provably meta-learn a within-task learning rate using multi-task information (where each task corresponds to a device) and have demonstrated improved empirical performance over vanilla FedAvg. Eichner et al. investigate a pluralistic solution (adaptively choosing between a global model and device-specific models) to address the cyclic patterns in data samples during federated training.
 
-<!-- chunk {"id": "body-0037", "role": "body", "section": "Modeling Heterogeneous Data", "weight": 1.0} -->
+<!-- chunk {"id": "body-0036", "role": "body", "section": "Modeling Heterogeneous Data", "weight": 1.0} -->
 
 Zhao et al. explore transfer learning for personalization by running FedAvg after training a global model centrally on some shared proxy data. Despite these recent advances, key challenges still remain in making methods for heterogeneous modeling that are robust, scalable, and automated in federated settings.
 
-<!-- chunk {"id": "body-0038", "role": "body", "section": "Modeling Heterogeneous Data", "weight": 1.0} -->
+<!-- chunk {"id": "body-0037", "role": "body", "section": "Modeling Heterogeneous Data", "weight": 1.0} -->
 
 When modeling federated data, it may also be important to consider issues beyond accuracy, such as fairness. In particular, naively solving an aggregate loss function such as in may implicitly advantage or disadvantage some of the devices, as the learned model may become biased towards devices with larger amounts of data, or (if weighting devices equally), to commonly occurring groups of devices. Recent works have proposed modified modeling approaches that aim to reduce the variance of the model performance across devices. Some heuristics simply perform a varied number of local updates based on local loss. Other more principled approaches include Agnostic Federated Learning, which optimizes the centralized model for any target distribution formed by a mixture of the client distributions via a minimax optimization scheme. Another more general approach is taken by Li et al., which proposes an objective called $q$-FFL in which devices with higher loss are given higher relative weight to encourage less variance in the final accuracy distribution. Beyond issues of fairness, we note that aspects such as accountability and interpretability in federated learning are additionally worth exploring, but may be challenging due to the scale and heterogeneity of the network.
 
-<!-- chunk {"id": "body-0039", "role": "body", "section": "Convergence Guarantees for Non-IID Data", "weight": 1.0} -->
+<!-- chunk {"id": "body-0038", "role": "body", "section": "Convergence Guarantees for Non-IID Data", "weight": 1.0} -->
 
 Statistical heterogeneity also presents novel challenges in terms of analyzing the convergence behavior in federated settings---even when learning a single global model. Indeed, when data is not identically distributed across devices in the network, methods such as FedAvg have been shown to diverge in practice. Parallel SGD and related variants, which make local updates similar to FedAvg, have been analyzed in the I.I.D. setting. However, the results rely on the premise that each local solver is a copy of the same stochastic process (due to the I.I.D. assumption), which is not the case in typical federated settings. To understand the performance of FedAvg in statistically heterogeneous settings, FedProx has recently been proposed. FedProx makes a small modification to the FedAvg method to help ensure convergence, both theoretically and in practice. FedProx can also be interpreted as a generalized, reparameterized version of FedAvg that has practical ramifications in the context of accounting for systems heterogeneity across devices.
 
-<!-- chunk {"id": "body-0040", "role": "body", "section": "Convergence Guarantees for Non-IID Data", "weight": 1.0} -->
+<!-- chunk {"id": "body-0039", "role": "body", "section": "Convergence Guarantees for Non-IID Data", "weight": 1.0} -->
 
 Several other works have also explored convergence guarantees in the presence of heterogeneous data with different assumptions, e.g., convexity or uniformly bounded gradients. There are also heuristic approaches that aim to tackle statistical heterogeneity, either by sharing local device data or some server-side proxy data. However, these methods may be unrealistic: in addition to imposing burdens on network bandwidth, sending local data to the server violates the key privacy assumption of federated learning, and sending globally-shared proxy data to all devices requires effort to carefully generate or collect such auxiliary data.
 
-<!-- chunk {"id": "body-0041", "role": "body", "section": "Privacy", "weight": 1.0} -->
+<!-- chunk {"id": "body-0040", "role": "body", "section": "Privacy", "weight": 1.0} -->
 
 Privacy concerns often motivate the need to keep raw data on each device local in federated settings. However, sharing other information such as model updates as part of the training process can also leak sensitive user information. For instance, Carlini et al. demonstrate that one can extract sensitive text patterns, e.g., a specific credit card number, from a recurrent neural network trained on users' language data. Given increasing interest in privacy-preserving learning approaches, in Section 2.4.1, we first briefly revisit prior work on enhancing privacy in the general (distributed) machine learning setting. We then review recent privacy-preserving methods specifically designed for federated settings in Section 2.4.2.
 
-<!-- chunk {"id": "body-0042", "role": "body", "section": "Privacy in Machine Learning", "weight": 1.0} -->
+<!-- chunk {"id": "body-0041", "role": "body", "section": "Privacy in Machine Learning", "weight": 1.0} -->
 
 Privacy-preserving learning has been extensively studied by the machine learning \e.g. systems \e.g. and theory \e.g., communities. Three main strategies, each of which we will briefly review, include differential privacy to communicate noisy data sketches, homomorphic encryption to operate on encrypted data, and secure function evaluation or multiparty computation.
 
-<!-- chunk {"id": "body-0043", "role": "body", "section": "Privacy in Machine Learning", "weight": 1.0} -->
+<!-- chunk {"id": "body-0042", "role": "body", "section": "Privacy in Machine Learning", "weight": 1.0} -->
 
 Among these various privacy approaches, differential privacy is most widely used due to its strong information theoretic guarantees, algorithmic simplicity, and relatively small systems overhead. Simply put, a randomized mechanism is differentially private if the change of one input element will not result in too much difference in the output distribution; this means that one cannot draw any conclusions about whether or not a specific sample is used in the learning process. Such sample-level privacy can be achieved in many learning tasks. For gradient-based learning methods, a popular approach is to apply differential privacy by randomly perturbing the intermediate output at each iteration \e.g.,. Before applying the perturbation, e.g., via Gaussian noise, Laplacian noise, or Binomial noise, it is common to clip the gradients in order to bound the influence of each example on the overall update. There exists an inherent trade-off between differential privacy and model accuracy, as adding more noise results in greater privacy, but may compromise accuracy significantly.
 
-<!-- chunk {"id": "body-0044", "role": "body", "section": "Privacy in Machine Learning", "weight": 1.0} -->
+<!-- chunk {"id": "body-0043", "role": "body", "section": "Privacy in Machine Learning", "weight": 1.0} -->
 
 Despite the fact that differential privacy is the de facto metric for privacy in machine learning, there are many other privacy definitions, such as $k$-anonymity, $\delta$-presence and distance correlation, that may be applicable to different learning problems.
 
-<!-- chunk {"id": "body-0045", "role": "body", "section": "Privacy in Machine Learning", "weight": 1.0} -->
+<!-- chunk {"id": "body-0044", "role": "body", "section": "Privacy in Machine Learning", "weight": 1.0} -->
 
 Beyond differential privacy, homomorphic encryption can be used to secure the learning process by computing on encrypted data, although it has currently been applied in limited settings, e.g., training linear models or involving only a few entities. When the sensitive datasets are distributed across different data owners, another natural option is to perform privacy-preserving learning via secure function evaluation (SFE) or secure multiparty computation (SMC). The resulting protocols can enable multiple parties to collaboratively compute an agreed-upon function without leaking input information from any party except for what can be inferred from the output \e.g.,. Thus, while SMC cannot guarantee protection from information leakage, it can be combined with differential privacy to achieve stronger privacy guarantees. However, approaches along these lines may not be applicable to large-scale machine learning scenarios as they incur substantial additional communication and computation costs. Moreover, SMC protocols need to be carefully designed and implemented for each operation in the targeted learning algorithm. We defer interested readers to for a more comprehensive review of the approaches based on homomorphic encryption and SMC.
 
-<!-- chunk {"id": "body-0046", "role": "body", "section": "Privacy in Machine Learning", "weight": 1.0} -->
+<!-- chunk {"id": "body-0045", "role": "body", "section": "Privacy in Machine Learning", "weight": 1.0} -->
 
 (a) Federated learning without additional privacy protection mechanisms.
 
-<!-- chunk {"id": "body-0047", "role": "body", "section": "Privacy in Machine Learning", "weight": 1.0} -->
+<!-- chunk {"id": "body-0046", "role": "body", "section": "Privacy in Machine Learning", "weight": 1.0} -->
 
 (b) Global privacy, where a trusted server is assumed.
 
-<!-- chunk {"id": "body-0048", "role": "body", "section": "Privacy in Machine Learning", "weight": 1.0} -->
+<!-- chunk {"id": "body-0047", "role": "body", "section": "Privacy in Machine Learning", "weight": 1.0} -->
 
 (c) Local privacy, where the central server might be malicious.
 
-<!-- chunk {"id": "body-0049", "role": "body", "section": "Privacy in Federated Learning", "weight": 1.0} -->
+<!-- chunk {"id": "body-0048", "role": "body", "section": "Privacy in Federated Learning", "weight": 1.0} -->
 
 The federated setting poses novel challenges to existing privacy-preserving algorithms. Beyond providing rigorous privacy guarantees, it is necessary to develop methods that are computationally cheap, communication-efficient, and tolerant to dropped devices---all without overly compromising accuracy. Although there are a variety of privacy definitions in federated learning, typically they can be classified into two categories: global privacy and local privacy. As demonstrated in Figure 6, global privacy requires that the model updates generated at each round are private to all untrusted third parties other than the central server, while local privacy further requires that the updates are also private to the server.
 
-<!-- chunk {"id": "body-0050", "role": "body", "section": "Privacy in Federated Learning", "weight": 1.0} -->
+<!-- chunk {"id": "body-0049", "role": "body", "section": "Privacy in Federated Learning", "weight": 1.0} -->
 
 Current works that aim to improve the privacy of federated learning typically build upon previous classical cryptographic protocols such as SMC and differential privacy. Bonawitz et al. introduce an SMC protocol to protect individual model updates. The central server is not able to see any local updates, but can still observe the exact aggregated results at each round. SMC is a lossless method, and can retain the original accuracy with a very high privacy guarantee. However, the resulting method incurs significant extra communication cost. Other works apply differential privacy to federated learning and offer global differential privacy. These approaches have a number of hyperparameters that affect communication and accuracy that must be carefully chosen, though follow up work proposes adaptive gradient clipping strategies to help alleviate this issue. In the case where stronger privacy guarantees are required, Bhowmick et al. introduce a relaxed version of local privacy by limiting the power of potential adversaries. It affords stronger privacy guarantees than global privacy, and has better model performance than strict local privacy. Li et al. propose locally differentially-private algorithms in the context of meta-learning, which can be applied to federated learning with personalization, while also providing provable learning guarantees in convex settings.
 
-<!-- chunk {"id": "body-0051", "role": "body", "section": "Privacy in Federated Learning", "weight": 1.0} -->
+<!-- chunk {"id": "body-0050", "role": "body", "section": "Privacy in Federated Learning", "weight": 1.0} -->
 
 In addition, differential privacy can be combined with model compression techniques to reduce communication and obtain privacy benefits simultaneously.
 
-<!-- chunk {"id": "body-0052", "role": "body", "section": "Future Directions", "weight": 1.0} -->
+<!-- chunk {"id": "body-0051", "role": "body", "section": "Future Directions", "weight": 1.0} -->
 
 Federated learning is an active and ongoing area of research. Although recent work has begun to address the challenges discussed in Section 2, there are a number of critical open directions yet to be explored. In this section, we briefly outline a few promising research directions surrounding the previously discussed challenges (expensive communication, systems heterogeneity, statistical heterogeneity, and privacy concerns), and introduce additional challenges regarding issues such as productionizing and benchmarking in federated settings.
 
-<!-- chunk {"id": "body-0053", "role": "body", "section": "Future Directions", "weight": 1.0} -->
+<!-- chunk {"id": "body-0052", "role": "body", "section": "Future Directions", "weight": 1.0} -->
 
 Extreme communication schemes. It remains to be seen how much communication is necessary in federated learning. Indeed, it is well-known that optimization methods for machine learning can tolerate a lack of precision; this error can in fact help with generalization. While one-shot or divide-and-conquer communication schemes have been explored in traditional data center settings, the behavior of these methods is not well-understood in massive or statistical heterogeneous networks. Similarly, one-shot/few-shot heuristics have recently been proposed for the federated setting, but have yet to be theoretically analyzed or evaluated at scale.
 
-<!-- chunk {"id": "body-0054", "role": "body", "section": "Future Directions", "weight": 1.0} -->
+<!-- chunk {"id": "body-0053", "role": "body", "section": "Future Directions", "weight": 1.0} -->
 
 Communication reduction and the Pareto frontier. We discussed several ways to reduce communication in federated training, such as local updating and model compression. In order to create a realistic system for federated learning, it is important to understand how these techniques compose with one another, and to systematically analyze the trade-off between accuracy and communication for each approach. In particular, the most useful techniques will demonstrate improvements at the Pareto frontier---achieving an accuracy greater than any other approach under the same communication budget, and ideally, across a wide range of communication/accuracy profiles. Similar comprehensive analyses have been performed for efficient neural network inference \e.g. and are necessary in order to compare communication-reduction techniques for federated learning in a meaningful way.
 
-<!-- chunk {"id": "body-0055", "role": "body", "section": "Future Directions", "weight": 1.0} -->
+<!-- chunk {"id": "body-0054", "role": "body", "section": "Future Directions", "weight": 1.0} -->
 
 Novel models of asynchrony. As discussed in Section 2.2.1, two communication schemes most commonly studied in distributed optimization are bulk synchronous approaches and asynchronous approaches (where it is assumed that the delay is bounded). These schemes are more realistic in data center settings---where worker nodes are typically *dedicated* to the workload, i.e., they are ready to 'pull' their next job from the central node immediately after they 'push' the results of their previous job. In contrast, in federated networks, each device is often *undedicated* to the task at hand and most devices are not active on any given iteration. Therefore, it is worth studying the effects of this more realistic *device-centric* communication scheme---in which each device can decide when to 'wake up' and interact with the central server in an event-triggered manner.
 
-<!-- chunk {"id": "body-0056", "role": "body", "section": "Future Directions", "weight": 1.0} -->
+<!-- chunk {"id": "body-0055", "role": "body", "section": "Future Directions", "weight": 1.0} -->
 
 Heterogeneity diagnostics. Recent works have aimed to quantify statistical heterogeneity through metrics such as local dissimilarity (as defined in the context of federated learning in and used for other purposes in works such as ) and earth mover's distance. However, these metrics cannot be easily calculated over the federated network before training occurs. The importance of these metrics motivates the following open questions: (i) Do simple diagnostics exist to quickly determine the level of heterogeneity in federated networks a priori? (ii) Can analogous diagnostics be developed to quantify the amount of *systems-related* heterogeneity? (iii) Can current or new definitions of heterogeneity be exploited to further improve the convergence of federated optimization methods?
 
-<!-- chunk {"id": "body-0057", "role": "body", "section": "Future Directions", "weight": 1.0} -->
+<!-- chunk {"id": "body-0056", "role": "body", "section": "Future Directions", "weight": 1.0} -->
 
 Granular privacy constraints. The definitions of privacy outlined in Section 2.4.2 cover privacy at a local or global level with respect to all devices in the network. However, in practice, it may be necessary to define privacy on a more granular level, as privacy constraints may differ across devices or even across data points on a single device. For instance, Li et al. recently proposed sample-specific (as opposed to user-specific) privacy guarantees, thus providing a weaker form of privacy in exchange for more accurate models. Developing methods to handle mixed (device-specific or sample-specific) privacy restrictions is an interesting and ongoing direction of future work.
 
-<!-- chunk {"id": "body-0058", "role": "body", "section": "Future Directions", "weight": 1.0} -->
+<!-- chunk {"id": "body-0057", "role": "body", "section": "Future Directions", "weight": 1.0} -->
 
 Beyond supervised learning. It is important to note that the methods discussed thus far have been developed with the task of supervised learning in mind, i.e., they assume that labels exist for all of the data in the federated network. In practice, much of the data generated in realistic federated networks may be unlabeled or weakly labeled. Furthermore, the problem at hand may not be to fit a model to data as presented, but instead to perform some exploratory data analysis, determine aggregate statistics, or run a more complex task such as reinforcement learning. Tackling problems beyond supervised learning in federated networks will likely require addressing similar challenges of scalability, heterogeneity, and privacy.
 
-<!-- chunk {"id": "body-0059", "role": "body", "section": "Future Directions", "weight": 1.0} -->
+<!-- chunk {"id": "body-0058", "role": "body", "section": "Future Directions", "weight": 1.0} -->
 
 Productionizing federated learning. Beyond the major challenges discussed in this article, there are a number of practical concerns that arise when running federated learning in production. In particular, issues such as concept drift (when the underlying data-generation model changes over time); diurnal variations (when the devices exhibit different behavior at different times of the day or week); and cold start problems (when new devices enter the network) must be handled with care. We defer the readers to, which discusses some of the practical systems-related issues that exist in production federated learning systems.
 
-<!-- chunk {"id": "body-0060", "role": "body", "section": "Future Directions", "weight": 1.0} -->
+<!-- chunk {"id": "body-0059", "role": "body", "section": "Future Directions", "weight": 1.0} -->
 
 Benchmarks. Finally, as federated learning is a nascent field, we are at a pivotal time to shape the developments made in this area and ensure that they are grounded in real-world settings, assumptions, and datasets. It is critical for the broader research communities to further build upon existing implementations and benchmarking tools, such as LEAF and TensorFlow Federated, to facilitate both the reproducibility of empirical results and the dissemination of new solutions for federated learning.
 
-<!-- chunk {"id": "body-0061", "role": "body", "section": "Conclusion", "weight": 1.5} -->
+<!-- chunk {"id": "body-0060", "role": "body", "section": "Conclusion", "weight": 1.5} -->
 
 In this article, we have provided an overview of federated learning, a learning paradigm where statistical models are trained at the edge in distributed networks. We have discussed the unique properties and associated challenges of federated learning compared with traditional distributed data center computing and classical privacy-preserving learning. We provided an extensive survey on classical results as well as more recent work specifically focused on federated settings. Finally, we have outlined out a handful of open problems worth future research effort. Providing solutions to these problems will require interdisciplinary effort from a broad set of research communities.

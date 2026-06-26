@@ -38,7 +38,7 @@ Nine months ago, a new effort was started at NVIDIA that sought to build on DAVE
 
 <!-- chunk {"id": "body-0010", "role": "body", "section": "Overview of the DAVE-2 System", "weight": 1.0} -->
 
-Training data contains single images sampled from the video, paired with the corresponding steering command (${}_{}^{}{}_{}^{}$). Training with data from only the human driver is not sufficient. The network must learn how to recover from mistakes. Otherwise the car will slowly drift off the road. The training data is therefore augmented with additional images that show the car in different shifts from the center of the lane and rotations from the direction of the road.
+Training data contains single images sampled from the video, paired with the corresponding steering command (${}_{}^{1}/_{r}^{}$). Training with data from only the human driver is not sufficient. The network must learn how to recover from mistakes. Otherwise the car will slowly drift off the road. The training data is therefore augmented with additional images that show the car in different shifts from the center of the lane and rotations from the direction of the road.
 
 <!-- chunk {"id": "body-0011", "role": "body", "section": "Overview of the DAVE-2 System", "weight": 1.0} -->
 
@@ -126,36 +126,32 @@ In simulation we have the networks provide steering commands in our simulator to
 
 <!-- chunk {"id": "body-0032", "role": "body", "section": "Simulation Tests", "weight": 1.0} -->
 
-We estimate what percentage of the time the network could drive the car (autonomy). The metric is determined by counting simulated "human interventions" (see Section 6). These interventions occur when the simulated vehicle departs from the center line by more than one meter. We assume that in real life an actual intervention would require a total of six seconds: this is the time required for a human to retake control of the vehicle, re-center it, and then restart the self-steering mode.
+We estimate what percentage of the time the network could drive the car (autonomy). The metric is determined by counting simulated "human interventions" (see Section 6). These interventions occur when the simulated vehicle departs from the center line by more than one meter. We assume that in real life an actual intervention would require a total of six seconds: this is the time required for a human to retake control of the vehicle, re-center it, and then restart the self-steering mode. We calculate the percentage autonomy by counting the number of interventions, multiplying by 6 seconds, dividing by the elapsed time of the simulated test, and then subtracting the result from 1: Thus, if we had 10 interventions in 600 seconds, we would have an autonomy value of
 
-<!-- chunk {"id": "body-0033", "role": "body", "section": "Simulation Tests", "weight": 1.0} -->
-
-Thus, if we had 10 interventions in 600 seconds, we would have an autonomy value of
-
-<!-- chunk {"id": "body-0034", "role": "body", "section": "On-road Tests", "weight": 1.0} -->
+<!-- chunk {"id": "body-0033", "role": "body", "section": "On-road Tests", "weight": 1.0} -->
 
 After a trained network has demonstrated good performance in the simulator, the network is loaded on the DRIVE™ PX in our test car and taken out for a road test. For these tests we measure performance as the fraction of time during which the car performs autonomous steering. This time excludes lane changes and turns from one road to another. For a typical drive in Monmouth County NJ from our office in Holmdel to Atlantic Highlands, we are autonomous approximately 98% of the time. We also drove 10 miles on the Garden State Parkway (a multi-lane divided highway with on and off ramps) with zero intercepts.
 
-<!-- chunk {"id": "body-0035", "role": "body", "section": "On-road Tests", "weight": 1.0} -->
+<!-- chunk {"id": "body-0034", "role": "body", "section": "On-road Tests", "weight": 1.0} -->
 
 A video of our test car driving in diverse conditions can be seen.
 
-<!-- chunk {"id": "body-0036", "role": "body", "section": "Visualization of Internal CNN State", "weight": 1.0} -->
+<!-- chunk {"id": "body-0035", "role": "body", "section": "Visualization of Internal CNN State", "weight": 1.0} -->
 
 Figures 7 and 8 show the activations of the first two feature map layers for two different example inputs, an unpaved road and a forest. In case of the unpaved road, the feature map activations clearly show the outline of the road while in case of the forest the feature maps contain mostly noise, i. e., the CNN finds no useful information in this image.
 
-<!-- chunk {"id": "body-0037", "role": "body", "section": "Visualization of Internal CNN State", "weight": 1.0} -->
+<!-- chunk {"id": "body-0036", "role": "body", "section": "Visualization of Internal CNN State", "weight": 1.0} -->
 
 This demonstrates that the CNN learned to detect useful road features on its own, i. e., with only the human steering angle as training signal. We never explicitly trained it to detect the outlines of roads, for example.
 
-<!-- chunk {"id": "body-0038", "role": "body", "section": "Conclusions", "weight": 1.0} -->
+<!-- chunk {"id": "body-0037", "role": "body", "section": "Conclusions", "weight": 1.0} -->
 
 We have empirically demonstrated that CNNs are able to learn the entire task of lane and road following without manual decomposition into road or lane marking detection, semantic abstraction, path planning, and control. A small amount of training data from less than a hundred hours of driving was sufficient to train the car to operate in diverse conditions, on highways, local and residential roads in sunny, cloudy, and rainy conditions. The CNN is able to learn meaningful road features from a very sparse training signal (steering alone).
 
-<!-- chunk {"id": "body-0039", "role": "body", "section": "Conclusions", "weight": 1.0} -->
+<!-- chunk {"id": "body-0038", "role": "body", "section": "Conclusions", "weight": 1.0} -->
 
 The system learns for example to detect the outline of a road without the need of explicit labels during training.
 
-<!-- chunk {"id": "body-0040", "role": "body", "section": "Conclusions", "weight": 1.0} -->
+<!-- chunk {"id": "body-0039", "role": "body", "section": "Conclusions", "weight": 1.0} -->
 
 More work is needed to improve the robustness of the network, to find methods to verify the robustness, and to improve visualization of the network-internal processing steps.

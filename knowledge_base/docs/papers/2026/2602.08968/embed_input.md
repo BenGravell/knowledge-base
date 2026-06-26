@@ -28,13 +28,7 @@ Stable World Model (SWM) goal is to support researchers by reducing the idea-to-
 
 <!-- chunk {"id": "body-0007", "role": "body", "section": "The World interface: streamlined WM research", "weight": 1.0} -->
 
-1 import stable_worldmodel as swm
-3 world = swm.World(’swm/PushT-v1’, num_envs=8)
-4 world.set_policy(YourExpertPolicy)
-6 world.reset # initialize the world
-7 world.step # update the world state with policy
-8 world.infos # current world state (dict)
-Listing 1: World Interface Logic. After specifying the environment ID (e.g., swm/PushT-v1) and the number of simulations, a policy can be attached to enable online interaction with the environment. At any time, all simulation-related information can be accessed via the infos dictionary.
+1 import stable_worldmodel as swm 3 world = swm.World(’swm/PushT-v1’, num_envs=8) 4 world.set_policy(YourExpertPolicy) 6 world.reset # initialize the world 7 world.step # update the world state with policy 8 world.infos # current world state (dict) Listing 1: World Interface Logic. After specifying the environment ID (e.g., swm/PushT-v1) and the number of simulations, a policy can be attached to enable online interaction with the environment. At any time, all simulation-related information can be accessed via the infos dictionary.
 
 <!-- chunk {"id": "body-0008", "role": "body", "section": "The World interface: streamlined WM research", "weight": 1.0} -->
 
@@ -58,19 +52,11 @@ SWM is designed as a collection of diverse environments that span a wide range o
 
 <!-- chunk {"id": "body-0013", "role": "body", "section": "Environments and Factor of Variations", "weight": 1.0} -->
 
-A key feature of SWM is the notion of factors of variation (FoV). Each environment in the library exposes a set of optional controllable properties that enable systematic customization of the environment configuration. These factors of variation span multiple aspects, including visual attributes (e.g., color, shape, textures, lighting), geometric properties (e.g., size, orientation, position), and physical parameters (e.g., friction, damping, mass, gravity). By explicitly exposing these controls, SWM enables fine-grained studies of robustness, generalization, domain shift, and continual learning within a single, unified environment. We provide a toy example in Listing LABEL:lst:swm-fov. More details about FoV can be found in Appendix B
+A key feature of SWM is the notion of factors of variation (FoV). Each environment in the library exposes a set of optional controllable properties that enable systematic customization of the environment configuration. These factors of variation span multiple aspects, including visual attributes (e.g., color, shape, textures, lighting), geometric properties (e.g., size, orientation, position), and physical parameters (e.g., friction, damping, mass, gravity). By explicitly exposing these controls, SWM enables fine-grained studies of robustness, generalization, domain shift, and continual learning within a single, unified environment. We provide a toy example in Listing LABEL:lst:swm-fov. More details about FoV can be found in Appendix B 1 import stable_worldmodel as swm 3 world = swm.World(’swm/PushT-v1’, num_envs=2) 4 world.set_policy(YourExpertPolicy) 6 print(world.single_variation_space.names) # available FoV 8 # dataset with changing all agent FoV, and T color.
 
 <!-- chunk {"id": "body-0014", "role": "body", "section": "Environments and Factor of Variations", "weight": 1.0} -->
 
-1 import stable_worldmodel as swm
-3 world = swm.World(’swm/PushT-v1’, num_envs=2)
-4 world.set_policy(YourExpertPolicy)
-6 print(world.single_variation_space.names) # available FoV
-8 # dataset with changing all agent FoV, and T color.
-9 world.record_dataset(
-10 dataset_name=’pusht_demo’,episodes=4, seed=0,
-11 options={"variation": ["agent", "block.color"]},
-Listing 2: SWM Factor of Variation Logic. During data collection or world reset, factors of variation (FoV) can optionally be specified via the options argument. In this illustrative Push-T example, all agent-related FoVs (e.g., color and size) are sampled, along with the color of the T-shaped object.
+9 world.record_dataset(10 dataset_name=’pusht_demo’,episodes=4, seed=0, 11 options={"variation": ["agent", "block.color"]}, Listing 2: SWM Factor of Variation Logic. During data collection or world reset, factors of variation (FoV) can optionally be specified via the options argument. In this illustrative Push-T example, all agent-related FoVs (e.g., color and size) are sampled, along with the color of the T-shaped object.
 
 <!-- chunk {"id": "body-0015", "role": "body", "section": "Environments and Factor of Variations", "weight": 1.0} -->
 

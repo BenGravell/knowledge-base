@@ -124,126 +124,123 @@ Incremental planning is an extension of optimal planning with imperfect informat
 
 <!-- chunk {"id": "body-0031", "role": "body", "section": "III-A Optimal Planning", "weight": 1.0} -->
 
-The optimal planning problem is defined similarly to. Let $X \subseteq {\mathbb{R}}^{n}$ be the state space of the planning problem, $X_{obs} \subset X$ be the set of states in collision with obstacles, and $X_{free}$ = ${closure}{({X \smallsetminus X_{obs}})}$ be the resulting set of permissible states. Let $x_{start} \in X_{free}$ be the initial state and $X_{goal} \subseteq X_{free}$ be the set of desired final states. Let $\sigma:{{\lbrack 0,1\rbrack}\rightarrow X}$ be a sequence of states (i.e., a path) and $\Sigma$ be the set of all paths.
+The optimal planning problem is defined similarly to. Let $X\subseteq\mathbb{R}^{n}$ be the state space of the planning problem, $X_{\mathrm{obs}}\subset X$ be the set of states in collision with obstacles, and $X_{\mathrm{free}}$ = $\mathrm{closure}(X\setminus X_{\mathrm{obs}})$ be the resulting set of permissible states. Let $x_{\mathrm{start}}\in X_{\mathrm{free}}$ be the initial state and $X_{\mathrm{goal}}\subseteq X_{\mathrm{free}}$ be the set of desired final states. Let $\sigma:\to X$ be a sequence of states (i.e., a path) and $\Sigma$ be the set of all paths.
 
 <!-- chunk {"id": "body-0032", "role": "body", "section": "III-A Optimal Planning", "weight": 1.0} -->
 
-The optimal solution is the path, $\sigma^{\ast} \in \Sigma$, that minimizes a chosen cost function, $c:{\Sigma\rightarrow{\mathbb{R}}_{\geq 0}}$, while connecting the start, $x_{start}$, to any goal, $x_{goal} \in X_{goal}$, through free space,
+The optimal solution is the path, $\sigma^{*}\in\Sigma$, that minimizes a chosen cost function, $c:\Sigma\to\mathbb{R}_{\geq 0}$, while connecting the start, $x_{\mathrm{start}}$, to any goal, $x_{\mathrm{goal}}\in X_{\mathrm{goal}}$, through free space, where $\mathbb{R}_{\geq 0}$ denotes the set of all real numbers greater than or equal to zero.
 
-<!-- chunk {"id": "body-0033", "role": "body", "section": "III-A Optimal Planning", "weight": 1.0} -->
-
-where ${\mathbb{R}}_{\geq 0}$ denotes the set of all real numbers greater than or equal to zero.
-
-<!-- chunk {"id": "body-0034", "role": "body", "section": "III-B Incremental Planning", "weight": 1.0} -->
+<!-- chunk {"id": "body-0033", "role": "body", "section": "III-B Incremental Planning", "weight": 1.0} -->
 
 The incremental planning problem is an extension of the optimal planning problem where the locations of obstacles in the environment are not perfectly known and may change as the robot moves. Exact knowledge of obstacles is assumed to be limited to those detected in a specified distance of the robot, $r_{\text{s}}$, within a retrospective time horizon, $\tau$.
 
+<!-- chunk {"id": "body-0034", "role": "body", "section": "III-B Incremental Planning", "weight": 1.0} -->
+
+Let $B(r_{\text{s}},x)\subset X$ denote a sensing region (e.g., a ball) with maximum sensing range, $r_{\text{s}}\in\mathbb{R_{\mathrm{\geq 0}}}$, and a center point, $x\in X$. The robot has exact knowledge of obstacles that are within the sensor range of its current position, i.e., $X_{\mathrm{sensed}}(t)=X_{\mathrm{obs}}(t)\cap B(r_{\mathrm{s}},x)$, where $X_{\mathrm{obs}}(t)$ is the obstacles at time $t$.
+
 <!-- chunk {"id": "body-0035", "role": "body", "section": "III-B Incremental Planning", "weight": 1.0} -->
 
-Let ${B{(r_{\text{s}},x)}} \subset X$ denote a sensing region (e.g., a ball) with maximum sensing range, $r_{\text{s}} \in {\mathbb{R}}_{\geq 0}$, and a center point, $x \in X$. The robot has exact knowledge of obstacles that are within the sensor range of its current position, i.e., ${X_{sensed}{(t)}} = {{X_{obs}{(t)}} \cap {B{(r_{s},x)}}}$, where $X_{obs}{(t)}$ is the obstacles at time $t$.
+Let $X_{\mathrm{sensed},i}$ be the set of all obstacles sensed by the robot and considered for planning at the $i^{\text{th}}$ iteration, $X_{\mathrm{sensed},i}=\bigcup_{t=t_{i}}^{t_{j}}X_{\mathrm{sensed}}(t)$, where $t_{i}=t_{j}-\tau$ is the minimum time from which the planner still uses its previous obstacle measurements. The robot may also include a prior over obstacle motions in its set of obstacles.
 
 <!-- chunk {"id": "body-0036", "role": "body", "section": "III-B Incremental Planning", "weight": 1.0} -->
 
-Let $X_{{sensed},i}$ be the set of all obstacles sensed by the robot and considered for planning at the $i^{\text{th}}$ iteration, $X_{{sensed},i} = {\bigcup_{t = t_{i}}^{t_{j}}{X_{sensed}{(t)}}}$, where $t_{i} = {t_{j} - \tau}$ is the minimum time from which the planner still uses its previous obstacle measurements. The robot may also include a prior over obstacle motions in its set of obstacles.
+The robot plans in the free space defined by the set of obstacles sensed within the retrospective time horizon, $X_{\mathrm{free},i}=X\setminus X_{\mathrm{sensed},i}$, and follows the resulting solution path, $\sigma_{i}$, until it reaches a state at which it determines it must replan, $x_{i+1}$. This process repeats until the robot reaches the goal, $X_{\mathrm{goal}}$.
 
 <!-- chunk {"id": "body-0037", "role": "body", "section": "III-B Incremental Planning", "weight": 1.0} -->
 
-The robot plans in the free space defined by the set of obstacles sensed within the retrospective time horizon, $X_{{free},i} = {X \smallsetminus X_{{sensed},i}}$, and follows the resulting solution path, $\sigma_{i}$, until it reaches a state at which it determines it must replan, $x_{i + 1}$. This process repeats until the robot reaches the goal, $X_{goal}$.
+Let $s_{i}\in$ denote the parameter at which the robot replans from when following its $i^{\text{th}}$ intermediate solution path, i.e., $x_{i+1}=\sigma_{i}(s_{i})$. Let $\sigma_{i,s_{i}}:[0,s_{i}]\to X$ denote the partial path travelled during the $i^{\text{th}}$ planning iteration. The global solution path is defined as $\pi=\sigma_{1,s_{1}}\oplus\sigma_{2,s_{2}}\oplus\cdots\oplus\sigma_{N,s_{N}}$, where $\oplus$ denotes path concatenation and $N\in\mathbb{Z_{\mathrm{\geq 0}}}$ is the number of planning cycles until the goal is reached. An incremental planner seeks to minimize the cost of its global solution, $c(\pi)$.
 
-<!-- chunk {"id": "body-0038", "role": "body", "section": "III-B Incremental Planning", "weight": 1.0} -->
+<!-- chunk {"id": "body-0038", "role": "body", "section": "III-C Independent Incremental Planning Approach", "weight": 1.0} -->
 
-Let $s_{i} \in {\lbrack 0,1\rbrack}$ denote the parameter at which the robot replans from when following its $i^{\text{th}}$ intermediate solution path, i.e., $x_{i + 1} = {\sigma_{i}{(s_{i})}}$. Let $\sigma_{i,s_{i}}:{{\lbrack 0,s_{i}\rbrack}\rightarrow X}$ denote the partial path travelled during the $i^{\text{th}}$ planning iteration. The global solution path is defined as $\pi = {\sigma_{1,s_{1}} \oplus \sigma_{2,s_{2}} \oplus \cdots \oplus \sigma_{N,s_{N}}}$, where $\oplus$ denotes path concatenation and $N \in {\mathbb{Z}}_{\geq 0}$ is the number of planning cycles until the goal is reached.
+The independent incremental planning approach uses independent calls to ASAO planners to solve the incremental planning problem. The robot solves an independent optimal planning problem in the free space defined by the sensed obstacles at each planning iteration, $X_{\mathrm{free},i}=X\setminus X_{\mathrm{sensed},i}$, to find a path, $\sigma_{i}$. The robot follows the path until it arrives at a state at the edge of the sensed area or otherwise determines it needs to replan, $x_{i+1}$. The robot updates its obstacles using the sensor and then replans from the new position. The process of planning, following the solution path and sensing repeats until the robot reaches the goal.
 
-<!-- chunk {"id": "body-0039", "role": "body", "section": "III-B Incremental Planning", "weight": 1.0} -->
+<!-- chunk {"id": "body-0039", "role": "body", "section": "III-C Independent Incremental Planning Approach", "weight": 1.0} -->
 
-An incremental planner seeks to minimize the cost of its global solution, $c{(\pi)}$.
+Let $\sigma^{*}_{i}$ be the shortest path in the known free space from the current state, $x_{i}$, to the goal. Let $\sigma^{*}_{i,s_{i}}$ denote the subpath of $\sigma^{*}_{i}$ that ends at the next sensing boundary. Following the optimal path with respect to the given information at each iteration, $\sigma^{*}_{i,s_{i}}$, minimizes the worst-case total path cost over all possible environments, given the current information.
 
 <!-- chunk {"id": "body-0040", "role": "body", "section": "III-C Independent Incremental Planning Approach", "weight": 1.0} -->
 
-The independent incremental planning approach uses independent calls to ASAO planners to solve the incremental planning problem. The robot solves an independent optimal planning problem in the free space defined by the sensed obstacles at each planning iteration, $X_{{free},i} = {X \smallsetminus X_{{sensed},i}}$, to find a path, $\sigma_{i}$. The robot follows the path until it arrives at a state at the edge of the sensed area or otherwise determines it needs to replan, $x_{i + 1}$. The robot updates its obstacles using the sensor and then replans from the new position. The process of planning, following the solution path and sensing repeats until the robot reaches the goal.
+The quality of a global solution to the incremental planning problem depends on the quality of its intermediate paths. If the planner finds sufficiently optimal intermediate solutions then the executed path will avoid oscillating between different homotopy classes (i.e., be consistent) without explicitly considering path consistency and result in a near optimal global solution. If the planner does not provide optimality guarantees then it may yield suboptimal intermediate paths that are inefficient, backtrack, and/or unnecessarily switch homotopy classes and generally reduce the quality of the global solution.
 
 <!-- chunk {"id": "body-0041", "role": "body", "section": "III-C Independent Incremental Planning Approach", "weight": 1.0} -->
 
-Let $\sigma_{i}^{\ast}$ be the shortest path in the known free space from the current state, $x_{i}$, to the goal. Let $\sigma_{i,s_{i}}^{\ast}$ denote the subpath of $\sigma_{i}^{\ast}$ that ends at the next sensing boundary. Following the optimal path with respect to the given information at each iteration, $\sigma_{i,s_{i}}^{\ast}$, minimizes the worst-case total path cost over all possible environments, given the current information.
+Given: X, x0, xgoal, rs, planner 7 σi ← planner(xi, xgoal, Xfree, i); 12 $X_{\mathrm{sensed},i}=\bigcup_{t=t_{i}}^{t_{j}}X_{\mathrm{sensed}}(t)$; Algorithm 1 Independent Incremental Planning
 
-<!-- chunk {"id": "body-0042", "role": "body", "section": "III-C Independent Incremental Planning Approach", "weight": 1.0} -->
+<!-- chunk {"id": "body-0042", "role": "body", "section": "Experiments", "weight": 1.0} -->
 
-The quality of a global solution to the incremental planning problem depends on the quality of its intermediate paths. If the planner finds sufficiently optimal intermediate solutions then the executed path will avoid oscillating between different homotopy classes (i.e., be consistent) without explicitly considering path consistency and result in a near optimal global solution. If the planner does not provide optimality guarantees then it may yield suboptimal intermediate paths that are inefficient, backtrack, and/or unnecessarily switch homotopy classes and generally reduce the quality of the global solution.
+(b) Random Rectangles Success Rates at 100ms (c) Random Rectangles Success Rates at 50ms (e) Wall Gap Success Rates at 100ms (f) Wall Gap Success Rates at 50ms (h) Double Enclosure Success Rates at 100ms (i) Double Enclosure Success Rates at 50ms Figure 4: The success rates of all planners across 100 runs on three of the simulated worlds. A visualization of the world as well as a solution found by EIT* is shown in (a), (d) and (g). Each of the planners was tested with a planning budget of 0.1s and 0.05s. The success rate at the nth query is defined by the percentage of planners that are able to find a solution to the nth intermediate problem within the planning budget. Success rates are carried forward, i.e., if a planner fails on a query it is also considered to fail on all subsequent queries. The independent ASAO approach with EIT* maintained the highest success rate across every world and every planning budget while finding the shortest global solution (Table I).
 
-<!-- chunk {"id": "body-0043", "role": "body", "section": "III-C Independent Incremental Planning Approach", "weight": 1.0} -->
-
-Given: X, x0, xgoal, rs, planner
-7 σi ← planner (xi,xgoal,Xfree, i);
-12 $X_{{sensed},i} = {\bigcup_{t = t_{i}}^{t_{j}}{X_{sensed}(t)}}$;
-Algorithm 1 Independent Incremental Planning
-
-<!-- chunk {"id": "body-0044", "role": "body", "section": "Experiments", "weight": 1.0} -->
+<!-- chunk {"id": "body-0043", "role": "body", "section": "Experiments", "weight": 1.0} -->
 
 The independent incremental planning approach was tested on both probabilistically complete (RRT-Connect with and without smoothing) and ASAO planners (RRT\* and EIT\*) and was compared against a state-of-the-art planner designed for incremental replanning problems (RRT^X^). Since the planning time of RRT^X^ is slow when it has to optimally rewire dense solution trees, results are presented for both the full version of RRT^X^ and a version that stops after it finds an initial solution to provide best-case results for RRT^X^ with respect to initial solution time.
 
-<!-- chunk {"id": "body-0045", "role": "body", "section": "Experiments", "weight": 1.0} -->
+<!-- chunk {"id": "body-0044", "role": "body", "section": "Experiments", "weight": 1.0} -->
 
 Each of the planners were tested on three types of simulated worlds using publicly available Open Motion Planning Library (OMPL) implementations with the partial RRT^X^ implementation publicly available in OMPL extended to handle replanning. EIT\* used a batch size of 100, radius factor of 1.001, repair factor of 1.2 and used the $k$-nearest implementation with pruning. RRT-based planners used a maximum edge length of 0.3 and single-tree RRT-based planners used a goal bias of 0.05. RRT^X^ was run without informed sampling and an epsilon of zero. RRT\* was run with a rewire factor of 1.001.
 
+<!-- chunk {"id": "body-0045", "role": "body", "section": "Experiments", "weight": 1.0} -->
+
+The incremental planning problem was simulated as an extension of the Planner Development Tools (PDT) \[4: reproducible experiments and statistical analysis for developing and testing motion planners")\]. The simulation requires three parameters to describe the environment: a planning budget, $t$, a maximum sensor range, $r_{\text{s}}$, and a global problem. The environment the planner interacts with for each intermediate problem is referred to as the *incremental* environment. The simulation assumes that all sensed obstacles are stationary, i.e., $\tau=\infty$.
+
 <!-- chunk {"id": "body-0046", "role": "body", "section": "Experiments", "weight": 1.0} -->
 
-The incremental planning problem was simulated as an extension of the Planner Development Tools (PDT) \[4: reproducible experiments and statistical analysis for developing and testing motion planners")\]. The simulation requires three parameters to describe the environment: a planning budget, $t$, a maximum sensor range, $r_{\text{s}}$, and a global problem. The environment the planner interacts with for each intermediate problem is referred to as the *incremental* environment. The simulation assumes that all sensed obstacles are stationary, i.e., $\tau = \infty$.
+The incremental environment starts out empty with the same start, $x_{0}$, and goal, $X_{\text{goal}}$, as the global environment. Only the obstacles within the sensor range from the start are added, and the planner attempts to find a path from the start to the goal that avoids these obstacles before the planning budget runs out. If the planner succeeds in finding a solution, the robot follows this path until it reaches a state at the end of the sensor radius, $x_{1}$. Once the robot has moved, a circle centered at its current position with a radius equal to $r_{\text{s}}$, i.e., $B(r_{\mathrm{s}},x_{1})$, is added to the sensed area. The next incremental problem is defined as a new optimal planning problem using $x_{1}$ as its starting point. The obstacles in this problem are the intersection of all obstacles in the global environment and the (now larger) sensed area. This process is repeated until the planner reaches the goal (Figure 3).
 
 <!-- chunk {"id": "body-0047", "role": "body", "section": "Experiments", "weight": 1.0} -->
 
-The incremental environment starts out empty with the same start, $x_{0}$, and goal, $X_{\text{goal}}$, as the global environment. Only the obstacles within the sensor range from the start are added, and the planner attempts to find a path from the start to the goal that avoids these obstacles before the planning budget runs out. If the planner succeeds in finding a solution, the robot follows this path until it reaches a state at the end of the sensor radius, $x_{1}$. Once the robot has moved, a circle centered at its current position with a radius equal to $r_{\text{s}}$, i.e., $B{(r_{s},x_{1})}$, is added to the sensed area. The next incremental problem is defined as a new optimal planning problem using $x_{1}$ as its starting point. The obstacles in this problem are the intersection of all obstacles in the global environment and the (now larger) sensed area. This process is repeated until the planner reaches the goal (Figure 3).
+This sequential planning problem under the free space assumption occurs when planning with limited sensing range and also for dynamic obstacles without any predictions.
 
 <!-- chunk {"id": "body-0048", "role": "body", "section": "Experiments", "weight": 1.0} -->
 
-This sequential planning problem under the free space assumption occurs when planning with limited sensing range and also for dynamic obstacles without any predictions.
-
-<!-- chunk {"id": "body-0049", "role": "body", "section": "Experiments", "weight": 1.0} -->
-
 The performance of RRT^X^ depends on the computational cost of detecting edges that are invalidated by newly discovered obstacles. This can be computationally inexpensive in map representations that provide this information directly or expensive when each existing edge must be checked each time new obstacle information is received. In order to provide best-case results for RRT^X^, the computational cost of detecting invalidated edges for RRT^X^ was ignored in the experiments.
 
-<!-- chunk {"id": "body-0050", "role": "body", "section": "IV-A Simulated Experiments", "weight": 1.0} -->
+<!-- chunk {"id": "body-0049", "role": "body", "section": "IV-A Simulated Experiments", "weight": 1.0} -->
 
-The simulated worlds are two-dimensional path length minimization problems in a square environment, $X = {\lbrack{- 1},1\rbrack}^{2}$. A sensor range of 0.1 was used on each Random Rectangles world, 0.075 on the Wall Gap world and 0.05 on the Double Enclosure world.
+The simulated worlds are two-dimensional path length minimization problems in a square environment, $X=^{2}$. A sensor range of 0.1 was used on each Random Rectangles world, 0.075 on the Wall Gap world and 0.05 on the Double Enclosure world.
 
-<!-- chunk {"id": "body-0051", "role": "body", "section": "IV-A1 Random Rectangles", "weight": 1.0} -->
+<!-- chunk {"id": "body-0050", "role": "body", "section": "IV-A1 Random Rectangles", "weight": 1.0} -->
 
-Each random world consists of 20 randomly placed rectangles with side lengths uniformly distributed between 0.1 and 0.2. The starting state is $({- 0.1},{- 0.1})$, and the goal state is $(0.4,0.4)$. Each world is checked for validity (i.e., a feasible path exists) before it is used. Figure 4a illustrates a representative world for which individual results are presented. The random worlds evaluate the capability of each planner to quickly navigate around many obstacles to reach the goal.
+Each random world consists of 20 randomly placed rectangles with side lengths uniformly distributed between 0.1 and 0.2. The starting state is $(-0.1,-0.1)$, and the goal state is $(0.4,0.4)$. Each world is checked for validity (i.e., a feasible path exists) before it is used. Figure 4a illustrates a representative world for which individual results are presented. The random worlds evaluate the capability of each planner to quickly navigate around many obstacles to reach the goal.
 
-<!-- chunk {"id": "body-0052", "role": "body", "section": "IV-A2 Wall Gap", "weight": 1.0} -->
+<!-- chunk {"id": "body-0051", "role": "body", "section": "IV-A2 Wall Gap", "weight": 1.0} -->
 
 The wall gap world (Figure 4d) has two rectangles as obstacles centered about the y-axis. There is a narrow rectangular gap between the two rectangles that the planner must navigate through. The wall gap tests the ability for planners to find and navigate through a narrow gap at the center of the world.
 
-<!-- chunk {"id": "body-0053", "role": "body", "section": "IV-A3 Double Enclosure", "weight": 1.0} -->
+<!-- chunk {"id": "body-0052", "role": "body", "section": "IV-A3 Double Enclosure", "weight": 1.0} -->
 
 The double enclosure is two rectangular enclosures, each with one open end, containing the start and goal (Figure 4g). The planner initially sees an unobstructed path from start to goal but will discover it is blocked after travelling towards it. The planner must then retrace back towards the start to leave the first enclosure and then circumnavigate the second enclosure to reach the goal. The double enclosure tests the planner's ability to adapt when initial plans are proven invalid by new information.
 
-<!-- chunk {"id": "body-0054", "role": "body", "section": "IV-A3 Double Enclosure", "weight": 1.0} -->
+<!-- chunk {"id": "body-0053", "role": "body", "section": "IV-A3 Double Enclosure", "weight": 1.0} -->
 
 Three sets of experiments were run using the simulated worlds. Every planner was run 100 times on the Wall Gap problem, Double Enclosure problem and 40 different Random Rectangles problems with a planning budget of 0.1s to investigate the performance of each planner on a diverse set of problems. Every planner was run 100 more times on the Wall Gap problem, Double Enclosure problem and a representative Random Rectangles problem with a planning budget of 0.05s to investigate their performance on representative problems with a smaller budget. Each planner was also run 10 times with planning budgets of 0.01s, 0.05s and 0.1s on 100 different Random Rectangles problems for each planning budget to investigate the performance of each planner at different planning budgets (Figure 5).
 
-<!-- chunk {"id": "body-0055", "role": "body", "section": "IV-B Results", "weight": 1.0} -->
+<!-- chunk {"id": "body-0054", "role": "body", "section": "IV-B Results", "weight": 1.0} -->
 
 The per-query success rate, global solution time, global path length, and number of queries were measured for each simulated world. The combined success rate, median problem success and median rank of each planner's median global path length, global solution time, and number of queries were also collected across the 40 random worlds. The combined success rate across all runs over the 100 random worlds was collected for each planning budget. A summary of the results from a planning budget of 0.1 seconds is presented in Table I. Only the success rates are shown for the 50ms experiments (Figure 4) since EIT\* was the only planner that solved more than 50% of all trials on all of the worlds. A plot of the total success rate over 100 random worlds at each planning budget is shown in Figure 5.
 
-<!-- chunk {"id": "body-0056", "role": "body", "section": "IV-B1 Success Rates", "weight": 1.0} -->
+<!-- chunk {"id": "body-0055", "role": "body", "section": "IV-B1 Success Rates", "weight": 1.0} -->
 
 The success rate for each query is shown in Figure 4. The success rate at a given query is a measure of how often the planner is able to find a solution within the given planning budget at that query. The global success rate (i.e., the percentage of runs that the planner reached the goal) can be extracted from the success rate at the final query. EIT\* had the highest global success rate on all simulated worlds at all evaluated planning budgets. None of the evaluated planners had 100% success on all problems because some randomly generated worlds require solutions to pass through very narrow gaps to reach the goal. Increasing the planning budget further on these difficult problems would increase their success rate.
 
-<!-- chunk {"id": "body-0057", "role": "body", "section": "IV-B2 Global Path Length", "weight": 1.0} -->
+<!-- chunk {"id": "body-0056", "role": "body", "section": "IV-B2 Global Path Length", "weight": 1.0} -->
 
 The median global path length is shown in Table I. The global path length measures how far each planner travelled from the start to the goal. The global path length is the length of the portions of the intermediate paths followed to travel between the start and goal. EIT\* had the shortest median global path length on all problems due to the high-quality intermediate paths it finds as a result of its ASAO properties.
 
-<!-- chunk {"id": "body-0058", "role": "body", "section": "IV-B3 Global Solution Time & Queries", "weight": 1.0} -->
+<!-- chunk {"id": "body-0057", "role": "body", "section": "IV-B3 Global Solution Time & Queries", "weight": 1.0} -->
 
 The median global solution time and median number of queries are shown in Table I. The global solution time is the total time spent finding a solution to the incremental planning problem. The number of queries is the number of intermediate queries a planner took to reach the goal.
 
-<!-- chunk {"id": "body-0059", "role": "body", "section": "IV-B3 Global Solution Time & Queries", "weight": 1.0} -->
+<!-- chunk {"id": "body-0058", "role": "body", "section": "IV-B3 Global Solution Time & Queries", "weight": 1.0} -->
 
 Nonoptimal planners, such as RRT-Connect, do not spend the whole planning budget and instead return as soon as they find an initial solution. Optimal planners, such as RRT\* and RRT^X^, first find an initial solution and then spend the rest of the planning budget searching for shorter paths. Other optimal planners, such as EIT\*, have the capability to exit early if they detect that they have found the optimal solution. The number of queries is presented alongside the global solution time to give a fair comparison between planners.
 
-<!-- chunk {"id": "body-0060", "role": "body", "section": "IV-B3 Global Solution Time & Queries", "weight": 1.0} -->
+<!-- chunk {"id": "body-0059", "role": "body", "section": "IV-B3 Global Solution Time & Queries", "weight": 1.0} -->
 
 EIT\* had the smallest median number of queries on all problems. RRT-Connect had a smaller median global solution time than EIT\* on the Wall Gap and Double Enclosure problems since it does not use the whole planning budget. EIT\* maintained the smallest median global planning budget on the selected Random Rectangles problem despite spending the whole planning budget optimizing its paths due to the small number of queries it needs to solve the problem.
+
+<!-- chunk {"id": "body-0060", "role": "body", "section": "IV-B3 Global Solution Time & Queries", "weight": 1.0} -->
+
+Rand. Rect. (Example) Rand. Rect. (Agg.)
 
 <!-- chunk {"id": "body-0061", "role": "body", "section": "IV-C Real-World Planning", "weight": 1.0} -->
 

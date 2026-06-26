@@ -36,7 +36,7 @@ For motion planning, we adopt the Model Predictive Path Integral (MPPI) control 
 
 <!-- chunk {"id": "body-0009", "role": "body", "section": "Introduction", "weight": 1.5} -->
 
-We develop a geometric neural encoder that provides fast and accurate signed-distance estimates between articulated tractor--trailer geometries and raw LiDAR point clouds, enabling real-time geometric reasoning without requiring a pre-built map.
+This work makes the following three contributions: We develop a geometric neural encoder that provides fast and accurate signed-distance estimates between articulated tractor--trailer geometries and raw LiDAR point clouds, enabling real-time geometric reasoning without requiring a pre-built map.
 
 <!-- chunk {"id": "body-0010", "role": "body", "section": "Introduction", "weight": 1.5} -->
 
@@ -52,124 +52,100 @@ In this work, we model the tractor--trailer system using a simplified kinematic 
 
 <!-- chunk {"id": "body-0013", "role": "body", "section": "Tractor--Trailer Kinematic Model", "weight": 1.0} -->
 
-Let the state of the system be described by the tractor rear-axle position $(x,y)$, tractor heading $\theta$, and the articulation angle $\phi = {\theta_{1} - \theta}$ between the trailer heading $\theta_{1}$ and tractor heading $\theta$. Under these assumptions, the kinematic model of the articulated vehicle is
+Let the state of the system be described by the tractor rear-axle position $(x,y)$, tractor heading $\theta$, and the articulation angle $\phi=\theta_{1}-\theta$ between the trailer heading $\theta_{1}$ and tractor heading $\theta$. Under these assumptions, the kinematic model of the articulated vehicle is where $v$ is the tractor's longitudinal velocity and $\psi$ is the tractor steering angle. $L_{0}$ is the tractor wheelbase, $L_{1}$ is the distance from the hitch point to the trailer axle, and $L_{h}$ is the hitch offset from the tractor rear axle. The state is $[x,y,\theta,\phi]^{T}$, and the control input is $[v,\psi]^{T}$.
 
 <!-- chunk {"id": "body-0014", "role": "body", "section": "Tractor--Trailer Kinematic Model", "weight": 1.0} -->
 
-where $v$ is the tractor's longitudinal velocity and $\psi$ is the tractor steering angle. $L_{0}$ is the tractor wheelbase, $L_{1}$ is the distance from the hitch point to the trailer axle, and $L_{h}$ is the hitch offset from the tractor rear axle. The state is ${\lbrack x,y,\theta,\phi\rbrack}^{T}$, and the control input is ${\lbrack v,\psi\rbrack}^{T}$.
+Given the tractor pose $(x,y,\theta)$ and articulation angle $\phi$, the trailer heading can be recovered as $\theta_{1}=\theta+\phi$. The global coordinate of the trailer axle center $(x_{1},y_{1})$ is obtained by first computing the hitch position, and then projecting along the trailer axis: Figure 1: Geometric configuration of a tractor–trailer system.
 
-<!-- chunk {"id": "body-0015", "role": "body", "section": "Tractor--Trailer Kinematic Model", "weight": 1.0} -->
-
-Given the tractor pose $(x,y,\theta)$ and articulation angle $\phi$, the trailer heading can be recovered as $\theta_{1} = {\theta + \phi}$. The global coordinate of the trailer axle center $(x_{1},y_{1})$ is obtained by first computing the hitch position,
-
-<!-- chunk {"id": "body-0016", "role": "body", "section": "Geometric Neural Encoder for Efficient Distance Computation", "weight": 1.0} -->
+<!-- chunk {"id": "body-0015", "role": "body", "section": "Geometric Neural Encoder for Efficient Distance Computation", "weight": 1.0} -->
 
 Safe navigation of the articulated tractor--trailer system requires maintaining sufficient clearance between the vehicle body and surrounding obstacles. Traditional methods either approximate the vehicle using simplified geometric primitives or inflate the environmental obstacles to simplify collision checking. Although computationally convenient, these approaches often lead to inaccurate distance estimates and overly conservative navigation, especially for vehicles with complex articulated geometries. To address this limitation, we leverage a geometric neural encoder that accelerates minimum-distance computation directly from raw LiDAR point clouds to the full tractor--trailer body geometry.
 
+<!-- chunk {"id": "body-0016", "role": "body", "section": "Geometric Neural Encoder for Efficient Distance Computation", "weight": 1.0} -->
+
+Since any nonconvex geometry can be expressed as union of convex sets, we represent the tractor and trailer bodies as collections of convex polygons, $\{\mathbb{V}_{1},\mathbb{V}_{2},\dots,\mathbb{V}_{K}\}$, where $\mathbb{V}_{1},\dots,\mathbb{V}_{k}$ belongs to the tractor body and $\mathbb{V}_{k+1},\dots,\mathbb{V}_{K}$ belong to the trailer body. Each convex polygon $\mathbb{V}_{i}$ in its local body frame is represented as the polytope: where $\vec{G}_{i}\in\mathbb{R}^{l_{i}\times 2}$, $\vec{h}_{i}\in\mathbb{R}^{l_{i}}$, and $l_{i}$ is the number of polygon edges.
+
 <!-- chunk {"id": "body-0017", "role": "body", "section": "Geometric Neural Encoder for Efficient Distance Computation", "weight": 1.0} -->
 
-Since any nonconvex geometry can be expressed as union of convex sets, we represent the tractor and trailer bodies as collections of convex polygons, $\{{\mathbb{V}}_{1},{\mathbb{V}}_{2},\ldots,{\mathbb{V}}_{K}\}$, where ${\mathbb{V}}_{1},\ldots,{\mathbb{V}}_{k}$ belongs to the tractor body and ${\mathbb{V}}_{k + 1},\ldots,{\mathbb{V}}_{K}$ belong to the trailer body.
+Denote the state of the tractor-trailer system at time $t$ as $\vec{s}_{t}$, the rotation matrix of the tractor polygon is $\vec{R}(\vec{s}_{t})\in\mathbb{R}^{2\times 2}$ and the corresponding translation is $\vec{t}(\vec{s}_{t})\in\mathbb{R}^{2}$. The occupied region of polygon $i$ in the global frame is then: The same transformation applies to all polygons on both the tractor and the trailer, with the rotation matrix $\vec{R}_{1}$ and translation vector $\vec{t}_{1}$ for the trailer polygons defined by the pose $(x_{1},y_{1},\theta_{1})$ of the trailer body (formulation omitted here for simplicity).
 
 <!-- chunk {"id": "body-0018", "role": "body", "section": "Geometric Neural Encoder for Efficient Distance Computation", "weight": 1.0} -->
 
-The same transformation applies to all polygons on both the tractor and the trailer, with the rotation matrix ${\overset{\rightarrow}{R}}_{1}$ and translation vector ${\overset{\rightarrow}{t}}_{1}$ for the trailer polygons defined by the pose $(x_{1},y_{1},\theta_{1})$ of the trailer body (formulation omitted here for simplicity).
+To achieve real-time performance while retaining accuracy, we use a geometric neural encoder that learns to approximate the solution of. As observed in Han et al., each iteration of the dual optimization consists primarily of linear operations and simple nonlinearities, making it suitable for unrolled neural architectures.
 
 <!-- chunk {"id": "body-0019", "role": "body", "section": "Geometric Neural Encoder for Efficient Distance Computation", "weight": 1.0} -->
 
-By leveraging the strong duality result in Zhang et al.,
+The architecture of the geometric neural encoder network is shown in Fig. 2. The network processes a batch of $M\times N$ transformed points expressed in the polygon's local frame, where $N$ represents an additional dimension, such as a receding horizon sequence along a predicted trajectory, allowing the encoder to output dual variables and distance estimates across multiple future steps. The encoder begins with a fully connected layer of size $n\times 16$, followed by layer normalization and a $\tanh$ activation. A second fully connected layer of size $16\times 16$ with a ReLU nonlinearity is then applied. The depth of the network is constructed by repeatedly stacking these two types of layers, each maintaining 16 hidden units. The architecture concludes with a final linear layer of size $16\times l_{i}$ that outputs the estimated dual variable $\hat{\vec{\mu}}_{t}^{i}$. Note that the network only predicts $\hat{\vec{\mu}}_{t}^{i}$.
 
 <!-- chunk {"id": "body-0020", "role": "body", "section": "Geometric Neural Encoder for Efficient Distance Computation", "weight": 1.0} -->
 
-where $w_{p}$ is a sufficiently large penalty coefficient. Due to strong convexity, can be efficiently solved using inexact block coordinate descent optimization, alternating between updates of ${\overset{\rightarrow}{\mu}}_{t}^{i}$ and ${\overset{\rightarrow}{\lambda}}_{t}^{i}$. However, evaluating this optimization for a large number of LiDAR points remains slow.
+That is because once the dual problem converges, the corresponding dual variable $\hat{\vec{\lambda}}_{t}^{i}$ can be recovered analytically via: which follows directly from the equality constraint in the dual formulation. Since the encoder depends only on the polygon geometry, it only needs to be trained once for each polygon component.
 
 <!-- chunk {"id": "body-0021", "role": "body", "section": "Geometric Neural Encoder for Efficient Distance Computation", "weight": 1.0} -->
 
-To achieve real-time performance while retaining accuracy, we use a geometric neural encoder that learns to approximate the solution of. As observed in Han et al., each iteration of the dual optimization consists primarily of linear operations and simple nonlinearities, making it suitable for unrolled neural architectures.
+For each polygon defined by $(\vec{G}_{i},\vec{h}_{i})$, we generate 100,000 random points within a range of $$ in both $x$ and $y$ directions. For each sampled point, the dual optimization problem in is solved using CVXPY with the ECOS solver (Domahidi et al. ). By slightly abusing the notation, the ECOS solver produces ground-truth optimal dual variables $\vec{\mu}_{j}^{i*}$, where the index $j$ denotes the $j$-th training point associated with polygon $i$.
 
 <!-- chunk {"id": "body-0022", "role": "body", "section": "Geometric Neural Encoder for Efficient Distance Computation", "weight": 1.0} -->
 
-The architecture of the geometric neural encoder network is shown in Fig. 2. The network processes a batch of $M \times N$ transformed points expressed in the polygon's local frame, where $N$ represents an additional dimension, such as a receding horizon sequence along a predicted trajectory, allowing the encoder to output dual variables and distance estimates across multiple future steps. The encoder begins with a fully connected layer of size $n \times 16$, followed by layer normalization and a $\tanh$ activation. A second fully connected layer of size $16 \times 16$ with a ReLU nonlinearity is then applied. The depth of the network is constructed by repeatedly stacking these two types of layers, each maintaining 16 hidden units. The architecture concludes with a final linear layer of size $16 \times l_{i}$ that outputs the estimated dual variable ${\hat{\overset{\rightarrow}{\mu}}}_{t}^{i}$. Note that the network only predicts ${\hat{\overset{\rightarrow}{\mu}}}_{t}^{i}$.
+The network is trained in a supervised manner to match both the dual variables and the induced signed distances. To ensure accuracy in both the vector-valued dual variables and the resulting distance expression, we use the following loss function: where Adam optimizer is used to update the network parameters.
 
-<!-- chunk {"id": "body-0023", "role": "body", "section": "Geometric Neural Encoder for Efficient Distance Computation", "weight": 1.0} -->
-
-which follows directly from the equality constraint in the dual formulation. Since the encoder depends only on the polygon geometry, it only needs to be trained once for each polygon component.
-
-<!-- chunk {"id": "body-0024", "role": "body", "section": "Geometric Neural Encoder for Efficient Distance Computation", "weight": 1.0} -->
-
-For each polygon defined by $({\overset{\rightarrow}{G}}_{i},{\overset{\rightarrow}{h}}_{i})$, we generate 100,000 random points within a range of $\lbrack{- 30},30\rbrack$ in both $x$ and $y$ directions. For each sampled point, the dual optimization problem in is solved using CVXPY with the ECOS solver (Domahidi et al. ). By slightly abusing the notation, the ECOS solver produces ground-truth optimal dual variables ${\overset{\rightarrow}{\mu}}_{j}^{i \ast}$, where the index $j$ denotes the $j$-th training point associated with polygon $i$.
-
-<!-- chunk {"id": "body-0025", "role": "body", "section": "Geometric Neural Encoder for Efficient Distance Computation", "weight": 1.0} -->
-
-The network is trained in a supervised manner to match both the dual variables and the induced signed distances.
-
-<!-- chunk {"id": "body-0026", "role": "body", "section": "Geometric Neural Encoder for Efficient Distance Computation", "weight": 1.0} -->
-
-where Adam optimizer is used to update the network parameters.
-
-<!-- chunk {"id": "body-0027", "role": "body", "section": "Model Predictive Path Integral Control", "weight": 1.0} -->
+<!-- chunk {"id": "body-0023", "role": "body", "section": "Model Predictive Path Integral Control", "weight": 1.0} -->
 
 Model Predictive Path Integral (MPPI) control is a sampling-based optimal control framework that solves a stochastic formulation of the finite-horizon control problem without requiring gradient information or convexity assumptions. This property makes MPPI particularly suitable for articulated agricultural vehicles, where nonlinear tractor-trailer dynamics, nonconvex obstacle geometries, and discontinuous distance-based penalties pose challenges for classical optimization-based MPC formulations.
 
+<!-- chunk {"id": "body-0024", "role": "body", "section": "Model Predictive Path Integral Control", "weight": 1.0} -->
+
+In our formulation, the tractor--trailer dynamics is discretized as: where $\Delta t$ is the sampling period and $\mathcal{F}(\cdot)$ corresponds to the continuous-time kinematic model introduced in Section 2. To promote smoother motions and incorporate actuator limits, we augment the state with the tractor's longitudinal velocity and steering angle, and command their derivatives instead. The augmented state and control vectors become: where $a_{t}$ is longitudinal acceleration and $\zeta_{t}$ is the steering rate. The additional state variables evolve according to simple first-order integrators: Given a nominal control sequence $\mathbb{U}_{t}=\{\vec{u}_{t},\dots,\vec{u}_{t+N}\}$, where $N$ is the receding horizon length, MPPI constructs a set of perturbed control sequences by injecting Gaussian exploration noise: for $\tau=t,\dots,t+N$.
+
+<!-- chunk {"id": "body-0025", "role": "body", "section": "Model Predictive Path Integral Control", "weight": 1.0} -->
+
+The superscript $(s)$ denotes the $k$-th sampled rollout, with $k=1,\dots,K$ and $K$ is the number of rollouts. Each perturbed control sequence generates a simulated trajectory through tractor-trailer dynamics, producing $\{\vec{s}^{(k)}_{t},\dots,\vec{s}^{(k)}_{t+N}\}$.
+
+<!-- chunk {"id": "body-0026", "role": "body", "section": "Model Predictive Path Integral Control", "weight": 1.0} -->
+
+Each simulated trajectory is evaluated using a running cost that captures goal tracking, smooth motion, articulation feasibility, and collision avoidance. The goal tracking cost penalizes deviation from a desired goal state $\vec{s}_{goal}$: The control cost penalizes large magnitudes of the acceleration and steering rate commands: To encourage smoother motion, we penalize rapid changes in the commanded controls through: In addition, to prevent unsafe configurations, such as jacknifing on the tractor-trailer system, we include a cost term that penalizes large articulation angles: A crucial component of the cost function is obstacle avoidance. At each predicted state $\vec{s}_{\tau}^{(k)}$, the minimum distance between the articulated tractor-trailer body and surrounding obstacles is computed using the geometric neural encoder introduced in Section 3. The pretrained encoder takes LiDAR points transformed into the polygon's local frame and outputs estimated dual variables, from which accurate point-to-polygon distances can be reconstructed.
+
+<!-- chunk {"id": "body-0027", "role": "body", "section": "Model Predictive Path Integral Control", "weight": 1.0} -->
+
+Based, let $\ d_{\tau}^{(k)}=\min_{i,j}\mathcal{D}\big(\mathbb{E}^{i}(\vec{s}^{(k)}_{\tau}),\vec{o}^{j}_{t}\big)$ denote the minimum signed distance from all LiDAR points to any polygon component of the tractor-trailer geometry at time $\tau$ along the $k$-th sampled rollout. This distance is then incorporated into a smooth barrier-style potential that sharply penalizes proximity to obstacles and transitions to a linear penalty once penetration occurs: where $\varepsilon$ is a small positive constant. This formulation enables the controller to reason about complex articulated geometries and obstacles directly from raw sensor measurements.
+
 <!-- chunk {"id": "body-0028", "role": "body", "section": "Model Predictive Path Integral Control", "weight": 1.0} -->
 
-where $\Deltat$ is the sampling period and $\mathcal{F}{( \cdot )}$ corresponds to the continuous-time kinematic model introduced in Section 2. To promote smoother motions and incorporate actuator limits, we augment the state with the tractor's longitudinal velocity and steering angle, and command their derivatives instead.
+Finally, to bias the final state toward the goal, we add a terminal cost: The running cost for rollout $k$ at time $\tau$ is defined as the sum of all individual cost terms: | | $\displaystyle\mathcal{C}\big(\vec{s}^{(k)}_{\tau},\vec{u}^{(k)}_{\tau},d_{\tau}^{(k)}\big)=$ | $\displaystyle c_{goal}+c_{control}+c_{smooth}+c_{articulate}$ | | \(22\) | | | | $\displaystyle+c_{obstacle}+c_{terminal}$ | | | The total trajectory cost for rollout s over the prediction horizon is obtained by summing the running costs across all time steps: After that, MPPI applies an importance-sampling update inspired by path integral control theory. Each rollout $k$ is assigned a weight: where $\lambda>0$ is a temperature parameter that regulates sensitivity to high-cost trajectories.
 
 <!-- chunk {"id": "body-0029", "role": "body", "section": "Model Predictive Path Integral Control", "weight": 1.0} -->
 
-where $a_{t}$ is longitudinal acceleration and $\zeta_{t}$ is the steering rate.
+The weights are normalized: and the nominal control sequence is updated according to a weighted average of all sampled controls: The first control input $\vec{u}_{\tau=t}$ is then applied to the tractor-trailer system, and the prediction horizon is shifted forward, yielding a receding-horizon scheme suitable for real-time use. The complete framework is summarized in Algorithm 1.
 
 <!-- chunk {"id": "body-0030", "role": "body", "section": "Model Predictive Path Integral Control", "weight": 1.0} -->
 
-for $\tau = {t,\ldots,{t + N}}$. The superscript $(s)$ denotes the $k$-th sampled rollout, with $k = {1,\ldots,K}$ and $K$ is the number of rollouts. Each perturbed control sequence generates a simulated trajectory through tractor-trailer dynamics, producing $\{{\overset{\rightarrow}{s}}_{t}^{(k)},\ldots,{\overset{\rightarrow}{s}}_{t + N}^{(k)}\}$.
+By combining accurate and fast neural distance estimation with sampling-based optimal control, the proposed framework generates dynamically feasible and collision-aware trajectories in cluttered and partially unknown agricultural environments. The neural encoder provides precise obstacle proximity information directly from raw LiDAR measurements, while MPPI efficiently explores perturbations that respect the nonlinear articulated dynamics and operational constraints. Together, these components form a robust and efficient navigation solution for articulated tractor-trailer system operating in complex field settings. The current framework performs goal chasing, but it can be extended to reference-path tracking by replacing $\vec{s}_{\text{goal}}$ with a time-indexed reference $\vec{s}_{\text{ref},\tau}$ provided by a high-level planner.
 
 <!-- chunk {"id": "body-0031", "role": "body", "section": "Model Predictive Path Integral Control", "weight": 1.0} -->
 
-Each simulated trajectory is evaluated using a running cost that captures goal tracking, smooth motion, articulation feasibility, and collision avoidance.
+1:Initialize state s⃗0, control sequence 𝕌0 = {u⃗0, …, u⃗N}, set t ← 0 2:while task not finished do 3: Acquire LiDAR scan and form obstacle set 𝕆t 9: Compute distance dτ(k) via neural encoders 10: Evaluate running cost 𝒞(s⃗τ(k), u⃗τ(k), dτ(k)) 12: Compute total cost J(k) 14: Compute normalized weights γ̄(k) from J(k) 18: Apply u⃗t, observe s⃗t + 1, shift horizon, set t ← t + 1 Algorithm 1 MPPI Navigation with Geometric Neural Encoder
 
-<!-- chunk {"id": "body-0032", "role": "body", "section": "Model Predictive Path Integral Control", "weight": 1.0} -->
+<!-- chunk {"id": "body-0032", "role": "body", "section": "Simulation Results", "weight": 1.0} -->
 
-A crucial component of the cost function is obstacle avoidance. At each predicted state ${\overset{\rightarrow}{s}}_{\tau}^{(k)}$, the minimum distance between the articulated tractor-trailer body and surrounding obstacles is computed using the geometric neural encoder introduced in Section 3. The pretrained encoder takes LiDAR points transformed into the polygon's local frame and outputs estimated dual variables, from which accurate point-to-polygon distances can be reconstructed.
+We evaluate the performance of the proposed navigation framework in a simulated environment containing dense obstacles and narrow free-space passages. The articulated tractor--trailer model used in simulation consists of three convex polygons: one for the tractor body and two for the trailer, as shown in Fig. 1a. The tractor measures $3.35\,\mathrm{m}\times 1.48\,\mathrm{m}$, while the trailer includes a rectangular body of $1.2\,\mathrm{m}\times 3.6\,\mathrm{m}$ and a triangular connector part. The tractor wheelbase is $L_{0}=1.9\,\mathrm{m}$, the hitch offset is $L_{h}=0.5\,\mathrm{m}$, and the trailer axle is located $L_{1}=1.5\,\mathrm{m}$ behind the hitch point.
 
-<!-- chunk {"id": "body-0033", "role": "body", "section": "Model Predictive Path Integral Control", "weight": 1.0} -->
+<!-- chunk {"id": "body-0033", "role": "body", "section": "Simulation Results", "weight": 1.0} -->
 
-where $\varepsilon$ is a small positive constant. This formulation enables the controller to reason about complex articulated geometries and obstacles directly from raw sensor measurements.
+A geometric neural encoder is trained for each convex polygon. Training all three encoders requires approximately 2.2 hours on a machine equipped with an Intel i9-13900KF CPU and an NVIDIA RTX 4090 GPU. Each encoder is trained for 5,000 epochs using 80/20 train-test split of the dataset. After training, the mean squared error (MSE) between predicted and ground-truth dual variables and point-to-polygon distances on the test set drops below $1\times 10^{-5}$, indicating strong convergence. Once trained, the encoders are integrated into the MPPI controller and used online without further optimization.
 
-<!-- chunk {"id": "body-0034", "role": "body", "section": "Model Predictive Path Integral Control", "weight": 1.0} -->
+<!-- chunk {"id": "body-0034", "role": "body", "section": "Simulation Results", "weight": 1.0} -->
 
-After that, MPPI applies an importance-sampling update inspired by path integral control theory.
+A simulated 2D LiDAR sensor provides point clouds at every time step, which serve as input to the neural encoders. The robot's state is assumed to be known; on real platforms, this could be provided by a localization module running a Simultaneous Localization and Mapping (SLAM) algorithm. The MPPI controller is configured with a prediction horizon of 50 steps, a time step of $\Delta t=0.1\,\mathrm{s}$, 1000 sampled trajectories per update, Gaussian exploration noise $\Sigma_{w}=\mathrm{diag}$, and a temperature parameter $\lambda=1$.
 
-<!-- chunk {"id": "body-0035", "role": "body", "section": "Model Predictive Path Integral Control", "weight": 1.0} -->
+<!-- chunk {"id": "body-0035", "role": "body", "section": "Simulation Results", "weight": 1.0} -->
 
-where $\lambda > 0$ is a temperature parameter that regulates sensitivity to high-cost trajectories.
+The running cost uses the following weights: $W_{g}=\mathrm{diag}(1,1,0.5,0.5,0,0)$ for goal tracking, $W_{u}=\mathrm{diag}(0.1,0.1)$ for control effort, $W_{\Delta u}=\mathrm{diag}(0.1,0.1)$ for smoothness, $w_{\phi}=1$ for articulation penalty, and $w_{obs}=5$, $w_{coll}=50$ for collision. A terminal cost with weight $W_{T}=10~W_{g}$ is applied to bias the final state toward the goal. These parameters are tuned empirically. The controller is implemented in Python with GPU acceleration.
 
-<!-- chunk {"id": "body-0036", "role": "body", "section": "Model Predictive Path Integral Control", "weight": 1.0} -->
-
-The first control input ${\overset{\rightarrow}{u}}_{\tau = t}$ is then applied to the tractor-trailer system, and the prediction horizon is shifted forward, yielding a receding-horizon scheme suitable for real-time use. The complete framework is summarized in Algorithm 1.
-
-<!-- chunk {"id": "body-0037", "role": "body", "section": "Model Predictive Path Integral Control", "weight": 1.0} -->
-
-By combining accurate and fast neural distance estimation with sampling-based optimal control, the proposed framework generates dynamically feasible and collision-aware trajectories in cluttered and partially unknown agricultural environments. The neural encoder provides precise obstacle proximity information directly from raw LiDAR measurements, while MPPI efficiently explores perturbations that respect the nonlinear articulated dynamics and operational constraints. Together, these components form a robust and efficient navigation solution for articulated tractor-trailer system operating in complex field settings. The current framework performs goal chasing, but it can be extended to reference-path tracking by replacing ${\overset{\rightarrow}{s}}_{\text{goal}}$ with a time-indexed reference ${\overset{\rightarrow}{s}}_{\text{ref},\tau}$ provided by a high-level planner.
-
-<!-- chunk {"id": "body-0038", "role": "body", "section": "Simulation Results", "weight": 1.0} -->
-
-We evaluate the performance of the proposed navigation framework in a simulated environment containing dense obstacles and narrow free-space passages. The articulated tractor--trailer model used in simulation consists of three convex polygons: one for the tractor body and two for the trailer, as shown in Fig. 1a. The tractor measures ${{3.35m} \times 1.48}m$, while the trailer includes a rectangular body of ${{1.2m} \times 3.6}m$ and a triangular connector part. The tractor wheelbase is $L_{0} = {1.9m}$, the hitch offset is $L_{h} = {0.5m}$, and the trailer axle is located $L_{1} = {1.5m}$ behind the hitch point.
-
-<!-- chunk {"id": "body-0039", "role": "body", "section": "Simulation Results", "weight": 1.0} -->
-
-A geometric neural encoder is trained for each convex polygon. Training all three encoders requires approximately 2.2 hours on a machine equipped with an Intel i9-13900KF CPU and an NVIDIA RTX 4090 GPU. Each encoder is trained for 5,000 epochs using 80/20 train-test split of the dataset. After training, the mean squared error (MSE) between predicted and ground-truth dual variables and point-to-polygon distances on the test set drops below $1 \times 10^{- 5}$, indicating strong convergence. Once trained, the encoders are integrated into the MPPI controller and used online without further optimization.
-
-<!-- chunk {"id": "body-0040", "role": "body", "section": "Simulation Results", "weight": 1.0} -->
-
-A simulated 2D LiDAR sensor provides point clouds at every time step, which serve as input to the neural encoders. The robot's state is assumed to be known; on real platforms, this could be provided by a localization module running a Simultaneous Localization and Mapping (SLAM) algorithm. The MPPI controller is configured with a prediction horizon of 50 steps, a time step of ${\Deltat} = {0.1s}$, 1000 sampled trajectories per update, Gaussian exploration noise $\Sigma_{w} = {{diag}{}}$, and a temperature parameter $\lambda = 1$.
-
-<!-- chunk {"id": "body-0041", "role": "body", "section": "Simulation Results", "weight": 1.0} -->
-
-The running cost uses the following weights: $W_{g} = {{diag}{(1,1,0.5,0.5,0,0)}}$ for goal tracking, $W_{u} = {{diag}{(0.1,0.1)}}$ for control effort, $W_{\Deltau} = {{diag}{(0.1,0.1)}}$ for smoothness, $w_{\phi} = 1$ for articulation penalty, and $w_{obs} = 5$, $w_{coll} = 50$ for collision. A terminal cost with weight $W_{T} = {10W_{g}}$ is applied to bias the final state toward the goal. These parameters are tuned empirically. The controller is implemented in Python with GPU acceleration.
-
-<!-- chunk {"id": "body-0042", "role": "body", "section": "Conclusion and Future Work", "weight": 1.5} -->
+<!-- chunk {"id": "body-0036", "role": "body", "section": "Conclusion and Future Work", "weight": 1.5} -->
 
 This work presented a neural distance--guided Model Predictive Path Integral control framework for real-time navigation of articulated tractor--trailer systems in cluttered environments. By combining a duality-inspired geometric neural encoder with a sampling-based stochastic control method, the proposed pipeline achieves accurate distance estimation and safe, dynamically feasible navigation for tractor-trailer systems without requiring prior maps or geometric simplifications.
 
-<!-- chunk {"id": "body-0043", "role": "body", "section": "Conclusion and Future Work", "weight": 1.5} -->
+<!-- chunk {"id": "body-0037", "role": "body", "section": "Conclusion and Future Work", "weight": 1.5} -->
 
 While effective, the current framework requires training a separate neural encoder for each polygon geometry. A promising direction for future work is the development of a universal or geometry-conditioned encoder that can generalize across multiple tractor--trailer configurations without retraining. Since MPPI functions as a local planner, it may become trapped in local minima in highly constrained environments, and integrating our approach with a global planner would provide high-level guidance and improve robustness. Real-world deployment is another important next step, which will require filtering ground returns and overhanging obstacles by selecting 3D LiDAR points within a height band of interest and projecting them onto the 2D plane, together with outlier rejection for sensor noise. The neural encoder processes points in parallel on the GPU and scales favorably with point count, and voxel downsampling can further reduce input size for embedded platforms. Additional future work includes expanded studies across diverse field layouts, more extensive testing in reverse-motion scenarios, evaluation under dynamic and moving obstacles, and quantitative comparisons with state-of-the-art planners.

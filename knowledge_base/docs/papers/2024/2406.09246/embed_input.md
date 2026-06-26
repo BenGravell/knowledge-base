@@ -20,7 +20,7 @@ A key weakness of learned policies for robotic manipulation is their inability t
 
 <!-- chunk {"id": "body-0005", "role": "body", "section": "Introduction", "weight": 1.5} -->
 
-Towards this goal, existing work has explored integrating pretrained language and vision-language models for robotic representation learning and as a component in modular systems for task planning and execution. More recently, they have been used for directly learning vision-language-action models \[VLAs \] for control. VLAs provide a direct instantiation of using pretrained vision-and-language foundation models for robotics, directly fine-tuning visually-conditioned language models (VLMs) such as PaLI to generate robot control actions. By building off of strong foundation models trained on Internet-scale data, VLAs such as RT-2 demonstrate impressive robustness results, as well as an ability to generalize to novel objects and tasks, setting a new standard for generalist robot policies. Yet, there are two key reasons preventing the widespread use of existing VLAs: 1) current models are closed, with limited visibility into model architecture, training procedures, and data mixture, and 2) existing works do not provide best practices for deploying and adapting VLAs to new robots, environments, and tasks --- especially on commodity hardware (e.g., consumer-grade GPUs).
+Towards this goal, existing work has explored integrating pretrained language and vision-language models for robotic representation learning and as a component in modular systems for task planning and execution. More recently, they have been used for directly learning vision-language-action models \VLAs; for control. VLAs provide a direct instantiation of using pretrained vision-and-language foundation models for robotics, directly fine-tuning visually-conditioned language models (VLMs) such as PaLI to generate robot control actions. By building off of strong foundation models trained on Internet-scale data, VLAs such as RT-2 demonstrate impressive robustness results, as well as an ability to generalize to novel objects and tasks, setting a new standard for generalist robot policies. Yet, there are two key reasons preventing the widespread use of existing VLAs: 1) current models are closed, with limited visibility into model architecture, training procedures, and data mixture, and 2) existing works do not provide best practices for deploying and adapting VLAs to new robots, environments, and tasks --- especially on commodity hardware (e.g., consumer-grade GPUs).
 
 <!-- chunk {"id": "body-0006", "role": "body", "section": "Introduction", "weight": 1.5} -->
 
@@ -32,7 +32,7 @@ To this end, we introduce OpenVLA, a 7B-parameter open-source VLA that establish
 
 <!-- chunk {"id": "body-0008", "role": "body", "section": "Introduction", "weight": 1.5} -->
 
-We additionally investigate efficient fine-tuning strategies for VLAs, a new contribution not explored in prior work, across 7 diverse manipulation tasks spanning behaviors from object pick-and-place to cleaning a table. We find that fine-tuned OpenVLA policies clearly outperform fine-tuned pretrained policies such as Octo. Compared to from-scratch imitation learning with diffusion policies, fine-tuned OpenVLA shows substantial improvement on tasks involving grounding language to behavior in multi-task settings with multiple objects. Following these results, we are the first to demonstrate the effectiveness of compute-efficient fine-tuning methods leveraging low-rank adaptation \[LoRA; \] and model quantization to facilitate adapting OpenVLA models on consumer-grade GPUs instead of large server nodes without compromising performance. As a final contribution, we open-source all models, deployment and fine-tuning notebooks, and the OpenVLA codebase for training VLAs at scale, with the hope that these resources enable future work exploring and adapting VLAs for robotics.
+We additionally investigate efficient fine-tuning strategies for VLAs, a new contribution not explored in prior work, across 7 diverse manipulation tasks spanning behaviors from object pick-and-place to cleaning a table. We find that fine-tuned OpenVLA policies clearly outperform fine-tuned pretrained policies such as Octo. Compared to from-scratch imitation learning with diffusion policies, fine-tuned OpenVLA shows substantial improvement on tasks involving grounding language to behavior in multi-task settings with multiple objects. Following these results, we are the first to demonstrate the effectiveness of compute-efficient fine-tuning methods leveraging low-rank adaptation \LoRA; and model quantization to facilitate adapting OpenVLA models on consumer-grade GPUs instead of large server nodes without compromising performance. As a final contribution, we open-source all models, deployment and fine-tuning notebooks, and the OpenVLA codebase for training VLAs at scale, with the hope that these resources enable future work exploring and adapting VLAs for robotics.
 
 <!-- chunk {"id": "body-0009", "role": "body", "section": "Visually-Conditioned Language Models", "weight": 1.0} -->
 
@@ -108,7 +108,7 @@ Training Epochs. Typical LLM or VLM training runs complete at most one or two ep
 
 <!-- chunk {"id": "body-0027", "role": "body", "section": "OpenVLA Design Decisions", "weight": 1.0} -->
 
-Learning Rate. We swept the learning rate across multiple orders of magnitude for VLA training, and achieved the best results using a fixed learning rate of 2e-5. We did not find learning rate warmup to provide benefits.
+Learning Rate. We swept the learning rate across multiple orders of magnitude for VLA training, and achieved the best results using a fixed learning rate of 2e-5 (the same learning rate used during VLM pretraining ). We did not find learning rate warmup to provide benefits.
 
 <!-- chunk {"id": "body-0028", "role": "body", "section": "Infrastructure for Training and Inference", "weight": 1.0} -->
 
@@ -116,75 +116,75 @@ The final OpenVLA model is trained on a cluster of 64 A100 GPUs for 14 days, or 
 
 <!-- chunk {"id": "body-0029", "role": "body", "section": "The OpenVLA Codebase", "weight": 1.0} -->
 
-Along with our model, we release the OpenVLA codebase, a modular PyTorch codebase for training VLA models. It scales from fine-tuning VLAs on individual GPUs to training billion-parameter VLAs on multi-node GPU clusters, and supports modern techniques for large transformer model training such as automatic mixed precision, FlashAttention, and fully sharded data parallelism. Out of the box, the OpenVLA codebase has full support for training on the Open X dataset, integrates with HuggingFace's AutoModel class, and supports LoRA fine-tuning and quantized model inference.
+Along with our model, we release the OpenVLA codebase, a modular PyTorch codebase for training VLA models. It scales from fine-tuning VLAs on individual GPUs to training billion-parameter VLAs on multi-node GPU clusters, and supports modern techniques for large transformer model training such as automatic mixed precision (AMP, PyTorch ), FlashAttention, and fully sharded data parallelism (FSDP, Zhao et al. ). Out of the box, the OpenVLA codebase has full support for training on the Open X dataset, integrates with HuggingFace's AutoModel class, and supports LoRA fine-tuning and quantized model inference.
 
 <!-- chunk {"id": "body-0030", "role": "body", "section": "Experiments", "weight": 1.0} -->
 
-The goal of our experimental evaluations is to test OpenVLA's ability to serve as a powerful multi-robot control policy out of the box, as well as be a good initialization for fine-tuning to new robot tasks.
+The goal of our experimental evaluations is to test OpenVLA's ability to serve as a powerful multi-robot control policy out of the box, as well as be a good initialization for fine-tuning to new robot tasks. Concretely, we aim to answer the following questions: How does OpenVLA compare to prior generalist robot policies, when evaluating on multiple robots and various types of generalization?
 
 <!-- chunk {"id": "body-0031", "role": "body", "section": "Experiments", "weight": 1.0} -->
 
-How does OpenVLA compare to prior generalist robot policies, when evaluating on multiple robots and various types of generalization?
+Can OpenVLA be effectively fine-tuned on a new robot setup and task, and how does it compare to state-of-the-art data-efficient imitation learning approaches?
 
 <!-- chunk {"id": "body-0032", "role": "body", "section": "Experiments", "weight": 1.0} -->
 
-Can OpenVLA be effectively fine-tuned on a new robot setup and task, and how does it compare to state-of-the-art data-efficient imitation learning approaches?
-
-<!-- chunk {"id": "body-0033", "role": "body", "section": "Experiments", "weight": 1.0} -->
-
 Can we use parameter-efficient fine-tuning and quantization to reduce the computational requirements for training and inference of OpenVLA models and make them more accessible? What are the performance-compute trade-offs?
 
-<!-- chunk {"id": "body-0034", "role": "body", "section": "Direct Evaluations on Multiple Robot Platforms", "weight": 1.0} -->
+<!-- chunk {"id": "body-0033", "role": "body", "section": "Direct Evaluations on Multiple Robot Platforms", "weight": 1.0} -->
 
 Robot Setups and Tasks. We evaluate OpenVLA's performance "out-of-the-box" on two robot embodiments: the WidowX robot from the BridgeData V2 evaluations (see LABEL:fig:teaser, left) and the mobile manipulation robot from the RT-1 and RT-2 evaluations ("Google robot"; see LABEL:fig:teaser, middle). Both platforms have been extensively used in prior works for evaluating generalist robot policies. We define a comprehensive set of evaluation tasks in each environment that covers various axes of generalization, such as visual (unseen backgrounds, distractor objects, colors/appearances of objects); motion (unseen object positions/orientations); physical (unseen object sizes/shapes); and semantic (unseen target objects, instructions, and concepts from the Internet) generalization. We also assess language conditioning ability in scenes with multiple objects, testing whether the policy can manipulate the correct target object, as specified in the user's prompt. See bottom row of Fig. 2 and Fig. 3 for example task images in the BridgeData V2 and Google robot evaluations, respectively.
 
-<!-- chunk {"id": "body-0035", "role": "body", "section": "Direct Evaluations on Multiple Robot Platforms", "weight": 1.0} -->
+<!-- chunk {"id": "body-0034", "role": "body", "section": "Direct Evaluations on Multiple Robot Platforms", "weight": 1.0} -->
 
 Overall, we evaluated each method in 170 rollouts (17 tasks with 10 trials each) for BridgeData V2 experiments and 60 rollouts (12 tasks with 5 trials each) for Google robot experiments. A detailed breakdown of all tasks and how they differ from the training data is in Appendix B. All evaluations in this and the following sections are conducted as A/B evaluations, using the same tasks with the same sets of initial robot and object states, to ensure fair comparison.
 
-<!-- chunk {"id": "body-0036", "role": "body", "section": "Direct Evaluations on Multiple Robot Platforms", "weight": 1.0} -->
+<!-- chunk {"id": "body-0035", "role": "body", "section": "Direct Evaluations on Multiple Robot Platforms", "weight": 1.0} -->
 
 Comparisons. We compare OpenVLA's performance to three prior generalist manipulation policies: RT-1-X, RT-2-X, and Octo. RT-1-X (35M parameters) and Octo (93M parameters) are transformer policies trained from scratch on subsets of the OpenX dataset; Octo is the state-of-the-art model among open-source manipulation policies. RT-2-X (55B parameters) is a state-of-the-art, closed-source VLA that leverages Internet-pretrained vision and language backbones.
 
-<!-- chunk {"id": "body-0037", "role": "body", "section": "Direct Evaluations on Multiple Robot Platforms", "weight": 1.0} -->
+<!-- chunk {"id": "body-0036", "role": "body", "section": "Direct Evaluations on Multiple Robot Platforms", "weight": 1.0} -->
 
 The results are summarized in Fig. 2 for BridgeData V2 evaluations and Fig. 3 for Google robot evaluations (per-task breakdown in Appendix, Table 4 and Table 6). We find that both RT-1-X and Octo struggle on the tested tasks, often failing to manipulate the correct object, especially when distractors are present, and in some cases causing the robot to wave its arm around aimlessly. Note that our evaluations test even larger degrees of generalization than the evaluations performed in those prior works to challenge the Internet-pretrained VLA models. Thus, lower performance of models without Internet pretraining is expected. RT-2-X clearly outperforms both RT-1-X and Octo, demonstrating the benefits of large, pretrained VLMs for robotics.
 
-<!-- chunk {"id": "body-0038", "role": "body", "section": "Direct Evaluations on Multiple Robot Platforms", "weight": 1.0} -->
+<!-- chunk {"id": "body-0037", "role": "body", "section": "Direct Evaluations on Multiple Robot Platforms", "weight": 1.0} -->
 
 Notably, OpenVLA performs comparably to RT-2-X on Google robot evaluations and significantly outperforms RT-2-X on BridgeData V2 evaluations despite being an order of magnitude smaller (7B vs. 55B parameters). Qualitatively, we find that both RT-2-X and OpenVLA exhibit markedly more robust behaviors than the other tested models, such as approaching the correct object when distractor objects are present, properly orienting the robot's end-effector to align with the orientation of the target object, and even recovering from mistakes such as insecurely grasping objects. RT-2-X achieves higher performance in semantic generalization tasks, as shown in Fig. 2, which is expected given that it uses larger-scale Internet pretraining data and is co-fine-tuned with both robot action data and Internet pretraining data to better preserve the pretraining knowledge, rather than being fine-tuned solely on robot data, like OpenVLA. However, OpenVLA performs comparably or better in all other task categories in both BridgeData V2 and Google robot evaluations.
 
-<!-- chunk {"id": "body-0039", "role": "body", "section": "Direct Evaluations on Multiple Robot Platforms", "weight": 1.0} -->
+<!-- chunk {"id": "body-0038", "role": "body", "section": "Direct Evaluations on Multiple Robot Platforms", "weight": 1.0} -->
 
 The performance difference can be attributed to a combination of factors: we curated a much larger training dataset for OpenVLA with 970k trajectories (vs. 350k for RT-2-X); we performed more careful cleaning of the training dataset and, e.g., filtered out all-zero actions in the Bridge dataset (see Appendix C for a detailed discussion); and OpenVLA uses a fused vision encoder that combines pretrained semantic *and* spatial features. See Appendix D for ablation analyses of these components.
 
-<!-- chunk {"id": "body-0040", "role": "body", "section": "Data-Efficient Adaptation to New Robot Setups", "weight": 1.0} -->
+<!-- chunk {"id": "body-0039", "role": "body", "section": "Data-Efficient Adaptation to New Robot Setups", "weight": 1.0} -->
 
 While prior works mainly focused on directly evaluating VLAs "out-of-the-box", effective *fine-tuning* of VLA models to new tasks and robot setups is largely unexplored, yet is key for their widespread adoption. In this section, we investigate OpenVLA's ability to be quickly adapted to a new *real-world* robot setup. (See Appendix E for fine-tuning experiments in simulation.)
 
-<!-- chunk {"id": "body-0041", "role": "body", "section": "Data-Efficient Adaptation to New Robot Setups", "weight": 1.0} -->
+<!-- chunk {"id": "body-0040", "role": "body", "section": "Data-Efficient Adaptation to New Robot Setups", "weight": 1.0} -->
 
 Robot setups and tasks. We test a simple fine-tuning recipe for the OpenVLA model: full fine-tuning of all model parameters, using small datasets with 10--150 demonstrations of a target task (see Fig. 4; we explore parameter-efficient fine-tuning approaches in Section 5.3). We test OpenVLA in two setups: Franka-Tabletop, a stationary, table-mounted Franka Emika Panda 7-DoF robot arm; and Franka-DROID, the Franka robot arm setup from the recently released DROID dataset, mounted on a movable standing desk. The setups use 5Hz and 15 Hz non-blocking controllers, respectively. We choose Franka robot arms as the target embodiment for our fine-tuning experiments since they are widely used in the robot learning community and thus a likely "target" of OpenVLA fine-tuning. We test on setups with different control frequencies to test OpenVLA's applicability to a range of use cases.
 
+<!-- chunk {"id": "body-0041", "role": "body", "section": "Data-Efficient Adaptation to New Robot Setups", "weight": 1.0} -->
+
+Comparisons. We compare to Diffusion Policy, a state-of-the-art data-efficient imitation learning approach, trained from scratch. We also compare to Diffusion Policy (matched), a version of Diffusion Policy that matches the input and output specifications of OpenVLA.^33^3The full Diffusion Policy uses a two-step observation history with both images and proprioceptive state, and performs receding horizon control by predicting a chunk of $T$ future actions and executing the first $X$ actions in open-loop fashion before predicting the next chunk (for 15Hz control, we set ${T = 16},{X = 8}$ like in the DROID prior work; for 5Hz control, we reduce the chunk sizes to ${T = 8},{X = 3}$). It is also the only method in Section 5.2 that predicts *absolute* Cartesian coordinates to control the robot; all other methods use *relative* position control. Diffusion Policy (matched) uses a single image as input, has no proprioceptive information and no observation history, and predicts a single relative position control action without action chunking.
+
 <!-- chunk {"id": "body-0042", "role": "body", "section": "Data-Efficient Adaptation to New Robot Setups", "weight": 1.0} -->
 
-Comparisons. We compare to Diffusion Policy, a state-of-the-art data-efficient imitation learning approach, trained from scratch. We also compare to Diffusion Policy (matched), a version of Diffusion Policy that matches the input and output specifications of OpenVLA.^33^3The full Diffusion Policy uses a two-step observation history with both images and proprioceptive state, and performs receding horizon control by predicting a chunk of $T$ future actions and executing the first $X$ actions in open-loop fashion before predicting the next chunk. It is also the only method in Section 5.2 that predicts *absolute* Cartesian coordinates to control the robot; all other methods use *relative* position control. Diffusion Policy (matched) uses a single image as input, has no proprioceptive information and no observation history, and predicts a single relative position control action without action chunking. Additionally, we evaluate Octo fine-tuned on the target dataset, since it is currently the best generalist policy that supports fine-tuning (fine-tuning of RT-2-X is not supported through its inference API).
+Additionally, we evaluate Octo fine-tuned on the target dataset, since it is currently the best generalist policy that supports fine-tuning (fine-tuning of RT-2-X is not supported through its inference API). We also fine-tune OpenVLA on the same target dataset, and the resulting policy is denoted by OpenVLA. Finally, as an ablation experiment, we compare to OpenVLA (scratch), where we directly fine-tune the underlying base Prismatic VLM on the target robot setup -- rather than fine-tuning the OpenX-pretrained OpenVLA model -- to assess the benefit of large-scale robot pretraining.
 
 <!-- chunk {"id": "body-0043", "role": "body", "section": "Data-Efficient Adaptation to New Robot Setups", "weight": 1.0} -->
 
-We also fine-tune OpenVLA on the same target dataset, and the resulting policy is denoted by OpenVLA. Finally, as an ablation experiment, we compare to OpenVLA (scratch), where we directly fine-tune the underlying base Prismatic VLM on the target robot setup -- rather than fine-tuning the OpenX-pretrained OpenVLA model -- to assess the benefit of large-scale robot pretraining.
+We present the results in Fig. 4 (per-task breakdown in Appendix, Table 7). We find that both versions of Diffusion Policy are competitive with or outperform the generalist policies Octo and OpenVLA on narrower single-instruction tasks like "Put Carrot in Bowl" and "Pour Corn into Pot", but the pretrained generalist policies perform better in more diverse fine-tuning tasks that involve multiple objects in the scene and require language conditioning. OpenX pretraining for Octo and OpenVLA enables the models to better adapt to these more diverse tasks where language grounding is important; we see evidence for this in the lower performance of OpenVLA (scratch).
 
 <!-- chunk {"id": "body-0044", "role": "body", "section": "Data-Efficient Adaptation to New Robot Setups", "weight": 1.0} -->
 
-We present the results in Fig. 4 (per-task breakdown in Appendix, Table 7). We find that both versions of Diffusion Policy are competitive with or outperform the generalist policies Octo and OpenVLA on narrower single-instruction tasks like "Put Carrot in Bowl" and "Pour Corn into Pot", but the pretrained generalist policies perform better in more diverse fine-tuning tasks that involve multiple objects in the scene and require language conditioning. OpenX pretraining for Octo and OpenVLA enables the models to better adapt to these more diverse tasks where language grounding is important; we see evidence for this in the lower performance of OpenVLA (scratch).
-
-<!-- chunk {"id": "body-0045", "role": "body", "section": "Data-Efficient Adaptation to New Robot Setups", "weight": 1.0} -->
-
 Overall, we find that OpenVLA achieves the highest average performance. Notably, most prior works achieve strong performance only in *either* narrow single-instruction *or* diverse multi-instruction tasks, resulting in widely varying success rates. OpenVLA is the only approach that achieves at least 50% success rate across all tested tasks, suggesting that it can be a strong default option for imitation learning tasks, particularly if they involve a diverse set of language instructions. For narrower but highly dexterous tasks, Diffusion Policy still shows smoother and more precise trajectories; incorporating action chunking and temporal smoothing, as implemented in Diffusion Policy, may help OpenVLA attain the same level of dexterity and may be a promising direction for future work (see Section 6 for a detailed discussion of current limitations).
+
+<!-- chunk {"id": "body-0045", "role": "body", "section": "Parameter-Efficient Fine-Tuning", "weight": 1.0} -->
+
+The full fine-tuning runs of OpenVLA in the previous section used 8 A100 GPUs for 5-15 hours per task (depending on the dataset size) to achieve high performance. While this is substantially less compute than what is required for VLA pretraining, in this section we explore even more compute- and parameter-efficient fine-tuning approaches and investigate their effectiveness.
 
 <!-- chunk {"id": "body-0046", "role": "body", "section": "Parameter-Efficient Fine-Tuning", "weight": 1.0} -->
 
-The full fine-tuning runs of OpenVLA in the previous section used 8 A100 GPUs for 5-15 hours per task (depending on the dataset size) to achieve high performance. While this is substantially less compute than what is required for VLA pretraining, in this section we explore even more compute- and parameter-efficient fine-tuning approaches and investigate their effectiveness.
+Last layer only Table 1: Parameter-efficient fine-tuning evaluation. LoRA fine-tuning achieves the best performance-compute trade-off, matching full fine-tuning performance while training only 1.4% of the model parameters. Mean success ± StdErr computed across 33 rollouts per approach on select Franka-Tabletop tasks (see Table 8 for details). ∗: Sharded across 2 GPUs with FSDP.
 
 <!-- chunk {"id": "body-0047", "role": "body", "section": "Parameter-Efficient Fine-Tuning", "weight": 1.0} -->
 

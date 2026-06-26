@@ -22,39 +22,39 @@ However, despite their conceptual simplicity, existing JEPA methods are highly p
 
 <!-- chunk {"id": "body-0006", "role": "body", "section": "Introduction", "weight": 1.5} -->
 
-To overcome these limitations, we propose LeWorldModel (LeWM), the first method to learn a stable JEPA end-to-end from raw pixels without heuristics, principled, and simple (cf. Fig 1). We evaluate LeWM across a diverse set of manipulation, navigation, and locomotion tasks in both 2D and 3D environments. In addition, we probe its intuitive physical understanding through targeted probing and surprise-quantification evaluations in latent space.
+To overcome these limitations, we propose LeWorldModel (LeWM), the first method to learn a stable JEPA end-to-end from raw pixels without heuristics, principled, and simple (cf. Fig 1). We evaluate LeWM across a diverse set of manipulation, navigation, and locomotion tasks in both 2D and 3D environments. In addition, we probe its intuitive physical understanding through targeted probing and surprise-quantification evaluations in latent space. Overall, our key findings and contributions are: We propose an end-to-end JEPA method for learning a latent world model from raw pixels on a single GPU. The method relies on a simple and stable two-term objective that remains robust across architectures and hyperparameter choices, while enabling efficient logarithmic-time hyperparameter search.
 
 <!-- chunk {"id": "body-0007", "role": "body", "section": "Introduction", "weight": 1.5} -->
 
-We propose an end-to-end JEPA method for learning a latent world model from raw pixels on a single GPU. The method relies on a simple and stable two-term objective that remains robust across architectures and hyperparameter choices, while enabling efficient logarithmic-time hyperparameter search.
+Our experiment demonstrates that LeWM achieves competitive control performance across diverse 2D and 3D tasks with only a compact 15M-parameter model, surpassing existing end-to-end JEPA-based approaches while remaining competitive with foundation-model-based world models at substantially lower cost, enabling planning up to $48\times$ faster.
 
 <!-- chunk {"id": "body-0008", "role": "body", "section": "Introduction", "weight": 1.5} -->
 
-Our experiment demonstrates that LeWM achieves competitive control performance across diverse 2D and 3D tasks with only a compact 15M-parameter model, surpassing existing end-to-end JEPA-based approaches while remaining competitive with foundation-model-based world models at substantially lower cost, enabling planning up to $48 \times$ faster.
-
-<!-- chunk {"id": "body-0009", "role": "body", "section": "Introduction", "weight": 1.5} -->
-
 We evaluate physical understanding in the latent space through probing of physical quantities and a violation-of-expectation test for detecting unphysical trajectories.
 
-<!-- chunk {"id": "body-0010", "role": "body", "section": "Method: LeWorldModel", "weight": 1.0} -->
+<!-- chunk {"id": "body-0009", "role": "body", "section": "Method: LeWorldModel", "weight": 1.0} -->
 
 In this section, we introduce LeWorldModel (LeWM). We first describe the streamlined training procedure used to learn the latent world model from offline data, including the dataset, model architecture, and training objective. We then explain how the learned model can be leveraged for decision making through latent planning using model predictive control (MPC).
 
-<!-- chunk {"id": "body-0011", "role": "body", "section": "Offline Dataset", "weight": 1.0} -->
+<!-- chunk {"id": "body-0010", "role": "body", "section": "Offline Dataset", "weight": 1.0} -->
 
 We consider a fully offline and reward-free setting. LeWorldModel is trained solely from unannotated trajectories of observations and actions, without access to reward signals or task specifications. This setup aligns with the JEPA line of work, which aims to learn generic, task-agnostic world models from observational data. Our objective is not to optimize behavior for a specific task, but to learn representations that capture environment dynamics and can later be controlled or adapted to a diverse set of tasks.
 
-<!-- chunk {"id": "body-0012", "role": "body", "section": "Offline Dataset", "weight": 1.0} -->
+<!-- chunk {"id": "body-0011", "role": "body", "section": "Offline Dataset", "weight": 1.0} -->
 
-The training data consists of trajectories of length $T$ composed of raw pixel observations ${\mathbf{o}}_{1:T}$ and associated actions ${\mathbf{a}}_{1:T}$. Trajectories are collected offline from behavior policies with no optimality requirements; they may be pseudo-expert or exploratory, as long as they sufficiently cover the environment dynamics. Additional implementation details (batch size, resolution, and sub-trajectory construction) are provided in App. D.
+The training data consists of trajectories of length $T$ composed of raw pixel observations ${\bm{o}}_{1:T}$ and associated actions ${\bm{a}}_{1:T}$. Trajectories are collected offline from behavior policies with no optimality requirements; they may be pseudo-expert or exploratory, as long as they sufficiently cover the environment dynamics. Additional implementation details (batch size, resolution, and sub-trajectory construction) are provided in App. D.
+
+<!-- chunk {"id": "body-0012", "role": "body", "section": "Model Architecture", "weight": 1.0} -->
+
+LeWM is built upon two components: an encoder and a predictor. The encoder maps a given frame observation ${\bm{o}}_{t}$ into a compact, low-dimensional latent representation ${\bm{z}}_{t}$. The predictor models the environment dynamics in latent space by predicting the embedding of the next frame observation $\hat{{\bm{z}}}_{t+1}$ given the latent embedding ${\bm{z}}_{t}$ and an action ${\bm{a}}_{t}$.
 
 <!-- chunk {"id": "body-0013", "role": "body", "section": "Model Architecture", "weight": 1.0} -->
 
-LeWM is built upon two components: an encoder and a predictor. The encoder maps a given frame observation ${\mathbf{o}}_{t}$ into a compact, low-dimensional latent representation ${\mathbf{z}}_{t}$. The predictor models the environment dynamics in latent space by predicting the embedding of the next frame observation ${\hat{\mathbf{z}}}_{t + 1}$ given the latent embedding ${\mathbf{z}}_{t}$ and an action ${\mathbf{a}}_{t}$.
+| | Encoder: | $\displaystyle{\bm{z}}_{t}={\rm enc}_{\theta}({\bm{o}}_{t})$ | | (LeWM) | | | Predictor: | $\displaystyle\hat{{\bm{z}}}_{t+1}={\rm pred}_{\phi}({\bm{z}}_{t},{\bm{a}}_{t})$ | | | The encoder is implemented as a Vision Transformer (ViT). Unless otherwise specified, we use the tiny configuration ($\sim$`<!-- -->`{=html}5M parameters) with a patch size of 14, 12 layers, 3 attention heads, and hidden dimensions of 192. The observation embedding ${\bm{z}}_{t}$ is constructed from the \[CLS\] token embedding of the last layer, followed by a projection step.
 
 <!-- chunk {"id": "body-0014", "role": "body", "section": "Model Architecture", "weight": 1.0} -->
 
-The encoder is implemented as a Vision Transformer (ViT). Unless otherwise specified, we use the tiny configuration ($\sim$`<!-- -->`{=html}5M parameters) with a patch size of 14, 12 layers, 3 attention heads, and hidden dimensions of 192. The observation embedding ${\mathbf{z}}_{t}$ is constructed from the \[CLS\] token embedding of the last layer, followed by a projection step. The projection step maps the \[CLS\] token embedding into a new representation space using a 1-layer MLP with Batch Normalization. This step is necessary because the final ViT layer applies a Layer Normalization, which prevents our anti-collapse objective from being optimized effectively.
+The projection step maps the \[CLS\] token embedding into a new representation space using a 1-layer MLP with Batch Normalization. This step is necessary because the final ViT layer applies a Layer Normalization, which prevents our anti-collapse objective from being optimized effectively.
 
 <!-- chunk {"id": "body-0015", "role": "body", "section": "Model Architecture", "weight": 1.0} -->
 
@@ -62,108 +62,96 @@ The predictor is a transformer with 6 layers, 16 attention heads, and 10% dropou
 
 <!-- chunk {"id": "body-0016", "role": "body", "section": "Training Objective", "weight": 1.0} -->
 
-Our objective is to learn latent representations useful for predicting the future, i.e., modeling the environment dynamics. LeWorldModel training objective is the sum of two terms: a prediction loss and a regularization loss.
+Our objective is to learn latent representations useful for predicting the future, i.e., modeling the environment dynamics. LeWorldModel training objective is the sum of two terms: a prediction loss and a regularization loss. The prediction loss $\mathcal{L}_{\rm pred}$ (teacher-forcing) computes the error between the predicted embedding of consecutive time-steps: Through the prediction loss, the encoder is incentivized to learn a predictable representation for the predictor.
 
 <!-- chunk {"id": "body-0017", "role": "body", "section": "Training Objective", "weight": 1.0} -->
 
-Through the prediction loss, the encoder is incentivized to learn a predictable representation for the predictor.
+However, if alone, the loss in Eq. 1 leads to representation collapse, yielding a trivial solution in which the encoder maps all inputs to a constant representation. To prevent this behavior, we introduce an anti-collapse regularization term that promotes feature diversity in the embedding space. Specifically, we adopt the Sketched-Isotropic-Gaussian Regularizer (SIGReg) due to its simplicity, scalability, and stability. SIGReg encourages the latent embeddings to match an isotropic Gaussian target distribution.
 
 <!-- chunk {"id": "body-0018", "role": "body", "section": "Training Objective", "weight": 1.0} -->
 
-However, if alone, the loss in Eq. 1 leads to representation collapse, yielding a trivial solution in which the encoder maps all inputs to a constant representation. To prevent this behavior, we introduce an anti-collapse regularization term that promotes feature diversity in the embedding space. Specifically, we adopt the Sketched-Isotropic-Gaussian Regularizer (SIGReg) due to its simplicity, scalability, and stability. SIGReg encourages the latent embeddings to match an isotropic Gaussian target distribution.
+Let ${\bm{Z}}\in\mathbb{R}^{N\times B\times d}$ denote the tensor of latent embeddings collected over the history length $N$, the batch size $B$, and where $d$ denotes the embedding dimension. Assessing normality directly in high-dimensional spaces is challenging, as most classical normality tests are designed for univariate data and do not scale reliably with dimensionality.
 
 <!-- chunk {"id": "body-0019", "role": "body", "section": "Training Objective", "weight": 1.0} -->
 
-Let ${\mathbf{Z}} \in {\mathbb{R}}^{N \times B \times d}$ denote the tensor of latent embeddings collected over the history length $N$, the batch size $B$, and where $d$ denotes the embedding dimension. Assessing normality directly in high-dimensional spaces is challenging, as most classical normality tests are designed for univariate data and do not scale reliably with dimensionality.
+SIGReg circumvents this limitation by projecting embeddings onto $M$ random unit-norm directions ${\bm{u}}^{(m)}\in\mathbb{S}^{d-1}$ and optimizing the univariate Epps--Pulley test statistic $T(\cdot)$ along the resulting one-dimensional projections ${\bm{h}}^{(m)}={\bm{Z}}{\bm{u}}^{(m)}$, as illustrated in Fig.1. By the Cramér--Wold theorem, matching all one-dimensional marginals is equivalent to matching the full joint distribution.
 
 <!-- chunk {"id": "body-0020", "role": "body", "section": "Training Objective", "weight": 1.0} -->
 
-SIGReg circumvents this limitation by projecting embeddings onto $M$ random unit-norm directions ${\mathbf{u}}^{(m)} \in {\mathbb{S}}^{d - 1}$ and optimizing the univariate Epps--Pulley test statistic $T{( \cdot )}$ along the resulting one-dimensional projections ${\mathbf{h}}^{(m)} = {{\mathbf{Z}}{\mathbf{u}}^{(m)}}$, as illustrated in Fig.1. By the Cramér--Wold theorem, matching all one-dimensional marginals is equivalent to matching the full joint distribution.
+Additional details on SIGReg and the definition of the Epps--Pulley statistical test are provided in appendix A.
 
 <!-- chunk {"id": "body-0021", "role": "body", "section": "Training Objective", "weight": 1.0} -->
 
-Additional details on SIGReg and the definition of the Epps--Pulley statistical test are provided in appendix A.
+The complete LeWM training objective is defined as: The method introduces only two training hyperparameters: the number of random projections $M$ used in SIGReg and the regularization weight $\lambda$. Unless otherwise specified, we use $M=1024$ projections and $\lambda=0.1$. In practice, we observe that the number of projections has negligible impact on downstream performance (see Sec. 4 and App. G), making $\lambda$ the only effective hyperparameter to tune. This greatly simplifies hyperparameter selection, as $\lambda$ can be efficiently optimized using a simple bisection search with logarithmic complexity. We do not employ stop-gradient, exponential moving averages, or additional stabilization heuristics. Gradients are propagated through all components of the loss, and all parameters are optimized jointly in an end-to-end manner, resulting in a streamlined and easy-to-implement training procedure. The training logic is summarized in Alg. 9.
 
-<!-- chunk {"id": "body-0022", "role": "body", "section": "Training Objective", "weight": 1.0} -->
+<!-- chunk {"id": "body-0022", "role": "body", "section": "Latent Planning", "weight": 1.0} -->
 
-The method introduces only two training hyperparameters: the number of random projections $M$ used in SIGReg and the regularization weight $\lambda$. Unless otherwise specified, we use $M = 1024$ projections and $\lambda = 0.1$. In practice, we observe that the number of projections has negligible impact on downstream performance (see Sec. 4 and App. G), making $\lambda$ the only effective hyperparameter to tune. This greatly simplifies hyperparameter selection, as $\lambda$ can be efficiently optimized using a simple bisection search with logarithmic complexity. We do not employ stop-gradient, exponential moving averages, or additional stabilization heuristics. Gradients are propagated through all components of the loss, and all parameters are optimized jointly in an end-to-end manner, resulting in a streamlined and easy-to-implement training procedure. The training logic is summarized in Alg. 9.
+At inference time, we perform trajectory optimization in our world model latent space, as illustrated in Fig.4. Given an initial observation ${\bm{o}}_{1}$, we initialize a candidate action sequence randomly and iteratively rollout predicted latent states up to a planning horizon $H$. The model predicts latent transitions according to Planning is performed by optimizing the action sequence to minimize a terminal latent goal-matching objective, where $\hat{{\bm{z}}}_{H}$ is the predicted latent state at the end of the rollout and ${\bm{z}}_{g}$ is the latent embedding of the goal observation ${\bm{o}}_{g}$. The world model parameters remain fixed during planning. This procedure corresponds to a finite-horizon optimal control problem, which we solve using the Cross-Entropy Method (CEM), a sampling method that iteratively selects the best plan and updates the parameters of the sampling distribution with the statistics of the best plans.
 
 <!-- chunk {"id": "body-0023", "role": "body", "section": "Latent Planning", "weight": 1.0} -->
 
-At inference time, we perform trajectory optimization in our world model latent space, as illustrated in Fig.4. Given an initial observation ${\mathbf{o}}_{1}$, we initialize a candidate action sequence randomly and iteratively rollout predicted latent states up to a planning horizon $H$. The model predicts latent transitions according to
+The planning horizon $H$ trades off long-term lookahead against increased computational cost and model bias. In particular, auto-regressive rollouts accumulate prediction errors as the horizon grows, which can deteriorate the quality of the optimized action sequence. To mitigate this effect, we adopt a Model Predictive Control (MPC) strategy: only the first $K$ planned actions are executed before replanning from the updated observation. We provide more details on the planning strategy in appendix D.
 
-<!-- chunk {"id": "body-0024", "role": "body", "section": "Latent Planning", "weight": 1.0} -->
-
-Planning is performed by optimizing the action sequence to minimize a terminal latent goal-matching objective,
-
-<!-- chunk {"id": "body-0025", "role": "body", "section": "Latent Planning", "weight": 1.0} -->
-
-where ${\hat{\mathbf{z}}}_{H}$ is the predicted latent state at the end of the rollout and ${\mathbf{z}}_{g}$ is the latent embedding of the goal observation ${\mathbf{o}}_{g}$. The world model parameters remain fixed during planning. This procedure corresponds to a finite-horizon optimal control problem,
-
-<!-- chunk {"id": "body-0026", "role": "body", "section": "Latent Planning", "weight": 1.0} -->
-
-which we solve using the Cross-Entropy Method (CEM), a sampling method that iteratively selects the best plan and updates the parameters of the sampling distribution with the statistics of the best plans. The planning horizon $H$ trades off long-term lookahead against increased computational cost and model bias. In particular, auto-regressive rollouts accumulate prediction errors as the horizon grows, which can deteriorate the quality of the optimized action sequence. To mitigate this effect, we adopt a Model Predictive Control (MPC) strategy: only the first $K$ planned actions are executed before replanning from the updated observation. We provide more details on the planning strategy in appendix D.
-
-<!-- chunk {"id": "body-0027", "role": "body", "section": "Environments", "weight": 1.0} -->
+<!-- chunk {"id": "body-0024", "role": "body", "section": "Environments", "weight": 1.0} -->
 
 We evaluate LeWM on a diverse set of tasks, including navigation, motion planning and manipulation, in both two- and three-dimensional environments, all illustrated in Fig. 5. We provide more details on dataset generation and environments in App. E.
 
-<!-- chunk {"id": "body-0028", "role": "body", "section": "Baselines", "weight": 1.0} -->
+<!-- chunk {"id": "body-0025", "role": "body", "section": "Baselines", "weight": 1.0} -->
 
 We compare the performance of LeWM against several baselines: DINO-WM and PLDM, two state-of-the-art JEPA-based methods; a goal-conditioned behavioral cloning policy (GCBC); and two goal-conditioned offline reinforcement learning algorithms, GCIVL and GCIQL. Among these baselines, PLDM is the closest to our setup, as it also learns a world model end-to-end directly from pixel observations. However, it relies on a seven-term training objective derived from the VICReg criterion, which introduces training instability and increases the complexity of hyperparameter tuning. DINO-WM, in contrast, models dynamics using DINOv2 as feature encoder to mitigate representation collapse, but its original formulation additionally incorporates other modalities, such as proprioceptive inputs; for a fair comparison, unless specified otherwise, we exclude proprioceptive information from DINO-WM. Additional implementation details for the baselines (App. C) and evaluation settings (App. F.1) are provided in the appendix. For each method, we keep the hyperparameters fixed across all environments.
 
-<!-- chunk {"id": "body-0029", "role": "body", "section": "Towards Efficient Planning with WMs", "weight": 1.0} -->
+<!-- chunk {"id": "body-0026", "role": "body", "section": "Towards Efficient Planning with WMs", "weight": 1.0} -->
 
 We report planning performance in Fig. 6. LeWM outperforms PLDM on the more challenging planning tasks, achieving an 18% higher success rate on PushT, while remaining competitive with DINO-WM. Notably, on PushT, LeWM (pixels-only) surpasses DINO-WM even when DINO-WM has access to additional proprioceptive information, demonstrating LeWM's ability to capture underlying task-relevant quantities. Interestingly, LeWM performs worse on the simplest environment, Two-Room. A possible explanation is that the low diversity and low intrinsic dimensionality of this dataset make it difficult for the encoder to match the isotropic Gaussian prior enforced by SIGReg in a high-dimensional latent space, which may lead to a less structured latent representation. This highlights a potential limitation of the SIGReg regularization in very low-complexity environments.
 
-<!-- chunk {"id": "body-0030", "role": "body", "section": "Towards Efficient Planning with WMs", "weight": 1.0} -->
+<!-- chunk {"id": "body-0027", "role": "body", "section": "Towards Efficient Planning with WMs", "weight": 1.0} -->
 
-Moreover, when comparing planning speedups (Fig. 3), LeWM achieves a $48 \times$ faster planning time, with the full planning completing in under one second while preserving competitive performance across tasks. This planning time remains consistent across environments for a fixed planning setup, narrowing the gap toward real-time control.
+Moreover, when comparing planning speedups (Fig. 3), LeWM achieves a $48\times$ faster planning time, with the full planning completing in under one second while preserving competitive performance across tasks. This planning time remains consistent across environments for a fixed planning setup, narrowing the gap toward real-time control.
 
-<!-- chunk {"id": "body-0031", "role": "body", "section": "Ablations", "weight": 1.0} -->
+<!-- chunk {"id": "body-0028", "role": "body", "section": "Ablations", "weight": 1.0} -->
 
-We perform ablations on several design choices of LeWM. First, we analyze the sensitivity of SIGReg to its internal parameters, namely the number of random projections and the number of integration knots. The performance is largely unaffected by these quantities, indicating that they do not require careful tuning. As a result, the regularization weight $\lambda$ remains the only effective hyperparameter. Since only a single hyperparameter needs to be tuned, grid search can be performed efficiently using a simple bisection strategy ($\mathcal{O}{({\log n})}$), whereas PLDM requires search in polynomial time ($\mathcal{O}{(n^{6})}$). We also study the effect of the embedding dimensionality. While the representation dimension must be sufficiently large for the method to perform well, performance quickly saturates beyond a certain threshold, suggesting that the approach is robust to the precise choice of encoder capacity. Additionally, we examine the impact of the encoder architecture by replacing the default ViT encoder with a ResNet-18 backbone (Tab. 8).
+We perform ablations on several design choices of LeWM. First, we analyze the sensitivity of SIGReg to its internal parameters, namely the number of random projections and the number of integration knots. The performance is largely unaffected by these quantities, indicating that they do not require careful tuning. As a result, the regularization weight $\lambda$ remains the only effective hyperparameter. Since only a single hyperparameter needs to be tuned, grid search can be performed efficiently using a simple bisection strategy ($\mathcal{O}(\log n)$), whereas PLDM requires search in polynomial time ($\mathcal{O}(n^{6})$). We also study the effect of the embedding dimensionality. While the representation dimension must be sufficiently large for the method to perform well, performance quickly saturates beyond a certain threshold, suggesting that the approach is robust to the precise choice of encoder capacity. Additionally, we examine the impact of the encoder architecture by replacing the default ViT encoder with a ResNet-18 backbone (Tab. 8).
 
-<!-- chunk {"id": "body-0032", "role": "body", "section": "Ablations", "weight": 1.0} -->
+<!-- chunk {"id": "body-0029", "role": "body", "section": "Ablations", "weight": 1.0} -->
 
 LeWM achieves competitive performance with both architectures, indicating that it is largely agnostic to the choice of vision encoder. Details on all ablations are available in App. G.
 
-<!-- chunk {"id": "body-0033", "role": "body", "section": "Training Curves", "weight": 1.0} -->
+<!-- chunk {"id": "body-0030", "role": "body", "section": "Training Curves", "weight": 1.0} -->
 
 We report the training loss curves on PushT for LeWM in Fig. 18 and PLDM in Fig. 19. The two-term objective of LeWM exhibits smooth and monotonic convergence: the prediction loss decreases steadily while the SIGReg regularization term drops sharply in the early phase of training before plateauing, indicating that the latent distribution quickly approaches the isotropic Gaussian target. In contrast, PLDM's seven-term objective displays noisy and non-monotonic behavior across several of its loss components. These observations highlight a key advantage of LeWM: by reducing the training objective to only two well-behaved terms, the training becomes significantly more stable, removing the need to balance competing gradients from multiple regularizers.
 
-<!-- chunk {"id": "body-0034", "role": "body", "section": "Quantifying Physical Understanding in LeWM", "weight": 1.0} -->
+<!-- chunk {"id": "body-0031", "role": "body", "section": "Quantifying Physical Understanding in LeWM", "weight": 1.0} -->
 
 In this section, we evaluate the quality of the dynamics captured by LeWM's latent space, either by learning to extract physical quantities from latent embeddings or by measuring the world model's ability to detect changes in physics.
 
-<!-- chunk {"id": "body-0035", "role": "body", "section": "Probing physical quantities", "weight": 1.0} -->
+<!-- chunk {"id": "body-0032", "role": "body", "section": "Probing physical quantities", "weight": 1.0} -->
 
 As a first measure of physical understanding, we evaluate which physical quantities are recoverable from LeWM's latent representations. We train both linear and non-linear probes to predict physical quantities of interest from a given embedding. Results on the Push-T environment are reported in Tab. 1. Our method consistently outperforms PLDM while remaining competitive with representations produced by large pretrained models such as DINOv2. We provide probing results on other environments in App. F.2.
 
-<!-- chunk {"id": "body-0036", "role": "body", "section": "Decoding Latent Space", "weight": 1.0} -->
+<!-- chunk {"id": "body-0033", "role": "body", "section": "Decoding Latent Space", "weight": 1.0} -->
 
 To further assess the information captured in the latent representation, we report in Fig. 10 images produced by a decoder trained to reconstruct pixel observations from a single latent embedding (192 dim) during training. Although reconstruction is never used during training, the decoder is able to recover the visual scene from the learned representation, confirming that the low-dimensional and compact latent space retains sufficient information about the underlying physical state. Details on the decoder architecture are provided in App. D.
 
-<!-- chunk {"id": "body-0037", "role": "body", "section": "Visualizing Latent Space", "weight": 1.0} -->
+<!-- chunk {"id": "body-0034", "role": "body", "section": "Visualizing Latent Space", "weight": 1.0} -->
 
 We further visualize the structure of the latent space using t-SNE. Fig. 13 provides a qualitative visualization of the latent space in the PushT environment. The visualization suggests that the learned representation captures the spatial structure of the environment, preserving neighborhood relationships and relative positions in the latent space.
 
-<!-- chunk {"id": "body-0038", "role": "body", "section": "Temporal Latent Path Straightening", "weight": 1.0} -->
+<!-- chunk {"id": "body-0035", "role": "body", "section": "Temporal Latent Path Straightening", "weight": 1.0} -->
 
 Inspired by the temporal straightening hypothesis from neuroscience and recent work, we measure the cosine similarity between consecutive latent velocity vectors throughout training (Eq. 9). We find that LeWM's latent trajectories become increasingly straight on PushT over training as a purely emergent phenomenon, without any explicit regularization encouraging this behavior, cf. Fig. 17. Remarkably, LeWM achieves higher temporal straightness than PLDM, despite PLDM employing a dedicated temporal smoothness regularization term. We detail our findings in App. H.
 
-<!-- chunk {"id": "body-0039", "role": "body", "section": "Violation-of-expectation Framework", "weight": 1.0} -->
+<!-- chunk {"id": "body-0036", "role": "body", "section": "Violation-of-expectation Framework", "weight": 1.0} -->
 
 Another approach to quantifying physical understanding is the ability to detect violations of the learned world model. Inspired by the violation-of-expectation (VoE) paradigm used in developmental psychology and recently adopted in machine learning, this framework evaluates whether a model assigns higher surprise to events that contradict learned physical regularities.
 
-<!-- chunk {"id": "body-0040", "role": "body", "section": "Violation-of-expectation Framework", "weight": 1.0} -->
+<!-- chunk {"id": "body-0037", "role": "body", "section": "Violation-of-expectation Framework", "weight": 1.0} -->
 
 Following prior work, we quantify surprise by measuring the discrepancy between the model's predicted future observations and the actual observed future. We evaluate this framework across three environments: TwoRoom, PushT, and OGBench Cube. For each environment, we introduce two types of perturbations. The first is a visual perturbation, where the color of an object changes abruptly during the trajectory. The second is a physical perturbation, where one or more objects are teleported to a random location, violating the expected physical continuity of the scene. Fig. 8 shows that LeWM consistently assigns higher surprise to frames containing physical violations compared to their unperturbed counterparts. We provide more details on VoE in App. F.3.
 
-<!-- chunk {"id": "body-0041", "role": "body", "section": "Conclusion", "weight": 1.5} -->
+<!-- chunk {"id": "body-0038", "role": "body", "section": "Conclusion", "weight": 1.5} -->
 
 We introduced LeWorldModel (LeWM), a stable end-to-end method for learning latent world models. LeWM is a Joint-Embedding Predictive Architecture in which an encoder maps image observations to a latent space and a predictor models temporal dynamics by forecasting future embeddings conditioned on actions. Across continuous control environments with raw pixel inputs, LeWM outperforms prior approaches in data efficiency, planning time, training time, and stability while remaining competitive in task performance. Training stability stems from explicitly encouraging latent embeddings toward an isotropic Gaussian distribution to prevent collapse, offering a scalable and principled alternative to existing work.
 
-<!-- chunk {"id": "body-0042", "role": "body", "section": "Limitations & Future Work", "weight": 1.5} -->
+<!-- chunk {"id": "body-0039", "role": "body", "section": "Limitations & Future Work", "weight": 1.5} -->
 
 Several limitations point to future directions. Planning remains restricted to short horizons, motivating hierarchical world modeling for long-horizon reasoning. Our method also relies on offline datasets with sufficient coverage; in particular, low data diversity weakens SIGReg in simple, low-dimensional environments where matching a high-dimensional Gaussian prior is harder. Pre-training on large, diverse video datasets could provide stronger priors and reduce domain-specific data needs. Finally, dependence on action labels could be alleviated by inverse dynamics modeling.

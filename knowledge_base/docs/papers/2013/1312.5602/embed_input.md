@@ -56,11 +56,11 @@ In practice, our algorithm only stores the last $N$ experience tuples in the rep
 
 <!-- chunk {"id": "body-0014", "role": "body", "section": "Deep Reinforcement Learning", "weight": 1.0} -->
 
-Initialize replay memory 𝒟 to capacity N Initialize action-value function Q with random weights Initialise sequence s1 = {x1} and preprocessed sequenced ϕ1 = ϕ (s1) With probability ϵ select a random action at otherwise select at = maxaQ* (ϕ (st),a;θ) Execute action at in emulator and observe reward rt and image xt + 1 Set st + 1 = st xt + 1 and preprocess ϕt + 1 = ϕ (st + 1) Sample random minibatch of transitions (ϕj,aj,rj,ϕj + 1) from 𝒟 Set $y_{j} = \left\{ \begin{array}{ll} r_{j} &amp; {\text{for terminal~}\phi_{j + 1}} \\ {r_{j} + {\gamma{\max_{a^{\prime}}Q}{(\phi_{j + 1},a^{\prime};\theta)}}} &amp; {\text{for non-terminal~}\phi_{j + 1}} \end{array}
+Initialize replay memory 𝒟 to capacity N Initialize action-value function Q with random weights Initialise sequence s1 = {x1} and preprocessed sequenced ϕ1 = ϕ (s1) With probability ϵ select a random action at otherwise select at = maxaQ* (ϕ (st), a; θ) Execute action at in emulator and observe reward rt and image xt + 1 Set st + 1 = st xt + 1 and preprocess ϕt + 1 = ϕ (st + 1) Sample random minibatch of transitions (ϕj, aj, rj, ϕj + 1) from 𝒟 Set $y_{j} = \left\{ \begin{array}{ll} r_{j} & {\text{for terminal~}\phi_{j + 1}} \\{r_{j} + {\gamma{\max_{a'}Q}{(\phi_{j + 1},a';\theta)}}} & {\text{for non-terminal~}\phi_{j + 1}} \end{array} \right.$ Perform a gradient descent step on (yj − Q
 
 <!-- chunk {"id": "body-0015", "role": "body", "section": "Deep Reinforcement Learning", "weight": 1.0} -->
 
-\right.$ Perform a gradient descent step on (yj−Q (ϕj,aj;θ))2 according to equation 3 Algorithm 1 Deep Q-learning with Experience Replay
+(ϕj, aj; θ))2 according to equation 3 Algorithm 1 Deep Q-learning with Experience Replay
 
 <!-- chunk {"id": "body-0016", "role": "body", "section": "Preprocessing and Model Architecture", "weight": 1.0} -->
 

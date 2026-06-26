@@ -22,11 +22,11 @@ We argue that current techniques restrict the power of the pre-trained represent
 
 <!-- chunk {"id": "body-0006", "role": "body", "section": "Introduction", "weight": 1.5} -->
 
-In this paper, we improve the fine-tuning based approaches by proposing BERT: Bidirectional Encoder Representations from Transformers. BERT alleviates the previously mentioned unidirectionality constraint by using a "masked language model" (MLM) pre-training objective, inspired by the Cloze task Taylor. The masked language model randomly masks some of the tokens from the input, and the objective is to predict the original vocabulary id of the masked word based only on its context. Unlike left-to-right language model pre-training, the MLM objective enables the representation to fuse the left and the right context, which allows us to pre-train a deep bidirectional Transformer. In addition to the masked language model, we also use a "next sentence prediction" task that jointly pre-trains text-pair representations.
+In this paper, we improve the fine-tuning based approaches by proposing BERT: Bidirectional Encoder Representations from Transformers. BERT alleviates the previously mentioned unidirectionality constraint by using a "masked language model" (MLM) pre-training objective, inspired by the Cloze task Taylor. The masked language model randomly masks some of the tokens from the input, and the objective is to predict the original vocabulary id of the masked word based only on its context. Unlike left-to-right language model pre-training, the MLM objective enables the representation to fuse the left and the right context, which allows us to pre-train a deep bidirectional Transformer. In addition to the masked language model, we also use a "next sentence prediction" task that jointly pre-trains text-pair representations. The contributions of our paper are as follows: We demonstrate the importance of bidirectional pre-training for language representations. Unlike Radford et al., which uses unidirectional language models for pre-training, BERT uses masked language models to enable pre-trained deep bidirectional representations.
 
 <!-- chunk {"id": "body-0007", "role": "body", "section": "Introduction", "weight": 1.5} -->
 
-We demonstrate the importance of bidirectional pre-training for language representations. Unlike Radford et al., which uses unidirectional language models for pre-training, BERT uses masked language models to enable pre-trained deep bidirectional representations. This is also in contrast to Peters et al., which uses a shallow concatenation of independently trained left-to-right and right-to-left LMs.
+This is also in contrast to Peters et al., which uses a shallow concatenation of independently trained left-to-right and right-to-left LMs.
 
 <!-- chunk {"id": "body-0008", "role": "body", "section": "Introduction", "weight": 1.5} -->
 
@@ -70,15 +70,15 @@ A distinctive feature of BERT is its unified architecture across different tasks
 
 <!-- chunk {"id": "body-0018", "role": "body", "section": "Model Architecture", "weight": 1.0} -->
 
-BERT's model architecture is a multi-layer bidirectional Transformer encoder based on the original implementation described in Vaswani et al. and released in the tensor2tensor library.^11^1 Because the use of Transformers has become common and our implementation is almost identical to the original, we will omit an exhaustive background description of the model architecture and refer readers to Vaswani et al. as well as excellent guides such as "The Annotated Transformer."^22^2
+BERT's model architecture is a multi-layer bidirectional Transformer encoder based on the original implementation described in Vaswani et al. and released in the tensor2tensor library.^11^1 Because the use of Transformers has become common and our implementation is almost identical to the original, we will omit an exhaustive background description of the model architecture and refer readers to Vaswani et al. as well as excellent guides such as "The Annotated Transformer."^22^2 In this work, we denote the number of layers (i.e., Transformer blocks) as $L$, the hidden size as $H$, and the number of self-attention heads as $A$.^33^3In all cases we set the feed-forward/filter size to be $4H$, i.e., 3072 for the $H=768$ and 4096 for the $H=1024$.
 
 <!-- chunk {"id": "body-0019", "role": "body", "section": "Model Architecture", "weight": 1.0} -->
 
-In this work, we denote the number of layers (i.e., Transformer blocks) as $L$, the hidden size as $H$, and the number of self-attention heads as $A$.^33^3In all cases we set the feed-forward/filter size to be $4H$, i.e., 3072 for the $H = 768$ and 4096 for the $H = 1024$. We primarily report results on two model sizes: BERT$_{\text{BASE}}$ (L=12, H=768, A=12, Total Parameters=110M) and BERT$_{\text{LARGE}}$ (L=24, H=1024, A=16, Total Parameters=340M).
+We primarily report results on two model sizes: BERT${}_{\textsc{BASE}}$ (L=12, H=768, A=12, Total Parameters=110M) and BERT${}_{\textsc{LARGE}}$ (L=24, H=1024, A=16, Total Parameters=340M).
 
 <!-- chunk {"id": "body-0020", "role": "body", "section": "Model Architecture", "weight": 1.0} -->
 
-BERT$_{\text{BASE}}$ was chosen to have the same model size as OpenAI GPT for comparison purposes. Critically, however, the BERT Transformer uses bidirectional self-attention, while the GPT Transformer uses constrained self-attention where every token can only attend to context to its left.^44^4We note that in the literature the bidirectional Transformer is often referred to as a "Transformer encoder" while the left-context-only version is referred to as a "Transformer decoder" since it can be used for text generation.
+BERT${}_{\textsc{BASE}}$ was chosen to have the same model size as OpenAI GPT for comparison purposes. Critically, however, the BERT Transformer uses bidirectional self-attention, while the GPT Transformer uses constrained self-attention where every token can only attend to context to its left.^44^4We note that in the literature the bidirectional Transformer is often referred to as a "Transformer encoder" while the left-context-only version is referred to as a "Transformer decoder" since it can be used for text generation.
 
 <!-- chunk {"id": "body-0021", "role": "body", "section": "Input/Output Representations", "weight": 1.0} -->
 
@@ -86,7 +86,7 @@ To make BERT handle a variety of down-stream tasks, our input representation is 
 
 <!-- chunk {"id": "body-0022", "role": "body", "section": "Input/Output Representations", "weight": 1.0} -->
 
-We use WordPiece embeddings Wu et al. with a 30,000 token vocabulary. The first token of every sequence is always a special classification token (\[CLS\]). The final hidden state corresponding to this token is used as the aggregate sequence representation for classification tasks. Sentence pairs are packed together into a single sequence. We differentiate the sentences in two ways. First, we separate them with a special token (\[SEP\]). Second, we add a learned embedding to every token indicating whether it belongs to sentence A or sentence B. As shown in Figure 1, we denote input embedding as $E$, the final hidden vector of the special \[CLS\] token as $C \in {\mathbb{R}}^{H}$, and the final hidden vector for the $i^{th}$ input token as $T_{i} \in {\mathbb{R}}^{H}$.
+We use WordPiece embeddings Wu et al. with a 30,000 token vocabulary. The first token of every sequence is always a special classification token (\[CLS\]). The final hidden state corresponding to this token is used as the aggregate sequence representation for classification tasks. Sentence pairs are packed together into a single sequence. We differentiate the sentences in two ways. First, we separate them with a special token (\[SEP\]). Second, we add a learned embedding to every token indicating whether it belongs to sentence A or sentence B. As shown in Figure 1, we denote input embedding as $E$, the final hidden vector of the special \[CLS\] token as $C\in\mathbb{R}^{H}$, and the final hidden vector for the $i^{\rm th}$ input token as $T_{i}\in\mathbb{R}^{H}$.
 
 <!-- chunk {"id": "body-0023", "role": "body", "section": "Input/Output Representations", "weight": 1.0} -->
 
@@ -132,153 +132,178 @@ For each task, we simply plug in the task-specific inputs and outputs into BERT 
 
 Compared to pre-training, fine-tuning is relatively inexpensive. All of the results in the paper can be replicated in at most 1 hour on a single Cloud TPU, or a few hours on a GPU, starting from the exact same pre-trained model.^77^7For example, the BERT SQuAD model can be trained in around 30 minutes on a single Cloud TPU to achieve a Dev F1 score of 91.0%. We describe the task-specific details in the corresponding subsections of Section 4. More details can be found in Appendix A.5.
 
-<!-- chunk {"id": "body-0034", "role": "body", "section": "Experiments", "weight": 1.0} -->
+<!-- chunk {"id": "body-0034", "role": "body", "section": "Fine-tuning BERT", "weight": 1.0} -->
+
+BiLSTM+ELMo+Attn BERT${}_{\textsc{BASE}}$ BERT${}_{\textsc{LARGE}}$ Table 1: GLUE Test results, scored by the evaluation server. The number below each task denotes the number of training examples. The “Average” column is slightly different than the official GLUE score, since we exclude the problematic WNLI set.999See question 10 in BERT and OpenAI GPT are single-model, single task. F1 scores are reported for QQP and MRPC, Spearman correlations are reported for STS-B, and accuracy scores are reported for the other tasks. We exclude entries that use BERT as one of their components.
+
+<!-- chunk {"id": "body-0035", "role": "body", "section": "Experiments", "weight": 1.0} -->
 
 In this section, we present BERT fine-tuning results on 11 NLP tasks.
 
-<!-- chunk {"id": "body-0035", "role": "body", "section": "GLUE", "weight": 1.0} -->
+<!-- chunk {"id": "body-0036", "role": "body", "section": "GLUE", "weight": 1.0} -->
 
 The General Language Understanding Evaluation (GLUE) benchmark Wang et al. is a collection of diverse natural language understanding tasks. Detailed descriptions of GLUE datasets are included in Appendix B.1.
 
-<!-- chunk {"id": "body-0036", "role": "body", "section": "GLUE", "weight": 1.0} -->
-
-To fine-tune on GLUE, we represent the input sequence (for single sentence or sentence pairs) as described in Section 3, and use the final hidden vector $C \in {\mathbb{R}}^{H}$ corresponding to the first input token (\[CLS\]) as the aggregate representation. The only new parameters introduced during fine-tuning are classification layer weights $W \in {\mathbb{R}}^{K \times H}$, where $K$ is the number of labels. We compute a standard classification loss with $C$ and $W$, i.e., $\log{({{softmax}{({CW^{T}})}})}$.
-
 <!-- chunk {"id": "body-0037", "role": "body", "section": "GLUE", "weight": 1.0} -->
 
-We use a batch size of 32 and fine-tune for 3 epochs over the data for all GLUE tasks. For each task, we selected the best fine-tuning learning rate (among 5e-5, 4e-5, 3e-5, and 2e-5) on the Dev set. Additionally, for BERT$_{\text{LARGE}}$ we found that fine-tuning was sometimes unstable on small datasets, so we ran several random restarts and selected the best model on the Dev set. With random restarts, we use the same pre-trained checkpoint but perform different fine-tuning data shuffling and classifier layer initialization.^1010^10The GLUE data set distribution does not include the Test labels, and we only made a single GLUE evaluation server submission for each of BERT$_{\text{BASE}}$ and BERT$_{\text{LARGE}}$.
+To fine-tune on GLUE, we represent the input sequence (for single sentence or sentence pairs) as described in Section 3, and use the final hidden vector $C\in\mathbb{R}^{H}$ corresponding to the first input token (\[CLS\]) as the aggregate representation. The only new parameters introduced during fine-tuning are classification layer weights $W\in\mathbb{R}^{K\times H}$, where $K$ is the number of labels. We compute a standard classification loss with $C$ and $W$, i.e., $\log({\rm softmax}(CW^{T}))$.
 
 <!-- chunk {"id": "body-0038", "role": "body", "section": "GLUE", "weight": 1.0} -->
 
-Results are presented in Table 9. Both BERT$_{\text{BASE}}$ and BERT$_{\text{LARGE}}$ outperform all systems on all tasks by a substantial margin, obtaining 4.5% and 7.0% respective average accuracy improvement over the prior state of the art. Note that BERT$_{\text{BASE}}$ and OpenAI GPT are nearly identical in terms of model architecture apart from the attention masking. For the largest and most widely reported GLUE task, MNLI, BERT obtains a 4.6% absolute accuracy improvement. On the official GLUE leaderboard^1111^11 BERT$_{\text{LARGE}}$ obtains a score of 80.5, compared to OpenAI GPT, which obtains 72.8 as of the date of writing.
+We use a batch size of 32 and fine-tune for 3 epochs over the data for all GLUE tasks. For each task, we selected the best fine-tuning learning rate (among 5e-5, 4e-5, 3e-5, and 2e-5) on the Dev set. Additionally, for BERT${}_{\textsc{LARGE}}$ we found that fine-tuning was sometimes unstable on small datasets, so we ran several random restarts and selected the best model on the Dev set. With random restarts, we use the same pre-trained checkpoint but perform different fine-tuning data shuffling and classifier layer initialization.^1010^10The GLUE data set distribution does not include the Test labels, and we only made a single GLUE evaluation server submission for each of BERT${}_{\textsc{BASE}}$ and BERT${}_{\textsc{LARGE}}$.
 
 <!-- chunk {"id": "body-0039", "role": "body", "section": "GLUE", "weight": 1.0} -->
 
-We find that BERT$_{\text{LARGE}}$ significantly outperforms BERT$_{\text{BASE}}$ across all tasks, especially those with very little training data. The effect of model size is explored more thoroughly in Section 5.2.
+Results are presented in Table 9. Both BERT${}_{\textsc{BASE}}$ and BERT${}_{\textsc{LARGE}}$ outperform all systems on all tasks by a substantial margin, obtaining 4.5% and 7.0% respective average accuracy improvement over the prior state of the art. Note that BERT${}_{\textsc{BASE}}$ and OpenAI GPT are nearly identical in terms of model architecture apart from the attention masking. For the largest and most widely reported GLUE task, MNLI, BERT obtains a 4.6% absolute accuracy improvement. On the official GLUE leaderboard^1111^11 BERT${}_{\textsc{LARGE}}$ obtains a score of 80.5, compared to OpenAI GPT, which obtains 72.8 as of the date of writing.
 
-<!-- chunk {"id": "body-0040", "role": "body", "section": "SQuAD v1.1", "weight": 1.0} -->
+<!-- chunk {"id": "body-0040", "role": "body", "section": "GLUE", "weight": 1.0} -->
 
-The Stanford Question Answering Dataset (SQuAD v1.1) is a collection of 100k crowdsourced question/answer pairs Rajpurkar et al.. Given a question and a passage from Wikipedia containing the answer, the task is to predict the answer text span in the passage.
+We find that BERT${}_{\textsc{LARGE}}$ significantly outperforms BERT${}_{\textsc{BASE}}$ across all tasks, especially those with very little training data. The effect of model size is explored more thoroughly in Section 5.2.
 
 <!-- chunk {"id": "body-0041", "role": "body", "section": "SQuAD v1.1", "weight": 1.0} -->
 
-As shown in Figure 1, in the question answering task, we represent the input question and passage as a single packed sequence, with the question using the A embedding and the passage using the B embedding. We only introduce a start vector $S \in {\mathbb{R}}^{H}$ and an end vector $E \in {\mathbb{R}}^{H}$ during fine-tuning. The probability of word $i$ being the start of the answer span is computed as a dot product between $T_{i}$ and $S$ followed by a softmax over all of the words in the paragraph: $P_{i} = \frac{e^{S \cdot T_{i}}}{\sum_{j}e^{S \cdot T_{j}}}$. The analogous formula is used for the end of the answer span.
+The Stanford Question Answering Dataset (SQuAD v1.1) is a collection of 100k crowdsourced question/answer pairs Rajpurkar et al.. Given a question and a passage from Wikipedia containing the answer, the task is to predict the answer text span in the passage.
 
 <!-- chunk {"id": "body-0042", "role": "body", "section": "SQuAD v1.1", "weight": 1.0} -->
 
-The score of a candidate span from position $i$ to position $j$ is defined as ${S \cdot T_{i}} + {E \cdot T_{j}}$, and the maximum scoring span where $j \geq i$ is used as a prediction. The training objective is the sum of the log-likelihoods of the correct start and end positions. We fine-tune for 3 epochs with a learning rate of 5e-5 and a batch size of 32.
+As shown in Figure 1, in the question answering task, we represent the input question and passage as a single packed sequence, with the question using the A embedding and the passage using the B embedding. We only introduce a start vector $S\in\mathbb{R}^{H}$ and an end vector $E\in\mathbb{R}^{H}$ during fine-tuning. The probability of word $i$ being the start of the answer span is computed as a dot product between $T_{i}$ and $S$ followed by a softmax over all of the words in the paragraph: $P_{i}=\frac{e^{S{\cdot}T_{i}}}{\sum_{j}e^{S{\cdot}T_{j}}}$. The analogous formula is used for the end of the answer span.
 
 <!-- chunk {"id": "body-0043", "role": "body", "section": "SQuAD v1.1", "weight": 1.0} -->
 
-#1 Ensemble - nlnet
+The score of a candidate span from position $i$ to position $j$ is defined as $S{\cdot}T_{i}+E{\cdot}T_{j}$, and the maximum scoring span where $j\geq i$ is used as a prediction. The training objective is the sum of the log-likelihoods of the correct start and end positions. We fine-tune for 3 epochs with a learning rate of 5e-5 and a batch size of 32.
 
 <!-- chunk {"id": "body-0044", "role": "body", "section": "SQuAD v1.1", "weight": 1.0} -->
 
-#2 Ensemble - QANet
+#1 Ensemble - nlnet
 
 <!-- chunk {"id": "body-0045", "role": "body", "section": "SQuAD v1.1", "weight": 1.0} -->
 
-#1 Single - MIR-MRC (F-Net)
+#2 Ensemble - QANet
 
 <!-- chunk {"id": "body-0046", "role": "body", "section": "SQuAD v1.1", "weight": 1.0} -->
 
-#2 Single - nlnet
+BiDAF+ELMo (Single) BERT${}_{\textsc{BASE}}$ (Single) BERT${}_{\textsc{LARGE}}$ (Single) BERT${}_{\textsc{LARGE}}$ (Ensemble) BERT${}_{\textsc{LARGE}}$ (Sgl.+TriviaQA) BERT${}_{\textsc{LARGE}}$ (Ens.+TriviaQA) Table 2: SQuAD 1.1 results. The BERT ensemble is 7x systems which use different pre-training checkpoints and fine-tuning seeds.
 
 <!-- chunk {"id": "body-0047", "role": "body", "section": "SQuAD v1.1", "weight": 1.0} -->
 
-Table 2 shows top leaderboard entries as well as results from top published systems Seo et al.; Clark and Gardner; Peters et al.; Hu et al.. The top results from the SQuAD leaderboard do not have up-to-date public system descriptions available,^1212^12QANet is described in Yu et al., but the system has improved substantially after publication. and are allowed to use any public data when training their systems. We therefore use modest data augmentation in our system by first fine-tuning on TriviaQA Joshi et al. befor fine-tuning on SQuAD.
+#1 Single - MIR-MRC (F-Net)
 
 <!-- chunk {"id": "body-0048", "role": "body", "section": "SQuAD v1.1", "weight": 1.0} -->
 
+#2 Single - nlnet
+
+<!-- chunk {"id": "body-0049", "role": "body", "section": "SQuAD v1.1", "weight": 1.0} -->
+
+BERT${}_{\textsc{LARGE}}$ (Single) Table 3: SQuAD 2.0 results. We exclude entries that use BERT as one of their components.
+
+<!-- chunk {"id": "body-0050", "role": "body", "section": "SQuAD v1.1", "weight": 1.0} -->
+
+Table 2 shows top leaderboard entries as well as results from top published systems Seo et al.; Clark and Gardner; Peters et al.; Hu et al.. The top results from the SQuAD leaderboard do not have up-to-date public system descriptions available,^1212^12QANet is described in Yu et al., but the system has improved substantially after publication. and are allowed to use any public data when training their systems. We therefore use modest data augmentation in our system by first fine-tuning on TriviaQA Joshi et al. befor fine-tuning on SQuAD.
+
+<!-- chunk {"id": "body-0051", "role": "body", "section": "SQuAD v1.1", "weight": 1.0} -->
+
 Our best performing system outperforms the top leaderboard system by +1.5 F1 in ensembling and +1.3 F1 as a single system. In fact, our single BERT model outperforms the top ensemble system in terms of F1 score. Without TriviaQA fine-tuning data, we only lose 0.1-0.4 F1, still outperforming all existing systems by a wide margin.^1313^13The TriviaQA data we used consists of paragraphs from TriviaQA-Wiki formed of the first 400 tokens in documents, that contain at least one of the provided possible answers.
-
-<!-- chunk {"id": "body-0049", "role": "body", "section": "SQuAD v2.0", "weight": 1.0} -->
-
-The SQuAD 2.0 task extends the SQuAD 1.1 problem definition by allowing for the possibility that no short answer exists in the provided paragraph, making the problem more realistic.
-
-<!-- chunk {"id": "body-0050", "role": "body", "section": "SQuAD v2.0", "weight": 1.0} -->
-
-We use a simple approach to extend the SQuAD v1.1 BERT model for this task. We treat questions that do not have an answer as having an answer span with start and end at the \[CLS\] token. The probability space for the start and end answer span positions is extended to include the position of the \[CLS\] token. For prediction, we compare the score of the no-answer span: $s_{\mathtt{n}\mathtt{u}\mathtt{l}\mathtt{l}} = {{S \cdot C} + {E \cdot C}}$ to the score of the best non-null span $\hat{s_{i,j}}$ = ${{{\mathtt{m}\mathtt{a}\mathtt{x}}_{j \geq i}S} \cdot T_{i}} + {E \cdot T_{j}}$.
-
-<!-- chunk {"id": "body-0051", "role": "body", "section": "SQuAD v2.0", "weight": 1.0} -->
-
-We predict a non-null answer when $\hat{s_{i,j}} > {s_{\mathtt{n}\mathtt{u}\mathtt{l}\mathtt{l}} + \tau}$, where the threshold $\tau$ is selected on the dev set to maximize F1. We did not use TriviaQA data for this model. We fine-tuned for 2 epochs with a learning rate of 5e-5 and a batch size of 48.
 
 <!-- chunk {"id": "body-0052", "role": "body", "section": "SQuAD v2.0", "weight": 1.0} -->
 
+The SQuAD 2.0 task extends the SQuAD 1.1 problem definition by allowing for the possibility that no short answer exists in the provided paragraph, making the problem more realistic.
+
+<!-- chunk {"id": "body-0053", "role": "body", "section": "SQuAD v2.0", "weight": 1.0} -->
+
+We use a simple approach to extend the SQuAD v1.1 BERT model for this task. We treat questions that do not have an answer as having an answer span with start and end at the \[CLS\] token. The probability space for the start and end answer span positions is extended to include the position of the \[CLS\] token. For prediction, we compare the score of the no-answer span: $s_{\tt null}=S{\cdot}C+E{\cdot}C$ to the score of the best non-null span $\hat{s_{i,j}}$ = ${\tt max}_{j\geq i}S{\cdot}T_{i}+E{\cdot}T_{j}$. We predict a non-null answer when $\hat{s_{i,j}}>s_{\tt null}+\tau$, where the threshold $\tau$ is selected on the dev set to maximize F1. We did not use TriviaQA data for this model.
+
+<!-- chunk {"id": "body-0054", "role": "body", "section": "SQuAD v2.0", "weight": 1.0} -->
+
+We fine-tuned for 2 epochs with a learning rate of 5e-5 and a batch size of 48.
+
+<!-- chunk {"id": "body-0055", "role": "body", "section": "SQuAD v2.0", "weight": 1.0} -->
+
 The results compared to prior leaderboard entries and top published work Sun et al.; Wang et al. are shown in Table 3, excluding systems that use BERT as one of their components. We observe a +5.1 F1 improvement over the previous best system.
 
-<!-- chunk {"id": "body-0053", "role": "body", "section": "SWAG", "weight": 1.0} -->
+<!-- chunk {"id": "body-0056", "role": "body", "section": "SWAG", "weight": 1.0} -->
 
 The Situations With Adversarial Generations (SWAG) dataset contains 113k sentence-pair completion examples that evaluate grounded commonsense inference Zellers et al.. Given a sentence, the task is to choose the most plausible continuation among four choices.
 
-<!-- chunk {"id": "body-0054", "role": "body", "section": "SWAG", "weight": 1.0} -->
+<!-- chunk {"id": "body-0057", "role": "body", "section": "SWAG", "weight": 1.0} -->
 
 When fine-tuning on the SWAG dataset, we construct four input sequences, each containing the concatenation of the given sentence (sentence A) and a possible continuation (sentence B). The only task-specific parameters introduced is a vector whose dot product with the \[CLS\] token representation $C$ denotes a score for each choice which is normalized with a softmax layer.
 
-<!-- chunk {"id": "body-0055", "role": "body", "section": "SWAG", "weight": 1.0} -->
+<!-- chunk {"id": "body-0058", "role": "body", "section": "SWAG", "weight": 1.0} -->
 
-We fine-tune the model for 3 epochs with a learning rate of 2e-5 and a batch size of 16. Results are presented in Table 4. BERT$_{\text{LARGE}}$ outperforms the authors' baseline ESIM+ELMo system by +27.1% and OpenAI GPT by 8.3%.
+We fine-tune the model for 3 epochs with a learning rate of 2e-5 and a batch size of 16. Results are presented in Table 4. BERT${}_{\textsc{LARGE}}$ outperforms the authors' baseline ESIM+ELMo system by +27.1% and OpenAI GPT by 8.3%.
 
-<!-- chunk {"id": "body-0056", "role": "body", "section": "Ablation Studies", "weight": 1.0} -->
+<!-- chunk {"id": "body-0059", "role": "body", "section": "SWAG", "weight": 1.0} -->
+
+BERT${}_{\textsc{BASE}}$ BERT${}_{\textsc{LARGE}}$ Table 4: SWAG Dev and Test accuracies. †Human performance is measured with 100 samples, as reported in the SWAG paper.
+
+<!-- chunk {"id": "body-0060", "role": "body", "section": "Ablation Studies", "weight": 1.0} -->
 
 In this section, we perform ablation experiments over a number of facets of BERT in order to better understand their relative importance. Additional ablation studies can be found in Appendix C.
 
-<!-- chunk {"id": "body-0057", "role": "body", "section": "Effect of Pre-training Tasks", "weight": 1.0} -->
+<!-- chunk {"id": "body-0061", "role": "body", "section": "Effect of Pre-training Tasks", "weight": 1.0} -->
 
-No NSP: A bidirectional model which is trained using the "masked LM" (MLM) but without the "next sentence prediction" (NSP) task.\
-LTR & No NSP: A left-context-only model which is trained using a standard Left-to-Right (LTR) LM, rather than an MLM. The left-only constraint was also applied at fine-tuning, because removing it introduced a pre-train/fine-tune mismatch that degraded downstream performance. Additionally, this model was pre-trained without the NSP task. This is directly comparable to OpenAI GPT, but using our larger training dataset, our input representation, and our fine-tuning scheme.
+We demonstrate the importance of the deep bidirectionality of BERT by evaluating two pre-training objectives using exactly the same pre-training data, fine-tuning scheme, and hyperparameters as BERT${}_{\textsc{BASE}}$: No NSP: A bidirectional model which is trained using the "masked LM" (MLM) but without the "next sentence prediction" (NSP) task.\LTR & No NSP: A left-context-only model which is trained using a standard Left-to-Right (LTR) LM, rather than an MLM. The left-only constraint was also applied at fine-tuning, because removing it introduced a pre-train/fine-tune mismatch that degraded downstream performance. Additionally, this model was pre-trained without the NSP task. This is directly comparable to OpenAI GPT, but using our larger training dataset, our input representation, and our fine-tuning scheme.
 
-<!-- chunk {"id": "body-0058", "role": "body", "section": "Effect of Pre-training Tasks", "weight": 1.0} -->
+<!-- chunk {"id": "body-0062", "role": "body", "section": "Effect of Pre-training Tasks", "weight": 1.0} -->
+
+BERT${}_{\textsc{BASE}}$ Table 5: Ablation over the pre-training tasks using the BERT${}_{\textsc{BASE}}$ architecture. “No NSP” is trained without the next sentence prediction task. “LTR & No NSP” is trained as a left-to-right LM without the next sentence prediction, like OpenAI GPT. “+ BiLSTM” adds a randomly initialized BiLSTM on top of the “LTR + No NSP” model during fine-tuning.
+
+<!-- chunk {"id": "body-0063", "role": "body", "section": "Effect of Pre-training Tasks", "weight": 1.0} -->
 
 We first examine the impact brought by the NSP task. In Table 5, we show that removing NSP hurts performance significantly on QNLI, MNLI, and SQuAD 1.1. Next, we evaluate the impact of training bidirectional representations by comparing "No NSP" to "LTR & No NSP". The LTR model performs worse than the MLM model on all tasks, with large drops on MRPC and SQuAD.
 
-<!-- chunk {"id": "body-0059", "role": "body", "section": "Effect of Pre-training Tasks", "weight": 1.0} -->
+<!-- chunk {"id": "body-0064", "role": "body", "section": "Effect of Pre-training Tasks", "weight": 1.0} -->
 
 For SQuAD it is intuitively clear that a LTR model will perform poorly at token predictions, since the token-level hidden states have no right-side context. In order to make a good faith attempt at strengthening the LTR system, we added a randomly initialized BiLSTM on top. This does significantly improve results on SQuAD, but the results are still far worse than those of the pre-trained bidirectional models. The BiLSTM hurts performance on the GLUE tasks.
 
-<!-- chunk {"id": "body-0060", "role": "body", "section": "Effect of Pre-training Tasks", "weight": 1.0} -->
+<!-- chunk {"id": "body-0065", "role": "body", "section": "Effect of Pre-training Tasks", "weight": 1.0} -->
 
 We recognize that it would also be possible to train separate LTR and RTL models and represent each token as the concatenation of the two models, as ELMo does. However: (a) this is twice as expensive as a single bidirectional model; (b) this is non-intuitive for tasks like QA, since the RTL model would not be able to condition the answer on the question; (c) this it is strictly less powerful than a deep bidirectional model, since it can use both left and right context at every layer.
 
-<!-- chunk {"id": "body-0061", "role": "body", "section": "Effect of Model Size", "weight": 1.0} -->
+<!-- chunk {"id": "body-0066", "role": "body", "section": "Effect of Model Size", "weight": 1.0} -->
 
 In this section, we explore the effect of model size on fine-tuning task accuracy. We trained a number of BERT models with a differing number of layers, hidden units, and attention heads, while otherwise using the same hyperparameters and training procedure as described previously.
 
-<!-- chunk {"id": "body-0062", "role": "body", "section": "Effect of Model Size", "weight": 1.0} -->
+<!-- chunk {"id": "body-0067", "role": "body", "section": "Effect of Model Size", "weight": 1.0} -->
 
-Results on selected GLUE tasks are shown in Table 6. In this table, we report the average Dev Set accuracy from 5 random restarts of fine-tuning. We can see that larger models lead to a strict accuracy improvement across all four datasets, even for MRPC which only has 3,600 labeled training examples, and is substantially different from the pre-training tasks. It is also perhaps surprising that we are able to achieve such significant improvements on top of models which are already quite large relative to the existing literature. For example, the largest Transformer explored in Vaswani et al. is (L=6, H=1024, A=16) with 100M parameters for the encoder, and the largest Transformer we have found in the literature is (L=64, H=512, A=2) with 235M parameters Al-Rfou et al.. By contrast, BERT$_{\text{BASE}}$ contains 110M parameters and BERT$_{\text{LARGE}}$ contains 340M parameters.
+Results on selected GLUE tasks are shown in Table 6. In this table, we report the average Dev Set accuracy from 5 random restarts of fine-tuning. We can see that larger models lead to a strict accuracy improvement across all four datasets, even for MRPC which only has 3,600 labeled training examples, and is substantially different from the pre-training tasks. It is also perhaps surprising that we are able to achieve such significant improvements on top of models which are already quite large relative to the existing literature. For example, the largest Transformer explored in Vaswani et al. is (L=6, H=1024, A=16) with 100M parameters for the encoder, and the largest Transformer we have found in the literature is (L=64, H=512, A=2) with 235M parameters Al-Rfou et al.. By contrast, BERT${}_{\textsc{BASE}}$ contains 110M parameters and BERT${}_{\textsc{LARGE}}$ contains 340M parameters.
 
-<!-- chunk {"id": "body-0063", "role": "body", "section": "Effect of Model Size", "weight": 1.0} -->
+<!-- chunk {"id": "body-0068", "role": "body", "section": "Effect of Model Size", "weight": 1.0} -->
 
 #L
+
+<!-- chunk {"id": "body-0069", "role": "body", "section": "Effect of Model Size", "weight": 1.0} -->
+
 #H
+
+<!-- chunk {"id": "body-0070", "role": "body", "section": "Effect of Model Size", "weight": 1.0} -->
+
 #A
 
-<!-- chunk {"id": "body-0064", "role": "body", "section": "Effect of Model Size", "weight": 1.0} -->
+<!-- chunk {"id": "body-0071", "role": "body", "section": "Effect of Model Size", "weight": 1.0} -->
 
 It has long been known that increasing the model size will lead to continual improvements on large-scale tasks such as machine translation and language modeling, which is demonstrated by the LM perplexity of held-out training data shown in Table 6. However, we believe that this is the first work to demonstrate convincingly that scaling to extreme model sizes also leads to large improvements on very small scale tasks, provided that the model has been sufficiently pre-trained. Peters et al. presented mixed results on the downstream task impact of increasing the pre-trained bi-LM size from two to four layers and Melamud et al. mentioned in passing that increasing hidden dimension size from 200 to 600 helped, but increasing further to 1,000 did not bring further improvements. Both of these prior works used a feature-based approach --- we hypothesize that when the model is fine-tuned directly on the downstream tasks and uses only a very small number of randomly initialized additional parameters, the task-specific models can benefit from the larger, more expressive pre-trained representations even when downstream task data is very small.
 
-<!-- chunk {"id": "body-0065", "role": "body", "section": "Feature-based Approach with BERT", "weight": 1.0} -->
+<!-- chunk {"id": "body-0072", "role": "body", "section": "Feature-based Approach with BERT", "weight": 1.0} -->
 
 All of the BERT results presented so far have used the fine-tuning approach, where a simple classification layer is added to the pre-trained model, and all parameters are jointly fine-tuned on a downstream task. However, the feature-based approach, where fixed features are extracted from the pre-trained model, has certain advantages. First, not all tasks can be easily represented by a Transformer encoder architecture, and therefore require a task-specific model architecture to be added. Second, there are major computational benefits to pre-compute an expensive representation of the training data once and then run many experiments with cheaper models on top of this representation.
 
-<!-- chunk {"id": "body-0066", "role": "body", "section": "Feature-based Approach with BERT", "weight": 1.0} -->
+<!-- chunk {"id": "body-0073", "role": "body", "section": "Feature-based Approach with BERT", "weight": 1.0} -->
 
 In this section, we compare the two approaches by applying BERT to the CoNLL-2003 Named Entity Recognition (NER) task Tjong Kim Sang and De Meulder. In the input to BERT, we use a case-preserving WordPiece model, and we include the maximal document context provided by the data. Following standard practice, we formulate this as a tagging task but do not use a CRF layer in the output. We use the representation of the first sub-token as the input to the token-level classifier over the NER label set.
 
-<!-- chunk {"id": "body-0067", "role": "body", "section": "Feature-based Approach with BERT", "weight": 1.0} -->
+<!-- chunk {"id": "body-0074", "role": "body", "section": "Feature-based Approach with BERT", "weight": 1.0} -->
 
 To ablate the fine-tuning approach, we apply the feature-based approach by extracting the activations from one or more layers without fine-tuning any parameters of BERT. These contextual embeddings are used as input to a randomly initialized two-layer 768-dimensional BiLSTM before the classification layer.
 
-<!-- chunk {"id": "body-0068", "role": "body", "section": "Feature-based Approach with BERT", "weight": 1.0} -->
+<!-- chunk {"id": "body-0075", "role": "body", "section": "Feature-based Approach with BERT", "weight": 1.0} -->
 
-Results are presented in Table 7. BERT$_{\text{LARGE}}$ performs competitively with state-of-the-art methods. The best performing method concatenates the token representations from the top four hidden layers of the pre-trained Transformer, which is only 0.3 F1 behind fine-tuning the entire model. This demonstrates that BERT is effective for both fine-tuning and feature-based approaches.
+Results are presented in Table 7. BERT${}_{\textsc{LARGE}}$ performs competitively with state-of-the-art methods. The best performing method concatenates the token representations from the top four hidden layers of the pre-trained Transformer, which is only 0.3 F1 behind fine-tuning the entire model. This demonstrates that BERT is effective for both fine-tuning and feature-based approaches.
 
-<!-- chunk {"id": "body-0069", "role": "body", "section": "Feature-based Approach with BERT", "weight": 1.0} -->
+<!-- chunk {"id": "body-0076", "role": "body", "section": "Feature-based Approach with BERT", "weight": 1.0} -->
 
-Weighted Sum Last Four Hidden
+BERT${}_{\textsc{LARGE}}$ BERT${}_{\textsc{BASE}}$ Feature-based approach (BERT${}_{\textsc{BASE}}$) Weighted Sum Last Four Hidden Concat Last Four Hidden Weighted Sum All 12 Layers Table 7: CoNLL-2003 Named Entity Recognition results. Hyperparameters were selected using the Dev set. The reported Dev and Test scores are averaged over 5 random restarts using those hyperparameters.
 
-<!-- chunk {"id": "body-0070", "role": "body", "section": "Conclusion", "weight": 1.5} -->
+<!-- chunk {"id": "body-0077", "role": "body", "section": "Conclusion", "weight": 1.5} -->
 
 Recent empirical improvements due to transfer learning with language models have demonstrated that rich, unsupervised pre-training is an integral part of many language understanding systems. In particular, these results enable even low-resource tasks to benefit from deep unidirectional architectures. Our major contribution is further generalizing these findings to deep *bidirectional* architectures, allowing the same pre-trained model to successfully tackle a broad set of NLP tasks.

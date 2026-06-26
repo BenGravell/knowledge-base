@@ -52,35 +52,35 @@ Most relevant to our work is Kino-PAX, which demonstrates that massive GPU paral
 
 <!-- chunk {"id": "body-0013", "role": "body", "section": "Problem Formulation", "weight": 1.0} -->
 
-Consider a robotic system in a bounded workspace $W \subset {\mathbb{R}}^{d}$, where $d \in {\{ 2,3\}}$, with a finite set of obstacles $\mathcal{O}$. The robot's motion is constrained to the dynamics
+Consider a robotic system in a bounded workspace $W\subset\mathbb{R}^{d}$, where $d\in\{2,3\}$, with a finite set of obstacles $\mathcal{O}$. The robot's motion is constrained to the dynamics where $x(t)\in X\subset\mathbb{R}^{n}$ is the state, and $u(t)\in U\subset\mathbb{R}^{N}$ is the control at time $t$. The state space $X$ and control space $U$ are assumed to be compact.
 
 <!-- chunk {"id": "body-0014", "role": "body", "section": "Problem Formulation", "weight": 1.0} -->
 
-Beyond the differential constraints in and obstacles in $\mathcal{O}$, the robot must satisfy state constraints (e.g., velocity limits). We define the valid state space $X_{\text{valid}} \subseteq X$ as the set of states that are collision-free and satisfy all state constraints.
+Function $f:X\times U\to\mathbb{R}^{n}$ is the vector field and assumed to be Lipschitz continuous with respect to both arguments, i.e, there exist constants $K_{x},K_{u}>0$ such that for all $x,x^{\prime}\in X$ and $u,u^{\prime}\in U$, $\|f(x,u)-f(x^{\prime},u^{\prime})\|\leq K_{x}\|x-x^{\prime}\|+K_{u}\|u-u^{\prime}\|.$ In addition, we assume that the system dynamics satisfy Chow's condition, which implies that the system is small-time locally accessible.
 
 <!-- chunk {"id": "body-0015", "role": "body", "section": "Problem Formulation", "weight": 1.0} -->
 
-Given an initial state $x_{\text{init}} \in X_{\text{valid}}$, a time horizon $t_{f} \geq 0$, and a control trajectory $\mathbf{u}:{{\lbrack 0,t_{f}\rbrack}\rightarrow U}$, a unique state trajectory $\mathbf{x}:{{\lbrack 0,t_{f}\rbrack}\rightarrow X}$ is obtained such that
+Beyond the differential constraints in and obstacles in $\mathcal{O}$, the robot must satisfy state constraints (e.g., velocity limits). We define the valid state space ${X_{\text{valid}}}\subseteq X$ as the set of states that are collision-free and satisfy all state constraints.
 
 <!-- chunk {"id": "body-0016", "role": "body", "section": "Problem Formulation", "weight": 1.0} -->
 
-Trajectory $\mathbf{x}$ is *valid* if, ${\forall t} \in {\lbrack 0,t_{f}\rbrack}$, ${\mathbf{x}{(t)}} \in X_{\text{valid}}$. The objective of kinodynamic motion planning is to find a valid trajectory $\mathbf{x}$ that reaches a given goal set $X_{\text{goal}} \subseteq X_{\text{valid}}$.
+Given an initial state $x_{\text{init}}\in{X_{\text{valid}}}$, a time horizon $t_{f}\geq 0$, and a control trajectory $\mathbf{u}:[0,t_{f}]\to U$, a unique state trajectory $\mathbf{x}:[0,t_{f}]\to X$ is obtained such that Trajectory $\mathbf{x}$ is *valid* if, $\forall t\in[0,t_{f}]$, $\mathbf{x}(t)\in{X_{\text{valid}}}$. The objective of kinodynamic motion planning is to find a valid trajectory $\mathbf{x}$ that reaches a given goal set $X_{\text{goal}}\subseteq{X_{\text{valid}}}$.
 
 <!-- chunk {"id": "body-0017", "role": "body", "section": "Problem Formulation", "weight": 1.0} -->
 
-In addition to feasibility, we seek to optimize the cost of the trajectory. Let $\mathbf{X}$ denote the set of trajectories with finite durations. The cost of a trajectory is defined by a function ${cost}:{\mathbf{X}\rightarrow{\mathbb{R}}_{\geq 0}}$ that assigns to each trajectory $\mathbf{x} \in \mathbf{X}$ a non-negative value ${{cost}{(\mathbf{x})}} \in {\mathbb{R}}_{\geq 0}$. We assume that $cost$ is a smooth, continuous function satisfying the additivity, monotonicity, and non-degeneracy properties, as formally stated below.
+In addition to feasibility, we seek to optimize the cost of the trajectory. Let $\mathbf{X}$ denote the set of trajectories with finite durations. The cost of a trajectory is defined by a function $\mathrm{cost}:\mathbf{X}\to\mathbb{R}_{\geq 0}$ that assigns to each trajectory $\mathbf{x}\in\mathbf{X}$ a non-negative value $\mathrm{cost}(\mathbf{x})\in\mathbb{R}_{\geq 0}$. We assume that $\mathrm{cost}$ is a smooth, continuous function satisfying the additivity, monotonicity, and non-degeneracy properties, as formally stated below.
 
 <!-- chunk {"id": "body-0018", "role": "body", "section": "Assumption 1", "weight": 1.0} -->
 
-The cost function $cost$ is Lipschitz continuous, i.e, there exists constant $K_{c} > 0$ such that
+The cost function $\mathrm{cost}$ is Lipschitz continuous, i.e, there exists constant $K_{c}>0$ such that for all $\mathbf{x},\mathbf{x}^{\prime}\in\mathbf{X}$ with the same start state, i.e., $\mathbf{x}=\mathbf{x}^{\prime}$. Furthermore, consider a trajectory $\mathbf{x}\in\mathbf{X}$ with duration $t_{f}>0$, and for $t\in[0,t_{f}]$, define $\mathbf{x}^{t}$ and $\mathbf{x}_{t}$ as its *prefix* up to time $t$ and *suffix* from time $t$, respectively, so that their concatenation $\mathbf{x}^{t}\bullet\>\>\mathbf{x}_{t}=\mathbf{x}$.
 
 <!-- chunk {"id": "body-0019", "role": "body", "section": "Assumption 1", "weight": 1.0} -->
 
-Ideally, one seeks a valid trajectory $\mathbf{x}$ that reaches the goal set $X_{\text{goal}}$ while minimizing ${cost}{(\mathbf{x})}$. However, computing such an optimal trajectory is notoriously difficult. Instead, we aim to compute a near-optimal solution *very quickly*.
+Then, it holds that, for all $t\in[0,t_{f}]$: Ideally, one seeks a valid trajectory $\mathbf{x}$ that reaches the goal set $X_{\text{goal}}$ while minimizing $\mathrm{cost}(\mathbf{x})$. However, computing such an optimal trajectory is notoriously difficult. Instead, we aim to compute a near-optimal solution *very quickly*.
 
 <!-- chunk {"id": "body-0020", "role": "body", "section": "Problem 1 (Near-Optimal Kinodynamic Motion Planning)", "weight": 1.0} -->
 
-Consider a robot with dynamics in operating in a workspace $W$ with obstacle set $\mathcal{O}$. Given an initial state $x_{\text{init}} \in X_{\text{valid}} \subseteq X$, a goal region $X_{\text{goal}} \subseteq X_{\text{valid}}$, and a trajectory cost function $cost$ satisfying Assumption 1. ‣ II Problem Formulation ‣ Kino-PAX+: Near-Optimal Massively Parallel Kinodynamic Sampling-based Motion Planner"), *efficiently* compute a control trajectory $\mathbf{u}:{{\lbrack 0,t_{f}\rbrack}\rightarrow U}$ whose induced state trajectory is a near-optimal solution as defined in Definition 1. ‣ II Problem Formulation ‣ Kino-PAX+: Near-Optimal Massively Parallel Kinodynamic Sampling-based Motion Planner").
+Consider a robot with dynamics in operating in a workspace $W$ with obstacle set $\mathcal{O}$. Given an initial state $x_{\text{init}}\in X_{\text{valid}}\subseteq X$, a goal region $X_{\text{goal}}\subseteq X_{\text{valid}}$, and a trajectory cost function $\mathrm{cost}$ satisfying Assumption 1. ‣ II Problem Formulation ‣ Kino-PAX+: Near-Optimal Massively Parallel Kinodynamic Sampling-based Motion Planner"), *efficiently* compute a control trajectory $\mathbf{u}:[0,t_{f}]\to U$ whose induced state trajectory is a near-optimal solution as defined in Definition 1. ‣ II Problem Formulation ‣ Kino-PAX+: Near-Optimal Massively Parallel Kinodynamic Sampling-based Motion Planner").
 
 <!-- chunk {"id": "body-0021", "role": "body", "section": "Problem 1 (Near-Optimal Kinodynamic Motion Planning)", "weight": 1.0} -->
 
@@ -100,27 +100,23 @@ Here, we provide a detailed description of Kino-PAX^+^ with pseudocode in Algori
 
 <!-- chunk {"id": "body-0025", "role": "body", "section": "III-A1 Initialization", "weight": 1.0} -->
 
-In Algorithm 1, Kino-PAX^+^ takes as input an initial state $x_{\text{init}} \in X_{\text{valid}}$, a goal region $X_{\text{goal}} \subseteq X_{\text{valid}}$, a maximum execution time $t_{\text{max}}$, a branching factor $\lambda$, and a maximum inactive node count $I_{\text{max}}$. In Lines 1-2, the initial state $x_{\text{init}}$ is set as the root node of the tree $\mathcal{T}$ and placed into the active set $V_{A}$. The inactive set $V_{I}$, terminal set $V_{T}$, and unexplored set $V_{U}$ are initialized as empty. Lines 3-5 initialize each region in the spatial decomposition $\mathcal{R}$ with infinite cost, while the solution trajectory $\mathbf{x}$ is initialized as null with infinite cost.
+In Algorithm 1, Kino-PAX^+^ takes as input an initial state $x_{\text{init}}\in X_{\text{valid}}$, a goal region $X_{\text{goal}}\subseteq X_{\text{valid}}$, a maximum execution time $t_{\text{max}}$, a branching factor $\lambda$, and a maximum inactive node count $I_{\text{max}}$. In Lines 1-2, the initial state $x_{\text{init}}$ is set as the root node of the tree $\mathcal{T}$ and placed into the active set $V_{A}$. The inactive set $V_{I}$, terminal set $V_{T}$, and unexplored set $V_{U}$ are initialized as empty. Lines 3-5 initialize each region in the spatial decomposition $\mathcal{R}$ with infinite cost, while the solution trajectory $\mathbf{x}$ is initialized as null with infinite cost.
 
 <!-- chunk {"id": "body-0026", "role": "body", "section": "III-A1 Initialization", "weight": 1.0} -->
 
-Input: Initial state xinit, goal region Xgoal, planning time tm a x, parallel expansion λ, decomposition diagonal δ, inactivity threshold Im a x
-Output: Near-optimal solution trajectory x
-3𝒯← Initialize tree with root node xinit
-5 Construct decomposition ℛ = {ℛi}i = 1N with diameter δ
-7 Initialize x = n u l l with cost (x) = ∞
+Input: Initial state xinit, goal region Xgoal, planning time tmax, parallel expansion λ, decomposition diagonal δ, inactivity threshold Imax Output: Near-optimal solution trajectory x 3𝒯← Initialize tree with root node xinit 5 Construct decomposition ℛ = {ℛi}i = 1N with diameter δ 7 Initialize x = null with cost(x) = ∞ 8 while ElapsedTime < tmax do 10 PruneNodes(𝒯, VA, VI, VT, ℛ, Icount, Imax)
 
 <!-- chunk {"id": "body-0027", "role": "body", "section": "III-A2 Node Extension", "weight": 1.0} -->
 
-After initialization, the main loop of Kino-PAX^+^ begins (Algorithm 1, Lines 5-8). In each iteration, the Propagate subroutine (Algorithm 2, Figures 2(a) and 2(b)) propagates nodes in the active set $V_{A}$ using massive parallelism. The inputs to Propagate include $V_{A}$, $V_{U}$, $\mathcal{R}$, and parameter $\lambda \in {\mathbb{N}}^{+}$. Specifically, each node $x \in V_{A}$ undergoes $\lambda$ parallel expansions, resulting in a total of $\lambda \cdot {|V_{A}|}$ parallel threads, where $|V_{A}|$ denotes the cardinality of $V_{A}$.
+After initialization, the main loop of Kino-PAX^+^ begins (Algorithm 1, Lines 5-8). In each iteration, the Propagate subroutine (Algorithm 2, Figures 2(a) and 2(b)) propagates nodes in the active set $V_{A}$ using massive parallelism. The inputs to Propagate include $V_{A}$, $V_{U}$, $\mathcal{R}$, and parameter $\lambda\in\mathbb{N}^{+}$. Specifically, each node $x\in V_{A}$ undergoes $\lambda$ parallel expansions, resulting in a total of $\lambda\cdot|V_{A}|$ parallel threads, where $|V_{A}|$ denotes the cardinality of $V_{A}$. For each thread, a random control $u\in U$ and a duration $dt\in(0,T_{\text{prop}}]$ are sampled, with $T_{\text{prop}}>0$ being a user-defined maximum propagation time.
 
 <!-- chunk {"id": "body-0028", "role": "body", "section": "III-A2 Node Extension", "weight": 1.0} -->
 
-For each thread, a random control $u \in U$ and a duration ${dt} \in {(0,T_{\text{prop}}\rbrack}$ are sampled, with $T_{\text{prop}} > 0$ being a user-defined maximum propagation time. The node's state $x$ is then propagated using the system dynamics, generating a new candidate state $x^{\prime}$ (Algorithm 2, Lines 3-4, Figure 2(b)).
+The node's state $x$ is then propagated using the system dynamics, generating a new candidate state $x^{\prime}$ (Algorithm 2, Lines 3-4, Figure 2(b)).
 
 <!-- chunk {"id": "body-0029", "role": "body", "section": "III-A2 Node Extension", "weight": 1.0} -->
 
-Subsequently, the validity of the trajectory segment between states $x$ and $x^{\prime}$, denoted $\overline{xx^{\prime}}$, is evaluated against $X_{\text{valid}}$. If the trajectory segment is valid, the spatial region $\mathcal{R}_{i}$ corresponding to the new state $x^{\prime}$ is identified (Algorithm 2, Line 6). The incremental cost from $x$ to $x^{\prime}$, i.e., ${cost}{(\overline{xx^{\prime}})}$, is computed, and the cumulative cost from the root $x_{\text{init}}$ to $x^{\prime}$ is updated accordingly (Algorithm 2, Line 7).
+Subsequently, the validity of the trajectory segment between states $x$ and $x^{\prime}$, denoted $\overline{xx^{\prime}}$, is evaluated against $X_{\text{valid}}$. If the trajectory segment is valid, the spatial region $\mathcal{R}_{i}$ corresponding to the new state $x^{\prime}$ is identified (Algorithm 2, Line 6). The incremental cost from $x$ to $x^{\prime}$, i.e., $\mathrm{cost}(\overline{xx^{\prime}})$, is computed, and the cumulative cost from the root $x_{\text{init}}$ to $x^{\prime}$ is updated accordingly (Algorithm 2, Line 7).
 
 <!-- chunk {"id": "body-0030", "role": "body", "section": "III-A2 Node Extension", "weight": 1.0} -->
 
@@ -136,92 +132,96 @@ Since the Propagate subroutine executes as a parallel process, a thread may inse
 
 <!-- chunk {"id": "body-0033", "role": "body", "section": "III-A3 Node Selection", "weight": 1.0} -->
 
-After propagating nodes in $V_{A}$, the algorithm executes the PruneNodes subroutine (Algorithm 1, Line 7; Algorithm 3), which classifies each node $x \in \mathcal{T}$ as active, inactive, or terminal based on newly acquired search information. This subroutine operates as a massively parallel procedure, assigning one thread per node.
+After propagating nodes in $V_{A}$, the algorithm executes the PruneNodes subroutine (Algorithm 1, Line 7; Algorithm 3), which classifies each node $x\in\mathcal{T}$ as active, inactive, or terminal based on newly acquired search information. This subroutine operates as a massively parallel procedure, assigning one thread per node.
 
 <!-- chunk {"id": "body-0034", "role": "body", "section": "III-A3 Node Selection", "weight": 1.0} -->
 
-Each thread begins by mapping its node $x$ to its corresponding region $\mathcal{R}_{i}$ (Algorithm 3, Line 2). If a node $x \in V_{I}$ (currently inactive) no longer represents the lowest cost in its region, it is moved permanently to the terminal set $V_{T}$ (Algorithm 3, Lines 10-12). Conversely, if $x \in V_{I}$ remains the lowest-cost node in its region, its inactivity counter $I_{\text{count}}{(x)}$ is incremented (Algorithm 3, Lines 3-4). If this counter exceeds a user-defined threshold $I_{\text{max}}$, indicating prolonged inactivity without improvement in its region, node $x$ is reactivated and returned to the set $V_{A}$ for further expansion (Algorithm 3, Lines 5-7). This mechanism ensures essential nodes re-enter active exploration, maintaining completeness.
+Input: 𝒯, VA, VI, VT, ℛ, Icount, Imax Output: Updated VA, VI, VT, Icount 4 if $\mathrm{cost}(\overline{x_{\text{init}}x})=cost(R_{i})$ and x ∈ VI then 6 if Icount(x) > Imax then 10 if Icount(x) > Imax and $\mathrm{cost}(\overline{x_{\text{init}}x})=cost(R_{i})$ then 13 if $\mathrm{cost}(\overline{x_{\text{init}}x})>cost(R_{i})$ then 17 if ∃ ancestor xp of x, $\mathrm{cost}(\overline{x_{init}x_{p}})>cost(R_{p})$ then Each thread begins by mapping its node $x$ to its corresponding region $\mathcal{R}_{i}$ (Algorithm 3, Line 2).
 
 <!-- chunk {"id": "body-0035", "role": "body", "section": "III-A3 Node Selection", "weight": 1.0} -->
 
-Nodes currently in $V_{A}$ are also evaluated for pruning. A node $x \in V_{A}$ is pruned and moved to $V_{T}$ if its trajectory cost exceeds the lowest recorded cost for its region (Algorithm 3, Lines 10-12). Alternatively, if node $x$ has the lowest cost within its region but any of its ancestor nodes exceeds the minimum recorded cost for their respective regions, node $x$ is moved to the set $V_{I}$ (Algorithm 3, Lines 13-15, Figure 2(d)). This selective pruning strategy enables Kino-PAX^+^ to concentrate computational resources on expanding a focused subset of promising nodes with a higher branching factor.
+If a node $x\in V_{I}$ (currently inactive) no longer represents the lowest cost in its region, it is moved permanently to the terminal set $V_{T}$ (Algorithm 3, Lines 10-12). Conversely, if $x\in V_{I}$ remains the lowest-cost node in its region, its inactivity counter $I_{\text{count}}(x)$ is incremented (Algorithm 3, Lines 3-4). If this counter exceeds a user-defined threshold $I_{\text{max}}$, indicating prolonged inactivity without improvement in its region, node $x$ is reactivated and returned to the set $V_{A}$ for further expansion (Algorithm 3, Lines 5-7). This mechanism ensures essential nodes re-enter active exploration, maintaining completeness.
 
 <!-- chunk {"id": "body-0036", "role": "body", "section": "III-A3 Node Selection", "weight": 1.0} -->
 
-After pruning, the UpdateTree subroutine is invoked (Algorithm 1, Line 8; Algorithm 4). This subroutine concurrently removes nodes in $V_{U}$ that are not the minimum-cost nodes in their respective regions, adds the remaining nodes in $V_{U}$ to $\mathcal{T}$, and checks whether a better solution has been found. UpdateTree receives as input $\mathcal{T}$, $V_{A}$, $V_{U}$, and $\mathcal{R}$, with each thread responsible for processing a single node from $V_{U}$. Each thread retrieves the corresponding region $\mathcal{R}_{i}$ for its node $x$ (Algorithm 4, Line 2). If $x$ represents the lowest-cost node to reach region $\mathcal{R}_{i}$, it is added to both $V_{A}$ and $\mathcal{T}$ (Algorithm 4, Lines 3-4, Figure 2(e)).
+Nodes currently in $V_{A}$ are also evaluated for pruning. A node $x\in V_{A}$ is pruned and moved to $V_{T}$ if its trajectory cost exceeds the lowest recorded cost for its region (Algorithm 3, Lines 10-12). Alternatively, if node $x$ has the lowest cost within its region but any of its ancestor nodes exceeds the minimum recorded cost for their respective regions, node $x$ is moved to the set $V_{I}$ (Algorithm 3, Lines 13-15, Figure 2(d)). This selective pruning strategy enables Kino-PAX^+^ to concentrate computational resources on expanding a focused subset of promising nodes with a higher branching factor.
 
 <!-- chunk {"id": "body-0037", "role": "body", "section": "III-A3 Node Selection", "weight": 1.0} -->
 
-Subsequently, if node $x$ satisfies the goal criteria and its cost improves upon the current best-known solution, the solution trajectory $\mathbf{x}$ and its associated cost are updated accordingly (Algorithm 4, Lines 5-7).
+After pruning, the UpdateTree subroutine is invoked (Algorithm 1, Line 8; Algorithm 4). This subroutine concurrently removes nodes in $V_{U}$ that are not the minimum-cost nodes in their respective regions, adds the remaining nodes in $V_{U}$ to $\mathcal{T}$, and checks whether a better solution has been found. UpdateTree receives as input $\mathcal{T}$, $V_{A}$, $V_{U}$, and $\mathcal{R}$, with each thread responsible for processing a single node from $V_{U}$. Each thread retrieves the corresponding region $\mathcal{R}_{i}$ for its node $x$ (Algorithm 4, Line 2). If $x$ represents the lowest-cost node to reach region $\mathcal{R}_{i}$, it is added to both $V_{A}$ and $\mathcal{T}$ (Algorithm 4, Lines 3-4, Figure 2(e)).
 
 <!-- chunk {"id": "body-0038", "role": "body", "section": "III-A3 Node Selection", "weight": 1.0} -->
 
+Subsequently, if node $x$ satisfies the goal criteria and its cost improves upon the current best-known solution, the solution trajectory $\mathbf{x}$ and its associated cost are updated accordingly (Algorithm 4, Lines 5-7).
+
+<!-- chunk {"id": "body-0039", "role": "body", "section": "III-A3 Node Selection", "weight": 1.0} -->
+
 Kino-PAX^+^ repeats the main loop of Propagate, PruneNodes, and UpdateTree until the user-defined time limit $t_{\text{max}}$ is exceeded, at which point the best-found solution trajectory $\mathbf{x}$ is returned. Figures 1 and 3 illustrate how Kino-PAX^+^ progressively improves the quality of its solution over time.
-
-<!-- chunk {"id": "body-0039", "role": "body", "section": "Analysis", "weight": 1.0} -->
-
-In this section, we establish that Kino-PAX^+^ achieves probabilistic $\delta$-robust completeness (Definition 2. ‣ IV Analysis ‣ Kino-PAX+: Near-Optimal Massively Parallel Kinodynamic Sampling-based Motion Planner")) and asymptotic $\delta$-robust near-optimality (Definition 3. ‣ IV Analysis ‣ Kino-PAX+: Near-Optimal Massively Parallel Kinodynamic Sampling-based Motion Planner")). We begin by defining required notions.
 
 <!-- chunk {"id": "body-0040", "role": "body", "section": "Analysis", "weight": 1.0} -->
 
-The *obstacle clearance* of a valid trajectory $\mathbf{x}$ is the minimum distance from $\mathbf{x}$ to the invalid set $X_{\text{invalid}} = {X \smallsetminus X_{\text{valid}}}$. The *dynamic clearance* of $\mathbf{x}$ is the maximum distance $\delta_{a}$ you can displace the start and end points of $\mathbf{x}$ such that a new, similar (within $\delta_{a}$ distance from $\mathbf{x}$) trajectory is feasible according to the dynamics in (see Definition 4 and Lemma 6 in for details). A trajectory is called $\delta$-robust if both of its obstacle and dynamic clearances are greater than $\delta$.
+In this section, we establish that Kino-PAX^+^ achieves probabilistic $\delta$-robust completeness (Definition 2. ‣ IV Analysis ‣ Kino-PAX+: Near-Optimal Massively Parallel Kinodynamic Sampling-based Motion Planner")) and asymptotic $\delta$-robust near-optimality (Definition 3. ‣ IV Analysis ‣ Kino-PAX+: Near-Optimal Massively Parallel Kinodynamic Sampling-based Motion Planner")). We begin by defining required notions.
 
-<!-- chunk {"id": "body-0041", "role": "body", "section": "Remark 3", "weight": 1.0} -->
+<!-- chunk {"id": "body-0041", "role": "body", "section": "Analysis", "weight": 1.0} -->
 
-Explicitly computing the required (diagonal) $\delta$ for a specific $\beta$ is generally infeasible, as both the Lipschitz constant $K_{c}$ and the segmentation cost $C_{\Delta}$ of the optimal trajectory are unknown for general non-linear systems. This limitation is inherent to the analysis of asymptotically near-optimal planners such as SST. In practice, this theoretical result serves as a qualitative guideline rather than a quantitative rule: the term $\frac{\delta}{C_{\Delta}}$ represents the relative decomposition-based error of the algorithm. Since $\delta$ is a tunable parameter, the approximation error can be made arbitrarily small (${{\lim_{\delta\rightarrow 0}1} + \frac{K_{c}\delta}{C_{\Delta}}} = 1$), allowing Kino-PAX^+^ to approach optimality up to any arbitrary precision.
+The *obstacle clearance* of a valid trajectory $\mathbf{x}$ is the minimum distance from $\mathbf{x}$ to the invalid set $X_{\text{invalid}}=X\setminus X_{\text{valid}}$. The *dynamic clearance* of $\mathbf{x}$ is the maximum distance $\delta_{a}$ you can displace the start and end points of $\mathbf{x}$ such that a new, similar (within $\delta_{a}$ distance from $\mathbf{x}$) trajectory is feasible according to the dynamics in (see Definition 4 and Lemma 6 in for details). A trajectory is called $\delta$-robust if both of its obstacle and dynamic clearances are greater than $\delta$.
 
 <!-- chunk {"id": "body-0042", "role": "body", "section": "Remark 3", "weight": 1.0} -->
 
+Explicitly computing the required (diagonal) $\delta$ for a specific $\beta$ is generally infeasible, as both the Lipschitz constant $K_{c}$ and the segmentation cost $C_{\Delta}$ of the optimal trajectory are unknown for general non-linear systems. This limitation is inherent to the analysis of asymptotically near-optimal planners such as SST. In practice, this theoretical result serves as a qualitative guideline rather than a quantitative rule: the term $\frac{\delta}{C_{\Delta}}$ represents the relative decomposition-based error of the algorithm. Since $\delta$ is a tunable parameter, the approximation error can be made arbitrarily small ($\lim_{\delta\rightarrow 0}1+\frac{K_{c}\delta}{C_{\Delta}}=1$), allowing Kino-PAX^+^ to approach optimality up to any arbitrary precision.
+
+<!-- chunk {"id": "body-0043", "role": "body", "section": "Remark 3", "weight": 1.0} -->
+
 From Theorem 1, we establish that Kino-PAX^+^ is probabilistically $\delta$-robust complete.
-
-<!-- chunk {"id": "body-0043", "role": "body", "section": "Experiments", "weight": 1.0} -->
-
-We evaluate Kino-PAX^+^'s performance across four 3D environments using three dynamical systems. Three environments are taken from (Fig. 5a-c), while a fourth environment (Fig. 5d) is designed to test Kino-PAX^+^'s capability for planning in tight corridors over extended horizons. The robot dynamics considered are: (i) a 6D double integrator, (ii) a 6D Dubins airplane, and (iii) a 12D nonlinear quadcopter.
 
 <!-- chunk {"id": "body-0044", "role": "body", "section": "Experiments", "weight": 1.0} -->
 
-For each dynamical system and environment, we benchmark Kino-PAX^+^ against the GPU-based SBMP Kino-PAX and the serial SBMP algorithm SST. This comparison assesses Kino-PAX^+^'s time to first solution relative to Kino-PAX and evaluates its solution quality compared to SST. We additionally evaluated two tunable hyperparameters for Kino-PAX^+^: Kino-PAX^+^-large-$\delta$ and Kino-PAX^+^-small-$\delta$. These configurations vary the decomposition size $\delta$ and the pre-allocated expected tree size $t_{e}$^11^1$t_{e}$ is a parameter inherited from Kino-PAX defining the maximum number of nodes in GPU memory.. The Kino-PAX^+^-large-$\delta$ strategy uses a coarser decomposition and smaller expected tree sizes, emphasizing rapid first solutions and early termination.
+We evaluate Kino-PAX^+^'s performance across four 3D environments using three dynamical systems. Three environments are taken from (Fig. 5a-c), while a fourth environment (Fig. 5d) is designed to test Kino-PAX^+^'s capability for planning in tight corridors over extended horizons. The robot dynamics considered are: (i) a 6D double integrator, (ii) a 6D Dubins airplane, and (iii) a 12D nonlinear quadcopter.
 
 <!-- chunk {"id": "body-0045", "role": "body", "section": "Experiments", "weight": 1.0} -->
 
-Specifically, for the 6D double integrator: $27,000$ regions; for the 6D Dubins airplane: 52,000 regions; and for the 12D nonlinear quadcopter: $10^{5}$ regions. Conversely, the Kino-PAX^+^-small-$\delta$ strategy uses $10^{7}$ regions for all systems.
+For each dynamical system and environment, we benchmark Kino-PAX^+^ against the GPU-based SBMP Kino-PAX and the serial SBMP algorithm SST. This comparison assesses Kino-PAX^+^'s time to first solution relative to Kino-PAX and evaluates its solution quality compared to SST. We additionally evaluated two tunable hyperparameters for Kino-PAX^+^: Kino-PAX^+^-large-$\delta$ and Kino-PAX^+^-small-$\delta$. These configurations vary the decomposition size $\delta$ and the pre-allocated expected tree size $t_{e}$^11^1$t_{e}$ is a parameter inherited from Kino-PAX defining the maximum number of nodes in GPU memory.. The Kino-PAX^+^-large-$\delta$ strategy uses a coarser decomposition and smaller expected tree sizes, emphasizing rapid first solutions and early termination.
 
 <!-- chunk {"id": "body-0046", "role": "body", "section": "Experiments", "weight": 1.0} -->
 
+Specifically, for the 6D double integrator: $27,000$ regions; for the 6D Dubins airplane: 52,000 regions; and for the 12D nonlinear quadcopter: $10^{5}$ regions. Conversely, the Kino-PAX^+^-small-$\delta$ strategy uses $10^{7}$ regions for all systems.
+
+<!-- chunk {"id": "body-0047", "role": "body", "section": "Experiments", "weight": 1.0} -->
+
 We implemented Kino-PAX^+^ in CUDA C and performed benchmarks alongside Kino-PAX on an NVIDIA RTX 4090 GPU with 16,384 CUDA cores and 24 GB of RAM. The serial SBMP SST, implemented in C++ using OMPL, ran on an Intel i9-14900K CPU (base clock 4.4 GHz, 128 GB RAM).
-
-<!-- chunk {"id": "body-0047", "role": "body", "section": "V-A Benchmark Results", "weight": 1.0} -->
-
-Tables I-III III summarize results, presenting median first solution time, normalized median first solution cost, median final solution time, normalized median final solution cost, and the success rate across 100 queries.
 
 <!-- chunk {"id": "body-0048", "role": "body", "section": "V-A Benchmark Results", "weight": 1.0} -->
 
-Table I shows that, for the 6‑D double‑integrator, Kino-PAX^+^-large-$\delta$ reaches an first solution in under $11{ms}$ across all environments, comparable to Kino-PAX, which does so in under $8{ms}$. A comparison of their first solution times and solution quality over time is shown in Figure 6. Relative to SST, Kino-PAX^+^-large-$\delta$ finds the first solution $650 \times$, $1600 \times$, $1100 \times$, and $3300 \times$ faster in Environments a--d, respectively. On average, Kino-PAX^+^-large-$\delta$'s first solution cost is $65\%$ of SST's first‑solution cost. After $10{ms}$ of planning, Kino-PAX^+^-large-$\delta$ converges to a local optimum with an average cost that is $61\%$ of SST's first solution cost.
+Tables I-III III summarize results, presenting median first solution time, normalized median first solution cost, median final solution time, normalized median final solution cost, and the success rate across 100 queries.
 
 <!-- chunk {"id": "body-0049", "role": "body", "section": "V-A Benchmark Results", "weight": 1.0} -->
 
-In comparison, the fine-grained hyperparameter variant, Kino-PAX^+^-small-$\delta$, converges to a local optimum after an average of $160s$ of planning, achieving an average cost that is $55\%$ of SST's initial cost. Meanwhile, SST, after the full five‑minute duration, improves only to $84\%$ of its own initial cost. A visualization comparing SST with Kino-PAX^+^-large-$\delta$ and Kino-PAX^+^-small-$\delta$ is shown in Figure 7.
+Table I shows that, for the 6‑D double‑integrator, Kino-PAX^+^-large-$\delta$ reaches an first solution in under $11\,\mathrm{ms}$ across all environments, comparable to Kino-PAX, which does so in under $8\,\mathrm{ms}$. A comparison of their first solution times and solution quality over time is shown in Figure 6. Relative to SST, Kino-PAX^+^-large-$\delta$ finds the first solution $650\times$, $1600\times$, $1100\times$, and $3300\times$ faster in Environments a--d, respectively. On average, Kino-PAX^+^-large-$\delta$'s first solution cost is $65\%$ of SST's first‑solution cost. After $10\,\mathrm{ms}$ of planning, Kino-PAX^+^-large-$\delta$ converges to a local optimum with an average cost that is $61\%$ of SST's first solution cost.
 
 <!-- chunk {"id": "body-0050", "role": "body", "section": "V-A Benchmark Results", "weight": 1.0} -->
 
-For the Dubins Airplane system in Table II, we see largely similar results, where Kino-PAX^+^-large-$\delta$ achieves first solutions on average $6000 \times$ faster than SST, with first solution costs that are $78\%$ of SST's first solution cost. Kino-PAX^+^-large-$\delta$ converges to solutions that are $72\%$ of SST's first solution cost, while Kino-PAX^+^-small-$\delta$ converges to solutions that are $65\%$ of the cost. Notably, in Env. d, only Kino-PAX^+^-small-$\delta$ is able to find a valid solution within the planning time. This environment posed a particularly challenging problem due to the Dubins Airplane system's large turning radius and the presence of long, narrow passages with tight turns.
+In comparison, the fine-grained hyperparameter variant, Kino-PAX^+^-small-$\delta$, converges to a local optimum after an average of $160\,\mathrm{s}$ of planning, achieving an average cost that is $55\%$ of SST's initial cost. Meanwhile, SST, after the full five‑minute duration, improves only to $84\%$ of its own initial cost. A visualization comparing SST with Kino-PAX^+^-large-$\delta$ and Kino-PAX^+^-small-$\delta$ is shown in Figure 7.
 
 <!-- chunk {"id": "body-0051", "role": "body", "section": "V-A Benchmark Results", "weight": 1.0} -->
 
-Due to its fine decomposition and large expected tree size, Kino-PAX^+^-small-$\delta$ is able to find an first solution in $4.3$ seconds and improve that solution by an additional $9\%$ over the five-minute planning period.
+For the Dubins Airplane system in Table II, we see largely similar results, where Kino-PAX^+^-large-$\delta$ achieves first solutions on average $6000\times$ faster than SST, with first solution costs that are $78\%$ of SST's first solution cost. Kino-PAX^+^-large-$\delta$ converges to solutions that are $72\%$ of SST's first solution cost, while Kino-PAX^+^-small-$\delta$ converges to solutions that are $65\%$ of the cost. Notably, in Env. d, only Kino-PAX^+^-small-$\delta$ is able to find a valid solution within the planning time. This environment posed a particularly challenging problem due to the Dubins Airplane system's large turning radius and the presence of long, narrow passages with tight turns.
 
 <!-- chunk {"id": "body-0052", "role": "body", "section": "V-A Benchmark Results", "weight": 1.0} -->
 
-Lastly, Table III and Figure 8 present the planning results for the 12D nonlinear quadcopter system. Both tuning variants of Kino-PAX^+^ consistently outperform SST across all evaluated metrics, including time to first solution, first solution cost, and final solution cost. In these experiments, SST successfully found solutions in only $84\%$, $53\%$, $42\%$, and $0\%$ of trials in environments a--d, respectively. In contrast, both Kino-PAX^+^-large-$\delta$ and Kino-PAX^+^-small-$\delta$ achieved a $100\%$ success rate across all environments. On average, Kino-PAX^+^-large-$\delta$ finds the first solution $750 \times$ faster than SST and with a cost that is $63\%$ of SST's first solution cost.
+Due to its fine decomposition and large expected tree size, Kino-PAX^+^-small-$\delta$ is able to find an first solution in $4.3$ seconds and improve that solution by an additional $9\%$ over the five-minute planning period.
 
 <!-- chunk {"id": "body-0053", "role": "body", "section": "V-A Benchmark Results", "weight": 1.0} -->
 
-It converges to a final solution that is $55\%$ of SST's first solution cost, while Kino-PAX^+^-small-$\delta$ converges to a final solution that is $51\%$ of SST's. In comparison, SST converges to a final solution that is $94\%$ of its own first solution cost.
+Lastly, Table III and Figure 8 present the planning results for the 12D nonlinear quadcopter system. Both tuning variants of Kino-PAX^+^ consistently outperform SST across all evaluated metrics, including time to first solution, first solution cost, and final solution cost. In these experiments, SST successfully found solutions in only $84\%$, $53\%$, $42\%$, and $0\%$ of trials in environments a--d, respectively. In contrast, both Kino-PAX^+^-large-$\delta$ and Kino-PAX^+^-small-$\delta$ achieved a $100\%$ success rate across all environments. On average, Kino-PAX^+^-large-$\delta$ finds the first solution $750\times$ faster than SST and with a cost that is $63\%$ of SST's first solution cost.
 
 <!-- chunk {"id": "body-0054", "role": "body", "section": "V-A Benchmark Results", "weight": 1.0} -->
 
+It converges to a final solution that is $55\%$ of SST's first solution cost, while Kino-PAX^+^-small-$\delta$ converges to a final solution that is $51\%$ of SST's. In comparison, SST converges to a final solution that is $94\%$ of its own first solution cost.
+
+<!-- chunk {"id": "body-0055", "role": "body", "section": "V-A Benchmark Results", "weight": 1.0} -->
+
 Overall, Kino-PAX^+^ outperforms existing serial asymptotically near-optimal planners in *all* assessed metrics. Kino-PAX^+^-large-$\delta$ rapidly finds high-quality first solutions, achieving speeds thousands of times faster than SST and comparable to Kino-PAX. Additionally, Kino-PAX^+^-small-$\delta$ shows that the algorithm remains effective and reliable for extremely challenging problems. Finally, unlike Kino-PAX, Kino-PAX^+^ is consistently able to optimize towards the lowest final costs across all environments.
 
-<!-- chunk {"id": "body-0055", "role": "body", "section": "Conclusion", "weight": 1.5} -->
+<!-- chunk {"id": "body-0056", "role": "body", "section": "Conclusion", "weight": 1.5} -->
 
 We have introduced Kino-PAX^+^, a novel parallelized asymptotically near-optimal kinodynamic motion planner. Benchmark results show that initial solution times are orders of magnitude faster than those of existing asymptotically near-optimal kinodynamic SBMPs, with significantly lower initial solution costs. Furthermore, it consistently outperforms its predecessor, Kino-PAX, in solution costs. For future work, we plan to conduct deployments in real-world robotic systems.

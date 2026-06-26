@@ -56,67 +56,67 @@ In particular, we are interested in visuomotor policies in which the observation
 
 <!-- chunk {"id": "body-0014", "role": "body", "section": "III-A Preliminary: Visuomotor Policies", "weight": 1.0} -->
 
-It is common for a visuomotor policy to have an architecture that can factored as displayed in Fig. 2(a),
+It is common for a visuomotor policy to have an architecture that can factored as displayed in Fig. 2(a), in which a visual model $f_{\theta_{v}}{(\cdot)}$, parameterized by $\theta_{v}$, processes the high-dimensional ${\mathbf{o}}_{\text{image}}$ into a much smaller $Z$-dimensional representation $\mathbf{z}$. The policy model $\pi_{\theta_{p}}{(\cdot)}$ then combines the output of the visual model with other observations ${\mathbf{o}}_{\text{robot}}$.
 
 <!-- chunk {"id": "body-0015", "role": "body", "section": "III-A Preliminary: Visuomotor Policies", "weight": 1.0} -->
 
-in which a visual model $f_{\theta_{v}}{( \cdot )}$, parameterized by $\theta_{v}$, processes the high-dimensional ${\mathbf{o}}_{\text{image}}$ into a much smaller $Z$-dimensional representation $\mathbf{z}$. The policy model $\pi_{\theta_{p}}{( \cdot )}$ then combines the output of the visual model with other observations ${\mathbf{o}}_{\text{robot}}$. This is a practical modeling choice -- images are extremely high dimensional, i.e. in this work we use images in ${\mathbb{R}}^{640 \times 480 \times 3} = {\mathbb{R}}^{921,600}$, whereas our $\mathcal{O}_{\text{robot}}$ is at most ${\mathbb{R}}^{13}$.
+This is a practical modeling choice -- images are extremely high dimensional, i.e. in this work we use images in ${\mathbb{R}}^{640 \times 480 \times 3} = {\mathbb{R}}^{921,600}$, whereas our $\mathcal{O}_{\text{robot}}$ is at most ${\mathbb{R}}^{13}$. A wide variety of works have employed a similar architecture to, consisting of convolutional networks extracting features from raw images into an approximately $Z = 32$ to $100$ bottleneck representation of features, e.g.
 
-<!-- chunk {"id": "body-0016", "role": "body", "section": "III-A Preliminary: Visuomotor Policies", "weight": 1.0} -->
-
-A wide variety of works have employed a similar architecture to, consisting of convolutional networks extracting features from raw images into an approximately $Z = 32$ to $100$ bottleneck representation of features, e.g.
-
-<!-- chunk {"id": "body-0017", "role": "body", "section": "III-B Visual Correspondence Models for Visuomotor Policy Learning", "weight": 1.0} -->
+<!-- chunk {"id": "body-0016", "role": "body", "section": "III-B Visual Correspondence Models for Visuomotor Policy Learning", "weight": 1.0} -->
 
 The objective of the visual model is to produce a feature vector $\mathbf{z}$ which serves as a suitable input for policy learning. In particular, we are interested in deploying policies that can operate directly on RGB images. Given the role that pose estimation has played in traditional manipulation pipelines it seems valuable to encode the configuration of objects of interest in the vector $\mathbf{z}$. Pose estimation, however, doesn't extend to the cases of deformable or unknown objects. Some of the prior works discussed in Sec. II-A, for example, have interpreted their learned feature points $\mathbf{z}$ as encoding useful spatial information for the objects and task. These feature points are learned via the supervisory signals of end-to-end, pose-based, or autoencoding losses, and don't explicitly train for spatial correspondence. In contrast our approach is to directly employ visual correspondence training, building off the approach of which can in a self-supervised manner, learn pixel descriptors of objects that are effective in finding correspondences between RGB images.
 
+<!-- chunk {"id": "body-0017", "role": "body", "section": "III-B Visual Correspondence Models for Visuomotor Policy Learning", "weight": 1.0} -->
+
+We introduce four different methods for how to employ dense correspondence models as the visual basis of visuomotor policy learning. The first three are based on the idea of a set of points on the object(s) that are localized either in image-space or 3D space. We represent these points as a set ${\{{\mathbf{d}}_{i}\}}_{i = 1}^{P}$ of $P$ descriptors, with each ${\mathbf{d}}_{i} \in {\mathbb{R}}^{D}$ representing some vector in the $D$-dimensional descriptor space produced by a dense descriptor model $f_{\theta_{v}}^{\text{dense}}{(\cdot)}$.
+
 <!-- chunk {"id": "body-0018", "role": "body", "section": "III-B Visual Correspondence Models for Visuomotor Policy Learning", "weight": 1.0} -->
 
-We introduce four different methods for how to employ dense correspondence models as the visual basis of visuomotor policy learning. The first three are based on the idea of a set of points on the object(s) that are localized either in image-space or 3D space. We represent these points as a set ${\{{\mathbf{d}}_{i}\}}_{i = 1}^{P}$ of $P$ descriptors, with each ${\mathbf{d}}_{i} \in {\mathbb{R}}^{D}$ representing some vector in the $D$-dimensional descriptor space produced by a dense descriptor model $f_{\theta_{v}}^{\text{dense}}{( \cdot )}$.
+Let us term $f^{C}{(\cdot)}$ to be the non-parametric correspondence function that, given one or more descriptors and a dense descriptor image $f_{\theta_{v}}^{\text{dense}}{({\mathbf{o}}_{\text{image}})}$, provides the predicted location of the descriptor(s): Specifically $f^{C}:{{{\mathbb{R}}^{W \times H \times D} \times {\mathbb{R}}^{P \times D}}\rightarrow{\mathbb{R}}^{P \times K}}$, where $K = 2$ corresponds to: $\mathbf{z}$ is the predicted corresponding $(u,v)$ pixel coordinates of each descriptor in the image, while $K = 3$ is their predicted 3D coordinates.^††^The specific form of $f^{C}{(\cdot)}$ is defined by how the correspondence model was trained.
 
 <!-- chunk {"id": "body-0019", "role": "body", "section": "III-B Visual Correspondence Models for Visuomotor Policy Learning", "weight": 1.0} -->
 
-Specifically $f^{C}:{{{\mathbb{R}}^{W \times H \times D} \times {\mathbb{R}}^{P \times D}}\rightarrow{\mathbb{R}}^{P \times K}}$, where $K = 2$ corresponds to: $\mathbf{z}$ is the predicted corresponding $(u,v)$ pixel coordinates of each descriptor in the image, while $K = 3$ is their predicted 3D coordinates.^††^The specific form of $f^{C}{( \cdot )}$ is defined by how the correspondence model was trained. In our preferred model we compute a spatial-expectation using a correspondence kernel, either in image-space or 3D. See, Chapter 4, for details. All four methods optimize a generic policy-based loss function, shown in Eq., and vary only in the set of learnable parameters $\Theta$ and how $\mathbf{z}$ is acquired (the first three use Eq. 3).
+In our preferred model we compute a spatial-expectation using a correspondence kernel, either in image-space or 3D. See, Chapter 4, for details. All four methods optimize a generic policy-based loss function, shown in Eq., and vary only in the set of learnable parameters $\Theta$ and how $\mathbf{z}$ is acquired (the first three use Eq. 3). This loss function $\mathcal{L}$ is generic and could represent any approach for learning the parameters of a visuomotor policy.
 
 <!-- chunk {"id": "body-0020", "role": "body", "section": "III-B Visual Correspondence Models for Visuomotor Policy Learning", "weight": 1.0} -->
 
-This loss function $\mathcal{L}$ is generic and could represent any approach for learning the parameters of a visuomotor policy.
+Fixed Descriptor Set. This method only optimizes the policy parameters, $\Theta = {\{\theta_{p}\}}$. In this case both the set of descriptors ${\{{\mathbf{d}}_{i}\}}_{i = 1}^{P}$ and visual model $f_{\theta_{v}}^{\text{dense}}{( \cdot )}$ are fixed. We use a simple initialization scheme of sampling $\{{\mathbf{d}}_{i}\}$ from a single masked reference descriptor image. While we have found this method to be surprisingly effective, it is unsatisfying that the visual model's representation is not optimized after the random initialization process.
 
 <!-- chunk {"id": "body-0021", "role": "body", "section": "III-B Visual Correspondence Models for Visuomotor Policy Learning", "weight": 1.0} -->
 
-Fixed Descriptor Set. This method only optimizes the policy parameters, $\Theta = {\{\theta_{p}\}}$. In this case both the set of descriptors ${\{{\mathbf{d}}_{i}\}}_{i = 1}^{P}$ and visual model $f_{\theta_{v}}^{\text{dense}}{( \cdot )}$ are fixed. We use a simple initialization scheme of sampling $\{{\mathbf{d}}_{i}\}$ from a single masked reference descriptor image. While we have found this method to be surprisingly effective, it is unsatisfying that the visual model's representation is not optimized after the random initialization process.
+Descriptor Set Optimization. This method optimizes the descriptor set ${\{{\mathbf{d}}_{i}\}}_{i = 1}^{P}$ along with the policy parameters $\theta_{p}$ while keeping the dense descriptor mapping $f_{\theta_{v}}^{dense}$ fixed. Intuitively $f_{\theta_{v}}^{dense}$ has already been trained to perform correspondence, and we are simply allowing the policy optimization to choose what to correspond. We have observed that Descriptor Set Optimization can improve validation error in some cases over a Fixed Descriptor Set, and adds minimal computational cost and parameters.
 
 <!-- chunk {"id": "body-0022", "role": "body", "section": "III-B Visual Correspondence Models for Visuomotor Policy Learning", "weight": 1.0} -->
 
-Descriptor Set Optimization. This method optimizes the descriptor set ${\{{\mathbf{d}}_{i}\}}_{i = 1}^{P}$ along with the policy parameters $\theta_{p}$ while keeping the dense descriptor mapping $f_{\theta_{v}}^{dense}$ fixed. Intuitively $f_{\theta_{v}}^{dense}$ has already been trained to perform correspondence, and we are simply allowing the policy optimization to choose what to correspond. We have observed that Descriptor Set Optimization can improve validation error in some cases over a Fixed Descriptor Set, and adds minimal computational cost and parameters.
+End-to-End Dense Optimization. The third option is to train the full model architecture end-to-end by including $\theta_{v}$ in the optimization. While we may have expected this approach to allow the visual model to more precisely focus its modeling ability on task-critical parts of images, we so far have not observed a performance advantage of this approach over Descriptor Set Optimization.
 
 <!-- chunk {"id": "body-0023", "role": "body", "section": "III-B Visual Correspondence Models for Visuomotor Policy Learning", "weight": 1.0} -->
 
-End-to-End Dense Optimization. The third option is to train the full model architecture end-to-end by including $\theta_{v}$ in the optimization. While we may have expected this approach to allow the visual model to more precisely focus its modeling ability on task-critical parts of images, we so far have not observed a performance advantage of this approach over Descriptor Set Optimization.
+End-to-End with Correspondence Pretraining. The fourth option is to directly apply a differentiable operation to a model which was previously trained on dense correspondence. We can apply any differentiable operation $g{( \cdot )}$ on top of $f_{\theta_{v}}^{\text{dense}}$ directly to produce a representation ${\mathbf{z}} = {g\left( {f_{\theta_{v}}^{dense}{({\mathbf{o}}_{\text{image}})}} \right)}$. For example, we can apply non-parametric channel-wise spatial expectations to each of the $D$ channels of the dense descriptor images. The optimization variables in this case are $\Theta = {\{\theta_{p},\theta_{v}\}}$.
 
 <!-- chunk {"id": "body-0024", "role": "body", "section": "III-B Visual Correspondence Models for Visuomotor Policy Learning", "weight": 1.0} -->
 
-End-to-End with Correspondence Pretraining. The fourth option is to directly apply a differentiable operation to a model which was previously trained on dense correspondence. We can apply any differentiable operation $g{( \cdot )}$ on top of $f_{\theta_{v}}^{\text{dense}}$ directly to produce a representation ${\mathbf{z}} = {g\left( {f_{\theta_{v}}^{dense}{({\mathbf{o}}_{\text{image}})}} \right)}$. For example, we can apply non-parametric channel-wise spatial expectations to each of the $D$ channels of the dense descriptor images. The optimization variables in this case are $\Theta = {\{\theta_{p},\theta_{v}\}}$.
-
-<!-- chunk {"id": "body-0025", "role": "body", "section": "III-B Visual Correspondence Models for Visuomotor Policy Learning", "weight": 1.0} -->
-
 For our $f_{\theta_{v}}^{\text{dense}}$ we use a 34-layer ResNet, as, which is a powerful vision backbone. Accordingly, using either a fixed- or optimized- descriptor set will significantly increase policy training speed, since it does not require forward-backward optimizing through a very deep convolutional network in each step of policy training, which in our case is 1 to 2 orders of magnitude faster.
 
-<!-- chunk {"id": "body-0026", "role": "body", "section": "VISUAL IMITATION FORMULATION", "weight": 1.0} -->
+<!-- chunk {"id": "body-0025", "role": "body", "section": "VISUAL IMITATION FORMULATION", "weight": 1.0} -->
 
 We now propose how to use the general approach of Sec. III-B for a specific type of imitation learning for robot manipulation.
 
-<!-- chunk {"id": "body-0027", "role": "body", "section": "IV-A Robot Observation and Action Spaces", "weight": 1.0} -->
+<!-- chunk {"id": "body-0026", "role": "body", "section": "IV-A Robot Observation and Action Spaces", "weight": 1.0} -->
 
 At the lowest level our controller sends joint velocity commands to the robot. For ease of providing demonstrations via teleoperation, the operator commands relative-to-current desired end-effector poses $T_{\Delta,\text{cmd}}$. A low-level Jacobian based controller then tracks these end-effector pose setpoints. Our learned policies also output $T_{\Delta,\text{cmd}}$. The teleoperator also commands a gripper width setpoint which again is tracked by a low-level controller. Thus the action space is ${\mathbf{a}} = {(T_{\Delta,\text{cmd}},w_{\text{gripper}})} \in \mathcal{A} = {{SE{}} \times {\mathbb{R}}^{+}}$.
 
-<!-- chunk {"id": "body-0028", "role": "body", "section": "IV-A Robot Observation and Action Spaces", "weight": 1.0} -->
+<!-- chunk {"id": "body-0027", "role": "body", "section": "IV-A Robot Observation and Action Spaces", "weight": 1.0} -->
 
 Our ${\mathbf{o}}_{\text{robot}} \in {\mathbb{R}}^{13}$ is (i) three 3D points on the hand as, (ii) an axis-angle rotation relative to the task's starting pose, and (iii) the gripper width. As noted previously, ${\mathbf{o}}_{\text{image}} \in {\mathbb{R}}^{921,600}$.
 
-<!-- chunk {"id": "body-0029", "role": "body", "section": "IV-B Imitation Learning Visuomotor Policies", "weight": 1.0} -->
+<!-- chunk {"id": "body-0028", "role": "body", "section": "IV-B Imitation Learning Visuomotor Policies", "weight": 1.0} -->
 
 To evaluate visual learning strategies for enabling visuomotor policy learning, we use imitation learning via a simple behavioral cloning strategy, which a few recent works have demonstrated to be viable for learning visuomotor manipulation policies.
+
+<!-- chunk {"id": "body-0029", "role": "body", "section": "IV-B Imitation Learning Visuomotor Policies", "weight": 1.0} -->
+
+$\lambda = 0.1$. We scale ${\mathbf{a}}^{\ast}$ to equalize 1.0m end-effector translation, 0.1 radians end-effector rotation, and 1.0m gripper translation.
 
 <!-- chunk {"id": "body-0030", "role": "body", "section": "IV-C Training for Feedback through Data Augmentation", "weight": 1.0} -->
 
@@ -148,76 +148,84 @@ Our experimentation sought to answer these primary questions: Is it possible to 
 
 <!-- chunk {"id": "body-0037", "role": "body", "section": "V-A Simulation Experimental Setup", "weight": 1.0} -->
 
-We use simulated imitation learning tasks (Fig. 3) to compare the generalization performance of behavior-cloned policies where the only difference is how the "visual representation" $\mathbf{z}$ is acquired. The first two tasks involve reaching to an object whose configuration varies between trials either in translation only, or rotation as well. The additional two tasks are both pushing tasks, which require feedback due to simulated external disturbances. Expert demonstrations use simple hand-designed policies using ground truth object state information.
+We use simulated imitation learning tasks (Fig. 3) to compare the generalization performance of behavior-cloned policies where the only difference is how the "visual representation" $\mathbf{z}$ is acquired. The first two tasks involve reaching to an object whose configuration varies between trials either in translation only, or rotation as well. The additional two tasks are both pushing tasks, which require feedback due to simulated external disturbances. Expert demonstrations use simple hand-designed policies using ground truth object state information. The compared methods are: Ground truth 3D points (GT-3D): $\mathbf{z}$ is ground truth world-frame 3D locations of points on the object.
 
 <!-- chunk {"id": "body-0038", "role": "body", "section": "V-A Simulation Experimental Setup", "weight": 1.0} -->
 
-Ground truth 3D points (GT-3D): $\mathbf{z}$ is ground truth world-frame 3D locations of points on the object.
+Ground truth 2D image coordinates (GT-2D): $\mathbf{z}$ is similar to the previous baseline, but the points are projected into the camera using the ground truth camera parameters.
 
 <!-- chunk {"id": "body-0039", "role": "body", "section": "V-A Simulation Experimental Setup", "weight": 1.0} -->
 
-Ground truth 2D image coordinates (GT-2D): $\mathbf{z}$ is similar to the previous baseline, but the points are projected into the camera using the ground truth camera parameters.
+Autoencoder (AE): $\mathbf{z}$ is the encoding of a pre-trained autoencoder, similar to the visual training.
 
 <!-- chunk {"id": "body-0040", "role": "body", "section": "V-A Simulation Experimental Setup", "weight": 1.0} -->
 
-Autoencoder (AE): $\mathbf{z}$ is the encoding of a pre-trained autoencoder, similar to the visual training.
+End-to-End (E2E): $\mathbf{z}$ is the intermediate representation from end-to-end training. This closely resembles the visual training and models, but we do not also add pose-based losses, in order to investigate end-to-end learning without these auxiliary losses.
 
 <!-- chunk {"id": "body-0041", "role": "body", "section": "V-A Simulation Experimental Setup", "weight": 1.0} -->
 
-End-to-End (E2E): $\mathbf{z}$ is the intermediate representation from end-to-end training. This closely resembles the visual training and models, but we do not also add pose-based losses, in order to investigate end-to-end learning without these auxiliary losses.
+Ours, Dense descriptors (DD): $\mathbf{z}$ is the expected image-space locations (DD-2D) or 3D-space locations (DD-3D) of the descriptor set ${\{{\mathbf{d}}\}}_{i}$, where the visual model was trained on dense correspondence.
 
 <!-- chunk {"id": "body-0042", "role": "body", "section": "V-A Simulation Experimental Setup", "weight": 1.0} -->
 
-Ours, Dense descriptors (DD): $\mathbf{z}$ is the expected image-space locations (DD-2D) or 3D-space locations (DD-3D) of the descriptor set ${\{{\mathbf{d}}\}}_{i}$, where the visual model was trained on dense correspondence.
+Note that the two vision-based baselines AE and E2E share an identical model architecture for producing $\mathbf{z}$, and differ only in the method used to train the parameters. The model is close to with the key architectural traits of having a few convolutional layers followed by a channel-wise spatial expectation operation, which has been widely used. Most methods we compare (AE, E2E, DD-2D) use only one RGB camera stream as input to learned policies; DD-3D additionally uses the depth image. DD methods use descriptor set optimization (Sec. III-B) and use both views for the correspondence training, before policy training.
 
 <!-- chunk {"id": "body-0043", "role": "body", "section": "V-A Simulation Experimental Setup", "weight": 1.0} -->
 
-Note that the two vision-based baselines AE and E2E share an identical model architecture for producing $\mathbf{z}$, and differ only in the method used to train the parameters. The model is close to with the key architectural traits of having a few convolutional layers followed by a channel-wise spatial expectation operation, which has been widely used. Most methods we compare (AE, E2E, DD-2D) use only one RGB camera stream as input to learned policies; DD-3D additionally uses the depth image. DD methods use descriptor set optimization (Sec. III-B) and use both views for the correspondence training, before policy training.
-
-<!-- chunk {"id": "body-0044", "role": "body", "section": "V-A Simulation Experimental Setup", "weight": 1.0} -->
-
 See the Appendix for additional model and task details.
+
+<!-- chunk {"id": "body-0044", "role": "body", "section": "V-B Simulation Results", "weight": 1.0} -->
+
+Ground truth 3D points Ground truth 2D image coord.
 
 <!-- chunk {"id": "body-0045", "role": "body", "section": "V-B Simulation Results", "weight": 1.0} -->
 
-Table I contains the results of the simulation experiments. Interestingly we find that our method's visual representation is capable of enabling policy learning that is remarkably close in performance to what can be achieved if the policy has access to ground truth world state information. In contrast the performances of the end-to-end (E2E) and autoencoder (AE) methods vary much more across the different tasks. Since our method benefits from object mask information during visual training, we also experimented with letting the autoencoder use this information by applying the reconstruction loss on only the masked image. Additionally we tried training the autoencoder end-to-end during behavior cloning. Both of these yield mixed results, depending on the task.
+RGB policy input Autoencoder w/ mask, frozen Autoencoder, then End-to-End End-to-End (34-layer ResNet) DD 2D image coord. (ours) RGBD policy input Table I: Summary of simulation results (success rate, as %). DD = Dense Descriptor. See Appendix for task success criteria and additional details.
 
 <!-- chunk {"id": "body-0046", "role": "body", "section": "V-B Simulation Results", "weight": 1.0} -->
 
-Since the vision network in our method is a 34-layer ResNet, we wanted to see if the end-to-end method would benefit from using the same, deeper vision backbone. The deeper network did not improve closed-loop performance (Table I) although it did reduce behavior-cloning validation error. This suggests the advantage of our method comes from the correspondence training rather than the model capacity.
+Table I contains the results of the simulation experiments. Interestingly we find that our method's visual representation is capable of enabling policy learning that is remarkably close in performance to what can be achieved if the policy has access to ground truth world state information. In contrast the performances of the end-to-end (E2E) and autoencoder (AE) methods vary much more across the different tasks. Since our method benefits from object mask information during visual training, we also experimented with letting the autoencoder use this information by applying the reconstruction loss on only the masked image. Additionally we tried training the autoencoder end-to-end during behavior cloning. Both of these yield mixed results, depending on the task.
 
 <!-- chunk {"id": "body-0047", "role": "body", "section": "V-B Simulation Results", "weight": 1.0} -->
 
-The binary success metrics of Table I, however, do not fully convey the methods' performances. We also experiment with varying the number of demonstrations, and characterize the performance distributions. By plotting the performance for the *"Reach, T + R"* task over a projection of the sampled object configurations (Figure 4), we learn that the few failures of our method occur when the box position lies outside the convex hull of the training data. Interestingly the GT-2D baseline also struggles with similar failure modes, while the GT-3D method succeeds in more cases outside the convex hull. This suggests that policies that consume 3D information are better able to extrapolate outside the training distribution; our DD-3D method also provides better generalization than DD-2D. The baseline vision-based methods do not generalize as well; for example, the E2E performance distribution is shown in Figure 4. On this task we find that with just 30 demonstrations our method outperforms both AE and E2E with 200 demonstrations.
+Since the vision network in our method is a 34-layer ResNet, we wanted to see if the end-to-end method would benefit from using the same, deeper vision backbone. The deeper network did not improve closed-loop performance (Table I) although it did reduce behavior-cloning validation error. This suggests the advantage of our method comes from the correspondence training rather than the model capacity.
 
 <!-- chunk {"id": "body-0048", "role": "body", "section": "V-B Simulation Results", "weight": 1.0} -->
 
-The pushing tasks are of particular interest since they demand closed-loop visual feedback. Disturbances are applied to the object both while collecting demonstrations and deploying the learned policies. Since the *"Push box"* task used a dynamic state feedback controller to provide demonstrations, we find that we need the sequence model (LSTM) for the policy network to achieve the task, even when the policy has access to ground truth object state. On the other hand, the *"Push plate"* task employed a static feedback controller to provide demonstrations, and so MLP models that consume only the current observation, $\pi_{\theta_{p}}{({\mathbf{o}}_{t})}$, are sufficient.
+The binary success metrics of Table I, however, do not fully convey the methods' performances. We also experiment with varying the number of demonstrations, and characterize the performance distributions. By plotting the performance for the *"Reach, T + R"* task over a projection of the sampled object configurations (Figure 4), we learn that the few failures of our method occur when the box position lies outside the convex hull of the training data. Interestingly the GT-2D baseline also struggles with similar failure modes, while the GT-3D method succeeds in more cases outside the convex hull. This suggests that policies that consume 3D information are better able to extrapolate outside the training distribution; our DD-3D method also provides better generalization than DD-2D. The baseline vision-based methods do not generalize as well; for example, the E2E performance distribution is shown in Figure 4. On this task we find that with just 30 demonstrations our method outperforms both AE and E2E with 200 demonstrations.
 
 <!-- chunk {"id": "body-0049", "role": "body", "section": "V-B Simulation Results", "weight": 1.0} -->
 
-Interestingly a variety of methods performed well on the *"Push box"* task while large differences were evident in the *"Push plate"* task. We speculate that this is because higher precision is required to accurately push the plate as compared to the box. Since the rectangular robot finger experiences a patch contact with the box, while only a point contact with the plate, there is more open loop stability in pushing the box. On the harder *"Push plate"* task we found that our DD-2D method performed almost as well as the GT-2D baseline and significantly outperformed both the AE and E2E approaches, and that DD-3D improved performance even further.
+The pushing tasks are of particular interest since they demand closed-loop visual feedback. Disturbances are applied to the object both while collecting demonstrations and deploying the learned policies. Since the *"Push box"* task used a dynamic state feedback controller to provide demonstrations, we find that we need the sequence model (LSTM) for the policy network to achieve the task, even when the policy has access to ground truth object state. On the other hand, the *"Push plate"* task employed a static feedback controller to provide demonstrations, and so MLP models that consume only the current observation, $\pi_{\theta_{p}}{({\mathbf{o}}_{t})}$, are sufficient.
 
 <!-- chunk {"id": "body-0050", "role": "body", "section": "V-B Simulation Results", "weight": 1.0} -->
 
+Interestingly a variety of methods performed well on the *"Push box"* task while large differences were evident in the *"Push plate"* task. We speculate that this is because higher precision is required to accurately push the plate as compared to the box. Since the rectangular robot finger experiences a patch contact with the box, while only a point contact with the plate, there is more open loop stability in pushing the box. On the harder *"Push plate"* task we found that our DD-2D method performed almost as well as the GT-2D baseline and significantly outperformed both the AE and E2E approaches, and that DD-3D improved performance even further.
+
+<!-- chunk {"id": "body-0051", "role": "body", "section": "V-B Simulation Results", "weight": 1.0} -->
+
 Additionally we find (Table II) our noise augmentation technique (Sec. IV-C) has a marked effect on task success for behavior-cloned policies. This applies to ground truth methods and our method, with as few as 30 demonstrations or as many as 200.
 
-<!-- chunk {"id": "body-0051", "role": "body", "section": "V-C Hardware Experimental Setup", "weight": 1.0} -->
+<!-- chunk {"id": "body-0052", "role": "body", "section": "V-C Hardware Experimental Setup", "weight": 1.0} -->
 
 We used a Kuka IIWA LBR robot with a Schunk WSG 50 parallel jaw gripper to perform imitation learning for the five tasks detailed in Figure 1. RGBD sensing was provided by RealSense D415 cameras rigidly mounted offboard the robot and calibrated to the robot's coordinate frame. Note that for effective correspondence learning between views, it is ideal to have views with some overlap such that correspondences exist, but still maintain different-enough views. All shown hardware results use only RGB input for the trained policies (DD-2D, Sec. V-A) and use descriptor set optimization (Sec. III-B). Human demonstrations were provided by teleoperating the robot with a mouse and keyboard.
 
-<!-- chunk {"id": "body-0052", "role": "body", "section": "V-D Hardware Results", "weight": 1.0} -->
+<!-- chunk {"id": "body-0053", "role": "body", "section": "V-D Hardware Results", "weight": 1.0} -->
+
+from finish line off the table Table III: Summary of task attempts and success rates for hardware validation experiments. Autonomous re-tries are counted as successes.
+
+<!-- chunk {"id": "body-0054", "role": "body", "section": "V-D Hardware Results", "weight": 1.0} -->
 
 We validate both our visual learning method and its use in imitation learning in the real world. As in simulation, we *only use demonstration data* for both visual training and policy learning; no additional data collection is needed. While the simulation results provide a controlled environment for comparisons, there are a number of additional challenges in our real world experiments: (i) visual complexity (textures, lighting, backgrounds, clutter), (ii) use of human demonstrations rather than expert simulation controllers, (iii) real physical contact, and (iv) imperfect correspondence learning due to noisy depth sensors and calibration. Our hardware experiments test all of these aspects. All real hardware experiments use LSTM policy networks, since we suspect our human demonstrators use dynamic internal state.
 
-<!-- chunk {"id": "body-0053", "role": "body", "section": "V-D1 Learned Correspondences from Dynamic Scenes", "weight": 1.0} -->
+<!-- chunk {"id": "body-0055", "role": "body", "section": "V-D1 Learned Correspondences from Dynamic Scenes", "weight": 1.0} -->
 
 Fig. 5 displays visualizations of learned correspondences from demonstration data. The results show that the learned visual models, despite imperfect depth sensor noise, calibration, and only time-synchronized image pairs, are capable of identifying correspondences across a class of objects, for an object in different deformable configurations, and for objects in a diversity of backgrounds. Figure 6 displays class-general correspondences for a particularly challenging instance with large shape variation.
 
-<!-- chunk {"id": "body-0054", "role": "body", "section": "CONCLUSION", "weight": 1.5} -->
+<!-- chunk {"id": "body-0056", "role": "body", "section": "CONCLUSION", "weight": 1.5} -->
 
 Our experiments have shown self-supervised correspondence training to enable efficient policy learning in the real world, and our simulated imitation learning comparisons empirically suggest that our method outperforms two vision-based baselines in terms of generalization and sample complexity. While different hyperparameters, model architectures, and other changes to the baselines may increase their performance, our method is already near the upper bound of what can be expected in the used experimental setting: it achieves results comparable to baselines using ground truth information. One reason our approach may outperform the vision-based baselines is that it additionally uses a fundamentally different source of supervision, provided by visual correspondence training. Since our approach is self-supervised, it does not entail additional human supervision.
 
-<!-- chunk {"id": "body-0055", "role": "body", "section": "CONCLUSION", "weight": 1.5} -->
+<!-- chunk {"id": "body-0057", "role": "body", "section": "CONCLUSION", "weight": 1.5} -->
 
 Dense descriptor learning has shown to be an exciting route for improving visuomotor policy learning. While this has enabled the variety of tasks shown, there are many that are out of scope. One current limitation is that our visual representation does not explicitly address simultaneously viewing multiple object instances of the same class. Future work could, similar to the visual pipeline, combine both instance-level segmentation with intra-instance visual representations. Additionally, returning to the cooking eggs example in the Introduction, it is interesting to consider using spatial correspondence as part, but not the entirety, of the visual representation of the world.

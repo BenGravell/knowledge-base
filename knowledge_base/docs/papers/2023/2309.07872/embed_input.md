@@ -16,11 +16,11 @@ Differential Dynamic Programming (DDP) is an efficient computational tool for so
 
 <!-- chunk {"id": "body-0004", "role": "body", "section": "Introduction", "weight": 1.5} -->
 
-Model Predictive Control (MPC) is a powerful technique for controlling complex systems and has been widely used for many robotic systems, including quadrotors, quadruped robots, and humanoid robots. MPC needs to efficiently and reliably solve a sequence of finite horizon optimal control problems (OCPs) of the form
+Model Predictive Control (MPC) is a powerful technique for controlling complex systems and has been widely used for many robotic systems, including quadrotors, quadruped robots, and humanoid robots. MPC needs to efficiently and reliably solve a sequence of finite horizon optimal control problems (OCPs) of the form where $T$ is the prediction horizon, $\mathbf{x}$ the state variable, $\mathbf{u}$ the control variable, $\ell_{c}$ the running cost, $\phi$ the terminal cost, and $\mathbf{f}_{c}$ the dynamics function. The problem is an infinite-dimensional optimization problem, as it is in continuous time, and the dynamics are highly nonlinear for many robotics systems. Therefore, an analytical solution, in general, does not exist, and numerical methods are often employed. One commonly used class of approaches are direct methods. A direct method parameterizes the state and control using a finite number of variables, and transcribes the original OCP into a nonlinear optimization problem. The problem transcription most often takes one of three approaches, single shooting (SS), multiple shooting (MS), and collocation.
 
 <!-- chunk {"id": "body-0005", "role": "body", "section": "Introduction", "weight": 1.5} -->
 
-where $T$ is the prediction horizon, $\mathbf{x}$ the state variable, $\mathbf{u}$ the control variable, $\ell_{c}$ the running cost, $\phi$ the terminal cost, and $\mathbf{f}_{c}$ the dynamics function. The problem is an infinite-dimensional optimization problem, as it is in continuous time, and the dynamics are highly nonlinear for many robotics systems. Therefore, an analytical solution, in general, does not exist, and numerical methods are often employed. One commonly used class of approaches are direct methods. A direct method parameterizes the state and control using a finite number of variables, and transcribes the original OCP into a nonlinear optimization problem. The problem transcription most often takes one of three approaches, single shooting (SS), multiple shooting (MS), and collocation. This work focuses on the first two approaches.
+This work focuses on the first two approaches.
 
 <!-- chunk {"id": "body-0006", "role": "body", "section": "Introduction", "weight": 1.5} -->
 
@@ -40,7 +40,7 @@ The contributions of this paper are as follows. First, we provide a novel deriva
 
 <!-- chunk {"id": "body-0010", "role": "body", "section": "Multiple-Shooting Formulation of Optimal Control Problems", "weight": 1.0} -->
 
-Multiple shooting transcribes the continuous-time OCP to a discrete-time OCP
+the defect function that measures the dynamics feasibility of a triplet $(\mathbf{x}_{k},\mathbf{u}_{k},\mathbf{x}_{k + 1})$.
 
 <!-- chunk {"id": "body-0011", "role": "body", "section": "Multiple-Shooting Formulation of Optimal Control Problems", "weight": 1.0} -->
 
@@ -48,224 +48,180 @@ The formulation considers both the control and state as decision variables. We f
 
 <!-- chunk {"id": "body-0012", "role": "body", "section": "Differential Dynamic Programming For Multiple-Shooting OCP", "weight": 1.0} -->
 
-DDP applies a local version of Bellman's principle of optimality to the OCP by considering a small perturbation $\left( {\delta\mathbf{X}},{\delta\mathbf{U}} \right)$ near the nominal trajectory $\left( \overline{\mathbf{X}},\overline{\mathbf{U}} \right)$
+We use $Q_{k}{(\cdot, \cdot)}$ to denote the Bellman objective of eq. for simplicity. In the traditional case of SS-DDP, the algorithm considers every state as a roll-out state, thus the perturbation $\left({\delta\mathbf{X}},{\delta\mathbf{U}} \right)$ needs to satisfy Substituting eq. to the local Bellman's equation and approximating $\mathbf{f}$ quadratically results in standard Ricatti-like difference equations and a local policy.
 
-<!-- chunk {"id": "body-0013", "role": "body", "section": "Differential Dynamic Programming For Multiple-Shooting OCP", "weight": 1.0} -->
+<!-- chunk {"id": "body-0013", "role": "body", "section": "III-A Backward Sweep Accounting For Defect", "weight": 1.0} -->
 
-where $v_{k}{( \cdot )}$ denotes the local value function, $\delta\ell_{k}{({\delta\mathbf{x}_{k}},{\delta\mathbf{u}_{k}})}$ quadratically approximates the perturbation of $\ell_{k}{(\mathbf{x}_{k},\mathbf{u}_{k})}$ at (${\overline{\mathbf{x}}}_{k},{\overline{\mathbf{u}}}_{k}$). We use $Q_{k}{( \cdot, \cdot )}$ to denote the Bellman objective of eq. for simplicity. In the traditional case of SS-DDP, the algorithm considers every state as a roll-out state, thus the perturbation $\left( {\delta\mathbf{X}},{\delta\mathbf{U}} \right)$ needs to satisfy
+Traditional DDP, however, is not applicable to deal with the shooting state as introduced in the formulation because of the defect. In this work, we revise the traditional DDP backward sweep to account for the defect using a simple but effective trick. Eq. is modified as below The equation allows for dynamic infeasibility in the initial guess or intermediate trajectories ($\overline{\mathbf{X}},\overline{\mathbf{U}}$). To derive the update policy associated, we approximate $v_{k}{({\delta\mathbf{x}_{k}})}$ to the second order as in DDP where $\mathbf{S}_{k}$, $\mathbf{s}_{k}$, $s_{k}$ are the Hessian, gradient, and zero-order terms of $v_{k}{({\delta\mathbf{x}_{k}})}$. By approximating $\mathbf{f}$ in eq.
 
-<!-- chunk {"id": "body-0014", "role": "body", "section": "Differential Dynamic Programming For Multiple-Shooting OCP", "weight": 1.0} -->
+<!-- chunk {"id": "body-0014", "role": "body", "section": "III-A Backward Sweep Accounting For Defect", "weight": 1.0} -->
 
-Substituting eq. to the local Bellman's equation and approximating $\mathbf{f}$ quadratically results in standard Ricatti-like difference equations and a local policy.
+The recursive equations for $\mathbf{S}_{k}$, $\mathbf{s}_{k}$, and $s_{k}$ are with the boundary conditions ${\mathbf{S}_{N} = \mathbf{Q}_{N}},{{\mathbf{s}_{N} = \mathbf{q}_{N}},{s_{N} = 0}}$. Minimizing over $\delta\mathbf{u}_{k}$ results in a local optimal control policy The equations and provide general formulas for the backward sweeps of four DDP variants MS-DDP (this work): Multiple shooting, second-order.
 
 <!-- chunk {"id": "body-0015", "role": "body", "section": "III-A Backward Sweep Accounting For Defect", "weight": 1.0} -->
 
-Traditional DDP, however, is not applicable to deal with the shooting state as introduced in the formulation because of the defect. In this work, we revise the traditional DDP backward sweep to account for the defect using a simple but effective trick. Eq. is modified as below
+SS-DDP: Single shooting, second-order (no blue).
 
 <!-- chunk {"id": "body-0016", "role": "body", "section": "III-A Backward Sweep Accounting For Defect", "weight": 1.0} -->
 
-The equation allows for dynamic infeasibility in the initial guess or intermediate trajectories ($\overline{\mathbf{X}},\overline{\mathbf{U}}$). To derive the update policy associated, we approximate $v_{k}{({\delta\mathbf{x}_{k}})}$ to the second order as in DDP
+MS-iLQR: Multiple shooting, first-order (no red).
 
 <!-- chunk {"id": "body-0017", "role": "body", "section": "III-A Backward Sweep Accounting For Defect", "weight": 1.0} -->
 
-where $\mathbf{S}_{k}$, $\mathbf{s}_{k}$, $s_{k}$ are the Hessian, gradient, and zero-order terms of $v_{k}{({\delta\mathbf{x}_{k}})}$. By approximating $\mathbf{f}$ in eq. to the second order and substituting into eq., we get
+SS-iLQR: Single shooting, first-order (no blue and no red).
 
 <!-- chunk {"id": "body-0018", "role": "body", "section": "III-A Backward Sweep Accounting For Defect", "weight": 1.0} -->
 
-The equations and provide general formulas for the backward sweeps of four DDP variants
-
-<!-- chunk {"id": "body-0019", "role": "body", "section": "III-A Backward Sweep Accounting For Defect", "weight": 1.0} -->
-
-MS-DDP (this work): Multiple shooting, second-order.
-
-<!-- chunk {"id": "body-0020", "role": "body", "section": "III-A Backward Sweep Accounting For Defect", "weight": 1.0} -->
-
-SS-DDP: Single shooting, second-order (no blue).
-
-<!-- chunk {"id": "body-0021", "role": "body", "section": "III-A Backward Sweep Accounting For Defect", "weight": 1.0} -->
-
-MS-iLQR: Multiple shooting, first-order (no red).
-
-<!-- chunk {"id": "body-0022", "role": "body", "section": "III-A Backward Sweep Accounting For Defect", "weight": 1.0} -->
-
-SS-iLQR: Single shooting, first-order (no blue and no red).
-
-<!-- chunk {"id": "body-0023", "role": "body", "section": "III-A Backward Sweep Accounting For Defect", "weight": 1.0} -->
-
 We will investigate the effect of the second-order dynamics on local convergence in Section VI-A.
 
-<!-- chunk {"id": "body-0024", "role": "body", "section": "III-B Forward Roll-out", "weight": 1.0} -->
+<!-- chunk {"id": "body-0019", "role": "body", "section": "III-B Forward Roll-out", "weight": 1.0} -->
 
-The control policy provides a search direction for the control update from iteration to iteration. A forward roll-out for the dynamics must be conducted to obtain a search direction for the state update. In this section, we explore three methods for the forward roll-out that mainly differ in the dynamics, namely a linear roll-out, nonlinear roll-out, and hybrid roll-out. For clarity, we repeat some notations here, $(\overline{\mathbf{X}},\overline{\mathbf{U}})$ denotes the nominal trajectory, and $(\mathbf{X}^{\prime},\mathbf{U}^{\prime})$ denotes the new trajectory. Whichever roll-out method is used, the control update always has the same format
+The control policy provides a search direction for the control update from iteration to iteration. A forward roll-out for the dynamics must be conducted to obtain a search direction for the state update. In this section, we explore three methods for the forward roll-out that mainly differ in the dynamics, namely a linear roll-out, nonlinear roll-out, and hybrid roll-out. For clarity, we repeat some notations here, $(\overline{\mathbf{X}},\overline{\mathbf{U}})$ denotes the nominal trajectory, and $(\mathbf{X}',\mathbf{U}')$ denotes the new trajectory. Whichever roll-out method is used, the control update always has the same format where $\mathbf{x}_{0}' = {\overline{\mathbf{x}}}_{0}$, $\alpha \in {(0,1\rbrack}$ is the step size, which is used in backtracking line search for global convergence, and $\delta\mathbf{u}_{k}{(\alpha)}$ is the scaled search direction.
 
-<!-- chunk {"id": "body-0025", "role": "body", "section": "III-B Forward Roll-out", "weight": 1.0} -->
+<!-- chunk {"id": "body-0020", "role": "body", "section": "III-B Forward Roll-out", "weight": 1.0} -->
 
-where $\mathbf{x}_{0}^{\prime} = {\overline{\mathbf{x}}}_{0}$, $\alpha \in {(0,1\rbrack}$ is the step size, which is used in backtracking line search for global convergence, and $\delta\mathbf{u}_{k}{(\alpha)}$ is the scaled search direction. The main difference between the three roll-out methods is in the state update.
+The main difference between the three roll-out methods is in the state update.
 
-<!-- chunk {"id": "body-0026", "role": "body", "section": "III-B Forward Roll-out", "weight": 1.0} -->
+<!-- chunk {"id": "body-0021", "role": "body", "section": "III-B Forward Roll-out", "weight": 1.0} -->
 
-A linear roll-out simulates the linearized dynamics of using the control policy
+A linear roll-out simulates the linearized dynamics of using the control policy where $\delta\mathbf{x}_{k + 1}{(\alpha)}$ is the scaled search direction for ${\overline{\mathbf{x}}}_{k + 1}$. Note that $\delta\mathbf{x}_{k + 1}{(\alpha)}$ scales linearly with $\alpha$ in this case. This method is computationally cheap, since it only needs to be executed once with $\alpha = 1$, and a line search can then be performed in parallel across all time instants. The downside, however, is that the method simplifies the nonlinear dynamics, and thus is subject to prediction error. Further, the linear roll-out requires that every state is a shooting state, losing the flexibility for other algorithmic options.
 
-<!-- chunk {"id": "body-0027", "role": "body", "section": "III-B Forward Roll-out", "weight": 1.0} -->
+<!-- chunk {"id": "body-0022", "role": "body", "section": "III-B Forward Roll-out", "weight": 1.0} -->
 
-where $\delta\mathbf{x}_{k + 1}{(\alpha)}$ is the scaled search direction for ${\overline{\mathbf{x}}}_{k + 1}$. Note that $\delta\mathbf{x}_{k + 1}{(\alpha)}$ scales linearly with $\alpha$ in this case. This method is computationally cheap, since it only needs to be executed once with $\alpha = 1$, and a line search can then be performed in parallel across all time instants. The downside, however, is that the method simplifies the nonlinear dynamics, and thus is subject to prediction error. Further, the linear roll-out requires that every state is a shooting state, losing the flexibility for other algorithmic options.
+To account for nonlinearity, a nonlinear roll-out simulates the original nonlinear dynamics using the control policy The nonlinear roll-out avoids the linear prediction error, with the above equivalent to the scheme. The derivation here, however, more resembles the behavior of with a replacement of nonlinear dynamics. Unlike the linear roll-out, which enables parallel computation, the nonlinear roll-out has to be performed serially, thus potentially hindering the computational performance.
 
-<!-- chunk {"id": "body-0028", "role": "body", "section": "III-B Forward Roll-out", "weight": 1.0} -->
-
-To account for nonlinearity, a nonlinear roll-out simulates the original nonlinear dynamics using the control policy
-
-<!-- chunk {"id": "body-0029", "role": "body", "section": "III-B Forward Roll-out", "weight": 1.0} -->
-
-The nonlinear roll-out avoids the linear prediction error, with the above equivalent to the scheme. The derivation here, however, more resembles the behavior of with a replacement of nonlinear dynamics. Unlike the linear roll-out, which enables parallel computation, the nonlinear roll-out has to be performed serially, thus potentially hindering the computational performance.
-
-<!-- chunk {"id": "body-0030", "role": "body", "section": "III-B Forward Roll-out", "weight": 1.0} -->
+<!-- chunk {"id": "body-0023", "role": "body", "section": "III-B Forward Roll-out", "weight": 1.0} -->
 
 A hybrid roll-out method was proposed, which attempts to combine the benefit of both. Namely, the hybrid method first performs a linear roll-out to obtain $\delta\mathbf{x}_{k + 1}{(\alpha)}$ for the shooting states. The updated shooting state is then used as an initial condition, and the nonlinear roll-out can be performed independently on each shooting segment for the roll-out states. With this method, the search direction for the shooting nodes only needs to be computed once, and the line search can then be performed in parallel on each shooting segment. Previous work has shown that the hybrid roll-out exhibits better global convergence than the linear roll-out, thus the linear roll-out is not considered here.
 
-<!-- chunk {"id": "body-0031", "role": "body", "section": "III-B Forward Roll-out", "weight": 1.0} -->
+<!-- chunk {"id": "body-0024", "role": "body", "section": "III-B Forward Roll-out", "weight": 1.0} -->
 
 The unified MS-DDP framework developed in this work synthesizes all four DDP variants for the backward pass, and the nonlinear and hybrid forward roll-out. The multiple algorithm configurations enabled by this synthesis may produce different convergence behaviors as will be shown in Section VI-A.
 
-<!-- chunk {"id": "body-0032", "role": "body", "section": "Improving Robustness and Flexibility", "weight": 1.0} -->
+<!-- chunk {"id": "body-0025", "role": "body", "section": "Improving Robustness and Flexibility", "weight": 1.0} -->
 
 The previous section introduced methods for computing the search direction that updates the control and state variables. This section presents new techniques that better measure the quality of a search step to determine the step size. Further, we introduce an advance that alters the search direction by modifying the backward sweep (eq. ).
 
-<!-- chunk {"id": "body-0033", "role": "body", "section": "IV-A Merit Function", "weight": 1.0} -->
+<!-- chunk {"id": "body-0026", "role": "body", "section": "IV-A Merit Function", "weight": 1.0} -->
 
-MS-DDP needs to balance two goals, minimizing the cost function (2a) while decreasing the defects (2b). These two goals can sometimes be conflicting with each other since reducing the defect may otherwise increase the cost. A merit function synthesizes the two objectives into one single function, and is widely used in Nonlinear Programming (NLP) for constrained optimization. In this work, we use a merit function to monitor the progress of MS-DDP. The merit function considered is an $L_{p}$-norm merit function since it has been proven to be exact and does not require an estimate of the Lagrange multiplier. The $L_{p}$-norm merit function for problem is defined as
+MS-DDP needs to balance two goals, minimizing the cost function (2a) while decreasing the defects (2b). These two goals can sometimes be conflicting with each other since reducing the defect may otherwise increase the cost. A merit function synthesizes the two objectives into one single function, and is widely used in Nonlinear Programming (NLP) for constrained optimization. In this work, we use a merit function to monitor the progress of MS-DDP. The merit function considered is an $L_{p}$-norm merit function since it has been proven to be exact and does not require an estimate of the Lagrange multiplier. The $L_{p}$-norm merit function for problem is defined as where $\mathbf{d}{(\cdot, \cdot)}$ is a vector aggregating all the defects, $\mu > 0$ is a weighting parameter that balances the cost function and the defects violation.
 
-<!-- chunk {"id": "body-0034", "role": "body", "section": "IV-A Merit Function", "weight": 1.0} -->
+<!-- chunk {"id": "body-0027", "role": "body", "section": "IV-A Merit Function", "weight": 1.0} -->
 
-where $\mathbf{d}{( \cdot, \cdot )}$ is a vector aggregating all the defects, $\mu > 0$ is a weighting parameter that balances the cost function and the defects violation. To avoid meticulous tuning of $\mu$ for different problems, we consider an adaptive scheme that is motivated by so that $\mu$ is updated as
+To avoid meticulous tuning of $\mu$ for different problems, we consider an adaptive scheme that is motivated by so that $\mu$ is updated as where $\mu_{0} > 0$ sets a safety margin, $\operatorname{EC}{(\alpha)}$ denotes the expected cost change due to $({\delta\mathbf{X}{(\alpha)}},{\delta\mathbf{U}{(\alpha)}})$, which is discussed in the next subsection, $0 < \rho < 1$ is a fixed tuning parameter, and $\kappa_{d} > 0$ is the threshold for updating $\mu$. We use $\rho = 0.5$, and $\mu_{0} = 10$ for all problems in this work without further tuning. An alternative approach to using a merit function is a filter-based technique.
 
-<!-- chunk {"id": "body-0035", "role": "body", "section": "IV-A Merit Function", "weight": 1.0} -->
+<!-- chunk {"id": "body-0028", "role": "body", "section": "IV-B Acceptance Condition", "weight": 1.0} -->
 
-where $\mu_{0} > 0$ sets a safety margin, $\operatorname{EC}{(\alpha)}$ denotes the expected cost change due to $({\delta\mathbf{X}{(\alpha)}},{\delta\mathbf{U}{(\alpha)}})$, which is discussed in the next subsection, $0 < \rho < 1$ is a fixed tuning parameter, and $\kappa_{d} > 0$ is the threshold for updating $\mu$. We use $\rho = 0.5$, and $\mu_{0} = 10$ for all problems in this work without further tuning. An alternative approach to using a merit function is a filter-based technique.
+A simple condition to accept a search step $({\delta\mathbf{X}{(\alpha)}},{\delta\mathbf{U}{(\alpha)}})$ is to ensure the merit function is decreased, i.e., ${{M{(\mathbf{X}',\mathbf{U}')}} - {M{(\overline{\mathbf{X}},\overline{\mathbf{U}})}}} < 0$. This requirement, however, may not produce convergence to a local optimum, as shown. In this work, we use an Armijo condition to impose sufficient merit reduction where $0 < \gamma < 1$ is a tuning parameter, $\operatorname{EC}{(\alpha)}$ is the expected cost change, and where $\delta\mathbf{u}_{k}^{l}$ and $\delta\mathbf{x}_{k}^{l}$ are obtained via the linear roll-out and.
 
-<!-- chunk {"id": "body-0036", "role": "body", "section": "IV-B Acceptance Condition", "weight": 1.0} -->
+<!-- chunk {"id": "body-0029", "role": "body", "section": "IV-B Acceptance Condition", "weight": 1.0} -->
 
-A simple condition to accept a search step $({\delta\mathbf{X}{(\alpha)}},{\delta\mathbf{U}{(\alpha)}})$ is to ensure the merit function is decreased, i.e., ${{M{(\mathbf{X}^{\prime},\mathbf{U}^{\prime})}} - {M{(\overline{\mathbf{X}},\overline{\mathbf{U}})}}} < 0$. This requirement, however, may not produce convergence to a local optimum, as shown. In this work, we use an Armijo condition to impose sufficient merit reduction
+The EC provides an exact cost change in the case of linear dynamics and quadratic cost approximation. It is equivalent to the model of expected cost change computed from the iLQR backward pass if all defects are zero. We find that this expectation model further improves upon the one used within, in the sense that cost effects from the defect are fully treated, leading to an exact match when applied to linear quadratic MS problems.
 
-<!-- chunk {"id": "body-0037", "role": "body", "section": "IV-B Acceptance Condition", "weight": 1.0} -->
-
-where $0 < \gamma < 1$ is a tuning parameter, $\operatorname{EC}{(\alpha)}$ is the expected cost change, and
-
-<!-- chunk {"id": "body-0038", "role": "body", "section": "IV-B Acceptance Condition", "weight": 1.0} -->
-
-where $\delta\mathbf{u}_{k}^{l}$ and $\delta\mathbf{x}_{k}^{l}$ are obtained via the linear roll-out and. The EC provides an exact cost change in the case of linear dynamics and quadratic cost approximation. It is equivalent to the model of expected cost change computed from the iLQR backward pass if all defects are zero. We find that this expectation model further improves upon the one used within, in the sense that cost effects from the defect are fully treated, leading to an exact match when applied to linear quadratic MS problems.
-
-<!-- chunk {"id": "body-0039", "role": "body", "section": "IV-C Modified Backward Sweep Using A Penalty Method", "weight": 1.0} -->
+<!-- chunk {"id": "body-0030", "role": "body", "section": "IV-C Modified Backward Sweep Using A Penalty Method", "weight": 1.0} -->
 
 A backtracking line search is employed to determine the step size $\alpha$. The step size $\alpha$, however, may still be so small that the global convergence is hindered. In this section, we introduce a penalty method to improve this process. Note that in Fig. 2 the shooting state adjusts the defect size only from the right side, but the rolled-out state $\mathbf{x}_{k + 1}^{-}:={\mathbf{f}{(\mathbf{x}_{k},\mathbf{u}_{k})}}$ on the left side is not aware of this change. The proposed method strategically controls the defect from both sides, by imposing a penalty that promotes connecting the segments from the left side as well. This is done by adding the penalty term $\left.
 
-<!-- chunk {"id": "body-0040", "role": "body", "section": "IV-C Modified Backward Sweep Using A Penalty Method", "weight": 1.0} -->
+<!-- chunk {"id": "body-0031", "role": "body", "section": "IV-C Modified Backward Sweep Using A Penalty Method", "weight": 1.0} -->
 
-\parallel\mathbf{x}_{k + 1}^{-} - {\overline{\mathbf{x}}}_{k + 1}\parallel_{\mathbf{Q}_{d_{k + 1}}}^{2} \right.$ to the cost function, where $\mathbf{Q}_{d_{k + 1}}$ is a positive definite weight matrix if $k + 1$ is a shooting state, and is zero if $k + 1$ is a roll-out state. Adding the penalty term to amounts to modifying the backward sweep equations (8b) and (8a) such that
+\parallel\mathbf{x}_{k + 1}^{-} - {\overline{\mathbf{x}}}_{k + 1}\parallel_{\mathbf{Q}_{d_{k + 1}}}^{2} \right.$ to the cost function, where $\mathbf{Q}_{d_{k + 1}}$ is a positive definite weight matrix if $k + 1$ is a shooting state, and is zero if $k + 1$ is a roll-out state. Adding the penalty term to amounts to modifying the backward sweep equations (8b) and (8a) such that This penalty method is similar in spirit to the proximal term that helps improve the conditioning of the KKT system. The benefit of adding the terminal cost to the algorithm performance will be demonstrated in the result section.
 
-<!-- chunk {"id": "body-0041", "role": "body", "section": "IV-C Modified Backward Sweep Using A Penalty Method", "weight": 1.0} -->
+<!-- chunk {"id": "body-0032", "role": "body", "section": "Discussion on The Unified Perspective", "weight": 1.5} -->
 
-This penalty method is similar in spirit to the proximal term that helps improve the conditioning of the KKT system. The benefit of adding the terminal cost to the algorithm performance will be demonstrated in the result section.
+The search direction computation in Section III and the globalization method for step acceptance in Section IV comprise one iteration of the MS-DDP algorithm. A brief summary of the overall MS-DDP framework is given below Give the nominal trajectory $(\overline{\mathbf{x}},\overline{\mathbf{u}})$, optimization horizon $N$, and number of shooting segments $M$.
 
-<!-- chunk {"id": "body-0042", "role": "body", "section": "Discussion on The Unified Perspective", "weight": 1.5} -->
-
-The search direction computation in Section III and the globalization method for step acceptance in Section IV comprise one iteration of the MS-DDP algorithm. A brief summary of the overall MS-DDP framework is given below
-
-<!-- chunk {"id": "body-0043", "role": "body", "section": "Discussion on The Unified Perspective", "weight": 1.5} -->
-
-Give the nominal trajectory $(\overline{\mathbf{x}},\overline{\mathbf{u}})$, optimization horizon $N$, and number of shooting segments $M$.
-
-<!-- chunk {"id": "body-0044", "role": "body", "section": "Discussion on The Unified Perspective", "weight": 1.5} -->
+<!-- chunk {"id": "body-0033", "role": "body", "section": "Discussion on The Unified Perspective", "weight": 1.5} -->
 
 Perform dynamics approximation and cost function approximation around the nominal trajectory.
 
-<!-- chunk {"id": "body-0045", "role": "body", "section": "Discussion on The Unified Perspective", "weight": 1.5} -->
+<!-- chunk {"id": "body-0034", "role": "body", "section": "Discussion on The Unified Perspective", "weight": 1.5} -->
 
 Compute the optimal control policy using one of the four DDP variants.
 
-<!-- chunk {"id": "body-0046", "role": "body", "section": "Discussion on The Unified Perspective", "weight": 1.5} -->
+<!-- chunk {"id": "body-0035", "role": "body", "section": "Discussion on The Unified Perspective", "weight": 1.5} -->
 
 Perform backtracking line search using either hybrid roll-out or nonlinear roll-out, the adaptive merit function and the acceptance condition.
 
-<!-- chunk {"id": "body-0047", "role": "body", "section": "Discussion on The Unified Perspective", "weight": 1.5} -->
+<!-- chunk {"id": "body-0036", "role": "body", "section": "Discussion on The Unified Perspective", "weight": 1.5} -->
 
 Check the cost convergence criterion and feasibility. Go to 2) if not satisfied, and terminate otherwise.
 
-<!-- chunk {"id": "body-0048", "role": "body", "section": "Discussion on The Unified Perspective", "weight": 1.5} -->
+<!-- chunk {"id": "body-0037", "role": "body", "section": "Discussion on The Unified Perspective", "weight": 1.5} -->
 
 The MS-DDP framework herein provides a unified perspective since it enables multiple configurations, as summarized in Table I. Four DDP variants could be used in performing the backward sweep, and two forward roll-out methods could be employed for line search. Further, the penalty method and the adaptive merit function offer additional options for improving the algorithm robustness and flexibility. As we will show in the next section, the performance of an algorithm to solve is problem-dependent. The unified MS-DDP framework enables easy comparison across different algorithm configurations. In fact, if we choose the MS-iLQR for computing the backward sweep (eq. and eq. ), the hybrid roll-out for line search, and $\gamma = 0$ for the acceptance condition, then the proposed framework can be simplified to GN-iLQR.
 
-<!-- chunk {"id": "body-0049", "role": "body", "section": "Discussion on The Unified Perspective", "weight": 1.5} -->
+<!-- chunk {"id": "body-0038", "role": "body", "section": "Discussion on The Unified Perspective", "weight": 1.5} -->
 
 If we choose the MS-iLQR for the backward sweep, the nonlinear roll-out for line search, and compute $\operatorname{EC}$ with an approximate model, the MS-DDP framework is then simplified to FiLQR ^11^1For consistency with the nomenclature in this paper, we depart from the name "FDDP" used in and use FiLQR instead, which reflects the exclusive use of first-order dynamics sensitivities in the method..
 
-<!-- chunk {"id": "body-0050", "role": "body", "section": "Numerical Results", "weight": 1.0} -->
+<!-- chunk {"id": "body-0039", "role": "body", "section": "Numerical Results", "weight": 1.0} -->
 
 The MS-DDP framework is benchmarked on three problems for numerical analysis. Each problem is associated with moving a robotic system from an initial state to a terminal state. A semi-implicit Euler method is used for integration, with the integration time step 0.02 s. Quadratic cost functions are used for all problems. We use the $L_{2}$-norm to measure the total defect. Algorithm convergence is approximately achieved if the normalized cost change is within ${1e} - 8$, and the total defect is less than ${1e} - 3$. We briefly describe each problem here.
 
-<!-- chunk {"id": "body-0051", "role": "body", "section": "Numerical Results", "weight": 1.0} -->
+<!-- chunk {"id": "body-0040", "role": "body", "section": "Numerical Results", "weight": 1.0} -->
 
 Acrobot: A two-link manipulator where only the second joint is actuated. The acrobot needs to swing from a downward configuration up to an upward configuration in four seconds.
 
-<!-- chunk {"id": "body-0052", "role": "body", "section": "Numerical Results", "weight": 1.0} -->
+<!-- chunk {"id": "body-0041", "role": "body", "section": "Numerical Results", "weight": 1.0} -->
 
 Quadrotor: The quadrotor is modeled as a rigid body with four thrust inputs, each at a certain distance from the center of mass. The quadrotor is supposed to travel 5 m from one static position to another static position in four seconds.
 
-<!-- chunk {"id": "body-0053", "role": "body", "section": "Numerical Results", "weight": 1.0} -->
+<!-- chunk {"id": "body-0042", "role": "body", "section": "Numerical Results", "weight": 1.0} -->
 
 Manipulator: The Kuka iiwa 7-DoF serial manipulator is used. The robot needs to swing from an upward configuration to a bending configuration in four seconds.
 
-<!-- chunk {"id": "body-0054", "role": "body", "section": "VI-A Numerical Convergence Analysis", "weight": 1.0} -->
+<!-- chunk {"id": "body-0043", "role": "body", "section": "VI-A Numerical Convergence Analysis", "weight": 1.0} -->
 
 The local convergence rate of an algorithm is defined in the neighborhood of a local optimum, whereas global convergence is characterized by its capability to move a remote initial guess to a local optimum. In this section, we statistically quantify these properties for the MS-DDP framework configured with and without second-order dynamics.
 
-<!-- chunk {"id": "body-0055", "role": "body", "section": "VI-A1 Local Convergence", "weight": 1.0} -->
+<!-- chunk {"id": "body-0044", "role": "body", "section": "VI-A1 Local Convergence", "weight": 1.0} -->
 
-where $\epsilon = 1$ and $0 < \kappa < 1$ indicates linear convergence, and $\epsilon = 2$ and $\kappa > 0$ indicates quadratic convergence. Four MS-DDP configurations are studied here: with and without the second-order dynamics in eq., and hybrid vs. nonlinear roll-out. All algorithms are benchmarked on the quadrotor problem. Each algorithm is configured to have 200 shooting segments, and is tested in a Monte Carlo fashion with 1000 initial guesses. The state guess is randomly sampled from a uniform distribution around $\mathbf{X}^{\ast}$ while the control guess remains the same as $\mathbf{U}^{\ast}$. Figure 3 depicts the local convergence results for all four algorithms. Linear convergence is always obtained if only first-order dynamics is used in (eq. ). Adding the second-order dynamics can improve the convergence rate. Quadratic convergence is consistently achieved over all samples with the nonlinear roll-out. For MS-DDP with the hybrid roll-out, the local convergence rate for certain samples is somewhere between linear convergence and quadratic convergence.
+Denote $(\mathbf{X}^{\ast},\mathbf{U}^{\ast})$ a local optimum of problem, $(\mathbf{X}_{j},\mathbf{U}_{j})$ the $j^{th}$ iterate produced by the MS-DDP framework, and $({\Delta\mathbf{X}_{j}},{\Delta\mathbf{U}_{j}})$ the difference between the $j^{th}$ iterate and the local optima $(\mathbf{X}^{\ast},\mathbf{U}^{\ast})$. The rate of local convergence is characterized by where $\epsilon = 1$ and $0 < \kappa < 1$ indicates linear convergence, and $\epsilon = 2$ and $\kappa > 0$ indicates quadratic convergence. Four MS-DDP configurations are studied here: with and without the second-order dynamics in eq., and hybrid vs. nonlinear roll-out.
 
-<!-- chunk {"id": "body-0056", "role": "body", "section": "VI-A1 Local Convergence", "weight": 1.0} -->
+<!-- chunk {"id": "body-0045", "role": "body", "section": "VI-A1 Local Convergence", "weight": 1.0} -->
 
-This difference is reasonable in the sense that the shooting state update is based on the linearized dynamics with the hybrid roll-out, thus subject to prediction error, whereas it is based on nonlinear dynamics with the nonlinear roll-out, thus free of prediction error.
+All algorithms are benchmarked on the quadrotor problem. Each algorithm is configured to have 200 shooting segments, and is tested in a Monte Carlo fashion with 1000 initial guesses. The state guess is randomly sampled from a uniform distribution around $\mathbf{X}^{\ast}$ while the control guess remains the same as $\mathbf{U}^{\ast}$. Figure 3 depicts the local convergence results for all four algorithms. Linear convergence is always obtained if only first-order dynamics is used in (eq.). Adding the second-order dynamics can improve the convergence rate. Quadratic convergence is consistently achieved over all samples with the nonlinear roll-out. For MS-DDP with the hybrid roll-out, the local convergence rate for certain samples is somewhere between linear convergence and quadratic convergence. This difference is reasonable in the sense that the shooting state update is based on the linearized dynamics with the hybrid roll-out, thus subject to prediction error, whereas it is based on nonlinear dynamics with the nonlinear roll-out, thus free of prediction error.
 
-<!-- chunk {"id": "body-0057", "role": "body", "section": "VI-B Effects of Acceptance Condition", "weight": 1.0} -->
+<!-- chunk {"id": "body-0046", "role": "body", "section": "VI-B Effects of Acceptance Condition", "weight": 1.0} -->
 
 We show the effect of the acceptance condition on the algorithm convergence using the acrobot problem. The proposed exact EC is compared against the approximated EC as used by FiLQR. Three algorithms are evaluated, FiLQR, FiLQR-exact, and MS-iLQR. FiLQR-exact differs from FiLQR only in the expected cost change. MS-iLQR is configured to use the adaptive merit function and the exact EC, and shares everything else (backward sweep and nonlinear roll-out) in common with FiLQR. All three algorithms are configured to regard all state variables as shooting states, i.e., $M = {N - 1}$. The initial state trajectories are obtained by linearly interpolating the initial and terminal states, while the initial controls are zero.
 
-<!-- chunk {"id": "body-0058", "role": "body", "section": "VI-B Effects of Acceptance Condition", "weight": 1.0} -->
+<!-- chunk {"id": "body-0047", "role": "body", "section": "VI-B Effects of Acceptance Condition", "weight": 1.0} -->
 
 Figure. 4 shows the comparison results in terms of cost convergence and dynamics feasibility. FiLQR fails to make progress on the given initial trajectory, whereas both the FiLQR-exact and MS-iLQR converge in 25 iterations, demonstrating the benefit of using the exact EC. To have a better understanding, the actual change in cost and the expected cost change are compared for FiLQR and FiLQR-exact. To do so, we run FiLQR-exact for several iterations, and perform a line search for both methods. The results are shown in Fig. 5. For FiLQR, the difference between the actual change and expected change is obvious, whereas for FiLQR-exact, the actual change and expected change share the same slope and concavity at step size 0, demonstrating the proposed EC is more accurate. The MS-DDP framework thus is configured to use for the rest of this work.
 
-<!-- chunk {"id": "body-0059", "role": "body", "section": "VI-C Effects of Penalty Method", "weight": 1.0} -->
+<!-- chunk {"id": "body-0048", "role": "body", "section": "VI-C Effects of Penalty Method", "weight": 1.0} -->
 
 Roughly speaking, for the multiple-shooting OCP, the fewer the number of shooting segments, the more nonlinear the problem is. This subsection investigates the effect of the penalty method on algorithm convergence rate for problems with different nonlinearity. To do so, we employ a varying number of shooting segments for the manipulator and the quadrotor examples. Figure 6 illustrates the results in terms of the cost at convergence and number of iterations to converge, acquired with and without the penalty method. MS-iLQR is configured with a hybrid roll-out and the adaptive merit function. For each example, similar costs are achieved at convergence with and without the penalty method, given the same number of shooting nodes. The penalty method, however, significantly reduces the number of iterations for the case of two shooting nodes, where higher nonlinearity arises compared to the case of more shooting nodes. Though the penalty method does not show obvious performance improvement for the quadrotor problem with four shooting nodes and above, it enables the more nonlinear manipulator problem to achieve 48 fewer iterations to converge with four shooting nodes. These observations indicate that the proposed penalty method is helpful to promote faster convergence for more nonlinear problems.
 
-<!-- chunk {"id": "body-0060", "role": "body", "section": "VI-C Effects of Penalty Method", "weight": 1.0} -->
+<!-- chunk {"id": "body-0049", "role": "body", "section": "VI-C Effects of Penalty Method", "weight": 1.0} -->
 
 Closer examinations reveal that larger step sizes are enabled with the penalty method. This result is not surprising, since both sides of the defect are considered in computing the search direction, thus facilitating faster convergence.
 
-<!-- chunk {"id": "body-0061", "role": "body", "section": "MS-DDP for MPC on A Quadruped Robot", "weight": 1.0} -->
+<!-- chunk {"id": "body-0050", "role": "body", "section": "MS-DDP for MPC on A Quadruped Robot", "weight": 1.0} -->
 
 One motivation for this work is to develop a robust and efficient solver for real-time MPC. This section investigates the performance of the MS-DDP framework in the context of MPC for dynamic quadruped locomotion. The MPC problem is constructed based upon a hybrid kinodynamics (HKD) model, which reasons about then trunk dynamics and contact-dependent leg kinematics. In previous work, the HKD-MPC problem was solved using a SS-DDP variant that is tailored for hybrid systems. In this work, we adapt the previous solver to use MS-DDP, and compare its performance against the previous SS-DDP implementation.
 
-<!-- chunk {"id": "body-0062", "role": "body", "section": "VII-A Simulation Results", "weight": 1.0} -->
+<!-- chunk {"id": "body-0051", "role": "body", "section": "VII-A Simulation Results", "weight": 1.0} -->
 
 The comparisons are conducted on the MIT Mini Cheetah in a high-fidelity simulator for multiple gaits, including mildly dynamic gaits (e.g., trotting and bounding), and highly dynamic motions (e.g., jumping). In all cases, the HKD-MPC (50 Hz) runs asynchronously from the low-level controller (500 Hz). The prediction horizon was chosen as 0.5 s with an integration time step of 10 ms. At each MPC control step, the DDP solver is terminated after two iterations.
 
-<!-- chunk {"id": "body-0063", "role": "body", "section": "VII-A Simulation Results", "weight": 1.0} -->
+<!-- chunk {"id": "body-0052", "role": "body", "section": "VII-A Simulation Results", "weight": 1.0} -->
 
 SS-DDP and MS-DDP perform equivalently well for trotting and bounding, which is reasonable since the feedback policy may be sufficient to prevent each solver from diverging for mildly-dynamic gaits. The same equivalence was not observed for the more dynamic behavior of jumping. For this motion, the robot accelerates to 2 m/s using a bounding gait, makes a jump at 2.5 s with a duration of 0.35 s, and recovers to bounding. A 0.4 m/s lateral velocity disturbance is injected before the jump. The MS-DDP enables the robot to recover stability, whereas the SS-DDP does not due to divergence in the middle of the jump. The snapshots of this result are shown in Fig. 7. To understand this difference, the accumulated costs (i.e., evaluation of the cost function (2a)) are shown in Fig. 8. Both tend to increase during the jump, but SS-DDP quickly diverges.
 
-<!-- chunk {"id": "body-0064", "role": "body", "section": "VII-A Simulation Results", "weight": 1.0} -->
+<!-- chunk {"id": "body-0053", "role": "body", "section": "VII-A Simulation Results", "weight": 1.0} -->
 
 Though MS-DDP encounters a relatively-large dynamics infeasibility (i.e., total defect of 3) during the jump, this violation is temporary and is helpful to keep the accumulated cost bounded. To unveil the cause of SS-DDP divergence, we check the nominal roll-out trajectory of each algorithm at the MPC step immediately before SS-DDP diverges. Note that the roll-out trajectory is along the prediction horizon, as opposed to along the MPC step in Fig. 8. The roll rate and the roll angle are depicted in Fig. 9. At about 0.36 s, a foot contact is established, and the nominal control policy (with feedback) of SS-DDP fails to stabilize the roll motion, thus the initial state trajectory diverges. By contrast, the MS-DDP does not suffer from this problem since its state trajectory is warm-started as well.
 
-<!-- chunk {"id": "body-0065", "role": "body", "section": "VII-A Simulation Results", "weight": 1.0} -->
+<!-- chunk {"id": "body-0054", "role": "body", "section": "VII-A Simulation Results", "weight": 1.0} -->
 
 The results shown in Figs. 7, 8 and 9 demonstrate the superior performance of MS-DDP over SS-DDP for highly dynamic locomotion. This conclusion is aligned, which focuses on enabling the robot to traverse more complex environments using multiple shooting.
 
-<!-- chunk {"id": "body-0066", "role": "body", "section": "VII-B Hardware Results", "weight": 1.0} -->
+<!-- chunk {"id": "body-0055", "role": "body", "section": "VII-B Hardware Results", "weight": 1.0} -->
 
 We qualitatively validate the performance of MS-DDP on the Mini Cheetah hardware. The control setup in hardware largely matches the simulation setup with the following exceptions. First, the HKD-MPC is executed at 100 Hz on hardware. We found that 50 Hz was not sufficient to stabilize the jumping motion largely due to the increased model mismatch of the hardware. An alternative approach could be to employ a QP-based whole-body controller at a high rate. To avoid crossing singularity for the swing legs, we reduce the desired forward velocity to 1.0 $\text{m}/s$. Further, we manually push the robot to imitate the velocity disturbance. Time-series snapshots of hardware results are shown in Fig. 1, while the complete results are in the accompanying video.
 
-<!-- chunk {"id": "body-0067", "role": "body", "section": "Conclusions", "weight": 1.0} -->
+<!-- chunk {"id": "body-0056", "role": "body", "section": "Conclusions", "weight": 1.0} -->
 
 This work presents a unified framework for extending DDP to a multiple-shooting OCP solver. The proposed framework provides multiple configurations and several enhancements, allowing for easy comparison with and between previous algorithms. The novel derivation of the defect-aware DDP backward pass enables using second-order dynamics, and is shown to have local quadratic convergence when used with the nonlinear roll-out method. We show that the expected cost change model is important for algorithm convergence, and propose an exact model that further improves the performance of a state-of-the-art solver. A penalty method is introduced to provide additional robustness for problems with higher nonlinearity, and is shown to be effective in the case of a small number of shooting nodes. Future work will focus on generalizing the results to more problems with broader statistical assessment.

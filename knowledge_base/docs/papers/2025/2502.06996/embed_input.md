@@ -13,3 +13,419 @@ Reinforcement learning (RL) and model predictive control (MPC) offer a wealth of
 <!-- chunk {"id": "abstract-0003", "role": "abstract", "section": "Abstract", "weight": 2.0} -->
 
 This approach leverages the benefits of both RL and MPC, the effectiveness of which is demonstrated on classical control benchmarks.
+
+<!-- chunk {"id": "body-0004", "role": "body", "section": "Introduction", "weight": 1.5} -->
+
+Reinforcement learning (RL) and model predictive control (MPC) are optimization-based frameworks for decision-making. Model-free RL represents a sample-based approach in which a control policy is improved through trial and error in an uncertain environment. On the other hand, MPC is a systems-based approach in which forecasts are used to select appropriate control actions. Both can be understood in the context of Markov decision processes (MDPs), but have enjoyed practical success in vastly different domains.
+
+<!-- chunk {"id": "body-0005", "role": "body", "section": "Introduction", "weight": 1.5} -->
+
+⋆ Please cite the journal version in Annual Reviews in Control Email addresses: nplawrence@berkeley.edu (Nathan P. Lawrence), mesbah@berkeley.edu (Ali Mesbah) Within the setting of MDPs, RL and MPC can be connected through the idea of value functions, a mechanism for predicting future performance; see Figure 1 1 for a conceptual diagram and Section 4 for an overview of prior work. However, two challenges emerge in acquiring such a value function: 1. Unknown cost. Desirable performance is often difficult to quantify precisely. MPC typically uses quadratic cost functions because they are tractable and a stability theory is available, but the parameters in the objective are only indirectly linked with appropriate closed-loop behavior. Fine-tuning is often required. RL, on the other hand, can learn from reward signals that express operational goals quite succinctly, such as a 'yes / no' stimulus, but may require many trials to capture the designer's intent. 2. Unknown dynamics. A hallmark of RL is its model-free learning capability, enabling it to generate a high-performing policy without a model of the system being controlled.
+
+<!-- chunk {"id": "body-0006", "role": "body", "section": "Introduction", "weight": 1.5} -->
+
+MPC, of course, requires a reasonably accurate system model. Since real-world environments are never truly stationary or precisely known, robust approaches to learning and modeling are essential.
+
+<!-- chunk {"id": "body-0007", "role": "body", "section": "Introduction", "weight": 1.5} -->
+
+This paper addresses these two challenges by taking a fresh look at both RL and MPC from the vantage point of value function estimation. 2 Sections 2 and 3 present a classical overview of RL and MPC ideas: An RL agent explores its environment to synthesize a high-level value function from a reward signal. This is a global approach wherein, at deployment, the RL agent simply queries its value-maximizing policy. On the other hand, MPC represents a modular strategy in which prior physical knowledge and safety specifications are directly embedded in the form of equality and inequality constraints. This results in a local value structure characterized by the agent continually replanning online.
+
+<!-- chunk {"id": "body-0008", "role": "body", "section": "Introduction", "weight": 1.5} -->
+
+Taken together, we present a unified framework wherein the MPC architecture can take advantage of an RL-learned value function to calibrate its long-term cost predictions to the system of interest. Conversely, the RL agent benefits from the exact, constrained optimization of the MPC module to produce safe actions. Specialized techniques from both the RL and MPC literature are embraced to make training more efficient and action selection more robust. In particular, this paper builds on the classical local-global view by bringing together scenario-based planning and goal-conditioned learning into a single agent. The contributions of this paper are summarized as follows: 1. We use methods from robust MPC to design actions guided by constraints and an RL terminal value function; and a scenario-based setup inspired by MPC to train the robust RL agent from simulated experience data. 2. We use goal-conditioned RL techniques to learn a high-level value function to augment the MPC agent. 3. We give a tutorial-style treatment of the local-global value function perspectives of MPC and RL. Moreover, we elaborate on the implementation of robust MPC methods in an RL ecosystem.
+
+<!-- chunk {"id": "body-0009", "role": "body", "section": "Introduction", "weight": 1.5} -->
+
+1 Readers familiar with MPC can recover the usual minimization problem by thinking of -b r as the stage cost. We cast MPC as a maximization problem for consistency within the overall framework and because b r can be more general than a traditional stage cost.
+
+<!-- chunk {"id": "body-0010", "role": "body", "section": "Introduction", "weight": 1.5} -->
+
+2 Throughout, we refer to model-free RL and robust MPC, but simply state RL and MPC for brevity and generality.
+
+<!-- chunk {"id": "body-0011", "role": "body", "section": "Introduction", "weight": 1.5} -->
+
+This paper serves as a value function-centric overview for researchers in either area of MPC or RL. Value functions are fundamental to both areas, making them the ideal kernel for discussion. Through this lens, we provide a balanced overview of key methodological advancements from both sides, towards interfacing RL and MPC.
+
+<!-- chunk {"id": "body-0012", "role": "body", "section": "Learning a global value function through RL", "weight": 1.0} -->
+
+This section introduces MDPs and the RL perspective for solving them. Our key point is that RL aims to produce a global value function over the state-action space. This contrasts with MPC, detailed in Section 3, which builds a local value function through the combination of constraints, costs, and replanning.
+
+<!-- chunk {"id": "body-0013", "role": "body", "section": "Markov decision processes", "weight": 1.0} -->
+
+We consider an optimization problem of the form: The idea behind Equation is the following: Starting from some state s 0 in a dynamic environment, design a policy π that brings future states s 1, s 2,... to a desired goal g. The function V π g indicates the value of the policy; naturally, the 'best' policy should act as efficiently as possible.
+
+<!-- chunk {"id": "body-0014", "role": "body", "section": "Markov decision processes", "weight": 1.0} -->
+
+The construction and implementation of a policy are carried out by an agent; the environment can be viewed as everything outside of the agent. The environment involves a state space S, while the agent selects actions in action space A according to the policy. In the goal-conditioned setting, we also consider a goal space G. 3 For a fixed goal g ∈ G and a given state s ∈ S, an action a ∈ A is applied to the environment, which produces a new state s ′ ∈ S. Successive states should eventually arrive at g. We often index the states and actions in discrete time steps. Starting from an initial state s 0 ∈ S, we obtain a trajectory 3 The introduction of a goal space generalizes the standard presentation of MDPs in which an agent has a single goal. While we interpret a goal as a desired state, goal representations may be more general, for example, embeddings representing winning positions in a game, or a target level of cumulative reward. Additionally, this level of generality can be leveraged to enable planning over subgoals, often improving training speed.
+
+<!-- chunk {"id": "body-0015", "role": "body", "section": "Markov decision processes", "weight": 1.0} -->
+
+Crucially, we assume the state-action tuple (st, at) completely characterizes the probability distribution over the next state st + 1. Informally, we are assuming that our predictions of st + 1 based only on (st, at) cannot be improved by including more of the history of the trajectory up to index t: This is the so-called Markov property wherein the transition dynamics distribution is characterized by conditional density p.
+
+<!-- chunk {"id": "body-0016", "role": "body", "section": "Markov decision processes", "weight": 1.0} -->
+
+The environment dynamics encompass a large set of possible trajectories of the form shown in Equation. The desirability of each transition along a trajectory is summarized by a scalarvalued function rg: S × A → R, known as the reward. Writing rt = rg (st, at) produces a reward-annotated trajectory: The trajectory is conditioned on g to emphasize the goal-directed reward function. A scalar value for a given trajectory can be assigned by specifying a constant γ ∈ called the discount factor and forming the discounted sum of future rewards: If γ = 0, we interpret the series as rg (s 0, a 0); choosing 0 < γ < 1 guarantees that the series converges (assuming the reward function is bounded) and assigns more weight to immediate rewards than to future rewards.
+
+<!-- chunk {"id": "body-0017", "role": "body", "section": "Markov decision processes", "weight": 1.0} -->
+
+The link from states to actions is captured in the policy, a probability distribution over the set of actions that depends on the current state and the selected goal. For each state-goal pair (s, g) in S×G, π (a | s, g) defines a conditional density at action a ∈ A. Each policy induces a probability on the set of trajectories mentioned above: Operationally, we focus on trajectories where the sample value of st + 1 is determined by the density p (st + 1 | st, at) after at is drawn from the density π (at | st, g). Every policy π assigns a scalar value to each point in the state space as follows: Here V π g is a value function: It returns the expected long-term reward accumulated under policy π as a function of the trajectory's starting point.
+
+<!-- chunk {"id": "body-0018", "role": "body", "section": "Markov decision processes", "weight": 1.0} -->
+
+In the context detailed above, the problem of determining a policy π that maximizes the expected return over all possible trajectories from all possible starting states and goals s 0, g ∼ p (s 0, g) is a Markov decision process (MDP). In terse mathematical notation, our MDP is: Problem is easy to state, but hard to solve. Indeed, we cannot even evaluate the objective directly, as the infinite sum already restricts us to special cases or approximations. Moreover, the transition probability distribution, which governs the system's dynamics, is generally treated as unknown. Thus, the expectation is unavailable in closed form and must be estimated, for example, with empirical observations of the form in Equation. Finally, the space of all competing policies is intractable, meaning that some simply parameterized subset, such as that provided by a neural network, will have to suffice. In what follows, we outline the RL perspective for approximating V π g.
+
+<!-- chunk {"id": "body-0019", "role": "body", "section": "The reinforcement learning approach", "weight": 1.0} -->
+
+- Iterative. Exact, analytical solutions are scarce. However, general optimality conditions, based on dynamic programming, inform elegant, iterative update schemes that improve decision-making performance over time. - Data-driven. A model of the environment is not required (although one is welcome, if available). Instead, sequential data can be used in place of a dynamic model. - Flexible. The two aspects above mean RL can be applied in many domains. Moreover, the training process is governed by a reward signal, which is a simple and intuitive way to impose goal-directed behavior.
+
+<!-- chunk {"id": "body-0020", "role": "body", "section": "The reinforcement learning approach", "weight": 1.0} -->
+
+This paper does not dwell on the minute details of individual algorithms, but rather looks to convey some general principles and structures that guide practical RL solution methods.
+
+<!-- chunk {"id": "body-0021", "role": "body", "section": "Evaluate, improve, and repeat", "weight": 1.0} -->
+
+It is useful to define the state-action value function: Given Q π g, one can obtain the state value as V π g (s) = E a ∼ π (a | s, g) h Q π g (s, a) i. 4 Therefore, focusing on Q is sufficient in light of our objective in Equation. This is beneficial due to the additional degree of freedom in the action component. Indeed, if we had some oracle mapping π → Q π, then an even better policy π + could be derived as follows: This is the general theme of various iterative schemes: Acquire an approximation to Q, maximize it, and repeat.
+
+<!-- chunk {"id": "body-0022", "role": "body", "section": "Evaluate, improve, and repeat", "weight": 1.0} -->
+
+Although we can never access Q precisely, it can be estimated with samples from the environment. Based on Equation, the discounted return accumulates rewards starting at some time index t: 4 We often drop super / subscripts (or both) when we do not need to reference a specific policy or goal.
+
+<!-- chunk {"id": "body-0023", "role": "body", "section": "Evaluate, improve, and repeat", "weight": 1.0} -->
+
+By averaging over trajectories, we find that However, there is a rich structure we can exploit: The discounted returns satisfy the recursion which in turn implies (along with the Markov property) that Q itself satisfies a tidy self-consistency relationship: Equation holds for any policy. Naturally, define Q ⋆ g (s, a) = max π Q π g (s, a); indeed, if Q ⋆ g is available, then the optimal policy is obtained by When we apply the recursion in Equation, the optimization is offset to the next time step: Equation is known as the Bellman optimality equation. Although we do not directly have access to Q π, much less Q ⋆, the beauty of Equation is that it distills all the complexity of the original problem in Equation into a one-step relation. Essentially, the Bellman equation provides a principled theoretical target around which RL algorithms are built.
+
+<!-- chunk {"id": "body-0024", "role": "body", "section": "Evaluate, improve, and repeat", "weight": 1.0} -->
+
+The literature contains a vast number of algorithms proposed to solve Equation. We briefly mention two principles that pertain to future sections.
+
+<!-- chunk {"id": "body-0025", "role": "body", "section": "Evaluate, improve, and repeat", "weight": 1.0} -->
+
+Learning from past experience. Fix some policy π and let it acquire experience in the form of Equation. Now let ˜ Q be a tractable approximation of Q ⋆. In the simplest case, ˜ Q is a large table containing value estimates corresponding to a discrete set of state-action-goal pairs. Importantly, ˜ Q is some function we can evaluate at any (s, a, g) ∈ S × A × G. With our observed data { st rt, st + 1,... | g }, ˜ Q can be updated to encourage its predictions to satisfy Equation: where α > 0 is a step size. Note that the policy π that collected the data samples does not appear in this update equation, hence, Equation is emblematic of off-policy learning methods. 5 5 On-policy refers to the problem of learning Q π.
+
+<!-- chunk {"id": "body-0026", "role": "body", "section": "Evaluate, improve, and repeat", "weight": 1.0} -->
+
+Equation comes from Q -learning and acts as inspiration for many deep RL algorithms, popularized by Mnih et al. and Silver et al..
+
+<!-- chunk {"id": "body-0027", "role": "body", "section": "Evaluate, improve, and repeat", "weight": 1.0} -->
+
+More practically, consider a parameterized function approximator Q ϕ, such as a neural network, where ϕ represents a collection of scalar parameters-the trainable weights. For a given ϕ, Q ϕ is an easy-to-evaluate function. We we want to choose ϕ so that Q ϕ satisfies the Bellman optimality equation. Given a tuple of data (s, a, r, s ′, g) in dataset D, define the target value: We can compare Q ϕ (s, a, g) to q and penalize ϕ for any mismatch. In particular, we formulate the loss: where each q is a tuple-dependent target defined in Equation, treated as training data independent of ϕ. The parameters ϕ can then be updated using some form of gradient descent: While these ideas give a template for learning complex policies from past experience, the underlying optimization procedure required to compute the targets in Equation can limit this approach in its nominal form.
+
+<!-- chunk {"id": "body-0028", "role": "body", "section": "Evaluate, improve, and repeat", "weight": 1.0} -->
+
+Approximating the optimization process. Based on Equation, a promising new policy can be designed as However, the maximization can be expensive. Further, the optimization subproblem in Equation must be solved not only during rollouts, but also in the update step in Equation for each sample. Therefore, introduce a 'nice' parameterized policy µθ, and use a noisy version of µθ for exploration: With both µθ and Q ϕ taking on some parameterization, they are referred to as the actor and critic, respectively. The idea is to use the policy to approximate the maximization operation in Equation, and to use the critic to approximate the Q -learning target based on Equation. That is, The targets q are now very simple to compute, only requiring function evaluation, rather than exact optimization: This streamlines the rest of the updates, making it possible to iterate Equation over enormous datasets (|D|) and very large parameter vectors (ϕ and θ).
+
+<!-- chunk {"id": "body-0029", "role": "body", "section": "Goal-conditioned learning", "weight": 1.0} -->
+
+The RL agent is tasked with achieving some goal efficiently. However, the notion of efficiency is characterized by the reward function, which is often defined and fine-tuned by a user through various metrics and penalty terms. Effectively designing a reward or stage cost is a common challenge in both RL and MPC. Ideally, one would only need to set a target goal g and the agent would learn from a simple reward like this: Naturally, a goal-conditioned policy produces actions a ∼ π (a | s, g) aimed at bringing the environment to goal g and staying there.
+
+<!-- chunk {"id": "body-0030", "role": "body", "section": "Goal-conditioned learning", "weight": 1.0} -->
+
+A reward like Equation benefits from a great deal of flexibility. Its minimal structure imposes no restrictions on the agent that affect how it reaches its goal; rather, the agent only knows what to achieve. However, the signal produced by such a reward is extremely sparse. Newly initialized policies are likely to accumulate a large cache of zeros. Moreover, two different but suboptimal policies can fail in very different ways and yet receive the same feedback.
+
+<!-- chunk {"id": "body-0031", "role": "body", "section": "Goal-conditioned learning", "weight": 1.0} -->
+
+There are two paths forward: 1. Use dense rewards. Rewards, for example, of the form provide a continuous signal to the agent that makes it easier to distinguish the utility of different actions. While the meaning of the weight terms is straightforward, they are nuisance parameters that can dramatically affect how an 'optimal' policy looks; see Forbes et al. for a simple illustration. 2. Use hindsight. Learning through hindsight follows the premise that all trials-even 'unsuccessful' ones-are informative. Given a trajectory { s 0, a 0, r 0,..., sT | g } deemed unsuccessful at achieving some goal g, the sequence of rewards would be all zeros. However, one thing is certain: Had sT been the goal, then the policy would have been successful.
+
+<!-- chunk {"id": "body-0032", "role": "body", "section": "Goal-conditioned learning", "weight": 1.0} -->
+
+Andrychowicz et al. first proposed hindsight experience replay (HER), that is, the use of hindsight to learn goal-conditioned policies. HER is not an RL algorithm, but rather a type of replay buffer that any off-policy algorithm can sample. For example, all the transition tuples (st rt, st + 1, g) in a goal-conditioned trajectory are kept: Additionally, define sT to be a fictitious goal. 6 Then for each time step i in Equation, add the corresponding relabeled transition tuple to replay memory: 6 We use the terminal state for simplicity. One may also sample future states from the trajectory.
+
+<!-- chunk {"id": "body-0033", "role": "body", "section": "Goal-conditioned learning", "weight": 1.0} -->
+
+The resulting replay memory contains both the original and hindsight-relabeled tuples, namely data from the original reward function rg and the relabeling reward function rsT; both rewards take the same functional form, only differing based on their target goal value, g or sT. This results in additional 'excitation' to the goal axis in the policy and value networks. Even though Equation is likely to be sparse in the early stages of training, Equation is guaranteed to contain at least one successful observation, namely, rsT ( sT, aT ) = 1 because sT serves as a goal state in the dataset. Over time, the agent learns a better correspondence between goals and actions, making it able to reliably reach the desired targets.
+
+<!-- chunk {"id": "body-0034", "role": "body", "section": "Building a local value function through MPC", "weight": 1.0} -->
+
+RL hinges on the idea that an optimal policy can be discovered through a repeated cycle of exploration and improvement. The subtext of this paradigm is that such a policy should be learned from scratch. However, many control applications entail some prior physical understanding of the system, opening up opportunities to warm start the policy search. 7 Here, we provide an outline of nominal MPC. That is, an exact model is available so as to emphasize the complete opposite of the RL approach of the previous section.
+
+<!-- chunk {"id": "body-0035", "role": "body", "section": "Building a local value function through MPC", "weight": 1.0} -->
+
+MPC is the most successful advanced control method.
+
+<!-- chunk {"id": "body-0036", "role": "body", "section": "Building a local value function through MPC", "weight": 1.0} -->
+
+- Safe. 8 Model knowledge and other constraints help compose an objective whose optimal solution leads to safe and stable operations. - Modular. Individual components of the controller can in principle be modified on the fly to reflect new knowledge or objectives. - Interpretable. The combination of constraints and modularity makes MPC an intuitive approach for control (notwithstanding the underlying technical requirements).
+
+<!-- chunk {"id": "body-0037", "role": "body", "section": "An analytical foundation for MPC", "weight": 1.0} -->
+
+Rather than using samples from the environment to learn a value function, this section focuses on constructing a value function. This is done by combining a dynamic model and a cost function. We begin with the linear quadratic regulator (LQR) problem: 9 Here the state x and control u take values in R n and R m, respectively; the dynamics involve known matrices A and B of compatible dimension starting at an arbitrary initial state x 0 = x; and user-selected symmetric positive-definite matrices M and R determine the cost of deviations from the nominal trajectory where both x and u are constant at the origin. This is the simplest nontrivial case of the global objective in Equation for which there is an analytical solution. This additional structure makes the new problem in Equation seem more palpable than the original: It considers a linear, time-invariant environment and a global objective that can be characterized by a quadratic cost around the origin. Moreover, the optimization is over deterministic policies µ.
+
+<!-- chunk {"id": "body-0038", "role": "body", "section": "An analytical foundation for MPC", "weight": 1.0} -->
+
+7 In this section, we do not refer to model-based RL wherein a dynamical model is learned or made available to aid in the training of the RL agent with otherwise model-free algorithms.
+
+<!-- chunk {"id": "body-0039", "role": "body", "section": "An analytical foundation for MPC", "weight": 1.0} -->
+
+8 MPC is not a magic bullet. Our point is that the MPC literature provides a theoretical blueprint for formulating safe policies comprising technical conditions regarding stability, robustness, optimality, and constraint handling.
+
+<!-- chunk {"id": "body-0040", "role": "body", "section": "An analytical foundation for MPC", "weight": 1.0} -->
+
+9 We pivot to a minimization problem, versus a maximization problem in RL, purely due to convention.
+
+<!-- chunk {"id": "body-0041", "role": "body", "section": "An analytical foundation for MPC", "weight": 1.0} -->
+
+The optimal solution to the LQR problem is a static linear controller µ (xt) = -Kxt. A key step in the solution is the use of the Bellman equation in tandem with a quadratic value function V ⋆ (x) = x ⊤ Px (see Appendix A for more details): wherein solving for u leads to an explicit formula for K. This is a powerful result. The LQR problem not only yields a quadratic global value function, but its simple structure lends itself to a tractable solution. This means we are now equipped with a formula that takes system and cost parameters and maps them to an optimal set of controller parameters. 10
+
+<!-- chunk {"id": "body-0042", "role": "body", "section": "MPC as an implicit control law", "weight": 1.0} -->
+
+In light of the LQR objective in Equation, it is natural to wonder about the possibility of additional constraints: This builds on Equation by asserting that system behavior requirements are captured by state-input constraint sets X×U, often box constraints.
+
+<!-- chunk {"id": "body-0043", "role": "body", "section": "MPC as an implicit control law", "weight": 1.0} -->
+
+A controller resulting from the constrained problem in Equation is inherently nonlinear. Indeed, control actions are state-dependent, as they account for proximity to the constraints. This contrasts with the LQR solution, which applies the same operation to the state no matter what. Thus, the LQR solution is not the best solution to the constrained problem, as it may only remain feasible inside a 'small' portion of the state space. In Equation, one could consider a parameterized class of policies (i.e., state feedback controllers) µθ and proceed in a similar fashion to the RL approach. The result would be an explicit mapping µθ: S → A acting on the true environment. However, this mapping introduces a degree of separation from the prior knowledge embedded in Equation, such as the system dynamics and cost structure. In contrast, MPC offers an implicit formulation aimed at retaining the design elements appearing in Equation. We outline two core features of the MPC approach.
+
+<!-- chunk {"id": "body-0044", "role": "body", "section": "MPC as an implicit control law", "weight": 1.0} -->
+
+10 Here 'optimal' must be understood in the narrow context of Equation; generally, arranging for the closed-loop dynamics to meet practical performance criteria requires careful choice of the matrices M and R. Requiring both to be positive definite suffices to guarantee closed-loop stability of the optimal controller, a key safety requirement in practice.
+
+<!-- chunk {"id": "body-0045", "role": "body", "section": "MPC as an implicit control law", "weight": 1.0} -->
+
+Preserving prior knowledge and requirements. Equation can equivalently be cast in terms of a sequence of inputs u 0, u 1, u 1,...: However, this problem contains an infinite number of decision variables. A pragmatic idea is to formulate a hybrid between Equations and. Consider the new objective, defined at some state s: This new problem considers a finite number of decision variables, enabling reasonable command over constraints and system knowledge, while embedding infinite-horizon behavior cached in the LQR value function.
+
+<!-- chunk {"id": "body-0046", "role": "body", "section": "MPC as an implicit control law", "weight": 1.0} -->
+
+Building a local value function. The standard MPC algorithm implements a receding horizon strategy: After solving Equation at some state s for optimal inputs u ⋆ 0,..., u ⋆ Nc -1, the action a = u ⋆ 0 is applied to the true system. The system transitions to some next state s ′, at which point the problem in Equation is reinitialized and solved again.
+
+<!-- chunk {"id": "body-0047", "role": "body", "section": "MPC as an implicit control law", "weight": 1.0} -->
+
+The use of K as a 'fictitious' controller in Equation and P as a terminal cost enable feasibility and stability guarantees. Without them, perhaps by truncating the objective, the repeated application of solutions to Equation is not guaranteed to always be feasible, much less stable. Essentially, without incorporating infinite-horizon knowledge into the problem, anything beyond Nc steps comes as a 'surprise' to the controller.
+
+<!-- chunk {"id": "body-0048", "role": "body", "section": "MPC as an implicit control law", "weight": 1.0} -->
+
+All taken together, the receding horizon idea in tandem with the structure in Equation represent an implicit, local value function approximation. Costs and actions are computed online as new state information is made available. Crucially, the practical and theoretical success of MPC is driven by this interplay between a global LQR value function and local replanning. The global LQR solution uses principles of dynamic programming to cache all the planning into an explicit policy. In turn, this alleviates the intractability of infinite-horizon planning as in Equation.
+
+<!-- chunk {"id": "body-0049", "role": "body", "section": "A brief survey of the RL-MPC interface", "weight": 1.0} -->
+
+We now discuss related studies at the intersection of RL and MPC. Value functions are fundamental to MPC theory to derive stability and recursive feasibility conditions, which is not the focus of this paper. Moreover, we do not survey learning-based approaches to MPC or design of safety filters, where learning generally plays a supporting role to enhance safety and performance of MPC. Instead, we focus on learning-based control strategies that take advantage of conceptual similarities between RL and MPC. In particular, our brief survey adopts a value-centric perspective, reflecting the core framework of this paper. More detailed surveys on the RL-MPC interface can be found in Reiter et al., Banker and Mesbah, and Banker et al..
+
+<!-- chunk {"id": "body-0050", "role": "body", "section": "A brief survey of the RL-MPC interface", "weight": 1.0} -->
+
+Value function-augmented MPC. Our approach falls into this category because we use an MPC agent to design actions using a learned value function. However, the basic idea of an RL-based value function-augmented MPC law is not new. This approach is based on dynamic programming, but made practical through RL techniques. 11 Foundational works by Bertsekas and Tsitsiklis provide a rigorous treatment of RL, while Bertsekas gives a more recent account with emphasis on value function approximation and MPC.
+
+<!-- chunk {"id": "body-0051", "role": "body", "section": "A brief survey of the RL-MPC interface", "weight": 1.0} -->
+
+The key idea behind value function-augmented MPC approaches is to consider an MPC objective of the form where the state-action trajectory is produced by a dynamic model, possibly subject to constraints and over uncertain scenarios. V is learned through RL techniques such as the nominal scheme in Equation. In particular, we have as in Equation, ignoring goals for simplicity. Meanwhile, the N -step predictions are carried out by a dynamic model and guided by the reward b r. Crucially, these components are acquired independently of the terminal value function V. The model can be learned under some predictionbased objective, or given through prior knowledge; similarly, b r can be an optimization-friendly approximation of the true reward. Simply put, the distinguishing characteristic of value-augmented MPC is its modularity.
+
+<!-- chunk {"id": "body-0052", "role": "body", "section": "A brief survey of the RL-MPC interface", "weight": 1.0} -->
+
+Early works by Lee and Lee demonstrated the utility of embedding a learned value function into MPC for process control applications. Zhong et al. apply similar ideas in the context of classic control problems with an emphasis on data collection and value function parameterizations. Similarly, the works of Lowrey et al. consider MPC as a trajectory optimizer that can aid in value function estimation, but with emphases on exploration. So far, these works assume MPC uses a locally optimal value function, meaning the cost and internal model accurately represent the true objective and environment. Nonetheless, a key benefit of value function-augmented MPC via RL is the ability to effectively shrink the planning horizon. Instead, a significant amount of planning and uncertainty can be cached into the value function representation, which lends itself nicely to stochastic systems.
+
+<!-- chunk {"id": "body-0053", "role": "body", "section": "A brief survey of the RL-MPC interface", "weight": 1.0} -->
+
+Farshidian et al. consider the case where an external, possibly sparse, reward signal is used to update the stage cost and value function in MPC, but still assume an accurate model. Arroyo et al. train an RL agent offline in simulation with an identified model, then deploy a value function-augmented MPC scheme on the true, more complex system. However, the agent remains static in the online phase, not taking into account information from the environment. On the other hand, Bhardwaj et al. devise a time-weighted averaging strategy that blends together the MPC and an RL-learned value estimate, taking advantage of prior information while enabling feedback from the true environment. Hansen et al. develop a complete learning pipeline in which the model, reward, and value function are all learned and used to construct an online MPC agent.
+
+<!-- chunk {"id": "body-0054", "role": "body", "section": "A brief survey of the RL-MPC interface", "weight": 1.0} -->
+
+11 Some of the referenced works use terms like approximate dynamic programming or neuro-dynamic programming. We use reinforcement learning for simplicity.
+
+<!-- chunk {"id": "body-0055", "role": "body", "section": "A brief survey of the RL-MPC interface", "weight": 1.0} -->
+
+MPC as a function approximator. Another line of work takes the view that MPC-its model, stage cost, constraints, and terminal value function-represents a set of parameters that can be steered towards closed-loop optimality under a single objective. Although value functionaugmented MPC takes a modular view of learning-based MPC, this alternative formulation presents an all-in-one perspective. While we emphasize RL-based methods, this perspective can also be generalized to include other policy search paradigms.
+
+<!-- chunk {"id": "body-0056", "role": "body", "section": "A brief survey of the RL-MPC interface", "weight": 1.0} -->
+
+This all-in-one view of learning-based MPC is compatible with both policy-based and valuebased RL methods. The key idea is to replace traditional function approximations, such as deep neural networks, in an RL pipeline with MPC. For example, Equation can be viewed as a Q -function parameterization, which we will call Q MPC ϕ. Conceptually, typical RL update steps proceed as usual, where the goal is to minimize the loss in Equation via gradient steps in Equation. A similar idea can be applied to the policy parameterization, where we focus on the minimizer of Equation, and take µ MPC θ to be a parameterized MPC policy. In either case, all the MPC parameters are free to update towards improved reward. One may also choose to update only a subset of the MPC parameters in this manner; doing so is still distinct from the value function-augmented approach because the MPC structure is embedded in the RL pipeline, such as Equation.
+
+<!-- chunk {"id": "body-0057", "role": "body", "section": "A brief survey of the RL-MPC interface", "weight": 1.0} -->
+
+A common approach to learning MPC policies is to differentiate through the MPC action with respect to its parameters. Amos et al. propose this idea, but apply it for imitation learning tasks. In a similar vein, Tamar et al. iteratively refine the MPC cost based on offline replanning. Gros and Zanon further develop this line of work with an emphasis on safety and stability under RL-based updates to the MPC parameters. In the context of deep RL, Romero et al. propose an actor-critic setup in which the actor feeds cost coefficients to a differentiable MPC module. See Reiter et al. and Banker and Mesbah for an extensive discussion of MPC-based function approximators and their respective formulations.
+
+<!-- chunk {"id": "body-0058", "role": "body", "section": "A brief survey of the RL-MPC interface", "weight": 1.0} -->
+
+Broadly speaking, these approaches place less trust in prior system knowledge than value function-augmented approaches and, instead, aim to find the best model-dynamics, constraints, and cost-for control, inspired by the notion of identification for control. This all-inone approach makes MPC inextricably linked to the underlying RL algorithm. This means an MPC parameterization exists explicitly inside the nominal RL update equation in Equation, targeting global performance in the Bellman sense, while serving as a powerful inductive bias for modeling local values (or actions) for optimization-based decision-making. It is worth noting that this requires computing either ∇ ϕ Q MPC ϕ (or ∇ θ µ MPC θ ). These are nontrivial computations and the subject of ongoing research and software development. Meanwhile, value functionaugmented schemes allow for more algorithmic separation, allowing the value function to be trained in a deep RL pipeline, possibly offline based on prior system knowledge, and ported to the online MPC agent. However, despite this separation in the learning pipeline, RL and MPC are still intimately connected together through their roots in the dynamic programming formalism.
+
+<!-- chunk {"id": "body-0059", "role": "body", "section": "A brief survey of the RL-MPC interface", "weight": 1.0} -->
+
+While value function-augmented MPC may not suffer from the abovementioned gradient calculations, its online optimization may be expensive; we revisit this point in Appendix B.1.
+
+<!-- chunk {"id": "body-0060", "role": "body", "section": "Robust goal-conditioned control policies", "weight": 1.0} -->
+
+This section builds on the local-global interface through robust MPC and goal-conditioned RL. We first extend the discussion of nominal MPC to robust MPC. This then inspires a robust training scheme for goal-conditioned RL. Finally, we show how to combine these agents such that the RL policy benefits from replanning and constraint handling, while the MPC policy benefits from high-level goal-conditioned objectives. See Figure 2 for an illustration of the proposed framework.
+
+<!-- chunk {"id": "body-0061", "role": "body", "section": "Robust goal-conditioned control policies", "weight": 1.0} -->
+
+Our framework is model-based in nature. Specifically, we assume an uncertain dynamic model of the environment is available: We have some prior knowledge, but not enough to support a perfect representation of the underlying dynamics. Robustness is incorporated into our framework through the uncertain system description: 1. Robustness of the online agent. We use a robust scenario-based MPC agent, which incorporates a distribution of system uncertainties into its predictions. Specifically, the MPC agent constructs a scenario tree, illustrated in Figure 3, to tabulate costs and account for constraints over different situations. 2. Robustness of the offline agent. We formulate a scenario-based value function based on the distribution of system uncertainties. This leads to a robust Bellman equation, which serves as a target for the RL agent to learn simply through a branching process during offline rollouts; see the left-hand portion of Figure 2. General off-policy actor-critic algorithms are applicable for this portion of the framework.
+
+<!-- chunk {"id": "body-0062", "role": "body", "section": "Robust goal-conditioned control policies", "weight": 1.0} -->
+
+Essentially, this scenario-based approach to robustness aligns the robust RL-learned value function with the short-term, uncertain MPC predictions.
+
+<!-- chunk {"id": "body-0063", "role": "body", "section": "Robust goal-conditioned control policies", "weight": 1.0} -->
+
+Although a model is available, we target complicated objectives where a straightforward implementation of MPC may not be suitable. Consequently, we leverage model-free RL techniques to directly learn the optimal value function from offline exploration. In particular, the RL agent is trained in a robust, goal-conditioned manner. After training such an RL agent offline, an MPC agent generates actions using short-term predictions and the RL value function as a terminal cost. Specifically, the MPC agent makes these predictions subject to constraints and system uncertainty. Together, this combination of RL and MPC produces a robust and safe goal-conditioned policy.
+
+<!-- chunk {"id": "body-0064", "role": "body", "section": "Scenario-based MPC", "weight": 1.0} -->
+
+The MPC formulation given in Equation is often referred to as nominal MPC wherein one assumes the system model reflects the true dynamics being controlled. Yet, the basic idea of continually replanning endows the basic MPC structure with some inherent robustness to plant-model mismatch. Nonetheless, the risk of violating constraints when deploying an MPC scheme should not be overlooked. Our proposed framework employs a scenario-based approach to robustness. We note other varieties of robust and stochastic MPC may be used during the online phase of the proposed framework. For example, popular robust MPC alternatives include tube-based MPC and min-max MPC. Scenario-based MPC does not require a precomputed ancillary controller, as in tube-based MPC, nor does it generally lead to a very conservative solution, as in min-max MPC. Instead, the scenario-based approach has its backbone in dynamic programming, making it a unified target for approximate solutions through both MPC and RL.
+
+<!-- chunk {"id": "body-0065", "role": "body", "section": "Scenario-based MPC", "weight": 1.0} -->
+
+Scenario-based MPC considers a scenario tree in its planning to help cope with uncertainty. A scenario is essentially a realization of the system model under some uncertainty specification.
+
+<!-- chunk {"id": "body-0066", "role": "body", "section": "Scenario-based MPC", "weight": 1.0} -->
+
+System uncertainty is general under our framework, but some possible sources include structural model uncertainty, model parameter uncertainty, or time-varying components. Each scenario is subject to the same constraints, which means actions that are otherwise reasonable under nominal MPC may get pruned from consideration. This strategy results in more robust actions.
+
+<!-- chunk {"id": "body-0067", "role": "body", "section": "Scenario-based MPC", "weight": 1.0} -->
+
+Mathematically, consider a general system model f whose successive state x ′ evolves as follows: In addition to states x and control actions u, f also takes in scenarios ψ. We assume f is given through prior physical understanding of the process, but ψ represents system uncertainty due to structural and parametric model uncertainty or exogenous disturbances. Consider Ns scenarios, each of which is a realization of the uncertainties ψ in a system model f, branching from the start state then remaining constant; Figure 3 illustrates the basic concept. It is possible to branch out the uncertainty scenarios at each time step, but this is discouraged due to the exponential growth in scenarios.
+
+<!-- chunk {"id": "body-0068", "role": "body", "section": "Scenario-based MPC", "weight": 1.0} -->
+
+Controlling the growth in the number of scenarios is a practical innovation of scenario-based MPC, which considers the following objective at some initial state s: 12 where J is an N -step cost function: This formulation considers a general stage cost l and terminal cost m. In the context of Equation, the stage cost is quadratic and the terminal cost is the LQR value function. Note the constraint u i 0 = u j 0 ensures that the agent selects actions only according to current information s. Successfully solving Equation provides a certificate that the optimal solution satisfies the constraints even under the worst-case scenario. This provides some extra assurance that the endorsed action will keep the true system operating safely.
+
+<!-- chunk {"id": "body-0069", "role": "body", "section": "Offline MDP based on uncertain knowledge", "weight": 1.0} -->
+
+Beyond scenario-based MPC, we utilize the idea of a scenario tree to formulate a branching MDP, which can be used to train a robust RL agent. This is in contrast to other approaches to robustness in RL. A min-max formulation is a common strategy for training robust, although conservative, policies. Another algorithmic approach is to train conservative agents with respect to static, offline datasets, leading to robustness in online performance. Other approaches focus on imposing structural constraints on the policy architecture based on integral quadratic constraints to achieve robustness. The proposed scenario-based approach is both simple and congruous with the overarching MDP framework, as discussed next.
+
+<!-- chunk {"id": "body-0070", "role": "body", "section": "Offline MDP based on uncertain knowledge", "weight": 1.0} -->
+
+12 The form given by Lucia et al. includes a robustness horizon parameter, which controls how many time steps branch out in the prediction horizon. We present the case where the robustness horizon is 1.
+
+<!-- chunk {"id": "body-0071", "role": "body", "section": "Offline MDP based on uncertain knowledge", "weight": 1.0} -->
+
+In the context of an MDP, structural knowledge of the model f can be combined with the uncertainty in ψ to formulate an environment. That is, where p ψ (s ′ | s, a) = δ (s ′ -f (x, u, ψ) | s = x, a = u) is the Dirac delta function conditioned on the current state-action pair. The dynamics in Equation define the transitions for an offline simulation environment. Finally, a reward, such as in Equation, completes the MDP.
+
+<!-- chunk {"id": "body-0072", "role": "body", "section": "Offline MDP based on uncertain knowledge", "weight": 1.0} -->
+
+Arobust value function. We consider a set of Ns possible realizations of system uncertainty: No preference is given to any one of them, meaning they are uniformly distributed. In the context of Equation and the Bellman equation in Equation, we have the following relationship: This theoretical target is in competition with some straightforward options regarding robustness: 1. One could opt for a single uncertainty instance and hope that the resulting policy generalizes well to other scenarios. 2. Going further, one could create multiple scenarios in parallel, sharing the same policy, then pool together the respective value functions Q 0,..., QNs -1 through averaging 1 Ns P Ns -1 i = 0 Qi. This forms an approximation to Q π g in Equation, but ultimately does not result in a value function itself for the MDP in Equation.
+
+<!-- chunk {"id": "body-0073", "role": "body", "section": "Offline MDP based on uncertain knowledge", "weight": 1.0} -->
+
+Instead, in the spirit of option, the branching MDP is only a single (but specialized) environment, but experience from all scenarios informs the value estimation, like option. However, unlike these options, a policy satisfying Equation directly incorporates uncertainty into the decision-making process in a state-dependent fashion. This means it has to operate with enough margin to elevate the next-step return across several scenarios.
+
+<!-- chunk {"id": "body-0074", "role": "body", "section": "Offline training and online deployment", "weight": 1.0} -->
+
+The simulated MDP in Equation enables an agent to learn a goal-conditioned policy under uncertainty. For our general formulation, any off-policy actor-critic algorithm can be used wherein a policy π is learned alongside a value function Q. Both are represented by deep neural networks. Briefly, the policy network π is used in the simulation environment to enable 'fast' decision-making and streamlined implementation. We then deploy the critic Q on the 'true' system, where an MPC agent designs actions subject to constraints and uncertainty intervals. A concept diagram summarizing this section is shown in Figure 2.
+
+<!-- chunk {"id": "body-0075", "role": "body", "section": "Offline training and online deployment", "weight": 1.0} -->
+
+Actor-critic training. Based on Equation, an RL algorithm seeks to learn π and Q such that: First, a dynamic model class is created based on Equation. This model structure is the basis for the environment in Equation. Such an environment has two key elements: 1. Branched rollouts. Sampling from the scenario set in Equation at each time step to create branched rollouts. Note that the scenario set used for offline RL training may be larger than the one in scenario-based MPC because the learned value function in Equation does not perform explicit planning upon deployment. 2. Goal-augmented state. For goal-conditioned learning, the state definition used in the environment contains the goal itself 13, the observed state, in the spirit of Equation, as well as the 'achieved goal.' The achieved goal could be the state itself, or some transformed version of the state, for instance, if the goal is an output value rather than a state value. All the information is necessary in order to implement the HER strategy from a replay buffer.
+
+<!-- chunk {"id": "body-0076", "role": "body", "section": "Offline training and online deployment", "weight": 1.0} -->
+
+With the environment ready, an off-the-shelf off-policy, deep RL algorithm can be deployed aimed at learning π and Q in Equation. The correct state formulation allows for the HER strategy to be used to relabel training samples drawn from the replay buffer and used for updating the actor-critic weights.
+
+<!-- chunk {"id": "body-0077", "role": "body", "section": "Offline training and online deployment", "weight": 1.0} -->
+
+Critic-informed MPC deployment. A key innovation of deep RL algorithms is the ability to train complex policies while avoiding exact optimization. Specifically, the policy π is trained to optimize Q, but only approximately, as discussed around Equations and. This amounts to using Q as a loss function in training, and then the fast-to-evaluate π for decision-making.
+
+<!-- chunk {"id": "body-0078", "role": "body", "section": "Offline training and online deployment", "weight": 1.0} -->
+
+While the agent explores and learns in the offline MDP in Equation through the policy π, the corresponding value approximation Q is used in conjunction with an MPC agent to create a refined policy for online deployment. Like the RL policy π, this new, refined policy is also goal-conditioned. It uses a Gaussian-shaped reward b rg with a fixed variance σ 2: The right-hand side represents an idealized reward signal. However, it is non-smooth and the condition 'goal is achieved' can be difficult to characterize; for instance, a typical heuristic is to assign 1 if the distance to the goal is within some tolerance. In contrast, the functional definition on the left-hand side is a smooth approximation of the right-hand side with the additional benefit that its maximum is precisely at s = g. Thus, the reward b rg aligns the short-term costs with the terminal, goal-conditioned value function Q. Our experimental evaluation examines the variance parameter; a small variance is not necessary, as the short-term predictions are primarily concerned with the constraints, while the terminal value function provides more fine-grained guidance toward the goal.
+
+<!-- chunk {"id": "body-0079", "role": "body", "section": "Offline training and online deployment", "weight": 1.0} -->
+
+Now, define the unified RL and MPC policy based on the following objective: 13 Equivalently, we use the error signal g -s, rather than the goal, as input to the actor-critic networks. where b ψ i represents scenarios from a restricted subset of those used for RL training and b Ns is the corresponding number of scenarios. As with any MPC-based policy, only the first action in Equation is deployed.
+
+<!-- chunk {"id": "body-0080", "role": "body", "section": "Offline training and online deployment", "weight": 1.0} -->
+
+- Terminal cost. We use the learned value function V π g (s) = Q π g (s, µ actor (s)) as a terminal cost, where µ actor is the mean of the policy π. Rather than implementing the RL actions directly, the value function informs the constrained loss landscape. π is given by a neural network whose outputs are mean µ actor and covariance Σ actor, where Σ actor primarily drives exploration; hence, we only use µ actor for online control. - Soft constraints. When the state is very far from the goal, we have meaning the N -step cost only accounts for constraint penalties ϵ. This directly enables the agent to focus on short-term constraint satisfaction, and then consider long-term cost through the terminal value function. In contrast, weighing constraint violations can be cumbersome when using, for example, a quadratic stage cost. Alternatively, hard constraints may be used, which can result in the controller getting 'stuck' trying to avoid violations, or becoming infeasible if improperly designed. This is illustrated in Figure 9 in Section 6.3. The proposed architecture avoids such issues.
+
+<!-- chunk {"id": "body-0081", "role": "body", "section": "Offline training and online deployment", "weight": 1.0} -->
+
+- Scenario tree. b ψ i encompasses a set of scenarios, possibly different from those seen in the offline MDP. For example, the policy Equation might only factor in the extreme uncertainty realizations. As in Equation, we assume branching occurs only at the initial state x i 0 = s, then predictions are performed over fixed scenarios for a short time horizon, leading to the terminal cost.
+
+<!-- chunk {"id": "body-0082", "role": "body", "section": "Offline training and online deployment", "weight": 1.0} -->
+
+To summarize, Equation includes the core feature of scenario-based MPC, which is planning over different realizations of a system model. Moreover, it incorporates a high-level cost through the goal-conditioned RL state value function, and a local Gaussian-shaped stage cost. This stage cost enables the proposed value function-augmented MPC agent to prioritize constraints at states far away from the goal.
+
+<!-- chunk {"id": "body-0083", "role": "body", "section": "Interface with MPC theory", "weight": 1.0} -->
+
+We provide a sketch of how classical MPC theory can be incorporated into the RL-MPC interface to ensure safety requirements. So far, we have emphasized robustness in our formulation, specifically in a scenario-based sense due to its elegant relationship to dynamic programming, as discussed in Section 5.1. Other safety aspects include stability, recursive feasibility, and optimality.
+
+<!-- chunk {"id": "body-0084", "role": "body", "section": "Interface with MPC theory", "weight": 1.0} -->
+
+Stability typically relies on Lyapunov-based arguments using the MPC cost as a Lyapunov function. As such, it is necessary to exploit the structure of the stage cost and terminal value function in MPC. Desirable structures can be directly parameterized, such as a learnable convex stage cost, or Lyapunov neural network as the terminal value function. The value function-augmented framework presented here is indeed compatible with these ideas due to its modularity; however, future work should study such problems in the context of the proposed architecture in Equation. This architecture has the unique property of isolating constraints in its objective for faraway states while avoiding feasibility issues. If a more traditional setup is used instead, for example, with convex cost terms and hard constraints, then one may still apply Lyapunov arguments to arrive at recursive feasibility.
+
+<!-- chunk {"id": "body-0085", "role": "body", "section": "Interface with MPC theory", "weight": 1.0} -->
+
+While optimality cannot be verified for general MDPs due to the intractability of dynamic programming, it is useful to view MPC through the lens of suboptimal control. Specifically, MPC can be viewed as a rollout algorithm, yielding strong connections to policy iteration. In particular, the lookahead and optimization structures of MPC enable it to guarantee improved control over a base policy. Here, the base policy is generated through training an RL agent offline; the MPC agent is able to improve upon it with the use of the RL-based terminal value function in its cost. This property is illustrated in Figure B.10.
+
+<!-- chunk {"id": "body-0086", "role": "body", "section": "Case studies", "weight": 1.0} -->
+
+We present three case studies. The first two demonstrate the advantages of a goal-conditioned objective over a classical control objective in MPC in terms of handling nonlinear and highdimensional system dynamics. The first illustrates the goal-conditioned reward in Equation in a nominal, nonlinear MPC setup without RL, compared against more traditional objectives. The second demonstrates, theoretically and empirically, the advantages of a goal-conditioned objective through the lens of classical linear quadratic control both in terms of performance and scalability. The third brings together all the elements discussed in this paper on RL and MPC: robustness, goal conditioning, and the combination of local-global values. The corresponding code is available here:.
+
+<!-- chunk {"id": "body-0087", "role": "body", "section": "Example 1: Nominal goal-conditioned MPC", "weight": 1.0} -->
+
+This example focuses on a simplified version of the proposed policy structure in Equation. We consider nominal goal-conditioned MPC applied to a double inverted pendulum. That is, the MPC policy is given a nominal physics model and does not consider system uncertainty, nor does it include an RL value function. The purpose of this demonstration is to isolate the Gaussian-shaped reward in a planning context and to compare it against other MPC agents.
+
+<!-- chunk {"id": "body-0088", "role": "body", "section": "Example 1: Nominal goal-conditioned MPC", "weight": 1.0} -->
+
+The task is to apply force to a cart in order to bring the double inverted pendulum from its natural resting state to the upright position. The goal can be formulated in terms of the angle of each link relative to the upright position. Below is a summary of each MPC agent.
+
+<!-- chunk {"id": "body-0089", "role": "body", "section": "Example 1: Nominal goal-conditioned MPC", "weight": 1.0} -->
+
+- Expert. This is the formulation and implementation used in the benchmark example by Fiedler et al., readily available in the authors' do-mpc toolbox. The stage cost aims to maximize potential energy and minimize kinetic energy; it also includes a penalty term on changes to the actions to encourage 'smooth' control. - Quadratic. The stage and terminal costs are where θ 1, θ 2 are the angles of the two links. The controller does not include a penalty term on the actions.
+
+<!-- chunk {"id": "body-0090", "role": "body", "section": "Example 1: Nominal goal-conditioned MPC", "weight": 1.0} -->
+
+- Goal-conditioned. The same setup as the quadratic formulation, but with the cost set to We perform a sweep over three different prediction horizons. Figure 4 summarizes the performance of each agent as follows: 'Time near goal' is quantified using Equation with σ 2 = 0. 01 (much more stringent than the goal-conditioned MPC stage cost); 'Action total variation' reports P 99 t = 0 ∥ at -at -1 ∥ over the course of each 100-time step experiment.
+
+<!-- chunk {"id": "body-0091", "role": "body", "section": "Example 1: Nominal goal-conditioned MPC", "weight": 1.0} -->
+
+Based on Figure 4, the quadratic and goal-conditioned MPC agents are able to solve the swing up task under the three prediction horizons, while the expert formulation fails when N = 25. For N = 75, all three agents are approximately aligned in terms of time spent near the goal, but the expert agent does so with at most 1 / 3 the action variation of the other two policies. Planning very far into the future, the goal-conditioned agent creates slightly more separation from the other agents in time spent in the upright position. However, its decrease in action variation is more noteworthy: Across the three prediction horizons, the expert agent's action variation slowly increased, and the quadratic agent's slowly decreased. In contrast, the goal-conditioned agent became roughly 45% more efficient with its actions. This illustrates the idea that a goalconditioned objective does not react aggressively to large errors, like a quadratic objective. Instead, a long-term view means the sensitivities of Equation 'light up' most strongly to trajectories that bring the state to the goal.
+
+<!-- chunk {"id": "body-0092", "role": "body", "section": "Example 1: Nominal goal-conditioned MPC", "weight": 1.0} -->
+
+Our final experiment for this example showcases the goal-conditioned MPC agent on the other two unstable equilibria of the double inverted pendulum. While the expert agent is able to solve the swing up task, this is a secondary effect of its objective. In other words, it cannot readily be applied to the other equilibria. Figure 5 shows a time profile of the angle trajectories as the goal-conditioned agent is directed to achieve different configurations. This isolates and validates the use of a nonstandard goal-conditioned stage cost, independent of all the other machinery discussed in this paper. The resulting MPC agent is able to solve a complicated control problem efficiently. However, we note the challenge of deploying MPC alone with such an objective, namely, the potential inability to solve the task with a small variance value, which more accurately characterizes the goal as in Equation. This motivates the use of derivative-free optimization frameworks, such as RL, for long-term goal-conditioned objectives, demonstrated in Section 6.3.
+
+<!-- chunk {"id": "body-0093", "role": "body", "section": "Example 2: Classical control explanation of goal-conditioned policies", "weight": 1.0} -->
+
+This example serves two purposes. First, we elucidate the proposed architecture in Equation through a simplified setting. In particular, we consider linear time-invariant (LTI) Figure 4: (Top) The goal-conditioned agent gives the most consistent performance in terms of time spent in the upright position. (Bottom) The expert agent is very efficient at solving the swing up task, whereas the quadratic agent is the most aggressive. The goal-conditioned agent becomes much more efficient with its actions as the prediction horizon increases.
+
+<!-- chunk {"id": "body-0094", "role": "body", "section": "LQ-based lower bound on goal-conditioned objective", "weight": 1.0} -->
+
+Fix any stage cost ℓ and value function V, and let ρ -1 = 1 -γ 1 -γ N + 1. We obtain the following: The first line is an application of Jensen's inequality. It follows due to convexity of the exponential with respect to the costs ℓ (xt, ut) and V (xN). The multiplier ρ -1 ensures the summations are convex combinations; note we could also consider the finite-horizon average cost formulation instead of the discounted cost formulation. The inequality is strict because of strict convexity over non-constant system trajectories. The right-hand side represents an approximation of the goal-conditioned objective in the deterministic setting centered at the origin.
+
+<!-- chunk {"id": "body-0095", "role": "body", "section": "LQ-based lower bound on goal-conditioned objective", "weight": 1.0} -->
+
+The strict inequality in Equation is interesting because it relates some baseline objective on the left-hand side to an improved cost on the right-hand side without changing any of the fundamental ingredients, ℓ, V, or the dynamic model. Consider LTI dynamics xt + 1 = Axt + But and quadratic stage cost ℓ ( x, u ) = x ⊤ Qx + u ⊤ Ru with terminal cost V ( x ) = x ⊤ Px derived from LQR. We then see that maximizing the left-hand side of Equation is equivalent to the (discounted) LQR objective. Maximizing the right-hand side results in an improved goal-conditioned value over the baseline LQR controller. This is particularly beneficial when starting with a stabilizing baseline formulation, as it pushes the goal-conditioned counterpart on the right-hand side away from zero.
+
+<!-- chunk {"id": "body-0096", "role": "body", "section": "LQ-based lower bound on goal-conditioned objective", "weight": 1.0} -->
+
+We validate the above discussion using MPC alone; see Appendix B.1 for full experimental details, as well as additional results studying the scalability of an RL-learned value function inside an MPC agent. We consider a random collection of linear systems across different dimensions. For each one, we use a quadratic cost with M = R = I and the resulting P matrix from solving the LQR problem. We use soft constraints, to ensure functional consistency in the ℓ terms used on both sides of Equation. In the top plot of Figure 6, we accumulate the Gaussian-shaped reward in Equation with a small variance ( σ 2 = 0. 01) and subtract it from the total number of time steps for each experiment. It shows a growing gap between the baseline controller and the goal-conditioned controller as the system dimension increases; in other words, the goalconditioned objective is less sensitive to dimensionality. Because LQR is not directly optimizing the goal-conditioned objective, we also report the ℓ 2 error over each experiment.
+
+<!-- chunk {"id": "body-0097", "role": "body", "section": "LQ-based lower bound on goal-conditioned objective", "weight": 1.0} -->
+
+An intuitive way to understand these results is as follows. For a given linear system at an arbitrary initial state, it is unlikely that either controller will monotonically decrease the error x T x (otherwise it would be a Lyapunov function). This means ℓ 2 error will grow before it can decrease, which conflicts with the goal on the left-hand side of Equation. Meanwhile, the goal-conditioned reward is insensitive to such behavior. Indeed, when the initial state is far from the origin, it will not matter (in terms of cost) if the state briefly goes away from the origin. Finally, the bottom plot tabulates constraint violations to show that the goal-conditioned controller does not suffer as a result of its more rapid approach to the goal.
+
+<!-- chunk {"id": "body-0098", "role": "body", "section": "Example 3: Robust goal-conditioned policies for process control", "weight": 1.0} -->
+
+We study a continuous stirred tank reactor (CSTR), a common benchmark in process control, particularly in MPC and learning-based applications. In our example, we use the model and parameters given by Klatt and Engell. This is also the formulation used in the robust scenario-based MPC benchmark by Fiedler et al., readily available in the authors' do-mpc toolbox. For completeness, a short summary is given below, with the accompanying equations given in Appendix B.2.
+
+<!-- chunk {"id": "body-0099", "role": "body", "section": "Example 3: Robust goal-conditioned policies for process control", "weight": 1.0} -->
+
+The CSTR process is described by a fourth-order nonlinear ordinary differential equation. The state variables are concentrations cA and cB, reactor temperature TR, and coolant temperature TK. The reaction A → B is controlled through the input variables F (normalized inflow) and ˙ Q (heat removed by coolant). Within this process are two additional reactions B → C and A → D, forming byproducts C and D. Two key rate coefficients are considered uncertain. These rate terms depend exponentially on the reactor temperature TR. The uncertainty is characterized by two multipliers α and β: α characterizes uncertainty in the activation energy for the reaction A → D, while β characterizes uncertainty in the rate coefficient for the reaction A → B.
+
+<!-- chunk {"id": "body-0100", "role": "body", "section": "Robust offline training", "weight": 1.0} -->
+
+- Nominal RL. The environment does not contain any system uncertainty; only the true nominal parameter values are used. - Robust RL. The environment is constructed with a branching process as described in Equation. It assumes structural knowledge of the system dynamics and a range of possible values for α and β. This range is gridded and each value is considered equally likely, making Equation the theoretical target.
+
+<!-- chunk {"id": "body-0101", "role": "body", "section": "Robust offline training", "weight": 1.0} -->
+
+The task for the agent is to control the concentration cB through the actions F and ˙ Q. Therefore, for a desired concentration c goal B, the reward is defined as: with σ 2 = 0. 0001. The agents are trained using the soft actor-critic algorithm and HER for the replay buffer. See Appendix C for further implementation details.
+
+<!-- chunk {"id": "body-0102", "role": "body", "section": "Robust offline training", "weight": 1.0} -->
+
+After training, we evaluate the agents based on how effectively they reach a novel goal. This is measured as follows: 200 initial states are randomly sampled; they are sampled from the constraint intervals used in MPC, illustrated next in Figure 9 in Section 6.3.2. The agent is given 50 time steps to reach the goal. The agent's effectiveness is quantified for the last 25 time steps; this isolates steady state performance from the transient stage of each rollout.
+
+<!-- chunk {"id": "body-0103", "role": "body", "section": "Combining robust RL and scenario-based MPC", "weight": 1.0} -->
+
+We evaluate the performance of the value function-augmented scenario-based MPC scheme in Equation. We compare it to a benchmark scenario-based MPC scheme as well as the trained policy π used to construct the terminal value V.
+
+<!-- chunk {"id": "body-0104", "role": "body", "section": "Combining robust RL and scenario-based MPC", "weight": 1.0} -->
+
+- Time near goal. We use the reward function in Equation with σ 2 = 0. 01. We do not evaluate with the σ 2 value used for training because it is too sparse for all the comparisons. - Time outside constraints. We use the function also with σ 2 = 0. 01, where prox(·) returns the closest point in the constraint set to the point of interest.
+
+<!-- chunk {"id": "body-0105", "role": "body", "section": "Combining robust RL and scenario-based MPC", "weight": 1.0} -->
+
+Finally, the RL + MPCagent, deploying Equation, has similar or slightly tighter constraint satisfaction to the robust MPC agent, but without the same extreme lows. Overall, the time spent near the goal is more consistent (like the RL agent), but with excellent constraint satisfaction. A time profile of all three agents is shown in Figure 9. The initial state was chosen to illustrate the extreme behaviors of the MPC and RL agents that exist in Figure 8. As indicated, the unconstrained RL agent represents the quickest path to the goal, while the MPC agent is only able to stick to the state constraints. The RL + MPC agent tempers the RL agent's trajectory, hitting Figure 8: The robust MPC agent shows excellent constraint satisfaction, but highly variable performance in terms of reaching the goal. The robust RL agent has no knowledge of constraints, meaning it can quickly achieve its goals. The robust value function-augmented MPC agent, dubbed 'RL + MPC' balances the strengths of both.
+
+<!-- chunk {"id": "body-0106", "role": "body", "section": "Conclusions", "weight": 1.0} -->
+
+This paper advocated for a value function-centric perspective of RL and MPC, with the goal of enabling fluid discourse between both research areas. To this end, we have demonstrated how value-based ideas enable a complementary control framework for solving MDPs. Broadly speaking, RL thrives at learning complex policies when it is able to freely explore its environment. This is most readily achieved in simulation environments where concerns of safety are secondary; the benefit, however, is the ability to distill exploration experience into high-level policies from simple rewards. MPC represents another extreme, in which safety is at the forefront and achieved through repeated, online exploitation of prior system knowledge, costs, and constraints. We have shown that these differing perspectives enable a single agent to utilize the strengths of both frameworks: An RL-based terminal value function working in tandem with short-term MPC planning.
+
+<!-- chunk {"id": "body-0107", "role": "body", "section": "Conclusions", "weight": 1.0} -->
+
+While our combination of scenario-based planning and goal-conditioned learning contributes to this classical local-global view of RL and MPC, several challenges remain. One of these is the possibility of mismatch between the distributions for the true environment and the system model. While we did not assume an exact model is available, we did consider the environment to be well characterized by the system model uncertainty. In principle, the robust RL training setup could compensate for structural or parametric mismatch by including 'true' data from the environment into its replay buffer alongside simulation data. However, the proposed policy in Equation would still contain a mismatched internal model. Nonetheless, our proposed framework makes an initial step towards bringing together niche techniques from the vastly different RL and MPC communities.

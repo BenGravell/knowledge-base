@@ -98,112 +98,104 @@ In Figure 2, we plot the results of ID and OOD evaluations, respectively. For bo
 
 <!-- chunk {"id": "body-0025", "role": "body", "section": "Self-supervised Learning is More Robust than Supervised Learning to Dataset Imbalance", "weight": 1.0} -->
 
-Furthermore, we compute the relative accuracy gap to balanced dataset ${\Delta^{\text{SSL}}{(n,r)}} \triangleq {{{({{A^{\text{SSL}}{(n,1)}} - {A^{\text{SSL}}{(n,r)}}})}/A^{\text{SSL}}}{(n,1)}}$ in Figure 1. We observe that with the same number of pre-training examples, the relative gap of SSL representations between balanced and imbalanced datasets is smaller than that of SL representations across the board,
+Furthermore, we compute the relative accuracy gap to balanced dataset ${\Delta^{\text{SSL}}{(n,r)}} \triangleq {{{({{A^{\text{SSL}}{(n,1)}} - {A^{\text{SSL}}{(n,r)}}})}/A^{\text{SSL}}}{(n,1)}}$ in Figure 1. We observe that with the same number of pre-training examples, the relative gap of SSL representations between balanced and imbalanced datasets is smaller than that of SL representations across the board, Also note that comparing the robustness with the same number of data is actually in favor of SL, because SSL is more easily applied to larger datasets without the need of collecting labels.
 
 <!-- chunk {"id": "body-0026", "role": "body", "section": "Self-supervised Learning is More Robust than Supervised Learning to Dataset Imbalance", "weight": 1.0} -->
 
-Also note that comparing the robustness with the same number of data is actually in favor of SL, because SSL is more easily applied to larger datasets without the need of collecting labels.
-
-<!-- chunk {"id": "body-0027", "role": "body", "section": "Self-supervised Learning is More Robust than Supervised Learning to Dataset Imbalance", "weight": 1.0} -->
-
 ID vs. OOD. As shown in Figure 2, we observe that representations from supervised pre-training perform better than self-supervised pre-training in ID evaluation with reasonably large $n$, while self-supervised pre-training is better in OOD evaluation. This phenomenon is orthogonal to our observation that SSL is more robust to dataset imbalance, and is consistent with recent works (e.g., Chen et al.; He et al. ) which also observed that SSL performs slightly worse than supervised learning on balanced ID evaluation but better on OOD tasks.
 
-<!-- chunk {"id": "body-0028", "role": "body", "section": "Analysis", "weight": 1.0} -->
+<!-- chunk {"id": "body-0027", "role": "body", "section": "Analysis", "weight": 1.0} -->
 
 We have found out with extensive experiments that self-supervised representations are more robust to class imbalance than supervised representations. A natural and fundamental question arises: where does the robustness stem from? In this section, we propose a possible reason and justify it with theoretical and empirical analyses.
 
-<!-- chunk {"id": "body-0029", "role": "body", "section": "Analysis", "weight": 1.0} -->
+<!-- chunk {"id": "body-0028", "role": "body", "section": "Analysis", "weight": 1.0} -->
 
 SSL learns richer features from frequent data that are transferable to rare data. The rare classes of the imbalanced dataset can contain only a few examples, making it hard to learn proper features to classify the rare classes. In this case, one may want to resort to the features learned from the frequent classes for help. However, due to the supervised nature of classification tasks, the supervised model mainly learns the features that help classify the frequent classes and may neglect other features which can transfer to the rare classes and potentially the downstream tasks. Partly because of this, Jamal et al. explicitly encourage the model to learn features transferable from the frequent to the rare classes with meta-learning. In contrast, in self-supervised learning, without the bias or incentive from the labels, the models can learn richer features that capture the intrinsic structures of the inputs---both features useful for classifying the frequent classes and features transferable to the rare classes.
 
-<!-- chunk {"id": "body-0030", "role": "body", "section": "Rigorous Analysis on A Toy Setting", "weight": 1.0} -->
+<!-- chunk {"id": "body-0029", "role": "body", "section": "Rigorous Analysis on A Toy Setting", "weight": 1.0} -->
 
 To justify the above conjecture, we instantiate supervised and self-supervised learning in a setting where the features helpful to classify the frequent classes and features transferable to the rare classes can be clearly separated. In this case, we prove that self-supervised learning learns better features than supervised learning.
 
-<!-- chunk {"id": "body-0031", "role": "body", "section": "Rigorous Analysis on A Toy Setting", "weight": 1.0} -->
+<!-- chunk {"id": "body-0030", "role": "body", "section": "Rigorous Analysis on A Toy Setting", "weight": 1.0} -->
 
 Data distribution. Let $e_{1},e_{2}$ be two orthogonal unit-norm vectors in the $d$-dimensional Euclidean space. Consider the following pre-training distribution $\mathcal{P}$ of a 3-way classification problem, where the class label $y \in {\lbrack 3\rbrack}$. The input $x$ is generated as follows. Let $\tau > 0$ and $\rho > 0$ be hyperparameters of the distribution. First sample $q$ uniformly from $\{ 0,1\}$ and $\xi \sim {\mathcal{N}{(0,I)}}$ from Gaussian distribution. For the first class ($y = 1$), set $x = {{e_{1} - {q\taue_{2}}} + {\rho\xi}}$. For the second class ($y = 2$), set $x = {{{- e_{1}} - {q\taue_{2}}} + {\rho\xi}}$.
 
-<!-- chunk {"id": "body-0032", "role": "body", "section": "Rigorous Analysis on A Toy Setting", "weight": 1.0} -->
+<!-- chunk {"id": "body-0031", "role": "body", "section": "Rigorous Analysis on A Toy Setting", "weight": 1.0} -->
 
 For the third class ($y = 3$), set $x = {e_{2} + {\rho\xi}}$. Classes 1 and 2 are frequent classes, while class 3 is the rare class, i.e., ${\frac{\mathcal{P}{({y = 3})}}{\mathcal{P}{({y = 1})}},\frac{\mathcal{P}{({y = 3})}}{\mathcal{P}{({y = 2})}}} = {o{}}$. See Figure 3 for an illustration of this data distribution. In this case, both $e_{1}$ and $e_{2}$ are features from the frequent classes 1 and 2. However, only $e_{1}$ helps classify the frequent classes and only $e_{2}$ can be transferred to the rare classes.
 
-<!-- chunk {"id": "body-0033", "role": "body", "section": "Rigorous Analysis on A Toy Setting", "weight": 1.0} -->
+<!-- chunk {"id": "body-0032", "role": "body", "section": "Rigorous Analysis on A Toy Setting", "weight": 1.0} -->
 
 Main intuitions. We compare the features learned by SSL and supervised learning on an imbalanced dataset that contains an abundant (poly in $d$) number of data from the frequent classes but only a small (sublinear in $d$) number of data from the rare class. The key intuition behind our analysis is that supervised learning learns only the $e_{1}$ direction (which helps classify class 1 vs. class 2) and some random direction that overfits to the rare class. In contrast, self-supervised learning learns both $e_{1}$ and $e_{2}$ directions from the frequent classes. Since how well the feature helps classify the rare class (in ID evaluation) depends on how much it correlates with the $e_{2}$ direction, SSL provably learns features that help classify the rare class, while supervised learning fails. This intuition is formalized by the following theorem.
 
-<!-- chunk {"id": "body-0034", "role": "body", "section": "Illustrative Semi-synthetic Experiments", "weight": 1.0} -->
+<!-- chunk {"id": "body-0033", "role": "body", "section": "Illustrative Semi-synthetic Experiments", "weight": 1.0} -->
 
 In the previous subsection, we have shown that self-supervised learning provably learns label-irrelevant-but-transferable features from the frequent classes which can help classify the rare class in the toy case, while supervised learning mainly focuses on the label-relevant features. However, in real-world datasets, it is intractable to distinguish the two groups of features. To amplify this effect in a real-world dataset and highlight the insight of the theoretical analysis, we design a semi-synthetic experiment on SimCLR to validate our conclusion.
 
-<!-- chunk {"id": "body-0035", "role": "body", "section": "Illustrative Semi-synthetic Experiments", "weight": 1.0} -->
+<!-- chunk {"id": "body-0034", "role": "body", "section": "Illustrative Semi-synthetic Experiments", "weight": 1.0} -->
 
 Dataset. In the theoretical analysis above, the frequent classes contain both features related to the classification of frequent classes and features transferable to the the rare classes. Similarly, we consider an imbalanced pre-training dataset with two groups of features modified from CIFAR-10 as shown in Figure 4 (Left). We construct classes 1-5 as the frequent classes, where each class contains 5000 examples. Classes 6-10 are the rare classes, where each class has 10 examples. In this case, the ratio of imbalance $r = 0.002$. Each image from classes 1-5 consists of a left half and a right half. The left half of an example is from classes 1-5 of the original CIFAR-10 and corresponds to the label of that example. The right half is from a random image of CIFAR-10, which is label-irrelevant.
 
-<!-- chunk {"id": "body-0036", "role": "body", "section": "Illustrative Semi-synthetic Experiments", "weight": 1.0} -->
+<!-- chunk {"id": "body-0035", "role": "body", "section": "Illustrative Semi-synthetic Experiments", "weight": 1.0} -->
 
 In contrast, the left half of an example from classes 6-10 is blank, whereas the right half is label-relevant and from classes 6-10 of the original CIFAR-10. In this setting, features from the left halves of the images are correlated to the classification of the frequent classes, while features from the right halves are label-irrelevant for the frequent classes, but can help classify the rare classes. Note that features from the right halves cannot be directly learned from the rare classes since they have only 10 examples per class. This is consistent with the setting of Theorem 3.1.
 
-<!-- chunk {"id": "body-0037", "role": "body", "section": "Illustrative Semi-synthetic Experiments", "weight": 1.0} -->
+<!-- chunk {"id": "body-0036", "role": "body", "section": "Illustrative Semi-synthetic Experiments", "weight": 1.0} -->
 
 Pre-training. We pre-train the representations on the semi-synthetic imbalanced dataset. For supervised learning, we use ResNet-50 on this 10-way classification task. For self-supervised learning, we use SimCLR with ResNet-50. To avoid confusing the left and right parts, we disable the random horizontal flip in the data augmentation. After pre-training, we fix the representations and train a linear classifier on top of the representations with balanced data from the 5 rare classes (25000 examples in total) to test if the model learns proper features for the rare classes during pre-training. In Figure 4 (Right), we test the classifier on the rare classes. In Figure 4 (Middle), we further visualize the Grad-CAM of the representations on the held-out set^66^6CIFAR images are of low resolution. For visualization, we use high resolution version of the CIFAR-10 images in Figure 4 (Middle). We also provide the visualization on original CIFAR-10 images in Figure 7..
 
-<!-- chunk {"id": "body-0038", "role": "body", "section": "Illustrative Semi-synthetic Experiments", "weight": 1.0} -->
+<!-- chunk {"id": "body-0037", "role": "body", "section": "Illustrative Semi-synthetic Experiments", "weight": 1.0} -->
 
 Results. As a sanity check, we first pre-train a supervised model with only the 50 rare examples and train the linear head classifier with 25000 examples from the rare classes (5-way classification) to see if the model can learn proper features for the rare classes with only rare examples (Supervised-rare in Figure 4 (Right)). As expected, the accuracy is $36.5\%$, which is almost the same as randomly initialized representations with trained head classifier, indicating that the model cannot learn the features for the rare classes with only rare examples due to the limited number of examples. We then compare supervised learning with self-supervised learning on the whole semi-synthetic dataset. In Figure 4 (Right), self-supervised representations perform much better than supervised representations on the rare classes ($70.1\%$ vs $44.3\%$). We further visualize the activation maps of representations with Grad-CAM. Supervised learning mostly activate the left halves of the examples for both frequent and rare classes, indicating that it mainly learn features on the left.
 
-<!-- chunk {"id": "body-0039", "role": "body", "section": "Illustrative Semi-synthetic Experiments", "weight": 1.0} -->
+<!-- chunk {"id": "body-0038", "role": "body", "section": "Illustrative Semi-synthetic Experiments", "weight": 1.0} -->
 
 In sharp contrast, self-supervised learning activates the whole image on the frequent examples and the right part on the rare examples, indicating that it learns features from both parts.
 
-<!-- chunk {"id": "body-0040", "role": "body", "section": "Improving SSL on Imbalanced Datasets with Regularization", "weight": 1.0} -->
+<!-- chunk {"id": "body-0039", "role": "body", "section": "Improving SSL on Imbalanced Datasets with Regularization", "weight": 1.0} -->
 
 In this section, we aim to further improve the performance of SSL to close the gap between imbalanced and balanced datasets. Many prior works on imbalanced supervised learning regularize the rare classes more strongly, motivated by the observation that the rare classes suffer from more overfitting. Inspired by these works, we compute the generalization gaps (i.e., the differences between empirical and validation pre-training losses) on frequent and rare classes for the step-imbalance CIFAR-10 datasets (where 5 classes are frequent class with 5000 examples per class and the rest are rare with 50 examples per class). Indeed, as shown in Table 1 (a), we still observe a similar phenomenon---the frequent classes have much smaller pre-training generalization gap than the rare classes (0.035 vs. 0.081), which indicates the necessity of more regularization on the rare classes.
 
-<!-- chunk {"id": "body-0041", "role": "body", "section": "Improving SSL on Imbalanced Datasets with Regularization", "weight": 1.0} -->
+<!-- chunk {"id": "body-0040", "role": "body", "section": "Improving SSL on Imbalanced Datasets with Regularization", "weight": 1.0} -->
 
 We need a data-dependent regularizer that can have different effects on rare and frequent examples. Thus, weight decay or dropout are not suitable. The prior work of Cao et al. regularizes the rare classes more strongly with larger margin, but it does not apply to SSL where no labels are available. Inspired by Cao et al., we adapt sharpness-aware minimization (SAM) to imbalanced SSL.
 
+<!-- chunk {"id": "body-0041", "role": "body", "section": "Improving SSL on Imbalanced Datasets with Regularization", "weight": 1.0} -->
+
+Reweighted SAM (rwSAM). SAM improves model generalization by penalizing loss sharpness. Suppose the training loss of the representation $f_{\phi}$ is $\hat{L}{(\phi)}$, i.e. ${\hat{L}{(\phi)}} = {\frac{1}{n}{\sum_{j = 1}^{n}{\ell{(x_{j},\phi)}}}}$. SAM seeks parameters where the loss is uniformly low in the neighboring area, To take the weight of different examples into account, we add reweighting to the inner maximization step of SAM. Intuitively, we wish the optimization landscape to be flatter for rare examples, which is in effect regularizing the model more on rare examples.
+
 <!-- chunk {"id": "body-0042", "role": "body", "section": "Improving SSL on Imbalanced Datasets with Regularization", "weight": 1.0} -->
 
-Reweighted SAM (rwSAM). SAM improves model generalization by penalizing loss sharpness. Suppose the training loss of the representation $f_{\phi}$ is $\hat{L}{(\phi)}$, i.e. ${\hat{L}{(\phi)}} = {\frac{1}{n}{\sum_{j = 1}^{n}{\ell{(x_{j},\phi)}}}}$. SAM seeks parameters where the loss is uniformly low in the neighboring area,
+Concretely, consider the reweighted training loss associated with weight vector $w \in {\mathbb{R}}^{n}$, ${{\hat{L}}_{w}{(\phi)}} = {\frac{1}{n}{\sum_{j = 1}^{n}{w_{j}\ell{(x_{j},\phi)}}}}$. The reweighted SAM objective re-weights the regularization-related terms (e.g., $\epsilon_{w}$) but not the training loss $\hat{L}$: Assigning Weight with Kernel Density Estimation. The weight $w_{j}$ of an example $x_{j}$ should be inversely correlated with the frequency of the corresponding class $y_{j}$. However, we have no access to the labels. In order to approximate the frequency of examples, we use kernel density estimation on top of the representations $f_{\phi}$.
 
-<!-- chunk {"id": "body-0043", "role": "body", "section": "Improving SSL on Imbalanced Datasets with Regularization", "weight": 1.0} -->
+<!-- chunk {"id": "body-0043", "role": "body", "section": "Experiments", "weight": 1.0} -->
 
-To take the weight of different examples into account, we add reweighting to the inner maximization step of SAM. Intuitively, we wish the optimization landscape to be flatter for rare examples, which is in effect regularizing the model more on rare examples. Concretely, consider the reweighted training loss associated with weight vector $w \in {\mathbb{R}}^{n}$, ${{\hat{L}}_{w}{(\phi)}} = {\frac{1}{n}{\sum_{j = 1}^{n}{w_{j}\ell{(x_{j},\phi)}}}}$. The reweighted SAM objective re-weights the regularization-related terms (e.g.,
+We test the proposed rwSAM on CIFAR-10 with step or exponential imbalance and ImageNet-LT. After self-supervised pre-training on the long-tailed dataset, we evaluate the representations by linear probing on the balanced in-domain dataset and fine-tuning on downstream target datasets. For and, we compare with SSL, SSL+SAM (w/o reweighting), and SSL balanced, which learns the representations on the balanced dataset with the same number of examples. Implementation details and additional results are deferred to Section C. Code is available at Results. Table 1 (a) summarizes results on long tailed CIFAR-10. With both step and exponential imbalance, rwSAM improves the performance of SimSiam over $1\%$, and even surpasses the performance of SimSiam on balanced CIFAR-10 with the same number of examples. Note that compared to SimSiam, rwSAM closes the generalization gap of pre-training loss on rare examples from $0.081$ to $0.066$, which verifies the effect of re-weighted regularization.
 
-<!-- chunk {"id": "body-0044", "role": "body", "section": "Improving SSL on Imbalanced Datasets with Regularization", "weight": 1.0} -->
+<!-- chunk {"id": "body-0044", "role": "body", "section": "Experiments", "weight": 1.0} -->
 
-Assigning Weight with Kernel Density Estimation. The weight $w_{j}$ of an example $x_{j}$ should be inversely correlated with the frequency of the corresponding class $y_{j}$. However, we have no access to the labels. In order to approximate the frequency of examples, we use kernel density estimation on top of the representations $f_{\phi}$. Concretely, denote by $K{( \cdot,h)}$ the Gaussian density with bandwidth $h$. We assign $w_{i}$ to be inversely correlated with the estimated density, i.e., $w_{i} = \left( {\frac{1}{n}{\sum_{j = 1}^{n}{K{({{f_{\phi}{(x_{i})}} - {f_{\phi}{(x_{j})}}},h)}}}} \right)^{- \alpha}$ where $h$ and $\alpha > 0$ are hyperparameters selected by cross validation.
+In Table 1 (b), we provide the result of fine-tuning on downstream tasks with representations pre-trained on ImageNet-LT. The proposed method improves the transferability of representations to downstream tasks consistently.
 
-<!-- chunk {"id": "body-0045", "role": "body", "section": "Experiments", "weight": 1.0} -->
-
-We test the proposed rwSAM on CIFAR-10 with step or exponential imbalance and ImageNet-LT. After self-supervised pre-training on the long-tailed dataset, we evaluate the representations by linear probing on the balanced in-domain dataset and fine-tuning on downstream target datasets. For and, we compare with SSL, SSL+SAM (w/o reweighting), and SSL balanced, which learns the representations on the balanced dataset with the same number of examples. Implementation details and additional results are deferred to Section C. Code is available at
-
-<!-- chunk {"id": "body-0046", "role": "body", "section": "Experiments", "weight": 1.0} -->
-
-Results. Table 1 (a) summarizes results on long tailed CIFAR-10. With both step and exponential imbalance, rwSAM improves the performance of SimSiam over $1\%$, and even surpasses the performance of SimSiam on balanced CIFAR-10 with the same number of examples. Note that compared to SimSiam, rwSAM closes the generalization gap of pre-training loss on rare examples from $0.081$ to $0.066$, which verifies the effect of re-weighted regularization. In Table 1 (b), we provide the result of fine-tuning on downstream tasks with representations pre-trained on ImageNet-LT. The proposed method improves the transferability of representations to downstream tasks consistently.
-
-<!-- chunk {"id": "body-0047", "role": "body", "section": "Supervised Learning with Dataset Imbalance", "weight": 1.0} -->
+<!-- chunk {"id": "body-0045", "role": "body", "section": "Supervised Learning with Dataset Imbalance", "weight": 1.0} -->
 
 There exists a long line of works studying supervised imbalanced classification. Early works on ensemble learning adjusted the boosting and bagging algorithms with resampling in the imbalanced setting. Classical methods include resampling and reweighting. Hart; Kubat et al.; Chawla et al.; He et al.; Ando and Huang; Buda et al.; Hu et al. proposed to re-sample the data to make the frequent and rare classes appear with equal frequency in training. Re-weighting assigns different weights for head and tail classes and eases the optimization difficulty under class imbalance. Byrd and Lipton empirically studied the effect of importance weighting and found out that importance weighting does not change the solution without regularization. Xu et al. justified this finding with theoretical analysis based on the implicit bias of gradient descend on separable data.
 
-<!-- chunk {"id": "body-0048", "role": "body", "section": "Supervised Learning with Dataset Imbalance", "weight": 1.0} -->
+<!-- chunk {"id": "body-0046", "role": "body", "section": "Supervised Learning with Dataset Imbalance", "weight": 1.0} -->
 
 Cao et al. initiated the idea of using re-weighted regularization and proposed the principle of regularizing rare classes more heavily. Re-weighted regularizaton is shown to be typically more effective than re-weighting or re-sampling the losses. Cao et al. proposed to regularize the local curvature of loss on imbalanced and noisy datasets.
 
-<!-- chunk {"id": "body-0049", "role": "body", "section": "Supervised Learning with Dataset Imbalance", "weight": 1.0} -->
+<!-- chunk {"id": "body-0047", "role": "body", "section": "Supervised Learning with Dataset Imbalance", "weight": 1.0} -->
 
 Works in the modern deep learning era also designed specific losses or training pipelines for imbalanced recognition. Lin et al. proposed to focus on hard examples to prevents easy examples from overwhelming the models during training. Meta-learning approaches meta-learned the weight or the ensemble. Liu et al.; Jamal et al.; Liu et al. improved the performance on the rare examples by explicitly encourages transfer learning. Re-calibration methods adjust the logits of the outputs with re-weighting.
 
-<!-- chunk {"id": "body-0050", "role": "body", "section": "Supervised Learning with Dataset Imbalance", "weight": 1.0} -->
+<!-- chunk {"id": "body-0048", "role": "body", "section": "Supervised Learning with Dataset Imbalance", "weight": 1.0} -->
 
 Several works also studied the supervised representations under dataset imbalance. Kang et al.; Wang et al. found out that the representations of supervised learning perform better than the classifier itself with class imbalance. Yang and Xu studied the effect of self-training and self-supervised pre-training on supervised imbalanced recognition classifiers. In contrast, the focus of our paper is the effect of class imbalance on self-supervised representations.
 
-<!-- chunk {"id": "body-0051", "role": "body", "section": "Self-supervised Learning", "weight": 1.0} -->
+<!-- chunk {"id": "body-0049", "role": "body", "section": "Self-supervised Learning", "weight": 1.0} -->
 
 Earlier works on self-supervised learning learned visual representations by context prediction, solving puzzles, and rotation prediction. Recent works on self-supervised learning successfully learn representations that approach the supervised baseline on ImageNet and various downstream tasks, and closed the gap with supervised pre-training. Contrastive learning methods attract positive pairs and drive apart negative pairs. Siamese networks predict the output of the other branch, and use stop-gradient to avoid collapsing. Clustering methods learn representations by performing clustering on the representations and improve the representations with cluster index. Cole et al. investigated the effect of data quantity and task granularity on self-supervised representations. Goyal et al. studied self-supervised methods on large scale datasets in the wild, but they do not consider dataset imbalance explicitly. Kotar et al. studied whether dataset imbalance can have a significant impact on contrastive learning representations. Madaan et al. found out that self-supervised representations are better at continual learning than supervised representations. Several works have also theoretically studied the success of self-supervised learning. Our analysis in Section 3.1 is partially inspired by the work HaoChen et al..
 
-<!-- chunk {"id": "body-0052", "role": "body", "section": "Conclusion", "weight": 1.5} -->
+<!-- chunk {"id": "body-0050", "role": "body", "section": "Conclusion", "weight": 1.5} -->
 
 Our paper is the first to study the problem of robustness to imbalanced training of self-supervised representations. We discover that self-supervised representations are more robust to class imbalance than supervised representations and explore the underlying cause of this phenomenon. As supervised learning is still the de facto standard for pre-training, our work should encourage practitioners to use SSL for pre-training instead, or at least consider evaluating the impact of imbalanced pre-training on their downstream task. Our experiments mainly focus on vision datasets. Future works can study the effect of dataset imbalance on NLP datasets, where self-supervised pre-training is a dominant approach. We hope our study can inspire analysis of self-supervised learning in broader environments in the wild such as domain shift, and provide insights for the design of future unsupervised learning methods.

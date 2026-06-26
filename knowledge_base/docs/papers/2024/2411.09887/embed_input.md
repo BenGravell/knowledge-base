@@ -56,77 +56,68 @@ Use a zero before decimal points: Ò0.25Ó, not Ò.25Ó. Use Òcm3Ó, not ÒccÓ
 
 <!-- chunk {"id": "body-0014", "role": "body", "section": "III-C Equations", "weight": 1.0} -->
 
-The equations are an exception to the prescribed specifications of this template. You will need to determine whether or not your equation should be typed using either the Times New Roman or the Symbol font (please no other font). To create multileveled equations, it may be necessary to treat the equation as a graphic and insert it into the text after your paper is styled. Number equations consecutively. Equation numbers, within parentheses, are to position flush right, as, using a right tab stop. To make your equations more compact, you may use the solidus ( / ), the exp function, or appropriate exponents. Italicize Roman symbols for quantities and variables, but not Greek symbols. Use a long dash rather than a hyphen for a minus sign. Punctuate equations with commas or periods when they are part of a sentence, as in
+The equations are an exception to the prescribed specifications of this template. You will need to determine whether or not your equation should be typed using either the Times New Roman or the Symbol font (please no other font). To create multileveled equations, it may be necessary to treat the equation as a graphic and insert it into the text after your paper is styled. Number equations consecutively. Equation numbers, within parentheses, are to position flush right, as, using a right tab stop. To make your equations more compact, you may use the solidus (/), the exp function, or appropriate exponents. Italicize Roman symbols for quantities and variables, but not Greek symbols. Use a long dash rather than a hyphen for a minus sign. Punctuate equations with commas or periods when they are part of a sentence, as in Note that the equation is centered using a center tab stop. Be sure that the symbols in your equation have been defined before or immediately following the equation. Use ÒÓ, not ÒEq. Ó or Òequation Ó, except at the beginning of a sentence: ÒEquation is...Ó
 
-<!-- chunk {"id": "body-0015", "role": "body", "section": "III-C Equations", "weight": 1.0} -->
-
-Note that the equation is centered using a center tab stop. Be sure that the symbols in your equation have been defined before or immediately following the equation. Use ÒÓ, not ÒEq. Ó or Òequation Ó, except at the beginning of a sentence: ÒEquation is...Ó
-
-<!-- chunk {"id": "body-0016", "role": "body", "section": "III-D Some Common Mistakes", "weight": 1.0} -->
+<!-- chunk {"id": "body-0015", "role": "body", "section": "III-D Some Common Mistakes", "weight": 1.0} -->
 
 The word ÒdataÓ is plural, not singular.
 
-<!-- chunk {"id": "body-0017", "role": "body", "section": "III-D Some Common Mistakes", "weight": 1.0} -->
+<!-- chunk {"id": "body-0016", "role": "body", "section": "III-D Some Common Mistakes", "weight": 1.0} -->
 
 The subscript for the permeability of vacuum ?0, and other common scientific constants, is zero with subscript formatting, not a lowercase letter ÒoÓ.
 
-<!-- chunk {"id": "body-0018", "role": "body", "section": "III-D Some Common Mistakes", "weight": 1.0} -->
+<!-- chunk {"id": "body-0017", "role": "body", "section": "III-D Some Common Mistakes", "weight": 1.0} -->
 
 In American English, commas, semi-/colons, periods, question and exclamation marks are located within quotation marks only when a complete thought or name is cited, such as a title or full quotation. When quotation marks are used, instead of a bold or italic typeface, to highlight a word or phrase, punctuation should appear outside of the quotation marks. A parenthetical phrase or statement at the end of a sentence is punctuated outside of the closing parenthesis (like this). (A parenthetical sentence is punctuated within the parentheses.)
 
-<!-- chunk {"id": "body-0019", "role": "body", "section": "III-D Some Common Mistakes", "weight": 1.0} -->
+<!-- chunk {"id": "body-0018", "role": "body", "section": "III-D Some Common Mistakes", "weight": 1.0} -->
 
 A graph within a graph is an ÒinsetÓ, not an ÒinsertÓ. The word alternatively is preferred to the word ÒalternatelyÓ (unless you really mean something that alternates).
 
-<!-- chunk {"id": "body-0020", "role": "body", "section": "III-D Some Common Mistakes", "weight": 1.0} -->
+<!-- chunk {"id": "body-0019", "role": "body", "section": "III-D Some Common Mistakes", "weight": 1.0} -->
 
 Do not use the word ÒessentiallyÓ to mean ÒapproximatelyÓ or ÒeffectivelyÓ.
 
-<!-- chunk {"id": "body-0021", "role": "body", "section": "III-D Some Common Mistakes", "weight": 1.0} -->
+<!-- chunk {"id": "body-0020", "role": "body", "section": "III-D Some Common Mistakes", "weight": 1.0} -->
 
 In your paper title, if the words Òthat usesÓ can accurately replace the word ÒusingÓ, capitalize the ÒuÓ; if not, keep using lower-cased.
 
-<!-- chunk {"id": "body-0022", "role": "body", "section": "III-D Some Common Mistakes", "weight": 1.0} -->
+<!-- chunk {"id": "body-0021", "role": "body", "section": "III-D Some Common Mistakes", "weight": 1.0} -->
 
 Be aware of the different meanings of the homophones ÒaffectÓ and ÒeffectÓ, ÒcomplementÓ and ÒcomplimentÓ, ÒdiscreetÓ and ÒdiscreteÓ, ÒprincipalÓ and ÒprincipleÓ.
 
-<!-- chunk {"id": "body-0023", "role": "body", "section": "III-D Some Common Mistakes", "weight": 1.0} -->
+<!-- chunk {"id": "body-0022", "role": "body", "section": "III-D Some Common Mistakes", "weight": 1.0} -->
 
 Do not confuse ÒimplyÓ and ÒinferÓ.
 
-<!-- chunk {"id": "body-0024", "role": "body", "section": "III-D Some Common Mistakes", "weight": 1.0} -->
+<!-- chunk {"id": "body-0023", "role": "body", "section": "III-D Some Common Mistakes", "weight": 1.0} -->
 
 The prefix ÒnonÓ is not a word; it should be joined to the word it modifies, usually without a hyphen.
 
-<!-- chunk {"id": "body-0025", "role": "body", "section": "III-D Some Common Mistakes", "weight": 1.0} -->
+<!-- chunk {"id": "body-0024", "role": "body", "section": "III-D Some Common Mistakes", "weight": 1.0} -->
 
 There is no period after the ÒetÓ in the Latin abbreviation Òet al.Ó.
 
-<!-- chunk {"id": "body-0026", "role": "body", "section": "III-D Some Common Mistakes", "weight": 1.0} -->
+<!-- chunk {"id": "body-0025", "role": "body", "section": "III-D Some Common Mistakes", "weight": 1.0} -->
 
 The abbreviation Òi.e.Ó means Òthat isÓ, and the abbreviation Òe.g.Ó means Òfor exampleÓ.
 
-<!-- chunk {"id": "body-0027", "role": "body", "section": "Experiments", "weight": 1.0} -->
+<!-- chunk {"id": "body-0026", "role": "body", "section": "Experiments", "weight": 1.0} -->
 
 Use this sample document as your LaTeX source file to create your document. Save this file as root.tex. You have to make sure to use the cls file that came with this distribution. If you use a different style file, you cannot expect to get required margins. Note also that when you are creating your out PDF file, the source file is only part of the equation. Your TeX $\rightarrow$ PDF filter determines the output file size. Even if you make all the specifications to output a letter file in the source - if your filter is set to produce A4, you will only get A4 output.
 
-<!-- chunk {"id": "body-0028", "role": "body", "section": "Experiments", "weight": 1.0} -->
+<!-- chunk {"id": "body-0027", "role": "body", "section": "Experiments", "weight": 1.0} -->
 
 It is impossible to account for all possible situation, one would encounter using TeX. If you are using multiple TeX files you must make sure that the "MAIN" source file is called root.tex - this is particularly important if your conference is using PaperPlaza's built in TeX to PDF conversion tool.
 
-<!-- chunk {"id": "body-0029", "role": "body", "section": "IV-A Headings, etc", "weight": 1.0} -->
+<!-- chunk {"id": "body-0028", "role": "body", "section": "IV-A Headings, etc", "weight": 1.0} -->
 
 Text heads organize the topics on a relational, hierarchical basis. For example, the paper title is the primary text head because all subsequent material relates and elaborates on this one topic. If there are two or more sub-topics, the next level head (uppercase Roman numerals) should be used and, conversely, if there are not at least two sub-topics, then no subheads should be introduced. Styles named ÒHeading 1Ó, ÒHeading 2Ó, ÒHeading 3Ó, and ÒHeading 4Ó are prescribed.
 
-<!-- chunk {"id": "body-0030", "role": "body", "section": "IV-B Figures and Tables", "weight": 1.0} -->
+<!-- chunk {"id": "body-0029", "role": "body", "section": "IV-B Figures and Tables", "weight": 1.0} -->
 
 Positioning Figures and Tables: Place figures and tables at the top and bottom of columns. Avoid placing them in the middle of columns. Large figures and tables may span across both columns. Figure captions should be below the figures; table heads should appear above the tables. Insert figures and tables after they are cited in the text. Use the abbreviation ÒFig. 1Ó, even at the beginning of a sentence.
 
-<!-- chunk {"id": "body-0031", "role": "body", "section": "IV-B Figures and Tables", "weight": 1.0} -->
-
-We suggest that you use a text box to insert a graphic (which is ideally a 300 dpi TIFF or EPS file, with all fonts embedded) because, in an document, this method is somewhat more stable than directly inserting a picture.
-Figure 1: Inductance of oscillation winding on amorphous magnetic core versus DC bias magnetic field
-
-<!-- chunk {"id": "body-0032", "role": "body", "section": "CONCLUSIONS", "weight": 1.0} -->
+<!-- chunk {"id": "body-0030", "role": "body", "section": "CONCLUSIONS", "weight": 1.0} -->
 
 A conclusion section is not required. Although a conclusion may review the main points of the paper, do not replicate the abstract as the conclusion. A conclusion might elaborate on the importance of the work or suggest applications and extensions.
