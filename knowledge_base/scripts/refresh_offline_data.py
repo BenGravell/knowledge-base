@@ -13,6 +13,8 @@ republished together.
 from __future__ import annotations
 
 import argparse
+import hashlib
+import json
 import os
 import re
 import shlex
@@ -34,6 +36,8 @@ KB_DIR = Path(__file__).resolve().parents[1]
 REPO_ROOT = KB_DIR.parent
 CONSOLE = Console()
 CHILD_PROGRESS_RE = re.compile(rf"^\s*{re.escape(PROGRESS_PREFIX)}\s+(\d+)/(\d+)(?:\s+(.*))?$")
+REFRESH_STATE_VERSION = 1
+REFRESH_STATE_PATH = KB_DIR / ".generated" / "refresh-state.json"
 HOT_START_STATUS_PATHS = (
     "knowledge_base/docs",
     "knowledge_base/tree.yml",
@@ -45,6 +49,7 @@ HOT_START_STATUS_PATHS = (
     "knowledge_base/generated_assets.py",
     "knowledge_base/generated_files.py",
     "knowledge_base/generate_papers.py",
+    "knowledge_base/scripts/refresh_offline_data.py",
     "knowledge_base/map",
     "knowledge_base/semantic_search",
     "knowledge_base/tree",
@@ -109,6 +114,103 @@ def site_has_paper_pages() -> bool:
     return papers_dir.exists() and next(papers_dir.rglob("index.html"), None) is not None
 
 
+def state_fingerprint_paths() -> tuple[list[Path], str | None]:
+    tracked = subprocess.run(
+        ["git", "ls-files", "--cached", "--", *HOT_START_STATUS_PATHS],
+        cwd=REPO_ROOT,
+        capture_output=True,
+        text=True,
+        encoding="utf-8",
+        errors="replace",
+        check=False,
+    )
+    if tracked.returncode:
+        return [], "git ls-files failed"
+
+    return sorted(REPO_ROOT / line for line in tracked.stdout.splitlines() if line), None
+
+
+def refresh_state_fingerprint() -> tuple[dict[str, object], str | None]:
+    paths, error = state_fingerprint_paths()
+    if error:
+        return {}, error
+
+    digest = hashlib.sha256()
+    file_count = 0
+    missing_count = 0
+    byte_count = 0
+    for path in paths:
+        rel_path = path.relative_to(REPO_ROOT).as_posix()
+        digest.update(rel_path.encode("utf-8"))
+        digest.update(b"\0")
+        if not path.exists():
+            missing_count += 1
+            digest.update(b"<missing>\0")
+            continue
+        try:
+            size = path.stat().st_size
+            digest.update(f"{size}\0".encode("ascii"))
+            with path.open("rb") as handle:
+                for chunk in iter(lambda: handle.read(1024 * 1024), b""):
+                    digest.update(chunk)
+        except OSError as exc:
+            return {}, f"could not read {rel_path}: {exc}"
+        file_count += 1
+        byte_count += size
+
+    return {
+        "version": REFRESH_STATE_VERSION,
+        "digest": digest.hexdigest(),
+        "file_count": file_count,
+        "missing_count": missing_count,
+        "byte_count": byte_count,
+    }, None
+
+
+def refresh_state_status() -> tuple[str, str]:
+    if not REFRESH_STATE_PATH.exists():
+        return "missing", "no refresh state stamp"
+    try:
+        saved = json.loads(REFRESH_STATE_PATH.read_text(encoding="utf-8"))
+    except (OSError, json.JSONDecodeError) as exc:
+        return "stale", f"refresh state stamp is unreadable: {exc}"
+    current, error = refresh_state_fingerprint()
+    if error:
+        return "stale", error
+    if saved == current:
+        return "match", "refresh state stamp matches current tracked files"
+    return "stale", "refresh state stamp is stale"
+
+
+def write_refresh_state() -> str | None:
+    state, error = refresh_state_fingerprint()
+    if error:
+        return error
+    REFRESH_STATE_PATH.parent.mkdir(parents=True, exist_ok=True)
+    temporary = REFRESH_STATE_PATH.with_suffix(".json.tmp")
+    try:
+        temporary.write_text(json.dumps(state, indent=2, sort_keys=True) + "\n", encoding="utf-8")
+        temporary.replace(REFRESH_STATE_PATH)
+    except OSError as exc:
+        return f"could not write refresh state stamp: {exc}"
+    return None
+
+
+def writes_complete_default_outputs(args: argparse.Namespace) -> bool:
+    return not (
+        args.strict
+        or args.skip_force_layout
+        or args.skip_map
+        or args.skip_semantic_search
+        or args.skip_audit
+        or args.skip_build
+        or args.full_build
+        or args.map_backend != "fastembed"
+        or args.fastembed_device != "auto"
+        or args.audit_severity != "error"
+    )
+
+
 def hot_start_fast_path(args: argparse.Namespace) -> tuple[bool, str]:
     if args.no_fast_path:
         return False, "disabled by --no-fast-path"
@@ -132,8 +234,14 @@ def hot_start_fast_path(args: argparse.Namespace) -> tuple[bool, str]:
     if not site_has_paper_pages():
         return False, "site paper pages are missing"
 
+    state, state_reason = refresh_state_status()
+    if state == "match":
+        return True, state_reason
+    if state == "stale":
+        return False, state_reason
+
     status = subprocess.run(
-        ["git", "status", "--porcelain=v1", "--untracked-files=all", "--", *HOT_START_STATUS_PATHS],
+        ["git", "status", "--porcelain=v1", "--untracked-files=no", "--", *HOT_START_STATUS_PATHS],
         cwd=REPO_ROOT,
         capture_output=True,
         text=True,
@@ -144,8 +252,8 @@ def hot_start_fast_path(args: argparse.Namespace) -> tuple[bool, str]:
     if status.returncode:
         return False, "git status failed"
     if status.stdout.strip():
-        return False, "tracked refresh inputs or outputs changed"
-    return True, "tracked refresh inputs and generated outputs are clean"
+        return False, "tracked refresh files changed"
+    return True, "tracked refresh files are clean"
 
 
 def run_command(
@@ -432,6 +540,10 @@ def main() -> int:
         fast_path_start_ns = time.perf_counter_ns()
         fast_path, reason = hot_start_fast_path(args)
         if fast_path:
+            if reason == "tracked refresh files are clean":
+                state_error = write_refresh_state()
+                if state_error:
+                    CONSOLE.print(f"Could not write refresh state stamp: {state_error}", style="yellow")
             elapsed_s = (time.perf_counter_ns() - fast_path_start_ns) / 1_000_000_000
             CONSOLE.print(f"Hot-start no-op: {reason}.", style="green")
             CONSOLE.print(f"Offline generated data is already fresh ({format_duration(elapsed_s)}).", style="green")
@@ -478,6 +590,10 @@ def main() -> int:
     if args.dry_run:
         CONSOLE.print("\nDry run complete.", style="green")
     else:
+        if writes_complete_default_outputs(args):
+            state_error = write_refresh_state()
+            if state_error:
+                CONSOLE.print(f"Could not write refresh state stamp: {state_error}", style="yellow")
         CONSOLE.print("\nOffline generated data is refreshed and the consistency checks passed.", style="green")
     return 0
 

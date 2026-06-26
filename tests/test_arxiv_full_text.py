@@ -1,9 +1,9 @@
 from __future__ import annotations
 
+import argparse
 import tempfile
 import unittest
 from pathlib import Path
-from types import SimpleNamespace
 from unittest.mock import patch
 
 from knowledge_base.catalog import Catalog
@@ -50,7 +50,7 @@ class ArxivFullTextTests(unittest.TestCase):
             metadata_path.write_text(VALID_METADATA, encoding="utf-8")
             entry = load_entry(metadata_path)
             path = embed_text_path(entry)
-            args = SimpleNamespace(dry_run=False, min_chars=20)
+            args = argparse.Namespace(dry_run=False, min_chars=20)
 
             write_converted_sidecar(
                 entry,
@@ -60,9 +60,11 @@ class ArxivFullTextTests(unittest.TestCase):
                 args,
             )
             text = path.read_text(encoding="utf-8")
+            provenance = parsed_sidecar_provenance(text)
 
-            self.assertEqual(parsed_sidecar_provenance(text)["arxiv_id"], "2401.00001")
-            self.assertEqual(parsed_sidecar_provenance(text)["source"], "arxiv-html")
+            assert provenance is not None
+            self.assertEqual(provenance["arxiv_id"], "2401.00001")
+            self.assertEqual(provenance["source"], "arxiv-html")
             self.assertTrue(sidecar_current_for_entry(entry, path))
 
             metadata_path.write_text(VALID_METADATA.replace("2401.00001", "2401.00002"), encoding="utf-8")
@@ -77,7 +79,7 @@ class ArxivFullTextTests(unittest.TestCase):
             metadata_path.write_text(VALID_METADATA, encoding="utf-8")
             entry = load_entry(metadata_path)
             path = embed_text_path(entry)
-            args = SimpleNamespace(dry_run=False, force=False, min_chars=20, has_docling=False, has_pandoc=False)
+            args = argparse.Namespace(dry_run=False, force=False, min_chars=20, has_docling=False, has_pandoc=False)
             write_converted_sidecar(
                 entry,
                 path,
